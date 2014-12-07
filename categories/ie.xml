@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about ie)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ie.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use bootstrap+font-awesome+jquery for IE7 web application</title><link>http://blog.binchen.org/posts/use-bootstrapfont-awesomejquery-for-ie7-web-application.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Live demo:
+&lt;a href="http://binchen.org/schools/"&gt;http://binchen.org/schools/&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot:
+&lt;img src="https://cloud.githubusercontent.com/assets/184553/5156904/e86f11a6-733c-11e4-8312-a6c8ad2b17be.png" alt="e86f11a6-733c-11e4-8312-a6c8ad2b17be.png"&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-orga229175" class="outline-2"&gt;
+&lt;h3 id="orga229175"&gt;Environment&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga229175"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Bootstrap 2.3.2&lt;/li&gt;
+&lt;li&gt;font-awesome 3.2.1&lt;/li&gt;
+&lt;li&gt;JQuery 1.8.2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+I only use the grid layout from bootstrap and minimum API from jQuery.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6789dd9" class="outline-2"&gt;
+&lt;h3 id="org6789dd9"&gt;Notes&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6789dd9"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;IE7 does not support media query. So I abandon "mobile first" strategy, new strategy is "IE7 first".&lt;/li&gt;
+&lt;li&gt;IE7 does not support inline-block properly, I need below css code hack:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-css"&gt;.myclass {
+  display: inline-block;
+  /* ie7*/
+  *display: inline;
+  zoom: 1;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;bootstrap's row-fluid has issues in IE7. I use row-fluid in this case, but have to hard code the row width sometimes.&lt;/li&gt;
+&lt;li&gt;add below code into javascript so that I can hack IE7-only css code:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;if($.browser.msie &amp;amp;&amp;amp; parseFloat($.browser.version) &amp;lt; 8){
+  that.ie7 = true;
+  $('body').addClass('ie7');
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>css</category><category>en</category><category>ie</category><category>javascript</category><guid>http://blog.binchen.org/posts/use-bootstrapfont-awesomejquery-for-ie7-web-application.html</guid><pubDate>Sun, 23 Nov 2014 07:37:10 GMT</pubDate></item></channel></rss>

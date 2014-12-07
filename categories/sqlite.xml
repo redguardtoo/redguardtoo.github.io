@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about sqlite)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/sqlite.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>mysqldump for sqlite3</title><link>http://blog.binchen.org/posts/mysqldump-for-sqlite3.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Please note that data import could be very slow in this way.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;mysqldump -u root -p111111 -c --compact -t --skip-opt dbname tbl1 tbl2|sed -e "s/\\\'/''/g"|gzip -9 &amp;gt; data.dump.gz
+zcat data.dump.gz | sqlite3 db.sqlite3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>mysql</category><category>sqlite</category><guid>http://blog.binchen.org/posts/mysqldump-for-sqlite3.html</guid><pubDate>Sun, 18 Sep 2011 23:09:00 GMT</pubDate></item></channel></rss>

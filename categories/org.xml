@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about org)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/org.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Export org file embedded with code snippets</title><link>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-11-20 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-06-06 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-org92b29c5" class="outline-2"&gt;
+&lt;h3 id="org92b29c5"&gt;problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org92b29c5"&gt;
+&lt;p&gt;
+I use &lt;a href="http://orgmode.org/"&gt;Org-mode&lt;/a&gt; to record all my notes.
+&lt;/p&gt;
+
+&lt;p&gt;
+As a developer, I place code snippets from many programming languages into one org file.
+&lt;/p&gt;
+
+&lt;p&gt;
+The issue is when exporting the org file, major mode for each language will be loaded to render the code snippet.
+&lt;/p&gt;
+
+&lt;p&gt;
+It means the hooks of the major modes will be executed. Since I put lots of heavy weight setup things in those hooks, my exporting is extremely slow.
+&lt;/p&gt;
+
+&lt;p&gt;
+My hooks are also dependent on third party tools. So if anyone else uses my setup without those tools, his/her exporting will &lt;a href="https://github.com/redguardtoo/emacs.d/issues/316"&gt;fail&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org07c7673" class="outline-2"&gt;
+&lt;h3 id="org07c7673"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org07c7673"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org786ade8" class="outline-3"&gt;
+&lt;h4 id="org786ade8"&gt;Setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org786ade8"&gt;
+&lt;p&gt;
+In order to solve the issue, I write a small function which will be called at the beginning of each major mode hook.
+&lt;/p&gt;
+
+&lt;p&gt;
+The function basically check whether the `(buffer-file-name)` is the temporary file created by Org-mode or the output HTML converted from org file. If answer is "YES", then code in major mode hook will not be executed.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar load-user-customized-major-mode-hook t)
+(defvar cached-normal-file-full-path nil)
+(defun is-buffer-file-temp ()
+  (interactive)
+  "If (buffer-file-name) is nil or a temp file or HTML file converted from org file"
+  (let ((f (buffer-file-name))
+        org
+        (rlt t))
+    (cond
+     ((not load-user-customized-major-mode-hook) t)
+     ((not f)
+      ;; file does not exist at all
+      (setq rlt t))
+     ((string= f cached-normal-file-full-path)
+      (setq rlt nil))
+     ((string-match (concat "^" temporary-file-directory) f)
+      ;; file is create from temp directory
+      (setq rlt t))
+     ((and (string-match "\.html$" f)
+           (file-exists-p (setq org (replace-regexp-in-string "\.html$" ".org" f))))
+      ;; file is a html file exported from org-mode
+      (setq rlt t))
+     (t
+      ;; avoid calling to file-exists-p too often for performance reason
+      (setq cached-normal-file-full-path f)
+      (setq rlt nil)))
+    rlt))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6484b82" class="outline-3"&gt;
+&lt;h4 id="org6484b82"&gt;Usage&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6484b82"&gt;
+&lt;p&gt;
+I use python-mode-hook setup as an example:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'python-mode-hook
+          '(lambda ()
+             (unless (is-buffer-file-temp)
+               (anaconda-mode)
+               (eldoc-mode)
+               (if (executable-find "pyflakes")
+                   (flymake-python-pyflakes-load))
+               (setq electric-indent-chars (delq ?: electric-indent-chars))
+               )))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc6faae2" class="outline-2"&gt;
+&lt;h3 id="orgc6faae2"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc6faae2"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org44d68ee" class="outline-3"&gt;
+&lt;h4 id="org44d68ee"&gt;Export shell code&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org44d68ee"&gt;
+&lt;p&gt;
+Exporting shell code will fail if `sh-mode` is loaded. So I use "bash" instead. Since there is no "bash-mode", exporting will be fine.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org2d6624d" class="outline-3"&gt;
+&lt;h4 id="org2d6624d"&gt;Yasnippet setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org2d6624d"&gt;
+&lt;p&gt;
+To avoid loading yasnippets when exporting, I have to &lt;a href="https://github.com/capitaomorte/yasnippet#use-yas-minor-mode-on-a-per-buffer-basis"&gt;"use yas-minor-mode on a per-buffer basis"&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgc1c57fc" class="outline-3"&gt;
+&lt;h4 id="orgc1c57fc"&gt;Manually turn off the major-mode hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgc1c57fc"&gt;
+&lt;p&gt;
+It's controlled by global flag `load-user-customized-major-mode-hook`, as you can see from the "Setup" section.
+&lt;/p&gt;
+
+&lt;p&gt;
+Say I want to turn off the major mode hooks when `M-x org-publish`, here is the setup:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defadvice org-publish (around org-publish-advice activate)
+  "Stop running major-mode hook when org-publish"
+  (let ((old load-user-customized-major-mode-hook))
+    (setq load-user-customized-major-mode-hook nil)
+    ad-do-it
+    (setq load-user-customized-major-mode-hook old)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgf1a75ee" class="outline-3"&gt;
+&lt;h4 id="orgf1a75ee"&gt;after-save-hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf1a75ee"&gt;
+&lt;p&gt;
+`after-save-hook` is the "Normal hook that is run after a buffer is saved to its file". You may also need tweak it up because it will be called when exporting org files
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>export</category><category>html</category><category>org</category><guid>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets.html</guid><pubDate>Thu, 20 Nov 2014 12:22:17 GMT</pubDate></item><item><title>How to use org2blog effectively as a programmer</title><link>http://blog.binchen.org/posts/how-to-use-org2blog-effectively-as-a-programmer.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;a href="https://github.com/punchagan/org2blog"&gt;org2blog&lt;/a&gt; is a beautiful plugin to post to wordpress blog.
+&lt;/p&gt;
+
+&lt;p&gt;
+I won't waste your time on the basic usage because it has zero learning curve and its README is very clear.
+&lt;/p&gt;
+
+&lt;p&gt;
+I will talk some advanced set up here.
+&lt;/p&gt;
+
+&lt;p&gt;
+As a programmer, I need wordpress syntax highlight all the code snippets I post. But it seems org2blog need some tweak to support language like elisp.
+&lt;/p&gt;
+
+&lt;p&gt;
+If you grep org2blog's code, you will find a variable "org2blog/wp-sourcecode-langs". It lists all the languages org2blog supports.
+&lt;/p&gt;
+
+&lt;p&gt;
+So all you need to do is insert below code into ~/.emacs:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq org2blog/wp-sourcecode-langs
+      '("actionscript3" "bash" "coldfusion" "cpp" "csharp" "css" "delphi"
+        "erlang" "fsharp" "diff" "groovy" "javascript" "java" "javafx" "matlab"
+        "objc" "perl" "php" "text" "powershell" "python" "ruby" "scala" "sql"
+        "vb" "xml"
+        "sh" "elisp" "lisp" "lua"))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Then you need install the wordpress plugin &lt;a href="http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/"&gt;SyntaxHighlighter Evolved&lt;/a&gt; to do the syntax highlight thing. Well, you will find the languages like elisp is not supported by this plugin.
+&lt;/p&gt;
+
+&lt;p&gt;
+That's easy to fix. Please log into your blog, modify that plugin online:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-diff"&gt;diff --git a/syntaxhighlighter.php b/syntaxhighlighter.php
+index 53b4815..808b14b 100644
+--- a/syntaxhighlighter.php
++++ b/syntaxhighlighter.php
+@@ -222,6 +222,11 @@ class SyntaxHighlighter {
+            'xslt'          =&amp;gt; 'xml',
+            'html'          =&amp;gt; 'xml',
+            'xhtml'         =&amp;gt; 'xml',
++           'text'          =&amp;gt; 'clojure',
++           'elisp'         =&amp;gt; 'clojure',
++           'lisp'          =&amp;gt; 'clojure',
++           'sh'            =&amp;gt; 'bash',
++           'lua'           =&amp;gt; 'ruby',
+        ) );
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As you can see, I use clojure syntax to highlight elisp and use ruby syntax to highlight lua.
+&lt;/p&gt;
+
+&lt;p&gt;
+You may ask why I use clojure syntax to highlight simple text in above set up?
+&lt;/p&gt;
+
+&lt;p&gt;
+Well, I already submit lots of my elisp code before set up my org2blog correctly. Those code snippets are regarded as simple text. I won't waste my time to mark those old snippets one by one. That's why I render text as clojure code.
+&lt;/p&gt;
+
+&lt;p&gt;
+Besides, I find the wordpress theme produced by &lt;a href="http://automattic.com"&gt;Automattic&lt;/a&gt; (Yes, the company behind wordpress) is good for programmers because they obviously have optimized font size for different screen resolutions. That's important for code reading. I use Trvl v1.0.2.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>org</category><category>wordpress</category><guid>http://blog.binchen.org/posts/how-to-use-org2blog-effectively-as-a-programmer.html</guid><pubDate>Thu, 06 Mar 2014 14:25:00 GMT</pubDate></item><item><title>How to take screen shot for business people efficiently in Emacs</title><link>http://blog.binchen.org/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2013-10-23 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-08-11 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-org320edcd" class="outline-2"&gt;
+&lt;h3 id="org320edcd"&gt;Tools&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org320edcd"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;Name&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Description&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Minimum version&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Org-mode&lt;/td&gt;
+&lt;td class="org-left"&gt;create org-file which could be converted to odt file&lt;/td&gt;
+&lt;td class="org-left"&gt;7.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;scrot&lt;/td&gt;
+&lt;td class="org-left"&gt;command line tool to take screen shot&lt;/td&gt;
+&lt;td class="org-left"&gt;any version&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;a href="https://www.libreoffice.org/download/libreoffice-fresh/"&gt;Libreoffice&lt;/a&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;convert odt to Microsoft Word&lt;/td&gt;
+&lt;td class="org-left"&gt;any version&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;xsel&lt;/td&gt;
+&lt;td class="org-left"&gt;X clipboard tool&lt;/td&gt;
+&lt;td class="org-left"&gt;any version&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org60fe0fd" class="outline-2"&gt;
+&lt;h3 id="org60fe0fd"&gt;Work flow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org60fe0fd"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6728170" class="outline-3"&gt;
+&lt;h4 id="org6728170"&gt;Use scrot to screenshot and put its path into clipboard&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6728170"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;scrot '%H%M%S-%d_$wx$h.png' -e 'mkdir -p ~/screenshot;mv $f ~/screenshot/;echo ~/screenshot/$f|tr -d \"\\n\"|xsel -ib;'
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf85a27c" class="outline-3"&gt;
+&lt;h4 id="orgf85a27c"&gt;Create org file and insert path of screen shot&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf85a27c"&gt;
+&lt;p&gt;
+Actually I use below elisp command to do the insertion for me.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun insert-file-link-from-clipboard ()
+  "Make sure the full path of file exist in clipboard. This command will convert
+The full path into relative path and insert it as a local file link in org-mode"
+  (interactive)
+  (let (str)
+    (with-temp-buffer
+      (shell-command
+       (cond
+        ((eq system-type 'cygwin) "getclip")
+        ((eq system-type 'darwin) "pbpaste")
+        (t "xsel -ob"))
+       1)
+      (setq str (buffer-string)))
+
+    ;; convert to relative path (relative to current buffer) if possible
+    (let ((m (string-match (file-name-directory (buffer-file-name)) str) ))
+      (when m
+        (if (= 0 m )
+            (setq str (substring str (length (file-name-directory (buffer-file-name)))))
+          ))
+        (insert (format "[[file:%s]]" str)))
+    ))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org7953b79" class="outline-3"&gt;
+&lt;h4 id="org7953b79"&gt;Convert org file into Microsoft Word format&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org7953b79"&gt;
+&lt;p&gt;
+I'm sure this method works even on Windows. But I don't have Windows PC to validate my belief. Libreoffice is required.
+&lt;/p&gt;
+
+&lt;p&gt;
+Run the command "M-x org-export-as-odt".
+&lt;/p&gt;
+
+&lt;p&gt;
+Word document is &lt;b&gt;automatically created&lt;/b&gt; if you insert below code into your ~/.emacs:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; This setup is tested on Emacs 24.3 &amp;amp; Emacs 24.4 on Linux/OSX
+;; org v7 bundled with Emacs 24.3
+(setq org-export-odt-preferred-output-format "doc")
+;; org v8 bundled with Emacs 24.4
+(setq org-odt-preferred-output-format "doc")
+;; BTW, you can assign "pdf" in above variables if you prefer PDF format
+
+;; Only OSX need below setup
+(defun my-setup-odt-org-convert-process ()
+  (interactive)
+  (let ((cmd "/Applications/LibreOffice.app/Contents/MacOS/soffice"))
+    (when (and (eq system-type 'darwin) (file-exists-p cmd))
+      ;; org v7
+      (setq org-export-odt-convert-processes '(("LibreOffice" "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to %f%x --outdir %d %i")))
+      ;; org v8
+      (setq org-odt-convert-processes '(("LibreOffice" "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to %f%x --outdir %d %i"))))
+    ))
+(my-setup-odt-org-convert-process)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Emacs will find the binary "soffice" from libreoffice to do the conversion.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org94522f3" class="outline-3"&gt;
+&lt;h4 id="org94522f3"&gt;Tips&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org94522f3"&gt;
+&lt;p&gt;
+If you need page break in exported document, insert below snippet into the org file:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-html"&gt;#+ODT: &amp;lt;text:p text:style-name="PageBreak"/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>office</category><category>org</category><category>screenshot</category><category>word</category><guid>http://blog.binchen.org/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs.html</guid><pubDate>Wed, 23 Oct 2013 17:31:00 GMT</pubDate></item><item><title>Matthew Keeler video tutorial on org-mode in Emacs</title><link>http://blog.binchen.org/posts/matthew-keeler-video-tutorial-on-org-mode-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;At &lt;a href="https://www.youtube.com/watch?feature=player_detailpage&amp;amp;v=lsYdK0C2RvQ#t=308"&gt;4:57&lt;/a&gt; it becomes interesting. &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>org</category><guid>http://blog.binchen.org/posts/matthew-keeler-video-tutorial-on-org-mode-in-emacs.html</guid><pubDate>Mon, 23 Sep 2013 20:21:25 GMT</pubDate></item></channel></rss>

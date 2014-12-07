@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about flac)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/flac.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to split album into different flac and tag them under Gentoo Linux</title><link>http://blog.binchen.org/posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org63c0667" class="outline-2"&gt;
+&lt;h3 id="org63c0667"&gt;Install CLI tools&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org63c0667"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# mac to support ape
+sudo USE="alac flac mac shorten sox wavpack" emerge media-sound/shntool
+sudo emerge cuetools
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org256f961" class="outline-2"&gt;
+&lt;h3 id="org256f961"&gt;Download script&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org256f961"&gt;
+&lt;p&gt;
+See &lt;a href="https://bbs.archlinux.org/viewtopic.php?id=58766"&gt;https://bbs.archlinux.org/viewtopic.php?id=58766&lt;/a&gt; for the source of bash script.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the full content of the bash script:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+# split image file (flac, ape, wav, etc.) according to cue-file
+if [ -f "$1" ]; then
+    i=0
+    for cuefile in *.cue; do
+        i=$(($i + 1))
+    done
+    if [ $i -eq 1 ]; then
+        # precies 1 cuesheet gevonden
+        if grep -q "INDEX 01 00:00:00" *.cue ; then
+            nice shntool split -t "%n %t" -f *.cue "$1"
+        else
+            echo "The first track has a pre-gap. Shntool will cut that off and put it in a seperate file."
+            echo "You don't want that. Please modify the cuesheet from:"
+            grep -m1 "INDEX 00" *.cue
+            grep -m1 "INDEX 01" *.cue
+            echo "to:"
+            echo "    INDEX 01 00:00:00"
+            exit 1
+        fi
+    elif [ $i -eq 0 ]; then
+        echo "No cuesheet found in the current directory."
+        exit 1
+    elif [ $i -gt 1 ]; then
+        echo "$i cuesheets found in the current directory. Please remove the superfluous cuesheets."
+        exit 1
+    fi
+else
+    echo "Split image file (flac, ape, wav, etc.) according to cue-file."
+    echo "Output files are in FLAC."
+    echo "Usage: `basename $0` &amp;lt;image-file&amp;gt;"
+    exit 1
+fi
+
+echo
+album=`grep -m 1 TITLE *.cue | cut -d\" -f2`
+artist=`grep -m 1 PERFORMER *.cue | cut -d\" -f2`
+
+for file in [0-9]*.wav; do
+    echo "Encoding $file"
+
+    if [[ ${file:0:1} == 0 ]] ; then
+        tracknr=${file:1:1}
+    else
+        tracknr=${file:0:2}
+    fi
+    title=`echo ${file:2} | sed -e "s/.wav$//"`
+
+    nice flac -s -T "artist=$artist" -T "album=$album" -T "title=$title" \
+    -T "tracknumber=$tracknr" "$file" &amp;amp;&amp;amp; rm "$file"
+done
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Put the script somewhere and name it to &lt;code&gt;cue2flac&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org90e0b8a" class="outline-2"&gt;
+&lt;h3 id="org90e0b8a"&gt;Start conversion&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org90e0b8a"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# convert the ape to corresponding wav file, for example, "a.ape" is converted to "a.ape.wav"
+find . -name '*.ape'|xargs -I {} ffmpeg -i {} {}.wav
+# split wav and convert it to flac, make sure the *.cue exists in current directory
+cue2flac a.ape.wav
+# do the cleaning (OPTIONAL)
+rm *.ape *.wav
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>cue</category><category>en</category><category>flac</category><guid>http://blog.binchen.org/posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux.html</guid><pubDate>Sun, 12 May 2013 22:32:00 GMT</pubDate></item></channel></rss>

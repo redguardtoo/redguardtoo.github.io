@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about archlinux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/archlinux.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Notes on set up nfs on ArchLinux</title><link>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Key points&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ul&gt; &lt;li&gt;see &lt;a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html"&gt;Redhat documenation&lt;/a&gt;, best doc on exportfs &lt;/li&gt; &lt;li&gt;&lt;a href="http://superuser.com/questions/492989/understanding-subnet-mask"&gt;Understanding Subnet mask&lt;/a&gt; and &lt;a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask"&gt;essential Subnet mask&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -r&lt;/code&gt; to reload /etc/exports &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -v&lt;/code&gt; to see current nfs exports &lt;/li&gt; &lt;li&gt;content of /etc/exports: &lt;/li&gt; &lt;/ul&gt;     
+&lt;pre class="prettyprint "&gt;
+
+/srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;check &lt;a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html"&gt;optimizatioin tips&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;code&gt;man 5 exports&lt;/code&gt; for the documentation of /etc/exports &lt;/li&gt; &lt;li&gt;&lt;a href="https://www.serverstack.com/blog/2012/11/21/debugging-nfs-file-access-on-server-and-client-side/"&gt;Debugging NFS File Access on Server and Client Side&lt;/a&gt; &lt;/li&gt; &lt;/ul&gt;     
+&lt;pre class="prettyprint "&gt;
+
+# turn on the log
+
+sudo rpcdebug -m nfsd -s proc
+
+# turn off the log
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;then &lt;code&gt;sudo tail -f /var/log/messages.log&lt;/code&gt; &lt;/li&gt; &lt;li&gt;Basically you need &lt;code&gt;sudo systemctl enable syslog-ng.service&lt;/code&gt; to enable system log before you use rpcdebug &lt;/li&gt; &lt;/ul&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Summary&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;p&gt;On server side: &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+sudo exportfs
+
+# got output like:
+
+# /srv/nfs4/z   192.168.0.0/16
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;p&gt; Then on client side: &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+# 131072 is 128K
+
+sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>archlinux</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux.html</guid><pubDate>Fri, 07 Feb 2014 17:24:09 GMT</pubDate></item><item><title>Why some systemd service on ArchLinux does not work</title><link>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orgbe2b329" class="outline-2"&gt;
+&lt;h3 id="orgbe2b329"&gt;List failed services&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgbe2b329"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl --failed
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I can also use `sudo journalctl -b` to get the log message when booting all the services. But not very useful.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga785e24" class="outline-2"&gt;
+&lt;h3 id="orga785e24"&gt;Find the root cause of failed service&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga785e24"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl status service-name
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge515c78" class="outline-2"&gt;
+&lt;h3 id="orge515c78"&gt;Why my /usr/lib/systemd/system/network-wifi.service does not work&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge515c78"&gt;
+&lt;p&gt;
+Here is the content of my wifi service
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
+Description=Wireless networkd connectivity (wlan0)
+Wants=network.target
+Before=network.target
+BindsTo=sys-subsystem-net-devices-wlan0.device
+After=sys-subsystem-net-devices-wlan0.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+#EnvironmentFile=/etc/conf.d/network-wireless@wlan0
+
+ExecStart=/usr/bin/ip link set wlan0 up
+ExecStart=/usr/bin/wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/yang.conf
+ExecStart=/usr/bin/dhcpcd wlan0
+
+ExecStop=/usr/bin/ip addr flush dev wlan0
+ExecStop=/usr/bin/ip link set dev wlan0 down
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;p&gt;
+It's because netcfg.service blocks my network-wifi.service.
+&lt;/p&gt;
+
+&lt;p&gt;
+Solutin is simple:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl disable netcfg
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgda38928" class="outline-2"&gt;
+&lt;h3 id="orgda38928"&gt;How to start a service as specific user (mpd, for example)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgda38928"&gt;
+&lt;p&gt;
+This is the content of /usr/lib/systemd/system/mpd.service: 
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
+Description=Music Player Daemon
+After=network.target sound.target
+
+[Service]
+ExecStart=/usr/bin/mpd --no-daemon /home/cb/.mpd/config
+User=cb
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>archlinux</category><category>en</category><category>systemd</category><guid>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work.html</guid><pubDate>Sun, 01 Dec 2013 17:53:00 GMT</pubDate></item><item><title>Use screen/rtorrent/cronie to manage torrent client</title><link>http://blog.binchen.org/posts/use-screenrtorrentcronie-to-manage-torrent-client.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+`man rtorrent` for the keybindings:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;`Enter` to input magnet from piratebay manually&lt;/li&gt;
+&lt;li&gt;`C-s` to start download&lt;/li&gt;
+&lt;li&gt;`C-d` to delete&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+For &lt;a href="http://www.archlinux.org"&gt;ArchLinux&lt;/a&gt; only:
+&lt;/p&gt;
+
+&lt;div id="outline-container-orga870895" class="outline-2"&gt;
+&lt;h3 id="orga870895"&gt;Prepare directory&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga870895"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;mkdir -p ~/bt/{session,finished,torrent}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orged49e66" class="outline-2"&gt;
+&lt;h3 id="orged49e66"&gt;Install&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orged49e66"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo pacman -S cronie
+sudo systemctl enable cronie
+sudo systemctl start cronie
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgac1f733" class="outline-2"&gt;
+&lt;h3 id="orgac1f733"&gt;Add cron task to start and stop rtorrent service&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgac1f733"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;crontab -e #add cron task as current user
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The default editor will be open, input below content:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;#start rtorrent sesssion at 1am
+0 1 * * * /usr/bin/screen -fa -d -m -S torrent /usr/bin/rtorrent
+# kill it at  9am
+0 10 * * * /usr/bin/screen -S torrent -X quit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Done!
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>archlinux</category><category>linux</category><category>torrent</category><guid>http://blog.binchen.org/posts/use-screenrtorrentcronie-to-manage-torrent-client.html</guid><pubDate>Sat, 09 Mar 2013 15:08:00 GMT</pubDate></item></channel></rss>

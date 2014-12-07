@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about region)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/region.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to use expand-region.el in Emacs efficiently</title><link>http://blog.binchen.org/posts/how-to-use-expand-region-efficiently.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;a href="https://github.com/magnars/expand-region.el"&gt;expand-region.el&lt;/a&gt; is very useful. I use it to select a code segment and keep press its expand key until the the desired region is selected.
+&lt;/p&gt;
+
+&lt;p&gt;
+The only issue is its recommended hotkey for "er/expand-region" is "C-=". A little bit hard to press.
+&lt;/p&gt;
+
+&lt;p&gt;
+After marking a region by pressing "C-&lt;code&gt;", I press "&lt;/code&gt;" to expand the region and "-" to contract.
+&lt;/p&gt;
+
+&lt;p&gt;
+As you may have noticed, I need move the right hand to press "=" or "-" so it's not quick enough.
+&lt;/p&gt;
+
+&lt;p&gt;
+The solution is simple, press ",xx" to select the initial region. Keep press "x" to expand. "z" to contract region because "x" "z" is close to left hand fingers.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;evil-mode&lt;/a&gt; and &lt;a href="https://github.com/cofi/evil-leader"&gt;evil-leader&lt;/a&gt; is required to implement this.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the setup:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'evil)
+(require 'evil-leader)
+(evil-mode 1) ;; enable evil-mode
+
+(with-eval-after-load "evil"
+  (setq expand-region-contract-fast-key "z"))
+(evil-leader/set-key "xx" 'er/expand-region)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>expand</category><category>region</category><guid>http://blog.binchen.org/posts/how-to-use-expand-region-efficiently.html</guid><pubDate>Mon, 26 Aug 2013 23:16:00 GMT</pubDate></item><item><title>How to use expand-region.el in Emacs efficiently</title><link>http://blog.binchen.org/posts/how-to-use-expand-region-el-in-emacs-efficiently.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;a href="https://github.com/magnars/expand-region.el"&gt;expand-region.el&lt;/a&gt; is very useful. I use it to select a code segment and keep press its expand key until the selected region expand to the desired region.
+&lt;/p&gt;
+
+&lt;p&gt;
+The only issue is its recommended hotkey for "er/expand-region" is "C-=". A little bit hard to press.
+&lt;/p&gt;
+
+&lt;p&gt;
+After marking a region by pressing "C-=", I press "=" to expand the region and "-" to contract.
+&lt;/p&gt;
+
+&lt;p&gt;
+As you may have noticed, I need move the right hand to press "=" or "-" so it's not quick enough.
+&lt;/p&gt;
+
+&lt;p&gt;
+The solution is simple, press ",xx" to select the initial region. Keep press "x" to expand. "z" to contract region because "x" "z" is close to left hand fingers.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;evil-mode&lt;/a&gt; and &lt;a href="https://github.com/cofi/evil-leader"&gt;evil-leader&lt;/a&gt; is required to implement this.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the setup:
+&lt;/p&gt;
+
+&lt;pre class="prettyprint lang-lisp"&gt;
+(require 'evil)
+(require 'evil-leader)
+(evil-mode 1) ;; enable evil-mode
+
+(eval-after-load "evil" '(setq expand-region-contract-fast-key "z"))
+(evil-leader/set-key "xx" 'er/expand-region)
+&lt;/pre&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>expand</category><category>region</category><guid>http://blog.binchen.org/posts/how-to-use-expand-region-el-in-emacs-efficiently.html</guid><pubDate>Mon, 26 Aug 2013 23:16:00 GMT</pubDate></item></channel></rss>

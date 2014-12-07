@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about elpa)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/elpa.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>No worries when elpa is down</title><link>http://blog.binchen.org/posts/no-worries-when-elpa-is-down.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I use one liner shell command to clone Emacs Lisp Package Archive (ELPA):
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;mkdir -p ~/elpaclone &amp;amp;&amp;amp; cd ~/elpaclone &amp;amp;&amp;amp; curl -L https://elpa.gnu.org/packages/archive-contents | perl -pe 's/(^\(1|\n)//g' | perl -pe 's/\]\)/])\n/g' | perl -pe 's/^ *\(([a-z0-9A-Z-]*).*\[\(([0-9 ]*).*(single|tar).*/\1-\2.\3/g' | perl -pe 's/ /./g' | perl -pe 's/single/el/g' | perl -pe 's/\)//g' | xargs -I {} curl -L  -O https://elpa.gnu.org/packages/{} &amp;amp;&amp;amp; curl -L -O https://elpa.gnu.org/packages/archive-contents
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The &lt;a href="https://elpa.gnu.org/packages/archive-contents"&gt;https://elpa.gnu.org/packages/archive-contents&lt;/a&gt; contains all the information of packages. I re-organize it to make sure each line corresponds to one package. Then I use &lt;a href="https://en.wikipedia.org/wiki/CURL"&gt;cURL&lt;/a&gt; to download everything.
+&lt;/p&gt;
+
+&lt;p&gt;
+Usage is simple.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below line at the beginning of ~/.emacs when &lt;b&gt;elpa.gnu.org is down&lt;/b&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq package-archives '(("elpaclone" . "~/elpaclone")))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+This solution also works for &lt;a href="https://melpa.org/"&gt;MELPA&lt;/a&gt;.
+&lt;/p&gt;&lt;/div&gt;</description><category>elpa</category><category>emacs</category><category>en</category><category>package</category><guid>http://blog.binchen.org/posts/no-worries-when-elpa-is-down.html</guid><pubDate>Sun, 14 Aug 2016 12:52:27 GMT</pubDate></item></channel></rss>

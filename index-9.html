@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 9) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-9.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/set-up-nfs-server-on-archlinux.html">set up nfs server on ArchLinux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-06-19T22:00:42+00:00">2013-06-19 22:00</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/set-up-nfs-server-on-archlinux.html#disqus_thread" data-disqus-identifier="cache/posts/set-up-nfs-server-on-archlinux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>The purpose of set up nfs server is to watch video stored on server through my android devices. </p>    <pre class="src src-sh">sudo pacman -S nfs-utils
+<span style="color: #969896; font-style: italic;"># </span><span style="color: #969896; font-style: italic;">donnot touch /etc/idmapd.conf</span>
+<p>mkdir -p /srv/nfs4/z</p>
+<p></p></pre>   <p> add following lines into /etc/fstab: </p>   <pre class="src src-conf"><span style="color: #e7c547;">UUID</span>=986C96596C9631CC /mnt/z ntfs-3g defaults,nofail 0 2
+<p>/mnt/z /srv/nfs4/z none bind,nofail 0 0</p>
+<p></p></pre>   <p> add this line into /etc/exports: </p>   <pre class="src src-conf"><span style="color: #e7c547;">/srv/nfs4/z</span> 192.168.0.0/24(async,rw,no_subtree_check,nohide,no_root_squash)
+<p></p></pre>   <p> make sure change in /etc/exports to take effect: </p>   <pre class="src src-sh">sudo exportfs -ra
+<p></p></pre>   <p> now enable and start the services: </p>   <pre class="src src-sh">sudo systemctl enable rpc-idmapd
+<p>sudo systemctl start rpc-idmapd</p>
+<p>sudo systemctl enable rpc-mountd</p>
+<p>sudo systemctl start rpc-mountd</p>
+<p></p></pre>  </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/an-example-to-abuse-the-git-merge.html">An example to abuse the git merge</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-06-13T14:23:00+00:00">2013-06-13 14:23</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/an-example-to-abuse-the-git-merge.html#disqus_thread" data-disqus-identifier="cache/posts/an-example-to-abuse-the-git-merge.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/branch.html" rel="tag">branch</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/merge.html" rel="tag">merge</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>WARNING, this is BAD practice. I'm showing you anti-pattern you'd better avoid. </p> <p> The work flow is simple at the beginning. There is only one master branch where several developers submit the code. </p> <p> Then come bad rules:  </p>
+<ul>
+<li>Rule 1, any feature should be done on new branch (this rule is actually good if without next three rules)  </li> <li>Rule 2, <code>git rebase</code> is forbidden and any minor branch created by developers should be publicized immediately.  </li> <li>Rule 3, keep using your same feature branch forever even it's behind master branch for a very long time.   </li> <li>Rule 4, <code>git merge</code> between feature and master branches frequently </li> </ul>
+<p> After three months developement, this is the result of <code>git log –graph –oneline</code>: <img src="wp-content/uploads/2013/06/git-merge-mess-nq82.png" alt="image/git-merge-mess-nq8.png"></p> <p> Can you see the "M" at the top right corner. It's "M" from "Merge". </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively.html">Use vimdiff to resolve git/subversion/mercurial merge conflicts effectively</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-06-10T21:08:00+00:00">2013-06-10 21:08</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively.html#disqus_thread" data-disqus-identifier="cache/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/merge.html" rel="tag">merge</a></li>
+           <li><a class="tag p-category" href="categories/mergetool.html" rel="tag">mergetool</a></li>
+           <li><a class="tag p-category" href="categories/vim.html" rel="tag">vim</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+You can jump to <a href="posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively.html#org61df9f2">No description for this link</a> section at the end of this article.
+</p>
+
+<p>
+I use git as an example of version control software. But you can use any other version control software instead.
+</p>
+
+<div id="outline-container-orgaab515a" class="outline-2">
+<h3 id="orgaab515a">The reasons to use vimdiff to do the merge?</h3>
+<div class="outline-text-2" id="text-orgaab515a">
+<ul class="org-ul">
+<li>It's free (vim)</li>
+<li>It works on any OS</li>
+<li>It works in shell</li>
+<li>Keyboard only</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6578da9" class="outline-2">
+<h3 id="org6578da9">Setup</h3>
+<div class="outline-text-2" id="text-org6578da9">
+</div>
+<div id="outline-container-orgf0bbc75" class="outline-3">
+<h4 id="orgf0bbc75">Setup vimdiff (OPTIONAL)</h4>
+<div class="outline-text-3" id="text-orgf0bbc75">
+<p>
+The vimdiff as a merge tool will display several buffers to show YOURS/THEIRS/ORIGINAL code.
+</p>
+
+<p>
+First, add following code into your ~/.vimrc,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-vimrc">set laststatus=2 "show the status line
+set statusline=%-10.3n  "buffer number
+</code></pre>
+
+</div>
+<p>
+The purpose of above two lines is to display buffer number at the status line of vim. It's OPTIONAL. You don't need see the buffer number if you are familiar with the all the buffer's position. The left top is buffer number 2. The middle top is buffer number 3. The right top is buffer number 4.
+</p>
+
+<p>
+Second, if you know the buffer number, you can use hot key like ",2" (press comma first, then press two key as quickly as possible) to pull change from buffer number 2.
+Add below code into your ~/.vimrc to set up hot keys:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-vimrc">map &lt;silent&gt; &lt;leader&gt;2 :diffget 2&lt;CR&gt;
+map &lt;silent&gt; &lt;leader&gt;3 :diffget 3&lt;CR&gt;
+map &lt;silent&gt; &lt;leader&gt;4 :diffget 4&lt;CR&gt;
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6a8fb80" class="outline-3">
+<h4 id="org6a8fb80">Setup git</h4>
+<div class="outline-text-3" id="text-org6a8fb80">
+<p>
+Run below commands in shell,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">git config --global merge.tool vimdiff
+git config --global mergetool.prompt false
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2b2f65e" class="outline-2">
+<h3 id="org2b2f65e">Usage</h3>
+<div class="outline-text-2" id="text-org2b2f65e">
+</div>
+<div id="outline-container-org6ead4ff" class="outline-3">
+<h4 id="org6ead4ff">Create a "hello world" project</h4>
+<div class="outline-text-3" id="text-org6ead4ff">
+<p>
+I setup a "hello world" project at <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a> for your practice.
+</p>
+
+<p>
+It has three branches "master", "bob", and "chen",
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">git clone https://github.com/redguardtoo/test-git-mergetool.git
+cd test-git-mergetool
+git checkout -b bob origin/bob # create local mirror of bob branch
+git checkout -b chen origin/chen # create local mirror of chen branch
+</code></pre>
+
+</div>
+
+<p>
+Bob and Chen has edited same files. So please merge branch "bob" into "master" at first. Then merge from "chen". The merge conflicts will be created.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">git branch # double check that we got three local branches: master, bob, chen
+git checkout master # set master branch as main branch
+git merge bob #this is ok, because bob is the first one to merge changes
+git merge chen # now some conflicts created because Bob has already edited and merged same files
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org775baf7" class="outline-3">
+<h4 id="org775baf7">Resolve merge conflict</h4>
+<div class="outline-text-3" id="text-org775baf7">
+<p>
+Now start merge tool,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">git mergetool
+</code></pre>
+
+</div>
+
+<p>
+Git will invoke vimdiff with the following window layout. There are four buffers in this layout:
+<img src="wp-content/git-merge-tool-nq8.png" alt="git-merge-tool-nq8.png"></p>
+
+<p>
+Here is the explanation of each buffer:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-right">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">Buffer</th>
+<th scope="col" class="org-left">Explanation</th>
+<th scope="col" class="org-right">Buffer Number</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">THEIRS (LOCAL)</td>
+<td class="org-left">contents of the file on the current branch</td>
+<td class="org-right">2</td>
+</tr>
+<tr>
+<td class="org-left">BASE</td>
+<td class="org-left">common base for the merge</td>
+<td class="org-right">3</td>
+</tr>
+<tr>
+<td class="org-left">YOURS (REMOTE)</td>
+<td class="org-left">contents of the file to be merged.</td>
+<td class="org-right">4</td>
+</tr>
+<tr>
+<td class="org-left">MERGED</td>
+<td class="org-left">The file containing the conflict markers. You need edit and commit this file.</td>
+<td class="org-right">1</td>
+</tr>
+</tbody>
+</table>
+<p>
+Some people name THEIRS and YOURS buffer to LOCAL and REMOTE buffer. That's fine because names are just names. The point is that the top middle buffer is the BASE one which contains the original code before Bob and Chen committing any code. And the bottom buffer is the mess which contains resolved/unresolved conflicts where you actual editing work happens.
+</p>
+
+<p>
+You could press hot key <code>,2</code>,
+Then you pick the content from THEIRS buffer (the top left buffer). It means you will use the Bob's code and discard Chen's code in MERGED buffer.
+</p>
+
+<p>
+You could press hot key ",3",
+Then you pick the content from BASE buffer (the top middle buffer). It means you will discard either Bob's code or Chen's code in MERGED buffer.
+</p>
+
+<p>
+You could press hot key ",4",
+Then you pick the content from YOURS buffer (the top right buffer). It means you will use Chen's code and discard Bob code in MERGED buffer.
+</p>
+
+<p>
+Or you can edit the content directly in MERGED buffer. Anyway, git only care about the file binding to MERGED buffer. Any other buffer will be ignored by git.
+</p>
+
+<p>
+You can use hot key <code>[c</code> and <code>]c</code> to navigate to previous/next conflict (including the conflict resolved by git automatically) in current file which is binding to MERGED buffer.
+</p>
+
+<p>
+After finishing editing of the conflicting file in MERGED buffer, you can use hot key <code>:xa</code> to exit vimdiff. Git will open next conflicting file vimdiff automatically.
+</p>
+
+<p>
+When you have resolved all the conflicts, follow the hint of git to commit your changes.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd9dac7e" class="outline-2">
+<h3 id="orgd9dac7e">Tips</h3>
+<div class="outline-text-2" id="text-orgd9dac7e">
+<ul class="org-ul">
+<li>fugitive.vim (<a href="https://github.com/tpope/vim-fugitive">https://github.com/tpope/vim-fugitive</a>) can do this too. Actually it can do much more git stuff than merge. I cannot write this article without reading its code</li>
+<li>You can use Emacs to do the similar job (<a href="http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool">http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool</a>). For me, Emacs start up time is too much for this task. Some people use <code>emacsclient</code> which has other overhead I don't like</li>
+<li>If you prefer GUI, use command line `git mergetool -t gvimdiff` instead</li>
+<li>The <code>:diffget</code> command is valid if and only if there are <b>MARKED</b> conflicts in merged buffer. If there is <b>NO</b> marked string like "&gt;&gt;&gt;&gt;" or "&lt;&lt;&lt;&lt;&lt;" around current change (you can jump to previous/next change by press <code>[c</code> or <code>]c</code>), it means the git have automatically resolved potential conflict for you. Reviewing is still wise because git is not as smart as human</li>
+<li>If you prefer navigating between the unresolved conflicts <b>only</b>, you can install Tim Pope's <a href="https://github.com/tpope/vim-unimpaired">vim-unimpaired</a> and use hot key "[n" and "]n" to do the navigation</li>
+<li>I map <code>[n</code> and <code>]n</code> to more handy hot keys:</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-vimrc">map ]] ]n
+map [[ [n
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org637a85b" class="outline-2">
+<h3 id="org637a85b"><a id="org61df9f2"></a></h3>
+<div class="outline-text-2" id="text-org637a85b">
+<p>
+You can use command line like "git mergetool -t vimdiff" to start vimdiff from git.
+</p>
+
+<p>
+So the minimum set up is adding three lines of code into your ~/.vimrc:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-vimrc">map &lt;silent&gt; &lt;leader&gt;2 :diffget 2&lt;CR&gt; :diffupdate&lt;CR&gt;
+map &lt;silent&gt; &lt;leader&gt;3 :diffget 3&lt;CR&gt; :diffupdate&lt;CR&gt;
+map &lt;silent&gt; &lt;leader&gt;4 :diffget 4&lt;CR&gt; :diffupdate&lt;CR&gt;
+</code></pre>
+
+</div>
+
+<p>
+Then you can press hot key ",2" ",3" ",4" in vimdiff to pull change from top three buffer. The bottom buffer is for editing the code with markers which is actually your only work space.
+</p>
+
+<p>
+":help vimdiff" for other hot keys.
+</p>
+
+<p>
+#+image/git-merge-tool-nq8.png <img src="http://blog.binchen.org/wp-content/uploads/2013/06/wpid-git-merge-tool-nq8.png" alt="wpid-git-merge-tool-nq8.png"></p>
+</div>
+</div>
+
+<div id="outline-container-org7027122" class="outline-2">
+<h3 id="org7027122">subversion/mercurial</h3>
+<div class="outline-text-2" id="text-org7027122">
+<p>
+Until now I'm focusing on how to tweak the vimdiff UI because the git has already setup the <a href="https://github.com/git/git/blob/master/mergetools/vimdiff">basic vimdiff layout for us</a>. So we just follow the Git layout in other VCS.
+</p>
+</div>
+<div id="outline-container-org02c33bf" class="outline-3">
+<h4 id="org02c33bf">subversion</h4>
+<div class="outline-text-3" id="text-org02c33bf">
+<p>
+Insert below code into ~/.subversion/config:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[helpers]
+merge-tool-cmd = vimdiff.sh
+</code></pre>
+
+</div>
+
+<p>
+Content of vimdiff.sh
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">
+#!/bin/sh
+#
+
+# Step 1:
+# When you get following options during svn merge command, select option 'l'. This is to launch external tool to resolve conflicts.
+#
+# Conflict discovered in 'main.h'.
+# Select: (p) postpone, (df) diff-full, (e) edit,
+#        (mc) mine-conflict, (tc) theirs-conflict,
+#        (s) show all options: l
+
+# Step 2: Now vim will be opened in diff mode with 3 files - mine, theirs and merged. Make the required changes in the merged file, and do save and exit (:xa).
+
+# Step 3:
+# Now below options will appear again, select 'r' (to accept the merged version) now.
+
+BASE=${1}
+LOCAL=${2}
+REMOTE=${3}
+MERGED=${4}
+WCPATH=${5}
+
+# copied from from git's vimdiff script
+# @see https://github.com/git/git/blob/master/mergetools/vimdiff
+vimdiff -f -d -c 'wincmd J' "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7dd871d" class="outline-2">
+<h3 id="org7dd871d">mercurial</h3>
+<div class="outline-text-2" id="text-org7dd871d">
+<p>
+Insert below code into <code>~/.hgrc</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[ui]
+merge = vimdiff
+[merge-tools]
+vimdiff.executable = vim
+vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +close
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/open-readme-under-git-root-directory-in-emacs.html">open README under git root directory in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-06-08T14:40:00+00:00">2013-06-08 14:40</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/open-readme-under-git-root-directory-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/open-readme-under-git-root-directory-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/github.html" rel="tag">github</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>I often need update my README files at the root directory of my project which is always managed by git. </p> <p> As a lazy guy, I' rather use some hotkey to open that README. </p> <p> So if you add below elisp code into your ~/ .emacs, you can use hot key <code>C-c C-f</code> to open the README: </p>    <pre class="src src-elisp">(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">open-readme-in-git-root-directory</span> ()
+  (interactive)
+  (<span style="color: #b5bd68;">let</span> (filename
+        (root-dir (locate-dominating-file (file-name-as-directory (file-name-directory buffer-file-name)) <span style="color: #8abeb7;">".git"</span>))
+        )
+    <span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">(message "root-dir=%s" root-dir)</span>
+    (and root-dir (file-name-as-directory root-dir))
+    (setq filename (concat root-dir <span style="color: #8abeb7;">"README.org"</span>))
+    (<span style="color: #b5bd68;">if</span> (not (file-exists-p filename))
+        (setq filename (concat root-dir <span style="color: #8abeb7;">"README.md"</span>))
+      )
+    <span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">(message "filename=%s" filename)</span>
+    (<span style="color: #b5bd68;">if</span> (file-exists-p filename)
+        (switch-to-buffer (find-file-noselect filename nil nil))
+      (message <span style="color: #8abeb7;">"NO README.org or README.md found!"</span>))
+    ))
+(global-set-key (kbd <span style="color: #8abeb7;">"C-c C-f"</span>) 'open-readme-in-git-root-directory)
+<p></p></pre>  <p> ,,,, </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/i-became-a-true-emacs-geek-when-i-publicized-my-emacs-d-at-github-com.html">How to measure a Emacs geek</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-31T19:40:00+00:00">2013-05-31 19:40</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/i-became-a-true-emacs-geek-when-i-publicized-my-emacs-d-at-github-com.html#disqus_thread" data-disqus-identifier="cache/posts/i-became-a-true-emacs-geek-when-i-publicized-my-emacs-d-at-github-com.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/github.html" rel="tag">github</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Me, for example. </p> <p> The first day I changed my .emacs.d: </p>   <pre class="example">master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "<code>git config user.name</code>"|tail -n1
+11fd85f 2011-08-31 eim (Chinese input method) (chen bin)
+<p></p></pre>   <p> How many times I modified my emacs.d since then: </p>   <pre class="example">master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "<code>git config user.name</code>"|wc -l
+<p>672</p>
+<p></p></pre>   <p> My emacs.d at github: <a href="https://github.com/redguardtoo/emacs.d">https://github.com/redguardtoo/emacs.d</a> </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/the-reliable-way-to-access-system-clipboard-from-emacs.html">The reliable way to access system clipboard from Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-31T09:25:00+00:00">2013-05-31 09:25</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/the-reliable-way-to-access-system-clipboard-from-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/the-reliable-way-to-access-system-clipboard-from-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/clipboard.html" rel="tag">clipboard</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-05-31 Fri&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-20 Fri&gt;</span></span>
+</p>
+
+<p>
+The <a href="http://emacs.stackexchange.com/search?q=clipboard">Emacs clipboard questions</a> has been asked so many times. Yet few give a complete and reliable solution. 
+</p>
+
+<p>
+Only a dedicated project maintained by professional developer could solve this issue once for all.
+</p>
+
+<p>
+<a href="https://github.com/rolandwalker/simpleclip">simpleclip</a> is such a project.
+</p>
+
+<p>
+I only use its APIs `simpleclip-get-contents` and `simpleclip-set-contents`.
+</p>
+
+<p>
+Here is my setup:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'simpleclip)
+(defun copy-to-x-clipboard ()
+  (interactive)
+  (let ((thing (if (region-active-p)
+                   (buffer-substring-no-properties (region-beginning) (region-end))
+                 (thing-at-point 'symbol))))
+    (simpleclip-set-contents thing)
+    (message "thing =&gt; clipboard!")))
+
+(defun paste-from-x-clipboard()
+  "Paste string clipboard"
+  (interactive)
+  (insert (simpleclip-get-contents)))
+
+;; Press `Alt-Y' to paste from clibpoard when in minibuffer
+(defun my/paste-in-minibuffer ()
+  (local-set-key (kbd "M-y") 'paste-from-x-clipboard))
+(add-hook 'minibuffer-setup-hook 'my/paste-in-minibuffer)
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently.html">How to refactor/rename a variable name in a function efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-23T21:05:00+00:00">2013-05-23 21:05</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/evil.html" rel="tag">evil</a></li>
+           <li><a class="tag p-category" href="categories/programming.html" rel="tag">programming</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>As we dicussed in <a href="https://plus.google.com/110954683162859211810/posts/TgnyDRqBWkb">Emacs community at Google+</a>. Although <a href="https://github.com/magnars/multiple-cursors.el">multiple-cursor</a> is good for this task, I cannot use it because it conflicts with my favourite <a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> (Vim simulation in Emacs). </p> <p> There is another emacs plugin called <a href="https://github.com/victorhge/iedit">iedit</a> which could do the similar job (I usually use its command called iedit-mode-toggle-on-function) </p> <p> Though iedit is good, there is still room for improvement. When using iedit-mode-toggle-on-function, we need press key twice to rename the variable name. Once to enable it, twice to disable it. </p> <p> Magnar Sveen pointed out in the G+ discussion that the key point we need plugins like multiple-cursor or iedit-mode is that we can see all the changes while doing the editing. </p> <p> This reminds me that evil-mode has a excellent regex string replacing mode which also show the changes when you are typing EACH character of new string. </p> <p> So by using evil-mode's default regex replacing command, I can implement similar feature even more efficiently then iedit-mode! </p> <p> Here is my elisp code: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">evilcvn-change-symbol-in-defun</span> ()
+  <span style="color: #c397d8;">"mark the region in defun (definition of function) and use string replacing UI in evil-mode</span>
+<span style="color: #c397d8;">to replace the symbol under cursor"</span>
+  (interactive)
+  (<span style="color: #b9ca4a;">let</span> ((old (thing-at-point 'symbol)))
+    (mark-defun)
+    (<span style="color: #b9ca4a;">unless</span> (evil-visual-state-p)
+      (evil-visual-state))
+    (evil-ex (concat <span style="color: #70c0b1;">"'&lt;,'&gt;s/"</span> (<span style="color: #b9ca4a;">if</span> (= 0 (length old)) <span style="color: #70c0b1;">""</span> <span style="color: #70c0b1;">"\&lt;</span><span style="color: #e7c547; font-weight: bold;">\</span><span style="color: #c397d8; font-weight: bold;">(</span><span style="color: #70c0b1;">"</span>) old (<span style="color: #b9ca4a;">if</span> (= 0 (length old)) <span style="color: #70c0b1;">""</span> <span style="color: #70c0b1;">"</span><span style="color: #e7c547; font-weight: bold;">\</span><span style="color: #c397d8; font-weight: bold;">)</span><span style="color: #70c0b1;">\&gt;/"</span>))))
+  )
+(global-set-key (kbd <span style="color: #70c0b1;">"C-c ; s"</span>) 'evilcvn-change-symbol-in-defun)
+<p></p></pre>   <p> Put you cursor above a symbol/variable and press hot key "Ctrl-c ; s", then the regex to replace that symbol is automatically created and inserted into mini-buffer. Now you only need type new string and watch. </p> <p> This is the screen shot (I renamed variable "count" into "cnt" in C++ function hello): <img src="wp-content/uploads/2013/05/wpid-evil-regex-replace-nq8.png" alt="image/evil-regex-replace-nq8.png"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-write-javascripthtml-code-quickly.html">How to write javascript/html code quickly</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-22T10:24:00+00:00">2013-05-22 10:24</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-write-javascripthtml-code-quickly.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-write-javascripthtml-code-quickly.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/html.html" rel="tag">html</a></li>
+           <li><a class="tag p-category" href="categories/javascript.html" rel="tag">javascript</a></li>
+           <li><a class="tag p-category" href="categories/programming.html" rel="tag">programming</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">mixing code of javascript and html is a big problem</h4> <div class="outline-text-3" id="text-1">   <p> If we mix the javascript code into html file as below: </p>   <pre class="src src-html">&lt;<span style="color: #81a2be;">ul</span>&gt;
+  &lt;% for(var key in service.get('Detail')){ %&gt;
+    &lt;<span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span> if(key!='creditcard_number){ %&gt;
+      &lt;<span style="color: #81a2be;">li</span>&gt;
+        &lt;<span style="color: #81a2be;">label</span> <span style="color: #f0c674;">for</span>='&lt;%= key %&gt;'&gt;&lt;%= key %&gt;&lt;/<span style="color: #81a2be;">label</span>&gt;
+          &lt;<span style="color: #81a2be;">div</span> <span style="color: #f0c674;">id</span>='&lt;%=key %&gt;'&gt;&lt;%= service.get('Details')[key] %&gt;&lt;/<span style="color: #81a2be;">div</span>&gt;
+        &lt;/<span style="color: #81a2be;">li</span>&gt;
+    &lt;% }<span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
+&lt;% } <span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
+<p>&lt;/<span style="color: #81a2be;">ul</span>&gt;</p>
+<p></p></pre>  <p> Then it's hard to write/debug/fix the javascript code because: </p>
+<ol>
+<li>html code becomes noise for javascript development. </li> <li>The syntax checker for javascript will not work properly. </li> </ol>
+<p> If  we mix the html code into javascript file as below: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">for</span>(<span style="color: #b5bd68;">var</span> <span style="color: #f0c674;">key</span> <span style="color: #b5bd68;">in</span> service.get(<span style="color: #8abeb7;">'Detail'</span>)){
+  <span style="color: #b5bd68;">if</span>(key!=<span style="color: #8abeb7;">'creditcard_number'</span>){
+    htmlRender(formatString(<span style="color: #8abeb7;">"&lt;li&gt;&lt;label for='%s'&gt;%s&lt;/label&gt;&lt;div id='%s'&gt;%s&lt;/div&gt;"</span>,key,key,service.get(<span style="color: #8abeb7;">'Details'</span>)[key]));
+  }
+}
+<p></p></pre>  <p> Now html code becomes hard to write/debug/fix because: </p>
+<ol>
+<li>javascript code becomes noise for html development. </li> <li>The syntax checker for html will not work properly. </li> </ol>
+<p> In summary, mixing code in different language syntax will: </p>
+<ol>
+<li>make code hard to read </li> <li>make syntax checker dysfunctional </li> </ol>
+<p> These are the top two causes why we can not code fast in real application. </p> </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Use functional programming to avoid mix the javascript and html</h4> <div class="outline-text-3" id="text-2">  <p>So here is our objective: </p>
+<ol>
+<li>We need put the business logic into javascript file. The logic usually contains "for/while/if" statements. </li> <li>Html tags like "&lt;div&gt;/&lt;span&gt;/&lt;ul&gt;/&lt;li&gt;" need be placed in html file. </li> </ol>
+<p> The solution is actually simple. We just need apply a little bit of functional programming skill. </p> <p> So here is our html file in functional programming style: </p>   <pre class="src src-html">&lt;% forEachAttributeInService(service,function(service,key) { %&gt;
+   &lt;<span style="color: #81a2be;">li</span>&gt;
+     &lt;<span style="color: #81a2be;">label</span> <span style="color: #f0c674;">for</span>='&lt;%= key %&gt;'&gt;&lt;%= key %&gt;&lt;/<span style="color: #81a2be;">label</span>&gt;
+     &lt;<span style="color: #81a2be;">div</span> <span style="color: #f0c674;">id</span>='&lt;%=key %&gt;'&gt;&lt;%= formatServiceAttributes(service,key) %&gt;&lt;/<span style="color: #81a2be;">div</span>&gt;
+   &lt;/<span style="color: #81a2be;">li</span>&gt;
+&lt;%  }); <span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
+<p></p></pre>   <p> Here is the javascript file: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">forEachAttributeInService</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">fn</span>) {
+  <span style="color: #b5bd68;">for</span>(<span style="color: #b5bd68;">var</span> <span style="color: #f0c674;">key</span> <span style="color: #b5bd68;">in</span> service.get(<span style="color: #8abeb7;">'Detail'</span>)){
+    <span style="color: #b5bd68;">if</span>(key!=<span style="color: #8abeb7;">'creditcard_number'</span>){
+      fn(service,key)
+    }
+  }
+}
+<p><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">formatServiceAttributes</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">key</span>) {
+  <span style="color: #b5bd68;">return</span> service.get(<span style="color: #8abeb7;">'Details'</span>)[key];
+}</p>
+<p></p></pre>   <p> Now let's check what happens. </p> <p> In the html file, the business logic is converted into combination of functional calls. </p> <p> In javascript file, all the code dealing with hard coded html tags are converted to the call of anonymous functions. Those anonymous function is basically dump of html tags which is defined in html file. </p> <p> You can use this technique to convert any existing code into new style. For example, a simple "if else" statement could be re-written in new style: </p>   <pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">code in old style /</span>
+<p><span style="color: #b5bd68;">if</span> (<span style="color: #de935f;">true</span>){
+  console.log(<span style="color: #8abeb7;">'&lt;li&gt;YES&lt;/li&gt;'</span>);
+} <span style="color: #b5bd68;">else</span> {
+  console.log(<span style="color: #8abeb7;">'&lt;li&gt;NO&lt;/li&gt;'</span>);
+}</p>
+<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">code in new style /</span></p>
+<p><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">func_if_else</span>(<span style="color: #f0c674;">f1</span>,<span style="color: #f0c674;">f2</span>,<span style="color: #f0c674;">f3</span>){
+  <span style="color: #b5bd68;">if</span>(f1()){
+    f2();
+  } <span style="color: #b5bd68;">else</span> {
+    f3();
+  }
+}</p>
+<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">the execution of func_if_else() /</span></p>
+<p>func_if_else(<span style="color: #b5bd68;">function</span>(){ <span style="color: #b5bd68;">return</span> <span style="color: #de935f;">true</span> },
+           <span style="color: #b5bd68;">function</span>(){
+             console.log(<span style="color: #8abeb7;">'&lt;li&gt;YES&lt;/li&gt;'</span>);
+           },
+           <span style="color: #b5bd68;">function</span>(){
+             console.log(<span style="color: #8abeb7;">'&lt;li&gt;NO&lt;/li&gt;'</span>);
+           });
+</p></pre>   <p> This is a kind of radical example. I'm only demonstrating the power of new style. I'm not suggesting you should convert any logic statement into function call. New style is not a silver bullet. It's only a useful if used properly in right timing. </p>
+</div> </div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit.html">The most efficient way to `git add` files in dired-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-14T23:16:00+00:00">2013-05-14 23:16</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit.html#disqus_thread" data-disqus-identifier="cache/posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/dired.html" rel="tag">dired</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Add following code into your .emacs, then use "/" to execute <code>git command</code> on your marked files in dired-mode: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">diredext-exec-git-command-in-shell</span> (command <span style="color: #e78c45;">&amp;optional</span> arg file-list)
+  <span style="color: #c397d8;">"Run a shell command <code>git COMMAND</code>' on the marked files.</span>
+<span style="color: #c397d8;">if no files marked, always operate on current line in dired-mode</span>
+<p><span style="color: #c397d8;">"</span>
+  (interactive
+   (<span style="color: #b9ca4a;">let</span> ((files (dired-get-marked-files t current-prefix-arg)))
+     (list
+      <span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">Want to give feedback whether this file or marked files are used:</span>
+      (dired-read-shell-command <span style="color: #70c0b1;">"git command on %s: "</span> current-prefix-arg files)
+      current-prefix-arg
+      files)))
+  (<span style="color: #b9ca4a;">unless</span> (string-match <span style="color: #70c0b1;">"[<em>?][ \t]</em>\'"</span> command)
+    (setq command (concat command <span style="color: #70c0b1;">" *"</span>)))
+  (setq command (concat <span style="color: #70c0b1;">"git "</span> command))
+  (dired-do-shell-command command arg file-list)
+  (message command))</p>
+<p>(<span style="color: #b9ca4a;">eval-after-load</span> 'dired '(define-key dired-mode-map <span style="color: #70c0b1;">"/"</span> 'diredext-exec-git-command-in-shell))</p>
+<p></p></pre>   <p> For example, say you set the alias "a" for git command "add" in your $HOME/.gitconfig. </p> <p> In order to <code>git add</code> files, you marked files in dired-mode and press "/", then press "a". The command <code>git a(dd)</code> will be executed. </p> <p> The reason to use git in dired-mode is simple. I'm working for some big enterprise application. You know the enterprise guys have the tendency to create lots of small modules/files for one feature. So I need do lots of <code>cp files somewhere</code> and <code>git add files</code> things these days. </p> <p> Thanks all the <a href="https://plus.google.com/110954683162859211810/posts/4CmwuDxVCA1">Emacs geeks on the Google+</a> who enlighten me. </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux.html">How to split album into different flac and tag them under Gentoo Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-12T22:32:00+00:00">2013-05-12 22:32</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cue.html" rel="tag">cue</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/flac.html" rel="tag">flac</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<div id="outline-container-org63c0667" class="outline-2">
+<h3 id="org63c0667">Install CLI tools</h3>
+<div class="outline-text-2" id="text-org63c0667">
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># mac to support ape
+sudo USE="alac flac mac shorten sox wavpack" emerge media-sound/shntool
+sudo emerge cuetools
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org256f961" class="outline-2">
+<h3 id="org256f961">Download script</h3>
+<div class="outline-text-2" id="text-org256f961">
+<p>
+See <a href="https://bbs.archlinux.org/viewtopic.php?id=58766">https://bbs.archlinux.org/viewtopic.php?id=58766</a> for the source of bash script.
+</p>
+
+<p>
+Here is the full content of the bash script:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/bash
+# split image file (flac, ape, wav, etc.) according to cue-file
+if [ -f "$1" ]; then
+    i=0
+    for cuefile in *.cue; do
+        i=$(($i + 1))
+    done
+    if [ $i -eq 1 ]; then
+        # precies 1 cuesheet gevonden
+        if grep -q "INDEX 01 00:00:00" *.cue ; then
+            nice shntool split -t "%n %t" -f *.cue "$1"
+        else
+            echo "The first track has a pre-gap. Shntool will cut that off and put it in a seperate file."
+            echo "You don't want that. Please modify the cuesheet from:"
+            grep -m1 "INDEX 00" *.cue
+            grep -m1 "INDEX 01" *.cue
+            echo "to:"
+            echo "    INDEX 01 00:00:00"
+            exit 1
+        fi
+    elif [ $i -eq 0 ]; then
+        echo "No cuesheet found in the current directory."
+        exit 1
+    elif [ $i -gt 1 ]; then
+        echo "$i cuesheets found in the current directory. Please remove the superfluous cuesheets."
+        exit 1
+    fi
+else
+    echo "Split image file (flac, ape, wav, etc.) according to cue-file."
+    echo "Output files are in FLAC."
+    echo "Usage: `basename $0` &lt;image-file&gt;"
+    exit 1
+fi
+
+echo
+album=`grep -m 1 TITLE *.cue | cut -d\" -f2`
+artist=`grep -m 1 PERFORMER *.cue | cut -d\" -f2`
+
+for file in [0-9]*.wav; do
+    echo "Encoding $file"
+
+    if [[ ${file:0:1} == 0 ]] ; then
+        tracknr=${file:1:1}
+    else
+        tracknr=${file:0:2}
+    fi
+    title=`echo ${file:2} | sed -e "s/.wav$//"`
+
+    nice flac -s -T "artist=$artist" -T "album=$album" -T "title=$title" \
+    -T "tracknumber=$tracknr" "$file" &amp;&amp; rm "$file"
+done
+</code></pre>
+
+</div>
+
+<p>
+Put the script somewhere and name it to <code>cue2flac</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org90e0b8a" class="outline-2">
+<h3 id="org90e0b8a">Start conversion</h3>
+<div class="outline-text-2" id="text-org90e0b8a">
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># convert the ape to corresponding wav file, for example, "a.ape" is converted to "a.ape.wav"
+find . -name '*.ape'|xargs -I {} ffmpeg -i {} {}.wav
+# split wav and convert it to flac, make sure the *.cue exists in current directory
+cue2flac a.ape.wav
+# do the cleaning (OPTIONAL)
+rm *.ape *.wav
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-10.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-8.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

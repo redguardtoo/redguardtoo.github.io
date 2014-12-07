@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about rsi)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/rsi.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to avoid Repeated Strain Injury when using emacs by re-assigning hotkeys</title><link>http://blog.binchen.org/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I've read all the Emacs RSI related articles from the internet.
+&lt;/p&gt;
+
+&lt;p&gt;
+Typical solutions are:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;buy special hardware&lt;/li&gt;
+&lt;li&gt;remap ctrl key (because Emacs users press Ctrl key too often)&lt;/li&gt;
+&lt;li&gt;use Vi key binding&lt;/li&gt;
+&lt;li&gt;other Emacs keybinding with some hacking&lt;/li&gt;
+&lt;li&gt;voice input&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+I will discuss the third item "use Vim key binding" because there is still room to improve.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my observation. Even I use Vi keybinding, there are top three frequently pressed keys which may hurt my left hand: &lt;code&gt;ESC&lt;/code&gt;, &lt;code&gt;C-x&lt;/code&gt;, &lt;code&gt;C-g&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+These top three need me move my left hands too often. That may be the problem of RSI. In this case, A little knowledge of Vim will help.
+&lt;/p&gt;
+
+&lt;p&gt;
+In vi, we use key combination start with &amp;lt;leader&amp;gt; key. The leader key is actually the comma key &lt;code&gt;,&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+As you can see, comma key is close to the right hand fingers. So using key combination with leader key as the first key to press will give more spare hot keys to replace &lt;code&gt;ESC&lt;/code&gt;, &lt;code&gt;C-x&lt;/code&gt; and &lt;code&gt;C-g&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The principle here is &lt;b&gt;DO NOT&lt;/b&gt; move hands at all. Following this example, I can figure out many practical solution.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, by using &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt; and &lt;a href="https://github.com/cofi/evil-leader"&gt;evil-leader&lt;/a&gt;. With hot key prefix &lt;code&gt;C-x&lt;/code&gt;, I use &lt;code&gt;,x&lt;/code&gt; to replace. For example, &lt;code&gt;C-x C-c&lt;/code&gt; is replaced with &lt;code&gt;,xc&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'evil-leader)
+(evil-leader/set-key
+  "xf" 'ido-find-file
+  "xb" 'ido-switch-buffer
+  "xc" 'save-buffers-kill-terminal
+  "jj" 'w3mext-search-js-api-mdn
+  "xz" 'suspend-frame
+  "xvv" 'vc-next-action
+  "xv=" 'vc-diff
+  "xvl" 'vc-print-log)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+On some keyboard, the &lt;code&gt;Alt&lt;/code&gt; key is easy to press because it's big and just under the big thumb. So I can assign some key combination like &lt;code&gt;M-k&lt;/code&gt; to replace &lt;code&gt;C-g&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Please note &lt;code&gt;Alt&lt;/code&gt; and &lt;code&gt;k&lt;/code&gt; is also close to my fingers. Here is my setup in &lt;code&gt;.emacs&lt;/code&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(global-set-key (kbd "M-k") 'keyboard-quit)
+(define-key evil-insert-state-map (kbd "M-k") 'evil-normal-state)
+(define-key evil-visual-state-map (kbd ",k") 'evil-exit-visual-state)
+(define-key minibuffer-local-map (kbd ",k") 'abort-recursive-edit)
+(define-key evil-insert-state-map (kbd "M-j") 'yas-expand)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Some minor modes will re-assign the hot key &lt;code&gt;C-g&lt;/code&gt;, so when I say replace &lt;code&gt;C-g&lt;/code&gt; with &lt;code&gt;,k&lt;/code&gt;. It may be a bit more elisp code:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; the original hot key of helm-keyboard-quit is "C-g"
+(define-key helm-map (kbd ",k") 'helm-keyboard-quit)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The key point is to understand the principles instead copy my configuration:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;comma is a good key for hot key prefix, it's used by vi users for ages&lt;/li&gt;
+&lt;li&gt;use keys close to fingers (L,J,K,L, for example) in hot keys&lt;/li&gt;
+&lt;li&gt;Other keys close to right hand is also useful in key combinations&lt;/li&gt;
+&lt;li&gt;Avoid move left hand&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>rsi</category><guid>http://blog.binchen.org/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html</guid><pubDate>Fri, 09 Aug 2013 10:05:00 GMT</pubDate></item></channel></rss>

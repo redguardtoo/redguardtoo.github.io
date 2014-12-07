@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Thoughts on "Native shell completion in Emacs" | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content='Thoughts on "Native shell completion in Emacs"'>
+<meta property="og:url" content="http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html">
+<meta property="og:description" content="Native shell completion in Emacs by Troy Hinckley is must read for completion in shell-mode.
+
+
+
+One problem is my ~/.bashrc executes /etc/bash_completion,
+
+
+
+
+if [ -f /etc/bash_completion ]; then
+    ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-04-09T10:40:23Z">
+<meta property="article:tag" content="autocomplete">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="shell">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Thoughts on "Native shell completion in Emacs"</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2020-04-09T10:40:23+00:00">2020-04-09 10:40</time>
+            
+
+            
+          |  
+        <a href="thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/autocomplete.html" rel="tag">autocomplete</a></li>
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/shell.html" rel="tag">shell</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+<a href="https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/">Native shell completion in Emacs</a> by Troy Hinckley is must read for completion in <code>shell-mode</code>.
+</p>
+
+<p>
+One problem is my <code>~/.bashrc</code> executes <code>/etc/bash_completion</code>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+</code></pre>
+
+</div>
+
+<p>
+Unfortunately <code>/etc/bash_completion</code> makes <code>complete -p</code> output some lines the Emacs function <code>bash-completion-tokenize</code> can't analyze.
+</p>
+
+<p>
+Here is output of <code>complete -p</code> at my PC,
+</p>
+
+<pre class="example">
+...
+complete -F _known_hosts mtr
+complete -o default -o nospace -W 'homepc
+192.168.1.104
+github.com
+gitlab.com' scp
+complete -o default -f -X '!*.dvi' dvipdf
+...
+</pre>
+
+<p>
+The line <code>gitlab.com' scp</code> will crash <code>bash-completion-tokenize</code>. Obviously, one line 
+<code>complete -o default -o nospace -W 'homepc 192.168.1.104 github.com gitlab.com' scp</code>  is wrongly split into multiple lines by <code>complete -p</code>.
+</p>
+
+<p>
+In <code>shell-mode</code>, completion functions might call <code>bash-completion-tokenize</code>. If <code>bash-completion-tokenize</code> crashes, the completion in <code>shell-mode</code> won't work.
+</p>
+
+<p>
+Besides, if <code>company-mode</code> provides auto-completion UI, it's better to place the backend <code>company-files</code> before <code>company-native-complete</code>. It's because the backend <code>company-files</code> displays the full file path in candidates. So users can complete the whole path in one shot.
+</p>
+
+<p>
+My setup code for the packages Troy Hinckley suggested,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; Enable auto-completion in `shell'.
+(with-eval-after-load "shell"
+  (native-complete-setup-bash))
+
+;; `bash-completion-tokenize' can handle garbage output of "complete -p"
+(defadvice bash-completion-tokenize (around bash-completion-tokenize-hack activate)
+  (let* ((args (ad-get-args 0))
+         (beg (nth 0 args))
+         (end (nth 1 args)))
+    ;; original code extracts tokens from output of "complete -p" line by line
+    (cond
+     ((not (string-match-p "^complete " (buffer-substring beg end)))
+      ;; filter out some wierd lines
+      (setq ad-return-value nil))
+     (t
+      ad-do-it))))
+
+(defun shell-mode-hook-setup ()
+  "Set up `shell-mode'."
+  ;; hook `completion-at-point', optional
+  (add-hook 'completion-at-point-functions #'native-complete-at-point nil t)
+  (setq-local company-backends '((company-files company-native-complete)))
+  ;; `company-native-complete' is better than `completion-at-point'
+  (local-set-key (kbd "TAB") 'company-complete))
+(add-hook 'shell-mode-hook 'shell-mode-hook-setup)
+</code></pre>
+
+</div>
+
+<p>
+Screenshot,
+</p>
+
+<div class="figure">
+<p><img src="../wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"></p>
+</div>
+
+<div class="figure">
+<p><img src="../wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"></p>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="how-to-speed-up-lsp-mode.html" rel="prev" title="How to speed up lsp-mode">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="make-emacs-faster-than-vim-in-git-mergetool.html" rel="next" title='Make Emacs faster than Vim in "git mergetool"'>Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html",
+        disqus_title="Thoughts on \"Native shell completion in Emacs\"",
+        disqus_identifier="cache/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

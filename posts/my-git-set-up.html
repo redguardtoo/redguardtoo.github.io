@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>My git set up | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/my-git-set-up.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="My git set up">
+<meta property="og:url" content="http://blog.binchen.org/posts/my-git-set-up.html">
+<meta property="og:description" content="Content of my .gitconfig,
+
+
+
+
+[apply]
+    whitespace = nowarn
+[user]
+    name = my name
+    email =my@email.com
+[core]
+    ; @see http://comments.gmane.org/gmane.comp.version-control.git/166098
+    fi">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-07-07T22:17:00Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="github">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">My git set up</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-07-07T22:17:00+00:00">2013-07-07 22:17</time>
+            
+
+            
+          |  
+        <a href="my-git-set-up.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="../categories/github.html" rel="tag">github</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+Content of my <code>.gitconfig</code>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[apply]
+    whitespace = nowarn
+[user]
+    name = my name
+    email =my@email.com
+[core]
+    ; @see http://comments.gmane.org/gmane.comp.version-control.git/166098
+    filemode = true
+    ;autocrlf = false
+    ignorecase = false
+    ;autocrlf=false
+    ;safecrlf=true
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = auto
+[alias]
+    ca=commit --amend
+    cl = clean -fxd
+    au = add -u
+    st = status -sb #short status output for geeks
+    stu= status --untracked-files=no
+    r = rebase
+    c = commit
+    co = checkout
+    b = branch
+    s=show
+    l = log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short --decorate --graph
+    d =diff
+    da= diff --name-only # get the file list
+    ds = diff --stat
+    dw=diff --word-diff #highlight word changes
+    dc = diff --cached
+    dcs = diff --cached --stat
+    t=stash
+    a=add
+    f=format-patch -n --stdout
+    rh=reset --hard
+    rs=reset --soft
+    undo=reset --soft HEAD^
+    rs=reset
+    cnt=count-objects
+    ps=push
+    p=pull --rebase
+    w = whatchanged
+    sb = show-branch
+    cp = cherry-pick
+    # @see http://magazine.redhat.com/2008/05/02/shipping-quality-code-with-git/
+    cpnx = cherry-pick --no-commit -x
+    rl = reflog
+    lp = log -p
+    lt = log --topo-order
+    gl = log --graph
+    m = merge
+    mt= mergetool
+    me = merge --no-commit --no-ff
+    brm = branch --merged
+    brnm = branch --no-merged
+    rnc = revert --no-commit
+    com = checkout master
+    glt = log --pretty=format:'%h : %s' --topo-order --graph
+    phm = push heroku master
+    pom = push origin master
+    puom= pull origin master
+    untrac=rm -r --cached
+    #produce patch for hg
+    hgp = show --format="From: %an &lt;%ae&gt;%n%s%n%b" -U8
+    show-root-folder = rev-parse --show-toplevel
+    forward = pull --ff -r
+    u = !git stash &amp;&amp; git pull --rebase &amp;&amp; git stash pop
+[sendemail]
+    smtpencryption = tls
+    smtpserver = smtp.gmail.com
+    smtpuser = myname@gmail.com
+    smtpserverport = 587
+[github]
+    user = github user
+[push]
+    default = tracking
+
+[merge]
+    branchdesc = true
+    log = true
+    tool = vimdiff
+[diff]
+    tool = vimdiff
+[mergetool]
+    prompt = false
+
+</code></pre>
+
+</div>
+
+<p>
+Content of my <code>.bashrc</code>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># enable bash completion in interactive shells
+# @see http://www.simplicidade.org/notes/archives/2008/02/bash_completion.html
+if [ -f /etc/bash_completion ]; then
+    # ArchLinux
+    . /etc/bash_completion
+elif [ -f /etc/profile.d/bash-completion.sh ]; then
+    # Gentoo Linux
+    . /etc/profile.d/bash-completion.sh
+fi
+. $HOME/bash_completion.d/gibo-completion.bash
+. $HOME/bash_completion.d/git-completion.bash
+
+function parse_git_branch ()
+{
+   git branch --no-color 2&gt; /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+function simpleprompt()
+{
+   if test -n "`type -t git`"; then
+      PS1="\$(parse_git_branch) \\$ "
+   else
+      PS1="\\$ "
+   fi
+}
+
+alias gcd='cd $(git rev-parse --show-cdup)'
+alias g="git status --short -b"
+alias gn="git status --untracked-files=no --short -b"
+alias gfl="git diff-tree --no-commit-id --name-only -r"
+alias ga="git add"
+alias gaa="git add ."
+alias gau="git add -u"
+alias gc="git commit -m"
+alias gca="git commit --amend"
+alias gb="git branch"
+alias gbd="git branch -d"
+alias gco="git checkout"
+alias gcob="git checkout -b"
+alias gt="git stash"
+alias gta="git stash apply"
+alias gm="git merge"
+alias gmt="git mergetool"
+alias gr="git rebase"
+alias gl="git log --oneline --decorate --graph"
+alias gs="git show"
+alias gss="git show --stat"
+alias gd="git diff"
+alias gds="git diff --stat"
+alias gdc="git diff --cached"
+alias gdcs="git diff --cached --stat"
+alias gbl="git blame"
+alias gps="git push"
+alias gpl="git pull"
+alias cdgr='cd $(git rev-parse --show-toplevel)' #goto root dir
+function gu(){
+    local st=`git status --porcelain --untracked=no`
+    if [ -z "$st" ]; then
+        git pull --rebase
+    else
+        git stash &amp;&amp; git pull --rebase &amp;&amp; git stash pop
+    fi
+}
+
+function gsrp(){
+  if [ -z "$1" ]; then
+      echo "Usage: gsrp old_string new_string (string could be perl regex)"
+      echo "replace the content of file in latest git commit"
+  elif [ $# -eq "2" ]; then
+      git diff-tree --no-commit-id --name-only -r HEAD|xargs perl -pi -e "s/$1/$2/g"
+  elif [ $# -eq "3" ]; then
+      git diff-tree --no-commit-id --name-only -r $1|xargs perl -pi -e "s/$2/$3/g"
+  fi
+}
+
+[ $(uname -s | grep -c CYGWIN) -eq 1 ] &amp;&amp; OS_NAME="CYGWIN" || OS_NAME=`uname -s`
+# xclip has some problem with my emacs, so I use xsel for everything
+function pclip() {
+    if [ $OS_NAME == CYGWIN ]; then
+        putclip $@;
+    elif [ $OS_NAME == Darwin ]; then
+        pbcopy $@;
+    else
+        if [ -x /usr/bin/xsel ]; then
+            xsel -ib $@;
+        else
+            if [ -x /usr/bin/xclip ]; then
+                xclip -selection c $@;
+            else
+                echo "Neither xsel or xclip is installed!"
+            fi
+        fi
+    fi
+}
+
+# search the file in root directory of git repository, pop up dialog let you choose the path,
+# then put the full path in clipboard
+function gg()
+{
+    local cli=`find $(git rev-parse --show-toplevel) -type f -iname '*'$*'*'|percol`
+    echo -n ${cli}|pclip
+    echo ${cli}
+}
+
+alias ge='grep -rsn --exclude=TAGS --exclude=tags --exclude=GTAGS --exclude-dir=.svn --exclude-dir=.sass-cache --exclude-dir=.cache  --exclude-dir=.cvs --exclude-dir=.git --exclude-dir=.hg --exclude=\*.swp --exclude=\*~ --color=auto'
+function ggs()
+{
+    local cli=`ge -l $* $(git rev-parse --show-toplevel)/*|percol`
+    echo -n ${cli} |pclip;
+    echo ${cli}
+}
+</code></pre>
+
+</div>
+
+<p>
+I do lots of git stuff under shell, so I'm heavly dependent on below bash tools,
+</p>
+
+<ul class="org-ul">
+<li>
+<a href="https://github.com/clvv/fasd">fasd</a> to change current directory quickly</li>
+<li>
+<a href="https://github.com/mooz/percol">percol</a> to filter the text from stdin interactively</li>
+</ul>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="shi-mian-yu-du-tang-shao-fa.html" rel="prev" title="虱面鱼肚汤烧法">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="how-to-use-terminal-in-emacs-effectively.html" rel="next" title="How to use terminal in Emacs effectively">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/my-git-set-up.html",
+        disqus_title="My git set up",
+        disqus_identifier="cache/posts/my-git-set-up.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

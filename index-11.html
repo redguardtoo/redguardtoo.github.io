@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 11) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-11.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html">How to avoid Repeated Strain Injury when using emacs by re-assigning hotkeys</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-09T10:05:00+00:00">2013-08-09 10:05</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/evil.html" rel="tag">evil</a></li>
+           <li><a class="tag p-category" href="categories/rsi.html" rel="tag">rsi</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+I've read all the Emacs RSI related articles from the internet.
+</p>
+
+<p>
+Typical solutions are:
+</p>
+
+<ul class="org-ul">
+<li>buy special hardware</li>
+<li>remap ctrl key (because Emacs users press Ctrl key too often)</li>
+<li>use Vi key binding</li>
+<li>other Emacs keybinding with some hacking</li>
+<li>voice input</li>
+</ul>
+<p>
+I will discuss the third item "use Vim key binding" because there is still room to improve.
+</p>
+
+<p>
+Here is my observation. Even I use Vi keybinding, there are top three frequently pressed keys which may hurt my left hand: <code>ESC</code>, <code>C-x</code>, <code>C-g</code>
+</p>
+
+<p>
+These top three need me move my left hands too often. That may be the problem of RSI. In this case, A little knowledge of Vim will help.
+</p>
+
+<p>
+In vi, we use key combination start with &lt;leader&gt; key. The leader key is actually the comma key <code>,</code>.
+</p>
+
+<p>
+As you can see, comma key is close to the right hand fingers. So using key combination with leader key as the first key to press will give more spare hot keys to replace <code>ESC</code>, <code>C-x</code> and <code>C-g</code>.
+</p>
+
+<p>
+The principle here is <b>DO NOT</b> move hands at all. Following this example, I can figure out many practical solution.
+</p>
+
+<p>
+For example, by using <a href="http://www.emacswiki.org/emacs/Evil">Evil</a> and <a href="https://github.com/cofi/evil-leader">evil-leader</a>. With hot key prefix <code>C-x</code>, I use <code>,x</code> to replace. For example, <code>C-x C-c</code> is replaced with <code>,xc</code>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'evil-leader)
+(evil-leader/set-key
+  "xf" 'ido-find-file
+  "xb" 'ido-switch-buffer
+  "xc" 'save-buffers-kill-terminal
+  "jj" 'w3mext-search-js-api-mdn
+  "xz" 'suspend-frame
+  "xvv" 'vc-next-action
+  "xv=" 'vc-diff
+  "xvl" 'vc-print-log)
+</code></pre>
+
+</div>
+
+<p>
+On some keyboard, the <code>Alt</code> key is easy to press because it's big and just under the big thumb. So I can assign some key combination like <code>M-k</code> to replace <code>C-g</code>.
+</p>
+
+<p>
+Please note <code>Alt</code> and <code>k</code> is also close to my fingers. Here is my setup in <code>.emacs</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(global-set-key (kbd "M-k") 'keyboard-quit)
+(define-key evil-insert-state-map (kbd "M-k") 'evil-normal-state)
+(define-key evil-visual-state-map (kbd ",k") 'evil-exit-visual-state)
+(define-key minibuffer-local-map (kbd ",k") 'abort-recursive-edit)
+(define-key evil-insert-state-map (kbd "M-j") 'yas-expand)
+</code></pre>
+
+</div>
+
+<p>
+Some minor modes will re-assign the hot key <code>C-g</code>, so when I say replace <code>C-g</code> with <code>,k</code>. It may be a bit more elisp code:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; the original hot key of helm-keyboard-quit is "C-g"
+(define-key helm-map (kbd ",k") 'helm-keyboard-quit)
+</code></pre>
+
+</div>
+
+<p>
+The key point is to understand the principles instead copy my configuration:
+</p>
+
+<ul class="org-ul">
+<li>comma is a good key for hot key prefix, it's used by vi users for ages</li>
+<li>use keys close to fingers (L,J,K,L, for example) in hot keys</li>
+<li>Other keys close to right hand is also useful in key combinations</li>
+<li>Avoid move left hand</li>
+</ul>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-get-email-from-exchange-server-without-outlook.html">How to get email from exchange server without Outlook</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-06T20:26:00+00:00">2013-08-06 20:26</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-get-email-from-exchange-server-without-outlook.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-get-email-from-exchange-server-without-outlook.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/gnus.html" rel="tag">gnus</a></li>
+           <li><a class="tag p-category" href="categories/imap.html" rel="tag">imap</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/outlook.html" rel="tag">outlook</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+This article has three parts. 
+</p>
+
+<p>
+First part explains setup of mail gateway <a href="http://davmail.sourceforge.net/">DavMail</a> for Exchange server.
+</p>
+
+<p>
+Second part uses <a href="https://www.mozilla.org/en-US/thunderbird/">thunderbird</a> to fetch mails from Davmail.
+</p>
+
+<p>
+Third part uses Emacs and Gnus to replace thunderbird. It's optional.
+</p>
+
+<div id="outline-container-orgd70e8f8" class="outline-2">
+<h3 id="orgd70e8f8">DavMail as mail gateway</h3>
+<div class="outline-text-2" id="text-orgd70e8f8">
+<pre class="example">
+Ever wanted to get rid of Outlook ? DavMail is a POP/IMAP/SMTP/Caldav/Carddav/LDAP exchange gateway allowing users to use any mail/calendar client (e.g. Thunderbird with Lightning or Apple iCal) with an Exchange server.
+</pre>
+</div>
+<div id="outline-container-org77e9886" class="outline-3">
+<h4 id="org77e9886">Install</h4>
+<div class="outline-text-3" id="text-org77e9886">
+<p>
+<a href="http://davmail.sourceforge.net/download.html">Download the installer</a> at Debian/Ubuntu/Mint:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo apt-get install libswt-gtk-3-jni libswt-gtk-3-java libswt-cairo-gtk-3-jni
+# ubuntu/debian only; for other distribution, just download src package
+sudo dpkg -i davmail_4.5.1-2303-1_all.deb
+</code></pre>
+
+</div>
+
+<p>
+Installation is easy. DavMail by itself is a portable java application. Since its GUI is dependent on SWT. So I give the instruction on how to install SWT in ubuntu. If you don't use ubuntu, then you are already technically good enough to know how to install SWT.
+</p>
+</div>
+</div>
+<div id="outline-container-org9327950" class="outline-3">
+<h4 id="org9327950">Configuration</h4>
+<div class="outline-text-3" id="text-org9327950">
+<p>
+Now start DavMail. 
+</p>
+
+<p>
+Please input the web Outlook url like "<a href="https://webmail.mycompany.com.au/owa/">https://webmail.mycompany.com.au/owa/</a>" in its GUI.
+</p>
+
+<p>
+By default all the services are <b>NOT</b> encrypted. It makes sense because email client and gateway are at the same computer.
+</p>
+
+<p>
+Write down the port numbers. In my case, I need port number of IMAP/POP3/SMTP.
+</p>
+
+<p>
+That's all you need to do unless DavMail can't detect your Exchange server automatically!
+</p>
+
+<p>
+If Exchange server uses un-conventional EWS URL, you need find the URL <b>manually</b> with <a href="http://ewseditor.codeplex.com/">EWSEditor</a>.
+</p>
+
+<p>
+For example, my EWS URL is <code>https://my-company.local/EWS/Exchange.asmx</code>. In DavMail, input that URL in "Main -&gt; OWA (Exchange) URL" and force the "Exchange Protocol" into "EWS".
+</p>
+
+<p>
+BTW, <a href="https://outlook.office365.com/">https://outlook.office365.com/</a> EWS URL is <code>https://outlook.office365.com/EWS/Exchange.asmx</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdee13cb" class="outline-2">
+<h3 id="orgdee13cb">Thunderbird</h3>
+<div class="outline-text-2" id="text-orgdee13cb">
+<p>
+Create a new account, and <b>manually</b> configure the server. The server name is "127.0.0.1", the port number is already on your paper. The minimum setup needs IMAP port to  receive mail and SMTP port to send email.
+</p>
+
+<p>
+You don't need care about ssl stuff, let thunderbird handle it. But if you get the error message like "BAD command authentication required" in davmail's log, modify setup in "Account Settings -&gt; Server Settings -&gt; Security Settings -&gt; Connection Settings". Select "None".
+</p>
+
+<p>
+The only issue is the "Username". You can log in Outlook Web UI, click "Options -&gt; Change Password". The user name is displayed above the first input box. Please note the full user name may include the work domain.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgaec7d04" class="outline-2">
+<h3 id="orgaec7d04">Emacs Gnus</h3>
+<div class="outline-text-2" id="text-orgaec7d04">
+<p>
+Gnus cannot access IMAP service of DavMail. There is <a href="http://permalink.gmane.org/gmane.emacs.gnus.general/83301">some bug</a>.
+</p>
+
+<p>
+So we have to turn to POP3. Check <a href="http://www.emacswiki.org/emacs/GnusTutorial">documentation</a> at EmacsWiki.
+</p>
+
+<p>
+If you use POP3, don NOT delete mails on server. You <b>must</b> set the variable "pop3-leave-mail-on-server" to true!
+</p>
+
+<p>
+Insert below code into your ~/.emacs:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; gnus+davmail bug, so I have to use pop3 for DavMail
+;; http://permalink.gmane.org/gmane.emacs.gnus.general/83301
+;; but delete all the mails on server is scary
+(setq pop3-leave-mail-on-server t)
+
+(add-to-list 'gnus-secondary-select-methods '(nnml "mycompany"))
+(setq mail-sources
+      '((pop :server "127.0.0.1" ;; DavMail is running at localhost
+         :port 1110
+         :user "username"
+         :password "password"
+         :stream network))) ;; by default, DavMail don't encrypt mail
+</code></pre>
+
+</div>
+
+<p>
+Since I've got many mails in INBOX folder, POP3 could take some time to get them. In worst cases, IT administrator may block DavMail access because it relay too many requests from Gnus! The solution is to use another IMAP client like thunderbird to clean up the INBOX folder before start Gnus.
+</p>
+
+<p>
+Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> instead of <code>ENTER</code> key. <code>C-u</code> here means display all the read <b>and unread mails</b>. It's awkward when product manager ask you open an important mail but that mail is invisible because it's marked READ. Check my article <a href="https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/gnus-guide-en.org">Practical guide to use Gnus with Gmail</a> for more tips.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/qin-jiao-chao-ji-rou-zuo-fa.html">青椒炒鸡肉作法</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-05T20:20:56+00:00">2013-08-05 20:20</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/qin-jiao-chao-ji-rou-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/qin-jiao-chao-ji-rou-zuo-fa.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p> 这里是<a href="http://www.xinshipu.com/%E9%9D%92%E6%A4%92%E7%82%92%E9%B8%A1%E8%82%89-72708.htm">菜谱</a>. </p> <pre class="example">
+鸡腿肉430克，青椒3个，盐2茶匙，生抽3茶匙，糖1茶匙，芝麻油1茶匙，生粉1汤匙，料酒1汤匙，老干妈辣椒碎1汤匙（可选），蒜头2瓣切碎，植物油3汤匙，盐适量调味用
+<p>1.鸡肉切成小块，然后用盐、生抽、糖、麻油、生粉、料酒腌15分钟左右。青椒去籽切块。</p>
+<p>2.大火下一半的油和一半的蒜末，爆香蒜末之后，加入鸡肉炒，炒至8成熟的时候，盛起。</p>
+<p>3.把剩下的油和蒜末放在锅里爆香，然后放入青椒块，炒至青椒颜色变深开始变软的时候加入鸡肉一块炒。如喜欢有点辣，可撒上老干妈辣椒碎一块炒，炒熟青椒和鸡以后，最后撒适量的盐调味即成。</p>
+<p></p></pre> <ul class="org-ul">
+<li>开大火鸡肉炒两到三分钟 </li> <li>炒青椒时如决定加干辣椒,应先炸干辣椒,否则辣味出不来 </li> <li>青椒加入鸡肉后1或者2分钟就可以了 </li> <li>最后加点盐,可能会淡点 </li> </ul>
+<div class="figure"> <p><img src="wp-content/uploads/2013/08/wpid-capsicum-chicken.jpg" alt="capsicum-chicken.jpg"></p> </div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/the-power-of-git-command-line-interface-4.html">The power of git command line interface</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-01T15:17:00+00:00">2013-08-01 15:17</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/the-power-of-git-command-line-interface-4.html#disqus_thread" data-disqus-identifier="cache/posts/the-power-of-git-command-line-interface-4.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/bash.html" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/percol.html" rel="tag">percol</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Examples about how to use git CLI.
+</p>
+
+<p>
+You need install beautiful <a href="https://github.com/mooz/percol">percol</a> developed by mooz by run <code>pip install percol</code>.
+</p>
+
+<p>
+percol "adds flavor of interactive filtering to the traditional pipe concept of UNIX shell".
+</p>
+
+<p>
+Append below code into <code>~/.bashrc</code> and run <code>source ~/.bashrc</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">function gurl () {
+    if [ -z "$1" ]; then
+        echo "Usage: gurl commit-id"
+        echo "get the full http url of commit"
+    else
+        local msg=`git remote -v|grep "origin\s\+.*\s\+(fetch)"|sed -e "s/origin\s\+\(.*\)\s\+(fetch)/\1/"`
+        local url=""
+      # github
+        if [ "${msg:0:14}" == "git@github.com" ]; then
+            echo https://github.com/`echo ${msg}|sed -e "s/^git\@github\.com\:\(.*\)\.git$/\1/"`/commit/$1
+        fi
+    fi
+}
+
+# pick commit id from `git log`
+function gcid () {
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|percol|sed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    echo ${commit_id}
+}
+
+#pick commit from `git log` and output its url
+function gqurl () {
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|percol|sed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    gurl ${commit_id}
+}
+</code></pre>
+
+</div>
+
+<p>
+Now you have three bash functions <code>gurl</code>, <code>gcid</code>, <code>gqurl</code>.
+</p>
+
+<p>
+Here is demo how to use <code>gcid</code>:
+<img src="https://dl.dropboxusercontent.com/u/858862/git-percol-001.gif" alt="git-percol-001.gif"></p>
+
+<p>
+Here is demo of <code>gqurl</code>:
+<img src="https://dl.dropboxusercontent.com/u/858862/git-percol-002.gif" alt="git-percol-002.gif"></p>
+
+<p>
+BTW, I use CLI clipboard tool like xsel. For example, "echo hello|xsel -ib" which insert string "hello" into system clipboard.
+</p>
+
+<p>
+so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specific commit between terminal and firefox.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/australia-food-brands.html">Australia food brands</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-01T09:16:00+00:00">2013-08-01 09:16</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/australia-food-brands.html#disqus_thread" data-disqus-identifier="cache/posts/australia-food-brands.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/australia.html" rel="tag">australia</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/food.html" rel="tag">food</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption> <colgroup>
+<col class="left">
+<col class="left">
+<col class="left">
+<col class="left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="left">category</th>
+<th scope="col" class="left">producer</th>
+<th scope="col" class="left">best product</th>
+<th scope="col" class="left">website</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">icecream</td>
+<td class="left">Weis</td>
+<td class="left">mango icecream</td>
+<td class="left"><a href="http://www.weis.com.au/">http://www.weis.com.au/</a></td>
+</tr>
+<tr>
+<td class="left">cereals</td>
+<td class="left">Kellogg</td>
+<td class="left">Wholegrain cereals</td>
+<td class="left"><a href="http://www.kelloggs.com.au">http://www.kelloggs.com.au</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/hua-shen-jiang-len-mian-zuo-fa.html">花生酱冷面做法</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-07-29T21:01:46+00:00">2013-07-29 21:01</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/hua-shen-jiang-len-mian-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/hua-shen-jiang-len-mian-zuo-fa.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<ul>
+<li>
+<a href="http://blog.sina.com.cn/s/blog_62cc086901014d94.html">菜谱</a> </li> <li>花生酱多放点 </li> <li>酱油放的不多,最后还是要放盐 </li> <li>胡萝卜炒了下,但是油温太高起火了 </li> </ul>
+<p><img src="wp-content/uploads/2013/07/wpid-peanut-sauce-noodle.jpg" alt="image/peanut-sauce-noodle.jpg"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/find-which-package-contains-a-file.html">Find which package contains a file</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-07-29T14:51:00+00:00">2013-07-29 14:51</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/find-which-package-contains-a-file.html#disqus_thread" data-disqus-identifier="cache/posts/find-which-package-contains-a-file.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/file.html" rel="tag">file</a></li>
+           <li><a class="tag p-category" href="categories/find.html" rel="tag">find</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/package.html" rel="tag">package</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div class="org-src-container">
+
+<pre><code class="lang-sh">dpkg --search /usr/bin/amidi # debian/ubuntu, local search
+apt-file update;apt-file search amidi # debian/ubuntu, remote seach. You need install apt-file at first.
+equery b -e amidi # gentoo, remote/local search. You need install gentoolkits at first
+pacman -Qo admidi # archlinux, local search
+pkgfile amidi # archlinux, You need install pkgfile
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/nai-you-bao-yu-gu.html">奶油鲍鱼菇</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-07-27T16:05:00+00:00">2013-07-27 16:05</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/nai-you-bao-yu-gu.html#disqus_thread" data-disqus-identifier="cache/posts/nai-you-bao-yu-gu.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<ul>
+<li>
+<a href="https://www.youtube.com/watch?v=6axDHwWVlLw">美食好简单视频教程</a> </li> <li>
+<a href="http://www.ttv.com.tw/drama11/GourmetEasy/cook_content.asp?info=17273">菜谱</a> </li> </ul>
+<pre class="example">材料：
+鮑魚菇300公克、洋地瓜200公克、樹子50公克、薑末10公克、香菜10公克、麵粉30公克。
+<p>調味料：</p>
+<p>醬油2大匙、蘋果淳1大匙、香油1大匙、糖1/2小匙、黑胡椒粒1/2小匙。</p>
+<p>作法：</p>
+<pre class="code literal-block">鮑魚菇切花刀、洋地瓜切成末、香菜切末，備用。
+鮑魚菇沾上麵粉放入鍋中煎至上色，備用。
+鍋中放入1大匙葡萄籽油，爆香洋地瓜、樹子、薑末放入鮑魚菇、調味料燒至入味，灑上香菜即可盛盤。
+</pre>
+
+
+<p></p></pre>  <ul>
+<li>我误用红薯代替了<a href="http://blog.sina.com.tw/yoko6712/article.php?entryid=580537">洋地瓜</a>.洋地瓜又名豆薯,见<a href="http://en.wikipedia.org/wiki/Pachyrhizus">Wiki</a>. </li> <li>菇应该煎得焦一点 </li> <li>红薯本身甜的，加苹果醋和糖后就过甜了.而洋地瓜则是淡的,可能口感上也好一点 </li> <li>生姜尽可能切碎 </li> <li>面粉应该一开始放在干燥的碗里,面粉本身不结块,用生粉代替不好 </li> <li>黑胡椒粒还是需要的 </li> <li>香菜保持干燥包好隔绝空气放到冰箱保存 </li> <li>树子是台湾特产,在悉尼可能只能买罐头了，见<a href="http://www.sbar.com.cn/caipu/66836">这道菜谱</a>. </li> <li>酱油好像放了多一点 </li> <li>不过再视频里一大勺实际上是满满两勺 </li> </ul>
+<p><img src="wp-content/uploads/2013/07/wpid-butter-chinese-mushroom.jpg" alt="image/butter-chinese-mushroom.jpg"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/mo-gu-ji-rou-yi-da-li-mian-zuo-fa.html">蘑菇鸡肉意大利面做法</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-07-24T19:34:00+00:00">2013-07-24 19:34</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/mo-gu-ji-rou-yi-da-li-mian-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/mo-gu-ji-rou-yi-da-li-mian-zuo-fa.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/pasta.html" rel="tag">pasta</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<ul>
+<li>大蒜15片切碎，橄榄油炸到焦黄 </li> <li>蘑菇倒入翻炒到软掉 </li> <li>倒入鸡肉块300克炒至鸡肉变白 </li> <li>倒入Five Brother Alfredo Pasta Sauce 220克加少量水 </li> <li>又有说小火炒5分钟,偶尔翻炒,到浆粘稠，不要沸腾 </li> <li>参考<a href="http://en.wikipedia.org/wiki/Fettuccine_Alfredo">Fettuccine Alfredo at wikipedia</a>获得背景，看来要加大量黄油和Cheese </li> <li>看<a href="http://www.taste.com.au/recipes/3157/fettuccine+alfredo">另一菜谱</a> </li> <li>盐要少加一点调味,因为sauce以有盐 </li> <li>起锅拌上熟意大利面，加九层塔(Basil),撒上黑胡椒 </li> <li>大概三人份 </li> </ul>
+<p><img src="wp-content/uploads/2013/07/wpid-mushroom-chicken-pasta.jpg" alt="image/mushroom-chicken-pasta.jpg"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/hu-luo-bo-zhou-zuo-fa.html">胡萝卜粥做法</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-07-20T16:37:00+00:00">2013-07-20 16:37</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/hu-luo-bo-zhou-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/hu-luo-bo-zhou-zuo-fa.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-07-20 Sat&gt; </span></span> 
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-30 Fri&gt;</span></span>
+</p>
+
+<ul class="org-ul">
+<li><a href="http://jingyan.baidu.com/article/ceb9fb10f996e48cad2ba0f7.html">菜谱</a></li>
+<li>
+<a href="https://www.youtube.com/watch?v=OBfZc5nmkpU">胡萝卜切丝刀法</a> (刀沾水好切)</li>
+<li>新鲜萝卜</li>
+<li>多放油炒胡萝卜丝</li>
+<li>米水比例至少1:6</li>
+<li>吃前放碎香菜,胡椒粉,盐,味精</li>
+</ul>
+<div class="figure">
+<p><img src="wp-content/carrot-rice.jpg" alt="carrot-rice.jpg"></p>
+</div>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-12.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-10.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

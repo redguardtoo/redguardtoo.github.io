@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about evil)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/evil.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Enhance Emacs Evil global markers</title><link>http://blog.binchen.org/posts/enhance-emacs-evil-global-markers.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Global evil marker is saved in &lt;code&gt;evil-global-markers-history&lt;/code&gt; by &lt;a href="https://github.com/jwiegley/session"&gt;session.el&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code int &lt;code&gt;~/.emacs&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar evil-global-markers-history nil)
+(defun my-forward-line (lnum)
+  "Forward LNUM lines."
+  (setq lnum (string-to-number lnum))
+  (when (and lnum (&amp;gt; lnum 0))
+    (goto-char (point-min))
+    (forward-line (1- lnum))))
+
+(defadvice evil-set-marker (before evil-set-marker-before-hack activate)
+  (let* ((args (ad-get-args 0))
+         (c (nth 0 args))
+         (pos (or (nth 1 args) (point))))
+    ;; only rememeber global markers
+    (when (and (&amp;gt;= c ?A) (&amp;lt;= c ?Z) buffer-file-name)
+      (setq evil-global-markers-history
+            (delq nil
+                  (mapcar `(lambda (e)
+                             (unless (string-match (format "^%s@" (char-to-string ,c)) e)
+                               e))
+                          evil-global-markers-history)))
+      (setq evil-global-markers-history
+            (add-to-list 'evil-global-markers-history
+                         (format "%s@%s:%d:%s"
+                                 (char-to-string c)
+                                 (file-truename buffer-file-name)
+                                 (line-number-at-pos pos)
+                                 (string-trim (buffer-substring-no-properties (line-beginning-position)
+                                                                              (line-end-position)))))))))
+
+(defadvice evil-goto-mark-line (around evil-goto-mark-line-hack activate)
+  (let* ((args (ad-get-args 0))
+         (c (nth 0 args))
+         (orig-pos (point)))
+
+    (condition-case nil
+        ad-do-it
+      (error (progn
+               (when (and (eq orig-pos (point)) evil-global-markers-history)
+                 (let* ((markers evil-global-markers-history)
+                        (i 0)
+                        m
+                        file
+                        found)
+                   (while (and (not found) (&amp;lt; i (length markers)))
+                     (setq m (nth i markers))
+                     (when (string-match (format "\\`%s@\\(.*?\\):\\([0-9]+\\):\\(.*\\)\\'"
+                                                 (char-to-string c))
+                                         m)
+                       (setq file (match-string-no-properties 1 m))
+                       (setq found (match-string-no-properties 2 m)))
+                     (setq i (1+ i)))
+                   (when file
+                     (find-file file)
+                     (my-forward-line found)))))))))
+
+(defun counsel-evil-goto-global-marker ()
+  "Goto global evil marker."
+  (interactive)
+  (unless (featurep 'ivy) (require 'ivy))
+  (ivy-read "Goto global evil marker"
+            evil-global-markers-history
+            :action (lambda (m)
+                      (when (string-match "\\`[A-Z]@\\(.*?\\):\\([0-9]+\\):\\(.*\\)\\'" m)
+                        (let* ((file (match-string-no-properties 1 m))
+                               (linenum (match-string-no-properties 2 m)))
+                          (find-file file)
+                          (my-forward-line linenum))))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+&lt;code&gt;evil-goto-mark-line&lt;/code&gt; will access marker in &lt;code&gt;evil-global-markers-history&lt;/code&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><guid>http://blog.binchen.org/posts/enhance-emacs-evil-global-markers.html</guid><pubDate>Mon, 08 Apr 2019 13:00:53 GMT</pubDate></item><item><title>Auto-complete word in Emacs mini-buffer when using Evil</title><link>http://blog.binchen.org/posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+When using &lt;a href="https://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt; I often input &lt;code&gt;%s/old-keyword/new-keyword/g&lt;/code&gt; in &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html"&gt;Minibuffer&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The problem is auto completions of &lt;code&gt;new-keyword&lt;/code&gt; using &lt;a href="http://www.gnu.org/s/emacs/manual/html_node/autotype/Hippie-Expand.html"&gt;hippie-expand&lt;/a&gt; always fail.
+&lt;/p&gt;
+
+&lt;p&gt;
+It turns out that the character "/" is treated as &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Class-Table.html"&gt;Word constituent&lt;/a&gt; in minibuffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+The solution is to re-define "/" as &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Class-Table.html"&gt;Punctuation characters&lt;/a&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun minibuffer-inactive-mode-hook-setup ()
+  ;; make `try-expand-dabbrev' from `hippie-expand' work in mini-buffer
+  ;; @see `he-dabbrev-beg', so we need re-define syntax for '/'
+  (set-syntax-table (let* ((table (make-syntax-table)))
+                      (modify-syntax-entry ?/ "." table)
+                      table)))
+(add-hook 'minibuffer-inactive-mode-hook 'minibuffer-inactive-mode-hook-setup)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>vim</category><guid>http://blog.binchen.org/posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil.html</guid><pubDate>Tue, 28 Mar 2017 12:16:06 GMT</pubDate></item><item><title>How to input Non-English character in evil-mode efficiently</title><link>http://blog.binchen.org/posts/how-to-input-non-english-character-in-evil-mode-efficiently.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+You can &lt;code&gt;M-x toggle-input-method&lt;/code&gt; or &lt;code&gt;C-\&lt;/code&gt; to input Non-English characters.
+&lt;/p&gt;
+
+&lt;p&gt;
+Analysis about evil-mode,
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;You only input Non-English characters in evil-insert-state. So you need &lt;b&gt;go into evil-insert-state at first&lt;/b&gt; before toggle on input method&lt;/li&gt;
+&lt;li&gt;In evil-insert-state, you can toggle off input method to input English characters while &lt;b&gt;staying in evil-insert state&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;When press &lt;code&gt;ESC&lt;/code&gt;, you quit from evil-insert-state. But input method could be still activated. So when you re-enter evil-insert-state, you need &lt;b&gt;notification of input method status&lt;/b&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Here is the setup,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; {{ make IME compatible with evil-mode
+(defun evil-toggle-input-method ()
+  "when toggle on input method, goto evil-insert-state. "
+  (interactive)
+
+  ;; load IME when needed, less memory footprint
+  ;; (unless (featurep 'chinese-pyim)
+  ;;   (require 'chinese-pyim))
+
+  (cond
+   ((and (boundp 'evil-mode) evil-mode)
+    ;; evil-mode
+    (cond
+     ((eq evil-state 'insert)
+      (toggle-input-method))
+     (t
+      (evil-insert-state)
+      (unless current-input-method
+        (toggle-input-method))
+      ))
+    (if current-input-method (message "IME on!")))
+   (t
+    ;; NOT evil-mode, some guy don't use evil-mode at all
+    (toggle-input-method))))
+
+(defadvice evil-insert-state (around evil-insert-state-hack activate)
+  ad-do-it
+  (if current-input-method (message "IME on!")))
+
+(global-set-key (kbd "C-\\") 'evil-toggle-input-method)
+;; }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Chinese version:
+&lt;/p&gt;
+
+&lt;p&gt;
+在evil-mode中切换输入法有以下要点,
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;输中文前须进入evil-insert-state&lt;/li&gt;
+&lt;li&gt;在evil-insert-state中可能会切换输入法&lt;/li&gt;
+&lt;li&gt;按ESC退出evil-insert-state时输入法可能还开着,所以再进入evil-insert-state时需提示输入法状态&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+代码见上.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><guid>http://blog.binchen.org/posts/how-to-input-non-english-character-in-evil-mode-efficiently.html</guid><pubDate>Mon, 16 May 2016 13:33:25 GMT</pubDate></item><item><title>Swiper/Ivy tip</title><link>http://blog.binchen.org/posts/swiperivy-tip.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Please install &lt;a href="https://github.com/syl20bnr/evil-escape"&gt;evil-escape&lt;/a&gt; at first.
+&lt;/p&gt;
+
+&lt;p&gt;
+When &lt;a href="https://github.com/abo-abo/swiper"&gt;Swiper/Ivy&lt;/a&gt; candidate window pops up. You can press &lt;code&gt;fd&lt;/code&gt; quickly to close the window. 
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;fd&lt;/code&gt; is the default key binding from evil-escape. I changed it to &lt;code&gt;kj&lt;/code&gt; instead.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>ivy</category><guid>http://blog.binchen.org/posts/swiperivy-tip.html</guid><pubDate>Wed, 04 May 2016 08:15:27 GMT</pubDate></item><item><title>Use general.el to provide multiple leader key in evil-mode</title><link>http://blog.binchen.org/posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;a href="https://github.com/noctuid/general.el"&gt;General.el&lt;/a&gt; "provides a more convenient way to bind keys in emacs for both evil and non-evil users".
+&lt;/p&gt;
+
+&lt;p&gt;
+I have been using it for more than one month without any issue. I prefer general.el to &lt;a href="https://github.com/cofi/evil-leader"&gt;evil-leader&lt;/a&gt; because I need both comma and space key as &lt;a href="http://vimdoc.sourceforge.net/htmldoc/map.html#%3CLeader%3E"&gt;leader key&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Minimum setup is simple,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'general)
+(general-evil-setup t)
+(nvmap :prefix ","
+       "bb" 'back-to-previous-buffer
+       "ww" 'save-buffer
+       "oo" 'compile)
+
+;; all keywords arguments are still supported
+(nvmap :prefix "SPC"
+       ; save windows layout
+       "ss" 'wg-create-workgroup
+       ;; load windows layout
+       "ll" 'my-wg-switch-workgroup)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+My &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-evil.el"&gt;real world setup&lt;/a&gt; is more complicated.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>vim</category><guid>http://blog.binchen.org/posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode.html</guid><pubDate>Sat, 09 Apr 2016 04:35:54 GMT</pubDate></item><item><title>Evil text object to select nearby file path</title><link>http://blog.binchen.org/posts/evil-text-object-to-select-nearby-file-path.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-08-08 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-08-24 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into ~/.emacs:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; {{ nearby file path as text object,
+;;      - "vif" to select only basename
+;;      - "vaf" to select the full path
+;;
+;;  example: "/hello/world" "/test/back.exe"
+;;               "C:hello\\hello\\world\\test.exe" "D:blah\\hello\\world\\base.exe"
+;;
+;; tweak evil-filepath-is-nonname to re-define a path
+(defun evil-filepath-is-separator-char (ch)
+  "Check ascii table"
+  (let (rlt)
+    (if (or (= ch 47)
+            (= ch 92))
+        (setq rlt t))
+    rlt))
+
+(defun evil-filepath-not-path-char (ch)
+  "Check ascii table for charctater "
+  (let (rlt)
+    (if (or (and (&amp;lt;= 0 ch) (&amp;lt;= ch 32))
+            (= ch 34) ; double quotes
+            (= ch 39) ; single quote
+            (= ch 40) ; (
+            (= ch 41) ; )
+            (= ch 60) ; &amp;lt;
+            (= ch 62) ; &amp;gt;
+            (= ch 91) ; [
+            (= ch 93) ; ]
+            (= ch 96) ; `
+            (= ch 123) ; {
+            (= ch 125) ; }
+            (= 127 ch))
+        (setq rlt t))
+    rlt))
+
+(defun evil-filepath-char-not-placed-at-end-of-path (ch)
+  (or (= 44 ch) ; ,
+      (= 46 ch) ; .
+      ))
+
+(defun evil-filepath-calculate-path (b e)
+  (let (rlt f)
+    (when (and b e)
+      (setq b (+ 1 b))
+      (when (save-excursion
+                (goto-char e)
+                (setq f (evil-filepath-search-forward-char 'evil-filepath-is-separator-char t))
+                (and f (&amp;gt;= f b)))
+        (setq rlt (list b (+ 1 f) (- e 1)))))
+    rlt))
+
+(defun evil-filepath-get-path-already-inside ()
+  (let (b e)
+    (save-excursion
+      (setq b (evil-filepath-search-forward-char 'evil-filepath-not-path-char t)))
+    (save-excursion
+      (setq e (evil-filepath-search-forward-char 'evil-filepath-not-path-char))
+      (when e
+        (goto-char (- e 1))
+        ;; example: hello/world,
+        (if (evil-filepath-char-not-placed-at-end-of-path (following-char))
+            (setq e (- e 1)))
+        ))
+    (evil-filepath-calculate-path b e)))
+
+(defun evil-filepath-search-forward-char (fn &amp;amp;optional backward)
+  (let (found rlt (limit (if backward (point-min) (point-max))) out)
+    (save-excursion
+      (while (not out)
+        ;; for the char, exit
+        (if (setq found (apply fn (list (following-char))))
+            (setq out t)
+          ;; reach the limit, exit
+          (if (= (point) limit)
+              (setq out t)
+            ;; keep moving
+            (if backward (backward-char) (forward-char)))))
+      (if found (setq rlt (point))))
+    rlt))
+
+(defun evil-filepath-extract-region ()
+  "Find the closest file path"
+  (let (rlt b f1 f2)
+
+    (if (and (not (evil-filepath-not-path-char (following-char)))
+             (setq rlt (evil-filepath-get-path-already-inside)))
+        ;; maybe (point) is in the middle of the path
+        t
+      ;; need search forward AND backward to find the right path
+      (save-excursion
+        ;; path in backward direction
+        (when (setq b (evil-filepath-search-forward-char 'evil-filepath-is-separator-char t))
+          (goto-char b)
+          (setq f1 (evil-filepath-get-path-already-inside))))
+      (save-excursion
+        ;; path in forward direction
+        (when (setq b (evil-filepath-search-forward-char 'evil-filepath-is-separator-char))
+          (goto-char b)
+          (setq f2 (evil-filepath-get-path-already-inside))))
+      ;; pick one path as the final result
+      (cond
+       ((and f1 f2)
+        (if (&amp;gt; (- (point) (nth 2 f1)) (- (nth 0 f2) (point)))
+            (setq rlt f2)
+          (setq rlt f1)))
+       (f1
+        (setq rlt f1))
+       (f2
+        (setq rlt f2))))
+
+    rlt))
+
+(evil-define-text-object evil-filepath-inner-text-object (&amp;amp;optional count begin end type)
+  "File name of nearby path"
+  (let ((selected-region (evil-filepath-extract-region)))
+    (if selected-region
+        (evil-range (nth 1 selected-region) (nth 2 selected-region) :expanded t))))
+
+(evil-define-text-object evil-filepath-outer-text-object (&amp;amp;optional NUM begin end type)
+  "Nearby path"
+  (let ((selected-region (evil-filepath-extract-region)))
+    (if selected-region
+        (evil-range (car selected-region) (+ 1 (nth 2 selected-region)) type :expanded t))))
+
+(define-key evil-inner-text-objects-map "f" 'evil-filepath-inner-text-object)
+(define-key evil-outer-text-objects-map "f" 'evil-filepath-outer-text-object)
+;; }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><guid>http://blog.binchen.org/posts/evil-text-object-to-select-nearby-file-path.html</guid><pubDate>Sat, 08 Aug 2015 13:16:39 GMT</pubDate></item><item><title>How to avoid Repeated Strain Injury when using emacs by re-assigning hotkeys</title><link>http://blog.binchen.org/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I've read all the Emacs RSI related articles from the internet.
+&lt;/p&gt;
+
+&lt;p&gt;
+Typical solutions are:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;buy special hardware&lt;/li&gt;
+&lt;li&gt;remap ctrl key (because Emacs users press Ctrl key too often)&lt;/li&gt;
+&lt;li&gt;use Vi key binding&lt;/li&gt;
+&lt;li&gt;other Emacs keybinding with some hacking&lt;/li&gt;
+&lt;li&gt;voice input&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+I will discuss the third item "use Vim key binding" because there is still room to improve.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my observation. Even I use Vi keybinding, there are top three frequently pressed keys which may hurt my left hand: &lt;code&gt;ESC&lt;/code&gt;, &lt;code&gt;C-x&lt;/code&gt;, &lt;code&gt;C-g&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+These top three need me move my left hands too often. That may be the problem of RSI. In this case, A little knowledge of Vim will help.
+&lt;/p&gt;
+
+&lt;p&gt;
+In vi, we use key combination start with &amp;lt;leader&amp;gt; key. The leader key is actually the comma key &lt;code&gt;,&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+As you can see, comma key is close to the right hand fingers. So using key combination with leader key as the first key to press will give more spare hot keys to replace &lt;code&gt;ESC&lt;/code&gt;, &lt;code&gt;C-x&lt;/code&gt; and &lt;code&gt;C-g&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The principle here is &lt;b&gt;DO NOT&lt;/b&gt; move hands at all. Following this example, I can figure out many practical solution.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, by using &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt; and &lt;a href="https://github.com/cofi/evil-leader"&gt;evil-leader&lt;/a&gt;. With hot key prefix &lt;code&gt;C-x&lt;/code&gt;, I use &lt;code&gt;,x&lt;/code&gt; to replace. For example, &lt;code&gt;C-x C-c&lt;/code&gt; is replaced with &lt;code&gt;,xc&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'evil-leader)
+(evil-leader/set-key
+  "xf" 'ido-find-file
+  "xb" 'ido-switch-buffer
+  "xc" 'save-buffers-kill-terminal
+  "jj" 'w3mext-search-js-api-mdn
+  "xz" 'suspend-frame
+  "xvv" 'vc-next-action
+  "xv=" 'vc-diff
+  "xvl" 'vc-print-log)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+On some keyboard, the &lt;code&gt;Alt&lt;/code&gt; key is easy to press because it's big and just under the big thumb. So I can assign some key combination like &lt;code&gt;M-k&lt;/code&gt; to replace &lt;code&gt;C-g&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Please note &lt;code&gt;Alt&lt;/code&gt; and &lt;code&gt;k&lt;/code&gt; is also close to my fingers. Here is my setup in &lt;code&gt;.emacs&lt;/code&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(global-set-key (kbd "M-k") 'keyboard-quit)
+(define-key evil-insert-state-map (kbd "M-k") 'evil-normal-state)
+(define-key evil-visual-state-map (kbd ",k") 'evil-exit-visual-state)
+(define-key minibuffer-local-map (kbd ",k") 'abort-recursive-edit)
+(define-key evil-insert-state-map (kbd "M-j") 'yas-expand)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Some minor modes will re-assign the hot key &lt;code&gt;C-g&lt;/code&gt;, so when I say replace &lt;code&gt;C-g&lt;/code&gt; with &lt;code&gt;,k&lt;/code&gt;. It may be a bit more elisp code:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; the original hot key of helm-keyboard-quit is "C-g"
+(define-key helm-map (kbd ",k") 'helm-keyboard-quit)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The key point is to understand the principles instead copy my configuration:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;comma is a good key for hot key prefix, it's used by vi users for ages&lt;/li&gt;
+&lt;li&gt;use keys close to fingers (L,J,K,L, for example) in hot keys&lt;/li&gt;
+&lt;li&gt;Other keys close to right hand is also useful in key combinations&lt;/li&gt;
+&lt;li&gt;Avoid move left hand&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>rsi</category><guid>http://blog.binchen.org/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html</guid><pubDate>Fri, 09 Aug 2013 10:05:00 GMT</pubDate></item><item><title>How to refactor/rename a variable name in a function efficiently</title><link>http://blog.binchen.org/posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;As we dicussed in &lt;a href="https://plus.google.com/110954683162859211810/posts/TgnyDRqBWkb"&gt;Emacs community at Google+&lt;/a&gt;. Although &lt;a href="https://github.com/magnars/multiple-cursors.el"&gt;multiple-cursor&lt;/a&gt; is good for this task, I cannot use it because it conflicts with my favourite &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;evil-mode&lt;/a&gt; (Vim simulation in Emacs). &lt;/p&gt; &lt;p&gt; There is another emacs plugin called &lt;a href="https://github.com/victorhge/iedit"&gt;iedit&lt;/a&gt; which could do the similar job (I usually use its command called iedit-mode-toggle-on-function) &lt;/p&gt; &lt;p&gt; Though iedit is good, there is still room for improvement. When using iedit-mode-toggle-on-function, we need press key twice to rename the variable name. Once to enable it, twice to disable it. &lt;/p&gt; &lt;p&gt; Magnar Sveen pointed out in the G+ discussion that the key point we need plugins like multiple-cursor or iedit-mode is that we can see all the changes while doing the editing. &lt;/p&gt; &lt;p&gt; This reminds me that evil-mode has a excellent regex string replacing mode which also show the changes when you are typing EACH character of new string. &lt;/p&gt; &lt;p&gt; So by using evil-mode's default regex replacing command, I can implement similar feature even more efficiently then iedit-mode! &lt;/p&gt; &lt;p&gt; Here is my elisp code: &lt;/p&gt;   &lt;pre class="src src-elisp"&gt;(&lt;span style="color: #b9ca4a;"&gt;defun&lt;/span&gt; &lt;span style="color: #7aa6da;"&gt;evilcvn-change-symbol-in-defun&lt;/span&gt; ()
+  &lt;span style="color: #c397d8;"&gt;"mark the region in defun (definition of function) and use string replacing UI in evil-mode&lt;/span&gt;
+&lt;span style="color: #c397d8;"&gt;to replace the symbol under cursor"&lt;/span&gt;
+  (interactive)
+  (&lt;span style="color: #b9ca4a;"&gt;let&lt;/span&gt; ((old (thing-at-point 'symbol)))
+    (mark-defun)
+    (&lt;span style="color: #b9ca4a;"&gt;unless&lt;/span&gt; (evil-visual-state-p)
+      (evil-visual-state))
+    (evil-ex (concat &lt;span style="color: #70c0b1;"&gt;"'&amp;lt;,'&amp;gt;s/"&lt;/span&gt; (&lt;span style="color: #b9ca4a;"&gt;if&lt;/span&gt; (= 0 (length old)) &lt;span style="color: #70c0b1;"&gt;""&lt;/span&gt; &lt;span style="color: #70c0b1;"&gt;"\&amp;lt;&lt;/span&gt;&lt;span style="color: #e7c547; font-weight: bold;"&gt;\&lt;/span&gt;&lt;span style="color: #c397d8; font-weight: bold;"&gt;(&lt;/span&gt;&lt;span style="color: #70c0b1;"&gt;"&lt;/span&gt;) old (&lt;span style="color: #b9ca4a;"&gt;if&lt;/span&gt; (= 0 (length old)) &lt;span style="color: #70c0b1;"&gt;""&lt;/span&gt; &lt;span style="color: #70c0b1;"&gt;"&lt;/span&gt;&lt;span style="color: #e7c547; font-weight: bold;"&gt;\&lt;/span&gt;&lt;span style="color: #c397d8; font-weight: bold;"&gt;)&lt;/span&gt;&lt;span style="color: #70c0b1;"&gt;\&amp;gt;/"&lt;/span&gt;))))
+  )
+(global-set-key (kbd &lt;span style="color: #70c0b1;"&gt;"C-c ; s"&lt;/span&gt;) 'evilcvn-change-symbol-in-defun)
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;   &lt;p&gt; Put you cursor above a symbol/variable and press hot key "Ctrl-c ; s", then the regex to replace that symbol is automatically created and inserted into mini-buffer. Now you only need type new string and watch. &lt;/p&gt; &lt;p&gt; This is the screen shot (I renamed variable "count" into "cnt" in C++ function hello): &lt;img src="http://blog.binchen.org/wp-content/uploads/2013/05/wpid-evil-regex-replace-nq8.png" alt="image/evil-regex-replace-nq8.png"&gt; &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>programming</category><guid>http://blog.binchen.org/posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently.html</guid><pubDate>Thu, 23 May 2013 21:05:00 GMT</pubDate></item></channel></rss>

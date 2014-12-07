@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Use js2-mode to print json path | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/use-js2-mode-to-print-json-path.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Use js2-mode to print json path">
+<meta property="og:url" content="http://blog.binchen.org/posts/use-js2-mode-to-print-json-path.html">
+<meta property="og:description" content="CREATED: &lt;2015-10-29 Thu&gt;
+
+
+
+UPDATED: &lt;2015-11-22 Sun&gt;
+
+
+
+These days most web applications are based on RESTful.
+
+
+
+So javascript developers have to deal with JSON frequently.
+
+
+
+When working on JSON,">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2015-10-29T14:18:10Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="js2">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Use js2-mode to print json path</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2015-10-29T14:18:10+00:00">2015-10-29 14:18</time>
+            
+
+            
+          |  
+        <a href="use-js2-mode-to-print-json-path.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/javascript.html" rel="tag">javascript</a></li>
+           <li><a class="tag p-category" href="../categories/js2.html" rel="tag">js2</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-10-29 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-22 Sun&gt;</span></span>
+</p>
+
+<p>
+These days most web applications are based on RESTful.
+</p>
+
+<p>
+So javascript developers have to deal with JSON frequently.
+</p>
+
+<p>
+When working on JSON, the most boring and error prone task is to get the full path of specific field.
+</p>
+
+<p>
+For example, given the JSON response like:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">{
+  key1: {
+    subkey1: {
+      arr1: [{ key3: 'hello'}]
+    }
+  }
+}
+</code></pre>
+
+</div>
+
+<p>
+The developer need figure out the full path of "key3" which is "<code>key1.subkey1.arr1[0].key3</code>".
+</p>
+
+<p>
+My solution is to take advantage of AST created by <a href="https://github.com/mooz/js2-mode">js2-mode</a>.
+</p>
+
+<p>
+<b>Step 1</b>, insert below code into ~/.emacs,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; {{ print json path, will be removed when latest STABLE js2-mode released
+(defun js2-get-element-index-from-array-node (elem array-node &amp;optional hardcoded-array-index)
+  "Get index of ELEM from ARRAY-NODE or 0 and return it as string."
+  (let ((idx 0) elems (rlt hardcoded-array-index))
+    (setq elems (js2-array-node-elems array-node))
+    (if (and elem (not hardcoded-array-index))
+        (setq rlt (catch 'nth-elt
+                    (dolist (x elems)
+                      ;; We know the ELEM does belong to ARRAY-NODE,
+                      (if (eq elem x) (throw 'nth-elt idx))
+                      (setq idx (1+ idx)))
+                    0)))
+    (format "[%s]" rlt)))
+
+(defun js2-print-json-path (&amp;optional hardcoded-array-index)
+  "Print the path to the JSON value under point, and save it in the kill ring.
+If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
+  (interactive "P")
+  (let (previous-node current-node
+        key-name
+        rlt)
+
+    ;; The `js2-node-at-point' starts scanning from AST root node.
+    ;; So there is no way to optimize it.
+    (setq current-node (js2-node-at-point))
+
+    (while (not (js2-ast-root-p current-node))
+      (cond
+       ;; JSON property node
+       ((js2-object-prop-node-p current-node)
+        (setq key-name (js2-prop-node-name (js2-object-prop-node-left current-node)))
+        (if rlt (setq rlt (concat "." key-name rlt))
+          (setq rlt (concat "." key-name))))
+
+       ;; Array node
+       ((or (js2-array-node-p current-node))
+        (setq rlt (concat (js2-get-element-index-from-array-node previous-node
+                                                                 current-node
+                                                                 hardcoded-array-index)
+                          rlt)))
+
+       ;; Other nodes are ignored
+       (t))
+
+      ;; current node is archived
+      (setq previous-node current-node)
+      ;; Get parent node and continue the loop
+      (setq current-node (js2-node-parent current-node)))
+
+    (cond
+     (rlt
+      ;; Clean the final result
+      (setq rlt (replace-regexp-in-string "^\\." "" rlt))
+      (kill-new rlt)
+      (message "%s =&gt; kill-ring" rlt))
+     (t
+      (message "No JSON path found!")))
+
+    rlt))
+</code></pre>
+
+</div>
+
+<p>
+<b>Step 2</b>, move the cursor over the key/value of the field and `M-x js2-print-json-path`.
+</p>
+
+<p>
+My code is <a href="https://github.com/mooz/js2-mode/commit/49555849abf9e5f03766056f10e6ac89ddc487b4">merged into js2-mode</a>. You need only install latest js2-mode.
+</p>
+
+<p>
+(apply #'derived-mode-p '(org-mode web-mode))
+</p>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="evil-text-object-to-select-nearby-file-path.html" rel="prev" title="Evil text object to select nearby file path">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="code-completion-for-htmljscss-in-emacs.html" rel="next" title="Code completion for HTML/JS/CSS in Emacs">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/use-js2-mode-to-print-json-path.html",
+        disqus_title="Use js2-mode to print json path",
+        disqus_identifier="cache/posts/use-js2-mode-to-print-json-path.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

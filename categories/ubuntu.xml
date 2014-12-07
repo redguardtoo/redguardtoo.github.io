@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about ubuntu)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ubuntu.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to install Emacs source code under Ubuntu</title><link>http://blog.binchen.org/posts/how-to-install-emacs-source-code-under-ubuntu.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Only one command:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;sudo apt-get install emacs24-el
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+How I locate that package emacs24-el:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo apt-get install apt-file;sudo apt-file update;
+apt-file search help.el.gz
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+BTW, I assign hot key &lt;code&gt;C-h C-f&lt;/code&gt; to command &lt;code&gt;find-function&lt;/code&gt; which "Find the definition of the FUNCTION near point".&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>ubuntu</category><guid>http://blog.binchen.org/posts/how-to-install-emacs-source-code-under-ubuntu.html</guid><pubDate>Mon, 12 Aug 2013 11:44:00 GMT</pubDate></item></channel></rss>

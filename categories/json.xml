@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about json)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/json.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use js2-mode as minor mode to process JSON</title><link>http://blog.binchen.org/posts/use-js2-mode-as-minor-mode-to-process-json.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Most people use &lt;a href="https://github.com/mooz/js2-mode"&gt;js2-mode&lt;/a&gt; as a major mode for javascript. For JSON file, they prefer &lt;a href="https://github.com/joshwnj/json-mode"&gt;json-mode&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+But if you &lt;b&gt;truly&lt;/b&gt; understand the meaning of &lt;a href="https://www.gnu.org/philosophy/free-sw.en.html"&gt;Software Freedom&lt;/a&gt;, you will realize "&lt;a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Major-Modes.html"&gt;major-mode&lt;/a&gt;" and "&lt;a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Minor-Modes.html"&gt;minor-mode&lt;/a&gt;" are man-made concepts which actually have no difference.
+&lt;/p&gt;
+
+&lt;p&gt;
+In essence, a major mode is just a collection of APIs. We could use its APIs without enabling it, perfectly complying with "The freedom to run the program as you wish, for any purpose (freedom 0).".
+&lt;/p&gt;
+
+&lt;p&gt;
+Here are two examples.
+&lt;/p&gt;
+
+&lt;div id="outline-container-org07eb2d7" class="outline-2"&gt;
+&lt;h3 id="org07eb2d7"&gt;Validate JSON&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org07eb2d7"&gt;
+&lt;p&gt;
+&lt;code&gt;M-x my-validate-json-or-js-expression&lt;/code&gt; to validate the buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;C-u my-validate-json-or-js-expression&lt;/code&gt; to validate selected region.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-validate-json-or-js-expression (&amp;amp;optional not-json-p)
+  "Validate buffer or select region as JSON.
+If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
+  (interactive "P")
+  (let* ((json-exp (if (region-active-p) (buffer-substring-no-properties (region-beginning) (region-end))
+                     (buffer-substring-no-properties (point-min) (point-max))))
+         (jsbuf-offet (if not-json-p 0 (length "var a=")))
+         errs
+         first-err
+         (first-err-pos (if (region-active-p) (region-beginning) 0)))
+    (unless not-json-p
+      (setq json-exp (format "var a=%s;"  json-exp)))
+    (with-temp-buffer
+      (insert json-exp)
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (js2-parse)
+      (setq errs (js2-errors))
+      (cond
+       ((not errs)
+        (message "NO error found. Good job!"))
+       (t
+        ;; yes, first error in buffer is the last element in errs
+        (setq first-err (car (last errs)))
+        (setq first-err-pos (+ first-err-pos (- (cadr first-err) jsbuf-offet)))
+        (message "%d error(s), first at buffer position %d: %s"
+                 (length errs)
+                 first-err-pos
+                 (js2-get-msg (caar first-err))))))
+    (if first-err (goto-char first-err-pos))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1395aec" class="outline-2"&gt;
+&lt;h3 id="org1395aec"&gt;Print JSON path&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1395aec"&gt;
+&lt;p&gt;
+For example, you got JSON string  &lt;code&gt;{"a": {"b": 3}}&lt;/code&gt;. If you place cursor over &lt;code&gt;3&lt;/code&gt; and &lt;code&gt;M-x my-print-json-path&lt;/code&gt;, you got output &lt;code&gt;a.b&lt;/code&gt;.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-print-json-path (&amp;amp;optional hardcoded-array-index)
+  "Print the path to the JSON value under point, and save it in the kill ring.
+If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
+  (interactive "P")
+  (cond
+   ((memq major-mode '(js2-mode))
+    (js2-print-json-path hardcoded-array-index))
+   (t
+    (let* ((cur-pos (point))
+           (str (buffer-substring-no-properties (point-min) (point-max))))
+      (when (string= "json" (file-name-extension buffer-file-name))
+        (setq str (format "var a=%s;" str))
+        (setq cur-pos (+ cur-pos (length "var a="))))
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (with-temp-buffer
+        (insert str)
+        (js2-init-scanner)
+        (js2-do-parse)
+        (goto-char cur-pos)
+        (js2-print-json-path))))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge74adc5" class="outline-2"&gt;
+&lt;h3 id="orge74adc5"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge74adc5"&gt;
+&lt;p&gt;
+As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;js2-errors&lt;/li&gt;
+&lt;li&gt;js2-get-msg&lt;/li&gt;
+&lt;li&gt;js2-print-json-path&lt;/li&gt;
+&lt;li&gt;js2-init-scanner&lt;/li&gt;
+&lt;li&gt;js2-do-parse&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>js2</category><category>json</category><guid>http://blog.binchen.org/posts/use-js2-mode-as-minor-mode-to-process-json.html</guid><pubDate>Sun, 31 Jul 2016 05:24:04 GMT</pubDate></item></channel></rss>

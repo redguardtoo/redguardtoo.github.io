@@ -1,0 +1,893 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about bash)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/bash.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://blog.binchen.org/posts/use-perforce-inside-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-12-05 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2017-08-14 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Perforce is a proprietary VCS. It's less powerful than &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; so need extra effort to be use with Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like &lt;code&gt;p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}&lt;/code&gt; can't do it. I have to use Emacs Lisp to clean the output of &lt;code&gt;p4&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div id="outline-container-org23de93c" class="outline-2"&gt;
+&lt;h3 id="org23de93c"&gt;Perforce workflow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org23de93c"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;p4 set&lt;/code&gt; to &lt;a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html"&gt;set up&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 login&lt;/code&gt; to login&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 client&lt;/code&gt; creates a new work space to tell server the directories/files to check out or to ignore&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 sync //depot/url/...&lt;/code&gt; to checkout files&lt;/li&gt;
+&lt;li&gt;Files are read-only by default. You need &lt;code&gt;p4 edit file&lt;/code&gt; to make files writable before editing&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 add files&lt;/code&gt; to add new files. &lt;code&gt;p4 revert&lt;/code&gt; to revert edited file to it original status and lose the local changes&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 change&lt;/code&gt; to create a pending change. Then &lt;code&gt;p4 submit -c #changelist&lt;/code&gt; to actually submit code to main branch. Pending change gives you a chance to tweak the change before submit&lt;/li&gt;
+&lt;li&gt;Or &lt;code&gt;p4 submit -d"description" file&lt;/code&gt; to submit a single file directly&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4a99138" class="outline-2"&gt;
+&lt;h3 id="org4a99138"&gt;My solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4a99138"&gt;
+&lt;p&gt;
+Perforce Cygwin portable is not recommended.
+&lt;/p&gt;
+
+&lt;p&gt;
+I suggest using executable from Perforce Windows native version which works on both Cygwin and Windows.
+&lt;/p&gt;
+
+&lt;p&gt;
+Perforce server assigns unique URL for each physical file. If I only feed &lt;code&gt;p4&lt;/code&gt; that URL, the operation is always successful.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgd8ee54f" class="outline-3"&gt;
+&lt;h4 id="orgd8ee54f"&gt;Emacs&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgd8ee54f"&gt;
+&lt;p&gt;
+I developed &lt;a href="https://github.com/redguardtoo/vc-msg"&gt;vc-msg&lt;/a&gt; which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need &lt;code&gt;p4 login&lt;/code&gt; at first.)
+&lt;/p&gt;
+
+&lt;p&gt;
+My patched &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/git-gutter/git-gutter.el"&gt;emacs-git-gutter&lt;/a&gt; show Perforce gutters. You only need setup &lt;code&gt;git-gutter:exp-to-create-diff&lt;/code&gt;. Here is a sample,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq-local git-gutter:exp-to-create-diff
+            (shell-command-to-string (format "p4 diff -du -db %s"
+                                             (file-relative-name buffer-file-name))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I also provided commands like &lt;code&gt;p4edit&lt;/code&gt;, &lt;code&gt;p4revert&lt;/code&gt;, &lt;code&gt;p4submit&lt;/code&gt;, &lt;code&gt;p4diff&lt;/code&gt;, and &lt;code&gt;p4history&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; {{ perforce utilities
+(defvar p4-file-to-url '("" "")
+  "(car p4-file-to-url) is the original file prefix
+(cadr p4-file-to-url) is the url prefix")
+
+(defun p4-current-file-url ()
+  (replace-regexp-in-string (car p4-file-to-url)
+                            (cadr p4-file-to-url)
+                            buffer-file-name))
+
+(defun p4-generate-cmd (opts)
+  (format "p4 %s %s" opts (p4-current-file-url)))
+
+(defun p4edit ()
+  "p4 edit current file."
+  (interactive)
+  (shell-command (p4-generate-cmd "edit"))
+  (read-only-mode -1))
+
+(defun p4submit (&amp;amp;optional file-opened)
+  "p4 submit current file.
+If FILE-OPENED, current file is still opened."
+  (interactive "P")
+  (let* ((msg (read-string "Say (ENTER to abort):"))
+         (open-opts (if file-opened "-f leaveunchanged+reopen -r" ""))
+         (full-opts (format "submit -d '%s' %s" msg open-opts)))
+    ;; (message "(p4-generate-cmd full-opts)=%s" (p4-generate-cmd full-opts))
+    (if (string= "" msg)
+        (message "Abort submit.")
+      (shell-command (p4-generate-cmd full-opts))
+      (unless file-opened (read-only-mode 1))
+      (message (format "%s submitted."
+                       (file-name-nondirectory buffer-file-name))))))
+
+(defun p4revert ()
+  "p4 revert current file."
+  (interactive)
+  (shell-command (p4-generate-cmd "revert"))
+  (read-only-mode 1))
+
+(defun p4-show-changelist-patch (line)
+  (let* ((chg (nth 1 (split-string line "[\t ]+")))
+         (url (p4-current-file-url))
+         (pattern "^==== //.*====$")
+         sep
+         seps
+         (start 0)
+         (original (if chg (shell-command-to-string (format "p4 describe -du %s" chg)) ""))
+         rlt)
+
+    (while (setq sep (string-match pattern original start))
+      (let* ((str (match-string 0 original)))
+        (setq start (+ sep (length str)))
+        (add-to-list 'seps (list sep str) t)))
+    (setq rlt (substring original 0 (car (nth 0 seps))))
+    (let* ((i 0) found)
+      (while (and (not found)
+                  (&amp;lt; i (length seps)))
+        (when (string-match url (cadr (nth i seps)))
+          (setq rlt (concat rlt (substring original
+                                           (car (nth i seps))
+                                           (if (= i (- (length seps) 1))
+                                               (length original)
+                                             (car (nth (+ 1 i) seps))))))
+          ;; out of loop now since current file patch found
+          (setq found t))
+        (setq i (+ 1 i))))
+
+    ;; remove p4 verbose bullshit
+    (setq rlt (replace-regexp-in-string "^\\(Affected\\|Moved\\) files \.\.\.[\r\n]+\\(\.\.\. .*[\r\n]+\\)+"
+                                        ""
+                                        rlt))
+    (setq rlt (replace-regexp-in-string "Differences \.\.\.[\r\n]+" "" rlt))
+    ;; one line short description of change list
+    (setq rlt (replace-regexp-in-string "Change \\([0-9]+\\) by \\([^ @]+\\)@[^ @]+ on \\([^ \r\n]*\\).*[\r\n \t]+\\([^ \t].*\\)" "\\1 by \\2@\\3 \\4" rlt))
+    rlt))
+
+(defun p4--create-buffer (buf-name content &amp;amp;optional enable-imenu)
+  (let* (rlt-buf)
+    (if (get-buffer buf-name)
+        (kill-buffer buf-name))
+    (setq rlt-buf (get-buffer-create buf-name))
+    (save-current-buffer
+      (switch-to-buffer-other-window rlt-buf)
+      (set-buffer rlt-buf)
+      (erase-buffer)
+      (insert content)
+      (diff-mode)
+      (goto-char (point-min))
+      ;; nice imenu output
+      (if enable-imenu
+          (setq imenu-create-index-function
+                (lambda ()
+                  (save-excursion
+                    (imenu--generic-function '((nil "^[0-9]+ by .*" 0)))))))
+      ;; quit easily in evil-mode
+      (evil-local-set-key 'normal "q" (lambda () (interactive) (quit-window t))))))
+
+(defun p4diff ()
+  "Show diff of current file like `git diff'."
+  (interactive)
+  (let* ((content (shell-command-to-string (p4-generate-cmd "diff -du -db"))))
+    (p4--create-buffer "*p4diff*" content)))
+
+(defun p4history ()
+  "Show history of current file like `git log -p'."
+  (interactive)
+  (let* ((changes (split-string (shell-command-to-string (p4-generate-cmd "changes")) "\n"))
+         (content (mapconcat 'p4-show-changelist-patch
+                             changes
+                             "\n\n")))
+    (p4--create-buffer "*p4log*" content t)))
+;; }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As a bonus tip, if you use &lt;a href="https://github.com/technomancy/find-file-in-project"&gt;find-file-in-project&lt;/a&gt;, insert below code into &lt;code&gt;prog-mode-hook&lt;/code&gt; to view any perforce change inside Emacs,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq-local ffip-diff-backends
+            '((ivy-read "p4 change to show:"
+                        (split-string (shell-command-to-string "p4 changes //depot/development/DIR/PROJ1/...")
+                                      "\n")
+                        :action (lambda (i)
+                                  (if (string-match "^ Change \\([0-9]*\\)" i)
+                                      (shell-command-to-string (format "p4 describe -du -db %s"
+                                                                       (match-string 1 i))))))
+              "p4 diff -du -db //depot/development/DIR/PROJ1/..."))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can also check my &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-perforce.el"&gt;emacs.d&lt;/a&gt; to get latest code.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org25faf65" class="outline-3"&gt;
+&lt;h4 id="org25faf65"&gt;Bash Shell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org25faf65"&gt;
+&lt;p&gt;
+Other operations are finished in Bash Shell,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# {{ Perforce, I hope I will never use it
+if [ "$OS_NAME" = "CYGWIN" ]; then
+    function p4() {
+        export PWD=`cygpath -wa .`
+        /cygdrive/c/Program\ Files/Perforce/p4.exe $@
+    }
+fi
+
+# p4 workflow:
+#
+#   # basic setup
+#   p4 set P4CLIENT=clientname  # set your default client
+#   p4 set P4PORT=SERVER:1666
+#   p4 set P4USER=username
+#   p4 client # create/edit client, client views selected files
+#
+#   # checkout code
+#   p4 sync [-f] //depot/project-name/path/...
+#   p4 edit file[s]
+#   ... do some editing ...
+#
+#   # submit code
+#   either `p4 submit -d"say hi" file` or `p4 change`
+#
+#   I recommend `p4 change` because you can edit files list before submit happens.
+#   After `p4 change`,  `p4 submit -c changelist#` to actually submit change.
+#
+alias p4clr='p4 diff -sr | p4 -x - revert' # like `git reset HEAD`
+alias p4blame='p4 annotate -c -db ' # could add -a see deleted lines
+alias p4cr='p4 submit -f leaveunchanged+reopen -r'
+alias reviewcl='ccollab addchangelist new'
+alias p4pending='p4 changes -s pending' # add ... for current directory
+alias p4untrack='find . -type f| p4 -x - fstat &amp;gt;/dev/null'
+alias p4v='p4 resolve' # after `p4 sync ...`, maybe resolve
+alias p4r='p4 revert' # discard changes
+alias p4e='p4 edit'
+alias p4s='p4 submit'
+alias p4sr='p4 submit -f submitunchanged+reopen' #submit&amp;amp;reopen
+alias p4up='p4 sync ...' # synchronize from current directory
+alias p4o='p4 opened' # list opened files
+alias p4c='p4 changes' # create a new pending change
+alias p4chg='p4 change' # create a pending change
+alias p4d='p4 diff -du -db'
+alias p4ds='p4 diff -du -db | lsdiff' # diff summary, patchutils required
+alias p4i='p4 integrate'
+alias p4unsh='p4 unshelve -s' # Usage: p4unsh changelist#, like `git stash apply`
+alias p4h='p4 changes -m 1 ...' # show the head change
+
+function p4mypending {
+    local P4USERNAME="`p4 user -o | grep '^User:\s' | sed 's/User:\s\([a-bA-B0-9]*\)/\1/g'`"
+    p4 changes -s pending -u $P4USERNAME
+}
+
+function p4shelved {
+    local P4USERNAME="`p4 user -o | grep '^User:\s' | sed 's/User:\s\([a-bA-B0-9]*\)/\1/g'`"
+    p4 changes -s shelved -u $P4USERNAME # add ... for current directory
+}
+
+function p4cmp {
+    if [ -z "$1" ]; then
+        echo "Usage: p4cmp changelist-number changelist-number"
+    else
+        p4 diff2 -dub -q -u ...@$1 ...@$2
+    fi
+}
+
+function p4dl {
+    # git diff
+    p4 diff -du -db $@ | vim -c "set syntax=diff" -R -
+}
+function p4sh(){
+    # show specific change or the latest change
+    if [ -z "$1" ]; then
+        p4 changes | python ~/bin/percol.py | awk '{print $2}' | xargs -i p4 describe -du {} | vim -c "set syntax=diff" -R -
+    else
+        p4 describe -du -db $@ | vim -c "set syntax=diff" -R -
+    fi
+}
+
+function p4lp {
+    #like `git log -p`
+    p4 changes $@ | awk '{print $2}' | xargs -i p4 describe -du {} | less -F
+}
+
+function p4mlp {
+    #like `git log -p`
+    p4 changes -u $P4USERNAME $@ | awk '{print $2}' | xargs -i p4 describe -du {} | less -F
+}
+
+function p4adddir(){
+    if [ -z "$1" ]; then
+        echo "Usage: p4adddir directory"
+    else
+        find $1 -type f -print | p4 -x - add
+    fi
+}
+
+# p4's suggestion,http://kb.perforce.com/article/27/creating-release-notes
+# @google "assing variable from bash to perl in a bash script"
+function p4l(){
+    # p4 log
+    if [ -z "$1" ]; then
+        # show the full log
+        p4 changes -l ... | less
+    else
+        # p4log since-changelist-number
+        p4 changes -l ...@$1,#head|perl -pe "if(\$_=~/$1/){ last;};"
+    fi
+}
+
+function p4ml(){
+    # my p4 log
+    if [ -z "$1" ]; then
+        # show the full log
+        p4 changes -l -u $P4USERNAME ... | less
+    else
+        # p4log since-changelist-number
+        p4 changes -l -u $P4USERNAME ...@$1,#head|perl -pe "if(\$_=~/$1/){ last;};"
+    fi
+}
+# }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>p4</category><category>perforce</category><category>vcs</category><guid>http://blog.binchen.org/posts/use-perforce-inside-emacs.html</guid><pubDate>Mon, 05 Dec 2016 11:51:47 GMT</pubDate></item><item><title>Use ivy-mode to search bash history</title><link>http://blog.binchen.org/posts/use-ivy-mode-to-search-bash-history.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun counsel-yank-bash-history ()
+  "Yank the bash history"
+  (interactive)
+  (let (hist-cmd collection val)
+    (shell-command "history -r") ; reload history
+    (setq collection
+          (nreverse
+           (split-string (with-temp-buffer (insert-file-contents (file-truename "~/.bash_history"))
+                                           (buffer-string))
+                         "\n"
+                         t)))
+    (when (and collection (&amp;gt; (length collection) 0)
+               (setq val (if (= 1 (length collection)) (car collection)
+                           (ivy-read (format "Bash history:") collection))))
+        (kill-new val)
+        (message "%s =&amp;gt; kill-ring" val))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>ivy</category><guid>http://blog.binchen.org/posts/use-ivy-mode-to-search-bash-history.html</guid><pubDate>Mon, 25 Jan 2016 05:40:41 GMT</pubDate></item><item><title>How to manage the file path in big project</title><link>http://blog.binchen.org/posts/how-to-manage-the-file-path-in-big-project.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+It's not good practice to use relative path in big project.
+&lt;/p&gt;
+
+&lt;p&gt;
+Reasons:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;If file B refer to file A with "../A". Then B's position in the project *CANNOT be changed. Or else its reference to A will be wrong.&lt;/li&gt;
+&lt;li&gt;Relative path is not intuitive when debugging.&lt;/li&gt;
+&lt;li&gt;If the dependency is complex. Figure out the right path is mission impossible. For example, file A refer to file B with "./a/../../B" and file B refer to file C  "../../b/C".&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+So you should &lt;b&gt;ALWAYS use the absolute path&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Absolute path is tedious to type and not portable.
+&lt;/p&gt;
+
+&lt;p&gt;
+It could be improved a little bit be use an environment variable to replace the common prefix of the full path.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, we can replace absolute path "/home/cb/projects/app1/src/test.c" with "$TTAGROOT/src/test.c", if the value of environment variable TTAGROOT is "/home/cb/projects/app1".
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into ~/.bashrc so TTAGROOT value is set when you logged into bash:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;export TTAGROOT="/home/cb/projects/app1"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+In you script to do the real job, you could make TTAGROOT optional and still use your full path happily. It's just one bash liner.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is a sample file named test.sh:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+[ -z "$TTAGROOT" ] &amp;amp;&amp;amp; TTAGROOT="hard-coded-full-path"
+echo "TTAGROOT = $TTAGROOT"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You could use test.sh without $TTAGROOT. Or you can set up default value of $TTAGROOT in ~/.bashrc as I already mentioned.
+&lt;/p&gt;
+
+&lt;p&gt;
+Or you can override the TTAGROOT value when you executing "test.sh":
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;TTAGROOT="hello" ./test.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+BTW, don't abuse this technique. Set &lt;b&gt;one environment variable&lt;/b&gt; for the root directory of project is enough.
+&lt;/p&gt;&lt;/div&gt;</description><category>bash</category><category>en</category><category>engineering</category><category>software</category><guid>http://blog.binchen.org/posts/how-to-manage-the-file-path-in-big-project.html</guid><pubDate>Thu, 29 May 2014 01:31:35 GMT</pubDate></item><item><title>paste string from clipboard into minibuffer in Emacs</title><link>http://blog.binchen.org/posts/paste-string-from-clipboard-into-minibuffer-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+First, I find &lt;code&gt;M-Y&lt;/code&gt; is easier to press when paste string into minibuffer than old "Shift+Insert". "Ctrl-V" is not supported in some terminals.
+&lt;/p&gt;
+
+&lt;p&gt;
+Second, integrating some command line clipboard tool into Emacs is better than Emacs X clipboard. Command line tool works in any environment. For example, when you log into a remote server with ssh, your local computer could share clipboard with your Emacs in remote shell. Please note in this example, you need using X11 forward over ssh, usually it's already set up on server.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the code:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun paste-from-x-clipboard()
+  (interactive)
+  (shell-command
+   (cond
+    (*cygwin* "getclip")
+    (*is-a-mac* "pbpaste")
+    (t "xsel -ob"))
+   1))
+
+(defun my/paste-in-minibuffer ()
+  (local-set-key (kbd "M-y") 'paste-from-x-clipboard))
+
+(add-hook 'minibuffer-setup-hook 'my/paste-in-minibuffer)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/paste-string-from-clipboard-into-minibuffer-in-emacs.html</guid><pubDate>Tue, 08 Apr 2014 22:17:00 GMT</pubDate></item><item><title>My answer to "How do you use Emacs without a directory tree on the side of the editor?" on quora.com</title><link>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;This is &lt;a href="http://www.quora.com/Emacs/How-do-you-use-Emacs-without-a-directory-tree-on-the-side-of-the-editor"&gt;original link of the question&lt;/a&gt;. Please note I focus on programming for large projects. I need search/grep/modify files scattered in different places without documentation. &lt;/p&gt; &lt;p&gt; If your use case is different, a embedded file explorer may be a better choice &lt;/p&gt;  &lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Tools I use to replace a file explorer&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ol&gt; &lt;li&gt;ido-find-file (emacs), just type any characters, it will fuzz search matched file in parent/sibling/current/or-whatever directory.  &lt;/li&gt; &lt;li&gt;helm-find-file (emacs), this one use regular expression and has bigger window  &lt;/li&gt; &lt;li&gt;recentf and helm (emacs), I use regular expression open recent opened files.  &lt;/li&gt; &lt;li&gt;ctags, gtags or whatever tag tools (CLI tool), as mentioned by other people  &lt;/li&gt; &lt;li&gt;I also use lots of bash functions written by myself, those functions are trivial, but combined with a wonderful tool called percol, they become really powerful.  &lt;/li&gt; &lt;li&gt;I use some CLI clipboard tool so I can easily share the file path between terminal/emacs/firefox.  &lt;/li&gt; &lt;li&gt;there is also a emacs bundled feature called speedbar, which is similar to the file explorer, I used it once, but it does not fit in my ninja style ;) It's fine but the UI is almost same to those average text editors.  &lt;/li&gt; &lt;li&gt;I also write some elisp snippets, for example, convert absolute path to relative path; given one relative path, output one absolute path, etc …  &lt;/li&gt; &lt;li&gt;there is also some git based emacs plugin: you can search file under the project root directory.  &lt;/li&gt; &lt;li&gt;there is a CLI tool called fasd which can let you interactively select the file or folder you recently visited.  &lt;/li&gt; &lt;li&gt;many other tools, plug-ins, code snippets I can use … &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Use case&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;ol&gt; &lt;li&gt;I need search a big project for a certain library (it's a freemarker file I need include) whose full path I don't know, I just search the API's name by type: &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;"gef keyword *". gef is my bash function based on grep. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;matched files are displayed instantly (grep is much more quick than IDEs, BTW) in a interactive console filter (use percol), I type a regular expression to filter file name and press enter &lt;/li&gt; &lt;li&gt;the full path is in clipboard now, then I type ":e Shift-insert" to open that file. &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;This is the most difficult case, I usually strike less keys and not get out of Emacs. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;If i need insert this file's relative path, I press a hot key and another emacs plugin will correctly convert absolute path to relative one (relative to the file I'm editing in Emacs) and insert it into my editor. &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-3" class="outline-3"&gt; &lt;h4 id="sec-3"&gt;Demo&lt;/h4&gt; &lt;div class="outline-text-3" id="text-3"&gt;  &lt;p&gt;Here is screen cast. In this demo I grepped and open a ftl file and then search another js file in the same project. &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif" alt="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif"&gt; &lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com.html</guid><pubDate>Wed, 19 Feb 2014 21:40:00 GMT</pubDate></item><item><title>How to use git effectively</title><link>http://blog.binchen.org/posts/how-to-use-git-effectively.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+To take the full power of git, you need forget GUI and use CLI only. A little knowledge of script language like Bash/Perl/Python may be helpful.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is an example how I use git.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgc297372" class="outline-2"&gt;
+&lt;h3 id="orgc297372"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc297372"&gt;
+&lt;p&gt;
+I'm working for a big enterprise project which uses git as version control software.  My daily routine is find what files I changed. So I often use git commands with "–stat" parameters.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;git show --stat
+git diff --cached --stat
+git log --stat
+git diff --stat
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Since I use CLI git in bash shell only. I set alias for these commands in bash. For example, I need only type &lt;code&gt;gds&lt;/code&gt; in bash instead of &lt;code&gt;git diff --stat&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Git commands with "–stat" option usually only display relative paths, so I write some bash function which enable me select that relative path interactively (without using mouse, of course), convert that path to absolute path, and copy that absolute path into clipboard.
+&lt;/p&gt;
+
+&lt;p&gt;
+Getting full path into clipboard is useful because in big projects I need do lots of communication with managers and colleagues. For example, I need list files I changed in our bug tracking system (JIRA) and also email them using Outlook. If you still don't understand why it's hard in big project, let me give you some hint. Big project is usually a big shit. If you edit file A, you will find another 10 files distributed in different location with &lt;b&gt;same file name&lt;/b&gt; and &lt;b&gt;similar code&lt;/b&gt;. Those files are not your business.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org288158b" class="outline-2"&gt;
+&lt;h3 id="org288158b"&gt;Set up&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org288158b"&gt;
+&lt;p&gt;
+Now you understand the problem. Here comes the solution.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 1, You need install percol by &lt;code&gt;sudo pip install percol&lt;/code&gt;. Percol will provide some interactive UI to help you select the line in shell.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 2, install xclip under Linux to support paste text into X clipboard. BTW, you did install some clipboard manager under Linux, didn't you?
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 3, insert below code into your ~/.bash:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# search the file and pop up dialog, then put the full path in clipboard
+
+function pclip() {
+    if [ $OS_NAME == CYGWIN ]; then
+        putclip $@;
+    elif [ $OS_NAME == Darwin ]; then
+        pbcopy $@;
+    elif [ -x /usr/bin/xclip ]; then
+        xclip -selection c $@;
+    else
+        echo "xclip is not installed!"
+    fi
+}
+
+function glsf () {
+    local str=`git --no-pager log --oneline --decorate --stat $* |percol`
+    if [[ $str =~ ^[[:space:]]*([a-z0-9A-Z_.\/-]*).*$ ]]; then
+        echo -n ${BASH_REMATCH[1]} |pclip;
+        echo ${BASH_REMATCH[1]}
+    fi
+}
+
+function ff()
+{
+    # @see http://stackoverflow.com/questions/13373249/extract-substring-using-regexp-in-plain-bash
+    local fullpath=$*
+    local filename=${fullpath##*/}
+    local filter=${fullpath##*./}
+    #  only the filename without path is needed
+    # filename should be reasonable
+    local cli=`find $PWD -type f -iname '*'${filename}'*'|grep ${filter}|percol`
+    echo ${cli}
+    echo -n ${cli} |pclip;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc8a3372" class="outline-2"&gt;
+&lt;h3 id="orgc8a3372"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc8a3372"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;glsf
+ff line-from-clipboard
+# now I can paste the full path into firefox, outlook ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is the screen cast:
+&lt;img src="https://dl.dropboxusercontent.com/u/858862/screencast/git-find-full-path.gif" alt="git-find-full-path.gif"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>bash</category><category>en</category><category>git</category><category>linux</category><guid>http://blog.binchen.org/posts/how-to-use-git-effectively.html</guid><pubDate>Fri, 11 Oct 2013 12:38:00 GMT</pubDate></item><item><title>The power of git command line interface</title><link>http://blog.binchen.org/posts/the-power-of-git-command-line-interface-4.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Examples about how to use git CLI.
+&lt;/p&gt;
+
+&lt;p&gt;
+You need install beautiful &lt;a href="https://github.com/mooz/percol"&gt;percol&lt;/a&gt; developed by mooz by run &lt;code&gt;pip install percol&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+percol "adds flavor of interactive filtering to the traditional pipe concept of UNIX shell".
+&lt;/p&gt;
+
+&lt;p&gt;
+Append below code into &lt;code&gt;~/.bashrc&lt;/code&gt; and run &lt;code&gt;source ~/.bashrc&lt;/code&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;function gurl () {
+    if [ -z "$1" ]; then
+        echo "Usage: gurl commit-id"
+        echo "get the full http url of commit"
+    else
+        local msg=`git remote -v|grep "origin\s\+.*\s\+(fetch)"|sed -e "s/origin\s\+\(.*\)\s\+(fetch)/\1/"`
+        local url=""
+      # github
+        if [ "${msg:0:14}" == "git@github.com" ]; then
+            echo https://github.com/`echo ${msg}|sed -e "s/^git\@github\.com\:\(.*\)\.git$/\1/"`/commit/$1
+        fi
+    fi
+}
+
+# pick commit id from `git log`
+function gcid () {
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|percol|sed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    echo ${commit_id}
+}
+
+#pick commit from `git log` and output its url
+function gqurl () {
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|percol|sed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    gurl ${commit_id}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Now you have three bash functions &lt;code&gt;gurl&lt;/code&gt;, &lt;code&gt;gcid&lt;/code&gt;, &lt;code&gt;gqurl&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is demo how to use &lt;code&gt;gcid&lt;/code&gt;:
+&lt;img src="https://dl.dropboxusercontent.com/u/858862/git-percol-001.gif" alt="git-percol-001.gif"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is demo of &lt;code&gt;gqurl&lt;/code&gt;:
+&lt;img src="https://dl.dropboxusercontent.com/u/858862/git-percol-002.gif" alt="git-percol-002.gif"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, I use CLI clipboard tool like xsel. For example, "echo hello|xsel -ib" which insert string "hello" into system clipboard.
+&lt;/p&gt;
+
+&lt;p&gt;
+so I can &lt;code&gt;git show `gcid`|xsel -ib&lt;/code&gt; to copy/paste the code of specific commit between terminal and firefox.
+&lt;/p&gt;&lt;/div&gt;</description><category>bash</category><category>en</category><category>git</category><category>linux</category><category>percol</category><guid>http://blog.binchen.org/posts/the-power-of-git-command-line-interface-4.html</guid><pubDate>Thu, 01 Aug 2013 15:17:00 GMT</pubDate></item><item><title>My git alias in .bashrc</title><link>http://blog.binchen.org/posts/my-git-alias-in-bashrc.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2012-12-26 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2017-11-02 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+My favorite alias are &lt;code&gt;g&lt;/code&gt;, &lt;code&gt;gau&lt;/code&gt;, &lt;code&gt;gc&lt;/code&gt;, &lt;code&gt;gt&lt;/code&gt;, &lt;code&gt;gl&lt;/code&gt;,and  &lt;code&gt;gdc&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# {{ git
+# Git alias
+function gitshortlogcmd () {
+    git log --date=short --decorate --graph "$@"
+}
+function gitlogcmd () {
+    git log --date=short --decorate --graph --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' "$@"
+}
+alias g="git status --short -b"
+alias gb="git branch"
+alias gn="git status --untracked-files=no --short -b"
+alias gfl="git diff-tree --no-commit-id --name-only -r"
+alias ga="git add"
+alias gr="git rebase -i `git remote`/`git symbolic-ref --short HEAD`"
+alias gap='git add --patch'
+alias gai='git add -i'
+alias gau="git add -u"
+alias gc="git commit -m"
+alias gca="git commit --amend"
+alias gja="git --no-pager commit --amend --reuse-message=HEAD" # git just amend
+alias gt="git stash"
+alias gta="git stash apply"
+alias gmt="git mergetool"
+alias gl="gitlogcmd"
+alias glp="gitlogcmd -p"
+alias gls="gitlogcmd --stat"
+alias gnb="git checkout -b"
+alias gss="git show --stat"
+alias gsl="git log --pretty=format:'%h %s (%an)' --date=short -n1 | pclip"
+alias gd="git diff"
+alias gds="git diff --stat"
+alias gdc="git diff --cached"
+alias gdcs="git diff --cached --stat"
+alias gps="git push"
+alias gpf="git push --force"
+alias gpl="git pull"
+alias gpr="git pull -r"
+alias cg='cd $(git rev-parse --show-toplevel)' #goto root dir
+alias ghe='git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --theirs {} &amp;amp;&amp;amp; git add {}"'
+alias gme='git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --our {} &amp;amp;&amp;amp; git add {}"'
+# delete selected local branch
+alias gdd='git branch -D $(git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py)'
+# show diff from the branch to current HEAD
+alias gdp='git diff $(git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py)..HEAD'
+alias grh='git reset --hard HEAD'
+alias gr1='git reset --hard HEAD^'
+alias gr2='git reset --hard HEAD^^'
+alias gs="git show"
+
+function gsh {
+    git log --date=short --pretty=format:'%h%d %ad %s (%an)' | python ~/bin/percol.py | awk '{print $1}' | xargs -i git show {}
+}
+
+function gcn()
+{
+    # commit with timestamp
+    local d=`date +%m%d-%H%M%S`
+    git add -u . &amp;amp;&amp;amp; git commit -m ${d}
+}
+
+# find full path of file who under git controll
+# the optional parameter is the keyword
+function gf()
+{
+    if [ -z "$1" ]; then
+        local cli=`git ls-tree -r HEAD --name-status | python ~/bin/percol.py`
+    else
+        local cli=`git ls-tree -r HEAD --name-status | grep "$1" | python ~/bin/percol.py`
+    fi
+    local rlt=$(cd $(dirname $cli); pwd)/$(basename $cli)
+    echo ${rlt}
+    echo -n ${rlt} | pclip
+}
+
+function glwho () {
+    local guy=`git shortlog -sn | ~/bin/percol.py | sed 's/^\s*[0-9]\+\s*//g'`
+    # space is a problem, so we can't use gitshortlogcmd here
+    gitshortlogcmd --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' --author="$guy" "$@"
+}
+
+function gfp ()  {
+    if [ -z "$1" ]; then
+        echo "Usage: gfp since [file]"
+        echo "  Just alias of 'git format-patch -n --stdout since -- [file]'"
+        echo "  'gfp since | git am' to apply the patch"
+    fi
+    git format-patch -n --stdout $1 -- $2
+}
+
+function gcnb () {
+    local remoteb=$(git branch --all | sed '/no branch/d' | ~/bin/percol.py)
+    local localb=$(echo $remoteb | sed 's/^ *remotes\/[a-z]*\///g')
+    git checkout -b $localb $remoteb
+}
+function grb () {
+    # switch to recent git branch or just another branch
+
+    local crtb=`git branch | grep \*`
+    local ptn="no branch"
+    # compatible way to detect sub-strin in bash
+    # @see http://stackoverflow.com/questions/229551/string-contains-in-bash
+    if [ -z "${crtb##*$ptn*}" ]; then
+        # detached HEAD
+        git checkout $(git branch | sed '/no branch/d' | ~/bin/percol.py)
+    else
+        local myrbs=`git for-each-ref --sort=-committerdate refs/heads/ | sed -e s%.*refs\/heads\/%%g`
+        local crb=`git symbolic-ref --short HEAD`
+        git checkout `echo "$myrbs" | sed '/$crb/d' | ~/bin/percol.py`
+    fi
+}
+
+# rebase on LOCAL branches
+function gri () {
+    local b=`git branch | sed 's/[\* ]\+//g' | ~/bin/percol.py`
+    git rebase -i ${b}
+}
+
+# rebase on ALL braches
+function gra () {
+    local b=`git branch --all | sed 's/[\* ]\+//g' | sed 's/remotes\///g' | ~/bin/percol.py`
+    git rebase -i ${b}
+}
+
+# select a local git branch
+function gsb () {
+    local b=`git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py`
+    echo -n ${b} | pclip;
+    echo ${b}
+}
+
+# print current branch name
+function gcb () {
+    local crb=`git symbolic-ref --short HEAD`
+    echo -n ${crb} | pclip;
+    echo ${crb}
+}
+
+# new local branch based on remote branch
+function gnr () {
+    local myrb=`git for-each-ref --sort=-committerdate refs/remotes/ | sed -e s%.*refs\/remotes\/%%g | ~/bin/percol.py`
+    local mylb=`echo -n $myrb | sed 's/.*\/\([^\/]\+\)$/\1/'`
+    git checkout -b $mylb $myrb
+}
+
+function gchk () {
+    if [ -z "$1" ]; then
+        echo "Usage: gchk commit_id"
+        echo "reset hard certain version of current working directory"
+    else
+        rm -rf $PWD/*
+        git checkout $1 -- $PWD
+    fi
+}
+
+function git2fullpath {
+    local fullpath=$(git rev-parse --show-toplevel)/$1
+    echo -n $fullpath | pclip
+    echo $fullpath
+}
+
+function glf () {
+    local str=`git --no-pager log --oneline --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+
+function gsf () {
+    local str=`git --no-pager show --pretty=format:'%h %s (%an)' --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function gdf () {
+    local str=`git --no-pager diff --oneline --name-only $*| ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function gdcf () {
+    local str=`git --no-pager diff --oneline --cached --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function ggr () {
+  if [ -z "$1" ]; then
+      echo "Grep files under git controll"
+      echo "Usage: ggr [filename-pattern] text-pattern"
+  elif [ $# -eq "1" ]; then
+      git ls-tree -r HEAD --name-only |  xargs grep -sn "$1"
+  elif [ $# -eq "2" ]; then
+      git ls-tree -r HEAD --name-only | grep "$1" | xargs grep -sn --color -E "$2"
+  fi
+}
+
+function grpc() {
+  if [ -z "$1" ]; then
+      echo "Replace the content of file in latest git commit"
+      echo "Usage: grpc [commit-hash] old_string new_string (string could be perl regex)"
+  elif [ $# -eq "2" ]; then
+      git diff-tree --no-commit-id --name-only -r HEAD | xargs perl -pi -e "s/$1/$2/g"
+  elif [ $# -eq "3" ]; then
+      git diff-tree --no-commit-id --name-only -r $1 | xargs perl -pi -e "s/$2/$3/g"
+  fi
+}
+
+function grpf() {
+  if [ -z "$1" ]; then
+      echo "Replace the content of file under git"
+      echo "Usage: grpf old_string new_string (string could be perl regex)"
+  elif [ $# -eq "2" ]; then
+      git grep -l "$1" | xargs perl -pi -e "s/$1/$2/g"
+  fi
+}
+
+function gp() {
+    if [ $# = 0 ]; then
+        local from=`gitshortlogcmd --pretty=format:'%h %ad %s (%an)' $* | ~/bin/percol.py|sed -e"s/^[ *|]*\([a-z0-9]*\) .*$/\1/"`;
+        local fn=from-$from-`date +%Y%m%d-%H%M`.patch
+        git format-patch -n --stdout $from &amp;gt; $fn &amp;amp;&amp;amp; ls $fn
+    else
+        local fn=from-$1-`date +%Y%m%d-%H%M`.patch
+        git format-patch -n --stdout $1 &amp;gt; $fn &amp;amp;&amp;amp; ls $fn
+    fi;
+}
+# }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>bash</category><category>control</category><category>en</category><category>git</category><category>version</category><guid>http://blog.binchen.org/posts/my-git-alias-in-bashrc.html</guid><pubDate>Fri, 20 Jul 2012 17:22:00 GMT</pubDate></item></channel></rss>

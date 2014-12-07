@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about indent)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/indent.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Easy indentation setup in Emacs for web development</title><link>http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-04-02 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATE: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-06-22 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+This question has been asked so many times, so I answered it here once for all.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgd8f7c92" class="outline-2"&gt;
+&lt;h3 id="orgd8f7c92"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd8f7c92"&gt;
+&lt;p&gt;
+Insert below code into ~/.emacs:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-setup-indent (n)
+  ;; java/c/c++
+  (setq-local c-basic-offset n)
+  ;; web development
+  (setq-local coffee-tab-width n) ; coffeescript
+  (setq-local javascript-indent-level n) ; javascript-mode
+  (setq-local js-indent-level n) ; js-mode
+  (setq-local js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
+  (setq-local web-mode-markup-indent-offset n) ; web-mode, html tag in html file
+  (setq-local web-mode-css-indent-offset n) ; web-mode, css in html file
+  (setq-local web-mode-code-indent-offset n) ; web-mode, js code in html file
+  (setq-local css-indent-offset n) ; css-mode
+  )
+
+(defun my-office-code-style ()
+  (interactive)
+  (message "Office code style!")
+  ;; use tab instead of space
+  (setq-local indent-tabs-mode t)
+  ;; indent 4 spaces width
+  (my-setup-indent 4))
+
+(defun my-personal-code-style ()
+  (interactive)
+  (message "My personal code style!")
+  ;; use space instead of tab
+  (setq indent-tabs-mode nil)
+  ;; indent 2 spaces width
+  (my-setup-indent 2))
+
+(defun my-setup-develop-environment ()
+  (interactive)
+  (let ((proj-dir (file-name-directory (buffer-file-name))))
+    ;; if hobby project path contains string "hobby-proj1"
+    (if (string-match-p "hobby-proj1" proj-dir)
+        (my-personal-code-style))
+
+    ;; if commericial project path contains string "commerical-proj"
+    (if (string-match-p "commerical-proj" proj-dir)
+        (my-office-code-style))))
+
+;; prog-mode-hook requires emacs24+
+(add-hook 'prog-mode-hook 'my-setup-develop-environment)
+;; a few major-modes does NOT inherited from prog-mode
+(add-hook 'lua-mode-hook 'my-setup-develop-environment)
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can use `prog-mode-hook` and `buffer-file-name` to do the per project setup easily.
+&lt;/p&gt;
+
+&lt;p&gt;
+For &lt;b&gt;any new programming language&lt;/b&gt; not covered in this post, there are two steps:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Know your major-mode by pressing `ALT-X major-mode ENTER`. Say you got "org-mode".&lt;/li&gt;
+
+&lt;li&gt;Google "Emacs org-mode indent offset"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org12f7abf" class="outline-2"&gt;
+&lt;h3 id="org12f7abf"&gt;Tips (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org12f7abf"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Please note the first paramter of `string-match-p` is actually &lt;b&gt;regular expression&lt;/b&gt;. So you can write regular expression like "\\(/proj1\\|work.org\\)"&lt;/li&gt;
+
+&lt;li&gt;Emacs gives you full freedom to setup project. If you prefer per computer setup instead of per project setup, you only need re-write `my-setup-develop-environment',&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-setup-develop-environment ()
+  (interactive)
+  (let ((hostname (with-temp-buffer
+                    (shell-command "hostname" t)
+                    (goto-char (point-max))
+                    (delete-char -1)
+                    (buffer-string))))
+
+  (if (string-match-p "home-pc" hostname)
+      (my-personal-code-style))
+
+  (if (string-match-p "office-pc" hostname)
+      (my-office-code-style))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Instead of press TAB manually to indent code line by line, you can select a region and press `Alt-x indent-region ENTER`&lt;/li&gt;
+
+&lt;li&gt;Because I use &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt;, indenting the whole file is as simple as pressing `gg=G`&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>indent</category><category>web</category><guid>http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html</guid><pubDate>Thu, 02 Apr 2015 13:57:48 GMT</pubDate></item></channel></rss>

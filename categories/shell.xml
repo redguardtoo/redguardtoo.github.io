@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about shell)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/shell.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Thoughts on "Native shell completion in Emacs"</title><link>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;a href="https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/"&gt;Native shell completion in Emacs&lt;/a&gt; by Troy Hinckley is must read for completion in &lt;code&gt;shell-mode&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+One problem is my &lt;code&gt;~/.bashrc&lt;/code&gt; executes &lt;code&gt;/etc/bash_completion&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Unfortunately &lt;code&gt;/etc/bash_completion&lt;/code&gt; makes &lt;code&gt;complete -p&lt;/code&gt; output some lines the Emacs function &lt;code&gt;bash-completion-tokenize&lt;/code&gt; can't analyze.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is output of &lt;code&gt;complete -p&lt;/code&gt; at my PC,
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+...
+complete -F _known_hosts mtr
+complete -o default -o nospace -W 'homepc
+192.168.1.104
+github.com
+gitlab.com' scp
+complete -o default -f -X '!*.dvi' dvipdf
+...
+&lt;/pre&gt;
+
+&lt;p&gt;
+The line &lt;code&gt;gitlab.com' scp&lt;/code&gt; will crash &lt;code&gt;bash-completion-tokenize&lt;/code&gt;. Obviously, one line 
+&lt;code&gt;complete -o default -o nospace -W 'homepc 192.168.1.104 github.com gitlab.com' scp&lt;/code&gt;  is wrongly split into multiple lines by &lt;code&gt;complete -p&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+In &lt;code&gt;shell-mode&lt;/code&gt;, completion functions might call &lt;code&gt;bash-completion-tokenize&lt;/code&gt;. If &lt;code&gt;bash-completion-tokenize&lt;/code&gt; crashes, the completion in &lt;code&gt;shell-mode&lt;/code&gt; won't work.
+&lt;/p&gt;
+
+&lt;p&gt;
+Besides, if &lt;code&gt;company-mode&lt;/code&gt; provides auto-completion UI, it's better to place the backend &lt;code&gt;company-files&lt;/code&gt; before &lt;code&gt;company-native-complete&lt;/code&gt;. It's because the backend &lt;code&gt;company-files&lt;/code&gt; displays the full file path in candidates. So users can complete the whole path in one shot.
+&lt;/p&gt;
+
+&lt;p&gt;
+My setup code for the packages Troy Hinckley suggested,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; Enable auto-completion in `shell'.
+(with-eval-after-load "shell"
+  (native-complete-setup-bash))
+
+;; `bash-completion-tokenize' can handle garbage output of "complete -p"
+(defadvice bash-completion-tokenize (around bash-completion-tokenize-hack activate)
+  (let* ((args (ad-get-args 0))
+         (beg (nth 0 args))
+         (end (nth 1 args)))
+    ;; original code extracts tokens from output of "complete -p" line by line
+    (cond
+     ((not (string-match-p "^complete " (buffer-substring beg end)))
+      ;; filter out some wierd lines
+      (setq ad-return-value nil))
+     (t
+      ad-do-it))))
+
+(defun shell-mode-hook-setup ()
+  "Set up `shell-mode'."
+  ;; hook `completion-at-point', optional
+  (add-hook 'completion-at-point-functions #'native-complete-at-point nil t)
+  (setq-local company-backends '((company-files company-native-complete)))
+  ;; `company-native-complete' is better than `completion-at-point'
+  (local-set-key (kbd "TAB") 'company-complete))
+(add-hook 'shell-mode-hook 'shell-mode-hook-setup)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot,
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>autocomplete</category><category>emacs</category><category>en</category><category>shell</category><guid>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html</guid><pubDate>Thu, 09 Apr 2020 10:40:23 GMT</pubDate></item><item><title>How to use terminal in Emacs effectively</title><link>http://blog.binchen.org/posts/how-to-use-terminal-in-emacs-effectively.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I'm an experienced bash user before learning Emacs. Now as a die hard Emacs user, I still want to use my bash skill. 
+&lt;/p&gt;
+
+&lt;p&gt;
+The Emacs terminator simulator &lt;a href="http://www.emacswiki.org/emacs/AnsiTerm"&gt;Ansi Term&lt;/a&gt; help me on this purpose. Check &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/init-term-mode.el"&gt;my setup&lt;/a&gt; and the &lt;a href="http://www.emacswiki.org/emacs/AnsiTermHints"&gt;EmacsWiki&lt;/a&gt; for the guide.
+&lt;/p&gt;
+
+&lt;p&gt;
+I need copy the output in ansi-term to somewhere else frequently. So I often got the issue about selecting output &lt;b&gt;effectively&lt;/b&gt;?
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Term-Mode.html"&gt;Emacs manual&lt;/a&gt; says I can "M-x term-line-mode" to switch to term-line-mode to select text. Then I need restore to the original mode by "M-x term-char-mode".
+&lt;/p&gt;
+
+&lt;p&gt;
+That's many keys to press. Besides, I can not tell what's the current mode, term-char-mode or term-line-mode?
+&lt;/p&gt;
+
+&lt;p&gt;
+My solution is &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;evil-mode&lt;/a&gt;. I press C-z to toggle on vim simulator in ansi-term. I can press C-z again to toggle off the vim simulator.
+&lt;/p&gt;
+
+&lt;p&gt;
+The beauty is I've got the Vi power to select,search, filter, yank.
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, "C-z" is the default hot key from evil-mode. Evil-mode assign "C-x C-z" for "M-x suspend-frame".
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>shell</category><category>terminal</category><guid>http://blog.binchen.org/posts/how-to-use-terminal-in-emacs-effectively.html</guid><pubDate>Wed, 10 Jul 2013 12:11:00 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>My git alias in .bashrc | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/my-git-alias-in-bashrc.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="My git alias in .bashrc">
+<meta property="og:url" content="http://blog.binchen.org/posts/my-git-alias-in-bashrc.html">
+<meta property="og:description" content="CREATED: &lt;2012-12-26 Wed&gt;
+
+
+
+UPDATED: &lt;2017-11-02 Thu&gt;
+
+
+
+My favorite alias are g, gau, gc, gt, gl,and  gdc.
+
+
+
+
+# {{ git
+# Git alias
+function gitshortlogcmd () {
+    git log --date=short --decorate -">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2012-07-20T17:22:00Z">
+<meta property="article:tag" content="bash">
+<meta property="article:tag" content="control">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="version">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">My git alias in .bashrc</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2012-07-20T17:22:00+00:00">2012-07-20 17:22</time>
+            
+
+            
+          |  
+        <a href="my-git-alias-in-bashrc.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/bash.html" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="../categories/control.html" rel="tag">control</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="../categories/version.html" rel="tag">version</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-12-26 Wed&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-11-02 Thu&gt;</span></span>
+</p>
+
+<p>
+My favorite alias are <code>g</code>, <code>gau</code>, <code>gc</code>, <code>gt</code>, <code>gl</code>,and  <code>gdc</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># {{ git
+# Git alias
+function gitshortlogcmd () {
+    git log --date=short --decorate --graph "$@"
+}
+function gitlogcmd () {
+    git log --date=short --decorate --graph --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' "$@"
+}
+alias g="git status --short -b"
+alias gb="git branch"
+alias gn="git status --untracked-files=no --short -b"
+alias gfl="git diff-tree --no-commit-id --name-only -r"
+alias ga="git add"
+alias gr="git rebase -i `git remote`/`git symbolic-ref --short HEAD`"
+alias gap='git add --patch'
+alias gai='git add -i'
+alias gau="git add -u"
+alias gc="git commit -m"
+alias gca="git commit --amend"
+alias gja="git --no-pager commit --amend --reuse-message=HEAD" # git just amend
+alias gt="git stash"
+alias gta="git stash apply"
+alias gmt="git mergetool"
+alias gl="gitlogcmd"
+alias glp="gitlogcmd -p"
+alias gls="gitlogcmd --stat"
+alias gnb="git checkout -b"
+alias gss="git show --stat"
+alias gsl="git log --pretty=format:'%h %s (%an)' --date=short -n1 | pclip"
+alias gd="git diff"
+alias gds="git diff --stat"
+alias gdc="git diff --cached"
+alias gdcs="git diff --cached --stat"
+alias gps="git push"
+alias gpf="git push --force"
+alias gpl="git pull"
+alias gpr="git pull -r"
+alias cg='cd $(git rev-parse --show-toplevel)' #goto root dir
+alias ghe='git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --theirs {} &amp;&amp; git add {}"'
+alias gme='git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --our {} &amp;&amp; git add {}"'
+# delete selected local branch
+alias gdd='git branch -D $(git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py)'
+# show diff from the branch to current HEAD
+alias gdp='git diff $(git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py)..HEAD'
+alias grh='git reset --hard HEAD'
+alias gr1='git reset --hard HEAD^'
+alias gr2='git reset --hard HEAD^^'
+alias gs="git show"
+
+function gsh {
+    git log --date=short --pretty=format:'%h%d %ad %s (%an)' | python ~/bin/percol.py | awk '{print $1}' | xargs -i git show {}
+}
+
+function gcn()
+{
+    # commit with timestamp
+    local d=`date +%m%d-%H%M%S`
+    git add -u . &amp;&amp; git commit -m ${d}
+}
+
+# find full path of file who under git controll
+# the optional parameter is the keyword
+function gf()
+{
+    if [ -z "$1" ]; then
+        local cli=`git ls-tree -r HEAD --name-status | python ~/bin/percol.py`
+    else
+        local cli=`git ls-tree -r HEAD --name-status | grep "$1" | python ~/bin/percol.py`
+    fi
+    local rlt=$(cd $(dirname $cli); pwd)/$(basename $cli)
+    echo ${rlt}
+    echo -n ${rlt} | pclip
+}
+
+function glwho () {
+    local guy=`git shortlog -sn | ~/bin/percol.py | sed 's/^\s*[0-9]\+\s*//g'`
+    # space is a problem, so we can't use gitshortlogcmd here
+    gitshortlogcmd --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' --author="$guy" "$@"
+}
+
+function gfp ()  {
+    if [ -z "$1" ]; then
+        echo "Usage: gfp since [file]"
+        echo "  Just alias of 'git format-patch -n --stdout since -- [file]'"
+        echo "  'gfp since | git am' to apply the patch"
+    fi
+    git format-patch -n --stdout $1 -- $2
+}
+
+function gcnb () {
+    local remoteb=$(git branch --all | sed '/no branch/d' | ~/bin/percol.py)
+    local localb=$(echo $remoteb | sed 's/^ *remotes\/[a-z]*\///g')
+    git checkout -b $localb $remoteb
+}
+function grb () {
+    # switch to recent git branch or just another branch
+
+    local crtb=`git branch | grep \*`
+    local ptn="no branch"
+    # compatible way to detect sub-strin in bash
+    # @see http://stackoverflow.com/questions/229551/string-contains-in-bash
+    if [ -z "${crtb##*$ptn*}" ]; then
+        # detached HEAD
+        git checkout $(git branch | sed '/no branch/d' | ~/bin/percol.py)
+    else
+        local myrbs=`git for-each-ref --sort=-committerdate refs/heads/ | sed -e s%.*refs\/heads\/%%g`
+        local crb=`git symbolic-ref --short HEAD`
+        git checkout `echo "$myrbs" | sed '/$crb/d' | ~/bin/percol.py`
+    fi
+}
+
+# rebase on LOCAL branches
+function gri () {
+    local b=`git branch | sed 's/[\* ]\+//g' | ~/bin/percol.py`
+    git rebase -i ${b}
+}
+
+# rebase on ALL braches
+function gra () {
+    local b=`git branch --all | sed 's/[\* ]\+//g' | sed 's/remotes\///g' | ~/bin/percol.py`
+    git rebase -i ${b}
+}
+
+# select a local git branch
+function gsb () {
+    local b=`git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py`
+    echo -n ${b} | pclip;
+    echo ${b}
+}
+
+# print current branch name
+function gcb () {
+    local crb=`git symbolic-ref --short HEAD`
+    echo -n ${crb} | pclip;
+    echo ${crb}
+}
+
+# new local branch based on remote branch
+function gnr () {
+    local myrb=`git for-each-ref --sort=-committerdate refs/remotes/ | sed -e s%.*refs\/remotes\/%%g | ~/bin/percol.py`
+    local mylb=`echo -n $myrb | sed 's/.*\/\([^\/]\+\)$/\1/'`
+    git checkout -b $mylb $myrb
+}
+
+function gchk () {
+    if [ -z "$1" ]; then
+        echo "Usage: gchk commit_id"
+        echo "reset hard certain version of current working directory"
+    else
+        rm -rf $PWD/*
+        git checkout $1 -- $PWD
+    fi
+}
+
+function git2fullpath {
+    local fullpath=$(git rev-parse --show-toplevel)/$1
+    echo -n $fullpath | pclip
+    echo $fullpath
+}
+
+function glf () {
+    local str=`git --no-pager log --oneline --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+
+function gsf () {
+    local str=`git --no-pager show --pretty=format:'%h %s (%an)' --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function gdf () {
+    local str=`git --no-pager diff --oneline --name-only $*| ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function gdcf () {
+    local str=`git --no-pager diff --oneline --cached --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function ggr () {
+  if [ -z "$1" ]; then
+      echo "Grep files under git controll"
+      echo "Usage: ggr [filename-pattern] text-pattern"
+  elif [ $# -eq "1" ]; then
+      git ls-tree -r HEAD --name-only |  xargs grep -sn "$1"
+  elif [ $# -eq "2" ]; then
+      git ls-tree -r HEAD --name-only | grep "$1" | xargs grep -sn --color -E "$2"
+  fi
+}
+
+function grpc() {
+  if [ -z "$1" ]; then
+      echo "Replace the content of file in latest git commit"
+      echo "Usage: grpc [commit-hash] old_string new_string (string could be perl regex)"
+  elif [ $# -eq "2" ]; then
+      git diff-tree --no-commit-id --name-only -r HEAD | xargs perl -pi -e "s/$1/$2/g"
+  elif [ $# -eq "3" ]; then
+      git diff-tree --no-commit-id --name-only -r $1 | xargs perl -pi -e "s/$2/$3/g"
+  fi
+}
+
+function grpf() {
+  if [ -z "$1" ]; then
+      echo "Replace the content of file under git"
+      echo "Usage: grpf old_string new_string (string could be perl regex)"
+  elif [ $# -eq "2" ]; then
+      git grep -l "$1" | xargs perl -pi -e "s/$1/$2/g"
+  fi
+}
+
+function gp() {
+    if [ $# = 0 ]; then
+        local from=`gitshortlogcmd --pretty=format:'%h %ad %s (%an)' $* | ~/bin/percol.py|sed -e"s/^[ *|]*\([a-z0-9]*\) .*$/\1/"`;
+        local fn=from-$from-`date +%Y%m%d-%H%M`.patch
+        git format-patch -n --stdout $from &gt; $fn &amp;&amp; ls $fn
+    else
+        local fn=from-$1-`date +%Y%m%d-%H%M`.patch
+        git format-patch -n --stdout $1 &gt; $fn &amp;&amp; ls $fn
+    fi;
+}
+# }}
+</code></pre>
+
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo.html" rel="prev" title="Emacs中的完美多窗口操作">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan.html" rel="next" title="Emacs中的自动完成(Auto Completion)完全指南">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/my-git-alias-in-bashrc.html",
+        disqus_title="My git alias in .bashrc",
+        disqus_identifier="cache/posts/my-git-alias-in-bashrc.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

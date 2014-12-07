@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about sublime)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/sublime.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs vs Sublime Text on Salesforce development</title><link>http://blog.binchen.org/posts/emacs-vs-sublime-text-on-salesforce-development.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Our client decided to move their legacy system to a cloud platform called salesforce.com. So I got a chance to investigate how to &lt;b&gt;deploy code&lt;/b&gt; to the salesforce server inside Emacs and Sublime Text.
+&lt;/p&gt;
+
+&lt;p&gt;
+Salesforce provides &lt;a href="https://developer.salesforce.com/docs/atlas.en-us.daas.meta/daas/forcemigrationtool_install.htm"&gt;a migration tool&lt;/a&gt; to deploy everything from the scratch which takes about 2 minutes. Basically makes it impossbile to be integrated with text editors.
+&lt;/p&gt;
+
+&lt;p&gt;
+Luckily, there is &lt;a href="https://force-cli.heroku.com/"&gt;Force.com CLI&lt;/a&gt; which can upload single file in a few seconds. Both Sublime Text and Emacs use this tool.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgb99b8ee" class="outline-2"&gt;
+&lt;h3 id="orgb99b8ee"&gt;Sublime Text&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb99b8ee"&gt;
+&lt;p&gt;
+You need install sublime text plugin &lt;a href="http://mavensmate.com/Getting_Started/Users"&gt;mavensmate&lt;/a&gt;. After installation, you need click &lt;code&gt;Login&lt;/code&gt; menu at least once. Then when you save the code file, it's automatically deployed to the server.
+&lt;/p&gt;
+
+&lt;p&gt;
+For some reason, the logged in session will timeout after a couple minutes. So you need re-login. Sometimes deployment will fail, you could click the &lt;code&gt;Fetch&lt;/code&gt; menu and fill in the component name into the popup window to confirm the fetch. Fetching will re-activate upload ability.
+&lt;/p&gt;
+
+&lt;p&gt;
+Mavensmate is actually just GUI wrapper of Force.com CLI,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;When you click login, the command &lt;code&gt;force login&lt;/code&gt; is executed&lt;/li&gt;
+&lt;li&gt;When saving file, &lt;code&gt;force aura push&lt;/code&gt; or &lt;code&gt;force push&lt;/code&gt; is executed&lt;/li&gt;
+&lt;li&gt;When fetching, &lt;code&gt;force fetch&lt;/code&gt; is executed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdf342f4" class="outline-2"&gt;
+&lt;h3 id="orgdf342f4"&gt;Emacs&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdf342f4"&gt;
+&lt;p&gt;
+In Sublime Text I have to re-login and fetch from time to time. That get me distracted. I prefer executing only one commmand to upload the file in editing. That command should be always successful.
+&lt;/p&gt;
+
+&lt;p&gt;
+My solution is to combine "login/fetch/push" commnands into one liner which is stored in a file local variable &lt;code&gt;compile-command&lt;/code&gt;. So when I execute &lt;code&gt;M-x compile&lt;/code&gt;, the commands "login/fetch/push" in &lt;code&gt;compile-command&lt;/code&gt; will all be executed sequentially. So I don't need care about login and fetch things any more.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my setup,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-setup-develop-environment ()
+  (interactive)
+  (let (ffip-project-root)
+    (setq ffip-project-root "~/projects/my-salesforce-project1")
+
+    (when (memq major-mode '(web-mode js-mode js2-mode))
+      (setq-local compile-command
+                  (cond
+                   ;; lightning controller javascript file
+                   ((string-match "Controller\.js$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;amp;&amp;amp; cp %s %s &amp;amp;&amp;amp; force fetch -t Aura -n %s -d %s &amp;amp;&amp;amp; mv %s %s &amp;amp;&amp;amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name) (concat (buffer-file-name) ".bak")
+                            (replace-regexp-in-string "Controller" "" (file-name-base (buffer-file-name)))
+                            ffip-project-root
+                            (concat (buffer-file-name) ".bak") (buffer-file-name)
+                            (buffer-file-name)))
+                   ;; ant build
+                   ((string-match "build\.xml$" (buffer-file-name))
+                    (format "cd %s &amp;amp;&amp;amp; ant deployCode" ffip-project-root))
+                   ;; lightning html view
+                   ((string-match "\.cmp$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;amp;&amp;amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   ;; other salesforce pages
+                   (t
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;amp;&amp;amp; force push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   )))
+    ))
+
+;; I use web-mode for html/xml
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
+;; I use js2-mode for javascript
+(add-hook 'js2-mode-hook 'my-setup-develop-environment)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>salesforce</category><category>sublime</category><guid>http://blog.binchen.org/posts/emacs-vs-sublime-text-on-salesforce-development.html</guid><pubDate>Mon, 14 Mar 2016 10:42:31 GMT</pubDate></item></channel></rss>

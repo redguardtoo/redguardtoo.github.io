@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about vim)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vim.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Auto-complete word in Emacs mini-buffer when using Evil</title><link>http://blog.binchen.org/posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+When using &lt;a href="https://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt; I often input &lt;code&gt;%s/old-keyword/new-keyword/g&lt;/code&gt; in &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html"&gt;Minibuffer&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The problem is auto completions of &lt;code&gt;new-keyword&lt;/code&gt; using &lt;a href="http://www.gnu.org/s/emacs/manual/html_node/autotype/Hippie-Expand.html"&gt;hippie-expand&lt;/a&gt; always fail.
+&lt;/p&gt;
+
+&lt;p&gt;
+It turns out that the character "/" is treated as &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Class-Table.html"&gt;Word constituent&lt;/a&gt; in minibuffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+The solution is to re-define "/" as &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Class-Table.html"&gt;Punctuation characters&lt;/a&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun minibuffer-inactive-mode-hook-setup ()
+  ;; make `try-expand-dabbrev' from `hippie-expand' work in mini-buffer
+  ;; @see `he-dabbrev-beg', so we need re-define syntax for '/'
+  (set-syntax-table (let* ((table (make-syntax-table)))
+                      (modify-syntax-entry ?/ "." table)
+                      table)))
+(add-hook 'minibuffer-inactive-mode-hook 'minibuffer-inactive-mode-hook-setup)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>vim</category><guid>http://blog.binchen.org/posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil.html</guid><pubDate>Tue, 28 Mar 2017 12:16:06 GMT</pubDate></item><item><title>Use general.el to provide multiple leader key in evil-mode</title><link>http://blog.binchen.org/posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;a href="https://github.com/noctuid/general.el"&gt;General.el&lt;/a&gt; "provides a more convenient way to bind keys in emacs for both evil and non-evil users".
+&lt;/p&gt;
+
+&lt;p&gt;
+I have been using it for more than one month without any issue. I prefer general.el to &lt;a href="https://github.com/cofi/evil-leader"&gt;evil-leader&lt;/a&gt; because I need both comma and space key as &lt;a href="http://vimdoc.sourceforge.net/htmldoc/map.html#%3CLeader%3E"&gt;leader key&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Minimum setup is simple,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'general)
+(general-evil-setup t)
+(nvmap :prefix ","
+       "bb" 'back-to-previous-buffer
+       "ww" 'save-buffer
+       "oo" 'compile)
+
+;; all keywords arguments are still supported
+(nvmap :prefix "SPC"
+       ; save windows layout
+       "ss" 'wg-create-workgroup
+       ;; load windows layout
+       "ll" 'my-wg-switch-workgroup)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+My &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-evil.el"&gt;real world setup&lt;/a&gt; is more complicated.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>vim</category><guid>http://blog.binchen.org/posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode.html</guid><pubDate>Sat, 09 Apr 2016 04:35:54 GMT</pubDate></item><item><title>Use plain Vim to merge conflicts</title><link>http://blog.binchen.org/posts/use-plain-vim-to-merge-conflicts.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I will explain how to resolve code merge conflicts with plain vim. The only third party plugin required is &lt;a href="https://github.com/tpope/vim-unimpaired"&gt;vim-unimpaired&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The reason to use vim is that I can't use vimdiff as a merge tool for certain VCS (CVS, Subversion, Perforce, …).
+&lt;/p&gt;
+
+&lt;div id="outline-container-orge2d6fab" class="outline-2"&gt;
+&lt;h3 id="orge2d6fab"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge2d6fab"&gt;
+&lt;p&gt;
+A typical file in conflict is like:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-diff"&gt;hello world
+hello world
+&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; .mine
+This is fun stuff!
+=======
+This is a documentation file
+&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; .r6
+bye world
+bye world
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Let's call lines like "&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;", "&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;" and "&lt;code&gt;=====&lt;/code&gt;" conflict markers.
+&lt;/p&gt;
+
+&lt;p&gt;
+Resolving conflicts is the operation of picking up &lt;b&gt;either or both&lt;/b&gt; of the sections between markers.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org76e01bf" class="outline-2"&gt;
+&lt;h3 id="org76e01bf"&gt;Basic knowledge of Vim&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org76e01bf"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;"]n" move the focus to the next marker and "[n" to the previous marker.&lt;/li&gt;
+&lt;li&gt;"dd" delete current line&lt;/li&gt;
+&lt;li&gt;"d]n" delete from current line to the next marker (next marker exclusive)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org098fe53" class="outline-2"&gt;
+&lt;h3 id="org098fe53"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org098fe53"&gt;
+&lt;p&gt;
+Our workflow is actually simple:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Step 1, find the next marker by pressing "]n"&lt;/li&gt;
+&lt;li&gt;Step 2, "]nd]n[ndd[ndd" to pick up the section 1&lt;/li&gt;
+&lt;li&gt;Step 3, "d]ndd]ndd" to pick up  the section 2, go to step 1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+This workflow is compatible with any version control software.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;Optionally&lt;/b&gt; you can set the shortcut for step 2 and step 3:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-vimrc"&gt;map &amp;lt;leader&amp;gt;dg1 ]nd]n[ndd[ndd
+map &amp;lt;leader&amp;gt;dg2 d]ndd]ndd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>vim</category><guid>http://blog.binchen.org/posts/use-plain-vim-to-merge-conflicts.html</guid><pubDate>Tue, 07 Apr 2015 07:19:37 GMT</pubDate></item><item><title>Use vimdiff to resolve git/subversion/mercurial merge conflicts effectively</title><link>http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+You can jump to &lt;a href="http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively.html#org61df9f2"&gt;No description for this link&lt;/a&gt; section at the end of this article.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use git as an example of version control software. But you can use any other version control software instead.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgaab515a" class="outline-2"&gt;
+&lt;h3 id="orgaab515a"&gt;The reasons to use vimdiff to do the merge?&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgaab515a"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It's free (vim)&lt;/li&gt;
+&lt;li&gt;It works on any OS&lt;/li&gt;
+&lt;li&gt;It works in shell&lt;/li&gt;
+&lt;li&gt;Keyboard only&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6578da9" class="outline-2"&gt;
+&lt;h3 id="org6578da9"&gt;Setup&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6578da9"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgf0bbc75" class="outline-3"&gt;
+&lt;h4 id="orgf0bbc75"&gt;Setup vimdiff (OPTIONAL)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf0bbc75"&gt;
+&lt;p&gt;
+The vimdiff as a merge tool will display several buffers to show YOURS/THEIRS/ORIGINAL code.
+&lt;/p&gt;
+
+&lt;p&gt;
+First, add following code into your ~/.vimrc,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-vimrc"&gt;set laststatus=2 "show the status line
+set statusline=%-10.3n  "buffer number
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;p&gt;
+The purpose of above two lines is to display buffer number at the status line of vim. It's OPTIONAL. You don't need see the buffer number if you are familiar with the all the buffer's position. The left top is buffer number 2. The middle top is buffer number 3. The right top is buffer number 4.
+&lt;/p&gt;
+
+&lt;p&gt;
+Second, if you know the buffer number, you can use hot key like ",2" (press comma first, then press two key as quickly as possible) to pull change from buffer number 2.
+Add below code into your ~/.vimrc to set up hot keys:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-vimrc"&gt;map &amp;lt;silent&amp;gt; &amp;lt;leader&amp;gt;2 :diffget 2&amp;lt;CR&amp;gt;
+map &amp;lt;silent&amp;gt; &amp;lt;leader&amp;gt;3 :diffget 3&amp;lt;CR&amp;gt;
+map &amp;lt;silent&amp;gt; &amp;lt;leader&amp;gt;4 :diffget 4&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6a8fb80" class="outline-3"&gt;
+&lt;h4 id="org6a8fb80"&gt;Setup git&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6a8fb80"&gt;
+&lt;p&gt;
+Run below commands in shell,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;git config --global merge.tool vimdiff
+git config --global mergetool.prompt false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org2b2f65e" class="outline-2"&gt;
+&lt;h3 id="org2b2f65e"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2b2f65e"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6ead4ff" class="outline-3"&gt;
+&lt;h4 id="org6ead4ff"&gt;Create a "hello world" project&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6ead4ff"&gt;
+&lt;p&gt;
+I setup a "hello world" project at &lt;a href="https://github.com/redguardtoo/test-git-mergetool"&gt;https://github.com/redguardtoo/test-git-mergetool&lt;/a&gt; for your practice.
+&lt;/p&gt;
+
+&lt;p&gt;
+It has three branches "master", "bob", and "chen",
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;git clone https://github.com/redguardtoo/test-git-mergetool.git
+cd test-git-mergetool
+git checkout -b bob origin/bob # create local mirror of bob branch
+git checkout -b chen origin/chen # create local mirror of chen branch
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Bob and Chen has edited same files. So please merge branch "bob" into "master" at first. Then merge from "chen". The merge conflicts will be created.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;git branch # double check that we got three local branches: master, bob, chen
+git checkout master # set master branch as main branch
+git merge bob #this is ok, because bob is the first one to merge changes
+git merge chen # now some conflicts created because Bob has already edited and merged same files
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org775baf7" class="outline-3"&gt;
+&lt;h4 id="org775baf7"&gt;Resolve merge conflict&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org775baf7"&gt;
+&lt;p&gt;
+Now start merge tool,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;git mergetool
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Git will invoke vimdiff with the following window layout. There are four buffers in this layout:
+&lt;img src="http://blog.binchen.org/wp-content/git-merge-tool-nq8.png" alt="git-merge-tool-nq8.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the explanation of each buffer:
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-right"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;Buffer&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Explanation&lt;/th&gt;
+&lt;th scope="col" class="org-right"&gt;Buffer Number&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;THEIRS (LOCAL)&lt;/td&gt;
+&lt;td class="org-left"&gt;contents of the file on the current branch&lt;/td&gt;
+&lt;td class="org-right"&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;BASE&lt;/td&gt;
+&lt;td class="org-left"&gt;common base for the merge&lt;/td&gt;
+&lt;td class="org-right"&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;YOURS (REMOTE)&lt;/td&gt;
+&lt;td class="org-left"&gt;contents of the file to be merged.&lt;/td&gt;
+&lt;td class="org-right"&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;MERGED&lt;/td&gt;
+&lt;td class="org-left"&gt;The file containing the conflict markers. You need edit and commit this file.&lt;/td&gt;
+&lt;td class="org-right"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+Some people name THEIRS and YOURS buffer to LOCAL and REMOTE buffer. That's fine because names are just names. The point is that the top middle buffer is the BASE one which contains the original code before Bob and Chen committing any code. And the bottom buffer is the mess which contains resolved/unresolved conflicts where you actual editing work happens.
+&lt;/p&gt;
+
+&lt;p&gt;
+You could press hot key &lt;code&gt;,2&lt;/code&gt;,
+Then you pick the content from THEIRS buffer (the top left buffer). It means you will use the Bob's code and discard Chen's code in MERGED buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+You could press hot key ",3",
+Then you pick the content from BASE buffer (the top middle buffer). It means you will discard either Bob's code or Chen's code in MERGED buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+You could press hot key ",4",
+Then you pick the content from YOURS buffer (the top right buffer). It means you will use Chen's code and discard Bob code in MERGED buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+Or you can edit the content directly in MERGED buffer. Anyway, git only care about the file binding to MERGED buffer. Any other buffer will be ignored by git.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can use hot key &lt;code&gt;[c&lt;/code&gt; and &lt;code&gt;]c&lt;/code&gt; to navigate to previous/next conflict (including the conflict resolved by git automatically) in current file which is binding to MERGED buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+After finishing editing of the conflicting file in MERGED buffer, you can use hot key &lt;code&gt;:xa&lt;/code&gt; to exit vimdiff. Git will open next conflicting file vimdiff automatically.
+&lt;/p&gt;
+
+&lt;p&gt;
+When you have resolved all the conflicts, follow the hint of git to commit your changes.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd9dac7e" class="outline-2"&gt;
+&lt;h3 id="orgd9dac7e"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd9dac7e"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;fugitive.vim (&lt;a href="https://github.com/tpope/vim-fugitive"&gt;https://github.com/tpope/vim-fugitive&lt;/a&gt;) can do this too. Actually it can do much more git stuff than merge. I cannot write this article without reading its code&lt;/li&gt;
+&lt;li&gt;You can use Emacs to do the similar job (&lt;a href="http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool"&gt;http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool&lt;/a&gt;). For me, Emacs start up time is too much for this task. Some people use &lt;code&gt;emacsclient&lt;/code&gt; which has other overhead I don't like&lt;/li&gt;
+&lt;li&gt;If you prefer GUI, use command line `git mergetool -t gvimdiff` instead&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;:diffget&lt;/code&gt; command is valid if and only if there are &lt;b&gt;MARKED&lt;/b&gt; conflicts in merged buffer. If there is &lt;b&gt;NO&lt;/b&gt; marked string like "&amp;gt;&amp;gt;&amp;gt;&amp;gt;" or "&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;" around current change (you can jump to previous/next change by press &lt;code&gt;[c&lt;/code&gt; or &lt;code&gt;]c&lt;/code&gt;), it means the git have automatically resolved potential conflict for you. Reviewing is still wise because git is not as smart as human&lt;/li&gt;
+&lt;li&gt;If you prefer navigating between the unresolved conflicts &lt;b&gt;only&lt;/b&gt;, you can install Tim Pope's &lt;a href="https://github.com/tpope/vim-unimpaired"&gt;vim-unimpaired&lt;/a&gt; and use hot key "[n" and "]n" to do the navigation&lt;/li&gt;
+&lt;li&gt;I map &lt;code&gt;[n&lt;/code&gt; and &lt;code&gt;]n&lt;/code&gt; to more handy hot keys:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-vimrc"&gt;map ]] ]n
+map [[ [n
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org637a85b" class="outline-2"&gt;
+&lt;h3 id="org637a85b"&gt;&lt;a id="org61df9f2"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org637a85b"&gt;
+&lt;p&gt;
+You can use command line like "git mergetool -t vimdiff" to start vimdiff from git.
+&lt;/p&gt;
+
+&lt;p&gt;
+So the minimum set up is adding three lines of code into your ~/.vimrc:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-vimrc"&gt;map &amp;lt;silent&amp;gt; &amp;lt;leader&amp;gt;2 :diffget 2&amp;lt;CR&amp;gt; :diffupdate&amp;lt;CR&amp;gt;
+map &amp;lt;silent&amp;gt; &amp;lt;leader&amp;gt;3 :diffget 3&amp;lt;CR&amp;gt; :diffupdate&amp;lt;CR&amp;gt;
+map &amp;lt;silent&amp;gt; &amp;lt;leader&amp;gt;4 :diffget 4&amp;lt;CR&amp;gt; :diffupdate&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Then you can press hot key ",2" ",3" ",4" in vimdiff to pull change from top three buffer. The bottom buffer is for editing the code with markers which is actually your only work space.
+&lt;/p&gt;
+
+&lt;p&gt;
+":help vimdiff" for other hot keys.
+&lt;/p&gt;
+
+&lt;p&gt;
+#+image/git-merge-tool-nq8.png &lt;img src="http://blog.binchen.org/wp-content/uploads/2013/06/wpid-git-merge-tool-nq8.png" alt="wpid-git-merge-tool-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7027122" class="outline-2"&gt;
+&lt;h3 id="org7027122"&gt;subversion/mercurial&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7027122"&gt;
+&lt;p&gt;
+Until now I'm focusing on how to tweak the vimdiff UI because the git has already setup the &lt;a href="https://github.com/git/git/blob/master/mergetools/vimdiff"&gt;basic vimdiff layout for us&lt;/a&gt;. So we just follow the Git layout in other VCS.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org02c33bf" class="outline-3"&gt;
+&lt;h4 id="org02c33bf"&gt;subversion&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org02c33bf"&gt;
+&lt;p&gt;
+Insert below code into ~/.subversion/config:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[helpers]
+merge-tool-cmd = vimdiff.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Content of vimdiff.sh
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;
+#!/bin/sh
+#
+
+# Step 1:
+# When you get following options during svn merge command, select option 'l'. This is to launch external tool to resolve conflicts.
+#
+# Conflict discovered in 'main.h'.
+# Select: (p) postpone, (df) diff-full, (e) edit,
+#        (mc) mine-conflict, (tc) theirs-conflict,
+#        (s) show all options: l
+
+# Step 2: Now vim will be opened in diff mode with 3 files - mine, theirs and merged. Make the required changes in the merged file, and do save and exit (:xa).
+
+# Step 3:
+# Now below options will appear again, select 'r' (to accept the merged version) now.
+
+BASE=${1}
+LOCAL=${2}
+REMOTE=${3}
+MERGED=${4}
+WCPATH=${5}
+
+# copied from from git's vimdiff script
+# @see https://github.com/git/git/blob/master/mergetools/vimdiff
+vimdiff -f -d -c 'wincmd J' "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7dd871d" class="outline-2"&gt;
+&lt;h3 id="org7dd871d"&gt;mercurial&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7dd871d"&gt;
+&lt;p&gt;
+Insert below code into &lt;code&gt;~/.hgrc&lt;/code&gt;:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[ui]
+merge = vimdiff
+[merge-tools]
+vimdiff.executable = vim
+vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +close
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>git</category><category>merge</category><category>mergetool</category><category>vim</category><guid>http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively.html</guid><pubDate>Mon, 10 Jun 2013 21:08:00 GMT</pubDate></item></channel></rss>

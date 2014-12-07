@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 8) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-8.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/the-minimum-emacs-for-debug-purpose.html">The minimum .emacs for debug purpose</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-12T15:55:00+00:00">2013-05-12 15:55</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/the-minimum-emacs-for-debug-purpose.html#disqus_thread" data-disqus-identifier="cache/posts/the-minimum-emacs-for-debug-purpose.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/configuration.html" rel="tag">configuration</a></li>
+           <li><a class="tag p-category" href="categories/dot.html" rel="tag">dot</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/test.html" rel="tag">test</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+I've installed <a href="https://github.com/redguardtoo/emacs.d">more than 100 emacs plugins</a>.
+</p>
+
+<p>
+Here is my minimum <code>.emacs</code> to test plugins,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(show-paren-mode 1)
+(eval-when-compile (require 'cl))
+
+;; test elisps download from internet here
+(setq test-elisp-dir "~/test-elisp/")
+(if (not (file-exists-p (expand-file-name test-elisp-dir)))
+    (make-directory (expand-file-name test-elisp-dir)))
+
+(setq load-path
+      (append
+        (loop for dir in (directory-files test-elisp-dir)
+              unless (string-match "^\\." dir)
+              collecting (expand-file-name (concat test-elisp-dir dir)))
+        load-path))
+
+;; package repositories
+(require 'package)
+(add-to-list 'package-archives '("marmalade" .  "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+;; ==== put your code below this line!
+;;
+</code></pre>
+
+</div>
+
+<p>
+The code is straight forward. I scan any sub-directories in <code>~/test-elisp</code> and add them into <code>load-path</code>.
+</p>
+
+<p>
+I've uploaded the <code>.emacs</code> to Dropbox, so you can use one bash liner to download it:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd ~/;wget https://dl.dropboxusercontent.com/u/858862/emacs/.emacs;mkdir -p ~/test-elisp;
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-use-keyboard-to-navigate-feedly-com.html">How to use keyboard to navigate feedly.com</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-06T21:59:00+00:00">2013-05-06 21:59</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-use-keyboard-to-navigate-feedly-com.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-keyboard-to-navigate-feedly-com.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/keysnail.html" rel="tag">keysnail</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Here is the detailed steps, </p>
+<ol>
+<li>Install <a href="https://github.com/mooz/keysnail">keysnail</a> (a firefox addon) </li> <li>Install <a href="https://github.com/mooz/keysnail/wiki/plugin">HoK</a> (no less than version 1.3.9) through keysnail </li> <li>Add below code into .keysnail.js </li> </ol>
+<pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/*<em> </em></span><span style="color: #969896; font-style: italic;">HoK /</span>
+key.setViewKey(<span style="color: #70c0b1;">'e'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+        ext.exec(<span style="color: #70c0b1;">"hok-start-foreground-mode"</span>, aArg);
+}, <span style="color: #70c0b1;">'Hok - Foreground hint mode'</span>, <span style="color: #c397d8;">true</span>);
+<p>key.setViewKey(<span style="color: #70c0b1;">'E'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+        ext.exec(<span style="color: #70c0b1;">"hok-start-background-mode"</span>, aArg);
+}, <span style="color: #70c0b1;">'HoK - Background hint mode'</span>, <span style="color: #c397d8;">true</span>);</p>
+<p>key.setViewKey(<span style="color: #70c0b1;">';'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+        ext.exec(<span style="color: #70c0b1;">"hok-start-extended-mode"</span>, aArg);
+}, <span style="color: #70c0b1;">'HoK - Extented hint mode'</span>, <span style="color: #c397d8;">true</span>);</p>
+<p>key.setViewKey([<span style="color: #70c0b1;">'C-c'</span>, <span style="color: #70c0b1;">'C-e'</span>], <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+        ext.exec(<span style="color: #70c0b1;">"hok-start-continuous-mode"</span>, aArg);
+}, <span style="color: #70c0b1;">'Start continuous HaH'</span>, <span style="color: #c397d8;">true</span>);</p>
+<p>hook.addToHook(<span style="color: #70c0b1;">'PluginLoaded'</span>, <span style="color: #b9ca4a;">function</span> () {
+  <span style="color: #b9ca4a;">if</span> (!plugins.hok)
+    <span style="color: #b9ca4a;">return</span>;</p>
+<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">HoK 1.3.9+ requried /</span>
+  plugins.hok.pOptions.selector = plugins.hok.pOptions.selector
+    <span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">feedly /</span>
+    + <span style="color: #70c0b1;">", <em>[data-uri]"</em></span>
+    + <span style="color: #70c0b1;">", [data-selector-toggle]"</span>
+    + <span style="color: #70c0b1;">", <em>[data-page-action]"</em></span>
+    + <span style="color: #70c0b1;">", [data-app-action]"</span>
+  ;
+});</p>
+<p></p></pre>  <ol>
+<li>Restart Firefox, logged into <a href="http://www.feedly.com">http://www.feedly.com</a> and press hot key "e" </li> <li>Enjoy! </li> </ol>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html">How to use yasnippets to produce email templates in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-01T15:53:08+00:00">2013-05-01 15:53</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-05-01 Wed&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-13 Fri&gt;</span></span>
+</p>
+
+<div id="outline-container-org3b0f266" class="outline-2">
+<h3 id="org3b0f266">Problem</h3>
+<div class="outline-text-2" id="text-org3b0f266">
+<p>
+As a freelancer, I need reply agent's email frequently.
+</p>
+
+<p>
+So I have several issues to resolve:
+</p>
+<ul class="org-ul">
+<li>Avoid writing multiple mails with similar content</li>
+<li>Avoid attaching same resume again and again</li>
+<li>Get the agent's name right. This is not easy since I'm living in Sydney</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbe94906" class="outline-2">
+<h3 id="orgbe94906">Solution</h3>
+<div class="outline-text-2" id="text-orgbe94906">
+<p>
+<a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a> is the best solution for email templates because you can embed Lisp code in the template.
+</p>
+</div>
+<div id="outline-container-org1569747" class="outline-3">
+<h4 id="org1569747">Templates</h4>
+<div class="outline-text-3" id="text-org1569747">
+<p>
+I publicize my .emacs.d at <a href="https://github.com/redguardtoo/emacs.d">github</a>. But email templates are my private stuff. So I place them in different location.
+</p>
+
+<p>
+That's why I place templates at ~/my-yasnippets/message-mode/.
+</p>
+
+<p>
+Here is a sample template to reply my agents (jobok.yasnippet):
+</p>
+<pre class="example">
+# -*- mode: snippet -*-
+# name: email for OK job
+# key: jobok
+# --
+Hi ${1:`(my-yas-get-first-name-from-to-field)`},
+
+Thank you very much for providing me this great opportunity.
+
+Unfortunately I'm occupied now and will not consider new job for the time being.
+
+Currently I'm working for ${2:COMPANY_NAME} as a contract developer. However, the
+contract will be over ${3:END_OF_CONTRACT} and I will be available then.
+
+So keep in touch.
+
+Attached is my latest CV.
+$0
+
+&lt;#part type="application/msword" filename="~/org/cv/cv.doc" disposition=attachment description=resume&gt;
+&lt;#/part&gt;
+</pre>
+
+<p>
+`(my-yas-get-first-name-from-to-field)` is a Lisp function embedded in the snippet.
+</p>
+
+<p>
+It will automatically fetch the first name of agent,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-yas-get-first-name-from-to-field ()
+  (let ((rlt "AGENT_NAME") str)
+    (save-excursion
+      (goto-char (point-min))
+      ;; first line in email could be some hidden line containing NO to field
+      (setq str (buffer-substring-no-properties (point-min) (point-max))))
+    (if (string-match "^To: \"\\([^ ,]+\\)" str)
+        (setq rlt (match-string 1 str)))
+    (message "rlt=%s" rlt)
+    rlt))
+</code></pre>
+
+</div>
+</div>
+</div>
+<div id="outline-container-org273f6f2" class="outline-3">
+<h4 id="org273f6f2">Emacs setup</h4>
+<div class="outline-text-3" id="text-org273f6f2">
+<p>
+Add following code into .emacs to make yasnippet load the emacs templates:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'yasnippet)
+(setq my-yasnippets (expand-file-name "~/my-yasnippets"))
+(if (and  (file-exists-p my-yasnippets) (not (member my-yasnippets yas-snippet-dirs)))
+    (add-to-list 'yas-snippet-dirs my-yasnippets))
+;; yasnippet setup code should be AFTER
+(yas-global-mode 1)
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/make-emacs-support-auto-completion-for-cmake.html">Make Emacs support auto-completion for CMake</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-04-22T10:48:00+00:00">2013-04-22 10:48</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/make-emacs-support-auto-completion-for-cmake.html#disqus_thread" data-disqus-identifier="cache/posts/make-emacs-support-auto-completion-for-cmake.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/c.html" rel="tag">c</a></li>
+           <li><a class="tag p-category" href="categories/cmake.html" rel="tag">cmake</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Easy. You only install company-mode and company-cmake.el according to the documentation <a href="https://github.com/company-mode/company-cmake">HERE</a>. </p> <p> company-cmake.el is written by me. I'm in the process of signing necessary copyright papers to make it part of company-mode. I was told the process could take one month because I'm deal with GNU foundation. So please be patient. </p> <p> Anyway, you can use company-cmake.el right now with company-mode without any problem. </p> <p> Please note I only tested this plugin with cmake 2.8. </p> <p> Here is screen shot: <img src="wp-content/uploads/2014/01/company-cmake-nq8.png" alt="http://blog.binchen.org/wp-content/uploads/2014/01/company-cmake-nq8.png"></p> <p> UPDATED (12th Jan, 2014): Legal procedure is done. Now company-cmake.el is officially part of company-mode since version 0.6.12. </p> <p> So all you need to do is install latest company-mode, no other set up required! </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/convert-multiple-line-into-one-big-string-in-emacs.html">Convert multiple line into one big string in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-04-17T14:14:00+00:00">2013-04-17 14:14</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/convert-multiple-line-into-one-big-string-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/convert-multiple-line-into-one-big-string-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/elisp.html" rel="tag">elisp</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+This command converts selected region in Emacs into one string and put it into the kill ring.
+</p>
+
+<p>
+Why I need this command? I'm doing some web developement now. I've got a  javascript API whose parameter is a string in html syntax. I write that beautifully indented multiple lines string in html editor to make sure the string is correct. Then I convert the multiple lines  string into one string without line breaks so that I can paste the one line string into my javascript code.
+</p>
+
+<p>
+In certain situation, this method actually makes code more readable.
+</p>
+
+<p>
+Here is code you can paste into your .emacs:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun strip-convert-lines-into-one-big-string (beg end)
+"strip and convert selected lines into one big string which is copied into kill ring.
+When transient-mark-mode is enabled, if no region is active then only the
+current line is acted upon.
+
+If the region begins or ends in the middle of a line, that entire line is
+copied, even if the region is narrowed to the middle of a line.
+
+Current position is preserved."
+  (interactive "r")
+  (let (str (orig-pos (point-marker)))
+  (save-restriction
+    (widen)
+    (when (and transient-mark-mode (not (use-region-p)))
+      (setq beg (line-beginning-position)
+            end (line-beginning-position 2)))
+
+    (goto-char beg)
+    (setq beg (line-beginning-position))
+    (goto-char end)
+    (unless (= (point) (line-beginning-position))
+      (setq end (line-beginning-position 2)))
+
+    (goto-char beg)
+    (setq str (replace-regexp-in-string "[ \t]*\n" "" (replace-regexp-in-string "^[ \t]+" "" (buffer-substring-no-properties beg end))))
+    ;; (message "str=%s" str)
+    (kill-new str)
+    (goto-char orig-pos)))
+  )
+(global-set-key (kbd "C-c C-y") 'strip-convert-lines-into-one-big-string)
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-manage-my-software-configuration-at-github.html">How to manage my software configuration at github</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-04-10T12:45:45+00:00">2013-04-10 12:45</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-manage-my-software-configuration-at-github.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-manage-my-software-configuration-at-github.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/configuration.html" rel="tag">configuration</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/github.html" rel="tag">github</a></li>
+           <li><a class="tag p-category" href="categories/management.html" rel="tag">management</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Problem</h4> <div class="outline-text-3" id="text-1">  <p>Here is the situation: </p>
+<ul>
+<li>I've set up a repository at github to store my configuration of specifi software. </li> <li>I synchronize the configuration with several computers </li> <li>All these computers belongs to me only. </li> </ul>
+<p> My issue is after using <code>git pull/push</code> for some time. My commit history looks not linear. </p> </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Solution</h4> <div class="outline-text-3" id="text-2">  <p>Simple. I need use <code>git pull –rebase origin master</code> instead of <code>git pull origin master</code> </p> <p> Rebase will usually rewrite my commit history at your <b>local branch</b>. It's totally fine because I won't share the software configuration on my local computer. If I want to share my configuration, I will use the public url at github. </p>
+</div> </div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/my-work-flow-to-debug-emacs-plugin.html">My work flow to debug emacs plugin</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-03-30T15:08:00+00:00">2013-03-30 15:08</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/my-work-flow-to-debug-emacs-plugin.html#disqus_thread" data-disqus-identifier="cache/posts/my-work-flow-to-debug-emacs-plugin.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/elisp.html" rel="tag">elisp</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Author: Chen Bin &lt;chenbin.sh AT gmail DOT com&gt; Created: <span class="timestamp-wrapper"> <span class="timestamp">2013-03-30 Sat</span></span> </p> <p> This is my quick guide on how to start debugging elisp. It's written for developers who are already experienced on debugging program but too lazy to read the <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Edebug.html#Edebug">Edebug manual</a>. </p> <p> The most critical set up for the debugging is to set the hot key "C-h C-f" to the command "find-function" so you can jump the definition of the function easily. </p>   <pre class="src src-elisp">(global-set-key (kbd <span style="color: #70c0b1;">"C-h C-f"</span>) 'find-function)
+</pre>   <p> Here is my workflow. </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">start the debugging</h4> <div class="outline-text-3" id="text-1">  <ul>
+<li>Jump to the definition of the command (The hot key is "C-h C-f", as I mentioned before). </li> <li>Run "M-x edebug-defun" . This will set the breakpoint into the entry of the command. BTW, I run "M-x eval-defun" in the function body to undo "edebug-defun". </li> <li>Run the command to be debugged from Emacs </li> <li>Press "space" key (M-x edebug-step-mode) to debug the program step by step </li> <li>Watch the value of expression in the mini-buffer when you press "space" key </li> </ul>
+</div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">basic debug operation</h4> <div class="outline-text-3" id="text-2">  <ul>
+<li>Press "i" key (M-x edebug-step-in) to step in   </li> <li>Press "o" key (M-x edebug-step-out) to step out  </li> <li>Press "b" key (M-x edebug-set-breakpoint) to set the break point (press "u" key unset break point. I don't use this though) </li> <li>Press "g" key (M-x edebug-go-mode) to continue </li> <li>Press "h" key (M-x edebug-goto-here) to proceed until at the current line </li> </ul>
+</div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">Watch the variable and functions</h4> <div class="outline-text-3" id="text-3">  <ul>
+<li>Press "e" key (M-x edebug-eval-expression) to run the expression in the context outside of Edebug. Basically it means print a variable's value. Very useful.  </li> <li>Press "C-x C-e" key (M-x edebug-eval-last-sexp) in the context outside of Edebug. Similar to "e", useful if you are lazy to input the expression manually. </li> </ul>
+<p> "Outside of Edebug" means you are only watching the variable's value. You will NOT change the status of program being debugged </p>
+</div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">Set the variable</h4> <div class="outline-text-3" id="text-4">  <ul>
+<li>Press "M-:" key (M-x eval-expression) to evaluate the expression in the context of Edebug itself. </li> </ul>
+<p> I usually don't do this. It's not my debugging style. </p>
+</div> </div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-screenrtorrentcronie-to-manage-torrent-client.html">Use screen/rtorrent/cronie to manage torrent client</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-03-09T15:08:00+00:00">2013-03-09 15:08</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-screenrtorrentcronie-to-manage-torrent-client.html#disqus_thread" data-disqus-identifier="cache/posts/use-screenrtorrentcronie-to-manage-torrent-client.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/archlinux.html" rel="tag">archlinux</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/torrent.html" rel="tag">torrent</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+`man rtorrent` for the keybindings:
+</p>
+
+<ul class="org-ul">
+<li>`Enter` to input magnet from piratebay manually</li>
+<li>`C-s` to start download</li>
+<li>`C-d` to delete</li>
+</ul>
+<p>
+For <a href="http://www.archlinux.org">ArchLinux</a> only:
+</p>
+
+<div id="outline-container-orga870895" class="outline-2">
+<h3 id="orga870895">Prepare directory</h3>
+<div class="outline-text-2" id="text-orga870895">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">mkdir -p ~/bt/{session,finished,torrent}
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged49e66" class="outline-2">
+<h3 id="orged49e66">Install</h3>
+<div class="outline-text-2" id="text-orged49e66">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo pacman -S cronie
+sudo systemctl enable cronie
+sudo systemctl start cronie
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgac1f733" class="outline-2">
+<h3 id="orgac1f733">Add cron task to start and stop rtorrent service</h3>
+<div class="outline-text-2" id="text-orgac1f733">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">crontab -e #add cron task as current user
+</code></pre>
+
+</div>
+
+<p>
+The default editor will be open, input below content:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">#start rtorrent sesssion at 1am
+0 1 * * * /usr/bin/screen -fa -d -m -S torrent /usr/bin/rtorrent
+# kill it at  9am
+0 10 * * * /usr/bin/screen -S torrent -X quit
+</code></pre>
+
+</div>
+
+<p>
+Done!
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/start-wxwidgets-programming-on-linux.html">Start wxWidgets programming on Linux/OSX</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-02-26T09:17:00+00:00">2013-02-26 09:17</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/start-wxwidgets-programming-on-linux.html#disqus_thread" data-disqus-identifier="cache/posts/start-wxwidgets-programming-on-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/wxwidgets.html" rel="tag">wxwidgets</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+wxWidgets 3.0.0
+</p>
+
+<p>
+WARNING: before building, please make sure remove everything in build directory, <b>including hidden directory</b>!
+</p>
+
+<div id="outline-container-orge0a322c" class="outline-2">
+<h3 id="orge0a322c">Install webkit by using Linux distribution's package manager</h3>
+<div class="outline-text-2" id="text-orge0a322c">
+<p>
+I need use wxWebView which dependent on webkit on Linux. The issue here is that webkit on Linux is using GTK.
+</p>
+
+<p>
+Make sure the webkit and wxWidgets are using same version of GTK.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org568bb33" class="outline-2">
+<h3 id="org568bb33">build the source</h3>
+<div class="outline-text-2" id="text-org568bb33">
+<p>
+Please note I don't use libtiff. I think libpng and libjpeg is enough.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">mkdir -p ${WXWIN}/build-release;cd ${WXWIN}/build-release;../configure --disable-shared --without-libtiff;make
+mkdir -p ${WXWIN}/build-debug;cd ${WXWIN}/build-debug;../configure --disable-shared --enable-debug --without-libtiff;make
+</code></pre>
+
+</div>
+
+<p>
+On OSX, I need extra <code>--with-osx_cocoa</code> parameter for configure.
+</p>
+
+<p>
+On Linux, build will be fine following above steps. But for building application, I need <code>sudo apt-get install libgtk2.0-dev</code> on Debian/Ubuntu/Mint.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/notes-to-install-gentoo-linux.html">Notes to install Gentoo Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-02-25T02:22:00+00:00">2013-02-25 02:22</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/notes-to-install-gentoo-linux.html#disqus_thread" data-disqus-identifier="cache/posts/notes-to-install-gentoo-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/gentoo.html" rel="tag">gentoo</a></li>
+           <li><a class="tag p-category" href="categories/install.html" rel="tag">install</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<div id="outline-container-orgf86af2e" class="outline-2">
+<h3 id="orgf86af2e">Intel integrated video card</h3>
+<div class="outline-text-2" id="text-orgf86af2e">
+<p>
+Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo genkernel --menuconfig all
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgab19b55" class="outline-2">
+<h3 id="orgab19b55">Grub2</h3>
+<div class="outline-text-2" id="text-orgab19b55">
+<p>
+Let grub2 create the cfg for me automatically,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">grub2-mkconfig -o /boot/grub/grub.cfg
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org175588e" class="outline-2">
+<h3 id="org175588e">Network</h3>
+<div class="outline-text-2" id="text-org175588e">
+</div>
+<div id="outline-container-orgfe044fb" class="outline-3">
+<h4 id="orgfe044fb">Ethernet</h4>
+<div class="outline-text-3" id="text-orgfe044fb">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
+# @see https://wiki.gentoo.org/wiki/Netifrc
+ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
+echo 'config_eth0="dhcp"' &gt;&gt; /etc/conf.d/net
+/etc/init.d/net.eth0 start
+rc-update add net.eth0 default
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org778af7a" class="outline-3">
+<h4 id="org778af7a">Wireless (wifi)</h4>
+<div class="outline-text-3" id="text-org778af7a">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
+# @see https://wiki.gentoo.org/wiki/Netifrc
+# I need setup /etc/wpa_supplicant/wpa_supplicant.conf at first
+ln -s /etc/init.d/net.lo /etc/init.d/net.ra0
+echo 'config_ra0="dhcp"' &gt;&gt; /etc/conf.d/net
+/etc/init.d/net.ra0 start
+rc-update add net.ra0 default
+</code></pre>
+
+</div>
+
+<p>
+Content of /etc/wpa_supplicant/wpa_supplicant.conf:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">#let wpa_supplicant take care of scanning and AP selection
+ap_scan=1
+
+#simple case: WPA-PSK, PPSK as an simple passphrase
+network={
+  ssid="myssid"
+  psk="mypassword"
+  # the higher priority the sooner we matched
+  priority=5
+}
+</code></pre>
+
+</div>
+
+<p>
+For kernel 3.17.*+, by default wpa_supplicant use <code>nl80211</code> driver instead of <code>wext</code>.
+</p>
+
+<p>
+We need for it use <code>wext</code> instead. To double check <code>wext</code> does work,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo wpa_supplicant -dd -B -i ra0 -Dwext -c /etc/wpa_supplicant/wpa_supplicant.conf
+</code></pre>
+
+</div>
+
+<p>
+But OpenRC script does not have <code>-Dwext</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># as root
+cd /lib;grep -rsn --exclude-dir=/home "Starting wpa_supplicant on" *
+# netifrc/net/wpa_supplicant.sh:85: ebegin "Starting wpa_supplicant on ${IF
+# VAR}"
+</code></pre>
+
+</div>
+
+<p>
+Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">opts="-Dwext ${opts} -c ${cfgfile}"
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4e71164" class="outline-2">
+<h3 id="org4e71164">Clock Synchronization</h3>
+<div class="outline-text-2" id="text-org4e71164">
+<p>
+<a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate">htpdate</a> is great because it only use HTTP protocol, don't forget add server in its config file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdd8571c" class="outline-2">
+<h3 id="orgdd8571c">Sound</h3>
+<div class="outline-text-2" id="text-orgdd8571c">
+<p>
+Nothing to tell. There may be some issue, but I forgot.</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-9.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-7.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about office)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/office.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to take screen shot for business people efficiently in Emacs</title><link>http://blog.binchen.org/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2013-10-23 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-08-11 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-org320edcd" class="outline-2"&gt;
+&lt;h3 id="org320edcd"&gt;Tools&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org320edcd"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;Name&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Description&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Minimum version&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Org-mode&lt;/td&gt;
+&lt;td class="org-left"&gt;create org-file which could be converted to odt file&lt;/td&gt;
+&lt;td class="org-left"&gt;7.8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;scrot&lt;/td&gt;
+&lt;td class="org-left"&gt;command line tool to take screen shot&lt;/td&gt;
+&lt;td class="org-left"&gt;any version&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;a href="https://www.libreoffice.org/download/libreoffice-fresh/"&gt;Libreoffice&lt;/a&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;convert odt to Microsoft Word&lt;/td&gt;
+&lt;td class="org-left"&gt;any version&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;xsel&lt;/td&gt;
+&lt;td class="org-left"&gt;X clipboard tool&lt;/td&gt;
+&lt;td class="org-left"&gt;any version&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org60fe0fd" class="outline-2"&gt;
+&lt;h3 id="org60fe0fd"&gt;Work flow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org60fe0fd"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6728170" class="outline-3"&gt;
+&lt;h4 id="org6728170"&gt;Use scrot to screenshot and put its path into clipboard&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6728170"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;scrot '%H%M%S-%d_$wx$h.png' -e 'mkdir -p ~/screenshot;mv $f ~/screenshot/;echo ~/screenshot/$f|tr -d \"\\n\"|xsel -ib;'
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf85a27c" class="outline-3"&gt;
+&lt;h4 id="orgf85a27c"&gt;Create org file and insert path of screen shot&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf85a27c"&gt;
+&lt;p&gt;
+Actually I use below elisp command to do the insertion for me.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun insert-file-link-from-clipboard ()
+  "Make sure the full path of file exist in clipboard. This command will convert
+The full path into relative path and insert it as a local file link in org-mode"
+  (interactive)
+  (let (str)
+    (with-temp-buffer
+      (shell-command
+       (cond
+        ((eq system-type 'cygwin) "getclip")
+        ((eq system-type 'darwin) "pbpaste")
+        (t "xsel -ob"))
+       1)
+      (setq str (buffer-string)))
+
+    ;; convert to relative path (relative to current buffer) if possible
+    (let ((m (string-match (file-name-directory (buffer-file-name)) str) ))
+      (when m
+        (if (= 0 m )
+            (setq str (substring str (length (file-name-directory (buffer-file-name)))))
+          ))
+        (insert (format "[[file:%s]]" str)))
+    ))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org7953b79" class="outline-3"&gt;
+&lt;h4 id="org7953b79"&gt;Convert org file into Microsoft Word format&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org7953b79"&gt;
+&lt;p&gt;
+I'm sure this method works even on Windows. But I don't have Windows PC to validate my belief. Libreoffice is required.
+&lt;/p&gt;
+
+&lt;p&gt;
+Run the command "M-x org-export-as-odt".
+&lt;/p&gt;
+
+&lt;p&gt;
+Word document is &lt;b&gt;automatically created&lt;/b&gt; if you insert below code into your ~/.emacs:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; This setup is tested on Emacs 24.3 &amp;amp; Emacs 24.4 on Linux/OSX
+;; org v7 bundled with Emacs 24.3
+(setq org-export-odt-preferred-output-format "doc")
+;; org v8 bundled with Emacs 24.4
+(setq org-odt-preferred-output-format "doc")
+;; BTW, you can assign "pdf" in above variables if you prefer PDF format
+
+;; Only OSX need below setup
+(defun my-setup-odt-org-convert-process ()
+  (interactive)
+  (let ((cmd "/Applications/LibreOffice.app/Contents/MacOS/soffice"))
+    (when (and (eq system-type 'darwin) (file-exists-p cmd))
+      ;; org v7
+      (setq org-export-odt-convert-processes '(("LibreOffice" "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to %f%x --outdir %d %i")))
+      ;; org v8
+      (setq org-odt-convert-processes '(("LibreOffice" "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to %f%x --outdir %d %i"))))
+    ))
+(my-setup-odt-org-convert-process)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Emacs will find the binary "soffice" from libreoffice to do the conversion.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org94522f3" class="outline-3"&gt;
+&lt;h4 id="org94522f3"&gt;Tips&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org94522f3"&gt;
+&lt;p&gt;
+If you need page break in exported document, insert below snippet into the org file:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-html"&gt;#+ODT: &amp;lt;text:p text:style-name="PageBreak"/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>office</category><category>org</category><category>screenshot</category><category>word</category><guid>http://blog.binchen.org/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs.html</guid><pubDate>Wed, 23 Oct 2013 17:31:00 GMT</pubDate></item></channel></rss>

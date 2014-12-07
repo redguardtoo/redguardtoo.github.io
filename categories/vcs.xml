@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about vcs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vcs.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://blog.binchen.org/posts/use-perforce-inside-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-12-05 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2017-08-14 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Perforce is a proprietary VCS. It's less powerful than &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; so need extra effort to be use with Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like &lt;code&gt;p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}&lt;/code&gt; can't do it. I have to use Emacs Lisp to clean the output of &lt;code&gt;p4&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div id="outline-container-org23de93c" class="outline-2"&gt;
+&lt;h3 id="org23de93c"&gt;Perforce workflow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org23de93c"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;p4 set&lt;/code&gt; to &lt;a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html"&gt;set up&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 login&lt;/code&gt; to login&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 client&lt;/code&gt; creates a new work space to tell server the directories/files to check out or to ignore&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 sync //depot/url/...&lt;/code&gt; to checkout files&lt;/li&gt;
+&lt;li&gt;Files are read-only by default. You need &lt;code&gt;p4 edit file&lt;/code&gt; to make files writable before editing&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 add files&lt;/code&gt; to add new files. &lt;code&gt;p4 revert&lt;/code&gt; to revert edited file to it original status and lose the local changes&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p4 change&lt;/code&gt; to create a pending change. Then &lt;code&gt;p4 submit -c #changelist&lt;/code&gt; to actually submit code to main branch. Pending change gives you a chance to tweak the change before submit&lt;/li&gt;
+&lt;li&gt;Or &lt;code&gt;p4 submit -d"description" file&lt;/code&gt; to submit a single file directly&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4a99138" class="outline-2"&gt;
+&lt;h3 id="org4a99138"&gt;My solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4a99138"&gt;
+&lt;p&gt;
+Perforce Cygwin portable is not recommended.
+&lt;/p&gt;
+
+&lt;p&gt;
+I suggest using executable from Perforce Windows native version which works on both Cygwin and Windows.
+&lt;/p&gt;
+
+&lt;p&gt;
+Perforce server assigns unique URL for each physical file. If I only feed &lt;code&gt;p4&lt;/code&gt; that URL, the operation is always successful.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgd8ee54f" class="outline-3"&gt;
+&lt;h4 id="orgd8ee54f"&gt;Emacs&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgd8ee54f"&gt;
+&lt;p&gt;
+I developed &lt;a href="https://github.com/redguardtoo/vc-msg"&gt;vc-msg&lt;/a&gt; which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need &lt;code&gt;p4 login&lt;/code&gt; at first.)
+&lt;/p&gt;
+
+&lt;p&gt;
+My patched &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/git-gutter/git-gutter.el"&gt;emacs-git-gutter&lt;/a&gt; show Perforce gutters. You only need setup &lt;code&gt;git-gutter:exp-to-create-diff&lt;/code&gt;. Here is a sample,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq-local git-gutter:exp-to-create-diff
+            (shell-command-to-string (format "p4 diff -du -db %s"
+                                             (file-relative-name buffer-file-name))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I also provided commands like &lt;code&gt;p4edit&lt;/code&gt;, &lt;code&gt;p4revert&lt;/code&gt;, &lt;code&gt;p4submit&lt;/code&gt;, &lt;code&gt;p4diff&lt;/code&gt;, and &lt;code&gt;p4history&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; {{ perforce utilities
+(defvar p4-file-to-url '("" "")
+  "(car p4-file-to-url) is the original file prefix
+(cadr p4-file-to-url) is the url prefix")
+
+(defun p4-current-file-url ()
+  (replace-regexp-in-string (car p4-file-to-url)
+                            (cadr p4-file-to-url)
+                            buffer-file-name))
+
+(defun p4-generate-cmd (opts)
+  (format "p4 %s %s" opts (p4-current-file-url)))
+
+(defun p4edit ()
+  "p4 edit current file."
+  (interactive)
+  (shell-command (p4-generate-cmd "edit"))
+  (read-only-mode -1))
+
+(defun p4submit (&amp;amp;optional file-opened)
+  "p4 submit current file.
+If FILE-OPENED, current file is still opened."
+  (interactive "P")
+  (let* ((msg (read-string "Say (ENTER to abort):"))
+         (open-opts (if file-opened "-f leaveunchanged+reopen -r" ""))
+         (full-opts (format "submit -d '%s' %s" msg open-opts)))
+    ;; (message "(p4-generate-cmd full-opts)=%s" (p4-generate-cmd full-opts))
+    (if (string= "" msg)
+        (message "Abort submit.")
+      (shell-command (p4-generate-cmd full-opts))
+      (unless file-opened (read-only-mode 1))
+      (message (format "%s submitted."
+                       (file-name-nondirectory buffer-file-name))))))
+
+(defun p4revert ()
+  "p4 revert current file."
+  (interactive)
+  (shell-command (p4-generate-cmd "revert"))
+  (read-only-mode 1))
+
+(defun p4-show-changelist-patch (line)
+  (let* ((chg (nth 1 (split-string line "[\t ]+")))
+         (url (p4-current-file-url))
+         (pattern "^==== //.*====$")
+         sep
+         seps
+         (start 0)
+         (original (if chg (shell-command-to-string (format "p4 describe -du %s" chg)) ""))
+         rlt)
+
+    (while (setq sep (string-match pattern original start))
+      (let* ((str (match-string 0 original)))
+        (setq start (+ sep (length str)))
+        (add-to-list 'seps (list sep str) t)))
+    (setq rlt (substring original 0 (car (nth 0 seps))))
+    (let* ((i 0) found)
+      (while (and (not found)
+                  (&amp;lt; i (length seps)))
+        (when (string-match url (cadr (nth i seps)))
+          (setq rlt (concat rlt (substring original
+                                           (car (nth i seps))
+                                           (if (= i (- (length seps) 1))
+                                               (length original)
+                                             (car (nth (+ 1 i) seps))))))
+          ;; out of loop now since current file patch found
+          (setq found t))
+        (setq i (+ 1 i))))
+
+    ;; remove p4 verbose bullshit
+    (setq rlt (replace-regexp-in-string "^\\(Affected\\|Moved\\) files \.\.\.[\r\n]+\\(\.\.\. .*[\r\n]+\\)+"
+                                        ""
+                                        rlt))
+    (setq rlt (replace-regexp-in-string "Differences \.\.\.[\r\n]+" "" rlt))
+    ;; one line short description of change list
+    (setq rlt (replace-regexp-in-string "Change \\([0-9]+\\) by \\([^ @]+\\)@[^ @]+ on \\([^ \r\n]*\\).*[\r\n \t]+\\([^ \t].*\\)" "\\1 by \\2@\\3 \\4" rlt))
+    rlt))
+
+(defun p4--create-buffer (buf-name content &amp;amp;optional enable-imenu)
+  (let* (rlt-buf)
+    (if (get-buffer buf-name)
+        (kill-buffer buf-name))
+    (setq rlt-buf (get-buffer-create buf-name))
+    (save-current-buffer
+      (switch-to-buffer-other-window rlt-buf)
+      (set-buffer rlt-buf)
+      (erase-buffer)
+      (insert content)
+      (diff-mode)
+      (goto-char (point-min))
+      ;; nice imenu output
+      (if enable-imenu
+          (setq imenu-create-index-function
+                (lambda ()
+                  (save-excursion
+                    (imenu--generic-function '((nil "^[0-9]+ by .*" 0)))))))
+      ;; quit easily in evil-mode
+      (evil-local-set-key 'normal "q" (lambda () (interactive) (quit-window t))))))
+
+(defun p4diff ()
+  "Show diff of current file like `git diff'."
+  (interactive)
+  (let* ((content (shell-command-to-string (p4-generate-cmd "diff -du -db"))))
+    (p4--create-buffer "*p4diff*" content)))
+
+(defun p4history ()
+  "Show history of current file like `git log -p'."
+  (interactive)
+  (let* ((changes (split-string (shell-command-to-string (p4-generate-cmd "changes")) "\n"))
+         (content (mapconcat 'p4-show-changelist-patch
+                             changes
+                             "\n\n")))
+    (p4--create-buffer "*p4log*" content t)))
+;; }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As a bonus tip, if you use &lt;a href="https://github.com/technomancy/find-file-in-project"&gt;find-file-in-project&lt;/a&gt;, insert below code into &lt;code&gt;prog-mode-hook&lt;/code&gt; to view any perforce change inside Emacs,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq-local ffip-diff-backends
+            '((ivy-read "p4 change to show:"
+                        (split-string (shell-command-to-string "p4 changes //depot/development/DIR/PROJ1/...")
+                                      "\n")
+                        :action (lambda (i)
+                                  (if (string-match "^ Change \\([0-9]*\\)" i)
+                                      (shell-command-to-string (format "p4 describe -du -db %s"
+                                                                       (match-string 1 i))))))
+              "p4 diff -du -db //depot/development/DIR/PROJ1/..."))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can also check my &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-perforce.el"&gt;emacs.d&lt;/a&gt; to get latest code.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org25faf65" class="outline-3"&gt;
+&lt;h4 id="org25faf65"&gt;Bash Shell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org25faf65"&gt;
+&lt;p&gt;
+Other operations are finished in Bash Shell,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# {{ Perforce, I hope I will never use it
+if [ "$OS_NAME" = "CYGWIN" ]; then
+    function p4() {
+        export PWD=`cygpath -wa .`
+        /cygdrive/c/Program\ Files/Perforce/p4.exe $@
+    }
+fi
+
+# p4 workflow:
+#
+#   # basic setup
+#   p4 set P4CLIENT=clientname  # set your default client
+#   p4 set P4PORT=SERVER:1666
+#   p4 set P4USER=username
+#   p4 client # create/edit client, client views selected files
+#
+#   # checkout code
+#   p4 sync [-f] //depot/project-name/path/...
+#   p4 edit file[s]
+#   ... do some editing ...
+#
+#   # submit code
+#   either `p4 submit -d"say hi" file` or `p4 change`
+#
+#   I recommend `p4 change` because you can edit files list before submit happens.
+#   After `p4 change`,  `p4 submit -c changelist#` to actually submit change.
+#
+alias p4clr='p4 diff -sr | p4 -x - revert' # like `git reset HEAD`
+alias p4blame='p4 annotate -c -db ' # could add -a see deleted lines
+alias p4cr='p4 submit -f leaveunchanged+reopen -r'
+alias reviewcl='ccollab addchangelist new'
+alias p4pending='p4 changes -s pending' # add ... for current directory
+alias p4untrack='find . -type f| p4 -x - fstat &amp;gt;/dev/null'
+alias p4v='p4 resolve' # after `p4 sync ...`, maybe resolve
+alias p4r='p4 revert' # discard changes
+alias p4e='p4 edit'
+alias p4s='p4 submit'
+alias p4sr='p4 submit -f submitunchanged+reopen' #submit&amp;amp;reopen
+alias p4up='p4 sync ...' # synchronize from current directory
+alias p4o='p4 opened' # list opened files
+alias p4c='p4 changes' # create a new pending change
+alias p4chg='p4 change' # create a pending change
+alias p4d='p4 diff -du -db'
+alias p4ds='p4 diff -du -db | lsdiff' # diff summary, patchutils required
+alias p4i='p4 integrate'
+alias p4unsh='p4 unshelve -s' # Usage: p4unsh changelist#, like `git stash apply`
+alias p4h='p4 changes -m 1 ...' # show the head change
+
+function p4mypending {
+    local P4USERNAME="`p4 user -o | grep '^User:\s' | sed 's/User:\s\([a-bA-B0-9]*\)/\1/g'`"
+    p4 changes -s pending -u $P4USERNAME
+}
+
+function p4shelved {
+    local P4USERNAME="`p4 user -o | grep '^User:\s' | sed 's/User:\s\([a-bA-B0-9]*\)/\1/g'`"
+    p4 changes -s shelved -u $P4USERNAME # add ... for current directory
+}
+
+function p4cmp {
+    if [ -z "$1" ]; then
+        echo "Usage: p4cmp changelist-number changelist-number"
+    else
+        p4 diff2 -dub -q -u ...@$1 ...@$2
+    fi
+}
+
+function p4dl {
+    # git diff
+    p4 diff -du -db $@ | vim -c "set syntax=diff" -R -
+}
+function p4sh(){
+    # show specific change or the latest change
+    if [ -z "$1" ]; then
+        p4 changes | python ~/bin/percol.py | awk '{print $2}' | xargs -i p4 describe -du {} | vim -c "set syntax=diff" -R -
+    else
+        p4 describe -du -db $@ | vim -c "set syntax=diff" -R -
+    fi
+}
+
+function p4lp {
+    #like `git log -p`
+    p4 changes $@ | awk '{print $2}' | xargs -i p4 describe -du {} | less -F
+}
+
+function p4mlp {
+    #like `git log -p`
+    p4 changes -u $P4USERNAME $@ | awk '{print $2}' | xargs -i p4 describe -du {} | less -F
+}
+
+function p4adddir(){
+    if [ -z "$1" ]; then
+        echo "Usage: p4adddir directory"
+    else
+        find $1 -type f -print | p4 -x - add
+    fi
+}
+
+# p4's suggestion,http://kb.perforce.com/article/27/creating-release-notes
+# @google "assing variable from bash to perl in a bash script"
+function p4l(){
+    # p4 log
+    if [ -z "$1" ]; then
+        # show the full log
+        p4 changes -l ... | less
+    else
+        # p4log since-changelist-number
+        p4 changes -l ...@$1,#head|perl -pe "if(\$_=~/$1/){ last;};"
+    fi
+}
+
+function p4ml(){
+    # my p4 log
+    if [ -z "$1" ]; then
+        # show the full log
+        p4 changes -l -u $P4USERNAME ... | less
+    else
+        # p4log since-changelist-number
+        p4 changes -l -u $P4USERNAME ...@$1,#head|perl -pe "if(\$_=~/$1/){ last;};"
+    fi
+}
+# }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>p4</category><category>perforce</category><category>vcs</category><guid>http://blog.binchen.org/posts/use-perforce-inside-emacs.html</guid><pubDate>Mon, 05 Dec 2016 11:51:47 GMT</pubDate></item></channel></rss>

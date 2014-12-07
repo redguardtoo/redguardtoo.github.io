@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about css)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/css.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code completion for HTML/JS/CSS in Emacs</title><link>http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-11-27 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2020-03-27 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+You need install &lt;a href="https://en.wikipedia.org/wiki/Ctags"&gt;Ctags&lt;/a&gt; or &lt;a href="https://github.com/universal-ctags/ctags"&gt;universal-ctags&lt;/a&gt; at first.
+&lt;/p&gt;
+
+&lt;p&gt;
+People using macOS will find there already exists a built in program named "ctags". &lt;b&gt;This program should be deleted!&lt;/b&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+If you want a &lt;b&gt;quick start&lt;/b&gt;, jump to the end of this article.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can use &lt;a href="https://github.com/redguardtoo/company-ctags"&gt;company-ctags&lt;/a&gt; plus &lt;a href="https://github.com/company-mode/company-mode"&gt;company-mode&lt;/a&gt; to complete HTML/JS/CSS code.
+&lt;/p&gt;
+
+&lt;p&gt;
+Setup is easy.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 1, create TAGS:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;cd ~/myproj/ &amp;amp;&amp;amp; ctags -e -R .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Step 2, done.
+&lt;/p&gt;
+
+&lt;p&gt;
+That's OK for most programming languages.
+&lt;/p&gt;
+
+&lt;p&gt;
+But &lt;b&gt;not enough&lt;/b&gt; for web developers who use &lt;a href="https://github.com/fxbois/web-mode"&gt;web-mode&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+You need upgrade web-mode to &lt;a href="https://github.com/fxbois/web-mode/pull/640"&gt;latest version&lt;/a&gt; so that when inputting "btn-" or "data-" code completion still works.
+&lt;/p&gt;
+
+&lt;p&gt;
+One issue is &lt;code&gt;company-mode&lt;/code&gt; disables code completion in string and comment by default. We need &lt;b&gt;disable this feature in web-mode temporarily&lt;/b&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load "company"
+  ;; @see https://github.com/redguardtoo/emacs.d/commit/2ff305c1ddd7faff6dc9fa0869e39f1e9ed1182d
+  (defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
+    (if (memq major-mode '(php-mode html-mode web-mode nxml-mode))
+        (setq ad-return-value nil)
+      ad-do-it)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Tested on Emacs24, 25, 26.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot:
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/company-etags-code-completion-nq8.png" alt="company-etags-code-completion-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>css</category><category>emacs</category><category>en</category><category>html</category><category>javascript</category><guid>http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs.html</guid><pubDate>Fri, 27 Nov 2015 11:43:59 GMT</pubDate></item><item><title>Use bootstrap+font-awesome+jquery for IE7 web application</title><link>http://blog.binchen.org/posts/use-bootstrapfont-awesomejquery-for-ie7-web-application.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Live demo:
+&lt;a href="http://binchen.org/schools/"&gt;http://binchen.org/schools/&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot:
+&lt;img src="https://cloud.githubusercontent.com/assets/184553/5156904/e86f11a6-733c-11e4-8312-a6c8ad2b17be.png" alt="e86f11a6-733c-11e4-8312-a6c8ad2b17be.png"&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-orga229175" class="outline-2"&gt;
+&lt;h3 id="orga229175"&gt;Environment&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga229175"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Bootstrap 2.3.2&lt;/li&gt;
+&lt;li&gt;font-awesome 3.2.1&lt;/li&gt;
+&lt;li&gt;JQuery 1.8.2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+I only use the grid layout from bootstrap and minimum API from jQuery.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6789dd9" class="outline-2"&gt;
+&lt;h3 id="org6789dd9"&gt;Notes&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6789dd9"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;IE7 does not support media query. So I abandon "mobile first" strategy, new strategy is "IE7 first".&lt;/li&gt;
+&lt;li&gt;IE7 does not support inline-block properly, I need below css code hack:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-css"&gt;.myclass {
+  display: inline-block;
+  /* ie7*/
+  *display: inline;
+  zoom: 1;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;bootstrap's row-fluid has issues in IE7. I use row-fluid in this case, but have to hard code the row width sometimes.&lt;/li&gt;
+&lt;li&gt;add below code into javascript so that I can hack IE7-only css code:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;if($.browser.msie &amp;amp;&amp;amp; parseFloat($.browser.version) &amp;lt; 8){
+  that.ie7 = true;
+  $('body').addClass('ie7');
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>css</category><category>en</category><category>ie</category><category>javascript</category><guid>http://blog.binchen.org/posts/use-bootstrapfont-awesomejquery-for-ie7-web-application.html</guid><pubDate>Sun, 23 Nov 2014 07:37:10 GMT</pubDate></item><item><title>阅读了rails中使用bootstrap相关文章的小结</title><link>http://blog.binchen.org/posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="http://lucapette.com/rails/twitter-bootstrap-on-rails/"&gt;Luca Pette的Twitter Bootstrap on Rails&lt;/a&gt;比较简单，直接使用了bootstrap的css，没用less，测试了simple_form，show_for,kaminari(分页数据)三个应用。要点在于kaminari有点兼容性问题，用&lt;a href="https://github.com/gabetax/twitter-bootstrap-kaminari-views"&gt;twitter-bootstrap-kaminari-views&lt;/a&gt;解决这个问题，其他没难度。 &lt;/p&gt; &lt;p&gt; &lt;a href="http://metaskills.net/2011/09/26/less-is-more-using-twitter-bootstrap-in-the-rails-3-1-asset-pipeline/"&gt;@metaskill的LESS Is More - Using Twitter's Bootstrap In The Rails 3.1 Asset Pipeline&lt;/a&gt;讲了如何用bootstrap的less函数和变量，我很有兴趣，根据我的经验能通过less语法调用twitter的函数比较有价值。安装gem &lt;code&gt;less-rails-bootstrap&lt;/code&gt;就行了，调用bootstrap的函数的技术细节省略，基本就是less语法。 &lt;/p&gt; &lt;p&gt; &lt;a href="http://www.opinionatedprogrammer.com/2011/11/twitter-bootstrap-on-rails/"&gt;Adding Twitter's Bootstrap CSS to your Rails app&lt;/a&gt;的作者也读了以上两篇文章，要点在于确认了@metaskill的方法，less的一些详细的例子。也提到了可以用sass，但我没有深入读下去。 &lt;/p&gt; &lt;p&gt; &lt;a href="http://railscasts.com/episodes/328-twitter-bootstrap-basics"&gt;Twitter Bootstrap Basics at railscasts.com&lt;/a&gt;非常好，一个完整的例子。Comments也不错，一些html细节。要点在于用了gem&lt;code&gt;twitter-bootstrap-rails&lt;/code&gt;,看起来很强大。 &lt;/p&gt; &lt;p&gt; 结论，看来我需要转向less而不是sass，因为bootstrap用less。 &lt;/p&gt;&lt;/div&gt;</description><category>bootstrap</category><category>css</category><category>less</category><category>sass</category><category>zh</category><guid>http://blog.binchen.org/posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie.html</guid><pubDate>Sat, 19 May 2012 20:51:00 GMT</pubDate></item></channel></rss>

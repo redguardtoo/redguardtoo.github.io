@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about web)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/web.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Easy indentation setup in Emacs for web development</title><link>http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-04-02 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATE: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-06-22 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+This question has been asked so many times, so I answered it here once for all.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgd8f7c92" class="outline-2"&gt;
+&lt;h3 id="orgd8f7c92"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd8f7c92"&gt;
+&lt;p&gt;
+Insert below code into ~/.emacs:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-setup-indent (n)
+  ;; java/c/c++
+  (setq-local c-basic-offset n)
+  ;; web development
+  (setq-local coffee-tab-width n) ; coffeescript
+  (setq-local javascript-indent-level n) ; javascript-mode
+  (setq-local js-indent-level n) ; js-mode
+  (setq-local js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
+  (setq-local web-mode-markup-indent-offset n) ; web-mode, html tag in html file
+  (setq-local web-mode-css-indent-offset n) ; web-mode, css in html file
+  (setq-local web-mode-code-indent-offset n) ; web-mode, js code in html file
+  (setq-local css-indent-offset n) ; css-mode
+  )
+
+(defun my-office-code-style ()
+  (interactive)
+  (message "Office code style!")
+  ;; use tab instead of space
+  (setq-local indent-tabs-mode t)
+  ;; indent 4 spaces width
+  (my-setup-indent 4))
+
+(defun my-personal-code-style ()
+  (interactive)
+  (message "My personal code style!")
+  ;; use space instead of tab
+  (setq indent-tabs-mode nil)
+  ;; indent 2 spaces width
+  (my-setup-indent 2))
+
+(defun my-setup-develop-environment ()
+  (interactive)
+  (let ((proj-dir (file-name-directory (buffer-file-name))))
+    ;; if hobby project path contains string "hobby-proj1"
+    (if (string-match-p "hobby-proj1" proj-dir)
+        (my-personal-code-style))
+
+    ;; if commericial project path contains string "commerical-proj"
+    (if (string-match-p "commerical-proj" proj-dir)
+        (my-office-code-style))))
+
+;; prog-mode-hook requires emacs24+
+(add-hook 'prog-mode-hook 'my-setup-develop-environment)
+;; a few major-modes does NOT inherited from prog-mode
+(add-hook 'lua-mode-hook 'my-setup-develop-environment)
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can use `prog-mode-hook` and `buffer-file-name` to do the per project setup easily.
+&lt;/p&gt;
+
+&lt;p&gt;
+For &lt;b&gt;any new programming language&lt;/b&gt; not covered in this post, there are two steps:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Know your major-mode by pressing `ALT-X major-mode ENTER`. Say you got "org-mode".&lt;/li&gt;
+
+&lt;li&gt;Google "Emacs org-mode indent offset"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org12f7abf" class="outline-2"&gt;
+&lt;h3 id="org12f7abf"&gt;Tips (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org12f7abf"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Please note the first paramter of `string-match-p` is actually &lt;b&gt;regular expression&lt;/b&gt;. So you can write regular expression like "\\(/proj1\\|work.org\\)"&lt;/li&gt;
+
+&lt;li&gt;Emacs gives you full freedom to setup project. If you prefer per computer setup instead of per project setup, you only need re-write `my-setup-develop-environment',&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-setup-develop-environment ()
+  (interactive)
+  (let ((hostname (with-temp-buffer
+                    (shell-command "hostname" t)
+                    (goto-char (point-max))
+                    (delete-char -1)
+                    (buffer-string))))
+
+  (if (string-match-p "home-pc" hostname)
+      (my-personal-code-style))
+
+  (if (string-match-p "office-pc" hostname)
+      (my-office-code-style))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Instead of press TAB manually to indent code line by line, you can select a region and press `Alt-x indent-region ENTER`&lt;/li&gt;
+
+&lt;li&gt;Because I use &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt;, indenting the whole file is as simple as pressing `gg=G`&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>indent</category><category>web</category><guid>http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html</guid><pubDate>Thu, 02 Apr 2015 13:57:48 GMT</pubDate></item><item><title>Why Emacs is better editor - a case study for javascript developer</title><link>http://blog.binchen.org/posts/why-emacs-is-better-editor.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-01-15 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Let's see an example in real life development.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgd20a03d" class="outline-2"&gt;
+&lt;h3 id="orgd20a03d"&gt;Note&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd20a03d"&gt;
+&lt;p&gt;
+For people who does not get the key points of this article, here are the points:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Emacs has an embedded &lt;b&gt;javascript interpreter&lt;/b&gt; which I extend a little bit.&lt;/li&gt;
+&lt;li&gt;Other editors just use external tools or regular expression to do the semantic analysis.&lt;/li&gt;
+&lt;li&gt;The difference of above two is bigger than the difference between machine gun and spear.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgb3c9f29" class="outline-2"&gt;
+&lt;h3 id="orgb3c9f29"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb3c9f29"&gt;
+&lt;p&gt;
+I'm maintaining a big javascript file with thousands of lines of legacy code.
+&lt;/p&gt;
+
+&lt;p&gt;
+My most urgent issue is how to list all the functions in that javascript file and jump to the definition of specific function easily.
+&lt;/p&gt;
+
+&lt;p&gt;
+The modern enterprise application usually define the javascript function in some complex data structure. So most editors are not good at listing the functions.
+&lt;/p&gt;
+
+&lt;p&gt;
+To understand what "complex" means, let's check some code from real world application:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;$(el.completeRegistrationForm).validate({
+    ignore: " :hidden",
+    rules : {
+        password : {
+            required : function () { return $(el.password).is(":visible"); }
+        },
+        accountNumber : {
+            required : function () {
+                return $(el.accountNumber).is(":visible");
+            },
+            digits : true
+        }
+        // ... I skipped next 200 lines which are similar to above lines
+
+    },
+    messages : {
+        password: {
+            required : "Please input a valid password"
+        },
+        accountNumber: {
+            required : "Please provide a valid account number",
+            digits : "Please enter only digits",
+        }
+        // ... I skipped next 200 lines which are similar to above lines
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Most editors like Sublime Text 3 cannot display the javascript functions with meaningful context in this case. All you can see is only a bunch of functions with name "required".:
+&lt;img src="http://blog.binchen.org/wp-content/sublime-functions.png" alt="sublime-functions.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org85ceeb1" class="outline-2"&gt;
+&lt;h3 id="org85ceeb1"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org85ceeb1"&gt;
+&lt;p&gt;
+Emacs has a &lt;a href="http://www.emacswiki.org/emacs/Js2Mode"&gt;js2-mode&lt;/a&gt; which is basically a javascript interpreter written in lisp. It's created by &lt;a href="http://www.emacswiki.org/emacs/SteveYegge"&gt;Steve Yegge&lt;/a&gt; and now maintained by &lt;a href="https://github.com/mooz/js2-mode"&gt;mooz&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Since &lt;code&gt;js2-mode&lt;/code&gt; is a interpreter, basically it can do anything you want. The key point is to understand the &lt;a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree"&gt;Abstract Syntax Tree (AST)&lt;/a&gt; defined in js2-mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my patch to make &lt;code&gt;js2-mode&lt;/code&gt; display the list of functions with correct context:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-diff"&gt;commit 56ed89bf18a6b58fd4620056288ea2ab52bd4d77
+Author: Chen Bin &amp;lt;chenbin.sh@gmail.com&amp;gt;
+Date:   Sun Dec 15 18:18:06 2013 +1100
+
+    more hint for orphan function
+
+diff --git a/js2-imenu-extras.el b/js2-imenu-extras.el
+index e8e15a5..17bf158 100644
+--- a/js2-imenu-extras.el
++++ b/js2-imenu-extras.el
+@@ -174,6 +174,39 @@ prefix any functions defined inside the IIFE with the module name."
+          (js2-imenu-record-module-pattern node)))
+        t))))
+
++(defun js2-imenu-get-parent-keyname-list (node)
++  "get the list of keys of parent of node
++for example, for javascript code, {rules:{ password {required: function(){}}}}
++the return will be '(rules password)."
++  (let ((rlt '())
++        (n node))
++    (while (setq n (js2-imenu-parent-prop-node n))
++      (add-to-list 'rlt (js2-prop-node-name (js2-object-prop-node-left n)))
++      )
++    rlt
++    )
++  )
++
++(defun js2-imenu-parent-prop-node (node)
++  "for javascript code: parent-key-name:{ required:function(){} }
++we need know the  parent-key-name.
++ step1, 'required:function(){}' is the js2-object-prop-node
++ step2, '{ required:function(){} }' is the js2-object-node
++ step3, 'parent-key-name:{ required:function(){} }' is js2-object-prop-node
++"
++  (let (p2 p3)
++    ;; step 2
++    (setq p2 (js2-node-parent node))
++    ;; step 3
++    (when (and p2 (js2-object-node-p p2))
++      (setq p3 (js2-node-parent p2))
++      (if (and p3 (js2-object-prop-node-p p3))
++        p3
++        )
++      )
++    )
++  )
++
+ (defun js2-imenu-record-orphan-function (node)
+   "Record orphan function when it's the value of NODE.
+ NODE must be `js2-object-prop-node'."
+@@ -181,10 +214,15 @@ NODE must be `js2-object-prop-node'."
+     (let ((fn-node (js2-object-prop-node-right node)))
+       (unless (and js2-imenu-function-map
+                    (gethash fn-node js2-imenu-function-map))
+-        (let ((key-node (js2-object-prop-node-left node)))
+-          (js2-record-imenu-entry fn-node
+-                                  (list js2-imenu-other-functions-ns
+-                                        (js2-prop-node-name key-node))
++        (let ((key-node (js2-object-prop-node-left node))
++              (parent-prop-node (js2-imenu-parent-prop-node node))
++              mylist
++              )
++          (setq mylist (append (js2-imenu-get-parent-keyname-list node)
++                               (list (js2-prop-node-name key-node))
++                               ))
++          (add-to-list 'mylist js2-imenu-other-functions-ns)
++          (js2-record-imenu-entry fn-node mylist
+                                   (js2-node-abs-pos key-node)))))))
+
+ (defun js2-imenu-record-module-pattern (node)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I already submitted the patch to mooz so everyone will enjoy this feature in the future.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the screen shot of emacs in old js2-mode, the UI is based on &lt;a href="http://www.emacswiki.org/emacs/ImenuMode"&gt;Imenu Mode&lt;/a&gt; and &lt;a href="https://github.com/emacs-helm/helm"&gt;Helm&lt;/a&gt;:
+&lt;img src="http://blog.binchen.org/wp-content/emacs-functions.png" alt="emacs-functions.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The screen shot after we applying the above patch: 
+&lt;img src="http://blog.binchen.org/wp-content/emacs-functions-improved.png" alt="emacs-functions-improved.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org40fbb48" class="outline-2"&gt;
+&lt;h3 id="org40fbb48"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org40fbb48"&gt;
+&lt;p&gt;
+That's an example of beauty of Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+It gives you freedom and power. You can base your work on the top geeks like Steve Yegge and mooz. Just a few lines of lisp code to kick ass.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge6566be" class="outline-2"&gt;
+&lt;h3 id="orge6566be"&gt;Update&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge6566be"&gt;
+&lt;p&gt;
+My patch is incorporated into &lt;code&gt;js2-mode&lt;/code&gt; since version &lt;code&gt;20140114&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+After installing &lt;code&gt;js2-mode&lt;/code&gt;, you need paste one line setup into your &lt;code&gt;~/.emacs&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(js2-imenu-extras-mode)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The UI to display the candidate is from package &lt;a href="https://github.com/emacs-helm/helm"&gt;Helm&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The &lt;code&gt;Helm&lt;/code&gt; version should be &lt;code&gt;20140125.1101&lt;/code&gt; or higher, you can install &lt;code&gt;Helm&lt;/code&gt; from &lt;a href="http://melpa.milkbox.net/"&gt;MELPA&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+After installing &lt;code&gt;Helm&lt;/code&gt;, you can use command &lt;code&gt;M-x helm-imenu&lt;/code&gt; to show the list of functions to jump to. Here is the screen shot how I use imenu in my &lt;a href="https://github.com/redguardtoo/hello/raw/master/hello2.js"&gt;hello2.js&lt;/a&gt;:
+&lt;/p&gt;
+
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/helm-imenu-and-js2-mode-nq8.png" alt="helm-imenu-and-js2-mode-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+UPDATE: I suggest using &lt;code&gt;counsel-imenu&lt;/code&gt; from &lt;a href="https://github.com/abo-abo/swiper"&gt;Counsel&lt;/a&gt; instead of &lt;code&gt;Helm&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>html</category><category>javascript</category><category>js2</category><category>web</category><guid>http://blog.binchen.org/posts/why-emacs-is-better-editor.html</guid><pubDate>Sun, 15 Dec 2013 22:02:00 GMT</pubDate></item><item><title>The minimum packages to install for front end development on Linux</title><link>http://blog.binchen.org/posts/the-minimum-packages-to-install-for-front-end-development-on-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;pre class="prettyprint "&gt;
+&lt;p&gt;sudo apt-get install ack git emacs24-nox feh i3 xsel ctags vim scrot xbindkeys dunst unclutter parcellite gimp
+&lt;/p&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>linux</category><category>programming</category><category>web</category><guid>http://blog.binchen.org/posts/the-minimum-packages-to-install-for-front-end-development-on-linux.html</guid><pubDate>Mon, 09 Sep 2013 15:05:31 GMT</pubDate></item></channel></rss>

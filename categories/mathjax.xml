@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about mathjax)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/mathjax.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Mar 2017 12:36:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Start wxWdigets programming on Windows</title><link>http://blog.binchen.org/posts/start-wxwdigets-programming-on-windows.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;Download &lt;a href="http://wwww.wxwdigets.org"&gt;wxWidgets&lt;/a&gt; &lt;/li&gt; &lt;li&gt;Extracted it somewhere. "c:\wxWidgets-2.8.12", for example. &lt;/li&gt; &lt;li&gt;Create environment variable WXWIN with value "c:\wxWidgets-2.8.12" &lt;/li&gt; &lt;li&gt;Install Visual Studio (Express version is fine if you installed WIN32 SDK too) &lt;/li&gt; &lt;li&gt;Compile wxWidgets library by running the dos batch file: &lt;/li&gt; &lt;/ul&gt;     &lt;pre class="src src-sh"&gt;@echo off
+call &lt;span style="color: #70c0b1;"&gt;"C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\vcvars32.bat"&lt;/span&gt;
+&lt;p&gt;nmake -f %WXWIN%\build\msw\makefile.vc &lt;span style="color: #e7c547;"&gt;UNICODE&lt;/span&gt;=1  &lt;span style="color: #e7c547;"&gt;BUILD&lt;/span&gt;=debug&lt;/p&gt;
+&lt;p&gt;nmake -f %WXWIN%\build\msw\makefile.vc &lt;span style="color: #e7c547;"&gt;UNICODE&lt;/span&gt;=1  &lt;span style="color: #e7c547;"&gt;BUILD&lt;/span&gt;=release&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;   &lt;p&gt; We use vcvars32.bat to set up the CLI tool chains. &lt;/p&gt; &lt;p&gt; "Unicode=1" because our application will support i18n. &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Install &lt;a href="http://www.cmake.org"&gt;CMake&lt;/a&gt; &lt;/li&gt; &lt;li&gt;Create a simple project with files main.cpp, main.hpp, CMakeLists.txt &lt;/li&gt; &lt;/ul&gt;  &lt;p&gt;main.cpp and main.hpp containts normal C++ code. &lt;/p&gt; &lt;p&gt; CMakeLists.txt is the project file for CMake: &lt;/p&gt;   &lt;pre class="src src-cmake"&gt;&lt;span style="color: #7aa6da;"&gt;PROJECT&lt;/span&gt;(main)
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;CMAKE_MINIMUM_REQUIRED&lt;/span&gt;(VERSION 2.6)&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #969896; font-style: italic;"&gt;# sets variable SOURCES to the project source files.&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(XRCS
+  main_frame.xrc
+  )&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(XRCS_DIR ${main_SOURCE_DIR}/rc)&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;if&lt;/span&gt;(CMAKE_COMPILER_IS_GNUCC)
+  &lt;span style="color: #969896; font-style: italic;"&gt;# needed for gcc 4.6+&lt;/span&gt;
+  &lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(CMAKE_CXX_FLAGS &lt;span style="color: #70c0b1;"&gt;"${CMAKE_CXX_FLAGS} -fpermissive"&lt;/span&gt;)
+&lt;span style="color: #7aa6da;"&gt;endif&lt;/span&gt;()&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;( CPP_SOURCES
+  main.cpp
+  )&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;( H_SOURCES
+    main.hpp
+    )
+  )&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(SOURCES
+  ${CPP_SOURCES}
+  ${H_SOURCES}
+  )&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #969896; font-style: italic;"&gt;# xrc -&amp;gt; xml, adv, html&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(wxWidgets_USE_LIBS xrc xml adv html core base)&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;find_package&lt;/span&gt;(wxWidgets REQUIRED)&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;include&lt;/span&gt;(${wxWidgets_USE_FILE})&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #969896; font-style: italic;"&gt;#try to embed resource&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;foreach&lt;/span&gt;(XRC $latex {XRCS})
+  &lt;span style="color: #7aa6da;"&gt;string&lt;/span&gt;(REGEX REPLACE &lt;span style="color: #70c0b1;"&gt;"[.].*$"&lt;/span&gt; &lt;span style="color: #70c0b1;"&gt;".h"&lt;/span&gt; XRC_HEADER ${XRC})
+  &lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(XRC_HEADER ${CMAKE_CURRENT_BINARY_DIR}/${XRC_HEADER})
+  &lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(XRC ${XRCS_DIR}/${XRC})
+  &lt;span style="color: #7aa6da;"&gt;add_custom_command&lt;/span&gt;(OUTPUT ${XRC_HEADER}
+    COMMAND bin2c -c ${XRC} ${XRC_HEADER}
+    MAIN_DEPENDENCY ${XRC} )
+  &lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(SOURCES ${SOURCES} ${XRC_HEADER})
+&lt;span style="color: #7aa6da;"&gt;endforeach&lt;/span&gt;(XRC)&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(INC
+  )&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;if&lt;/span&gt;(UNIX AND NOT APPLE)
+  &lt;span style="color: #7aa6da;"&gt;include&lt;/span&gt;(FindPkgConfig)
+  &lt;span style="color: #7aa6da;"&gt;pkg_check_modules&lt;/span&gt;(GTK2 REQUIRED gtk+-2.0&amp;gt;=2.10)
+  &lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(INC ${INC} ${GTK2_INCLUDE_DIRS})
+&lt;span style="color: #7aa6da;"&gt;endif&lt;/span&gt;()&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #969896; font-style: italic;"&gt;#add other librarie&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;include_directories&lt;/span&gt;(${INC})&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;if&lt;/span&gt;(UNIX)
+  &lt;span style="color: #7aa6da;"&gt;add_definitions&lt;/span&gt;(-Wno-write-strings)
+&lt;span style="color: #7aa6da;"&gt;endif&lt;/span&gt;()&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;if&lt;/span&gt;(WIN32)
+  &lt;span style="color: #969896; font-style: italic;"&gt;# WIN32 := subsystem is windows instead of console?&lt;/span&gt;
+  &lt;span style="color: #7aa6da;"&gt;add_executable&lt;/span&gt;(main WIN32 ${SOURCES})
+&lt;span style="color: #7aa6da;"&gt;else&lt;/span&gt;(WIN32)
+  &lt;span style="color: #7aa6da;"&gt;add_executable&lt;/span&gt;(main ${SOURCES})
+&lt;span style="color: #7aa6da;"&gt;endif&lt;/span&gt;()&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(LIBS
+  ${wxWidgets_LIBRARIES}
+  )&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;if&lt;/span&gt;(MINGW AND WIN32)
+  &lt;span style="color: #7aa6da;"&gt;set&lt;/span&gt;(LIBS ${LIBS} ole32 uuid oleaut32)
+&lt;span style="color: #7aa6da;"&gt;endif&lt;/span&gt;()&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #7aa6da;"&gt;target_link_libraries&lt;/span&gt;(main ${LIBS})&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;   &lt;ul&gt; &lt;li&gt;Running the below dos batch the create Visual Studio Project Files &lt;/li&gt; &lt;/ul&gt;     &lt;pre class="src src-sh"&gt;@echo off
+&lt;p&gt;call &lt;span style="color: #70c0b1;"&gt;"C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\vcvars32.bat"&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;cmake path/of/directory/which/contains/CMakeLists.txt/&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;  &lt;ul&gt; &lt;li&gt;Enjoy! &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; BTW, for other systems, see &lt;a href="http://wiki.wxwidgets.org/Compiling_wxWidgets_using_the_command-line_(Terminal)"&gt;wxWiki&lt;/a&gt;. &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>mathjax</category><category>win32</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/start-wxwdigets-programming-on-windows.html</guid><pubDate>Wed, 18 Jan 2012 11:28:00 GMT</pubDate></item></channel></rss>

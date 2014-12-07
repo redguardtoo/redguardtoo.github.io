@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about ftp)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ftp.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How a programmer publish static HTML blog in Emacs</title><link>http://blog.binchen.org/posts/how-to-publish-static-html-blog-in-emacs-as-a-programmer.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I can publish my blog &lt;b&gt;in five seconds&lt;/b&gt;, running only &lt;b&gt;one Emacs command&lt;/b&gt;!
+&lt;/p&gt;
+
+&lt;p&gt;
+I give you a minimum solution at first, then I explain why and provide technical details.
+&lt;/p&gt;
+
+&lt;p&gt;
+Basic Emacs lisp knowledges are required.
+&lt;/p&gt;
+
+&lt;p&gt;
+Please note I'm &lt;b&gt;NOT&lt;/b&gt; targeted at specific static site generator like &lt;a href="http://getnikola.com/blog/"&gt;Nikola&lt;/a&gt; or &lt;a href="http://jekyllrb.com/"&gt;Jekyll&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;div id="outline-container-org18ceca0" class="outline-2"&gt;
+&lt;h3 id="org18ceca0"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org18ceca0"&gt;
+&lt;p&gt;
+Tested on &lt;b&gt;Linux and OSX&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Requirements:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Org-mode bundled with Emacs 24.x&lt;/li&gt;
+&lt;li&gt;Nikola as the blog generator&lt;/li&gt;
+&lt;li&gt;FTP client &lt;a href="http://www.ncftp.com/ncftp/"&gt;ncftp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Latest &lt;a href="https://github.com/redguardtoo/org2nikola"&gt;org2nikola&lt;/a&gt; (v0.0.9+)&lt;/li&gt;
+&lt;li&gt;Insert below code into ~/.emacs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun org2nikola-after-hook-setup (title slug)
+  (let ((url (concat "http://blog.yourdomain.net/posts/" slug ".html"))
+        (nikola-dir (file-truename "~/projs/nikola-root"))
+        (password "yourpassowrd")
+        (username "yourusername")
+        dir
+        file
+        lines
+        rlt
+        res
+        cmd)
+    (kill-new title)
+    (kill-new url)
+    (message "%s =&amp;gt; kill-ring" url)
+    (setq rlt (shell-command-to-string (format "cd %s; nikola build" nikola-dir)))
+    (setq lines (split-string rlt "\n"))
+    (dolist (l lines)
+      (when (string-match "output\\(.*/\\)*\\([^/]*\\)$" l)
+        (setq dir (match-string 1 l))
+        (setq file (match-string 2 l))
+        (setq cmd (format "ncftpput -b -u %s -p %s ftp.yourdomain.net /blog%s %s/output%s%s"
+                          username password dir nikola-dir dir file))
+        (message "cmd=%s" cmd)
+        (shell-command cmd)
+        ))
+    ))
+
+(add-hook 'org2nikola-after-hook 'org2nikola-after-hook-setup)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can write blog into org file, export and publicize it with command `M-x org2nikola-export-subtree`.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf0843c9" class="outline-2"&gt;
+&lt;h3 id="orgf0843c9"&gt;Why&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf0843c9"&gt;
+&lt;p&gt;
+I used &lt;a href="https://wordpress.org"&gt;Wordpress&lt;/a&gt; and &lt;a href="https://github.com/punchagan/org2blog"&gt;Org2blog&lt;/a&gt; for a very long time. Then I turned to static blog generator because:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Wordpress is slow to load web page&lt;/li&gt;
+&lt;li&gt;I waste too much time to "manage" Wordpress (applying security patch, fighting with spam comment …)&lt;/li&gt;
+&lt;li&gt;As a programmer, I need publish code snippets. Wordpress is &lt;b&gt;BAD&lt;/b&gt; at rendering code.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Yes, only wordpress sucks. For Org2blog, I can only say good things. Actually, this article is inspired purely by &lt;a href="https://github.com/punchagan"&gt;Puneeth Chaganti&lt;/a&gt;'s excellent work on org2blog.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9f9bc20" class="outline-2"&gt;
+&lt;h3 id="org9f9bc20"&gt;Technical Details&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9f9bc20"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org71e909f" class="outline-3"&gt;
+&lt;h4 id="org71e909f"&gt;Generating HTML&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org71e909f"&gt;
+&lt;p&gt;
+As I said, Nikola is my blog generator which converts my org file into HTML.
+&lt;/p&gt;
+
+&lt;p&gt;
+But I prefer using &lt;a href="http://orgmode.org/"&gt;Org-mode&lt;/a&gt; to do the HTML rendering. Nikola only need handle remaining minor book keeping stuff (creating RSS feed, for example).
+&lt;/p&gt;
+
+&lt;p&gt;
+It's because I want to minimize the dependency. I may switch to other blog generator in the future. But my web site always has the &lt;b&gt;same look and feel&lt;/b&gt; because the HTML is generated by Org-mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+I learned this trick from Org2blog.
+&lt;/p&gt;
+
+&lt;p&gt;
+If we only use org-mode to create HTML, then extracting code snippet is really easy. All we need is to use regular expression to extract the content between HTML tag "&amp;lt;pre&amp;gt;".
+&lt;/p&gt;
+
+&lt;p&gt;
+Actually I don't even bother doing the extraction. I just replace all the "&amp;lt;pre&amp;gt;" tag with my own tag because I &lt;b&gt;assume&lt;/b&gt; the HTML produced by org-mode is stable.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the Emacs lisp code I borrowed from Org2blog:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun org2nikola-replace-pre (html)
+  "Replace pre blocks with sourcecode shortcode blocks.
+shamelessly copied from org2blog/wp-replace-pre()"
+  (save-excursion
+    (let (pos code lang info params header code-start code-end html-attrs pre-class)
+      (with-temp-buffer
+        (insert html)
+        (goto-char (point-min))
+        (save-match-data
+          (while (re-search-forward "&amp;lt;pre\\(.*?\\)&amp;gt;" nil t 1)
+
+            ;; When the codeblock is a src_block
+            (unless
+                (save-match-data
+                  (setq pre-class (match-string-no-properties 1))
+                  (string-match "example" pre-class))
+              ;; Replace the &amp;lt;pre...&amp;gt; text
+              (setq lang (replace-regexp-in-string ".*src-\\([a-zA-Z0-9]+\\).*" "\\1" pre-class)  )
+
+              (replace-match "")
+              (setq code-start (point))
+
+              ;; Go to end of code and remove &amp;lt;/pre&amp;gt;
+              (re-search-forward "&amp;lt;/pre.*?&amp;gt;" nil t 1)
+              (replace-match "")
+              (setq code-end (point))
+              (setq code (buffer-substring-no-properties code-start code-end))
+
+              ;; Delete the code
+              (delete-region code-start code-end)
+              ;; Stripping out all the code highlighting done by htmlize
+              (setq code (replace-regexp-in-string "&amp;lt;.*?&amp;gt;" "" code))
+              ;; class linenums will add stripes which will destory the 3rd party skins
+              (insert (concat "\n&amp;lt;pre class=\"prettyprint lang-"
+                              (org2nikola-fix-unsupported-language lang)
+                              "\"&amp;gt;\n"
+                              code
+                              "&amp;lt;/pre&amp;gt;\n"))
+              )))
+
+        ;; Get the new html!
+        (setq html (buffer-substring-no-properties (point-min) (point-max))))
+      ))
+  html)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The code snippet inside "&amp;lt;pre&amp;gt;" tag could be rendered by 3rd party javascript library &lt;a href="https://code.google.com/p/google-code-prettify/"&gt;google-code-prettify&lt;/a&gt; or &lt;a href="http://alexgorbatchev.com/SyntaxHighlighter/"&gt;SyntaxHighlighter&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, the last straw that push me away the Wordpress is its wrapper of SyntaxHighlighter. SyntaxHighlighter is a beautiful and user-friendly library. But the wrapper forces me to tweak the php code in terrible editor from Wordpress.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgeace733" class="outline-3"&gt;
+&lt;h4 id="orgeace733"&gt;Create blog posts&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgeace733"&gt;
+&lt;p&gt;
+Emacs creates HTML files and meta files.  Things created by Emacs will be copied into Nikola's folder.
+&lt;/p&gt;
+
+&lt;p&gt;
+Nikola's duty is simple. Basically it only copy my stuff from its input folder to its output folder when I trigger "nikola build" command.
+&lt;/p&gt;
+
+&lt;p&gt;
+The "nikola build" command will also dump the list of files to be uploaded into stdout.
+&lt;/p&gt;
+
+&lt;p&gt;
+The build message dumped:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+Scanning posts....done!
+.  render_archive:output/2014/index.html
+.  render_sources:output/posts/jump-to-the-positions-before-and-after-m-x-imenu.wp
+.  render_posts:cache/posts/jump-to-the-positions-before-and-after-m-x-imenu.html
+.  render_indexes:output/index.html
+.  render_indexes:output/index-17.html
+.  render_tags:output/categories/en.html
+.  render_tags:output/categories/emacs.html
+.  render_tags:output/assets/js/tag_cloud_data.json
+.  render_tags:output/categories/emacs.xml
+.  generate_rss:output/rss.xml
+.  render_pages:output/posts/jump-to-the-positions-before-and-after-m-x-imenu.html
+.  render_pages:output/posts/why-emacs-is-better-editor-part-two.html
+.  render_tags:output/categories/en.xml
+&lt;/pre&gt;
+
+&lt;p&gt;
+Only the files in sub-folder "output" need be uploaded.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org62d48a1" class="outline-3"&gt;
+&lt;h4 id="org62d48a1"&gt;Preprocess nikola output&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org62d48a1"&gt;
+&lt;p&gt;
+It's all done by Emacs Lisp.
+&lt;/p&gt;
+
+&lt;p&gt;
+The final output contain lines like:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;ncftpput -b -u yourname -p yourpassword ftp.yourdomain.net /blog/2014/ /home/yourname/nikola-root/output/2014/index.html
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As you can see, each line is a ftp upload command we need execute in shell.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org8c86735" class="outline-3"&gt;
+&lt;h4 id="org8c86735"&gt;FTP upload&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org8c86735"&gt;
+&lt;p&gt;
+Ncftp is my choice of FTP client. It's solid and efficient.
+&lt;/p&gt;
+
+&lt;p&gt;
+Its command line tool "ncftpput" has a flag "-b". With the flag ncftpput will start a daemon at background and handles the ftp upload as a batch job submit. It means ftp connection will be reused and the user is not blocked by the upload operation. So the upload operation is &lt;b&gt;extremely fast&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use Emacs Lisp API `file-truename` to convert all relative path to absolute path to avoid any platform (OSX) issue.
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, you can `cat ~/.ncftp/spool/log` to check the FTP upload status.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6edc840" class="outline-2"&gt;
+&lt;h3 id="org6edc840"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6edc840"&gt;
+&lt;p&gt;
+The workflow is simple.
+&lt;/p&gt;
+
+&lt;p&gt;
+Emacs and third party JS libraries are responsible for the look and feel of my website.
+&lt;/p&gt;
+
+&lt;p&gt;
+Blog generator like Nikola is just a thin layer to relay the HTML files created by Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+Ncftp will upload HTML files. It's the best FTP client which could be easily integrated into Emacs.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>ftp</category><guid>http://blog.binchen.org/posts/how-to-publish-static-html-blog-in-emacs-as-a-programmer.html</guid><pubDate>Sat, 15 Nov 2014 04:16:31 GMT</pubDate></item><item><title>How to use FTP in Emacs</title><link>http://blog.binchen.org/posts/how-to-use-ftp-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Emacs's default &lt;a href="http://www.emacswiki.org/AngeFtp"&gt;Ftp client&lt;/a&gt; is a little outdated compared to other modern Ftp clients. &lt;/p&gt; &lt;p&gt; What I want is a two panel file explorer with ftp client integrated (An excellent example is &lt;a href="http://www.ghisler.com"&gt;Total Commander&lt;/a&gt; on windows). &lt;/p&gt; &lt;p&gt; In Emacs, I've got &lt;a href="http://emacswiki.org/emacs/Sunrise_Commander"&gt;Sunrise Commander&lt;/a&gt; which is close to Total Commander, but NO Ftp integration. &lt;/p&gt; &lt;p&gt; I dig around the internet for a while and find that the perfect solution is mount the ftp server into my local file system with &lt;a href="http://curlftpfs.sourceforge.net"&gt;CurlFtpFS&lt;/a&gt;. &lt;/p&gt; &lt;p&gt; The best part of this solution is CurlFtpFS supports both OS X and Linux. &lt;/p&gt; &lt;p&gt; In order to install CurlFtpFS on OS X, you need use the package manager &lt;a href="http://mxcl.github.com/homebrew/"&gt;Homebrew&lt;/a&gt;. The only catch I met on OS X is that I need upgrade Fuse4X driver manually for some wired reason to avoid "incompatible with the kernel version" error. Upgrading is simple. Download dmg plus mouse click stuff only. See &lt;a href="http://fuse4x.github.com/faq.html"&gt;FAQ&lt;/a&gt; for details. &lt;/p&gt; &lt;p&gt; For the usage of CurlFtpFS, see &lt;a href="https://wiki.archlinux.org/index.php/Mount_FTP"&gt;HERE&lt;/a&gt; for documentation. It's for Linux. But totally fine for OS X users. &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>ftp</category><category>linux</category><category>mac</category><category>mount</category><guid>http://blog.binchen.org/posts/how-to-use-ftp-in-emacs.html</guid><pubDate>Sun, 11 Nov 2012 13:05:00 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about search)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/search.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code search in Emacs</title><link>http://blog.binchen.org/posts/code-search-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+After shutdown of &lt;a href="http://en.wikipedia.org/wiki/Google_Code_Search"&gt;Google Code Search&lt;/a&gt;, I turned to plain google search instead.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, if I want to search Emacs Lisp code. I google "keyword filetype:el".
+&lt;/p&gt;
+
+&lt;p&gt;
+"el" is the file extension of Emacs Lisp file.
+&lt;/p&gt;
+
+&lt;p&gt;
+Since I use Emacs for everything, it's natural to search code in Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+So here is my solution.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 1, install &lt;a href="http://w3m.sourceforge.net/"&gt;w3m&lt;/a&gt; and &lt;a href="http://melpa.org/#/w3m"&gt;its Emacs wrapper&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 2, insert below code into ~/.emacs:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun w3m-get-url-from-search-engine-alist (k l)
+  (let (rlt)
+    (if (listp l)
+      (if (string= k (caar l))
+          (setq rlt (nth 1 (car l)))
+        (setq rlt (w3m-get-url-from-search-engine-alist k (cdr l)))))
+    rlt))
+
+(defun w3m-set-url-from-search-engine-alist (k l url)
+    (if (listp l)
+      (if (string= k (caar l))
+          (setcdr (car l) (list url))
+        (w3m-set-url-from-search-engine-alist k (cdr l) url))))
+
+;; C-u S g RET &amp;lt;search term&amp;gt; RET in w3m
+(setq w3m-search-engine-alist
+      '(("g" "http://www.google.com.au/search?q=%s" utf-8)
+        ;; stackoverflow search
+        ("q" "http://www.google.com.au/search?q=%s+site:stackoverflow.com" utf-8)
+        ;; elisp code search
+        ("s" "http://www.google.com.au/search?q=%s+filetype:el"  utf-8)
+        ;; wikipedia
+        ("w" "http://en.wikipedia.org/wiki/Special:Search?search=%s" utf-8)
+        ;; online dictionary
+        ("d" "http://dictionary.reference.com/search?q=%s" utf-8)
+        ;; javascript search on mozilla.org
+        ("j" "http://www.google.com.au/search?q=%s+site:developer.mozilla.org" utf-8)))
+
+(defun w3m-google-by-filetype ()
+  (interactive)
+  (unless (featurep 'w3m)
+    (require 'w3m))
+  (let ((thing (if (region-active-p)
+                   (buffer-substring-no-properties (region-beginning) (region-end))
+                 (thing-at-point 'symbol)))
+        (old-url (w3m-get-url-from-search-engine-alist "s" w3m-search-engine-alist))
+        new-url)
+    (when buffer-file-name
+      (setq new-url (replace-regexp-in-string
+                     "filetype:.*"
+                     (concat "filetype:" (file-name-extension buffer-file-name))
+                     old-url))
+      (w3m-set-url-from-search-engine-alist "s" w3m-search-engine-alist new-url))
+    ;; change the url to search current file type
+    (w3m-search "s" thing)
+    ;; restore the default url
+    (w3m-set-url-from-search-engine-alist "s" w3m-search-engine-alist old-url)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Step 3, `M-x w3m-google-by-filetype`. Either the selected region or the symbol under cursor will be searched.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>search</category><guid>http://blog.binchen.org/posts/code-search-in-emacs.html</guid><pubDate>Wed, 08 Apr 2015 13:09:40 GMT</pubDate></item><item><title>Search at both stackoverflow and google code in Emacs</title><link>http://blog.binchen.org/posts/search-the-word-under-cursor-in-stackoverflow-com-and-google-code-search.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Two programming sites are most valuable to me: &lt;/p&gt;&lt;dl&gt; &lt;dt&gt;stackoverflow.com&lt;/dt&gt;&lt;dd&gt;solution design and code prototype &lt;/dd&gt; &lt;dt&gt;google code search&lt;/dt&gt;&lt;dd&gt;code sample from real product &lt;/dd&gt; &lt;/dl&gt;   &lt;p&gt; So I write some elisp code w3mext-hacker-search to automate the workflow. &lt;/p&gt; &lt;p&gt; Copy the into ~/.emacs and you can use hotkey "C-c ; s" to open search results in external browser (firefox, for example): &lt;/p&gt;   &lt;pre class="src src-elisp"&gt;&lt;span style="color: #969896; font-style: italic;"&gt;; &lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;external browser should be firefox&lt;/span&gt;
+(setq browse-url-generic-program
+      (&lt;span style="color: #b9ca4a;"&gt;cond&lt;/span&gt;
+       (&lt;em&gt;is-a-mac&lt;/em&gt; &lt;span style="color: #70c0b1;"&gt;"open"&lt;/span&gt;)
+       (&lt;em&gt;linux&lt;/em&gt; (executable-find &lt;span style="color: #70c0b1;"&gt;"firefox"&lt;/span&gt;))
+       ))
+&lt;p&gt;&lt;span style="color: #969896; font-style: italic;"&gt;;; &lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;use external browser to search&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;(&lt;span style="color: #b9ca4a;"&gt;defun&lt;/span&gt; &lt;span style="color: #7aa6da;"&gt;w3mext-hacker-search&lt;/span&gt; ()
+  &lt;span style="color: #c397d8;"&gt;"search word under cursor in google code search and stackoverflow.com"&lt;/span&gt;
+  (interactive)
+  (&lt;span style="color: #b9ca4a;"&gt;require&lt;/span&gt; '&lt;span style="color: #e78c45;"&gt;w3m&lt;/span&gt;)
+  (&lt;span style="color: #b9ca4a;"&gt;let&lt;/span&gt; ((keyword (w3m-url-encode-string (thing-at-point 'symbol))))
+    (browse-url-generic (concat &lt;span style="color: #70c0b1;"&gt;"http://code.google.com/codesearch?q="&lt;/span&gt; keyword))
+    (browse-url-generic (concat &lt;span style="color: #70c0b1;"&gt;"http://www.google.com.au/search?hl=en&amp;amp;q="&lt;/span&gt; keyword &lt;span style="color: #70c0b1;"&gt;"+site:stackoverflow.com"&lt;/span&gt; )))
+  )&lt;/p&gt;
+&lt;p&gt;(add-hook 'prog-mode-hook '( lambda () (local-set-key (kbd &lt;span style="color: #70c0b1;"&gt;"C-c ; s"&lt;/span&gt;) 'w3mext-hacker-search)) )&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;  &lt;/div&gt;</description><category>emacs</category><category>en</category><category>programming</category><category>search</category><category>stackoverflow</category><guid>http://blog.binchen.org/posts/search-the-word-under-cursor-in-stackoverflow-com-and-google-code-search.html</guid><pubDate>Wed, 23 Jan 2013 09:18:00 GMT</pubDate></item></channel></rss>

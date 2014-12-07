@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 5) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-5.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/my-git-alias-in-bashrc.html">My git alias in .bashrc</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-07-20T17:22:00+00:00">2012-07-20 17:22</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/my-git-alias-in-bashrc.html#disqus_thread" data-disqus-identifier="cache/posts/my-git-alias-in-bashrc.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/bash.html" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="categories/control.html" rel="tag">control</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/version.html" rel="tag">version</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-12-26 Wed&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-11-02 Thu&gt;</span></span>
+</p>
+
+<p>
+My favorite alias are <code>g</code>, <code>gau</code>, <code>gc</code>, <code>gt</code>, <code>gl</code>,and  <code>gdc</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># {{ git
+# Git alias
+function gitshortlogcmd () {
+    git log --date=short --decorate --graph "$@"
+}
+function gitlogcmd () {
+    git log --date=short --decorate --graph --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' "$@"
+}
+alias g="git status --short -b"
+alias gb="git branch"
+alias gn="git status --untracked-files=no --short -b"
+alias gfl="git diff-tree --no-commit-id --name-only -r"
+alias ga="git add"
+alias gr="git rebase -i `git remote`/`git symbolic-ref --short HEAD`"
+alias gap='git add --patch'
+alias gai='git add -i'
+alias gau="git add -u"
+alias gc="git commit -m"
+alias gca="git commit --amend"
+alias gja="git --no-pager commit --amend --reuse-message=HEAD" # git just amend
+alias gt="git stash"
+alias gta="git stash apply"
+alias gmt="git mergetool"
+alias gl="gitlogcmd"
+alias glp="gitlogcmd -p"
+alias gls="gitlogcmd --stat"
+alias gnb="git checkout -b"
+alias gss="git show --stat"
+alias gsl="git log --pretty=format:'%h %s (%an)' --date=short -n1 | pclip"
+alias gd="git diff"
+alias gds="git diff --stat"
+alias gdc="git diff --cached"
+alias gdcs="git diff --cached --stat"
+alias gps="git push"
+alias gpf="git push --force"
+alias gpl="git pull"
+alias gpr="git pull -r"
+alias cg='cd $(git rev-parse --show-toplevel)' #goto root dir
+alias ghe='git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --theirs {} &amp;&amp; git add {}"'
+alias gme='git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --our {} &amp;&amp; git add {}"'
+# delete selected local branch
+alias gdd='git branch -D $(git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py)'
+# show diff from the branch to current HEAD
+alias gdp='git diff $(git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py)..HEAD'
+alias grh='git reset --hard HEAD'
+alias gr1='git reset --hard HEAD^'
+alias gr2='git reset --hard HEAD^^'
+alias gs="git show"
+
+function gsh {
+    git log --date=short --pretty=format:'%h%d %ad %s (%an)' | python ~/bin/percol.py | awk '{print $1}' | xargs -i git show {}
+}
+
+function gcn()
+{
+    # commit with timestamp
+    local d=`date +%m%d-%H%M%S`
+    git add -u . &amp;&amp; git commit -m ${d}
+}
+
+# find full path of file who under git controll
+# the optional parameter is the keyword
+function gf()
+{
+    if [ -z "$1" ]; then
+        local cli=`git ls-tree -r HEAD --name-status | python ~/bin/percol.py`
+    else
+        local cli=`git ls-tree -r HEAD --name-status | grep "$1" | python ~/bin/percol.py`
+    fi
+    local rlt=$(cd $(dirname $cli); pwd)/$(basename $cli)
+    echo ${rlt}
+    echo -n ${rlt} | pclip
+}
+
+function glwho () {
+    local guy=`git shortlog -sn | ~/bin/percol.py | sed 's/^\s*[0-9]\+\s*//g'`
+    # space is a problem, so we can't use gitshortlogcmd here
+    gitshortlogcmd --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' --author="$guy" "$@"
+}
+
+function gfp ()  {
+    if [ -z "$1" ]; then
+        echo "Usage: gfp since [file]"
+        echo "  Just alias of 'git format-patch -n --stdout since -- [file]'"
+        echo "  'gfp since | git am' to apply the patch"
+    fi
+    git format-patch -n --stdout $1 -- $2
+}
+
+function gcnb () {
+    local remoteb=$(git branch --all | sed '/no branch/d' | ~/bin/percol.py)
+    local localb=$(echo $remoteb | sed 's/^ *remotes\/[a-z]*\///g')
+    git checkout -b $localb $remoteb
+}
+function grb () {
+    # switch to recent git branch or just another branch
+
+    local crtb=`git branch | grep \*`
+    local ptn="no branch"
+    # compatible way to detect sub-strin in bash
+    # @see http://stackoverflow.com/questions/229551/string-contains-in-bash
+    if [ -z "${crtb##*$ptn*}" ]; then
+        # detached HEAD
+        git checkout $(git branch | sed '/no branch/d' | ~/bin/percol.py)
+    else
+        local myrbs=`git for-each-ref --sort=-committerdate refs/heads/ | sed -e s%.*refs\/heads\/%%g`
+        local crb=`git symbolic-ref --short HEAD`
+        git checkout `echo "$myrbs" | sed '/$crb/d' | ~/bin/percol.py`
+    fi
+}
+
+# rebase on LOCAL branches
+function gri () {
+    local b=`git branch | sed 's/[\* ]\+//g' | ~/bin/percol.py`
+    git rebase -i ${b}
+}
+
+# rebase on ALL braches
+function gra () {
+    local b=`git branch --all | sed 's/[\* ]\+//g' | sed 's/remotes\///g' | ~/bin/percol.py`
+    git rebase -i ${b}
+}
+
+# select a local git branch
+function gsb () {
+    local b=`git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py`
+    echo -n ${b} | pclip;
+    echo ${b}
+}
+
+# print current branch name
+function gcb () {
+    local crb=`git symbolic-ref --short HEAD`
+    echo -n ${crb} | pclip;
+    echo ${crb}
+}
+
+# new local branch based on remote branch
+function gnr () {
+    local myrb=`git for-each-ref --sort=-committerdate refs/remotes/ | sed -e s%.*refs\/remotes\/%%g | ~/bin/percol.py`
+    local mylb=`echo -n $myrb | sed 's/.*\/\([^\/]\+\)$/\1/'`
+    git checkout -b $mylb $myrb
+}
+
+function gchk () {
+    if [ -z "$1" ]; then
+        echo "Usage: gchk commit_id"
+        echo "reset hard certain version of current working directory"
+    else
+        rm -rf $PWD/*
+        git checkout $1 -- $PWD
+    fi
+}
+
+function git2fullpath {
+    local fullpath=$(git rev-parse --show-toplevel)/$1
+    echo -n $fullpath | pclip
+    echo $fullpath
+}
+
+function glf () {
+    local str=`git --no-pager log --oneline --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+
+function gsf () {
+    local str=`git --no-pager show --pretty=format:'%h %s (%an)' --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function gdf () {
+    local str=`git --no-pager diff --oneline --name-only $*| ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function gdcf () {
+    local str=`git --no-pager diff --oneline --cached --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function ggr () {
+  if [ -z "$1" ]; then
+      echo "Grep files under git controll"
+      echo "Usage: ggr [filename-pattern] text-pattern"
+  elif [ $# -eq "1" ]; then
+      git ls-tree -r HEAD --name-only |  xargs grep -sn "$1"
+  elif [ $# -eq "2" ]; then
+      git ls-tree -r HEAD --name-only | grep "$1" | xargs grep -sn --color -E "$2"
+  fi
+}
+
+function grpc() {
+  if [ -z "$1" ]; then
+      echo "Replace the content of file in latest git commit"
+      echo "Usage: grpc [commit-hash] old_string new_string (string could be perl regex)"
+  elif [ $# -eq "2" ]; then
+      git diff-tree --no-commit-id --name-only -r HEAD | xargs perl -pi -e "s/$1/$2/g"
+  elif [ $# -eq "3" ]; then
+      git diff-tree --no-commit-id --name-only -r $1 | xargs perl -pi -e "s/$2/$3/g"
+  fi
+}
+
+function grpf() {
+  if [ -z "$1" ]; then
+      echo "Replace the content of file under git"
+      echo "Usage: grpf old_string new_string (string could be perl regex)"
+  elif [ $# -eq "2" ]; then
+      git grep -l "$1" | xargs perl -pi -e "s/$1/$2/g"
+  fi
+}
+
+function gp() {
+    if [ $# = 0 ]; then
+        local from=`gitshortlogcmd --pretty=format:'%h %ad %s (%an)' $* | ~/bin/percol.py|sed -e"s/^[ *|]*\([a-z0-9]*\) .*$/\1/"`;
+        local fn=from-$from-`date +%Y%m%d-%H%M`.patch
+        git format-patch -n --stdout $from &gt; $fn &amp;&amp; ls $fn
+    else
+        local fn=from-$1-`date +%Y%m%d-%H%M`.patch
+        git format-patch -n --stdout $1 &gt; $fn &amp;&amp; ls $fn
+    fi;
+}
+# }}
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo.html">Emacs中的完美多窗口操作</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-07-20T14:56:00+00:00">2012-07-20 14:56</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo.html#disqus_thread" data-disqus-identifier="cache/posts/emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/multiple.html" rel="tag">multiple</a></li>
+           <li><a class="tag p-category" href="categories/window.html" rel="tag">window</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">典型的工作流</h4> <div class="outline-text-3" id="text-1">  <ol>
+<li>在两个子窗口中对比文件内容 </li> <li>打开更多的窗口以参考其他信息. </li> <li>对某个窗口内容比较有兴趣,跳转到该窗口,将该窗口最大化 </li> <li>看完最大化的窗口内容后,undo最大化操作,重新回到早先的多个小窗口模式以便继续纵览全局 </li> </ol>
+</div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">将子窗口自动编号,然后按M-0…9跳转(最爱)</h4> <div class="outline-text-3" id="text-2">  <p>安装<a href="https://github.com/nschum/window-numbering.el">window-numbering.el</a>,然后在.emacs中添加以下代码, </p>   <pre class="src src-elisp">(<span style="color: #af00ff;">require</span> '<span style="color: #008787;">window-numbering</span>)
+(window-numbering-mode 1)</pre>  </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">undo/redo之前的窗口操作(最爱)</h4> <div class="outline-text-3" id="text-3">  <p>安装<a href="http://www.emacswiki.org/emacs/WinnerMode">Winner Mode</a>,然后在.emacs中添加以下代码, </p>   <pre class="src src-elisp">(winner-mode 1)
+<p><span style="color: #af0000;">;; </span><span style="color: #af0000;">copied from http://puntoblogspot.blogspot.com/2011/05/undo-layouts-in-emacs.html</span>
+(global-set-key (kbd <span style="color: #87005f;">"C-x 4 u"</span>) 'winner-undo)
+(global-set-key (kbd <span style="color: #87005f;">"C-x 4 r"</span>) 'winner-redo)</p></pre>  </div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">焦点移动到下一窗口(常用)</h4> <div class="outline-text-3" id="text-4">  <p>M-x other-window,快捷键是<code>C-x o</code>. </p>
+</div>  </div>  <div id="outline-container-5" class="outline-3"> <h4 id="sec-5">水平/垂直切分当前窗口(常用)</h4> <div class="outline-text-3" id="text-5">  <p>快捷键C-x 2/3 </p>
+</div>  </div>  <div id="outline-container-6" class="outline-3"> <h4 id="sec-6">将当前子窗口最大化(常用)</h4> <div class="outline-text-3" id="text-6">  <p>M-x delete-other-windows,快捷键<code>C-x 1</code>. </p>
+</div>  </div>  <div id="outline-container-7" class="outline-3"> <h4 id="sec-7">删除当前子窗口(偶尔用)</h4> <div class="outline-text-3" id="text-7">  <p>M-x delete-window (快捷键<code>C-x 0</code>) </p> <p> 顺便说一下,M-x kill-buffer-and-window (快捷键<code>C-x 4 0</code>),我现在用得更多 些. </p>
+</div>  </div>  <div id="outline-container-8" class="outline-3"> <h4 id="sec-8">移动焦点到上下左右的窗口(基本不用)</h4> <div class="outline-text-3" id="text-8">  <p>因我较喜欢vi快捷键,所以我安装了<a href="http://emacswiki.org/emacs/Evil">Evil Mode</a>.快捷键和Vi一样. C-w h/j/k/l移动至各方向的子窗口. </p>
+</div>  </div>  <div id="outline-container-9" class="outline-3"> <h4 id="sec-9">存储/载入窗口布局到register(基本不用)</h4> <div class="outline-text-3" id="text-9">  <p><code>C-x r w</code>存储,<code>C-x r j</code>载入. </p>
+</div> </div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/convert-tex-to-pdf.html">Convert TEX to PDF</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-07-17T23:22:00+00:00">2012-07-17 23:22</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/convert-tex-to-pdf.html#disqus_thread" data-disqus-identifier="cache/posts/convert-tex-to-pdf.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cpan.html" rel="tag">cpan</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/latex.html" rel="tag">latex</a></li>
+           <li><a class="tag p-category" href="categories/pdf.html" rel="tag">pdf</a></li>
+           <li><a class="tag p-category" href="categories/perl.html" rel="tag">perl</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Install <a href="http://www.tug.org/texlive/">TexLive</a> in your OS.
+</p>
+
+<p>
+Install <code>latex2pdf</code> which is dependent on TexLive.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cpan App::cpanminus # handy tool to install cpan module
+cpanm Template # Template is missing on cygwin
+cpanm latex2pdf # finally
+</code></pre>
+
+</div>
+
+<p>
+Convert now!
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">pdf2latex cv.tex
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm.html">Install perl module through source package on cygwin by using cpanm</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-07-17T23:22:00+00:00">2012-07-17 23:22</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm.html#disqus_thread" data-disqus-identifier="cache/posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cpan.html" rel="tag">cpan</a></li>
+           <li><a class="tag p-category" href="categories/cpanm.html" rel="tag">cpanm</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/install.html" rel="tag">install</a></li>
+           <li><a class="tag p-category" href="categories/module.html" rel="tag">module</a></li>
+           <li><a class="tag p-category" href="categories/perl.html" rel="tag">perl</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+I failed to install package "Template" by running `cpanm Template'.
+</p>
+
+<p>
+It's because the binary package requires gcc4 while on my cygwin only gcc3 available.
+</p>
+
+<p>
+So I install it from source package (with some hack, of course),
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cpanm --look Template # Download and unpack the distribution and then open the directory with your shellI
+cpanm . #install from local directory
+</code></pre>
+
+</div>
+
+<p>
+Updated: The simpler solution is to install gcc4 at cygwin.</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-convert-org-to-pdf.html">How to convert org to PDF</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-07-08T15:27:00+00:00">2012-07-08 15:27</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-convert-org-to-pdf.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-convert-org-to-pdf.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/latex.html" rel="tag">latex</a></li>
+           <li><a class="tag p-category" href="categories/pdf.html" rel="tag">pdf</a></li>
+           <li><a class="tag p-category" href="categories/perl.html" rel="tag">perl</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Install <a href="http://www.tug.org/texlive/">TexLive</a>. The <code>org-mode</code> has some handy function to locate the TexLive. Press <code>C-c C-e p</code> to convert.
+</p>
+
+<p>
+At Cygwin and Linux, installing TexLive could be installed by their package system.
+</p>
+
+<p>
+At macOS, I use the <a href="http://www.tug.org/texlive/acquire-netinstall.html">TexLive source package</a> (install-tl-unx.tar.gz). After installation, environment varaibles need be set.
+</p>
+
+<p>
+Bash shell requires setup in <code>~/.bashrc</code>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">if [[ `uname -s` == *Darwin* ]]; then
+   #tex live on OS X
+   export PATH=/usr/local/texlive/2011/bin/universal-darwin:$PATH
+   export MANPATH=/usr/local/texlive/2011/texmf/doc/man:$MANPAH
+   export INFOPATH=/usr/local/texlive/2011/texmf/doc/info:$INFOPATH
+fi
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua.html">Notes on Emacs chat between John Wiegley and Sacha Chua</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-07-04T17:15:00+00:00">2012-07-04 17:15</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua.html#disqus_thread" data-disqus-identifier="cache/posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+See <a href="http://sachachua.com/blog/2012/07/transcript-emacs-chat-john-wiegley/">http://sachachua.com/blog/2012/07/transcript-emacs-chat-john-wiegley/</a> for the video and transcript.
+</p>
+
+<p>
+I only record key points,
+</p>
+
+<ul class="org-ul">
+<li>Use gnus heavily</li>
+<li>ERC in another Emacs instance</li>
+<li>Look at Magit buffer to get overview</li>
+<li>Use built in vc mode, `C-x v =' to get diff of current file</li>
+<li>One single org, other seven are archives</li>
+<li>Helm (fork of anything.el)</li>
+<li>Gnus read mail and rss (gwene), Adaptive scoring is good.</li>
+<li>fetchmail to fetch from Gmail</li>
+<li>Organize Structure (rename/moving files folders)</li>
+<li>Twenty items in hot list in org-mode linking to other lists and areas of machine</li>
+<li>Dropbox to record voice at <a href="http://dropbox.com">http://dropbox.com</a> and org-mode hook to get voice message</li>
+<li>M-m to call `org-capture'</li>
+<li>'Quick Keys' on Mac plus some apple script (Viewing page in Chrome, M-n to activate emacs, put a link)</li>
+<li>Emacs can view PDF</li>
+<li>Reading Emacs manual from the scratch</li>
+<li>Emacspeak to read the manual</li>
+<li>Ledger for the accounting</li>
+</ul>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html">How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-06-19T21:40:00+00:00">2012-06-19 21:40</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/autocomplete.html" rel="tag">autocomplete</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/yasnippet.html" rel="tag">yasnippet</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+I will only talk about how to set up yasnippet 0.7.0 or higher version.
+</p>
+
+<div id="outline-container-org7ff423a" class="outline-2">
+<h3 id="org7ff423a">If you follow `normal install` way, setup is simple</h3>
+<div class="outline-text-2" id="text-org7ff423a">
+<p>
+See its <a href="http://capitaomorte.github.com/yasnippet/">official documentation</a>.
+</p>
+
+<p>
+Install the yasnippet into somewhere and add following code into your .emacs:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(add-to-list 'load-path
+              "~/.emacs.d/plugins/yasnippet-x.y.z")
+(require 'yasnippet) ;; not yasnippet-bundle
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/plugins/yasnippet-x.y.z/snippets")
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgee9a2fe" class="outline-2">
+<h3 id="orgee9a2fe">If you use elpa package system, setup is even simpler</h3>
+<div class="outline-text-2" id="text-orgee9a2fe">
+<p>
+After installation, you only need two lines in .emacs.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'yasnippet)
+(yas/initialize)
+</code></pre>
+
+</div>
+
+<p>
+Yasnippet 0.7.0 have already defined two locations for the snippets, "~/.emacs.d/yasnippet-install-path/yasnippet-x.y.z/snippets" and "~/.emacs.d/snippets". Yasnippet will load snippets in BOTH directories at startup.
+</p>
+
+<p>
+So you only put your own snippets in "~/.emacs.d/snippets" and done. No need to tweak .emacs at all. To verify my claim, you can `C-h v yas/snippet-dirs' to check value of "yas/snippet-dirs". Please note "yas/root-directory" is the alias of "yas/snippet-dirs".
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5047709" class="outline-2">
+<h3 id="org5047709">The real world setup is NOT simple</h3>
+<div class="outline-text-2" id="text-org5047709">
+<p>
+I will explain the reasons at first and give my complete yasnippet configuration code at the end of the this post.
+</p>
+</div>
+<div id="outline-container-orga1be0aa" class="outline-3">
+<h4 id="orga1be0aa">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
+<div class="outline-text-3" id="text-orga1be0aa">
+<p>
+One issue is I need a user-friendly dropdown window popped up when the key I input has several candidates. For example, when I type "inc" in C code. There are two candidates `#include "…"' and `#include &lt;…&gt;' available. A handy dropdown popup will help me to choose one of them as efficient as possible.
+</p>
+
+<p>
+The good news is such fancy popup is a standard component of yasnippet. It's called `yas/dropdown-prompt'.  Its default algorithm will activate it at highest priority.
+</p>
+
+<p>
+The bad news is for some strange reason yasnippet won't load that dropdown-list by default. So you need manually load that component by one line of elisp code `(require 'dropdown-list)'.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org48fd2c0" class="outline-3">
+<h4 id="org48fd2c0">`yas/dropdown-prompt' is not perfect</h4>
+<div class="outline-text-3" id="text-org48fd2c0">
+<p>
+I cannot scroll down the dropdown window when there are more candidates it can display. That's especially annoying when calling `yas/insert-snippet'. In this case, we need use `yas/completing-prompt' instead. I will show the fix at the end of this article.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3f1bec7" class="outline-3">
+<h4 id="org3f1bec7">Yasnippet conflicts with other plugins</h4>
+<div class="outline-text-3" id="text-org3f1bec7">
+<p>
+I use <a href="http://cx4a.org/software/auto-complete/">Auto Complete Mode</a> (version 20120327 in elpa).  There are two issues when using it with yasnippet.
+</p>
+
+<p>
+First, it use TAB key to do the auto-complete thing while yasnippet also uses TAB key. So I need re-configure hotkeys of yasnippet.
+</p>
+
+<p>
+Second, yasnippet changed its API `yas/get-snippet-tables' since version 0.7.0. This make the auto-complete cannot use yasnippet at all. This issue is <a href="https://github.com/m2ym/auto-complete/pull/107">reported</a> and <a href="https://github.com/tkf/auto-complete/commit/337caa2ccc254a79f615bb2417f0d2fb9552b547">fixed</a> by <a href="https://github.com/tkf">tkf</a>. Actually all you need do is simple:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd auto-complete-install-dir
+rm auto-complete-config.elc
+curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2fb9552b547/auto-complete-config.el &gt; auto-complete-config.el
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org85f1573" class="outline-2">
+<h3 id="org85f1573">My final yasnippet setup</h3>
+<div class="outline-text-2" id="text-org85f1573">
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'yasnippet)
+(yas/initialize)
+;; default TAB key is occupied by auto-complete
+(global-set-key (kbd "C-c ; u") 'yas/expand)
+;; default hotkey `C-c &amp; C-s` is still valid
+(global-set-key (kbd "C-c ; s") 'yas/insert-snippet)
+;; give yas/dropdown-prompt in yas/prompt-functions a chance
+(require 'dropdown-list)
+;; use yas/completing-prompt when ONLY when `M-x yas/insert-snippet'
+;; thanks to capitaomorte for providing the trick.
+(defadvice yas/insert-snippet (around use-completing-prompt activate)
+     "Use `yas/completing-prompt' for `yas/prompt-functions' but only here..."
+       (let ((yas/prompt-functions '(yas/completing-prompt)))
+             ad-do-it))
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu.html">在我的Mac OS X 10.7.3上为heroku开发rails程序</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-05-31T14:13:00+00:00">2012-05-31 14:13</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu.html#disqus_thread" data-disqus-identifier="cache/posts/zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/deployment.html" rel="tag">deployment</a></li>
+           <li><a class="tag p-category" href="categories/heorku.html" rel="tag">heorku</a></li>
+           <li><a class="tag p-category" href="categories/postgresql.html" rel="tag">postgresql</a></li>
+           <li><a class="tag p-category" href="categories/rails.html" rel="tag">rails</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>rails版本为3.1，OS X版本10.7.3，postgresql版本9.1.3j </p> <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">数据库必须用postgresql</h4> <div class="outline-text-3" id="text-1">  <p>heroku官方主页反对开发版本用sqlite3而生产版本用postgresql. </p>
+</div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">在OS X 10.7.3上安装postgresql</h4> <div class="outline-text-3" id="text-2">  <p>首先,检查你的OS X版本，从10.7开始OS X自带postgresql </p>   <pre class="src src-sh">sw_vers -productVersion
+</pre>  <p> 如果要安装最新版的postgresql，必须删除老版本的数据库。具体做法参考<a href="http://nextmarvel.net/blog/2011/09/brew-install-postgresql-on-os-x-lion/">这篇文章</a>,实际上也就是一行命令： </p>   <pre class="src src-sh">curl http://nextmarvel.net/blog/downloads/fixBrewLionPostgres.sh | sh
+<p></p></pre>  <p> 强烈推荐用homebrew安装数据库, </p>   <pre class="src src-sh">brew install postgresql
+<p></p></pre>  <p> 具体安装细节请参考<a href="http://wiki.postgresql.org/wiki/Detailed_installation_guides">postgresql官方wiki</a>. </p>
+</div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">检测已安装的postgresql</h4> <div class="outline-text-3" id="text-3">  <p>这里是<a href="http://www.postgresql.org/docs/9.1/interactive/tutorial-createdb.html">一些数据库基本操作的官方文档</a>. 可以<code>psql -l</code>看一些已有数据库列表. </p>
+</div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">数据库用postgresql的rails项目</h4> <div class="outline-text-3" id="text-4">     <pre class="src src-sh">rails new myapp --database=postgresql
+<p></p></pre>  <p> 如果是从一个已经使用sqlite的项目切换数据库，就必须改config/database.yml,有一些catch，请参考<a href="http://stackoverflow.com/questions/8199141/postgres-rake-dbmigrate-fails-with-access-denied-error">stackoverflow上的讨论</a>. </p> <p> 然后,<code>createdb myapp_development</code>创建postgresql数据库，<code>rake db:migrate</code>建立数据库schema并导入数据在本地数据库.简单测试可证明数据库和web程序可以无缝工作. </p> <p> 最后不要忘记<code>git commit</code>最新代码. </p>
+</div>  </div>  <div id="outline-container-5" class="outline-3"> <h4 id="sec-5">部署web程序到heroku</h4> <div class="outline-text-3" id="text-5">  <p>请参考<a href="https://devcenter.heroku.com/articles/ruby">heroku官方文档</a>,提醒一下不要忘记运行<code>heroku run rake db:migrate</code>,否则数据库是空的. </p> <p> 部署结束后可以运行<code>heroku open</code>打开浏览器访问web程序首页. </p> <p> 如打开网站有问题，可以<code>heroku logs</code>查看日志. </p>
+</div> </div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/zhen-dui-ruby-on-rails-kai-fa-de-emacs-cha-jian.html">针对Ruby on Rails开发的Emacs插件</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-05-28T12:19:18+00:00">2012-05-28 12:19</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/zhen-dui-ruby-on-rails-kai-fa-de-emacs-cha-jian.html#disqus_thread" data-disqus-identifier="cache/posts/zhen-dui-ruby-on-rails-kai-fa-de-emacs-cha-jian.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/rails.html" rel="tag">rails</a></li>
+           <li><a class="tag p-category" href="categories/ruby.html" rel="tag">ruby</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>我主要用两个插件<a href="http://rinari.rubyforge.org/">rinari</a>和<a href="http://www.emacswiki.org/emacs/yari.el">yari</a>. </p> <p> rinari支持在rails项目中多个文件快速跳转,另外它提供的grep工具我发觉也很有用.快捷键很容易记. </p> <p> yari对ruby自带的ri工具提供一个emacs界面,优点是兼容最新的ruby,操作简单,只要使用一个函数yari-anything即可.但是其官方文档推荐的yari-anything的快捷键F1在有些远程terminal下有问题.我改成了<code>C-c ; r</code>. </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie.html">阅读了rails中使用bootstrap相关文章的小结</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-05-19T20:51:00+00:00">2012-05-19 20:51</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie.html#disqus_thread" data-disqus-identifier="cache/posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/bootstrap.html" rel="tag">bootstrap</a></li>
+           <li><a class="tag p-category" href="categories/css.html" rel="tag">css</a></li>
+           <li><a class="tag p-category" href="categories/less.html" rel="tag">less</a></li>
+           <li><a class="tag p-category" href="categories/sass.html" rel="tag">sass</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p><a href="http://lucapette.com/rails/twitter-bootstrap-on-rails/">Luca Pette的Twitter Bootstrap on Rails</a>比较简单，直接使用了bootstrap的css，没用less，测试了simple_form，show_for,kaminari(分页数据)三个应用。要点在于kaminari有点兼容性问题，用<a href="https://github.com/gabetax/twitter-bootstrap-kaminari-views">twitter-bootstrap-kaminari-views</a>解决这个问题，其他没难度。 </p> <p> <a href="http://metaskills.net/2011/09/26/less-is-more-using-twitter-bootstrap-in-the-rails-3-1-asset-pipeline/">@metaskill的LESS Is More - Using Twitter's Bootstrap In The Rails 3.1 Asset Pipeline</a>讲了如何用bootstrap的less函数和变量，我很有兴趣，根据我的经验能通过less语法调用twitter的函数比较有价值。安装gem <code>less-rails-bootstrap</code>就行了，调用bootstrap的函数的技术细节省略，基本就是less语法。 </p> <p> <a href="http://www.opinionatedprogrammer.com/2011/11/twitter-bootstrap-on-rails/">Adding Twitter's Bootstrap CSS to your Rails app</a>的作者也读了以上两篇文章，要点在于确认了@metaskill的方法，less的一些详细的例子。也提到了可以用sass，但我没有深入读下去。 </p> <p> <a href="http://railscasts.com/episodes/328-twitter-bootstrap-basics">Twitter Bootstrap Basics at railscasts.com</a>非常好，一个完整的例子。Comments也不错，一些html细节。要点在于用了gem<code>twitter-bootstrap-rails</code>,看起来很强大。 </p> <p> 结论，看来我需要转向less而不是sass，因为bootstrap用less。 </p>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-6.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-4.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

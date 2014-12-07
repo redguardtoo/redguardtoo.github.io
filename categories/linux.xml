@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs speed up 1000%</title><link>http://blog.binchen.org/posts/emacs-speed-up-1000.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I'm still &lt;b&gt;NOT&lt;/b&gt; satisfied with my Emacs performance after applying below tricks:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;autoload packages&lt;/li&gt;
+&lt;li&gt;idle-load packages&lt;/li&gt;
+&lt;li&gt;compiling *.el to  *.elc&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+After some research, I found I could make my Emacs 1000% fast &lt;b&gt;in 1 minute&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Please note I'm talking about the &lt;b&gt;general performance&lt;/b&gt; not just startup time.
+&lt;/p&gt;
+
+&lt;p&gt;
+The solution is really simple.
+&lt;/p&gt;
+
+&lt;p&gt;
+Since I'm a Linux guy and my computer got enough (24G) memory. I can place my setup into &lt;a href="http://en.wikipedia.org/wiki/Tmpfs"&gt;memory&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 1&lt;/b&gt;, insert below line into /etc/fstab and restart computer:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;tmpfs       /tmp        tmpfs       nodev,nosuid,size=8G    0   0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 2&lt;/b&gt;, run the script "emacs2ram":
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
+
+if [ -z "$1" ];then
+    echo "Usage:"
+    echo "  emacs2ram start"
+    echo "  emacs2ram restore"
+    exit 1
+fi
+
+if [ "$1" == "start" ];then
+    backup=emacs.d-backup
+    link=.emacs.d
+    volatile=/tmp/.emacs.d-$USER
+
+    IFS=
+    set -efu
+
+    cd ~/
+
+    if [ ! -r $volatile ]; then
+        mkdir -m0700 $volatile
+    fi
+
+    # link -&amp;gt; volatie does not exist
+    if [ "$(readlink $link)" != "$volatile" ]; then
+        # backup project at first
+        mv $link $backup
+        # create the link
+        ln -s $volatile $link
+    fi
+
+    if [ -e $link/.unpacked ]; then
+        echo "Sync .emacs.d from memory to backup ..."
+        rsync -avq --delete --exclude .unpacked ./$link/ ./$backup/
+        echo "DONE!"
+    else
+        echo "Sync .emacs.d from disk to memory ..."
+        rsync -avq ./$backup/ ./$link/
+        touch $link/.unpacked
+        echo "DONE!"
+    fi
+else
+    echo "Moving .emacs.d back to disk ..."
+    backup=$2-backup
+    link=$2
+    volatile=/tmp/$2-$USER
+    cd ~/projs
+    rm $link &amp;amp;&amp;amp; mv $backup $link &amp;amp;&amp;amp; rm -rf $volatile
+    echo "DONE!"
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+That's all! Please enjoy Emacs as usual.
+&lt;/p&gt;
+
+&lt;p&gt;
+The original script is from ArchLinux Wiki. I learned this technique eight years ago. I'm just wondering why I need eight years to apply it?
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, I've also moved &lt;b&gt;all my projects into memory&lt;/b&gt;, using similar scripts.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;UPDATE 1:&lt;/b&gt;
+I also publicize my project-managing script at &lt;a href="https://gist.github.com/redguardtoo/596b1a9fd3eac1cedd13#file-proj2ram"&gt;gist&lt;/a&gt;. It's almost same as emacs2ram. 
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;UPDATE 2:&lt;/b&gt;
+Now I use &lt;a href="https://hoytech.com/vmtouch/"&gt;vmtouch&lt;/a&gt; which is easier to use and more light weight. Run &lt;code&gt;vmtouch -vt ~/.emacs.d&lt;/code&gt; to place the directory into memory.
+&lt;/p&gt;
+
+&lt;p&gt;
+Unfortunately, &lt;code&gt;vmtouch&lt;/code&gt; doesn't support Windows. You can convert my bash script to DOS batch script. Basically the script copies the directory into ram disk and create a link to the directory in memory. You can use &lt;a href="https://sourceforge.net/projects/imdisk-toolkit/"&gt;ImDisk Toolkit&lt;/a&gt; to create ram disk.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-speed-up-1000.html</guid><pubDate>Fri, 08 May 2015 11:58:13 GMT</pubDate></item><item><title>Why people say "Emacs is the best operating system"</title><link>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+ people say "Emacs is the best operating system"                           :en:emacs:font:linux:terminal:terminator:
+It's becasue Emacs has great documentation and enough APIs.
+&lt;/p&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+Emacs manual even helps me even on non-Emacs stuff.
+&lt;/p&gt;
+
+&lt;p&gt;
+When configuring the font for &lt;a href="http://gnometerminator.blogspot.com/p/introduction.html"&gt;Terminator&lt;/a&gt; (a terminal emulator) I find its manual is NOT clear. The manual doesn't explain what is "Pango font name". But Emacs manual provides all I need.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;fc-list&lt;/code&gt; is to list installed fonts. Since terminal use Mono font, I can type below command:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+
+&lt;pre&gt;&lt;code class="lang-bash"&gt;fc-list | grep Mono
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The output is like:
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+/usr/share/fonts/urw-fonts/n022003l.pfb: Nimbus Mono L:style=Regular
+/usr/share/fonts/urw-fonts/n022024l.pfb: Nimbus Mono L:style=Bold Oblique
+/usr/share/fonts/liberation-fonts/LiberationMono-Regular.ttf: Liberation Mono:style=Regular
+/usr/share/fonts/urw-fonts/n022004l.pfb: Nimbus Mono L:style=Bold
+/usr/share/fonts/liberation-fonts/LiberationMono-BoldItalic.ttf: Liberation Mono:style=Bold Italic
+/usr/share/fonts/liberation-fonts/LiberationMono-Bold.ttf: Liberation Mono:style=Bold
+/usr/share/fonts/wqy-zenhei/wqy-zenhei.ttc: 文泉驿等宽正黑,文泉驛等寬正黑,WenQuanYi Zen Hei Mono:style=Medium,中等
+/usr/share/fonts/liberation-fonts/LiberationMono-Italic.ttf: Liberation Mhttp://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system.htmlono:style=Italic
+/usr/share/fonts/urw-fonts/n022023l.pfb: Nimbus Mono L:style=Regular Oblique
+&lt;/pre&gt;
+
+&lt;p&gt;
+Since Emacs manual explains the meaning of output, I know the font name "WenQuanYi Zen Hei Mono" is the key component of "Pango font name"
+&lt;/p&gt;
+
+&lt;p&gt;
+Because the manual also gives the details of other components of "Pango font name", the final "~/.config/terminator/config" is like:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+
+&lt;pre&gt;&lt;code class="lang-conf"&gt;[profiles]
+  [[default]]
+  use_system_font = False
+  # @see emacs manual for tools and explanation of font formats
+  # https://www.gnu.org/software/emacs/manual/html_node/emacs/GTK-Resource-Basics.html
+  # https://www.gnu.org/software/emacs/manual/html_node/emacs/Fonts.html#Fonts
+  font =  WenQuanYi Zen Hei Mono 16
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h3 id="sec-2"&gt;API&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;p&gt;
+I create a new Emacs plugin which lists file names containing Chinese characters. At beginning I use Emacs API "find-name-dired". It uses the GNU find as the backend. But there is some integration issue on Linux. Chinese file names are displayed as garbled text in Emacs. I guess there is some decode/encode error between the interaction of Emacs process and GNU find process because Chinese files are fine on OS X.
+&lt;/p&gt;
+
+&lt;p&gt;
+Emacs has enough APIs. Later I found another pure Lisp API "find-lisp-find-dired". Problem solved.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>font</category><category>linux</category><category>terminal</category><category>terminator</category><guid>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system.html</guid><pubDate>Sun, 01 Feb 2015 09:40:44 GMT</pubDate></item><item><title>My answer to "How do you use Emacs without a directory tree on the side of the editor?" on quora.com</title><link>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;This is &lt;a href="http://www.quora.com/Emacs/How-do-you-use-Emacs-without-a-directory-tree-on-the-side-of-the-editor"&gt;original link of the question&lt;/a&gt;. Please note I focus on programming for large projects. I need search/grep/modify files scattered in different places without documentation. &lt;/p&gt; &lt;p&gt; If your use case is different, a embedded file explorer may be a better choice &lt;/p&gt;  &lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Tools I use to replace a file explorer&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ol&gt; &lt;li&gt;ido-find-file (emacs), just type any characters, it will fuzz search matched file in parent/sibling/current/or-whatever directory.  &lt;/li&gt; &lt;li&gt;helm-find-file (emacs), this one use regular expression and has bigger window  &lt;/li&gt; &lt;li&gt;recentf and helm (emacs), I use regular expression open recent opened files.  &lt;/li&gt; &lt;li&gt;ctags, gtags or whatever tag tools (CLI tool), as mentioned by other people  &lt;/li&gt; &lt;li&gt;I also use lots of bash functions written by myself, those functions are trivial, but combined with a wonderful tool called percol, they become really powerful.  &lt;/li&gt; &lt;li&gt;I use some CLI clipboard tool so I can easily share the file path between terminal/emacs/firefox.  &lt;/li&gt; &lt;li&gt;there is also a emacs bundled feature called speedbar, which is similar to the file explorer, I used it once, but it does not fit in my ninja style ;) It's fine but the UI is almost same to those average text editors.  &lt;/li&gt; &lt;li&gt;I also write some elisp snippets, for example, convert absolute path to relative path; given one relative path, output one absolute path, etc …  &lt;/li&gt; &lt;li&gt;there is also some git based emacs plugin: you can search file under the project root directory.  &lt;/li&gt; &lt;li&gt;there is a CLI tool called fasd which can let you interactively select the file or folder you recently visited.  &lt;/li&gt; &lt;li&gt;many other tools, plug-ins, code snippets I can use … &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Use case&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;ol&gt; &lt;li&gt;I need search a big project for a certain library (it's a freemarker file I need include) whose full path I don't know, I just search the API's name by type: &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;"gef keyword *". gef is my bash function based on grep. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;matched files are displayed instantly (grep is much more quick than IDEs, BTW) in a interactive console filter (use percol), I type a regular expression to filter file name and press enter &lt;/li&gt; &lt;li&gt;the full path is in clipboard now, then I type ":e Shift-insert" to open that file. &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;This is the most difficult case, I usually strike less keys and not get out of Emacs. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;If i need insert this file's relative path, I press a hot key and another emacs plugin will correctly convert absolute path to relative one (relative to the file I'm editing in Emacs) and insert it into my editor. &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-3" class="outline-3"&gt; &lt;h4 id="sec-3"&gt;Demo&lt;/h4&gt; &lt;div class="outline-text-3" id="text-3"&gt;  &lt;p&gt;Here is screen cast. In this demo I grepped and open a ftl file and then search another js file in the same project. &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif" alt="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif"&gt; &lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com.html</guid><pubDate>Wed, 19 Feb 2014 21:40:00 GMT</pubDate></item><item><title>One liner to download and install emacs lisp source code</title><link>http://blog.binchen.org/posts/one-liner-to-download-and-extract-emacs-lisp-source-code.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Run the below command in shell, &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`.tar.gz | sudo tar --exclude=admin/* --exclude=etc/* --exclude=nt/* --exclude=doc/* --exclude=leim/* -C /usr/share/emacs/`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`/lisp/ --strip-components=2 --wildcards -zxv *.el
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;p&gt; For example, after installing the lisp code. You can &lt;code&gt;M-x find-function package-list-packages&lt;/code&gt; in Emacs, you will jump to the definition of that command in "/usr/share/emacs/24.3/lisp/emacs-lisp/package.el" (I assume your emacs version is 24.3). &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/one-liner-to-download-and-extract-emacs-lisp-source-code.html</guid><pubDate>Tue, 18 Feb 2014 11:56:00 GMT</pubDate></item><item><title>Notes on set up nfs on ArchLinux</title><link>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Key points&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ul&gt; &lt;li&gt;see &lt;a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html"&gt;Redhat documenation&lt;/a&gt;, best doc on exportfs &lt;/li&gt; &lt;li&gt;&lt;a href="http://superuser.com/questions/492989/understanding-subnet-mask"&gt;Understanding Subnet mask&lt;/a&gt; and &lt;a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask"&gt;essential Subnet mask&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -r&lt;/code&gt; to reload /etc/exports &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -v&lt;/code&gt; to see current nfs exports &lt;/li&gt; &lt;li&gt;content of /etc/exports: &lt;/li&gt; &lt;/ul&gt;     
+&lt;pre class="prettyprint "&gt;
+
+/srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;check &lt;a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html"&gt;optimizatioin tips&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;code&gt;man 5 exports&lt;/code&gt; for the documentation of /etc/exports &lt;/li&gt; &lt;li&gt;&lt;a href="https://www.serverstack.com/blog/2012/11/21/debugging-nfs-file-access-on-server-and-client-side/"&gt;Debugging NFS File Access on Server and Client Side&lt;/a&gt; &lt;/li&gt; &lt;/ul&gt;     
+&lt;pre class="prettyprint "&gt;
+
+# turn on the log
+
+sudo rpcdebug -m nfsd -s proc
+
+# turn off the log
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;then &lt;code&gt;sudo tail -f /var/log/messages.log&lt;/code&gt; &lt;/li&gt; &lt;li&gt;Basically you need &lt;code&gt;sudo systemctl enable syslog-ng.service&lt;/code&gt; to enable system log before you use rpcdebug &lt;/li&gt; &lt;/ul&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Summary&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;p&gt;On server side: &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+sudo exportfs
+
+# got output like:
+
+# /srv/nfs4/z   192.168.0.0/16
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;p&gt; Then on client side: &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+# 131072 is 128K
+
+sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>archlinux</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux.html</guid><pubDate>Fri, 07 Feb 2014 17:24:09 GMT</pubDate></item><item><title>Effective spell check in Emacs</title><link>http://blog.binchen.org/posts/effective-spell-check-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-01-21 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-12-07 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+I use &lt;a href="http://www.emacswiki.org/emacs/FlySpell"&gt;Flyspell&lt;/a&gt; in web-mode as sample.  Other major modes also works.
+&lt;/p&gt;
+
+&lt;p&gt;
+At first, please  turn on &lt;code&gt;flyspell&lt;/code&gt; for all programming languages by inserting below code into &lt;code&gt;.emacs&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+There is also a &lt;a href="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html"&gt;short tutorial&lt;/a&gt; on:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;How to setup flyspell&lt;/li&gt;
+&lt;li&gt;Difference between hunspell and aspell&lt;/li&gt;
+&lt;li&gt;How to setup hunspell&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div id="outline-container-orgf08c6ce" class="outline-2"&gt;
+&lt;h3 id="orgf08c6ce"&gt;Spell check in HTML&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf08c6ce"&gt;
+&lt;p&gt;
+I will spell check,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Text between html tag like &lt;code&gt;&amp;lt;label&amp;gt;Please input email&amp;lt;/label&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Value of html input control like &lt;code&gt;&amp;lt;input type&lt;/code&gt;"text" value="Please input your name"&amp;gt;=&lt;/li&gt;
+&lt;li&gt;CSS class name like &lt;code&gt;&amp;lt;div class&lt;/code&gt;"btn btn-default" /&amp;gt;=&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+My setup:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; {{ flyspell setup for web-mode
+(defun web-mode-flyspell-verify ()
+  (let* ((f (get-text-property (- (point) 1) 'face))
+         rlt)
+    (cond
+     ;; Check the words with these font faces, possibly.
+     ;; this *blacklist* will be tweaked in next condition
+     ((not (memq f '(web-mode-html-attr-value-face
+                     web-mode-html-tag-face
+                     web-mode-html-attr-name-face
+                     web-mode-constant-face
+                     web-mode-doctype-face
+                     web-mode-keyword-face
+                     web-mode-comment-face ;; focus on get html label right
+                     web-mode-function-name-face
+                     web-mode-variable-name-face
+                     web-mode-css-property-name-face
+                     web-mode-css-selector-face
+                     web-mode-css-color-face
+                     web-mode-type-face
+                     web-mode-block-control-face)))
+      (setq rlt t))
+     ;; check attribute value under certain conditions
+     ((memq f '(web-mode-html-attr-value-face))
+      (save-excursion
+        (search-backward-regexp "=['\"]" (line-beginning-position) t)
+        (backward-char)
+        (setq rlt (string-match "^\\(value\\|class\\|ng[A-Za-z0-9-]*\\)$"
+                                (thing-at-point 'symbol)))))
+     ;; finalize the blacklist
+     (t
+      (setq rlt nil)))
+    rlt))
+(put 'web-mode 'flyspell-mode-predicate 'web-mode-flyspell-verify)
+;; }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I use &lt;a href="http://web-mode.org/"&gt;web-mode&lt;/a&gt; for HTML files. The technique applies on other modes (php-mode, html-mode ….) .
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf15589e" class="outline-2"&gt;
+&lt;h3 id="orgf15589e"&gt;Don't display doublon (double word) as error&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf15589e"&gt;
+&lt;p&gt;
+Modern CSS frameworks like &lt;a href="http://getbootstrap.com/"&gt;Bootstrap&lt;/a&gt; make doublon unavoidable. For example, CSS class name &lt;code&gt;btn btn-default&lt;/code&gt; contains double word &lt;code&gt;btn&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+So we need stop displaying doublon as error in HTML,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar flyspell-check-doublon t
+  "Check doublon (double word) when calling `flyspell-highlight-incorrect-region'.")
+ (make-variable-buffer-local 'flyspell-check-doublon)
+
+(defadvice flyspell-highlight-incorrect-region (around flyspell-highlight-incorrect-region-hack activate)
+  (if (or flyspell-check-doublon (not (eq 'doublon (ad-get-arg 2))))
+      ad-do-it))
+
+(defun web-mode-hook-setup ()
+  (flyspell-mode 1)
+  (setq flyspell-check-doublon nil))
+
+(add-hook 'web-mode-hook 'web-mode-hook-setup)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0926859" class="outline-2"&gt;
+&lt;h3 id="org0926859"&gt;Spell check camel case strings&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0926859"&gt;
+&lt;p&gt;
+We can check camel cased string/variable/function if and only if &lt;a href="http://aspell.net/"&gt;aspell&lt;/a&gt; is used.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into &lt;code&gt;.emacs&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; if (aspell installed) { use aspell}
+;; else if (hunspell installed) { use hunspell }
+;; whatever spell checker I use, I always use English dictionary
+;; I prefer use aspell because:
+;; 1. aspell is older
+;; 2. looks Kevin Atkinson still get some road map for aspell:
+;; @see http://lists.gnu.org/archive/html/aspell-announce/2011-09/msg00000.html
+(setq ispell-program-name "aspell"
+      ;; force the English dictionary, support Camel Case spelling check (tested with aspell 0.6)
+      ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together")
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org2594138" class="outline-2"&gt;
+&lt;h3 id="org2594138"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2594138"&gt;
+&lt;p&gt;
+&lt;a href="http://www.emacswiki.org/emacs/FlySpell"&gt;EmacsWiki&lt;/a&gt; suggests &lt;code&gt;(flyspell-prog-mode)&lt;/code&gt; which only checks typo in comments.
+&lt;/p&gt;
+
+&lt;p&gt;
+But as I proved, Emacs gives you full freedom to design a &lt;b&gt;different&lt;/b&gt; solution.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screen shot (typos are underscored):
+&lt;/p&gt;
+
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/spell-check-html-in-emacs.png" alt="spell-check-html-in-emacs.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org760e454" class="outline-2"&gt;
+&lt;h3 id="org760e454"&gt;Javascript and ReactJS setup (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org760e454"&gt;
+&lt;p&gt;
+If you fully understand my previous sections, you don't need read this section.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into &lt;code&gt;.emacs&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun js-flyspell-verify ()
+  (let* ((f (get-text-property (- (point) 1) 'face)))
+    ;; *whitelist*
+    ;; only words with following font face will be checked
+    (memq f '(js2-function-call
+              js2-function-param
+              js2-object-property
+              font-lock-variable-name-face
+              font-lock-string-face
+              font-lock-function-name-face))))
+(put 'js2-mode 'flyspell-mode-predicate 'js-flyspell-verify)
+(put 'rjsx-mode 'flyspell-mode-predicate 'js-flyspell-verify)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>spell</category><guid>http://blog.binchen.org/posts/effective-spell-check-in-emacs.html</guid><pubDate>Tue, 21 Jan 2014 12:00:00 GMT</pubDate></item><item><title>How to execute user program for System V init script</title><link>http://blog.binchen.org/posts/how-to-execute-user-program-for-system-v-init-script.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Memo for my self. &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+sudo ls -1 /etc/{rc,init}.d/|grep local
+
+# then read the file either rc.local or local
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>init</category><category>linux</category><guid>http://blog.binchen.org/posts/how-to-execute-user-program-for-system-v-init-script.html</guid><pubDate>Sat, 18 Jan 2014 09:37:10 GMT</pubDate></item><item><title>My grub2 configuration</title><link>http://blog.binchen.org/posts/my-grub2-configuration.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Content of &lt;code&gt;/etc/grub.d/11_windows&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;#!/bin/sh -e
+echo "#        Adding Windows GRUB 2 menu"
+cat &amp;lt;&amp;lt; EOF
+menuentry "Windows XP" {
+savedefault
+insmod chain
+insmod ntfs
+set root=(hd0,1)
+chainloader +1
+}
+EOF
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+/etc/default/grub
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;# Copyright 1999-2013 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: /var/cvsroot/gentoo-x86/sys-boot/grub/files/grub.default-2,v 1.4 2013/09/21 18:10:55 floppym Exp $
+#
+# To populate all changes in this file you need to regenerate your
+# grub configuration file afterwards:
+#     'grub2-mkconfig -o /boot/grub/grub.cfg'
+#
+# See the grub info page for documentation on possible variables and
+# their associated values. 
+
+GRUB_DISTRIBUTOR="Gentoo"
+
+GRUB_DEFAULT=saved
+GRUB_SAVEDEFAULT=true
+GRUB_HIDDEN_TIMEOUT=0
+GRUB_HIDDEN_TIMEOUT_QUIET=true
+GRUB_TIMEOUT=10
+
+# Append parameters to the linux kernel command line
+GRUB_CMDLINE_LINUX="libata.dma=1"
+
+# Append parameters to the linux kernel command line for non-recovery entries
+#GRUB_CMDLINE_LINUX_DEFAULT=""
+
+# Uncomment to disable graphical terminal (grub-pc only)
+#GRUB_TERMINAL=console
+
+# The resolution used on graphical terminal.
+# Note that you can use only modes which your graphic card supports via VBE.
+# You can see them in real GRUB with the command `vbeinfo'.
+#GRUB_GFXMODE=640x480
+
+# Path to theme spec txt file.
+# The starfield is by default provided with use truetype.
+# NOTE: when enabling custom theme, ensure you have required font/etc.
+#GRUB_THEME="/boot/grub/themes/starfield/theme.txt"
+
+# Background image used on graphical terminal.
+# Can be in various bitmap formats.
+#GRUB_BACKGROUND="/boot/grub/mybackground.png"
+
+# Uncomment if you don't want GRUB to pass "root=UUID=xxx" parameter to kernel
+#GRUB_DISABLE_LINUX_UUID=true
+
+# Uncomment to disable generation of recovery mode menu entries
+#GRUB_DISABLE_RECOVERY=true
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>grub</category><category>linux</category><guid>http://blog.binchen.org/posts/my-grub2-configuration.html</guid><pubDate>Tue, 31 Dec 2013 19:09:00 GMT</pubDate></item><item><title>Memo on upgrading ArchLinux</title><link>http://blog.binchen.org/posts/memo-on-upgrading-archlinux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Run &lt;code&gt;pacman -Syu&lt;/code&gt; to upgrade all packages.
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Archlinux replaces grub with grub2&lt;/li&gt;
+&lt;li&gt;I cannot install grub2, blocklists stuff&lt;/li&gt;
+&lt;li&gt;Downgrade to grub-obsolee&lt;/li&gt;
+&lt;li&gt;Then grub&lt;/li&gt;
+&lt;li&gt;Setup (hd0) to install MBR&lt;/li&gt;
+&lt;li&gt;Restart netbook (make sure the boot priority is right)&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>linux</category><category>upgrade</category><guid>http://blog.binchen.org/posts/memo-on-upgrading-archlinux.html</guid><pubDate>Sun, 03 Nov 2013 23:29:00 GMT</pubDate></item><item><title>notes on upgrading Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-on-upgrading-gentoo-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;pre class="prettyprint "&gt;
+&lt;p&gt;sudo emerge --update --deep --with-bdeps=y --newuse world
+&lt;/p&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;I get notified that some newer version package is required, so I have to manually install those package and re-run the &lt;code&gt;emerge world&lt;/code&gt; &lt;/li&gt; &lt;li&gt;Some package is gone (libreoffice-bin, for example). &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; Here is command to manually install package: &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+sudo ebuild /usr/portage/www-client/firefox-bin/firefox-bin-23.0.ebuild unpack compile install qmerge clean
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>linux</category><category>upgrade</category><guid>http://blog.binchen.org/posts/notes-on-upgrading-gentoo-linux.html</guid><pubDate>Sat, 26 Oct 2013 19:47:54 GMT</pubDate></item></channel></rss>

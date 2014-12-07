@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about graphic)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/graphic.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Sample python code to resize image</title><link>http://blog.binchen.org/posts/sample-python-code-to-resize-image.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Here is the code,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-python"&gt;#!/usr/bin/python
+import Image
+import cStringIO
+
+data=open("test.png","rb").read()
+# in real application, I handle the data in memory
+img=Image.open(cStringIO.StringIO(data))
+img.thumbnail((800,480),Image.ANTIALIAS)
+img.save("test-p.jpg","JPEG")
+img.thumbnail((128,128),Image.ANTIALIAS)
+img.save("test-t.jpg","JPEG")
+print "DONE"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>graphic</category><category>python</category><guid>http://blog.binchen.org/posts/sample-python-code-to-resize-image.html</guid><pubDate>Wed, 28 Sep 2011 13:40:00 GMT</pubDate></item></channel></rss>

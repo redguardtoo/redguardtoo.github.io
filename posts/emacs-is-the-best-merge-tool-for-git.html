@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Emacs is the best merge tool for Git | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Emacs is the best merge tool for Git">
+<meta property="og:url" content="http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html">
+<meta property="og:description" content="CREATED: &lt;2019-11-13 Wed&gt;
+
+
+
+UPDATED: &lt;2020-04-10 Fri&gt;  if you use my solution, you can replace emacs with emacsclient. So it's even faster than Vim.
+
+
+
+I used to regard vimdiff as the best merge tool">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2019-11-13T13:29:46Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="mergetool">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Emacs is the best merge tool for Git</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2019-11-13T13:29:46+00:00">2019-11-13 13:29</time>
+            
+
+            
+          |  
+        <a href="emacs-is-the-best-merge-tool-for-git.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="../categories/mergetool.html" rel="tag">mergetool</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-11-13 Wed&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-04-10 Fri&gt; </span></span> if you use my solution, you can <a href="http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool.html">replace emacs with emacsclient</a>. So it's even <b>faster than Vim</b>.
+</p>
+
+<p>
+I used to regard vimdiff as the best merge tool for Git because it's simply fast.
+</p>
+
+<p>
+Here is the demo how I use vimdiff to resolve conflicts from <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a>.
+</p>
+
+<div class="figure">
+<p><img src="../wp-content/vimdiff-as-git-merge-tool.gif" alt="vimdiff-as-git-merge-tool.gif"></p>
+</div>
+
+<p>
+Please note in the screencast I use Git built in command <a href="https://git-scm.com/docs/git-mergetool">mergetool</a>. It will <b>automatically</b> open conflicted file one by one using vim. In other software, the developer need <b>manually</b> select and open the conflicted file. 
+</p>
+
+<p>
+The only issue is Vim is not as powerful as Emacs.
+</p>
+
+<p>
+Resolving conflicts is NOT only picking up a diff hunk from remote/local buffer. I often need place my hunk into merged buffer first, then I go to remote buffer and copy some snippet into merged buffer. So there are lots of sub-window operations.
+</p>
+
+<p>
+In Emacs, I use <a href="https://github.com/abo-abo/ace-window">Ace-window</a> and <a href="https://github.com/deb0ch/emacs-winum">Winum</a> to move focus between sub-windows.  I also use API <code>window-configuration-to-register</code> and <code>jump-to-register</code> to save/load windows layout. Besides, <a href="https://www.gnu.org/software/emacs/manual/html_mono/ediff.html">Ediff</a> is a beast to handle diff and patch.
+</p>
+
+<p>
+So I give one example to prove why Emacs should be a better merge tool <b>in theory</b>. If you are good at both Vim and Emacs, you know it's the truth.
+</p>
+
+<p>
+Now let's talk the real world problem. And I will show you a perfect solution soon.
+</p>
+
+<p>
+The problem is, I never use Emacs to resolve merge conflicts for two reasons:
+</p>
+
+<ul class="org-ul">
+<li>First, <a href="https://github.com/redguardtoo/emacs.d">My Emacs configuration</a> uses too many packages. It starts up slowly. As you can see from vimdiff demo, <code>git mergetool</code> restarts the editor many times. So the editor should be lightweight.</li>
+<li>Second, the UI of <code>ediff</code> is not right. UI of Vimdiff is much better. All operations should be completed freely in any sub-window instead of ediff control panel only.</li>
+</ul>
+<p>
+Luckily, Emacs gives me the full freedom to solve the problem. The final result is beyond my expectation.
+</p>
+
+<p>
+Here is the complete solution.
+</p>
+
+<div id="outline-container-org1f594fa" class="outline-2">
+
+<div class="outline-text-2" id="text-1">
+<p>
+This technique is only useful for <code>git mergetool</code> because git will open and close the text editor Emacs many times.
+</p>
+
+<p>
+Insert below code into <code>~/.gitconfig</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[mergetool.ediff]
+# use git mergetool ediff to resolve conflicts
+cmd = emacs -nw -Q --eval \"(setq startup-now t)\" -l \"~/.emacs.d/init.el\" --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \\\"$BASE\\\") (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\") (ediff-merge-files \\\"$LOCAL\\\" \\\"$REMOTE\\\" nil \\\"$MERGED\\\")))\"
+</code></pre>
+
+</div>
+
+<p>
+In above code, option <code>-Q</code> equals <code>-q --no-site-file --no-splash</code>. Actually, only <code>-q</code> is critical. <code>-q</code> means "Do not load an init file". A global emacs lisp flag <code>startup-now</code> is defined before loading <code>~/.emacs.d/init.el</code>.
+</p>
+
+<p>
+Then in <code>~/.emacs.d/init.el</code>, I need only add one line,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(when (not (boundp 'startup-now))
+  ;; heavy weight configuration happens here
+  )
+</code></pre>
+
+</div>
+
+<p>
+When <code>startup-now</code> is defined, all the heavyweight configuration should be off. Considering in this scenario, we are using Emacs only as merge tool, 99% configuration could be turned off. For example, set up for any programming language is not required. Flyspell and flycheck should be off. Yasnippet is also useless. 
+</p>
+
+<p>
+I only need focus on essential operations related to text/file/window.
+</p>
+
+<p>
+<a href="https://github.com/emacs-evil/evil">Evil</a> should be used. At the beginning of this article, I said "I love vimdiff because it's fast". It's impossible to be more efficient without Evil.
+</p>
+
+<p>
+Any patch/diff utilities should be included too. <a href="https://github.com/abo-abo/swiper">counsel/swiper/ivy</a> is also must have because I can use <code>counsel-git</code> to find file and <code>counsel-git-grep</code> to grep text.
+</p>
+
+<p>
+Native Emacs API is enough to save/load windows layout.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7dd9561" class="outline-2">
+
+<div class="outline-text-2" id="text-2">
+<p>
+Packages dependent on ediff (<a href="https://magit.vc/">Magit</a>?) could also benefit from optimization of ediff.
+</p>
+
+<p>
+The optimization is simple. Do everything in merged buffer.
+</p>
+
+<p>
+First I move focus into merged buffer when Emacs starts up,
+</p>
+
+<p>
+This set up happens in <code>ediff-startup-hook</code>, 
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun ediff-startup-hook-setup ()
+  ;; hide control panel if it's current buffer
+  (when (string-match-p (setq my-ediff-panel-name (buffer-name))
+                        "\*Ediff Control Panel.*\*")
+    ;; move to the first difference
+    (ediff-next-difference)
+    ;; move to the merged buffer window
+    (winum-select-window-by-number 3)
+    ;; save the windows layout
+    (window-configuration-to-register ?a)))
+
+(add-hook 'ediff-startup-hook 'ediff-startup-hook-setup)
+</code></pre>
+
+</div>
+<p>
+Please note I use <code>winum-select-window-by-number</code> from <code>winum</code> move focus to merged buffer. You can use any other third party package or native API <code>select-window</code> instead.
+</p>
+
+<p>
+Saving initial windows layout into register <code>a</code> is achieved by <code>(window-configuration-to-register ?a)</code> in <code>ediff-startup-hook</code>. <code>(jump-to-register ?a)</code> restores the saved layout.
+</p>
+
+<p>
+Then we need make sure ediff commands can be used out of ediff's panel. Currently ediff command can only be triggered inside of its panel.
+</p>
+
+<p>
+The trick is "move focus into ediff panel temporarily to execute its commands, then move focus back to original window".
+</p>
+
+<p>
+So I designed a macro <code>my-ediff-command</code> to do this,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defmacro my-ediff-command (cmd &amp;optional no-arg)
+  `(lambda (&amp;optional arg)
+     (interactive "P")
+     (let* ((w (get-buffer-window)))
+       ;; go to panel window
+       (select-window (get-buffer-window my-ediff-panel-name))
+       ;; execute ediff command, ignore any error
+       (condition-case e
+           (if ,no-arg (funcall ,cmd) (funcall ,cmd arg))
+         (error
+          (message "%s" (error-message-string e))))
+       ;; back to original window
+       (select-window w))))
+</code></pre>
+
+</div>
+
+<p>
+Usage is simple,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(global-set-key (kbd "C-c C-y") (my-ediff-command 'ediff-next-difference))
+</code></pre>
+
+</div>
+
+<p>
+Here is the list of essential ediff commands,
+</p>
+<ul class="org-ul">
+<li>ediff-next-difference</li>
+<li>ediff-previous-difference</li>
+<li>ediff-restore-diff-in-merge-buffer</li>
+<li>ediff-revert-buffers-then-recompute-diffs</li>
+<li>ediff-copy-A-to-C</li>
+<li>ediff-copy-A-to-C</li>
+<li>ediff-copy-both-to-C</li>
+</ul>
+<p>
+You can use <a href="https://github.com/abo-abo/hydra">Hyra</a> or <a href="https://github.com/noctuid/general.el">General.el</a> to assign key bindings.
+</p>
+
+<p>
+The definition of <code>ediff-copy-both-to-C</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; @see https://stackoverflow.com/a/29757750/245363
+(defun ediff-copy-both-to-C (&amp;optional arg)
+  "Copy code from both A and B to C."
+  (interactive)
+  (ediff-copy-diff ediff-current-difference nil 'C nil
+                   (concat
+                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+</code></pre>
+
+</div>
+
+<p>
+Here is <a href="https://gist.github.com/redguardtoo/d4ecd51f785bd117a6a0">my ~/.gitconfig</a> and <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-ediff.el">my ediff set up</a> in real world.
+</p>
+
+<p>
+Please note the techniques introduced here <b>can be used with other VCS (subversion, perforce …)</b>.
+</p>
+
+<p>
+Demo on using Emacs to resolve merge conflicts,
+</p>
+
+
+<div class="figure">
+<p><img src="../wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"></p>
+</div>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="counsel-etags-1-9-0-is-out.html" rel="prev" title="counsel-etags 1.9.0 is out">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="effective-git-blame-in-emacs.html" rel="next" title='Effective "git blame" in Emacs'>Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html",
+        disqus_title="Emacs is the best merge tool for Git",
+        disqus_identifier="cache/posts/emacs-is-the-best-merge-tool-for-git.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

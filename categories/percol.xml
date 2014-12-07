@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about percol)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/percol.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The power of git command line interface</title><link>http://blog.binchen.org/posts/the-power-of-git-command-line-interface-4.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Examples about how to use git CLI.
+&lt;/p&gt;
+
+&lt;p&gt;
+You need install beautiful &lt;a href="https://github.com/mooz/percol"&gt;percol&lt;/a&gt; developed by mooz by run &lt;code&gt;pip install percol&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+percol "adds flavor of interactive filtering to the traditional pipe concept of UNIX shell".
+&lt;/p&gt;
+
+&lt;p&gt;
+Append below code into &lt;code&gt;~/.bashrc&lt;/code&gt; and run &lt;code&gt;source ~/.bashrc&lt;/code&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;function gurl () {
+    if [ -z "$1" ]; then
+        echo "Usage: gurl commit-id"
+        echo "get the full http url of commit"
+    else
+        local msg=`git remote -v|grep "origin\s\+.*\s\+(fetch)"|sed -e "s/origin\s\+\(.*\)\s\+(fetch)/\1/"`
+        local url=""
+      # github
+        if [ "${msg:0:14}" == "git@github.com" ]; then
+            echo https://github.com/`echo ${msg}|sed -e "s/^git\@github\.com\:\(.*\)\.git$/\1/"`/commit/$1
+        fi
+    fi
+}
+
+# pick commit id from `git log`
+function gcid () {
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|percol|sed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    echo ${commit_id}
+}
+
+#pick commit from `git log` and output its url
+function gqurl () {
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|percol|sed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    gurl ${commit_id}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Now you have three bash functions &lt;code&gt;gurl&lt;/code&gt;, &lt;code&gt;gcid&lt;/code&gt;, &lt;code&gt;gqurl&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is demo how to use &lt;code&gt;gcid&lt;/code&gt;:
+&lt;img src="https://dl.dropboxusercontent.com/u/858862/git-percol-001.gif" alt="git-percol-001.gif"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is demo of &lt;code&gt;gqurl&lt;/code&gt;:
+&lt;img src="https://dl.dropboxusercontent.com/u/858862/git-percol-002.gif" alt="git-percol-002.gif"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, I use CLI clipboard tool like xsel. For example, "echo hello|xsel -ib" which insert string "hello" into system clipboard.
+&lt;/p&gt;
+
+&lt;p&gt;
+so I can &lt;code&gt;git show `gcid`|xsel -ib&lt;/code&gt; to copy/paste the code of specific commit between terminal and firefox.
+&lt;/p&gt;&lt;/div&gt;</description><category>bash</category><category>en</category><category>git</category><category>linux</category><category>percol</category><guid>http://blog.binchen.org/posts/the-power-of-git-command-line-interface-4.html</guid><pubDate>Thu, 01 Aug 2013 15:17:00 GMT</pubDate></item></channel></rss>

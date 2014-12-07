@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about org2blog)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/org2blog.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use org2blog to share blog efficiently</title><link>http://blog.binchen.org/posts/use-org2blog-to-share-blog-efficiently.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;a href="https://github.com/punchagan/org2blog"&gt;org2blog&lt;/a&gt; will post items in &lt;code&gt;org-mode&lt;/code&gt; into wordpress blog.
+&lt;/p&gt;
+
+&lt;p&gt;
+It's the best blog writer in the world.
+&lt;/p&gt;
+
+&lt;p&gt;
+My only issue that I need share the blog url to social network sites after publishing.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my solution to automatically copy post url into clipboard after publishing:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-org2blog-post-subtree ()
+  (interactive)
+  ;; go to the top node which is a blog item
+  ;;(outline-up-heading)
+
+  ;; post and publish
+  (org2blog/wp-post-subtree t)
+  (let* ((postid (or (org-entry-get (point) "POSTID")
+                     (org-entry-get (point) "POST_ID")))
+         (url org2blog/wp-server-xmlrpc-url))
+    (if (not postid)
+        (message "This subtree hasn't been posted, yet.")
+      (setq url (substring url 0 -10))
+      (setq url (concat url "?p=" postid ))
+      (kill-new url)
+      (with-temp-buffer
+        (insert url)
+        (shell-command-on-region (point-min) (point-max)
+                                 (cond
+                                  ((eq system-type 'cygwin) "putclip")
+                                  ((eq system-type 'darwin) "pbcopy")
+                                  (t "xsel -ib"))))
+      (message (concat url " =&amp;gt; clipboard")))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+BTW, please use some clipboard manager to synchronize the X clipboards.
+&lt;/p&gt;&lt;/div&gt;</description><category>blog</category><category>emacs</category><category>en</category><category>org2blog</category><category>wordpress</category><guid>http://blog.binchen.org/posts/use-org2blog-to-share-blog-efficiently.html</guid><pubDate>Fri, 30 Aug 2013 13:39:00 GMT</pubDate></item><item><title>用org2blog+emacs发表博客</title><link>http://blog.binchen.org/posts/yong-org2blog-emacs-fa-biao-bo-ke.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+我有兴趣开始写博,完全是因为我开始爱上emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="http://blog.nethazard.net/post-to-wordpress-blogs-with-emacs-org-mode"&gt;有人&lt;/a&gt;说emacs的插件&lt;a href="https://github.com/punchagan/org2blog"&gt;org2blog&lt;/a&gt;使的写博客非常高效，我就想试试.
+&lt;/p&gt;
+
+&lt;p&gt;
+我(计划)把所有的文章都放在一个org文件里(BTW,我爱死&lt;a href="http://orgmode.org"&gt;org-mode&lt;/a&gt;了,它本来是做计划管理和日志的,但事实上是无所不能),然后 &lt;code&gt;M-x org2blog/wp-post-subtree&lt;/code&gt; 发表.
+&lt;/p&gt;
+
+&lt;p&gt;
+要正常使用org2blog,必需安装最新的org-mode(我的版本为7.5, &lt;code&gt;M-x org-version&lt;/code&gt; 检查当前版本,警告,&lt;a href="https://github.com/punchagan/org2blog/issues/46"&gt;7.5不可靠&lt;/a&gt;,应升级到最新版本,我用从git服务器取得"d6aba4db"版本).
+&lt;/p&gt;
+
+&lt;p&gt;
+emacs(版本23.3.1)自带的org-mode太老,和最新的org2blog(&lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2011-04-12 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;的版本)不兼容.
+&lt;/p&gt;
+
+&lt;p&gt;
+org2blog安装步骤在上文的链接里都有,也可以参看&lt;a href="http://objectcommando.com/blog/2011/01/25/blogging-with-org2blog/"&gt;Blogging with org2blog&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+org-mode安装步骤见&lt;a href="http://orgmode.org/guide/Installation.html#Installation"&gt;官方文档&lt;/a&gt;.
+&lt;/p&gt;&lt;/div&gt;</description><category>blog</category><category>emacs</category><category>org2blog</category><category>zh</category><guid>http://blog.binchen.org/posts/yong-org2blog-emacs-fa-biao-bo-ke.html</guid><pubDate>Wed, 26 Dec 2012 09:16:27 GMT</pubDate></item></channel></rss>

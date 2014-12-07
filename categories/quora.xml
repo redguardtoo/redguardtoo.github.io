@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about quora)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/quora.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>purify quora.com with vanilla javascript</title><link>http://blog.binchen.org/posts/purify-quora-com-with-vanilla-javascript.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+"Smart" &lt;a href="http://quora.com"&gt;http://quora.com&lt;/a&gt; always recommends the stories I hate to see.
+&lt;/p&gt;
+
+&lt;p&gt;
+So here is my way to toggle the stories display on Chrome and Firefox.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 1, create a new bookmark with below link,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;javascript:a=Array.from(document.getElementsByClassName("AnswerStoryToggleModal"));a.forEach(function(e){e.style.display=a[a.length-1].style.display==='none'?'block':'none';});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Step 2, DONE! You only need click the bookmark to hide or show the stories when visiting &lt;a href="http://quora.com"&gt;http://quora.com&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the original vanilla javascript,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;var a = Array.from(document.getElementsByClassName("AnswerStoryToggleModal"));
+a.forEach(function (e) {
+    // check 'display' of the last item in story feed before toggling
+    e.style.display = a[a.length - 1].style.display === 'none' ? 'block' : 'none';
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot:
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/purify-quora-nq8.png" alt="purify-quora-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>javascript</category><category>quora</category><guid>http://blog.binchen.org/posts/purify-quora-com-with-vanilla-javascript.html</guid><pubDate>Sun, 09 Oct 2016 12:15:14 GMT</pubDate></item></channel></rss>

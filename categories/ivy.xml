@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about ivy)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ivy.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Enhance diff-mode with Ivy</title><link>http://blog.binchen.org/posts/enhance-diff-mode-with-ivy.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+My current job requires me to review the freelancer's patches and apply them to our code branch under &lt;a href="https://www.perforce.com/"&gt;Perforce&lt;/a&gt; control. Due to my client's security policy, the freelancer can only work on isolated sandbox environment and can't access our code base directly.
+&lt;/p&gt;
+
+&lt;p&gt;
+I need two steps to finish the task:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Open the freelancer's patch in &lt;code&gt;diff-mode&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Run &lt;code&gt;diff-apply-hunk&lt;/code&gt; to apply the hunks interactively&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+The problem is &lt;code&gt;diff-mode&lt;/code&gt; always ask me to specify the file to be patched.
+&lt;/p&gt;
+
+&lt;p&gt;
+I read the code of &lt;code&gt;diff-apply-hunk&lt;/code&gt;. The logic of &lt;code&gt;diff-apply-hunk&lt;/code&gt; is simple. It tries different algorithms to guess the right file to patch. When the algorithms fail, it calls API &lt;code&gt;read-file-name&lt;/code&gt; to ask me to provide the file path manually. If right file is found, the algorithms will work again and &lt;code&gt;read-file-name&lt;/code&gt; will never be used for other hunks.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my solution. I can find the file to patch in recent opened files because I store all of them by &lt;code&gt;(setq recentf-max-saved-items 2048)&lt;/code&gt;. I plan to use &lt;code&gt;ivy-read&lt;/code&gt; from &lt;a href="https://github.com/abo-abo/swiper"&gt;Ivy&lt;/a&gt; to locate the file at first. If this step fails , I can still fall back on original API &lt;code&gt;read-file-name&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the code
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+
+&lt;/pre&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar ffip-read-file-name-hijacked-p nil)
+(defun ffip-diff-apply-hunk (&amp;amp;optional reverse)
+  (interactive "P")
+  (unless recentf-mode (recentf-mode 1))
+  (setq ffip-read-file-name-hijacked-p t)
+  (defadvice read-file-name (around ffip-read-file-name-hack activate)
+    (cond
+     (ffip-read-file-name-hijacked-p
+      (let* ((args (ad-get-args 0))
+             (file-name (file-name-nondirectory (nth 2 args)))
+             (cands (remove nil (mapcar (lambda (s) (if (string-match-p (format "%s$" file-name) s) s))
+                                        (mapcar #'substring-no-properties recentf-list))))
+             (rlt (ivy-read "Recentf: " cands)))
+        (if rlt (setq ad-return-value rlt) rlt ad-doit)))
+     (t
+      ad-do-it)))
+  (diff-apply-hunk reverse)
+  (setq ffip-read-file-name-hijacked-p nil))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Please note &lt;code&gt;ffip-diff-apply-hunk&lt;/code&gt; can replace &lt;code&gt;diff-apply-hunk&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, I can edit the patch on the spot when applying hunks. Similar to the work flow of &lt;code&gt;git add --patch&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The solution is added into &lt;a href="https://github.com/technomancy/find-file-in-project"&gt;https://github.com/technomancy/find-file-in-project&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>diff</category><category>emacs</category><category>en</category><category>ivy</category><guid>http://blog.binchen.org/posts/enhance-diff-mode-with-ivy.html</guid><pubDate>Tue, 30 May 2017 12:29:12 GMT</pubDate></item><item><title>Firefox and Emacs</title><link>http://blog.binchen.org/posts/firefox-and-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+For me, there is NO difference between Firefox and Emacs. They provide useful APIs, nothing more.
+&lt;/p&gt;
+
+&lt;p&gt;
+Three years ago, I wrote &lt;a href="http://blog.binchen.org/posts/use-firefox-in-emacs-way-3.html"&gt;Use firefox in Emacs way&lt;/a&gt; to demo how to convert Firefox into Emacs by &lt;a href="https://github.com/mooz/keysnail/wiki"&gt;Keynsail.&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+A year ago I published &lt;a href="http://blog.binchen.org/posts/hello-ivy-mode-bye-helm.html"&gt;Hello Ivy-mode, bye Helm&lt;/a&gt; to prove how powerful &lt;a href="https://github.com/abo-abo/swiper"&gt;Ivy-mode&lt;/a&gt; is by using its API &lt;code&gt;ivy-read&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Keysnail has similar javascript API &lt;code&gt;prompt.selector&lt;/code&gt; and it's as powerful as &lt;code&gt;ivy-read&lt;/code&gt; if not more powerful.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, you can insert below snippet into &lt;code&gt;~/.keysnail.js&lt;/code&gt; and press ",hh" or "C-c C-h" to query browse history:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;function searchHistory(evt, arg) {
+  function timeSince(now, date) {
+
+    var seconds = Math.floor((now - date) / 1000);
+
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval &amp;gt; 1) {
+      return interval + " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval &amp;gt; 1) {
+      return interval + " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval &amp;gt; 1) {
+      return interval + " days";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval &amp;gt; 1) {
+      return interval + " hours";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval &amp;gt; 1) {
+      return interval + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+  }
+
+  function searchWithKeyword(q) {
+    var collection = (function() {
+      //search option
+      var options = PlacesUtils.history.getNewQueryOptions();
+      options.maxResults = 4096;
+      options.queryType = Ci.nsINavHistoryQueryOptions.QUERY_TYPE_HISTORY;
+      //options.sortingMode = Ci.nsINavHistoryQueryOptions.SORT_BY_FRECENCY_DESCENDING;
+      options.sortingMode = Ci.nsINavHistoryQueryOptions.SORT_BY_DATE_DESCENDING;
+      options.includeHidden = true;
+
+      //search query
+      var query = PlacesUtils.history.getNewQuery();
+      // read keyworld
+      if(q &amp;amp;&amp;amp; q !== '') {
+        query.searchTerms  = q;
+      }
+
+      var result = PlacesUtils.history.executeQuery(query, options);
+      var root = result.root;
+
+      var collection = [];
+      var now = new Date().getTime();
+      var siteNode;
+      root.containerOpen = true;
+      for (var i = 0; i &amp;lt; root.childCount; i++) {
+        // siteNode =&amp;gt; nsINavHistoryResultNode
+        siteNode = root.getChild(i);
+        collection.push([siteNode.icon,siteNode.title,siteNode.uri, siteNode.time/1000]);
+      }
+      collection.sort(function(a, b) {
+        return b[3]-a[3];
+      });
+      // reformat the time
+      for (i = 0; i &amp;lt; collection.length; i++) {
+        collection[i][3] = timeSince(now, collection[i][3]) + ' ago';
+      }
+      root.containerOpen = false;
+      return collection;
+    })();
+
+    prompt.selector({
+      message    : "Search history"+ (q &amp;amp;&amp;amp; q !== ''? (' @'+q +':') : ':' ),
+      collection : collection,
+      flags      : [ICON | IGNORE, 0, 0, 0],
+      header     : ["Title", "Url", "Last visited"],
+      width      : [30, 60, 10],
+      callback: function (i) {
+        if (i &amp;gt;= 0) {
+          openUILinkIn(collection[i][2], "tab");
+        }
+      },
+      onFinish: function() {
+        gBrowser.focus();
+        _content.focus();
+      }
+    });
+  }
+
+  prompt.finish(true);
+  prompt.read('Keyword to search history?', searchWithKeyword, null, null, null, 0, "history_search");
+  // searchWithKeyword('test');
+
+}
+key.setViewKey([',', 'h', 'h'], searchHistory, "Search history");
+key.setGlobalKey(['C-c', 'C-h'], searchHistory, "Search history");
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is my complete &lt;a href="https://gist.github.com/redguardtoo/003ac86d4c11b70b870a"&gt;.keysnail.js&lt;/a&gt;.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>firefox</category><category>ivy</category><category>keysnail</category><guid>http://blog.binchen.org/posts/firefox-and-emacs.html</guid><pubDate>Tue, 23 May 2017 12:24:25 GMT</pubDate></item><item><title>Emacs is easy if you read code</title><link>http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+If you regard a package as a collection of APIs and read its code, Emacs is easy to master.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, here is a useful tip on &lt;a href="https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/"&gt;using counsel-ag and wgrep to edit multiple files&lt;/a&gt; I recently learned.
+&lt;/p&gt;
+
+&lt;p&gt;
+To &lt;b&gt;understand this black magic&lt;/b&gt;, you only need know &lt;code&gt;counsel-ag-occur&lt;/code&gt; from &lt;code&gt;counsel.el&lt;/code&gt; (v0.9.1):
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun counsel-ag-occur ()
+  "Generate a custom occur buffer for `counsel-ag'."
+  (unless (eq major-mode 'ivy-occur-grep-mode)
+    (ivy-occur-grep-mode))
+  (setq default-directory counsel--git-grep-dir)
+  (let* ((regex (counsel-unquote-regex-parens
+                 (setq ivy--old-re
+                       (ivy--regex
+                        (progn (string-match "\"\\(.*\\)\"" (buffer-name))
+                               (match-string 1 (buffer-name)))))))
+         (cands (split-string
+                 (shell-command-to-string
+                  (format counsel-ag-base-command (shell-quote-argument regex)))
+                 "\n"
+                 t)))
+    ;; Need precise number of header lines for `wgrep' to work.
+    (insert (format "-*- mode:grep; default-directory: %S -*-\n\n\n"
+                    default-directory))
+    (insert (format "%d candidates:\n" (length cands)))
+    (ivy--occur-insert-lines
+     (mapcar
+      (lambda (cand) (concat "./" cand))
+      cands))))
+(ivy-set-occur 'counsel-ag 'counsel-ag-occur)
+(ivy-set-display-transformer 'counsel-ag 'counsel-git-grep-transformer)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Inside &lt;code&gt;counsel-ag-occur&lt;/code&gt;:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The variable &lt;code&gt;regex&lt;/code&gt; is the regular expression built from the filter string you input. Please note that &lt;code&gt;regex&lt;/code&gt; is unquoted by &lt;code&gt;counsel-unquote-regex-parens&lt;/code&gt; so it can be used in shell. If you use &lt;code&gt;regex&lt;/code&gt; in Emacs Lisp, you don't need unquote it&lt;/li&gt;
+&lt;li&gt;The variable &lt;code&gt;cands&lt;/code&gt; is the candidate lines created by running &lt;code&gt;ag&lt;/code&gt; with &lt;code&gt;regex&lt;/code&gt; as parameters in shell&lt;/li&gt;
+&lt;li&gt;Then a wgrep-friendly buffer is created&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+After spending 5 minutes to understand the internals, you can &lt;b&gt;easily implement similar features&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Now let's &lt;b&gt;develop our own black magic&lt;/b&gt; by enhancing the wgrep-friendly buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+My project uses Perforce as VCS. So &lt;b&gt;I need check out files and make them writable before using wgrep&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Read code of &lt;code&gt;wgrep.el&lt;/code&gt; (v2.1.10),
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun wgrep-prepare-context ()
+  (save-restriction
+    (let ((start (wgrep-goto-first-found))
+          (end (wgrep-goto-end-of-found)))
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (funcall wgrep-results-parser))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+&lt;code&gt;wgrep-results-parser&lt;/code&gt; is actually alias of &lt;code&gt;wgrep-parse-command-results&lt;/code&gt; whose code is too much to paste here. You can &lt;code&gt;M-x find-function wgrep-parse-command-results&lt;/code&gt; to read its code.
+&lt;/p&gt;
+
+&lt;p&gt;
+By combining &lt;code&gt;wgrep-prepare-context&lt;/code&gt; and &lt;code&gt;wgrep-parse-command-results&lt;/code&gt; I got my own &lt;code&gt;access-files-in-wgrep-buffer&lt;/code&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun access-files-in-wgrep-buffer()
+  (interactive)
+  (save-restriction
+    (let* ((start (wgrep-goto-first-found))
+           (end (wgrep-goto-end-of-found))
+           fn-accessed)
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (unless (featurep 'wgrep) (require 'featurep))
+      (while (not (eobp))
+        (if (looking-at wgrep-line-file-regexp)
+            (let* ((fn (match-string-no-properties 1)))
+              (unless (string= fn fn-accessed)
+                (setq fn-accessed fn)
+                (message "File relative path=%s" fn))))
+        (forward-line 1)))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can replace the line &lt;code&gt;(message "File relative path=%s" fn)&lt;/code&gt; to &lt;code&gt;(shell-command (format "any-shell-cli %s" fn))&lt;/code&gt; to &lt;b&gt;do anything on the files&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can insert definition of &lt;code&gt;access-files-in-wgrep-buffer&lt;/code&gt; into your &lt;code&gt;.emacs&lt;/code&gt; and run &lt;code&gt;M-x access-files-in-wgrep-buffer&lt;/code&gt; in wgrep buffer to have a test.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, I modified &lt;code&gt;access-files-in-wgrep-buffer&lt;/code&gt; to &lt;code&gt;p4edit-in-grep-buffer&lt;/code&gt; to checkout files under &lt;a href="https://www.perforce.com/"&gt;Perforce&lt;/a&gt; control,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-emacs"&gt;(defun p4edit-in-wgrep-buffer()
+  "'p4 edit' files in wgrep buffer.
+Turn off `read-only-mode' of opened files."
+  (interactive)
+  (save-restriction
+    (let* ((start (wgrep-goto-first-found))
+           (end (wgrep-goto-end-of-found))
+           fn-accessed)
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (unless (featurep 'wgrep) (require 'featurep))
+      (while (not (eobp))
+        (if (looking-at wgrep-line-file-regexp)
+            (let* ((filename (match-string-no-properties 1)) buf)
+              (unless (string= filename fn-accessed)
+                (setq fn-accessed filename)
+                (shell-command (format "p4 edit %s" filename))
+                (if (setq buf (get-file-buffer filename))
+                    (with-current-buffer buf
+                      ;; turn off read-only since we've already `p4 edit'
+                      (read-only-mode -1))))))
+        (forward-line 1)))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>counsel</category><category>emacs</category><category>en</category><category>ivy</category><guid>http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code.html</guid><pubDate>Tue, 09 May 2017 13:38:06 GMT</pubDate></item><item><title>Enhance emacs-git-gutter with ivy-mode</title><link>http://blog.binchen.org/posts/enhance-emacs-git-gutter-with-ivy-mode.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-07-14 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-09-23 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="https://github.com/syohex/emacs-git-gutter"&gt;emacs-git-gutter&lt;/a&gt; shows an icon in the gutter area. The icon indicating whether a line has been inserted, modified or deleted in Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+I usually use &lt;code&gt;M-x git-gutter:previous-hunk&lt;/code&gt; or &lt;code&gt;M-x git-gutter:next-hunk&lt;/code&gt; to navigate between the hunks.
+&lt;/p&gt;
+
+&lt;p&gt;
+But if there are too many hunks in one file, &lt;a href="https://github.com/abo-abo/swiper"&gt;ivy-mode&lt;/a&gt; is more efficient:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'ivy)
+(require 'git-gutter)
+
+(defun my-reshape-git-gutter (gutter)
+  "Re-shape gutter for `ivy-read'."
+  (let* ((linenum-start (aref gutter 3))
+         (linenum-end (aref gutter 4))
+         (target-line "")
+         (target-linenum 1)
+         (tmp-line "")
+         (max-line-length 0))
+    (save-excursion
+      (while (&amp;lt;= linenum-start linenum-end)
+        (goto-line linenum-start)
+        (setq tmp-line (replace-regexp-in-string "^[ \t]*" ""
+                                                 (buffer-substring (line-beginning-position)
+                                                                   (line-end-position))))
+        (when (&amp;gt; (length tmp-line) max-line-length)
+          (setq target-linenum linenum-start)
+          (setq target-line tmp-line)
+          (setq max-line-length (length tmp-line)))
+
+        (setq linenum-start (1+ linenum-start))))
+    ;; build (key . linenum-start)
+    (cons (format "%s %d: %s"
+                  (if (eq 'deleted (aref gutter 1)) "-" "+")
+                  target-linenum target-line)
+          target-linenum)))
+
+(defun my-goto-git-gutter ()
+  (interactive)
+  (if git-gutter:diffinfos
+      (ivy-read "git-gutters:"
+                (mapcar 'my-reshape-git-gutter git-gutter:diffinfos)
+                :action (lambda (e)
+                          ;; ivy9+ keep `(car e)'
+                          ;; ivy8- strip the `(car e)'
+                          ;; we handle both data structure
+                          (unless (numberp e) (setq e (cdr e)))
+                          (goto-line e)))
+    (message "NO git-gutters!")))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot:
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>gutter</category><category>ivy</category><category>mode</category><guid>http://blog.binchen.org/posts/enhance-emacs-git-gutter-with-ivy-mode.html</guid><pubDate>Thu, 14 Jul 2016 13:35:32 GMT</pubDate></item><item><title>New git-timemachine UI based on ivy-mode</title><link>http://blog.binchen.org/posts/new-git-timemachine-ui-based-on-ivy-mode.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-09-23 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-06-05 Sun&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+When using &lt;a href="https://github.com/pidu/git-timemachine"&gt;git-timemachine&lt;/a&gt;, I prefer start from my selected revision instead of HEAD.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my code based on &lt;a href="https://github.com/abo-abo/swiper"&gt;ivy-mode&lt;/a&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-git-timemachine-show-selected-revision ()
+  "Show last (current) revision of file."
+  (interactive)
+  (let* ((collection (mapcar (lambda (rev)
+                    ;; re-shape list for the ivy-read
+                    (cons (concat (substring-no-properties (nth 0 rev) 0 7) "|" (nth 5 rev) "|" (nth 6 rev)) rev))
+                  (git-timemachine--revisions))))
+    (ivy-read "commits:"
+              collection
+              :action (lambda (rev)
+                        ;; compatible with ivy 9+ and ivy 8
+                        (unless (string-match-p "^[a-z0-9]*$" (car rev))
+                          (setq rev (cdr rev)))
+                        (git-timemachine-show-revision rev)))))
+
+(defun my-git-timemachine ()
+  "Open git snapshot with the selected version.  Based on ivy-mode."
+  (interactive)
+  (unless (featurep 'git-timemachine)
+    (require 'git-timemachine))
+  (git-timemachine--start #'my-git-timemachine-show-selected-revision))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot after &lt;code&gt;M-x my-git-timemachine&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/my-git-timemachine-nq8.png" alt="my-git-timemachine-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>ivy</category><category>timemachine</category><guid>http://blog.binchen.org/posts/new-git-timemachine-ui-based-on-ivy-mode.html</guid><pubDate>Sun, 05 Jun 2016 14:32:39 GMT</pubDate></item><item><title>Complete line with ivy-mode</title><link>http://blog.binchen.org/posts/complete-line-with-ivy-mode.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Complete current line by &lt;a href="https://git-scm.com/docs/git-grep"&gt;git grep&lt;/a&gt; and &lt;a href="https://github.com/abo-abo/swiper"&gt;ivy-mode&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun counsel-escape (keyword)
+  (setq keyword (replace-regexp-in-string "\\$" "\\\\\$" keyword))
+  (replace-regexp-in-string "\"" "\\\\\"" keyword))
+
+(defun counsel-replace-current-line (leading-spaces content)
+  (beginning-of-line)
+  (kill-line)
+  (insert (concat leading-spaces content))
+  (end-of-line))
+
+(defun counsel-git-grep-complete-line ()
+  (interactive)
+  (let* (cmd
+        (cur-line (buffer-substring-no-properties (line-beginning-position)
+                                                  (line-end-position)))
+        (default-directory (locate-dominating-file
+                            default-directory ".git"))
+        keyword
+        (leading-spaces "")
+        collection)
+    (setq keyword (counsel-escape (if (region-active-p)
+                                      (buffer-substring-no-properties (region-beginning)
+                                                                      (region-end))
+                                    (replace-regexp-in-string "^[ \t]*" "" cur-line))))
+    ;; grep lines without leading/trailing spaces
+    (setq cmd (format "git --no-pager grep -I -h --no-color -i -e \"^[ \\t]*%s\" | sed s\"\/^[ \\t]*\/\/\" | sed s\"\/[ \\t]*$\/\/\" | sort | uniq" keyword))
+    (when (setq collection (split-string (shell-command-to-string cmd) "\n" t))
+      (if (string-match "^\\([ \t]*\\)" cur-line)
+          (setq leading-spaces (match-string 1 cur-line)))
+      (cond
+       ((= 1 (length collection))
+        (counsel-replace-current-line leading-spaces (car collection)))
+       ((&amp;gt; (length collection) 1)
+        (ivy-read "lines:"
+                  collection
+                  :action (lambda (l)
+                            (counsel-replace-current-line leading-spaces l))))))
+    ))
+(global-set-key (kbd "C-x C-l") 'counsel-git-grep-complete-line)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I also tried &lt;code&gt;grep&lt;/code&gt; which is too slow for my project.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>grep</category><category>ivy</category><guid>http://blog.binchen.org/posts/complete-line-with-ivy-mode.html</guid><pubDate>Mon, 23 May 2016 01:41:14 GMT</pubDate></item><item><title>Swiper/Ivy tip</title><link>http://blog.binchen.org/posts/swiperivy-tip.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Please install &lt;a href="https://github.com/syl20bnr/evil-escape"&gt;evil-escape&lt;/a&gt; at first.
+&lt;/p&gt;
+
+&lt;p&gt;
+When &lt;a href="https://github.com/abo-abo/swiper"&gt;Swiper/Ivy&lt;/a&gt; candidate window pops up. You can press &lt;code&gt;fd&lt;/code&gt; quickly to close the window. 
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;fd&lt;/code&gt; is the default key binding from evil-escape. I changed it to &lt;code&gt;kj&lt;/code&gt; instead.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>ivy</category><guid>http://blog.binchen.org/posts/swiperivy-tip.html</guid><pubDate>Wed, 04 May 2016 08:15:27 GMT</pubDate></item><item><title>Use ivy to open recent directories</title><link>http://blog.binchen.org/posts/use-ivy-to-open-recent-directories.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+The recent directories include parent directories of opened files in Emacs and the directories accessed in Bash shell. 
+&lt;/p&gt;
+
+&lt;p&gt;
+I used &lt;a href="https://github.com/clvv/fasd"&gt;fasd&lt;/a&gt; to get the list of directories in shell. Fasd "offers quick access to files and directories for POSIX shells".
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my setup,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'ivy) ; swiper 7.0+ should be installed
+
+(defun counsel-goto-recent-directory ()
+  "Open recent directory with dired"
+  (interactive)
+  (unless recentf-mode (recentf-mode 1))
+  (let ((collection
+         (delete-dups
+          (append (mapcar 'file-name-directory recentf-list)
+                  ;; fasd history
+                  (if (executable-find "fasd")
+                      (split-string (shell-command-to-string "fasd -ld") "\n" t))))))
+    (ivy-read "directories:" collection :action 'dired)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot:
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/ivy-recent-directory-nq8.png" alt="ivy-recent-directory-nq8.png"&gt;
+&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>ivy</category><guid>http://blog.binchen.org/posts/use-ivy-to-open-recent-directories.html</guid><pubDate>Wed, 30 Mar 2016 11:13:23 GMT</pubDate></item><item><title>Use ivy-mode to search bash history</title><link>http://blog.binchen.org/posts/use-ivy-mode-to-search-bash-history.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun counsel-yank-bash-history ()
+  "Yank the bash history"
+  (interactive)
+  (let (hist-cmd collection val)
+    (shell-command "history -r") ; reload history
+    (setq collection
+          (nreverse
+           (split-string (with-temp-buffer (insert-file-contents (file-truename "~/.bash_history"))
+                                           (buffer-string))
+                         "\n"
+                         t)))
+    (when (and collection (&amp;gt; (length collection) 0)
+               (setq val (if (= 1 (length collection)) (car collection)
+                           (ivy-read (format "Bash history:") collection))))
+        (kill-new val)
+        (message "%s =&amp;gt; kill-ring" val))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>ivy</category><guid>http://blog.binchen.org/posts/use-ivy-mode-to-search-bash-history.html</guid><pubDate>Mon, 25 Jan 2016 05:40:41 GMT</pubDate></item><item><title>Use Ivy-mode to tweak workgroups2</title><link>http://blog.binchen.org/posts/use-ivy-mode-to-tweak-workgroups2.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-12-22 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-04-21 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="https://github.com/pashinin/workgroups2"&gt;Workgroups2&lt;/a&gt; will load previous windows layout by default. That's handy for most developers.
+&lt;/p&gt;
+
+&lt;p&gt;
+But as a freelancer I am assigned a low spec computer. It takes too long to load the old windows layout.
+&lt;/p&gt;
+
+&lt;p&gt;
+So I use &lt;a href="https://github.com/abo-abo/swiper"&gt;Ivy-mode&lt;/a&gt; to create a light weight command `my-wg-switch-workgroup`. 
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is code:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq wg-use-default-session-file nil)
+;; don't open last workgroup automatically in `wg-open-session',
+;; I only want to check available workgroups! Nothing more.
+(setq wg-load-last-workgroup nil)
+(setq wg-open-this-wg nil)
+
+;(workgroups-mode 1) ; put this one at the bottom of .emacs
+;; by default, the sessions are saved in "~/.emacs_workgroups"
+(autoload 'wg-create-workgroup "workgroups2" nil t)
+
+(defun my-wg-switch-workgroup ()
+  (interactive)
+  (let (group-names selected-group)
+    (unless (featurep 'workgroups2)
+      (require 'workgroups2))
+    (setq group-names
+          (mapcar (lambda (group)
+                    ;; re-shape list for the ivy-read
+                    (cons (wg-workgroup-name group) group))
+                  (wg-session-workgroup-list (read (f-read-text (file-truename wg-session-file))))))
+    (ivy-read "work groups" group-names
+              :action (lambda (group)
+                        (wg-find-session-file wg-default-session-file)
+                        (wg-switch-to-workgroup group)))))
+
+(with-eval-after-load "workgroups2"
+  ;; make sure wg-create-workgroup always success
+  (defadvice wg-create-workgroup (around wg-create-workgroup-hack activate)
+    (unless (file-exists-p (wg-get-session-file))
+      (wg-reset t)
+      (wg-save-session t))
+
+    (unless wg-current-session
+      ;; code extracted from `wg-open-session'.
+      ;; open session but do NOT load any workgroup.
+      (let ((session (read (f-read-text (file-truename wg-session-file)))))
+        (setf (wg-session-file-name session) wg-session-file)
+        (wg-reset-internal (wg-unpickel-session-parameters session))))
+    ad-do-it
+    ;; save the session file in real time
+    (wg-save-session t))
+
+  (defadvice wg-reset (after wg-reset-hack activate)
+    (wg-save-session t))
+
+  ;; I'm fine to to override the original workgroup
+  (defadvice wg-unique-workgroup-name-p (around wg-unique-workgroup-name-p-hack activate)
+    (setq ad-return-value t)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>ivy</category><category>workgroups</category><guid>http://blog.binchen.org/posts/use-ivy-mode-to-tweak-workgroups2.html</guid><pubDate>Tue, 22 Dec 2015 04:42:03 GMT</pubDate></item></channel></rss>

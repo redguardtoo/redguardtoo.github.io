@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about chinese)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/chinese.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Find the buffer with Chinese name</title><link>http://blog.binchen.org/posts/find-the-buffer-named-by-pinyin.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+We can find the buffer with Chinese name efficiently by using the first character of &lt;a href="https://en.wikipedia.org/wiki/Pinyin"&gt;pinyin&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the code (&lt;a href="https://github.com/abo-abo/swiper"&gt;ivy&lt;/a&gt; and &lt;a href="https://github.com/cute-jumper/pinyinlib.el"&gt;pinyinlib&lt;/a&gt; is required):
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun ivy-switch-buffer-matcher-pinyin (regexp candidates)
+  (unless (featurep 'pinyinlib) (require 'pinyinlib))
+  (let* ((pys (split-string regexp "[ \t]+"))
+         (regexp (format ".*%s.*"
+                         (mapconcat 'pinyinlib-build-regexp-string pys ".*"))))
+    (ivy--switch-buffer-matcher regexp candidates)))
+
+(defun ivy-switch-buffer-by-pinyin ()
+  "Switch to another buffer."
+  (interactive)
+  (unless (featurep 'ivy) (require 'ivy))
+  (let ((this-command 'ivy-switch-buffer))
+    (ivy-read "Switch to buffer: " 'internal-complete-buffer
+              :matcher #'ivy-switch-buffer-matcher-pinyin
+              :preselect (buffer-name (other-buffer (current-buffer)))
+              :action #'ivy--switch-buffer-action
+              :keymap ivy-switch-buffer-map
+              :caller 'ivy-switch-buffer)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can &lt;code&gt;M-x ivy-switch-buffer-by-pinyin&lt;/code&gt; to switch buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+The algorithm of pinyinlib is simple. We build a big lookup table to convert the a plain English string into a regular expression containing Chinese characters.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can apply the &lt;b&gt;same algorithm to other non-English languages&lt;/b&gt;.
+&lt;/p&gt;&lt;/div&gt;</description><category>chinese</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/find-the-buffer-named-by-pinyin.html</guid><pubDate>Sun, 26 Feb 2017 04:27:42 GMT</pubDate></item><item><title>用mintty作为cygwin的console</title><link>http://blog.binchen.org/posts/yong-mintty-zuo-wei-cyginw-de-console.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-01-31 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2011-04-29 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+cygwin1.7在我的电脑上不能显示中文,已困扰我很久了.
+&lt;/p&gt;
+
+&lt;p&gt;
+今天才找到解决办法,只要安装&lt;a href="http://code.google.com/p/mintty/"&gt;mintty&lt;/a&gt;即可.
+&lt;/p&gt;
+
+&lt;p&gt;
+最新版Cygwin默认就已安装启用mintty.
+&lt;/p&gt;
+
+&lt;p&gt;
+安装后在宽屏显示器上字可能较小, 解决办法如下：
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;或参考&lt;a href="http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html"&gt;其手册&lt;/a&gt;缩放字体.&lt;/li&gt;
+&lt;li&gt;或右击左上角设置字体, "新宋体 常规 三号"&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+另外设置scroll back 80000行. 右侧滚动条无.
+&lt;/p&gt;
+
+&lt;p&gt;
+以下是我的cygwin.bat,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;@echo off
+set EDITOR=vi
+set VISUAL=vi
+REM shamelessly copied from git://github.com/justsoso8/dotfile.git
+REM mintty installed which supports chinese
+REM =======================================
+@echo off
+rem find cygwin roo directory one by one
+rem disk c -&amp;gt; disk d -&amp;gt; disk e
+
+:CYGWIN_C
+if not exist c:\cygwin goto CYGWIN_D
+set _cygwinroot=c:\cygwin
+goto HAVECYGWIN
+
+:CYGWIN_D
+if not exist d:\cygwin goto CYGWIN_E
+set _cygwinroot=d:\cygwin
+goto HAVECYGWIN
+
+:CYGWIN_E
+if not exist c:\cygwin64 goto CYGWIN_F
+set _cygwinroot=c:\cygwin64
+goto HAVECYGWIN
+
+:CYGWIN_F
+if not exist d:\cygwin64 goto NOCYGWIN
+set _cygwinroot=d:\cygwin64
+goto HAVECYGWIN
+
+:NOCYGWIN
+echo no cygwin installation found on disk C/D/E/F
+pause
+goto EOF
+
+:HAVECYGWIN
+
+chdir %_cygwinroot%\bin
+set _termapp=%_cygwinroot%\bin\mintty.exe
+start %_termapp% -w full /bin/bash --login -i
+:EOF
+exit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>chinese</category><category>cygwin</category><category>software</category><category>zh</category><guid>http://blog.binchen.org/posts/yong-mintty-zuo-wei-cyginw-de-console.html</guid><pubDate>Fri, 29 Apr 2011 15:00:00 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about test)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/test.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>The minimum .emacs for debug purpose</title><link>http://blog.binchen.org/posts/the-minimum-emacs-for-debug-purpose.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I've installed &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;more than 100 emacs plugins&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my minimum &lt;code&gt;.emacs&lt;/code&gt; to test plugins,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(show-paren-mode 1)
+(eval-when-compile (require 'cl))
+
+;; test elisps download from internet here
+(setq test-elisp-dir "~/test-elisp/")
+(if (not (file-exists-p (expand-file-name test-elisp-dir)))
+    (make-directory (expand-file-name test-elisp-dir)))
+
+(setq load-path
+      (append
+        (loop for dir in (directory-files test-elisp-dir)
+              unless (string-match "^\\." dir)
+              collecting (expand-file-name (concat test-elisp-dir dir)))
+        load-path))
+
+;; package repositories
+(require 'package)
+(add-to-list 'package-archives '("marmalade" .  "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+;; ==== put your code below this line!
+;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The code is straight forward. I scan any sub-directories in &lt;code&gt;~/test-elisp&lt;/code&gt; and add them into &lt;code&gt;load-path&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I've uploaded the &lt;code&gt;.emacs&lt;/code&gt; to Dropbox, so you can use one bash liner to download it:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;cd ~/;wget https://dl.dropboxusercontent.com/u/858862/emacs/.emacs;mkdir -p ~/test-elisp;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>configuration</category><category>dot</category><category>emacs</category><category>en</category><category>test</category><guid>http://blog.binchen.org/posts/the-minimum-emacs-for-debug-purpose.html</guid><pubDate>Sun, 12 May 2013 15:55:00 GMT</pubDate></item></channel></rss>

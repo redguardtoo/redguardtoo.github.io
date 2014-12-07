@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about torrent)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/torrent.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use screen/rtorrent/cronie to manage torrent client</title><link>http://blog.binchen.org/posts/use-screenrtorrentcronie-to-manage-torrent-client.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+`man rtorrent` for the keybindings:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;`Enter` to input magnet from piratebay manually&lt;/li&gt;
+&lt;li&gt;`C-s` to start download&lt;/li&gt;
+&lt;li&gt;`C-d` to delete&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+For &lt;a href="http://www.archlinux.org"&gt;ArchLinux&lt;/a&gt; only:
+&lt;/p&gt;
+
+&lt;div id="outline-container-orga870895" class="outline-2"&gt;
+&lt;h3 id="orga870895"&gt;Prepare directory&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga870895"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;mkdir -p ~/bt/{session,finished,torrent}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orged49e66" class="outline-2"&gt;
+&lt;h3 id="orged49e66"&gt;Install&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orged49e66"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo pacman -S cronie
+sudo systemctl enable cronie
+sudo systemctl start cronie
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgac1f733" class="outline-2"&gt;
+&lt;h3 id="orgac1f733"&gt;Add cron task to start and stop rtorrent service&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgac1f733"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;crontab -e #add cron task as current user
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The default editor will be open, input below content:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;#start rtorrent sesssion at 1am
+0 1 * * * /usr/bin/screen -fa -d -m -S torrent /usr/bin/rtorrent
+# kill it at  9am
+0 10 * * * /usr/bin/screen -S torrent -X quit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Done!
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>archlinux</category><category>linux</category><category>torrent</category><guid>http://blog.binchen.org/posts/use-screenrtorrentcronie-to-manage-torrent-client.html</guid><pubDate>Sat, 09 Mar 2013 15:08:00 GMT</pubDate></item></channel></rss>

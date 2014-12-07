@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about wgrep)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/wgrep.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use wgrep and evil to replace text efficiently</title><link>http://blog.binchen.org/posts/use-wgrep-and-evil-to-replace-text-efficiently.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+In my previous article &lt;a href="http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code.html"&gt;Emacs is easy if you read code&lt;/a&gt;, I proved ivy and wgrep is easy if you read code. You can even create your own plugin based on their APIs. For example, I define &lt;code&gt;my-grep&lt;/code&gt; and &lt;code&gt;my-grep-occur&lt;/code&gt; in &lt;a href="https://github.com/redguardtoo/emacs.d/blob/deb521f15e530527598572ef50fd66ea2936fc3c/lisp/init-ivy.el"&gt;init-ivy.el&lt;/a&gt; in order to search/replace text in project root directory.
+&lt;/p&gt;
+
+&lt;p&gt;
+My wgrep-mode enabled buffer is in evil-mode. I prefer pressing vi key binding &lt;code&gt;dd&lt;/code&gt; to remove lines in that buffer to tell wgrep skip them.
+&lt;/p&gt;
+
+&lt;p&gt;
+It turns out we need &lt;code&gt;M-x C-c C-p&lt;/code&gt; or &lt;code&gt;M-x wgrep-toggle-readonly-area&lt;/code&gt; before removing lines.
+&lt;/p&gt;
+
+&lt;p&gt;
+I'm too lazy to remember extra commands. So here is the workaround:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; Press `dd' to delete lines in `wgrep-mode' in evil directly
+(defadvice evil-delete (around evil-delete-hack activate)
+  ;; make buffer writable
+  (if (and (boundp 'wgrep-prepared) wgrep-prepared)
+      (wgrep-toggle-readonly-area))
+  ad-do-it
+  ;; make buffer read-only
+  (if (and (boundp 'wgrep-prepared) wgrep-prepared)
+      (wgrep-toggle-readonly-area)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>wgrep</category><guid>http://blog.binchen.org/posts/use-wgrep-and-evil-to-replace-text-efficiently.html</guid><pubDate>Mon, 22 May 2017 13:14:35 GMT</pubDate></item></channel></rss>

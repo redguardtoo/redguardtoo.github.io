@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about cmake)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/cmake.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Make Emacs support auto-completion for CMake</title><link>http://blog.binchen.org/posts/make-emacs-support-auto-completion-for-cmake.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Easy. You only install company-mode and company-cmake.el according to the documentation &lt;a href="https://github.com/company-mode/company-cmake"&gt;HERE&lt;/a&gt;. &lt;/p&gt; &lt;p&gt; company-cmake.el is written by me. I'm in the process of signing necessary copyright papers to make it part of company-mode. I was told the process could take one month because I'm deal with GNU foundation. So please be patient. &lt;/p&gt; &lt;p&gt; Anyway, you can use company-cmake.el right now with company-mode without any problem. &lt;/p&gt; &lt;p&gt; Please note I only tested this plugin with cmake 2.8. &lt;/p&gt; &lt;p&gt; Here is screen shot: &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/01/company-cmake-nq8.png" alt="http://blog.binchen.org/wp-content/uploads/2014/01/company-cmake-nq8.png"&gt; &lt;/p&gt; &lt;p&gt; UPDATED (12th Jan, 2014): Legal procedure is done. Now company-cmake.el is officially part of company-mode since version 0.6.12. &lt;/p&gt; &lt;p&gt; So all you need to do is install latest company-mode, no other set up required! &lt;/p&gt;&lt;/div&gt;</description><category>c</category><category>cmake</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/make-emacs-support-auto-completion-for-cmake.html</guid><pubDate>Mon, 22 Apr 2013 10:48:00 GMT</pubDate></item><item><title>Always turn on "-fpermissive" for GCC 4.6</title><link>http://blog.binchen.org/posts/always-turn-on-fpermissive-for-gcc-4-6.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Below code will get error message if compiled by gcc 4.6+:
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+"const A" as 'this' argument of "void A::a()' discards qualifiers [-fpermissive]
+&lt;/pre&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;class A
+{
+   void a();
+}
+class B
+{
+   virtual void b() const;
+}
+class MyClass:public B
+{
+  A _a;
+  virtual b() const
+  {
+    _a.a(); //gcc complains here!
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Since I cannot modify class A and B, I need add "-fpermission" to CXX_FLAG.
+Here is my &lt;a href="http://www.cmake.org"&gt;cmake&lt;/a&gt; code,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-cmake"&gt;if(CMAKE_COMPILER_IS_GNUCC)
+  # needed for gcc 4.6+
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
+endif()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>cmake</category><category>en</category><category>gcc</category><category>linux</category><guid>http://blog.binchen.org/posts/always-turn-on-fpermissive-for-gcc-4-6.html</guid><pubDate>Sat, 14 Jan 2012 18:38:00 GMT</pubDate></item></channel></rss>

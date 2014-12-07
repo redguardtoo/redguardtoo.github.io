@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about java)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/java.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C/C++/Java code indentation in Emacs</title><link>http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orgf4f17b5" class="outline-2"&gt;
+&lt;h3 id="orgf4f17b5"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf4f17b5"&gt;
+&lt;p&gt;
+There are two styles when insert curly braces in C like languages.
+&lt;/p&gt;
+
+&lt;p&gt;
+Style 1:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;if(true) {
+    printf("hello world\n");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Style 2:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;if(true)
+{
+    printf("hello world\n");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Whatever style I use, I expect Emacs will properly handle the indentation for me.
+&lt;/p&gt;
+
+&lt;p&gt;
+In "Style 1", when I press ENTER key after "{" at first line, I expect the new line will indent four spaces.
+&lt;/p&gt;
+
+&lt;p&gt;
+In "Style 2", when I press ENTER key after ")" at first line, I expect the new line will NOT indent.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org63f3f85" class="outline-2"&gt;
+&lt;h3 id="org63f3f85"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org63f3f85"&gt;
+&lt;p&gt;
+Insert below code into ~/.emacs:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun fix-c-indent-offset-according-to-syntax-context (key val)
+  ;; remove the old element
+  (setq c-offsets-alist (delq (assoc key c-offsets-alist) c-offsets-alist))
+  ;; new value
+  (add-to-list 'c-offsets-alist '(key . val)))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+              ;; indent
+              (fix-c-indent-offset-according-to-syntax-context 'substatement 0)
+              (fix-c-indent-offset-according-to-syntax-context 'func-decl-cont 0))
+            ))
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+That's it.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga02a57e" class="outline-2"&gt;
+&lt;h3 id="orga02a57e"&gt;Explanation&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga02a57e"&gt;
+&lt;p&gt;
+When you press the ENTER key, the function &lt;b&gt;c-indent-line&lt;/b&gt; will be called.
+&lt;/p&gt;
+
+&lt;p&gt;
+That function will do some simple syntax analysis and decide current syntactic context..
+&lt;/p&gt;
+
+&lt;p&gt;
+It will use that syntactic context to look up a global variable c-offsets-alist and decide how many spaces the new line will indent.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, the context &lt;b&gt;substatement&lt;/b&gt; corresponds to the code like below:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;if(true) // press ENTER here
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+And the context &lt;b&gt;func-decl-cont&lt;/b&gt; corresponds to:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;void fn () //press ENTER here
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc7f7b26" class="outline-2"&gt;
+&lt;h3 id="orgc7f7b26"&gt;Technical details&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc7f7b26"&gt;
+&lt;p&gt;
+When you press ENTER key, the new line will be inserted. Then the function &lt;b&gt;indent-according-to-mode&lt;/b&gt; will always be called
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;indent-according-to-mode&lt;/b&gt; will call function object &lt;b&gt;indent-line-function&lt;/b&gt; if it's not nil.
+&lt;/p&gt;
+
+&lt;p&gt;
+In C/C++/Java, that object is actually &lt;b&gt;c-indent-line&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;c-indent-line&lt;/b&gt; is defined in /usr/share/emacs/24.3/lisp/progmodes/cc-cmds.el (I use Emacs 24.3 on Gentoo Linux).
+&lt;/p&gt;
+
+&lt;p&gt;
+In that function, just below the code line:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq c-syntactic-context (c-guess-basic-syntax))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can insert log code as below:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(message "c-syntactic-context=%s" c-syntactic-context)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You will know the current syntactic context when you press ENTER key through the output of log code.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="http://www.emacswiki.org/emacs/IndentingC"&gt;EmacsWiki&lt;/a&gt; says you can run command "c-set-offset", whose hot key is "C-x C-o", in order to "see the syntax at point". As I tested, it does not work as expected. My way may seem a little bit intrusive but is reliable.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, the context &lt;b&gt;statement-cont&lt;/b&gt; corresponds to the use case like this:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;int a=3, // press ENTER here
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Please note syntax analysis in c-indent-line is turned on if and &lt;b&gt;only if&lt;/b&gt; the global flag &lt;b&gt;c-syntactic-indentation&lt;/b&gt; is true.
+&lt;/p&gt;
+
+&lt;p&gt;
+Thanks for &lt;a href="https://github.com/chengyi"&gt;chengyi&lt;/a&gt; for &lt;a href="https://github.com/redguardtoo/emacs.d/issues/98"&gt;reporting the issue and suggesting the fix&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, &lt;a href="http://www.emacswiki.org/emacs/IndentingC"&gt;EmacsWiki has a section&lt;/a&gt; to discuss the indenting in C. You may not need it if you have read this article and can read the Emacs lisp code.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>c</category><category>emacs</category><category>en</category><category>java</category><guid>http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs.html</guid><pubDate>Fri, 09 May 2014 09:19:18 GMT</pubDate></item><item><title>What's AOP in Java</title><link>http://blog.binchen.org/posts/what-s-aop-in-java.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Yesterday in a interview I was asked what's AOP and how to use it. The two interviewers
+&lt;/p&gt;
+
+&lt;p&gt;
+I was wordless then so I came back to read the documentation.
+&lt;/p&gt;
+
+&lt;p&gt;
+It turns out AOP is simple. It's like emacs lisp's defadvice but less powerful. I've been using this since day one on different languages.
+&lt;/p&gt;
+
+&lt;p&gt;
+Please read &lt;a href="http://developers.slashdot.org/story/05/04/24/0343224/aspect-oriented-programming-considered-harmful"&gt;slashdot discussion&lt;/a&gt; about AOP.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the comment from MarkusQ,
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+ by MarkusQ (450076) on Sunday April 24, 2005 @11:01PM (#12333504) Journal
+
+Exactly.
+
+When I implemented this sort of thing for a project in Ruby a few years back, I just grabbed all the CLOS nomenclature because I was familiar with it. I didn't even realize I was using "AOP with funny names" until someone reading the code mentioned it. When he asked why I didn't use the "standard" terminology, I lent him a copy of "Object Oriented Programing in Common Lisp" (c) 1988, and asked why the AOP people had to invent new words for everything.
+
+I have yet to get an answer.
+
+--MarkusQ
+&lt;/pre&gt;
+
+&lt;p&gt;
+So it's just some enterprise guy inventing new buzz words (&lt;a href="http://en.wikipedia.org/wiki/Cross-cutting_concern"&gt;cross-cutting concern&lt;/a&gt;, for example) on some old idea.
+&lt;/p&gt;
+
+&lt;p&gt;
+Now as guy who got seven years academical training on system design (Bachelor and Master degree in system controlling major from &lt;a href="http://en.wikipedia.org/wiki/Shanghai_Jiao_Tong_University"&gt;best engineering school in China&lt;/a&gt;), I will give you some precious advice on how to use this thing (AOP in java, API hook in C, defadvice in Emacs lisp or whatever the buzz word is):
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;DO NOT USE IT IN ANY REAL SYSTEM OR APPLICATION!&lt;/b&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Here are the reasons:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The code change an external API's behavior&lt;/li&gt;
+&lt;li&gt;The code's location is not close to the API's&lt;/li&gt;
+&lt;li&gt;The system being corrupt quickly with those AOP things&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>java</category><category>lisp</category><guid>http://blog.binchen.org/posts/what-s-aop-in-java.html</guid><pubDate>Sat, 03 May 2014 06:21:31 GMT</pubDate></item></channel></rss>

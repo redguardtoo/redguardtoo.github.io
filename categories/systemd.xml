@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about systemd)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/systemd.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Why some systemd service on ArchLinux does not work</title><link>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orgbe2b329" class="outline-2"&gt;
+&lt;h3 id="orgbe2b329"&gt;List failed services&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgbe2b329"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl --failed
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I can also use `sudo journalctl -b` to get the log message when booting all the services. But not very useful.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga785e24" class="outline-2"&gt;
+&lt;h3 id="orga785e24"&gt;Find the root cause of failed service&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga785e24"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl status service-name
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge515c78" class="outline-2"&gt;
+&lt;h3 id="orge515c78"&gt;Why my /usr/lib/systemd/system/network-wifi.service does not work&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge515c78"&gt;
+&lt;p&gt;
+Here is the content of my wifi service
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
+Description=Wireless networkd connectivity (wlan0)
+Wants=network.target
+Before=network.target
+BindsTo=sys-subsystem-net-devices-wlan0.device
+After=sys-subsystem-net-devices-wlan0.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+#EnvironmentFile=/etc/conf.d/network-wireless@wlan0
+
+ExecStart=/usr/bin/ip link set wlan0 up
+ExecStart=/usr/bin/wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/yang.conf
+ExecStart=/usr/bin/dhcpcd wlan0
+
+ExecStop=/usr/bin/ip addr flush dev wlan0
+ExecStop=/usr/bin/ip link set dev wlan0 down
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;p&gt;
+It's because netcfg.service blocks my network-wifi.service.
+&lt;/p&gt;
+
+&lt;p&gt;
+Solutin is simple:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl disable netcfg
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgda38928" class="outline-2"&gt;
+&lt;h3 id="orgda38928"&gt;How to start a service as specific user (mpd, for example)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgda38928"&gt;
+&lt;p&gt;
+This is the content of /usr/lib/systemd/system/mpd.service: 
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
+Description=Music Player Daemon
+After=network.target sound.target
+
+[Service]
+ExecStart=/usr/bin/mpd --no-daemon /home/cb/.mpd/config
+User=cb
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>archlinux</category><category>en</category><category>systemd</category><guid>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work.html</guid><pubDate>Sun, 01 Dec 2013 17:53:00 GMT</pubDate></item></channel></rss>

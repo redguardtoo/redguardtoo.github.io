@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>松本行弘(Ruby发明者):Emacs怎样改变了我的人生 | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/emacs-zen-yang-gai-bian-le-wo-de-ren-shen.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="松本行弘(Ruby发明者):Emacs怎样改变了我的人生">
+<meta property="og:url" content="http://blog.binchen.org/posts/emacs-zen-yang-gai-bian-le-wo-de-ren-shen.html">
+<meta property="og:description" content="原文(英文版本)见这里.
+
+
+
+以下是我的翻译兼一些背景资料:
+
+
+
+1980年,我开始编程.
+
+
+
+Basic,400 steps (此句不知如何翻译)
+
+
+
+1988年,我遇到了Emacs,在学校的Sun-3上,和200多个学生共用.
+
+
+
+Emacs实际上是被禁止使用的,因为消耗太多内存.所以我只是尝试了一下.
+
+
+
+我可以自由下载Emacs并阅读其源代码.
+
+
+
+Emacs是我的第一个Li">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2012-03-27T18:11:00Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="ruby">
+<meta property="article:tag" content="zh">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">松本行弘(Ruby发明者):Emacs怎样改变了我的人生</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2012-03-27T18:11:00+00:00">2012-03-27 18:11</time>
+            
+
+            
+          |  
+        <a href="emacs-zen-yang-gai-bian-le-wo-de-ren-shen.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/ruby.html" rel="tag">ruby</a></li>
+           <li><a class="tag p-category" href="../categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+原文(英文版本)见<a href="http://www.slideshare.net/yukihiro_matz/how-emacs-changed-my-life">这里</a>.
+</p>
+
+<p>
+以下是我的翻译兼一些背景资料:
+</p>
+
+<div id="outline-container-org82a2b84" class="outline-2">
+<h3 id="org82a2b84">1980年,我开始编程.</h3>
+</div>
+
+<div id="outline-container-orgcabdefd" class="outline-2">
+<h3 id="orgcabdefd">Basic,400 steps (此句不知如何翻译)</h3>
+</div>
+
+<div id="outline-container-org593f877" class="outline-2">
+<h3 id="org593f877">1988年,我遇到了Emacs,在学校的Sun-3上,和200多个学生共用.</h3>
+</div>
+
+<div id="outline-container-org111c20c" class="outline-2">
+<h3 id="org111c20c">Emacs实际上是被禁止使用的,因为消耗太多内存.所以我只是尝试了一下.</h3>
+</div>
+
+<div id="outline-container-org4e1cf96" class="outline-2">
+<h3 id="org4e1cf96">我可以自由下载Emacs并阅读其源代码.</h3>
+</div>
+
+<div id="outline-container-org740774f" class="outline-2">
+<h3 id="org740774f">Emacs是我的第一个Lisp解释器.</h3>
+</div>
+
+<div id="outline-container-orge0cccbe" class="outline-2">
+<h3 id="orge0cccbe">从Emacs我学到了很多关于语言实现的知识.</h3>
+</div>
+
+<div id="outline-container-org900677e" class="outline-2">
+<h3 id="org900677e">例如,emacs的整数实现(Embedding integer in pointers)</h3>
+<div class="outline-text-2" id="text-org900677e">
+<p>
+参考Lisp_Object定义,在Emacs源代码的lisp.h中,Lisp_Object是一个既可以作为指针使用又可以作为整数使用的类型
+具体代码见下,注意Lisp_Int为0,使得非负整数可以直接转换为对应的List_Object类型:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">#define VALBITS 29
+#define GCTYPEBITS 3
+enum Lisp_Type
+  {
+    Lisp_Int = 0,
+
+    /* Symbol.  XSYMBOL (object) points to a struct Lisp_Symbol.  */
+    Lisp_Symbol = 2,
+
+    /* Miscellaneous.  XMISC (object) points to a union Lisp_Misc,
+       whose first member indicates the subtype.  */
+    Lisp_Misc = 3,
+
+    /* String.  XSTRING (object) points to a struct Lisp_String.
+       The length of the string, and its contents, are stored therein.  */
+    Lisp_String = LISP_STRING_TAG,
+
+    /* Vector of Lisp objects, or something resembling it.
+       XVECTOR (object) points to a struct Lisp_Vector, which contains
+       the size and contents.  The size field also contains the type
+       information, if it's not a real vector object.  */
+    Lisp_Vectorlike = 5,
+
+    /* Cons.  XCONS (object) points to a struct Lisp_Cons.  */
+    Lisp_Cons = 6,
+
+    Lisp_Float = 7,
+  };
+
+typedef union Lisp_Object
+  {
+    /* Used for comparing two Lisp_Objects;
+       also, positive integers can be accessed fast this way.  */
+    EMACS_UINT i;
+
+    struct
+      {
+    EMACS_INT val  : VALBITS;
+    enum Lisp_Type type : GCTYPEBITS;
+      } s;
+    struct
+      {
+    EMACS_UINT val : VALBITS;
+    enum Lisp_Type type : GCTYPEBITS;
+      } u;
+  }
+Lisp_OLisp_Stringbject;
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbef99a6" class="outline-2">
+<h3 id="orgbef99a6">又例如Emacs的内存自动回收机制(Mark and sweep garbage collection)</h3>
+<div class="outline-text-2" id="text-orgbef99a6">
+<p>
+具体细节参考<a href="http://lists.gnu.org/archive/html/emacs-devel/2011-10/msg01289.html">这里</a>的讨论.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc097d7d" class="outline-2">
+<h3 id="orgc097d7d">C和Lisp的Calling conventions(不好翻,基本上就是函数如何调用,函数参数的内存模型之类…)</h3>
+</div>
+
+<div id="outline-container-orgea37d1c" class="outline-2">
+<h3 id="orgea37d1c">我完全理解Lisp怎么工作的</h3>
+</div>
+
+<div id="outline-container-org59d3530" class="outline-2">
+<h3 id="org59d3530">我被Lisp Objects迷住了</h3>
+</div>
+
+<div id="outline-container-org4a62a0b" class="outline-2">
+<h3 id="org4a62a0b">当我得到Sparc工作站时我开始使用Emacs</h3>
+</div>
+
+<div id="outline-container-org1854ed9" class="outline-2">
+<h3 id="org1854ed9">我完全被迷住了,Emacs成为我的一部分</h3>
+</div>
+
+<div id="outline-container-org9489475" class="outline-2">
+<h3 id="org9489475">而且Emacs任何我不喜欢的部分我都可以改,Emacs完全可配置.</h3>
+</div>
+
+<div id="outline-container-org80df0bb" class="outline-2">
+<h3 id="org80df0bb">Emacs使我明白了任何东西都可以被程序员改变</h3>
+</div>
+
+<div id="outline-container-org9a5c083" class="outline-2">
+<h3 id="org9a5c083">完全的自由</h3>
+</div>
+
+<div id="outline-container-org462c910" class="outline-2">
+<h3 id="org462c910">编辑时可以无视键位设置</h3>
+</div>
+
+<div id="outline-container-org232454c" class="outline-2">
+<h3 id="org232454c">我想用Emacs做所有的事,编程,文档,邮件…</h3>
+</div>
+
+<div id="outline-container-org787fc2e" class="outline-2">
+<h3 id="org787fc2e">所以我写了"cmail",我的第一个严肃的Lisp程序,我每天用它</h3>
+</div>
+
+<div id="outline-container-org7ec0689" class="outline-2">
+<h3 id="org7ec0689">1993年,我开始搞我的Ruby</h3>
+</div>
+
+<div id="outline-container-orgfbd614a" class="outline-2">
+<h3 id="orgfbd614a">Ruby的设计受到Emacs实现的影响,例如整数和tagged pointer合用,相似的GC,和Lisp类似的Object Model</h3>
+<div class="outline-text-2" id="text-orgfbd614a">
+<p>
+tagged pointer的细节请参考上文的C代码,高地址的3bit用作判别数据类型,低地址的29bit用作指针或者整数(取决于数据类型)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfa2c932" class="outline-2">
+<h3 id="orgfa2c932">接下来我把Smalltalk的OO系统加上去</h3>
+</div>
+
+<div id="outline-container-orge4ef8f0" class="outline-2">
+<h3 id="orge4ef8f0">语法我用Algol/Ada/Eiffel</h3>
+</div>
+
+<div id="outline-container-org278b1f2" class="outline-2">
+<h3 id="org278b1f2">但是我是Emacs狂,所以在Emacs中支持auto-indent是必须的</h3>
+</div>
+
+<div id="outline-container-org585655b" class="outline-2">
+<h3 id="org585655b">在1993年,类似的语法要支持auto-indent很难</h3>
+</div>
+
+<div id="outline-container-orge5325cd" class="outline-2">
+<h3 id="orge5325cd">所以我就写了自己的ruby-mode.el,试图用elisp和正则表达式(regex)解决这个问题.</h3>
+</div>
+
+<div id="outline-container-orgabc96e5" class="outline-2">
+<h3 id="orgabc96e5">一个礼拜后,我在给Ruby加上end关键字后终于成功了</h3>
+</div>
+
+<div id="outline-container-org1b5e3d7" class="outline-2">
+<h3 id="org1b5e3d7">如果我不能让我的emacs下的ruby-mode成功,那么Ruby的语法会更像C</h3>
+</div>
+
+<div id="outline-container-org16e311c" class="outline-2">
+<h3 id="org16e311c">这样就和其他脚本语言差不多,Ruby也不会那么受欢迎</h3>
+</div>
+
+<div id="outline-container-org459b225" class="outline-2">
+<h3 id="org459b225">小结</h3>
+<div class="outline-text-2" id="text-org459b225">
+<ul class="org-ul">
+<li>Emacs教我什么是软件自由(freedom for software)</li>
+<li>Emacs教我如何读代码</li>
+<li>Emacs让我认识到Lisp的威力</li>
+<li>Emacs教我如何实现语言核心</li>
+<li>Emacs教我如何进行内存自动回收(Garbage Collector)</li>
+<li>Emacs有助于我写代码和调试</li>
+<li>我用Emacs写j文档邮件</li>
+<li>Emacs让我成为高效程序员</li>
+<li>Emacs让我成为黑客</li>
+<li>Emacs永远改变了我的人生</li>
+</ul>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="it-chuang-ye-de-bei-can-gu-shi.html" rel="prev" title="IT创业的悲惨故事《IT创业疯魔史》以及我的八卦">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="guan-yu-yi-nian-chen-wei-emacs-gao-shou-yi-wen-de-da-yi.html" rel="next" title='关于"一年成为Emacs高手(像神一样使用编辑器)"一文的答疑'>Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/emacs-zen-yang-gai-bian-le-wo-de-ren-shen.html",
+        disqus_title="\u677e\u672c\u884c\u5f18(Ruby\u53d1\u660e\u8005):Emacs\u600e\u6837\u6539\u53d8\u4e86\u6211\u7684\u4eba\u751f",
+        disqus_identifier="cache/posts/emacs-zen-yang-gai-bian-le-wo-de-ren-shen.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>How to use yasnippets to produce email templates in Emacs | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="How to use yasnippets to produce email templates in Emacs">
+<meta property="og:url" content="http://blog.binchen.org/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html">
+<meta property="og:description" content="CREATED: &lt;2013-05-01 Wed&gt;
+
+
+
+UPDATED: &lt;2015-11-13 Fri&gt;
+
+
+
+Problem
+
+
+As a freelancer, I need reply agent's email frequently.
+
+
+
+So I have several issues to resolve:
+
+
+Avoid writing multiple mails with ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-05-01T15:53:08Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="email">
+<meta property="article:tag" content="en">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">How to use yasnippets to produce email templates in Emacs</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-05-01T15:53:08+00:00">2013-05-01 15:53</time>
+            
+
+            
+          |  
+        <a href="how-to-use-yasnippets-to-produce-email-templates-in-emacs.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/email.html" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-05-01 Wed&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-13 Fri&gt;</span></span>
+</p>
+
+<div id="outline-container-org3b0f266" class="outline-2">
+<h3 id="org3b0f266">Problem</h3>
+<div class="outline-text-2" id="text-org3b0f266">
+<p>
+As a freelancer, I need reply agent's email frequently.
+</p>
+
+<p>
+So I have several issues to resolve:
+</p>
+<ul class="org-ul">
+<li>Avoid writing multiple mails with similar content</li>
+<li>Avoid attaching same resume again and again</li>
+<li>Get the agent's name right. This is not easy since I'm living in Sydney</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbe94906" class="outline-2">
+<h3 id="orgbe94906">Solution</h3>
+<div class="outline-text-2" id="text-orgbe94906">
+<p>
+<a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a> is the best solution for email templates because you can embed Lisp code in the template.
+</p>
+</div>
+<div id="outline-container-org1569747" class="outline-3">
+<h4 id="org1569747">Templates</h4>
+<div class="outline-text-3" id="text-org1569747">
+<p>
+I publicize my .emacs.d at <a href="https://github.com/redguardtoo/emacs.d">github</a>. But email templates are my private stuff. So I place them in different location.
+</p>
+
+<p>
+That's why I place templates at ~/my-yasnippets/message-mode/.
+</p>
+
+<p>
+Here is a sample template to reply my agents (jobok.yasnippet):
+</p>
+<pre class="example">
+# -*- mode: snippet -*-
+# name: email for OK job
+# key: jobok
+# --
+Hi ${1:`(my-yas-get-first-name-from-to-field)`},
+
+Thank you very much for providing me this great opportunity.
+
+Unfortunately I'm occupied now and will not consider new job for the time being.
+
+Currently I'm working for ${2:COMPANY_NAME} as a contract developer. However, the
+contract will be over ${3:END_OF_CONTRACT} and I will be available then.
+
+So keep in touch.
+
+Attached is my latest CV.
+$0
+
+&lt;#part type="application/msword" filename="~/org/cv/cv.doc" disposition=attachment description=resume&gt;
+&lt;#/part&gt;
+</pre>
+
+<p>
+`(my-yas-get-first-name-from-to-field)` is a Lisp function embedded in the snippet.
+</p>
+
+<p>
+It will automatically fetch the first name of agent,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-yas-get-first-name-from-to-field ()
+  (let ((rlt "AGENT_NAME") str)
+    (save-excursion
+      (goto-char (point-min))
+      ;; first line in email could be some hidden line containing NO to field
+      (setq str (buffer-substring-no-properties (point-min) (point-max))))
+    (if (string-match "^To: \"\\([^ ,]+\\)" str)
+        (setq rlt (match-string 1 str)))
+    (message "rlt=%s" rlt)
+    rlt))
+</code></pre>
+
+</div>
+</div>
+</div>
+<div id="outline-container-org273f6f2" class="outline-3">
+<h4 id="org273f6f2">Emacs setup</h4>
+<div class="outline-text-3" id="text-org273f6f2">
+<p>
+Add following code into .emacs to make yasnippet load the emacs templates:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'yasnippet)
+(setq my-yasnippets (expand-file-name "~/my-yasnippets"))
+(if (and  (file-exists-p my-yasnippets) (not (member my-yasnippets yas-snippet-dirs)))
+    (add-to-list 'yas-snippet-dirs my-yasnippets))
+;; yasnippet setup code should be AFTER
+(yas-global-mode 1)
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="make-emacs-support-auto-completion-for-cmake.html" rel="prev" title="Make Emacs support auto-completion for CMake">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="how-to-use-keyboard-to-navigate-feedly-com.html" rel="next" title="How to use keyboard to navigate feedly.com">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html",
+        disqus_title="How to use yasnippets to produce email templates in Emacs",
+        disqus_identifier="cache/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

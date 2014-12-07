@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about cygwin)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/cygwin.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Copy/Paste in Emacs</title><link>http://blog.binchen.org/posts/copypaste-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2012-01-30 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2018-06-04 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-org0d4c108" class="outline-2"&gt;
+&lt;h3 id="org0d4c108"&gt;Prepare&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0d4c108"&gt;
+&lt;p&gt;
+At Linux, &lt;a href="http://www.vergenet.net/~conrad/software/xsel/"&gt;xsel&lt;/a&gt; is required.
+&lt;/p&gt;
+
+&lt;p&gt;
+At Cygwin, please install package &lt;code&gt;cygutils-extra&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+At macOS, no external tool is required.
+&lt;/p&gt;
+
+&lt;p&gt;
+At Windows 10 Linux Subsystem, no external tool is required.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcce5a09" class="outline-2"&gt;
+&lt;h3 id="orgcce5a09"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgcce5a09"&gt;
+&lt;p&gt;
+This solution works reliably in &lt;b&gt;any environment&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into &lt;code&gt;~/.emacs&lt;/code&gt;. Run &lt;code&gt;M-x paste-from-xclipboard&lt;/code&gt; to paste.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-gclip ()
+  "Get clipboard content."
+  (cond
+   ((eq system-type 'darwin)
+    (with-output-to-string
+      (with-current-buffer standard-output
+        (call-process "/usr/bin/pbpaste" nil t nil "-Prefer" "txt"))))
+   ((eq system-type 'cygwin)
+    (with-output-to-string
+      (with-current-buffer standard-output
+        (call-process "getclip" nil t nil))))
+   ((memq system-type '(gnu gnu/linux gnu/kfreebsd))
+    (let* ((powershell-program (executable-find "powershell.exe")))
+           (cond
+            (powershell-program
+             ;; PowerLine adds extra white space character at the end of text
+             (string-trim-right
+              (with-output-to-string
+                (with-current-buffer standard-output
+                  (call-process powershell-program nil t nil "-command" "Get-Clipboard")))))
+            (t
+             (with-output-to-string
+               (with-current-buffer standard-output
+                 (call-process "xsel" nil t nil "--clipboard" "--output")))))))))
+
+(defun my-pclip (str-val)
+  "Copy STR-VAL into clipboard."
+  (cond
+   ((eq system-type 'darwin)
+    (with-temp-buffer
+      (insert str-val)
+      (call-process-region (point-min) (point-max) "/usr/bin/pbcopy")))
+   ((eq system-type 'cygwin)
+    (with-temp-buffer
+      (insert str-val)
+      (call-process-region (point-min) (point-max) "putclip")))
+   ((memq system-type '(gnu gnu/linux gnu/kfreebsd))
+    (let* ((win64-clip-program (executable-find "clip.exe")))
+      (with-temp-buffer
+        (insert str-val)
+        (cond
+         ;; Linux Subsystem on Windows 10
+         (win64-clip-program
+          (call-process-region (point-min) (point-max) win64-clip-program))
+         (t
+          (call-process-region (point-min) (point-max) "xsel" nil nil nil "--clipboard" "--input"))))))))
+
+(defun paste-from-x-clipboard(&amp;amp;optional n)
+  "Paste string clipboard."
+  (interactive "P")
+  ;; paste after the cursor in evil normal state
+  (when (and (functionp 'evil-normal-state-p)
+             (functionp 'evil-move-cursor-back)
+             (evil-normal-state-p)
+             (not (eolp))
+             (not (eobp)))
+    (forward-char))
+  (insert (my-gclip)))
+
+(add-hook 'minibuffer-setup-hook
+          (lambda ()
+            (local-set-key (kbd "M-y") 'paste-from-xclipboard)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+My actual setup is more robust. See &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-clipboard.el"&gt;https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-clipboard.el&lt;/a&gt; for details.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org35a7127" class="outline-2"&gt;
+&lt;h3 id="org35a7127"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org35a7127"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgc8be853" class="outline-3"&gt;
+&lt;h4 id="orgc8be853"&gt;Clipboard manager&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgc8be853"&gt;
+&lt;p&gt;
+I suggest &lt;a href="http://parcellite.sourceforge.net/"&gt;Parcellite&lt;/a&gt; on Linux, &lt;a href="http://ditto-cp.sourceforge.net/"&gt;Ditto&lt;/a&gt; on Windows, &lt;a href="https://github.com/TermiT/Flycut"&gt;Flycut&lt;/a&gt; on macOS.
+&lt;/p&gt;
+
+&lt;p&gt;
+My parcellite setup ($HOME/.config/parcellite/parcelliterc):
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[rc]
+use_copy=true
+use_primary=true
+synchronize=true
+save_history=true
+history_limit=64
+hyperlinks_only=false
+confirm_clear=false
+single_line=true
+reverse_history=false
+item_length=50
+ellipsize=2
+history_key=&amp;lt;Super&amp;gt;Y
+actions_key=
+menu_key=
+history_pos=false
+history_x=1
+history_y=1
+case_search=false
+type_search=false
+data_size=0
+ignore_whiteonly=false
+trim_wspace_begend=false
+trim_newline=false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org046bbb7" class="outline-3"&gt;
+&lt;h4 id="org046bbb7"&gt;Clipboard in ssh&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org046bbb7"&gt;
+&lt;p&gt;
+Use &lt;code&gt;ssh -X -C username@some-server.whatever.domain&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>clipboard</category><category>cygwin</category><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/copypaste-in-emacs.html</guid><pubDate>Mon, 30 Jan 2012 10:52:00 GMT</pubDate></item><item><title>用mintty作为cygwin的console</title><link>http://blog.binchen.org/posts/yong-mintty-zuo-wei-cyginw-de-console.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-01-31 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2011-04-29 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+cygwin1.7在我的电脑上不能显示中文,已困扰我很久了.
+&lt;/p&gt;
+
+&lt;p&gt;
+今天才找到解决办法,只要安装&lt;a href="http://code.google.com/p/mintty/"&gt;mintty&lt;/a&gt;即可.
+&lt;/p&gt;
+
+&lt;p&gt;
+最新版Cygwin默认就已安装启用mintty.
+&lt;/p&gt;
+
+&lt;p&gt;
+安装后在宽屏显示器上字可能较小, 解决办法如下：
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;或参考&lt;a href="http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html"&gt;其手册&lt;/a&gt;缩放字体.&lt;/li&gt;
+&lt;li&gt;或右击左上角设置字体, "新宋体 常规 三号"&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+另外设置scroll back 80000行. 右侧滚动条无.
+&lt;/p&gt;
+
+&lt;p&gt;
+以下是我的cygwin.bat,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;@echo off
+set EDITOR=vi
+set VISUAL=vi
+REM shamelessly copied from git://github.com/justsoso8/dotfile.git
+REM mintty installed which supports chinese
+REM =======================================
+@echo off
+rem find cygwin roo directory one by one
+rem disk c -&amp;gt; disk d -&amp;gt; disk e
+
+:CYGWIN_C
+if not exist c:\cygwin goto CYGWIN_D
+set _cygwinroot=c:\cygwin
+goto HAVECYGWIN
+
+:CYGWIN_D
+if not exist d:\cygwin goto CYGWIN_E
+set _cygwinroot=d:\cygwin
+goto HAVECYGWIN
+
+:CYGWIN_E
+if not exist c:\cygwin64 goto CYGWIN_F
+set _cygwinroot=c:\cygwin64
+goto HAVECYGWIN
+
+:CYGWIN_F
+if not exist d:\cygwin64 goto NOCYGWIN
+set _cygwinroot=d:\cygwin64
+goto HAVECYGWIN
+
+:NOCYGWIN
+echo no cygwin installation found on disk C/D/E/F
+pause
+goto EOF
+
+:HAVECYGWIN
+
+chdir %_cygwinroot%\bin
+set _termapp=%_cygwinroot%\bin\mintty.exe
+start %_termapp% -w full /bin/bash --login -i
+:EOF
+exit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>chinese</category><category>cygwin</category><category>software</category><category>zh</category><guid>http://blog.binchen.org/posts/yong-mintty-zuo-wei-cyginw-de-console.html</guid><pubDate>Fri, 29 Apr 2011 15:00:00 GMT</pubDate></item></channel></rss>

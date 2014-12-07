@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about keysnail)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/keysnail.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Firefox and Emacs</title><link>http://blog.binchen.org/posts/firefox-and-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+For me, there is NO difference between Firefox and Emacs. They provide useful APIs, nothing more.
+&lt;/p&gt;
+
+&lt;p&gt;
+Three years ago, I wrote &lt;a href="http://blog.binchen.org/posts/use-firefox-in-emacs-way-3.html"&gt;Use firefox in Emacs way&lt;/a&gt; to demo how to convert Firefox into Emacs by &lt;a href="https://github.com/mooz/keysnail/wiki"&gt;Keynsail.&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+A year ago I published &lt;a href="http://blog.binchen.org/posts/hello-ivy-mode-bye-helm.html"&gt;Hello Ivy-mode, bye Helm&lt;/a&gt; to prove how powerful &lt;a href="https://github.com/abo-abo/swiper"&gt;Ivy-mode&lt;/a&gt; is by using its API &lt;code&gt;ivy-read&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Keysnail has similar javascript API &lt;code&gt;prompt.selector&lt;/code&gt; and it's as powerful as &lt;code&gt;ivy-read&lt;/code&gt; if not more powerful.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, you can insert below snippet into &lt;code&gt;~/.keysnail.js&lt;/code&gt; and press ",hh" or "C-c C-h" to query browse history:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;function searchHistory(evt, arg) {
+  function timeSince(now, date) {
+
+    var seconds = Math.floor((now - date) / 1000);
+
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval &amp;gt; 1) {
+      return interval + " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval &amp;gt; 1) {
+      return interval + " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval &amp;gt; 1) {
+      return interval + " days";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval &amp;gt; 1) {
+      return interval + " hours";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval &amp;gt; 1) {
+      return interval + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+  }
+
+  function searchWithKeyword(q) {
+    var collection = (function() {
+      //search option
+      var options = PlacesUtils.history.getNewQueryOptions();
+      options.maxResults = 4096;
+      options.queryType = Ci.nsINavHistoryQueryOptions.QUERY_TYPE_HISTORY;
+      //options.sortingMode = Ci.nsINavHistoryQueryOptions.SORT_BY_FRECENCY_DESCENDING;
+      options.sortingMode = Ci.nsINavHistoryQueryOptions.SORT_BY_DATE_DESCENDING;
+      options.includeHidden = true;
+
+      //search query
+      var query = PlacesUtils.history.getNewQuery();
+      // read keyworld
+      if(q &amp;amp;&amp;amp; q !== '') {
+        query.searchTerms  = q;
+      }
+
+      var result = PlacesUtils.history.executeQuery(query, options);
+      var root = result.root;
+
+      var collection = [];
+      var now = new Date().getTime();
+      var siteNode;
+      root.containerOpen = true;
+      for (var i = 0; i &amp;lt; root.childCount; i++) {
+        // siteNode =&amp;gt; nsINavHistoryResultNode
+        siteNode = root.getChild(i);
+        collection.push([siteNode.icon,siteNode.title,siteNode.uri, siteNode.time/1000]);
+      }
+      collection.sort(function(a, b) {
+        return b[3]-a[3];
+      });
+      // reformat the time
+      for (i = 0; i &amp;lt; collection.length; i++) {
+        collection[i][3] = timeSince(now, collection[i][3]) + ' ago';
+      }
+      root.containerOpen = false;
+      return collection;
+    })();
+
+    prompt.selector({
+      message    : "Search history"+ (q &amp;amp;&amp;amp; q !== ''? (' @'+q +':') : ':' ),
+      collection : collection,
+      flags      : [ICON | IGNORE, 0, 0, 0],
+      header     : ["Title", "Url", "Last visited"],
+      width      : [30, 60, 10],
+      callback: function (i) {
+        if (i &amp;gt;= 0) {
+          openUILinkIn(collection[i][2], "tab");
+        }
+      },
+      onFinish: function() {
+        gBrowser.focus();
+        _content.focus();
+      }
+    });
+  }
+
+  prompt.finish(true);
+  prompt.read('Keyword to search history?', searchWithKeyword, null, null, null, 0, "history_search");
+  // searchWithKeyword('test');
+
+}
+key.setViewKey([',', 'h', 'h'], searchHistory, "Search history");
+key.setGlobalKey(['C-c', 'C-h'], searchHistory, "Search history");
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is my complete &lt;a href="https://gist.github.com/redguardtoo/003ac86d4c11b70b870a"&gt;.keysnail.js&lt;/a&gt;.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>firefox</category><category>ivy</category><category>keysnail</category><guid>http://blog.binchen.org/posts/firefox-and-emacs.html</guid><pubDate>Tue, 23 May 2017 12:24:25 GMT</pubDate></item><item><title>Use firefox in Emacs way</title><link>http://blog.binchen.org/posts/use-firefox-in-emacs-way-3.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-05-20 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-03-23 Sun&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+I use &lt;a href="https://github.com/mooz/keysnail/wiki"&gt;keysnail&lt;/a&gt;. it's a firefox addon to convert firefox into Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+I install keysnail's own plugins "HoK" and "Tanything".
+&lt;/p&gt;
+
+&lt;p&gt;
+Here are the use cases of keysnail.
+&lt;/p&gt;
+
+&lt;div id="outline-container-org88e75b4" class="outline-2"&gt;
+&lt;h3 id="org88e75b4"&gt;Click &amp;amp; Copy the links&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org88e75b4"&gt;
+&lt;p&gt;
+Install the &lt;a href="https://github.com/mooz/keysnail/wiki/plugin"&gt;HoK&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into ~/.keysnail.js:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;hook.setHook("PluginLoaded", function () {
+    if (!plugins.hok) return;
+
+    /* HoK 1.3.9+ required */
+    plugins.hok.pOptions.selector = plugins.hok.pOptions.selector
+    /* feedly */
+    + ", *[data-uri]" + ", *[data-selector-toggle]" + ", *[data-page-action]" + ", *[data-app-action]"
+    /* google plus */
+    + ", *[guidedhelpid]"
+    /* twitter */
+    + ", *[data-item-count]";
+});
+
+key.setGlobalKey(["C-c","C-f"], function (aEvent, aArg) {
+        ext.exec("hok-start-foreground-mode", aArg);
+}, "Hok - Foreground hint mode", true);
+
+key.setGlobalKey(["C-c","C-b"], function (aEvent, aArg) {
+        ext.exec("hok-start-background-mode", aArg);
+}, "HoK - Background hint mode", true);
+
+key.setGlobalKey(["C-c","C-y"], function (aEvent, aArg) {
+        ext.exec("hok-yank-foreground-mode", aArg);
+}, "HoK - Background hint mode", true);
+
+key.setGlobalKey(["C-c","C-;"], function (aEvent, aArg) {
+        ext.exec("hok-start-extended-mode", aArg);
+}, "HoK - Extented hint mode", true);
+
+key.setGlobalKey(["C-c", "C-e"], function (aEvent, aArg) {
+        ext.exec("hok-start-continuous-mode", aArg);
+}, "Start continuous HaH", true);
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Now I can press "Ctrl-C Ctrl-F" to select the links to click.
+&lt;/p&gt;
+
+&lt;p&gt;
+The links will be highlighted as below screen shot:
+&lt;img src="http://blog.binchen.org/wp-content/keysnail-hok-nq8.png" alt="keysnail-hok-nq8.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+I can press the highlighted hint to click the link.
+&lt;/p&gt;
+
+&lt;p&gt;
+Copy the link into clipboard is also easy. I press "C-c C-y" and similar UI will be displayed. I press the hint above to finish the operation.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgaba2da7" class="outline-2"&gt;
+&lt;h3 id="orgaba2da7"&gt;Copy the text of link&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgaba2da7"&gt;
+&lt;p&gt;
+This is my most favorite tool. As a developer, I need copy text of links from bug tracking software and paste it into git commit message frequently.
+&lt;/p&gt;
+
+&lt;p&gt;
+That's error prone because:
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;The links are cluttered so it's hard to select the text of the link without actually clicking the link.&lt;/li&gt;
+&lt;li&gt;The web UI of bug tracing system may use some CSS magic. Only part of the text of links are displayed. So it's impossible to select the text at all. For example, &lt;a href="https://www.atlassian.com/software/jira"&gt;JIRA&lt;/a&gt; will display file name of "Screenshot 03/05/2014-193024.png" as "Screenshot 03/05/2014…png".&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+If you use keysnail+HOK, it's as simple as press hot key "C-c ; Y". That's it!
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org3c02c2d" class="outline-2"&gt;
+&lt;h3 id="org3c02c2d"&gt;Switch tab&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3c02c2d"&gt;
+&lt;p&gt;
+Install the &lt;a href="https://github.com/mooz/keysnail/wiki/plugin"&gt;Tanything&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into ~/.keysnail.js:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;key.setGlobalKey(["C-c", "C-a"], function (ev, arg) {
+  ext.exec("tanything", arg);
+}, "view all tabs", true);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Press "Ctrl-C Ctrl-A", you got below UI:
+&lt;img src="http://blog.binchen.org/wp-content/keysnail-tanything-nq8.png" alt="keysnail-tanything-nq8.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Tanything will locate the tab by finding match in web page's title or URL.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org07e059f" class="outline-2"&gt;
+&lt;h3 id="org07e059f"&gt;My keysnail set up&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org07e059f"&gt;
+&lt;p&gt;
+You can download my ~/.keysnail.js from &lt;a href="https://gist.githubusercontent.com/redguardtoo/003ac86d4c11b70b870a/raw/32356b071785248c0ff56d9c5896168263efefdd/.keysnail.js"&gt;HERE&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+#+image/keysnail-hok-nq8.png &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/03/wpid-keysnail-hok-nq8.png" alt="wpid-keysnail-hok-nq8.png"&gt;
+#+image/keysnail-tanything-nq8.png &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/03/keysnail-tanything-nq8.png" alt="keysnail-tanything-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>firefox</category><category>keysnail</category><guid>http://blog.binchen.org/posts/use-firefox-in-emacs-way-3.html</guid><pubDate>Sun, 23 Mar 2014 20:03:00 GMT</pubDate></item><item><title>How to use keyboard to navigate feedly.com</title><link>http://blog.binchen.org/posts/how-to-use-keyboard-to-navigate-feedly-com.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Here is the detailed steps, &lt;/p&gt;&lt;ol&gt; &lt;li&gt;Install &lt;a href="https://github.com/mooz/keysnail"&gt;keysnail&lt;/a&gt; (a firefox addon) &lt;/li&gt; &lt;li&gt;Install &lt;a href="https://github.com/mooz/keysnail/wiki/plugin"&gt;HoK&lt;/a&gt; (no less than version 1.3.9) through keysnail &lt;/li&gt; &lt;li&gt;Add below code into .keysnail.js &lt;/li&gt; &lt;/ol&gt;     &lt;pre class="src src-javascript"&gt;&lt;span style="color: #969896; font-style: italic;"&gt;/*&lt;em&gt; &lt;/em&gt;&lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;HoK /&lt;/span&gt;
+key.setViewKey(&lt;span style="color: #70c0b1;"&gt;'e'&lt;/span&gt;, &lt;span style="color: #b9ca4a;"&gt;function&lt;/span&gt; (&lt;span style="color: #e7c547;"&gt;aEvent&lt;/span&gt;, &lt;span style="color: #e7c547;"&gt;aArg&lt;/span&gt;) {
+        ext.exec(&lt;span style="color: #70c0b1;"&gt;"hok-start-foreground-mode"&lt;/span&gt;, aArg);
+}, &lt;span style="color: #70c0b1;"&gt;'Hok - Foreground hint mode'&lt;/span&gt;, &lt;span style="color: #c397d8;"&gt;true&lt;/span&gt;);
+&lt;p&gt;key.setViewKey(&lt;span style="color: #70c0b1;"&gt;'E'&lt;/span&gt;, &lt;span style="color: #b9ca4a;"&gt;function&lt;/span&gt; (&lt;span style="color: #e7c547;"&gt;aEvent&lt;/span&gt;, &lt;span style="color: #e7c547;"&gt;aArg&lt;/span&gt;) {
+        ext.exec(&lt;span style="color: #70c0b1;"&gt;"hok-start-background-mode"&lt;/span&gt;, aArg);
+}, &lt;span style="color: #70c0b1;"&gt;'HoK - Background hint mode'&lt;/span&gt;, &lt;span style="color: #c397d8;"&gt;true&lt;/span&gt;);&lt;/p&gt;
+&lt;p&gt;key.setViewKey(&lt;span style="color: #70c0b1;"&gt;';'&lt;/span&gt;, &lt;span style="color: #b9ca4a;"&gt;function&lt;/span&gt; (&lt;span style="color: #e7c547;"&gt;aEvent&lt;/span&gt;, &lt;span style="color: #e7c547;"&gt;aArg&lt;/span&gt;) {
+        ext.exec(&lt;span style="color: #70c0b1;"&gt;"hok-start-extended-mode"&lt;/span&gt;, aArg);
+}, &lt;span style="color: #70c0b1;"&gt;'HoK - Extented hint mode'&lt;/span&gt;, &lt;span style="color: #c397d8;"&gt;true&lt;/span&gt;);&lt;/p&gt;
+&lt;p&gt;key.setViewKey([&lt;span style="color: #70c0b1;"&gt;'C-c'&lt;/span&gt;, &lt;span style="color: #70c0b1;"&gt;'C-e'&lt;/span&gt;], &lt;span style="color: #b9ca4a;"&gt;function&lt;/span&gt; (&lt;span style="color: #e7c547;"&gt;aEvent&lt;/span&gt;, &lt;span style="color: #e7c547;"&gt;aArg&lt;/span&gt;) {
+        ext.exec(&lt;span style="color: #70c0b1;"&gt;"hok-start-continuous-mode"&lt;/span&gt;, aArg);
+}, &lt;span style="color: #70c0b1;"&gt;'Start continuous HaH'&lt;/span&gt;, &lt;span style="color: #c397d8;"&gt;true&lt;/span&gt;);&lt;/p&gt;
+&lt;p&gt;hook.addToHook(&lt;span style="color: #70c0b1;"&gt;'PluginLoaded'&lt;/span&gt;, &lt;span style="color: #b9ca4a;"&gt;function&lt;/span&gt; () {
+  &lt;span style="color: #b9ca4a;"&gt;if&lt;/span&gt; (!plugins.hok)
+    &lt;span style="color: #b9ca4a;"&gt;return&lt;/span&gt;;&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #969896; font-style: italic;"&gt;/&lt;em&gt; &lt;/em&gt;&lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;HoK 1.3.9+ requried /&lt;/span&gt;
+  plugins.hok.pOptions.selector = plugins.hok.pOptions.selector
+    &lt;span style="color: #969896; font-style: italic;"&gt;/&lt;em&gt; &lt;/em&gt;&lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;feedly /&lt;/span&gt;
+    + &lt;span style="color: #70c0b1;"&gt;", &lt;em&gt;[data-uri]"&lt;/em&gt;&lt;/span&gt;
+    + &lt;span style="color: #70c0b1;"&gt;", [data-selector-toggle]"&lt;/span&gt;
+    + &lt;span style="color: #70c0b1;"&gt;", &lt;em&gt;[data-page-action]"&lt;/em&gt;&lt;/span&gt;
+    + &lt;span style="color: #70c0b1;"&gt;", [data-app-action]"&lt;/span&gt;
+  ;
+});&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;  &lt;ol&gt; &lt;li&gt;Restart Firefox, logged into &lt;a href="http://www.feedly.com"&gt;http://www.feedly.com&lt;/a&gt; and press hot key "e" &lt;/li&gt; &lt;li&gt;Enjoy! &lt;/li&gt; &lt;/ol&gt;  &lt;/div&gt;</description><category>emacs</category><category>en</category><category>keysnail</category><guid>http://blog.binchen.org/posts/how-to-use-keyboard-to-navigate-feedly-com.html</guid><pubDate>Mon, 06 May 2013 21:59:00 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Linux桌面使用之道 | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/linux-zhuo-mian-shi-yong-zhi-dao.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Linux桌面使用之道">
+<meta property="og:url" content="http://blog.binchen.org/posts/linux-zhuo-mian-shi-yong-zhi-dao.html">
+<meta property="og:description" content="作者: 陈斌(redguardtoo)
+
+
+
+注意: 我会长期维护本文,请参考下面的更新时间
+
+
+
+更新时间: &lt;2016-10-09 Sun&gt;
+
+
+
+原创时间: &lt;2011-05-08 Sun&gt;
+
+
+
+这是为有志于成为高手的中级Linux用户而写的入门指导.
+
+
+
+哲学
+
+
+
+长期投资
+
+
+软件对我而言是长期投资.所以我会花很多时间学习软件的快捷键(快捷键长期来说操作比鼠标高效),那种只能用鼠标">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2011-05-08T18:08:00Z">
+<meta property="article:tag" content="desktop">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="software">
+<meta property="article:tag" content="zh">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Linux桌面使用之道</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2011-05-08T18:08:00+00:00">2011-05-08 18:08</time>
+            
+
+            
+          |  
+        <a href="linux-zhuo-mian-shi-yong-zhi-dao.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/desktop.html" rel="tag">desktop</a></li>
+           <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="../categories/software.html" rel="tag">software</a></li>
+           <li><a class="tag p-category" href="../categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+作者: 陈斌(redguardtoo)
+</p>
+
+<p>
+注意: 我会长期维护本文,请参考下面的更新时间
+</p>
+
+<p>
+更新时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-09 Sun&gt;</span></span>
+</p>
+
+<p>
+原创时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2011-05-08 Sun&gt;</span></span>
+</p>
+
+<p>
+这是为有志于成为高手的中级Linux用户而写的入门指导.
+</p>
+
+<div id="outline-container-orgd511737" class="outline-2">
+<h3 id="orgd511737">哲学</h3>
+<div class="outline-text-2" id="text-orgd511737">
+</div>
+<div id="outline-container-org93078c5" class="outline-3">
+<h4 id="org93078c5">长期投资</h4>
+<div class="outline-text-3" id="text-org93078c5">
+<p>
+软件对我而言是长期投资.所以我会花很多时间学习软件的快捷键(快捷键长期来说操作比鼠标高效),那种只能用鼠标操作的软件对我来说就是"坏"软件.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd758f71" class="outline-3">
+<h4 id="orgd758f71">理性思维</h4>
+<div class="outline-text-3" id="text-orgd758f71">
+<p>
+以文件管理器来说,在Windows平台下我长期使用并热爱Total Commander,在Linux下平台下也有几款文件管理器在界面和功能上和Total Commander上非常接近,自然从感情上讲我会爱屋及乌.但是我最后还是选择了以Emacs作为主要的文件管理器,以丑陋的Midnight Commander为辅助,因我已确定选择软件的总的原则是尽可能用少的的软件做尽可能多的事.具体说来就是以Emacs做任何事,如果一定要用其他软件辅助Emacs,快捷键也应是Emacs的.Midnight Commander符合该条件
+</p>
+</div>
+</div>
+<div id="outline-container-org0bb000a" class="outline-3">
+<h4 id="org0bb000a">科学方法</h4>
+<div class="outline-text-3" id="text-org0bb000a">
+<p>
+细节见后文,我要强调的是我的工具和方法都是有高手验证过,有官方文档支持.对我而言,科学的含义,就是前人反复验证过的,过去100%成功也许能保证现在将来可能成功(因工具环境不断在变化,所以只是有可能).除此以外都不叫科学.
+</p>
+</div>
+</div>
+<div id="outline-container-org499e132" class="outline-3">
+<h4 id="org499e132">以人为本</h4>
+<div class="outline-text-3" id="text-org499e132">
+<p>
+在后文我会列出一些筛选软件的方法.也会推荐一些软件.但你决不要认为只要用了这些软件或者记住了我的方法就能成为高手了.这只是敲门砖而已.
+</p>
+
+<p>
+实际上我推荐的不是软件,而是人.这些软件和用户和开发者是一个精英荟萃的圈子.重要的是跟对人.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org028464a" class="outline-2">
+<h3 id="org028464a">少而精</h3>
+<div class="outline-text-2" id="text-org028464a">
+<p>
+软件数量少,品质高,功能强,依赖小,界面通用.
+</p>
+</div>
+<div id="outline-container-org894ed64" class="outline-3">
+<h4 id="org894ed64">数量少</h4>
+<div class="outline-text-3" id="text-org894ed64">
+<p>
+很重要,只有用的软件少(但是完成工作不少),才能有精力精通.
+</p>
+
+<p>
+软件少的另一好处是维护省心,例如找出多个软件快捷键冲突和在安装软件数量有关系.
+</p>
+</div>
+</div>
+<div id="outline-container-org3959f91" class="outline-3">
+<h4 id="org3959f91">品质高</h4>
+<div class="outline-text-3" id="text-org3959f91">
+<p>
+实质很简单,就是:
+</p>
+<ul class="org-ul">
+<li>久经考验(例如Emacs的开发历史有35年以上)</li>
+<li>聪明人认同</li>
+</ul>
+<p>
+何为久经考验,何为聪明人,是可找出客观指标.指标越严格,筛选结果就越少.
+</p>
+</div>
+</div>
+<div id="outline-container-orge70c702" class="outline-3">
+<h4 id="orge70c702">功能强</h4>
+<div class="outline-text-3" id="text-orge70c702">
+<p>
+原谅我又用Emacs举例,它可以看网页,收邮件,写程序,做笔记,写博客.
+</p>
+
+<p>
+功能强的终极境界就是提供了一个无所不能的可编程平台.
+</p>
+</div>
+</div>
+<div id="outline-container-orge5bb362" class="outline-3">
+<h4 id="orge5bb362">依赖小</h4>
+<div class="outline-text-3" id="text-orge5bb362">
+<p>
+例如,命令行软件不依赖于QT,GTK之类图形界面库,安装包小很多,运行时消耗内存也小,启动快.
+</p>
+</div>
+</div>
+<div id="outline-container-org88d0cba" class="outline-3">
+<h4 id="org88d0cba">界面通用</h4>
+<div class="outline-text-3" id="text-org88d0cba">
+<p>
+例如,我写程序用emacs,一般操作用bash shell,上网用Firefox,但是通过适当的设置(Firefox需要安装插件keysnail,其他软件只要用最新版即可),他们的快捷键都是Emacs的.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org323ca67" class="outline-2">
+<h3 id="org323ca67">软件推荐</h3>
+<div class="outline-text-2" id="text-org323ca67">
+</div>
+<div id="outline-container-orgb00e90a" class="outline-3">
+<h4 id="orgb00e90a">编辑器</h4>
+<div class="outline-text-3" id="text-orgb00e90a">
+<p>
+我用Emacs,考虑到它可以做任何事,可以认为它是轻量级的.
+</p>
+
+<p>
+Vim也用,万不得已用nano,结束了.
+</p>
+</div>
+</div>
+<div id="outline-container-orge2ef5b2" class="outline-3">
+<h4 id="orge2ef5b2">浏览器</h4>
+<div class="outline-text-3" id="text-orge2ef5b2">
+<p>
+Firefox.它是自由软件,所以有很多顶尖Geek为其写插件.例如<a href="https://github.com/mooz/keysnail/wiki">keysnail</a>可以把Firefox的快捷键设置为Emacs的快捷键.所以我可以不用鼠标浏览网页.
+</p>
+</div>
+</div>
+<div id="outline-container-org0ba9a67" class="outline-3">
+<h4 id="org0ba9a67">Shell</h4>
+<div class="outline-text-3" id="text-org0ba9a67">
+<p>
+我用bash,在我的.bashrc中有如下一行,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">export HISTSIZE=200000
+</code></pre>
+
+</div>
+<p>
+确保我输入的所有命令都不会丢失,我偏爱命令行软件,但是记命令会消耗我很多脑细胞,所以我让shell替我记住.我只要记住按Ctrl+R可搜索历史就好了.
+</p>
+
+<p>
+其他有用的选项还很多.这只是个例子,说明Bash是可编程的.
+</p>
+</div>
+</div>
+<div id="outline-container-org37176e0" class="outline-3">
+<h4 id="org37176e0">桌面</h4>
+<div class="outline-text-3" id="text-org37176e0">
+<p>
+Gnome是不考虑,用轻量级的<a href="http://i3wm.org/">i3</a>.
+</p>
+
+<p>
+i3是平铺桌面(例如左窗口写代码,右窗口看PDF文档),学习曲线低.
+</p>
+</div>
+</div>
+<div id="outline-container-org594818b" class="outline-3">
+<h4 id="org594818b">其他</h4>
+<div class="outline-text-3" id="text-org594818b">
+<ul class="org-ul">
+<li>联网自己写脚本,因为GUI工具如wicd之类的依赖多</li>
+<li>听音乐用命令行工具mpd和mpc</li>
+<li>播放视频用<a href="http://www.mplayerhq.hu">mplayer</a>(命令行),等等.</li>
+<li>硬盘清理用bleachbit(清理常用软件产生的临时文件),localepurge(删除无用的多国语言),ncdu(检查硬盘占用)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2424cb2" class="outline-2">
+<h3 id="org2424cb2">软件使用也需维护</h3>
+<div class="outline-text-2" id="text-org2424cb2">
+<p>
+安装软件在包管理系统的帮助下很简单.麻烦的是最新软件有时候不稳定,这通常是因为软件的配置文件更新引起的.
+</p>
+</div>
+<div id="outline-container-org524cc03" class="outline-3">
+<h4 id="org524cc03">将/etc目录下的默认配置文件备份</h4>
+<div class="outline-text-3" id="text-org524cc03">
+<p>
+Linux的软件默认配置文件在/etc/目录下.
+我使用分布式版本控制软件<a href="http://git-scm.com/">git</a>管理/etc目录,分布式版本控制系统好处很多,最大好处就是数据到处有完整备份,非常安全.具体细节请参考<a href="http://en.wikipedia.org/wiki/Distributed_revision_control_system">wikipedia</a>.
+</p>
+
+<p>
+在Linux上更新完系统或者安装最新软件包后,可以考虑手动将/etc目录下的文件用git备份.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo git add /etc/
+sudo git commit -am "backup"
+</code></pre>
+
+</div>
+
+<p>
+一旦某软件不正常,可检查其/etc下默认配置文件的修改纪录,将配置文件恢复到上一正常版本.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo git log /etc/mysql/my.cnf #check history
+sudo git checkout commit_ref(version) /etc/mysql/my.cnf #restoren file
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2d9afbf" class="outline-3">
+<h4 id="org2d9afbf">将用户目录下的用户定制配置文件备份</h4>
+<div class="outline-text-3" id="text-org2d9afbf">
+<p>
+我也用git将配置文件(在/home/username/下)备份到<a href="http://www.github.com">github</a>的服务器上.这里必须用第三方服务器同步配置,因为我使用多台电脑.
+</p>
+
+<p>
+具体操作不展开了.
+</p>
+</div>
+</div>
+<div id="outline-container-org8424ad3" class="outline-3">
+<h4 id="org8424ad3">将软件版本降级</h4>
+<div class="outline-text-3" id="text-org8424ad3">
+<p>
+最新版本的软件可能不稳定,这时降级是必要的.
+</p>
+
+<p>
+对于Arch Linux来说很简单,请参考<a href="https://wiki.archlinux.org/index.php/Downgrading_Packages">Archwiki</a>,实际上很简单,安装名为downgrade的软件,然后让它干所有的体力活就行了.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">packer downgrade
+</code></pre>
+
+</div>
+
+<p>
+对于其他主流Linux发行版如Centos或者Ubuntu来说,由于测试周期长,不会有不稳定的问题.
+</p>
+
+<p>
+小众版本(我用Gentoo Linux)策略是不随意用最新版本的软件.
+</p>
+</div>
+</div>
+<div id="outline-container-org9c94b71" class="outline-3">
+<h4 id="org9c94b71">云备份</h4>
+<div class="outline-text-3" id="text-org9c94b71">
+<p>
+多媒体文件用云备份服务更好,我推荐<a href="https://www.getdropbox.com/referrals/NTg1ODg2Mjk">Dropbox</a>.
+</p>
+
+<p>
+顺便说一下,国内的服务不要用,安全原因,不言自明.
+</p>
+</div>
+</div>
+<div id="outline-container-orge647611" class="outline-3">
+<h4 id="orge647611">备份操作系统</h4>
+<div class="outline-text-3" id="text-orge647611">
+<p>
+不用经常作,又有云备份,又有分布式版本控制系统,怕什么.
+</p>
+
+<p>
+备份整个硬盘是用<a href="http://clonezilla.org/">Clonezilla</a>,只是备份操作系统的话用以下命令,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">tar zcvpf mylinux.tgz --exclude=/proc/* --exclude=/lost+found --exclude='mylinux.tgz' --exclude=/mnt/* --exclude=/home/username/* --exclude=/sys/* /
+</code></pre>
+
+</div>
+<p>
+我建议用前者,因为省事.
+</p>
+
+<p>
+假设你采用clonezilla备份操作系统,我建议将/目录(操作系统目录)和/home目录放在两个分区内.
+</p>
+
+<p>
+如果能够按照少而精的原则选软件的话,操作系统分区不需很大(8G足够了),目前我所占空间控制在3G左右(例子比较极端,因我netbook只有4G硬盘),这样clonezilla的操作就很快.
+</p>
+</div>
+</div>
+<div id="outline-container-org8b88607" class="outline-3">
+<h4 id="org8b88607">阅读官方文档</h4>
+<div class="outline-text-3" id="text-org8b88607">
+<p>
+阅读官方和社区文档.
+</p>
+
+<p>
+Ubuntu社区的特点用户多,少见的bug一般都会在该社区报告.缺点是其文档深度不够.
+</p>
+
+<p>
+Arch Linux和Gentoo Linux的特点是用户一般水准较高,所以文档技术含量很高.
+</p>
+</div>
+</div>
+<div id="outline-container-org1b777a4" class="outline-3">
+<h4 id="org1b777a4">虚拟机的用处</h4>
+<div class="outline-text-3" id="text-org1b777a4">
+<p>
+我虚拟机软件使用VirtualBox,虚拟机为Windows XP,该操作系统我会定期更新安全补丁.软件只安装了IE和firefox.该操作系统我只用来操作网络银行.每次操作完毕,我会重置虚拟机状态到操作前的snapshot.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd916171" class="outline-2">
+<h3 id="orgd916171">常用软件的诊断修复</h3>
+<div class="outline-text-2" id="text-orgd916171">
+<p>
+即使用了上述做法,一年中也会有一次倒霉.就是某个版本软件出问题了.没人能帮忙,不能降级,改配置也没用,也没有可用的错误信息.
+</p>
+
+<p>
+问题看起来很难,事实上5分钟就搞定.这往往是因为依赖的第三方库的版本出问题了.
+</p>
+
+<p>
+比如说firefox不能启动,运行如下命令调试,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">strace -o err.txt firefox
+</code></pre>
+
+</div>
+<p>
+读一下err.txt就可以知道是哪个库出问题了.不需要任何编程知识的,猜加google就可以了.
+</p>
+
+<p>
+知道哪个库文件出问题了(保险起见,ldd firefox确认一下).比如/usr/lib/libpng.so.14找不到,简单的解决办法是用另一个版本的库文件代替.
+</p>
+
+<p>
+如果/usr/lib/libpng.so.15是存在的,我们可以用该库顶替libpng.so.14,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo ln -s /usr/lib/libpng.so.15 /usr/lib/libpng.so.14
+</code></pre>
+
+</div>
+<p>
+通常这样就行了.
+</p>
+
+<p>
+万一冒名顶替不行,我们就必须根据丢失的库文件查找需要安装的软件包.
+</p>
+
+<p>
+以Arch Linux为例(其他发行版也有类似功能):
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">pkgfile libpng
+</code></pre>
+
+</div>
+<p>
+pkgfile属于软件包pkgtools,所以你必须安装pkgtools,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">packer -S pkgtools-git
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org50b2b7a" class="outline-2">
+<h3 id="org50b2b7a">系统启动失败的修复</h3>
+<div class="outline-text-2" id="text-org50b2b7a">
+<p>
+解决方法很简单,用常见的Linux启动光盘启动,然后chroot,其作用是以指定目录作为操作系统根目录(root directory),然后以此根目录为基准建立一个新的环境.
+</p>
+
+<p>
+细节请参考<a href="https://wiki.archlinux.org/index.php/Change_Root">https://wiki.archlinux.org/index.php/Change_Root</a>.
+</p>
+
+<p>
+比如说我升级kernel后系统启动失败,而老的kernel没有备份,我可以光盘启动电脑,然后chroot,再使用上文所提的工具升级或者降级kernel.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6d5f6b5" class="outline-2">
+<h3 id="org6d5f6b5">书籍推荐</h3>
+<div class="outline-text-2" id="text-org6d5f6b5">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">书籍</th>
+<th scope="col" class="org-left">评论</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">
+<a href="http://www.tldp.org/LDP/abs/html/index.html">Advanced Bash-Scripting Guide</a> by Mendel Cooper</td>
+<td class="org-left">经典,其.bashrc模板很有价值</td>
+</tr>
+<tr>
+<td class="org-left"><a href="http://www.catb.org/esr/writings/taoup/">The Art of Unix Programming by Eric Steven Raymond</a></td>
+<td class="org-left">开拓思路,当八卦看,和编程关系不大</td>
+</tr>
+<tr>
+<td class="org-left"><a href="http://debian-handbook.info/browse/stable/">The Debian Administrator's Handbook</a></td>
+<td class="org-left">很好.捡有用的章节看</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org8043120" class="outline-2">
+<h3 id="org8043120">常见问题</h3>
+<div class="outline-text-2" id="text-org8043120">
+<p>
+等你的问题了.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8f2f90e" class="outline-2">
+<h3 id="org8f2f90e">联系我</h3>
+<div class="outline-text-2" id="text-org8f2f90e">
+<p>
+这是我的<a href="https://twitter.com/#!/chen_bin">twitter</a>和<a href="https://plus.google.com/110954683162859211810">google plus</a>,也可以通过我的email&lt;chenbin DOT sh AT GMAIL DOT COM&gt;联系我.
+</p>
+
+<p>
+我的主力博客为<a href="http://blog.binchen.org">http://blog.binchen.org</a>.
+</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="yong-mintty-zuo-wei-cyginw-de-console.html" rel="prev" title="用mintty作为cygwin的console">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="one-line-linux-cli-to-remove-span-tag.html" rel="next" title="One-line Linux CLI to remove span tag">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/linux-zhuo-mian-shi-yong-zhi-dao.html",
+        disqus_title="Linux\u684c\u9762\u4f7f\u7528\u4e4b\u9053",
+        disqus_identifier="cache/posts/linux-zhuo-mian-shi-yong-zhi-dao.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

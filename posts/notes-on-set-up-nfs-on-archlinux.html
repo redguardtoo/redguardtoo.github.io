@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Notes on set up nfs on ArchLinux | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Notes on set up nfs on ArchLinux">
+<meta property="og:url" content="http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux.html">
+<meta property="og:description" content="Key points    see Redhat documenation, best doc on exportfs  Understanding Subnet mask and essential Subnet mask  sudo exportfs -r to reload /etc/exports  sudo exportfs -v to see current nfs exports  ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-02-07T17:24:09Z">
+<meta property="article:tag" content="archlinux">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="linux">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Notes on set up nfs on ArchLinux</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2014-02-07T17:24:09+00:00">2014-02-07 17:24</time>
+            
+
+            
+          |  
+        <a href="notes-on-set-up-nfs-on-archlinux.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/archlinux.html" rel="tag">archlinux</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p></p>
+<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Key points</h4> <div class="outline-text-3" id="text-1">  <ul>
+<li>see <a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html">Redhat documenation</a>, best doc on exportfs </li> <li>
+<a href="http://superuser.com/questions/492989/understanding-subnet-mask">Understanding Subnet mask</a> and <a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask">essential Subnet mask</a> </li> <li>
+<code>sudo exportfs -r</code> to reload /etc/exports </li> <li>
+<code>sudo exportfs -v</code> to see current nfs exports </li> <li>content of /etc/exports: </li> </ul>
+<pre class="prettyprint ">
+
+/srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
+</pre>
+
+<p></p>
+<ul>
+<li>check <a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html">optimizatioin tips</a> </li> <li>
+<code>man 5 exports</code> for the documentation of /etc/exports </li> <li>
+<a href="https://www.serverstack.com/blog/2012/11/21/debugging-nfs-file-access-on-server-and-client-side/">Debugging NFS File Access on Server and Client Side</a> </li> </ul>
+<pre class="prettyprint ">
+
+# turn on the log
+
+sudo rpcdebug -m nfsd -s proc
+
+# turn off the log
+</pre>
+
+<p></p>
+<ul>
+<li>then <code>sudo tail -f /var/log/messages.log</code> </li> <li>Basically you need <code>sudo systemctl enable syslog-ng.service</code> to enable system log before you use rpcdebug </li> </ul>
+</div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Summary</h4> <div class="outline-text-3" id="text-2">  <p>On server side: </p>   
+<pre class="prettyprint ">
+
+sudo exportfs
+
+# got output like:
+
+# /srv/nfs4/z   192.168.0.0/16
+</pre>
+
+<p></p>
+<p> Then on client side: </p>   
+<pre class="prettyprint ">
+
+# 131072 is 128K
+
+sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
+</pre>
+
+<p></p>
+</div> </div> </div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="git-merge-in-command-line.html" rel="prev" title="Git merge in command line">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2.html" rel="next" title="How to do HTML/Javascript REPL (Read–eval–print loop) with NO server set up">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux.html",
+        disqus_title="Notes on set up nfs on ArchLinux",
+        disqus_identifier="cache/posts/notes-on-set-up-nfs-on-archlinux.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

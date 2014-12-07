@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about mode)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/mode.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Enhance emacs-git-gutter with ivy-mode</title><link>http://blog.binchen.org/posts/enhance-emacs-git-gutter-with-ivy-mode.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-07-14 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-09-23 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="https://github.com/syohex/emacs-git-gutter"&gt;emacs-git-gutter&lt;/a&gt; shows an icon in the gutter area. The icon indicating whether a line has been inserted, modified or deleted in Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+I usually use &lt;code&gt;M-x git-gutter:previous-hunk&lt;/code&gt; or &lt;code&gt;M-x git-gutter:next-hunk&lt;/code&gt; to navigate between the hunks.
+&lt;/p&gt;
+
+&lt;p&gt;
+But if there are too many hunks in one file, &lt;a href="https://github.com/abo-abo/swiper"&gt;ivy-mode&lt;/a&gt; is more efficient:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'ivy)
+(require 'git-gutter)
+
+(defun my-reshape-git-gutter (gutter)
+  "Re-shape gutter for `ivy-read'."
+  (let* ((linenum-start (aref gutter 3))
+         (linenum-end (aref gutter 4))
+         (target-line "")
+         (target-linenum 1)
+         (tmp-line "")
+         (max-line-length 0))
+    (save-excursion
+      (while (&amp;lt;= linenum-start linenum-end)
+        (goto-line linenum-start)
+        (setq tmp-line (replace-regexp-in-string "^[ \t]*" ""
+                                                 (buffer-substring (line-beginning-position)
+                                                                   (line-end-position))))
+        (when (&amp;gt; (length tmp-line) max-line-length)
+          (setq target-linenum linenum-start)
+          (setq target-line tmp-line)
+          (setq max-line-length (length tmp-line)))
+
+        (setq linenum-start (1+ linenum-start))))
+    ;; build (key . linenum-start)
+    (cons (format "%s %d: %s"
+                  (if (eq 'deleted (aref gutter 1)) "-" "+")
+                  target-linenum target-line)
+          target-linenum)))
+
+(defun my-goto-git-gutter ()
+  (interactive)
+  (if git-gutter:diffinfos
+      (ivy-read "git-gutters:"
+                (mapcar 'my-reshape-git-gutter git-gutter:diffinfos)
+                :action (lambda (e)
+                          ;; ivy9+ keep `(car e)'
+                          ;; ivy8- strip the `(car e)'
+                          ;; we handle both data structure
+                          (unless (numberp e) (setq e (cdr e)))
+                          (goto-line e)))
+    (message "NO git-gutters!")))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot:
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>gutter</category><category>ivy</category><category>mode</category><guid>http://blog.binchen.org/posts/enhance-emacs-git-gutter-with-ivy-mode.html</guid><pubDate>Thu, 14 Jul 2016 13:35:32 GMT</pubDate></item><item><title>Turn off linum-mode when file is too big</title><link>http://blog.binchen.org/posts/turn-off-linum-mode-when-file-is-too-big.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-07-14 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-08-07 Sun&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+It's well known that linum-mode slows Emacs when the file contains thousands of lines.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the fix,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun buffer-too-big-p ()
+  (or (&amp;gt; (buffer-size) (* 5000 80))
+      (&amp;gt; (line-number-at-pos (point-max)) 5000)))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            ;; turn off `linum-mode' when there are more than 5000 lines
+            (if (buffer-too-big-p) (linum-mode -1))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Though &lt;a href="https://elpa.gnu.org/packages/nlinum.html"&gt;nlinum-mode&lt;/a&gt; has performance, I still stick to linum-mode because &lt;a href="https://github.com/syohex/emacs-git-gutter"&gt;git-gutter&lt;/a&gt; only supports linum-mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can check &lt;a href="https://github.com/syohex/emacs-git-gutter/issues/124"&gt;the interesting discussion&lt;/a&gt; about git-gutter/linum-mode/nlinum-mode. Syohei Yoshida made git-gutter 95% functional when linum-mode off.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linum</category><category>mode</category><category>wc</category><guid>http://blog.binchen.org/posts/turn-off-linum-mode-when-file-is-too-big.html</guid><pubDate>Thu, 14 Jul 2016 13:21:02 GMT</pubDate></item><item><title>Notes for js3-mode in emacs</title><link>http://blog.binchen.org/posts/notes-for-js3-mode-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Mark: 3 =&amp;gt; cool, 2 =&amp;gt; useful, 1 =&amp;gt; rarely used &lt;/p&gt;&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt; &lt;colgroup&gt;&lt;col class="left"&gt;&lt;col class="left"&gt;&lt;col class="left"&gt;&lt;col class="right"&gt; &lt;/colgroup&gt; &lt;thead&gt; &lt;tr&gt;&lt;th scope="col" class="left"&gt;Function&lt;/th&gt;&lt;th scope="col" class="left"&gt;Hotkey&lt;/th&gt;&lt;th scope="col" class="left"&gt;Comment&lt;/th&gt;&lt;th scope="col" class="right"&gt;Mark&lt;/th&gt;&lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt;&lt;td class="left"&gt;js3-mode-toggle-hide-functions&lt;/td&gt;&lt;td class="left"&gt;C-c C-f&lt;/td&gt;&lt;td class="left"&gt;show/hide ALL functions&lt;/td&gt;&lt;td class="right"&gt;2&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;js3-narrow-to-defun&lt;/td&gt;&lt;td class="left"&gt;C-x n d&lt;/td&gt;&lt;td class="left"&gt;(C-x n w to wide)&lt;/td&gt;&lt;td class="right"&gt;3&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;js3-mode-display-warnings-and-errors&lt;/td&gt;&lt;td class="left"&gt;&lt;/td&gt;&lt;td class="left"&gt;&lt;/td&gt;&lt;td class="right"&gt;1&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;js-toggle-element&lt;/td&gt;&lt;td class="left"&gt;C-c C-o&lt;/td&gt;&lt;td class="left"&gt;show/hide code snippet between {}&lt;/td&gt;&lt;td class="right"&gt;3&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;js3-next-error&lt;/td&gt;&lt;td class="left"&gt;M-g M-n or C-x `&lt;/td&gt;&lt;td class="left"&gt;&lt;/td&gt;&lt;td class="right"&gt;1&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;js3-beginning-of-defun&lt;/td&gt;&lt;td class="left"&gt;&lt;/td&gt;&lt;td class="left"&gt;jump to the beginning of function&lt;/td&gt;&lt;td class="right"&gt;2&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;js3-end-of-defun&lt;/td&gt;&lt;td class="left"&gt;&lt;/td&gt;&lt;td class="left"&gt;jump to the end of function&lt;/td&gt;&lt;td class="right"&gt;2&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;js3-mark-defun&lt;/td&gt;&lt;td class="left"&gt;C-M-h&lt;/td&gt;&lt;td class="left"&gt;Select the function body&lt;/td&gt;&lt;td class="right"&gt;2&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;js3-enter-mirror-mode&lt;/td&gt;&lt;td class="left"&gt;&lt;/td&gt;&lt;td class="left"&gt;Automatically insert [],()…&lt;/td&gt;&lt;td class="right"&gt;2&lt;/td&gt;&lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt;  &lt;/div&gt;</description><category>emacs</category><category>en</category><category>javascript</category><category>js3</category><category>mode</category><guid>http://blog.binchen.org/posts/notes-for-js3-mode-in-emacs.html</guid><pubDate>Fri, 10 Feb 2012 18:21:00 GMT</pubDate></item></channel></rss>

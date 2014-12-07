@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 1) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-1.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/multiple-ssh-private-keys.html">multiple ssh private keys</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2011-06-24T12:38:00+00:00">2011-06-24 12:38</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/multiple-ssh-private-keys.html#disqus_thread" data-disqus-identifier="cache/posts/multiple-ssh-private-keys.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/ssh.html" rel="tag">ssh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>See <a href="http://www.karan.org/blog/index.php/2009/08/25/multiple-ssh-private-keys">http://www.karan.org/blog/index.php/2009/08/25/multiple-ssh-private-keys</a> </p>   <pre class="src src-sh">chown my_user_name ~/.ssh/config
+</pre>   <p> And see <a href="http://help.github.com/multiple-ssh-keys/">http://help.github.com/multiple-ssh-keys/</a> </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/one-line-linux-cli-to-remove-span-tag.html">One-line Linux CLI to remove span tag</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2011-05-12T15:00:00+00:00">2011-05-12 15:00</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/one-line-linux-cli-to-remove-span-tag.html#disqus_thread" data-disqus-identifier="cache/posts/one-line-linux-cli-to-remove-span-tag.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/blog.html" rel="tag">blog</a></li>
+           <li><a class="tag p-category" href="categories/cms.html" rel="tag">cms</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Some CMS are too smart to handle &lt;span&gt; tag properly. </p> <p> I have to copy the content into clipboard, remove the span tag, and paste it back into CMS. </p> <p> Actually all the trouble could be saved by one line linux command, </p>   <pre class="src src-sh">xclip -o|sed <span style="color:#802a55;">'s%&lt;/<em>span[^&gt;]</em>&gt;%%g'</span>|xclip -selection c
+</pre>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/linux-zhuo-mian-shi-yong-zhi-dao.html">Linux桌面使用之道</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2011-05-08T18:08:00+00:00">2011-05-08 18:08</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/linux-zhuo-mian-shi-yong-zhi-dao.html#disqus_thread" data-disqus-identifier="cache/posts/linux-zhuo-mian-shi-yong-zhi-dao.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/desktop.html" rel="tag">desktop</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/software.html" rel="tag">software</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+作者: 陈斌(redguardtoo)
+</p>
+
+<p>
+注意: 我会长期维护本文,请参考下面的更新时间
+</p>
+
+<p>
+更新时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-09 Sun&gt;</span></span>
+</p>
+
+<p>
+原创时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2011-05-08 Sun&gt;</span></span>
+</p>
+
+<p>
+这是为有志于成为高手的中级Linux用户而写的入门指导.
+</p>
+
+<div id="outline-container-orgd511737" class="outline-2">
+<h3 id="orgd511737">哲学</h3>
+<div class="outline-text-2" id="text-orgd511737">
+</div>
+<div id="outline-container-org93078c5" class="outline-3">
+<h4 id="org93078c5">长期投资</h4>
+<div class="outline-text-3" id="text-org93078c5">
+<p>
+软件对我而言是长期投资.所以我会花很多时间学习软件的快捷键(快捷键长期来说操作比鼠标高效),那种只能用鼠标操作的软件对我来说就是"坏"软件.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd758f71" class="outline-3">
+<h4 id="orgd758f71">理性思维</h4>
+<div class="outline-text-3" id="text-orgd758f71">
+<p>
+以文件管理器来说,在Windows平台下我长期使用并热爱Total Commander,在Linux下平台下也有几款文件管理器在界面和功能上和Total Commander上非常接近,自然从感情上讲我会爱屋及乌.但是我最后还是选择了以Emacs作为主要的文件管理器,以丑陋的Midnight Commander为辅助,因我已确定选择软件的总的原则是尽可能用少的的软件做尽可能多的事.具体说来就是以Emacs做任何事,如果一定要用其他软件辅助Emacs,快捷键也应是Emacs的.Midnight Commander符合该条件
+</p>
+</div>
+</div>
+<div id="outline-container-org0bb000a" class="outline-3">
+<h4 id="org0bb000a">科学方法</h4>
+<div class="outline-text-3" id="text-org0bb000a">
+<p>
+细节见后文,我要强调的是我的工具和方法都是有高手验证过,有官方文档支持.对我而言,科学的含义,就是前人反复验证过的,过去100%成功也许能保证现在将来可能成功(因工具环境不断在变化,所以只是有可能).除此以外都不叫科学.
+</p>
+</div>
+</div>
+<div id="outline-container-org499e132" class="outline-3">
+<h4 id="org499e132">以人为本</h4>
+<div class="outline-text-3" id="text-org499e132">
+<p>
+在后文我会列出一些筛选软件的方法.也会推荐一些软件.但你决不要认为只要用了这些软件或者记住了我的方法就能成为高手了.这只是敲门砖而已.
+</p>
+
+<p>
+实际上我推荐的不是软件,而是人.这些软件和用户和开发者是一个精英荟萃的圈子.重要的是跟对人.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org028464a" class="outline-2">
+<h3 id="org028464a">少而精</h3>
+<div class="outline-text-2" id="text-org028464a">
+<p>
+软件数量少,品质高,功能强,依赖小,界面通用.
+</p>
+</div>
+<div id="outline-container-org894ed64" class="outline-3">
+<h4 id="org894ed64">数量少</h4>
+<div class="outline-text-3" id="text-org894ed64">
+<p>
+很重要,只有用的软件少(但是完成工作不少),才能有精力精通.
+</p>
+
+<p>
+软件少的另一好处是维护省心,例如找出多个软件快捷键冲突和在安装软件数量有关系.
+</p>
+</div>
+</div>
+<div id="outline-container-org3959f91" class="outline-3">
+<h4 id="org3959f91">品质高</h4>
+<div class="outline-text-3" id="text-org3959f91">
+<p>
+实质很简单,就是:
+</p>
+<ul class="org-ul">
+<li>久经考验(例如Emacs的开发历史有35年以上)</li>
+<li>聪明人认同</li>
+</ul>
+<p>
+何为久经考验,何为聪明人,是可找出客观指标.指标越严格,筛选结果就越少.
+</p>
+</div>
+</div>
+<div id="outline-container-orge70c702" class="outline-3">
+<h4 id="orge70c702">功能强</h4>
+<div class="outline-text-3" id="text-orge70c702">
+<p>
+原谅我又用Emacs举例,它可以看网页,收邮件,写程序,做笔记,写博客.
+</p>
+
+<p>
+功能强的终极境界就是提供了一个无所不能的可编程平台.
+</p>
+</div>
+</div>
+<div id="outline-container-orge5bb362" class="outline-3">
+<h4 id="orge5bb362">依赖小</h4>
+<div class="outline-text-3" id="text-orge5bb362">
+<p>
+例如,命令行软件不依赖于QT,GTK之类图形界面库,安装包小很多,运行时消耗内存也小,启动快.
+</p>
+</div>
+</div>
+<div id="outline-container-org88d0cba" class="outline-3">
+<h4 id="org88d0cba">界面通用</h4>
+<div class="outline-text-3" id="text-org88d0cba">
+<p>
+例如,我写程序用emacs,一般操作用bash shell,上网用Firefox,但是通过适当的设置(Firefox需要安装插件keysnail,其他软件只要用最新版即可),他们的快捷键都是Emacs的.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org323ca67" class="outline-2">
+<h3 id="org323ca67">软件推荐</h3>
+<div class="outline-text-2" id="text-org323ca67">
+</div>
+<div id="outline-container-orgb00e90a" class="outline-3">
+<h4 id="orgb00e90a">编辑器</h4>
+<div class="outline-text-3" id="text-orgb00e90a">
+<p>
+我用Emacs,考虑到它可以做任何事,可以认为它是轻量级的.
+</p>
+
+<p>
+Vim也用,万不得已用nano,结束了.
+</p>
+</div>
+</div>
+<div id="outline-container-orge2ef5b2" class="outline-3">
+<h4 id="orge2ef5b2">浏览器</h4>
+<div class="outline-text-3" id="text-orge2ef5b2">
+<p>
+Firefox.它是自由软件,所以有很多顶尖Geek为其写插件.例如<a href="https://github.com/mooz/keysnail/wiki">keysnail</a>可以把Firefox的快捷键设置为Emacs的快捷键.所以我可以不用鼠标浏览网页.
+</p>
+</div>
+</div>
+<div id="outline-container-org0ba9a67" class="outline-3">
+<h4 id="org0ba9a67">Shell</h4>
+<div class="outline-text-3" id="text-org0ba9a67">
+<p>
+我用bash,在我的.bashrc中有如下一行,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">export HISTSIZE=200000
+</code></pre>
+
+</div>
+<p>
+确保我输入的所有命令都不会丢失,我偏爱命令行软件,但是记命令会消耗我很多脑细胞,所以我让shell替我记住.我只要记住按Ctrl+R可搜索历史就好了.
+</p>
+
+<p>
+其他有用的选项还很多.这只是个例子,说明Bash是可编程的.
+</p>
+</div>
+</div>
+<div id="outline-container-org37176e0" class="outline-3">
+<h4 id="org37176e0">桌面</h4>
+<div class="outline-text-3" id="text-org37176e0">
+<p>
+Gnome是不考虑,用轻量级的<a href="http://i3wm.org/">i3</a>.
+</p>
+
+<p>
+i3是平铺桌面(例如左窗口写代码,右窗口看PDF文档),学习曲线低.
+</p>
+</div>
+</div>
+<div id="outline-container-org594818b" class="outline-3">
+<h4 id="org594818b">其他</h4>
+<div class="outline-text-3" id="text-org594818b">
+<ul class="org-ul">
+<li>联网自己写脚本,因为GUI工具如wicd之类的依赖多</li>
+<li>听音乐用命令行工具mpd和mpc</li>
+<li>播放视频用<a href="http://www.mplayerhq.hu">mplayer</a>(命令行),等等.</li>
+<li>硬盘清理用bleachbit(清理常用软件产生的临时文件),localepurge(删除无用的多国语言),ncdu(检查硬盘占用)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2424cb2" class="outline-2">
+<h3 id="org2424cb2">软件使用也需维护</h3>
+<div class="outline-text-2" id="text-org2424cb2">
+<p>
+安装软件在包管理系统的帮助下很简单.麻烦的是最新软件有时候不稳定,这通常是因为软件的配置文件更新引起的.
+</p>
+</div>
+<div id="outline-container-org524cc03" class="outline-3">
+<h4 id="org524cc03">将/etc目录下的默认配置文件备份</h4>
+<div class="outline-text-3" id="text-org524cc03">
+<p>
+Linux的软件默认配置文件在/etc/目录下.
+我使用分布式版本控制软件<a href="http://git-scm.com/">git</a>管理/etc目录,分布式版本控制系统好处很多,最大好处就是数据到处有完整备份,非常安全.具体细节请参考<a href="http://en.wikipedia.org/wiki/Distributed_revision_control_system">wikipedia</a>.
+</p>
+
+<p>
+在Linux上更新完系统或者安装最新软件包后,可以考虑手动将/etc目录下的文件用git备份.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo git add /etc/
+sudo git commit -am "backup"
+</code></pre>
+
+</div>
+
+<p>
+一旦某软件不正常,可检查其/etc下默认配置文件的修改纪录,将配置文件恢复到上一正常版本.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo git log /etc/mysql/my.cnf #check history
+sudo git checkout commit_ref(version) /etc/mysql/my.cnf #restoren file
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2d9afbf" class="outline-3">
+<h4 id="org2d9afbf">将用户目录下的用户定制配置文件备份</h4>
+<div class="outline-text-3" id="text-org2d9afbf">
+<p>
+我也用git将配置文件(在/home/username/下)备份到<a href="http://www.github.com">github</a>的服务器上.这里必须用第三方服务器同步配置,因为我使用多台电脑.
+</p>
+
+<p>
+具体操作不展开了.
+</p>
+</div>
+</div>
+<div id="outline-container-org8424ad3" class="outline-3">
+<h4 id="org8424ad3">将软件版本降级</h4>
+<div class="outline-text-3" id="text-org8424ad3">
+<p>
+最新版本的软件可能不稳定,这时降级是必要的.
+</p>
+
+<p>
+对于Arch Linux来说很简单,请参考<a href="https://wiki.archlinux.org/index.php/Downgrading_Packages">Archwiki</a>,实际上很简单,安装名为downgrade的软件,然后让它干所有的体力活就行了.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">packer downgrade
+</code></pre>
+
+</div>
+
+<p>
+对于其他主流Linux发行版如Centos或者Ubuntu来说,由于测试周期长,不会有不稳定的问题.
+</p>
+
+<p>
+小众版本(我用Gentoo Linux)策略是不随意用最新版本的软件.
+</p>
+</div>
+</div>
+<div id="outline-container-org9c94b71" class="outline-3">
+<h4 id="org9c94b71">云备份</h4>
+<div class="outline-text-3" id="text-org9c94b71">
+<p>
+多媒体文件用云备份服务更好,我推荐<a href="https://www.getdropbox.com/referrals/NTg1ODg2Mjk">Dropbox</a>.
+</p>
+
+<p>
+顺便说一下,国内的服务不要用,安全原因,不言自明.
+</p>
+</div>
+</div>
+<div id="outline-container-orge647611" class="outline-3">
+<h4 id="orge647611">备份操作系统</h4>
+<div class="outline-text-3" id="text-orge647611">
+<p>
+不用经常作,又有云备份,又有分布式版本控制系统,怕什么.
+</p>
+
+<p>
+备份整个硬盘是用<a href="http://clonezilla.org/">Clonezilla</a>,只是备份操作系统的话用以下命令,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">tar zcvpf mylinux.tgz --exclude=/proc/* --exclude=/lost+found --exclude='mylinux.tgz' --exclude=/mnt/* --exclude=/home/username/* --exclude=/sys/* /
+</code></pre>
+
+</div>
+<p>
+我建议用前者,因为省事.
+</p>
+
+<p>
+假设你采用clonezilla备份操作系统,我建议将/目录(操作系统目录)和/home目录放在两个分区内.
+</p>
+
+<p>
+如果能够按照少而精的原则选软件的话,操作系统分区不需很大(8G足够了),目前我所占空间控制在3G左右(例子比较极端,因我netbook只有4G硬盘),这样clonezilla的操作就很快.
+</p>
+</div>
+</div>
+<div id="outline-container-org8b88607" class="outline-3">
+<h4 id="org8b88607">阅读官方文档</h4>
+<div class="outline-text-3" id="text-org8b88607">
+<p>
+阅读官方和社区文档.
+</p>
+
+<p>
+Ubuntu社区的特点用户多,少见的bug一般都会在该社区报告.缺点是其文档深度不够.
+</p>
+
+<p>
+Arch Linux和Gentoo Linux的特点是用户一般水准较高,所以文档技术含量很高.
+</p>
+</div>
+</div>
+<div id="outline-container-org1b777a4" class="outline-3">
+<h4 id="org1b777a4">虚拟机的用处</h4>
+<div class="outline-text-3" id="text-org1b777a4">
+<p>
+我虚拟机软件使用VirtualBox,虚拟机为Windows XP,该操作系统我会定期更新安全补丁.软件只安装了IE和firefox.该操作系统我只用来操作网络银行.每次操作完毕,我会重置虚拟机状态到操作前的snapshot.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd916171" class="outline-2">
+<h3 id="orgd916171">常用软件的诊断修复</h3>
+<div class="outline-text-2" id="text-orgd916171">
+<p>
+即使用了上述做法,一年中也会有一次倒霉.就是某个版本软件出问题了.没人能帮忙,不能降级,改配置也没用,也没有可用的错误信息.
+</p>
+
+<p>
+问题看起来很难,事实上5分钟就搞定.这往往是因为依赖的第三方库的版本出问题了.
+</p>
+
+<p>
+比如说firefox不能启动,运行如下命令调试,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">strace -o err.txt firefox
+</code></pre>
+
+</div>
+<p>
+读一下err.txt就可以知道是哪个库出问题了.不需要任何编程知识的,猜加google就可以了.
+</p>
+
+<p>
+知道哪个库文件出问题了(保险起见,ldd firefox确认一下).比如/usr/lib/libpng.so.14找不到,简单的解决办法是用另一个版本的库文件代替.
+</p>
+
+<p>
+如果/usr/lib/libpng.so.15是存在的,我们可以用该库顶替libpng.so.14,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo ln -s /usr/lib/libpng.so.15 /usr/lib/libpng.so.14
+</code></pre>
+
+</div>
+<p>
+通常这样就行了.
+</p>
+
+<p>
+万一冒名顶替不行,我们就必须根据丢失的库文件查找需要安装的软件包.
+</p>
+
+<p>
+以Arch Linux为例(其他发行版也有类似功能):
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">pkgfile libpng
+</code></pre>
+
+</div>
+<p>
+pkgfile属于软件包pkgtools,所以你必须安装pkgtools,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">packer -S pkgtools-git
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org50b2b7a" class="outline-2">
+<h3 id="org50b2b7a">系统启动失败的修复</h3>
+<div class="outline-text-2" id="text-org50b2b7a">
+<p>
+解决方法很简单,用常见的Linux启动光盘启动,然后chroot,其作用是以指定目录作为操作系统根目录(root directory),然后以此根目录为基准建立一个新的环境.
+</p>
+
+<p>
+细节请参考<a href="https://wiki.archlinux.org/index.php/Change_Root">https://wiki.archlinux.org/index.php/Change_Root</a>.
+</p>
+
+<p>
+比如说我升级kernel后系统启动失败,而老的kernel没有备份,我可以光盘启动电脑,然后chroot,再使用上文所提的工具升级或者降级kernel.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6d5f6b5" class="outline-2">
+<h3 id="org6d5f6b5">书籍推荐</h3>
+<div class="outline-text-2" id="text-org6d5f6b5">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">书籍</th>
+<th scope="col" class="org-left">评论</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">
+<a href="http://www.tldp.org/LDP/abs/html/index.html">Advanced Bash-Scripting Guide</a> by Mendel Cooper</td>
+<td class="org-left">经典,其.bashrc模板很有价值</td>
+</tr>
+<tr>
+<td class="org-left"><a href="http://www.catb.org/esr/writings/taoup/">The Art of Unix Programming by Eric Steven Raymond</a></td>
+<td class="org-left">开拓思路,当八卦看,和编程关系不大</td>
+</tr>
+<tr>
+<td class="org-left"><a href="http://debian-handbook.info/browse/stable/">The Debian Administrator's Handbook</a></td>
+<td class="org-left">很好.捡有用的章节看</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org8043120" class="outline-2">
+<h3 id="org8043120">常见问题</h3>
+<div class="outline-text-2" id="text-org8043120">
+<p>
+等你的问题了.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8f2f90e" class="outline-2">
+<h3 id="org8f2f90e">联系我</h3>
+<div class="outline-text-2" id="text-org8f2f90e">
+<p>
+这是我的<a href="https://twitter.com/#!/chen_bin">twitter</a>和<a href="https://plus.google.com/110954683162859211810">google plus</a>,也可以通过我的email&lt;chenbin DOT sh AT GMAIL DOT COM&gt;联系我.
+</p>
+
+<p>
+我的主力博客为<a href="http://blog.binchen.org">http://blog.binchen.org</a>.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/yong-mintty-zuo-wei-cyginw-de-console.html">用mintty作为cygwin的console</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2011-04-29T15:00:00+00:00">2011-04-29 15:00</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/yong-mintty-zuo-wei-cyginw-de-console.html#disqus_thread" data-disqus-identifier="cache/posts/yong-mintty-zuo-wei-cyginw-de-console.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/chinese.html" rel="tag">chinese</a></li>
+           <li><a class="tag p-category" href="categories/cygwin.html" rel="tag">cygwin</a></li>
+           <li><a class="tag p-category" href="categories/software.html" rel="tag">software</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-01-31 Sat&gt;</span></span>
+</p>
+
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2011-04-29 Fri&gt;</span></span>
+</p>
+
+<p>
+cygwin1.7在我的电脑上不能显示中文,已困扰我很久了.
+</p>
+
+<p>
+今天才找到解决办法,只要安装<a href="http://code.google.com/p/mintty/">mintty</a>即可.
+</p>
+
+<p>
+最新版Cygwin默认就已安装启用mintty.
+</p>
+
+<p>
+安装后在宽屏显示器上字可能较小, 解决办法如下：
+</p>
+
+<ul class="org-ul">
+<li>或参考<a href="http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html">其手册</a>缩放字体.</li>
+<li>或右击左上角设置字体, "新宋体 常规 三号"</li>
+</ul>
+<p>
+另外设置scroll back 80000行. 右侧滚动条无.
+</p>
+
+<p>
+以下是我的cygwin.bat,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">@echo off
+set EDITOR=vi
+set VISUAL=vi
+REM shamelessly copied from git://github.com/justsoso8/dotfile.git
+REM mintty installed which supports chinese
+REM =======================================
+@echo off
+rem find cygwin roo directory one by one
+rem disk c -&gt; disk d -&gt; disk e
+
+:CYGWIN_C
+if not exist c:\cygwin goto CYGWIN_D
+set _cygwinroot=c:\cygwin
+goto HAVECYGWIN
+
+:CYGWIN_D
+if not exist d:\cygwin goto CYGWIN_E
+set _cygwinroot=d:\cygwin
+goto HAVECYGWIN
+
+:CYGWIN_E
+if not exist c:\cygwin64 goto CYGWIN_F
+set _cygwinroot=c:\cygwin64
+goto HAVECYGWIN
+
+:CYGWIN_F
+if not exist d:\cygwin64 goto NOCYGWIN
+set _cygwinroot=d:\cygwin64
+goto HAVECYGWIN
+
+:NOCYGWIN
+echo no cygwin installation found on disk C/D/E/F
+pause
+goto EOF
+
+:HAVECYGWIN
+
+chdir %_cygwinroot%\bin
+set _termapp=%_cygwinroot%\bin\mintty.exe
+start %_termapp% -w full /bin/bash --login -i
+:EOF
+exit
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/jian-chi-shi-yong-gnu-screen.html">坚持使用gnu screen</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2011-04-23T20:37:00+00:00">2011-04-23 20:37</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/jian-chi-shi-yong-gnu-screen.html#disqus_thread" data-disqus-identifier="cache/posts/jian-chi-shi-yong-gnu-screen.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/software.html" rel="tag">software</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+虽然tmux很优秀,但是目前很难支持<a href="http://www.cygwin.com">cygwin</a>(<a href="http://comments.gmane.org/gmane.comp.terminal-emulators.tmux.user/1093">Nicholas Marriott在2010年12月说的</a>),而我的工作需要使用windows.
+</p>
+
+<p>
+最新版的screen的一个重要特性就是已支持垂直分屏,其快捷键为=C-a |=.
+</p>
+
+<div id="outline-container-org2466468" class="outline-2">
+<h3 id="org2466468">要安装最新版的screen,在我的<a href="http://www.archlinux.org">Arch Linux</a>下很简单,</h3>
+<div class="outline-text-2" id="text-org2466468">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">packer -S screen-git
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeb1ac75" class="outline-2">
+<h3 id="orgeb1ac75">在windows的cygwin下安装要多几步.</h3>
+<div class="outline-text-2" id="text-orgeb1ac75">
+<p>
+首先安装软件包libncurse-devel,然后去<a href="http://ftp.gnu.org/gnu/screen/">官方网站</a>下载最新源代码包(目前版本为4.0.3),解压缩,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">tar zxf screen-4.0.3.tar.gz
+</code></pre>
+
+</div>
+
+<p>
+编译安装,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd screen-4.0.3;configure;make;make install;
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1bfece9" class="outline-2">
+<h3 id="org1bfece9">如用urxvt作为Terminal Simulator(比如我),直接启动screen会报错,</h3>
+<div class="outline-text-2" id="text-org1bfece9">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">$ screen
+$TERM too long - sorry.
+</code></pre>
+
+</div>
+
+<p>
+原因为screen的开发者对于环境变量 <code>$TERM</code> 的最大长度做了不合理的假定.这里是<a href="https://bbs.archlinux.org/viewtopic.php?pid=885446">具体讨论</a>,解决办法很简单.
+在 <code>.Xdefaults</code> 中添加一行,
+</p>
+<pre class="example">
+urxvt*termName: rxvt-256color
+</pre>
+<p>
+在 <code>.screenrc</code> 中添加一行,
+</p>
+<pre class="example">
+term rxvt-256color
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org14545d1" class="outline-2">
+<h3 id="org14545d1">使用screen前我将screen的Ctrl-a改为Ctrl-t</h3>
+<div class="outline-text-2" id="text-org14545d1">
+<p>
+因为 <code>Ctrl-a</code> 在Bash和Emacs中都是常用快捷键,在 <code>.screenrc</code> 中添加一行,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">escape"^Tt"  #the default of A interferes with emacs keybindings for terminal, and I never use the emacs transpose command
+</code></pre>
+
+</div>
+<p>
+这个修改我是从<a href="http://jinome.stanford.edu/">Balaji S. Srinivasan</a>的<a href="http://jinome.stanford.edu/stat366/unix/.screenrc">.screenrc</a>抄来的. 可以参考<a href="http://www.emacswiki.org/emacs/GnuScreen">EmacsWiki</a>获得更多兼容Emacs的设置.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/geek-chang-yong-ruan-jian-qin-dan.html">奇客(Geek)的常用软件清单(OS X, Windows, Linux)</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2011-04-16T15:11:00+00:00">2011-04-16 15:11</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/geek-chang-yong-ruan-jian-qin-dan.html#disqus_thread" data-disqus-identifier="cache/posts/geek-chang-yong-ruan-jian-qin-dan.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/geek.html" rel="tag">geek</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/mac.html" rel="tag">mac</a></li>
+           <li><a class="tag p-category" href="categories/software.html" rel="tag">software</a></li>
+           <li><a class="tag p-category" href="categories/win32.html" rel="tag">win32</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+作者: 陈斌 (redguardtoo)
+</p>
+
+<p>
+更新时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-09 Sun&gt;</span></span>
+</p>
+
+<p>
+原创时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2011-04-16 Sat&gt;</span></span>
+</p>
+
+<p>
+品味小众,如你用360/阿里巴巴/百度等免费软件套装,本文就不用看了.
+</p>
+
+<p>
+我的标准是:
+</p>
+
+<ul class="org-ul">
+<li>功能强大(可编程,支持插件)</li>
+<li>性能优秀(不带图形界面,用C写的,一般性能还可以)</li>
+<li>诚实可靠(开源最好,闭源的话开发者要有相当信用)</li>
+<li>绿色软件,配置文件最好是纯文本</li>
+</ul>
+<div id="outline-container-org0c99b3f" class="outline-2">
+<h3 id="org0c99b3f">Windows软件清单</h3>
+<div class="outline-text-2" id="text-org0c99b3f">
+<p>
+工作中我90%的时间用Cygwin+Visual Studio+Vim+Firefox.下班后基本不碰windows.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">名称</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">频率</th>
+<th scope="col" class="org-left">性质</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">Cygwin</td>
+<td class="org-left">Linux下常用工具集合</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">7-Zip</td>
+<td class="org-left">压缩解压缩</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">AviSynth 2.5</td>
+<td class="org-left">视频编辑</td>
+<td class="org-left">低</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">CDBurnerXP</td>
+<td class="org-left">刻录</td>
+<td class="org-left">中</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">CDex</td>
+<td class="org-left">cd转mp3,自动生成文件名</td>
+<td class="org-left">中</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Ditto</td>
+<td class="org-left">剪贴板管理</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">CMake 2.8</td>
+<td class="org-left">跨平台build工具,相见恨晚</td>
+<td class="org-left">中</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Comicsviewer</td>
+<td class="org-left">看漫画</td>
+<td class="org-left">低</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">DAEMON Tools</td>
+<td class="org-left">虚拟光驱</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">Wink</td>
+<td class="org-left">录屏</td>
+<td class="org-left">中</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">Dependency Walker</td>
+<td class="org-left">检查dll依赖</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">eMule</td>
+<td class="org-left">p2p下载</td>
+<td class="org-left">中</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Foobar2000</td>
+<td class="org-left">音乐播放</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Gimp</td>
+<td class="org-left">图像编辑</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">小狼毫输入法</td>
+<td class="org-left">输入法</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">ClamWin</td>
+<td class="org-left">开源杀毒</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">ImageMagick</td>
+<td class="org-left">命令行图像处理</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">InfraRecorder</td>
+<td class="org-left">刻录</td>
+<td class="org-left">中</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Inno Setup 5</td>
+<td class="org-left">打包,开发用</td>
+<td class="org-left">低</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">IPMsg</td>
+<td class="org-left">局域网通信</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">IrfanView</td>
+<td class="org-left">看图,可与total commander集成</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">Microsoft Visual Studio Express 2010</td>
+<td class="org-left">C++ IDE</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">Firefox</td>
+<td class="org-left">网页浏览</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">mtPaint</td>
+<td class="org-left">mspaint的替代品,界面费解</td>
+<td class="org-left">低</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">LibreOffice</td>
+<td class="org-left">字处理,doc转pdf,组织结构图</td>
+<td class="org-left">低</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">OpenVPN</td>
+<td class="org-left">VPN</td>
+<td class="org-left">否</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Pandora Recovery</td>
+<td class="org-left">恢复误删除的文件</td>
+<td class="org-left">低</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">SumatraPDF</td>
+<td class="org-left">PDF阅读器</td>
+<td class="org-left">低</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">VirtualBox</td>
+<td class="org-left">虚拟机,网上银行用</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">MiniThunder(迅雷)</td>
+<td class="org-left">下载</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">UltraVNC</td>
+<td class="org-left">远程桌面控制</td>
+<td class="org-left">低</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Subtitle Workshop</td>
+<td class="org-left">字幕调整</td>
+<td class="org-left">中</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">USBOOT 1.7</td>
+<td class="org-left">制作usb自启动盘</td>
+<td class="org-left">低</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">Goagent</td>
+<td class="org-left">翻墙</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Vim/GVim</td>
+<td class="org-left">文本编辑</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Total Commander</td>
+<td class="org-left">世界第一的文件管理器</td>
+<td class="org-left">高</td>
+<td class="org-left">共享</td>
+</tr>
+<tr>
+<td class="org-left">bblean</td>
+<td class="org-left">windows shell</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Bridge Base Online</td>
+<td class="org-left">游戏</td>
+<td class="org-left">中</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">ntemacs</td>
+<td class="org-left">文本编辑</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">openssl</td>
+<td class="org-left">如题</td>
+<td class="org-left">低</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Python2.7</td>
+<td class="org-left">一种脚本语言</td>
+<td class="org-left">中</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">wxWidgets 3.0</td>
+<td class="org-left">跨平台c++ GUI库</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">Mplayer</td>
+<td class="org-left">命令行视频播放软件</td>
+<td class="org-left">高</td>
+<td class="org-left">开源</td>
+</tr>
+<tr>
+<td class="org-left">autoruns</td>
+<td class="org-left">检查默认启动软件</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">process explorer</td>
+<td class="org-left">检查运行程序</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+<tr>
+<td class="org-left">Everything</td>
+<td class="org-left">找文件</td>
+<td class="org-left">高</td>
+<td class="org-left">免费</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org26b30d4" class="outline-2">
+<h3 id="org26b30d4">Linux软件清单</h3>
+<div class="outline-text-2" id="text-org26b30d4">
+<p>
+操作系统为<a href="http://www.gentoo.org">Gentoo Linux</a>.使用频率最高的为Git+Emacs+Vi+Firefox+I3+Bash. <a href="http://ftp.mozilla.org/pub/firefox/releases/">Firefox</a>和<a href="http://ftp.mozilla.org/pub/thunderbird/releases/">Thunderbird</a>用的是绿色版本.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">名称</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">频率</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">Emacs</td>
+<td class="org-left">任何事</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Vim</td>
+<td class="org-left">文本编辑</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Firefox</td>
+<td class="org-left">网页浏览</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">Terminator</td>
+<td class="org-left">Terminal</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Bash</td>
+<td class="org-left">shell</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Percol</td>
+<td class="org-left">交互过滤文本</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Scrot</td>
+<td class="org-left">截图</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">I3</td>
+<td class="org-left">窗口管理</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Wine</td>
+<td class="org-left">win32模拟器</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Goagent</td>
+<td class="org-left">翻墙</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Mplayer</td>
+<td class="org-left">视频播放</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">Ncmpcpp+mpc+mpd</td>
+<td class="org-left">音频播放</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Amule (amule-dlp)</td>
+<td class="org-left">p2p下载</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">Rtorrent</td>
+<td class="org-left">BT下载</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">Virtualbox</td>
+<td class="org-left">虚拟机</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">Gimp</td>
+<td class="org-left">图片编辑</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">Git</td>
+<td class="org-left">版本控制</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Zathura</td>
+<td class="org-left">pdf阅读</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Parcellite</td>
+<td class="org-left">剪贴板管理</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Fcitx</td>
+<td class="org-left">中文输入</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Libreoffice</td>
+<td class="org-left">办公软件</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">ThunderBird</td>
+<td class="org-left">电子邮件</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">Dunst</td>
+<td class="org-left">显示通知</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Popfile</td>
+<td class="org-left">邮件分类</td>
+<td class="org-left">高</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org70f7a6c" class="outline-2">
+<h3 id="org70f7a6c">Mac软件清单</h3>
+<div class="outline-text-2" id="text-org70f7a6c">
+<p>
+使用频率最高的软件为Emacs, Firefox, Bash, Adium.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">名称</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">频率</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">Emacs</td>
+<td class="org-left">任何事</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Firefox</td>
+<td class="org-left">上网</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Bash</td>
+<td class="org-left">shell</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Libreoffice</td>
+<td class="org-left">办公软件</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">迷你迅雷</td>
+<td class="org-left">下载</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">HomeBrew</td>
+<td class="org-left">开源软件包管理(少数几个亮点之一)</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Flybuy</td>
+<td class="org-left">剪贴板管理</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">Mplayer X</td>
+<td class="org-left">类mplayer的轻量级视频播放器</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">VLC</td>
+<td class="org-left">视频播放器,字幕支持好</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Monolingual</td>
+<td class="org-left">删除没用的语言和</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Skim</td>
+<td class="org-left">看PDF</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">CCleaner</td>
+<td class="org-left">清理系统垃圾</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">有道词典</td>
+<td class="org-left">查单词</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Chicken of the VNC</td>
+<td class="org-left">vnc客户端(远程桌面)</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">IPMessenger</td>
+<td class="org-left">局域网内通信传文件</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Adium</td>
+<td class="org-left">即时通信</td>
+<td class="org-left">低</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org4dc6327" class="outline-2">
+<h3 id="org4dc6327">某些优秀软件的配置</h3>
+<div class="outline-text-2" id="text-org4dc6327">
+</div>
+<div id="outline-container-org399cdf4" class="outline-3">
+<h4 id="org399cdf4">Firefox</h4>
+<div class="outline-text-3" id="text-org399cdf4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">插件名称</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">频率</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">Adblock Plus</td>
+<td class="org-left">过滤广告,支持正则表达式</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">KeySnail</td>
+<td class="org-left">安装了HoK脚本</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">ImageBlock (or Picture Blocker)</td>
+<td class="org-left">和图片说再见</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">ColorZilla</td>
+<td class="org-left">取色</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">Vacuum Palaces Improved</td>
+<td class="org-left">firefox数据库加速</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">Magrent</td>
+<td class="org-left">转换链接为torrent文件</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">MozRepl</td>
+<td class="org-left">和Emacs交互,前端开发必备</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Greasemonkey</td>
+<td class="org-left">js脚本操作firefox</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">MeasureIt</td>
+<td class="org-left">Firefox的尺子</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">QR Code Image Generator</td>
+<td class="org-left">产生QR码</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">JSONView</td>
+<td class="org-left">View JSON</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">LeechBlock</td>
+<td class="org-left">自绝于社交网络</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Tile Tabs</td>
+<td class="org-left">子窗口</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">ePub-Catalog</td>
+<td class="org-left">epub图书管理</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">Fireinput</td>
+<td class="org-left">拼音输入法</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">Nimbus Screen Capture</td>
+<td class="org-left">网页截屏</td>
+<td class="org-left">低</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org9208361" class="outline-3">
+<h4 id="org9208361">ThunderBird</h4>
+<div class="outline-text-3" id="text-org9208361">
+<p>
+原生支持Gtalk.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">插件名称</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">EmailPicky</td>
+<td class="org-left">收集邮件地址</td>
+<td class="org-left">右击, Pick email IDs from this folder</td>
+</tr>
+<tr>
+<td class="org-left">Lightning</td>
+<td class="org-left">Calendar</td>
+<td class="org-left">右击, new calendar</td>
+</tr>
+<tr>
+<td class="org-left">Mail Redirect</td>
+<td class="org-left">redirect mail</td>
+<td class="org-left">不回信给你</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org2c682f5" class="outline-3">
+<h4 id="org2c682f5">Greasemonkey</h4>
+<div class="outline-text-3" id="text-org2c682f5">
+<p>
+需刷新网页使script生效
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">插件名称</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">频率</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">NinjaWebCoder</td>
+<td class="org-left">从网站拷贝代码</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">眼不见心不烦</td>
+<td class="org-left">清理weibo.com</td>
+<td class="org-left">高</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgc2f267c" class="outline-3">
+<h4 id="orgc2f267c">Vim</h4>
+<div class="outline-text-3" id="text-orgc2f267c">
+<p>
+见<a href="https://github.com/redguardtoo/vimrc">https://github.com/redguardtoo/vimrc</a>
+</p>
+</div>
+</div>
+<div id="outline-container-orga946895" class="outline-3">
+<h4 id="orga946895">Emacs</h4>
+<div class="outline-text-3" id="text-orga946895">
+<p>
+见<a href="https://github.com/redguardtoo/emacs.d">https://github.com/redguardtoo/emacs.d</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org5b2354d" class="outline-3">
+<h4 id="org5b2354d">Total Commander</h4>
+<div class="outline-text-3" id="text-org5b2354d">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">插件名称</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">频率</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">CatalogMaker.wcx</td>
+<td class="org-left">创建文件列表</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">CHMDir.wcx</td>
+<td class="org-left">生成chm文件</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">7zip.wcx</td>
+<td class="org-left">压缩解压缩7zip格式的压缩文件</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">UnInstTC.wfx</td>
+<td class="org-left">管理"添加/删除软件"面板</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">Registry</td>
+<td class="org-left">管理注册表</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">ex2fs.wfx</td>
+<td class="org-left">访问linux分区(只读)</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">sftpplug.wfx</td>
+<td class="org-left">支持sftp</td>
+<td class="org-left">中</td>
+</tr>
+<tr>
+<td class="org-left">imagine.wlx</td>
+<td class="org-left">看图</td>
+<td class="org-left">低</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/hello-word.html">Hello Word</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2011-04-13T13:41:02+00:00">2011-04-13 13:41</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/hello-word.html#disqus_thread" data-disqus-identifier="cache/posts/hello-word.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>这是第一篇。用<a href="https://github.com/punchagan/org2blog">org2blog</a>发的，看一下中文支持如何.</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/yi-bu-wu-liao-de-zhen-zhi-xuan-chuan-pian.html">切.格瓦拉 阿根廷(Che: Part One),一部无聊的政治宣传片</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2009-05-02T11:13:00+00:00">2009-05-02 11:13</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/yi-bu-wu-liao-de-zhen-zhi-xuan-chuan-pian.html#disqus_thread" data-disqus-identifier="cache/posts/yi-bu-wu-liao-de-zhen-zhi-xuan-chuan-pian.html">Comments</a>
+
+
+                </div>
+            
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<div>剧情基本上就是记流水帐,从1955年<a href="http://zh.wikipedia.org/wiki/%E8%8F%B2%E5%BE%B7%E5%B0%94%C2%B7%E5%8D%A1%E6%96%AF%E7%89%B9%E7%BD%97">卡斯特罗</a>(<a href="http://en.wikipedia.org/wiki/Fidel_Castro">Castro</a>)等人在墨西哥城组织七·二六运动(<a href="http://en.wikipedia.org/wiki/Che_Guevara" target="_blank">26th of July Movement</a>)开始,然后就是行军,袭击兵营,伏击战,救治伤员,做群众工作(给村民看病,演讲),处决违法军纪的士兵,最后是革命的高潮,<a href="http://zh.wikipedia.org/wiki/%E5%88%87%C2%B7%E6%A0%BC%E7%93%A6%E6%8B%89">切.格瓦拉</a>(<a href="http://en.wikipedia.org/wiki/Che_Guevara">Che Guevara</a>)和Camilo Cienfuegos夺取Las Villas省的首府<a href="http://en.wikipedia.org/wiki/Che_Guevara" target="_blank">Santa Clara</a>,这是古巴革命最后一场战役,12小时后古巴独裁者<a href="http://zh.wikipedia.org/wiki/%E5%AF%8C%E5%B0%94%E4%BA%A8%E8%A5%BF%E5%A5%A5%C2%B7%E5%B7%B4%E8%92%82%E6%96%AF%E5%A1%94">巴蒂斯塔</a>(Batista)离开了古巴. 当中穿插了卡斯特罗访问美国,在联合国做演讲,接受采访的片段.<br><br>电影的主要缺点是缺少人物性格刻画.格瓦拉的政治主张是什么(例如建立什么样的政府?)?他为何接受社会主义?他喜欢什么?不喜欢什么?他的性格有什么特点(不愿意在阿根廷做医生而去古巴参加革命的人很可能性格有不同于常人的地方)?这些电影中都没有提及.我看到的只有好人打坏人再加上一些战斗场面.<br><br>古巴政府和军队坏,因为电影中古巴革命者说Batista腐败.说古巴政府出卖国家利益给美国,例如古巴对美国的贸易逆差为10亿美元.还因为一些比较感性的镜头,比如古巴军队枪杀帮助游击队的平民.古巴军队的飞机轰炸攻入城市的革命者,杀伤了很多平民.古巴军队虐待俘虏.<br><br>说实话我认为这种对坏蛋的描写挺幼稚的.我感兴趣的是古巴革命爆发和革命队伍壮大的原因,对此电影没有做出合理的解释.<br><br>例如所谓古巴和美国的贸易逆差,我也可以从经济学解释为古巴需要从美国进口的货物多,可以出口给美国的<b>美国人需要的</b>货物少,这好像恰恰是"美国是世界最强大的发达国家的"的结果.当然"贸易逆差"可以是激发"民族主义"的借口,民族主义几乎是近现代革命的必备导火索.但是"贸易逆差"的这段戏导演仅处理为几个领袖间的闲谈,给我的印象就是领袖们私下的谈话缺乏逻辑思维,如果是通过给群众或士兵的演讲来表现的话,我就会认为卡斯特罗等人确实挺会激发(或操纵)大众的情绪.<br><br>电影中描写古巴军队残忍的场景很平庸,例如有一幕是一个平民跑来见格瓦拉,要求其部下离开他家,因为政府军要是发现叛军,会认为他通敌,把他全家杀死.我的理解是,从逻辑上来讲,这段镜头说明了政府军的反游击队战术很成功.如果导演想说明政府军是非正义的话,至少这和古巴革命没什么关系,因为在革命和战争中清洗通敌嫌疑分子是很常见的,是内战导致了清洗而不是反之.<br><br>其他类似场景我就不罗嗦了,本质上都一样,内战中常见的残酷行为如果一边倒地都列在政府军的头上,感觉太假了,没有说服力.而且这些行为古巴革命没有重要的因果联系(同样的事件也发生在美国,英国,法国,俄国内战上).<br><br>对好人的描写我怀疑是参考了我国早期的革命电影.电影的一开始,古巴军队在追捕逃亡的格瓦拉,导演拉了个惊慌失措的普通战士给格瓦拉作伴来衬托主角的镇定自若.接下,格瓦拉免费给村民看病,格瓦拉教文盲战士识字,格瓦拉英明神武,某个战士连发两发火箭炮都没有打中敌人的据点,格瓦拉说声"让我来",夺过火箭炮一炮就打爆敌人据点.等等等等... <br><br>电影唯一的亮点是战争场面不错,挺火爆残酷的,我作为男性观众挺享受的.<br>Technorati Tags: <a rel="tag" href="http://technorati.com/tag/movie" class="performancingtags">movie</a>, <a rel="tag" href="http://technorati.com/tag/revolution" class="performancingtags">revolution</a>, <a rel="tag" href="http://technorati.com/tag/%E7%94%B5%E5%BD%B1" class="performancingtags">电影</a>, <a rel="tag" href="http://technorati.com/tag/%E9%9D%A9%E5%91%BD" class="performancingtags">革命</a>, <a rel="tag" href="http://technorati.com/tag/%E6%A0%BC%E7%93%A6%E6%8B%89" class="performancingtags">格瓦拉</a><br><br><div class="zemanta-pixie"><img src="http://img.zemanta.com/pixy.gif?x-id=25eb970e-49e2-86e9-9e60-bf129e8839e4" class="zemanta-pixie-img"></div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/dropbox-hen-you-chuang-yi.html">DropBox很有创意</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2009-04-26T06:50:00+00:00">2009-04-26 06:50</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/dropbox-hen-you-chuang-yi.html#disqus_thread" data-disqus-identifier="cache/posts/dropbox-hen-you-chuang-yi.html">Comments</a>
+
+
+                </div>
+            
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<div>本质上是给你一个网络硬盘还带版本控制.但是把界面傻瓜化了,用户看到的就是在My Document目录下多了个My DropBox文件夹,然后往里丢东西就可以了.使用这个<a href="https://www.getdropbox.com/referrals/NTg1ODg2Mjk">链接</a>可以立刻免费获得2G空间.<br><br><br><div class="zemanta-pixie"><img src="http://img.zemanta.com/pixy.gif?x-id=6a48c6de-51da-87f3-a486-c9439e4de67a" class="zemanta-pixie-img"></div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/perl-code-to-change-ip.html">perl code to change ip</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2006-12-11T10:39:00+00:00">2006-12-11 10:39</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/perl-code-to-change-ip.html#disqus_thread" data-disqus-identifier="cache/posts/perl-code-to-change-ip.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>I write this script for a real project. It changes ip of every node in a local network. All the information related to our customer is deleted. </p>
+<p>if you see the test() function and you will notice "assert" lines. Yes, I believe in <strong>TDD (Test Drivern Development)</strong>. </p>
+<pre><code class="lang-perl">
+#!/usr/bin/perl
+require "assert.pl";
+if(0){
+open(F,"/etc/hosts");
+@lines=<f>;
+close(F);
+foreach (@lines){
+    print $_;
+}
+}#if(0)
+
+############################
+# main
+############################
+if(1){
+if(&amp;is_interactive()){
+    print "Usage: echo 127.0.0.1 ekcms| ./chgip\n";
+    exit 1;
+}
+
+$pipein=<stdin>;
+chomp($pipein);
+my $h=&amp;who_will_change($pipein);
+foreach (keys %$h){
+    print "key=$_;val=$h-&gt;{$_}\n"; #debug
+}
+&amp;change_etc_hosts("/etc/hosts",$h);
+#distribute /etc/hosts 
+foreach my $k (keys %$h){
+    system("scp /etc/hosts root@$k:/etc/hosts") || assert(0);
+}
+&amp;change_ip("/etc/sysconfig/network-scripts",$h);
+
+}#if(0)
+
+############################
+# test
+############################
+if(0){
+    &amp;test();
+}#if(0)
+
+############################
+# subroutines
+############################
+sub test
+{
+if(0){
+    print &amp;unique_id();
+}#if(0)
+
+if(1){
+    my $p="127.0.0.1 ekcp1\n0.0.0.0 ekcp2";
+    $p.="\n99.99.99.99 ".`hostname`;
+    my $h=&amp;who_will_change($p);
+    foreach (keys %$h){
+        print "key=$_;val=$h-&gt;{$_}\n"; #debug
+    }
+    &amp;change_etc_hosts("hosts",$h);
+    #&amp;change_ip("./",$h);
+}#if(0)
+}
+
+sub is_interactive {
+    return -t STDIN &amp;&amp; -t STDOUT;
+}
+
+
+# Usage: my $p="127.0.0.1 ekcp1\n0.0.0.0 ekcp2";$h=&amp;chgip($p);print $h-&gt;{'ekcp1'};
+sub who_will_change
+{
+    my $p=shift;
+    my %h=();
+    my @ls=split(/\n/,$p);
+    foreach (@ls){
+        chomp($_);
+        if($_ eq ""){next;}
+        my @a=split(/ /);
+        if($a[1] eq ""){next;}
+        $h{$a[1]}=$a[0];
+    }
+    return \%h;
+}
+
+
+# Usage: my $p="127.0.0.1 ekcp1\n0.0.0.0 ekcp2";$h=&amp;chgip($p);&amp;change_etc_hosts("/etc/hosts",$h);
+sub change_etc_hosts
+{
+    my $f=shift;
+    my $h=shift;
+    open(F,$f);
+    @lines=<f>;
+    close(F);
+    foreach my $k (keys %$h){
+        #print "k=$k\n"; #debug
+        my $replaced=0;
+        for(my $i=0;$i&lt;=$#lines;$i++){
+            if($lines[$i]!~/^[\d\.]+[\s]+$k\W/){
+                next;
+            }
+            $lines[$i]=~s/^[\d\.]+/$h-&gt;{$k}/g;
+            $replaced=1;
+            #print "line=".$lines[$i]; #debug
+        }
+        if(!$replaced){
+            push(@lines,"$h-&gt;{$k} $k\n");
+        }
+    }
+    foreach (@lines){print "line=$_";}; #debug
+    open (F,"&gt;$f");
+    print F (@lines);
+    close(F); 
+}
+
+#Usage: my $p="127.0.0.1 ekcp1\n0.0.0.0 ekcp2";$h=&amp;chgip($p);&amp;change_ip("/etc/sysconfig/network-scripts",$h);
+#Return: 0 - everything ok; 1 - several hosts unreachable
+sub change_ip
+{
+    my $dir=shift;
+    my $h=shift;
+    my $ret=0;
+    #print "dir=$dir\n"; #debug
+    my $pingcmd="ping";
+    my $s=`uname`;chomp($s);
+    if($s eq "Linux"){ $pingcmd="ping -c 2"};
+    $s=`hostname`;chomp($s);
+    foreach my $k (keys %$h){
+        #if(system("$pingcmd $k")!=0){
+        #   $ret=1;
+        #   next;
+        #}
+        if( $s eq $k){ #local
+            print "s=$s;k=$k\n"; #debug
+            system("perl -i.bak -pe 's/IPADDR=.*/IPADDR=$h-&gt;{$k}/g' $dir/ifcfg-eth0") || assert(0);
+        }
+        else{ #remote
+if(0){
+            my $u=&amp;unique_id();
+            system("scp root@$k:$dir/ifcfg-eth0 /tmp/$u.ifcfg-eth0") || assert(0);
+            system("perl -i.bak -pe 's/IPADDR=.*/IPADDR=$h-&gt;{$k}/g' /tmp/$u.ifcfg-eth0")|| assert(0);
+            system("scp /tmp/$u.ifcfg-eth0 root@$k:$dir/ifcfg-eth0 ")|| assert(0) ;
+            system("/etc/init.d/network restart")|| assert(0);
+}#if(0)
+        }
+    }
+    return $ret;
+}
+
+sub unique_id()
+{
+    my $s=`date +%s`;
+    return crypt($s,chr(int(rand(127))));
+}
+
+
+############################
+# test data
+############################
+</f></stdin></f></code></pre>
+
+<p></p>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-2.html" rel="prev">Newer posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 23) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-23.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/use-perforce-inside-emacs.html">Use Perforce inside Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-12-05T11:51:47+00:00">2016-12-05 11:51</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-perforce-inside-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/use-perforce-inside-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/bash.html" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/p4.html" rel="tag">p4</a></li>
+           <li><a class="tag p-category" href="categories/perforce.html" rel="tag">perforce</a></li>
+           <li><a class="tag p-category" href="categories/vcs.html" rel="tag">vcs</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-12-05 Mon&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-08-14 Mon&gt;</span></span>
+</p>
+
+<p>
+Perforce is a proprietary VCS. It's less powerful than <a href="https://git-scm.com/">Git</a> so need extra effort to be use with Emacs.
+</p>
+
+<p>
+For example, <code>git log -p file-path</code> displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like <code>p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}</code> can't do it. I have to use Emacs Lisp to clean the output of <code>p4</code>.
+</p>
+
+<div id="outline-container-org23de93c" class="outline-2">
+<h3 id="org23de93c">Perforce workflow</h3>
+<div class="outline-text-2" id="text-org23de93c">
+<ul class="org-ul">
+<li>
+<code>p4 set</code> to <a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html">set up</a>
+</li>
+<li>
+<code>p4 login</code> to login</li>
+<li>
+<code>p4 client</code> creates a new work space to tell server the directories/files to check out or to ignore</li>
+<li>
+<code>p4 sync //depot/url/...</code> to checkout files</li>
+<li>Files are read-only by default. You need <code>p4 edit file</code> to make files writable before editing</li>
+<li>
+<code>p4 add files</code> to add new files. <code>p4 revert</code> to revert edited file to it original status and lose the local changes</li>
+<li>
+<code>p4 change</code> to create a pending change. Then <code>p4 submit -c #changelist</code> to actually submit code to main branch. Pending change gives you a chance to tweak the change before submit</li>
+<li>Or <code>p4 submit -d"description" file</code> to submit a single file directly</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4a99138" class="outline-2">
+<h3 id="org4a99138">My solution</h3>
+<div class="outline-text-2" id="text-org4a99138">
+<p>
+Perforce Cygwin portable is not recommended.
+</p>
+
+<p>
+I suggest using executable from Perforce Windows native version which works on both Cygwin and Windows.
+</p>
+
+<p>
+Perforce server assigns unique URL for each physical file. If I only feed <code>p4</code> that URL, the operation is always successful.
+</p>
+</div>
+<div id="outline-container-orgd8ee54f" class="outline-3">
+<h4 id="orgd8ee54f">Emacs</h4>
+<div class="outline-text-3" id="text-orgd8ee54f">
+<p>
+I developed <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a> which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need <code>p4 login</code> at first.)
+</p>
+
+<p>
+My patched <a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/git-gutter/git-gutter.el">emacs-git-gutter</a> show Perforce gutters. You only need setup <code>git-gutter:exp-to-create-diff</code>. Here is a sample,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq-local git-gutter:exp-to-create-diff
+            (shell-command-to-string (format "p4 diff -du -db %s"
+                                             (file-relative-name buffer-file-name))))
+</code></pre>
+
+</div>
+
+<p>
+I also provided commands like <code>p4edit</code>, <code>p4revert</code>, <code>p4submit</code>, <code>p4diff</code>, and <code>p4history</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; {{ perforce utilities
+(defvar p4-file-to-url '("" "")
+  "(car p4-file-to-url) is the original file prefix
+(cadr p4-file-to-url) is the url prefix")
+
+(defun p4-current-file-url ()
+  (replace-regexp-in-string (car p4-file-to-url)
+                            (cadr p4-file-to-url)
+                            buffer-file-name))
+
+(defun p4-generate-cmd (opts)
+  (format "p4 %s %s" opts (p4-current-file-url)))
+
+(defun p4edit ()
+  "p4 edit current file."
+  (interactive)
+  (shell-command (p4-generate-cmd "edit"))
+  (read-only-mode -1))
+
+(defun p4submit (&amp;optional file-opened)
+  "p4 submit current file.
+If FILE-OPENED, current file is still opened."
+  (interactive "P")
+  (let* ((msg (read-string "Say (ENTER to abort):"))
+         (open-opts (if file-opened "-f leaveunchanged+reopen -r" ""))
+         (full-opts (format "submit -d '%s' %s" msg open-opts)))
+    ;; (message "(p4-generate-cmd full-opts)=%s" (p4-generate-cmd full-opts))
+    (if (string= "" msg)
+        (message "Abort submit.")
+      (shell-command (p4-generate-cmd full-opts))
+      (unless file-opened (read-only-mode 1))
+      (message (format "%s submitted."
+                       (file-name-nondirectory buffer-file-name))))))
+
+(defun p4revert ()
+  "p4 revert current file."
+  (interactive)
+  (shell-command (p4-generate-cmd "revert"))
+  (read-only-mode 1))
+
+(defun p4-show-changelist-patch (line)
+  (let* ((chg (nth 1 (split-string line "[\t ]+")))
+         (url (p4-current-file-url))
+         (pattern "^==== //.*====$")
+         sep
+         seps
+         (start 0)
+         (original (if chg (shell-command-to-string (format "p4 describe -du %s" chg)) ""))
+         rlt)
+
+    (while (setq sep (string-match pattern original start))
+      (let* ((str (match-string 0 original)))
+        (setq start (+ sep (length str)))
+        (add-to-list 'seps (list sep str) t)))
+    (setq rlt (substring original 0 (car (nth 0 seps))))
+    (let* ((i 0) found)
+      (while (and (not found)
+                  (&lt; i (length seps)))
+        (when (string-match url (cadr (nth i seps)))
+          (setq rlt (concat rlt (substring original
+                                           (car (nth i seps))
+                                           (if (= i (- (length seps) 1))
+                                               (length original)
+                                             (car (nth (+ 1 i) seps))))))
+          ;; out of loop now since current file patch found
+          (setq found t))
+        (setq i (+ 1 i))))
+
+    ;; remove p4 verbose bullshit
+    (setq rlt (replace-regexp-in-string "^\\(Affected\\|Moved\\) files \.\.\.[\r\n]+\\(\.\.\. .*[\r\n]+\\)+"
+                                        ""
+                                        rlt))
+    (setq rlt (replace-regexp-in-string "Differences \.\.\.[\r\n]+" "" rlt))
+    ;; one line short description of change list
+    (setq rlt (replace-regexp-in-string "Change \\([0-9]+\\) by \\([^ @]+\\)@[^ @]+ on \\([^ \r\n]*\\).*[\r\n \t]+\\([^ \t].*\\)" "\\1 by \\2@\\3 \\4" rlt))
+    rlt))
+
+(defun p4--create-buffer (buf-name content &amp;optional enable-imenu)
+  (let* (rlt-buf)
+    (if (get-buffer buf-name)
+        (kill-buffer buf-name))
+    (setq rlt-buf (get-buffer-create buf-name))
+    (save-current-buffer
+      (switch-to-buffer-other-window rlt-buf)
+      (set-buffer rlt-buf)
+      (erase-buffer)
+      (insert content)
+      (diff-mode)
+      (goto-char (point-min))
+      ;; nice imenu output
+      (if enable-imenu
+          (setq imenu-create-index-function
+                (lambda ()
+                  (save-excursion
+                    (imenu--generic-function '((nil "^[0-9]+ by .*" 0)))))))
+      ;; quit easily in evil-mode
+      (evil-local-set-key 'normal "q" (lambda () (interactive) (quit-window t))))))
+
+(defun p4diff ()
+  "Show diff of current file like `git diff'."
+  (interactive)
+  (let* ((content (shell-command-to-string (p4-generate-cmd "diff -du -db"))))
+    (p4--create-buffer "*p4diff*" content)))
+
+(defun p4history ()
+  "Show history of current file like `git log -p'."
+  (interactive)
+  (let* ((changes (split-string (shell-command-to-string (p4-generate-cmd "changes")) "\n"))
+         (content (mapconcat 'p4-show-changelist-patch
+                             changes
+                             "\n\n")))
+    (p4--create-buffer "*p4log*" content t)))
+;; }}
+</code></pre>
+
+</div>
+
+<p>
+As a bonus tip, if you use <a href="https://github.com/technomancy/find-file-in-project">find-file-in-project</a>, insert below code into <code>prog-mode-hook</code> to view any perforce change inside Emacs,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq-local ffip-diff-backends
+            '((ivy-read "p4 change to show:"
+                        (split-string (shell-command-to-string "p4 changes //depot/development/DIR/PROJ1/...")
+                                      "\n")
+                        :action (lambda (i)
+                                  (if (string-match "^ Change \\([0-9]*\\)" i)
+                                      (shell-command-to-string (format "p4 describe -du -db %s"
+                                                                       (match-string 1 i))))))
+              "p4 diff -du -db //depot/development/DIR/PROJ1/..."))
+</code></pre>
+
+</div>
+
+<p>
+You can also check my <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-perforce.el">emacs.d</a> to get latest code.
+</p>
+</div>
+</div>
+<div id="outline-container-org25faf65" class="outline-3">
+<h4 id="org25faf65">Bash Shell</h4>
+<div class="outline-text-3" id="text-org25faf65">
+<p>
+Other operations are finished in Bash Shell,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># {{ Perforce, I hope I will never use it
+if [ "$OS_NAME" = "CYGWIN" ]; then
+    function p4() {
+        export PWD=`cygpath -wa .`
+        /cygdrive/c/Program\ Files/Perforce/p4.exe $@
+    }
+fi
+
+# p4 workflow:
+#
+#   # basic setup
+#   p4 set P4CLIENT=clientname  # set your default client
+#   p4 set P4PORT=SERVER:1666
+#   p4 set P4USER=username
+#   p4 client # create/edit client, client views selected files
+#
+#   # checkout code
+#   p4 sync [-f] //depot/project-name/path/...
+#   p4 edit file[s]
+#   ... do some editing ...
+#
+#   # submit code
+#   either `p4 submit -d"say hi" file` or `p4 change`
+#
+#   I recommend `p4 change` because you can edit files list before submit happens.
+#   After `p4 change`,  `p4 submit -c changelist#` to actually submit change.
+#
+alias p4clr='p4 diff -sr | p4 -x - revert' # like `git reset HEAD`
+alias p4blame='p4 annotate -c -db ' # could add -a see deleted lines
+alias p4cr='p4 submit -f leaveunchanged+reopen -r'
+alias reviewcl='ccollab addchangelist new'
+alias p4pending='p4 changes -s pending' # add ... for current directory
+alias p4untrack='find . -type f| p4 -x - fstat &gt;/dev/null'
+alias p4v='p4 resolve' # after `p4 sync ...`, maybe resolve
+alias p4r='p4 revert' # discard changes
+alias p4e='p4 edit'
+alias p4s='p4 submit'
+alias p4sr='p4 submit -f submitunchanged+reopen' #submit&amp;reopen
+alias p4up='p4 sync ...' # synchronize from current directory
+alias p4o='p4 opened' # list opened files
+alias p4c='p4 changes' # create a new pending change
+alias p4chg='p4 change' # create a pending change
+alias p4d='p4 diff -du -db'
+alias p4ds='p4 diff -du -db | lsdiff' # diff summary, patchutils required
+alias p4i='p4 integrate'
+alias p4unsh='p4 unshelve -s' # Usage: p4unsh changelist#, like `git stash apply`
+alias p4h='p4 changes -m 1 ...' # show the head change
+
+function p4mypending {
+    local P4USERNAME="`p4 user -o | grep '^User:\s' | sed 's/User:\s\([a-bA-B0-9]*\)/\1/g'`"
+    p4 changes -s pending -u $P4USERNAME
+}
+
+function p4shelved {
+    local P4USERNAME="`p4 user -o | grep '^User:\s' | sed 's/User:\s\([a-bA-B0-9]*\)/\1/g'`"
+    p4 changes -s shelved -u $P4USERNAME # add ... for current directory
+}
+
+function p4cmp {
+    if [ -z "$1" ]; then
+        echo "Usage: p4cmp changelist-number changelist-number"
+    else
+        p4 diff2 -dub -q -u ...@$1 ...@$2
+    fi
+}
+
+function p4dl {
+    # git diff
+    p4 diff -du -db $@ | vim -c "set syntax=diff" -R -
+}
+function p4sh(){
+    # show specific change or the latest change
+    if [ -z "$1" ]; then
+        p4 changes | python ~/bin/percol.py | awk '{print $2}' | xargs -i p4 describe -du {} | vim -c "set syntax=diff" -R -
+    else
+        p4 describe -du -db $@ | vim -c "set syntax=diff" -R -
+    fi
+}
+
+function p4lp {
+    #like `git log -p`
+    p4 changes $@ | awk '{print $2}' | xargs -i p4 describe -du {} | less -F
+}
+
+function p4mlp {
+    #like `git log -p`
+    p4 changes -u $P4USERNAME $@ | awk '{print $2}' | xargs -i p4 describe -du {} | less -F
+}
+
+function p4adddir(){
+    if [ -z "$1" ]; then
+        echo "Usage: p4adddir directory"
+    else
+        find $1 -type f -print | p4 -x - add
+    fi
+}
+
+# p4's suggestion,http://kb.perforce.com/article/27/creating-release-notes
+# @google "assing variable from bash to perl in a bash script"
+function p4l(){
+    # p4 log
+    if [ -z "$1" ]; then
+        # show the full log
+        p4 changes -l ... | less
+    else
+        # p4log since-changelist-number
+        p4 changes -l ...@$1,#head|perl -pe "if(\$_=~/$1/){ last;};"
+    fi
+}
+
+function p4ml(){
+    # my p4 log
+    if [ -z "$1" ]; then
+        # show the full log
+        p4 changes -l -u $P4USERNAME ... | less
+    else
+        # p4log since-changelist-number
+        p4 changes -l -u $P4USERNAME ...@$1,#head|perl -pe "if(\$_=~/$1/){ last;};"
+    fi
+}
+# }}
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/purify-quora-com-with-vanilla-javascript.html">purify quora.com with vanilla javascript</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-10-09T12:15:14+00:00">2016-10-09 12:15</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/purify-quora-com-with-vanilla-javascript.html#disqus_thread" data-disqus-identifier="cache/posts/purify-quora-com-with-vanilla-javascript.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/javascript.html" rel="tag">javascript</a></li>
+           <li><a class="tag p-category" href="categories/quora.html" rel="tag">quora</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+"Smart" <a href="http://quora.com">http://quora.com</a> always recommends the stories I hate to see.
+</p>
+
+<p>
+So here is my way to toggle the stories display on Chrome and Firefox.
+</p>
+
+<p>
+Step 1, create a new bookmark with below link,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">javascript:a=Array.from(document.getElementsByClassName("AnswerStoryToggleModal"));a.forEach(function(e){e.style.display=a[a.length-1].style.display==='none'?'block':'none';});
+</code></pre>
+
+</div>
+
+<p>
+Step 2, DONE! You only need click the bookmark to hide or show the stories when visiting <a href="http://quora.com">http://quora.com</a>.
+</p>
+
+<p>
+Here is the original vanilla javascript,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">var a = Array.from(document.getElementsByClassName("AnswerStoryToggleModal"));
+a.forEach(function (e) {
+    // check 'display' of the last item in story feed before toggling
+    e.style.display = a[a.length - 1].style.display === 'none' ? 'block' : 'none';
+});
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+</p>
+
+<div class="figure">
+<p><img src="wp-content/purify-quora-nq8.png" alt="purify-quora-nq8.png"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/shan-dong-jiu-cai-zhu-rou-xia-ren-shui.html">山东韭菜猪肉虾仁水餃</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-09-20T05:46:30+00:00">2016-09-20 05:46</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/shan-dong-jiu-cai-zhu-rou-xia-ren-shui.html#disqus_thread" data-disqus-identifier="cache/posts/shan-dong-jiu-cai-zhu-rou-xia-ren-shui.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/dumpling.html" rel="tag">dumpling</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<div id="outline-container-org82ea80a" class="outline-2">
+<h3 id="org82ea80a">原料</h3>
+<div class="outline-text-2" id="text-org82ea80a">
+<ul class="org-ul">
+<li>韭菜一斤(8把)</li>
+<li>虾仁适量</li>
+<li>八角一个</li>
+<li>猪肉适量</li>
+<li>饺子皮90片</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7389d96" class="outline-2">
+<h3 id="org7389d96">流程</h3>
+<div class="outline-text-2" id="text-org7389d96">
+<ul class="org-ul">
+<li>韭菜切碎</li>
+<li>虾仁切成小块</li>
+<li>猪肉冷冻后切丁</li>
+<li>葱姜切末</li>
+<li>八角磨成粉(或十三香或五香粉),可以用捣蒜的工具捣尽量碎</li>
+<li>以上材料混合,加鲜味酱油,加菜油(馅不干且有香味),加盐适量,可再加适量麻油</li>
+<li>包饺子时面皮涂点水,对折用两个大拇指用力压扁饺子边</li>
+<li>饺子底部粘生粉防止粘一起</li>
+<li>熟后可用蒜末和醋调味</li>
+</ul>
+<p>
+馅:
+</p>
+
+
+<div class="figure">
+<p><img src="wp-content/dumpling-inside.jpg" alt="dumpling-inside.jpg"></p>
+</div>
+
+<p>
+开吃:
+</p>
+
+
+<div class="figure">
+<p><img src="wp-content/dumpling.jpg" alt="dumpling.jpg"></p>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/hu-nan-cai-you-xian-xiang-gan.html">湖南菜攸县香干</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-08-31T10:02:27+00:00">2016-08-31 10:02</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/hu-nan-cai-you-xian-xiang-gan.html#disqus_thread" data-disqus-identifier="cache/posts/hu-nan-cai-you-xian-xiang-gan.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+用料:
+</p>
+
+<ul class="org-ul">
+<li>豆豉8粒</li>
+<li>蒜瓣4片</li>
+<li>生姜一片</li>
+<li>辣椒4根</li>
+<li>豆腐干6块</li>
+</ul>
+<p>
+步骤:
+</p>
+
+<ul class="org-ul">
+<li>姜蒜切好,姜切沫,蒜切片</li>
+<li>蒜苗切斜段,青红椒各切圈</li>
+<li>香干切片,斜着下刀更好看</li>
+<li>锅中烧开水,水开后将香干片倒进去煮一分钟捞起控干水分备用</li>
+<li>锅里放油,立刻放适量豆豉(dou chi)姜蒜辣椒炒香,蒜蓉微红色即可进入下一步</li>
+<li>倒入香干,加生抽适量,老抽几滴上色,白糖少许提鲜,盐适量,耗油适量,最后放入蒜苗就起锅了</li>
+</ul>
+<p>
+小结:
+</p>
+
+<ul class="org-ul">
+<li>3分钟可以炒完</li>
+</ul>
+<div class="figure">
+<p><img src="wp-content/you-xian-xiang-gan.jpg" alt="you-xian-xiang-gan.jpg"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/emacs-as-c-ide-easy-way.html">Emacs as C++ IDE, easy way</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-08-25T14:20:28+00:00">2016-08-25 14:20</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/emacs-as-c-ide-easy-way.html#disqus_thread" data-disqus-identifier="cache/posts/emacs-as-c-ide-easy-way.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/c.html" rel="tag">c</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/global.html" rel="tag">global</a></li>
+           <li><a class="tag p-category" href="categories/gtags.html" rel="tag">gtags</a></li>
+           <li><a class="tag p-category" href="categories/ide.html" rel="tag">ide</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-08-25 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 Fri&gt;</span></span>
+</p>
+
+<p>
+This solution works on Linux/macOS/Cygwin (should work at Windows too, but I don't develop at Windows).
+</p>
+
+<p>
+Setup is minimum. Only GNU Global and two Emacs plugins are required:
+</p>
+
+<ul class="org-ul">
+<li>
+<code>company-gtags.el</code> from <a href="https://github.com/company-mode/company-mode">company</a> for code completion</li>
+<li>
+<a href="https://github.com/syohex/emacs-helm-gtags">emacs-helm-gtags</a> <b>or</b> <a href="https://github.com/syohex/emacs-counsel-gtags">emacs-counsel-gtags</a> (recommended) for code navigation</li>
+</ul>
+<p>
+Here is the step to step guide.
+</p>
+
+<div id="outline-container-orgb155180" class="outline-2">
+<h3 id="orgb155180">Step 1, create sample projects for experiment</h3>
+<div class="outline-text-2" id="text-orgb155180">
+<p>
+I have two projects <code>~/proj1</code> and <code>~/proj2</code>.
+</p>
+
+<p>
+Both projects use files from <b>read only</b> directories <code>/usr/include</code> and <code>/usr/src/linux/include</code>.
+</p>
+
+<p>
+We create a new directory <code>~/obj</code> to store index files created by GNU Global because directories of third party libraries are <b>read only</b>.
+</p>
+
+<p>
+Let's create directories,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">mkdir -p ~/{proj1,proj2,obj}
+</code></pre>
+
+</div>
+
+<p>
+The content of <code>~/proj2/lib.cpp</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">void proj2_hello(int a2, char* b2) {
+}
+</code></pre>
+
+</div>
+
+<p>
+The content of <code>~/proj1/main.cpp</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">void proj1_hello(int a1, char* b1) {
+}
+
+int main(int argc, char *argv[]) {
+    return 0;
+}
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged120cd" class="outline-2">
+<h3 id="orged120cd">Step 2, scan C++ code and setup Emacs</h3>
+<div class="outline-text-2" id="text-orged120cd">
+<p>
+Run below command in shell to scan code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># dump index files to directory ~/obj if 3rd party library directory is read only
+cd /usr/include &amp;&amp; MAKEOBJDIRPREFIX=~/obj gtags --objdir
+cd /usr/linux/include &amp;&amp; MAKEOBJDIRPREFIX=~/obj gtags --objdir
+# # above two command lines are same as below two command lines
+# mkdir -p ~/obj/usr/include &amp;&amp; cd /usr/include &amp;&amp; gtags --objdir=~/obj/usr/include
+# mkdir -p ~/obj/usr/linux/include &amp;&amp; cd /usr/linux/include &amp;&amp; gtags --objdir=~/obj/usr/linux/include
+... 
+# index files are placed inside the projects
+cd ~/proj1 &amp;&amp; gtags 
+cd ~/proj2 &amp;&amp; gtags
+...
+</code></pre>
+
+</div>
+
+<p>
+Global introduced <code>MAKEOBJDIRPREFIX</code> on 2008-03-23. I tested with <code>GNU Global v6.6.2</code> on Debian.
+</p>
+
+<p>
+After installing Emacs plugins and setup (minimum setup from their website is enough), insert below code into ~/.emacs,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; `file-truename' MUST be used!
+(setenv "GTAGSLIBPATH" (concat "/usr/include"
+                               ":"
+                               "/usr/src/linux/include"
+                               ":"
+                               (file-truename "~/proj2")
+                               ":"
+                               (file-truename "~/proj1")))
+(setenv "MAKEOBJDIRPREFIX" (file-truename "~/obj/"))
+(setq company-backends '((company-dabbrev-code company-gtags)))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5b358d3" class="outline-2">
+<h3 id="org5b358d3">Usage</h3>
+<div class="outline-text-2" id="text-org5b358d3">
+<p>
+Use the Emacs plugins as usual.
+</p>
+
+<p>
+But you need install latest company built on 25th August because I <a href="https://github.com/company-mode/company-mode/issues/570">fixed a company issue</a> yesterday.
+</p>
+
+<p>
+Screenshot,
+</p>
+
+
+<div class="figure">
+<p><img src="wp-content/cpp-gtags-demo-nq8.png" alt="cpp-gtags-demo-nq8.png"></p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2d00ec3" class="outline-2">
+<h3 id="org2d00ec3">Tip</h3>
+<div class="outline-text-2" id="text-org2d00ec3">
+<p>
+GNU Global could use ctags (Either <a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> or <a href="https://ctags.io/">Universal Ctags</a>) as backend to create tags file.
+</p>
+
+<p>
+I suggest NOT doing so. Or else I'm not sure the <code>company-mode</code> or <code>emacs-counsel-gtags</code> will work.
+</p>
+
+<p>
+If you prefer ctags, you could use it directly. Then you can use <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> plus <a href="https://github.com/company-mode/company-mode">company-mode</a> for auto-completion. Use <a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for navigation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgff65af7" class="outline-2">
+<h3 id="orgff65af7">Technical Details (Optional)</h3>
+<div class="outline-text-2" id="text-orgff65af7">
+<p>
+Check <a href="https://www.gnu.org/software/global/manual/global.html">GNU Global manual</a> to understand environment variables <code>GTAGSLIBPATH</code> and <code>MAKEOBJDIRPREFIX</code>.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/no-worries-when-elpa-is-down.html">No worries when elpa is down</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-08-14T12:52:27+00:00">2016-08-14 12:52</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/no-worries-when-elpa-is-down.html#disqus_thread" data-disqus-identifier="cache/posts/no-worries-when-elpa-is-down.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/elpa.html" rel="tag">elpa</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/package.html" rel="tag">package</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+I use one liner shell command to clone Emacs Lisp Package Archive (ELPA):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">mkdir -p ~/elpaclone &amp;&amp; cd ~/elpaclone &amp;&amp; curl -L https://elpa.gnu.org/packages/archive-contents | perl -pe 's/(^\(1|\n)//g' | perl -pe 's/\]\)/])\n/g' | perl -pe 's/^ *\(([a-z0-9A-Z-]*).*\[\(([0-9 ]*).*(single|tar).*/\1-\2.\3/g' | perl -pe 's/ /./g' | perl -pe 's/single/el/g' | perl -pe 's/\)//g' | xargs -I {} curl -L  -O https://elpa.gnu.org/packages/{} &amp;&amp; curl -L -O https://elpa.gnu.org/packages/archive-contents
+</code></pre>
+
+</div>
+
+<p>
+The <a href="https://elpa.gnu.org/packages/archive-contents">https://elpa.gnu.org/packages/archive-contents</a> contains all the information of packages. I re-organize it to make sure each line corresponds to one package. Then I use <a href="https://en.wikipedia.org/wiki/CURL">cURL</a> to download everything.
+</p>
+
+<p>
+Usage is simple.
+</p>
+
+<p>
+Insert below line at the beginning of ~/.emacs when <b>elpa.gnu.org is down</b>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq package-archives '(("elpaclone" . "~/elpaclone")))
+</code></pre>
+
+</div>
+
+<p>
+This solution also works for <a href="https://melpa.org/">MELPA</a>.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-js2-mode-as-minor-mode-to-process-json.html">Use js2-mode as minor mode to process JSON</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-31T05:24:04+00:00">2016-07-31 05:24</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-js2-mode-as-minor-mode-to-process-json.html#disqus_thread" data-disqus-identifier="cache/posts/use-js2-mode-as-minor-mode-to-process-json.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/js2.html" rel="tag">js2</a></li>
+           <li><a class="tag p-category" href="categories/json.html" rel="tag">json</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Most people use <a href="https://github.com/mooz/js2-mode">js2-mode</a> as a major mode for javascript. For JSON file, they prefer <a href="https://github.com/joshwnj/json-mode">json-mode</a>.
+</p>
+
+<p>
+But if you <b>truly</b> understand the meaning of <a href="https://www.gnu.org/philosophy/free-sw.en.html">Software Freedom</a>, you will realize "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Major-Modes.html">major-mode</a>" and "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Minor-Modes.html">minor-mode</a>" are man-made concepts which actually have no difference.
+</p>
+
+<p>
+In essence, a major mode is just a collection of APIs. We could use its APIs without enabling it, perfectly complying with "The freedom to run the program as you wish, for any purpose (freedom 0).".
+</p>
+
+<p>
+Here are two examples.
+</p>
+
+<div id="outline-container-org07eb2d7" class="outline-2">
+<h3 id="org07eb2d7">Validate JSON</h3>
+<div class="outline-text-2" id="text-org07eb2d7">
+<p>
+<code>M-x my-validate-json-or-js-expression</code> to validate the buffer.
+</p>
+
+<p>
+<code>C-u my-validate-json-or-js-expression</code> to validate selected region.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-validate-json-or-js-expression (&amp;optional not-json-p)
+  "Validate buffer or select region as JSON.
+If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
+  (interactive "P")
+  (let* ((json-exp (if (region-active-p) (buffer-substring-no-properties (region-beginning) (region-end))
+                     (buffer-substring-no-properties (point-min) (point-max))))
+         (jsbuf-offet (if not-json-p 0 (length "var a=")))
+         errs
+         first-err
+         (first-err-pos (if (region-active-p) (region-beginning) 0)))
+    (unless not-json-p
+      (setq json-exp (format "var a=%s;"  json-exp)))
+    (with-temp-buffer
+      (insert json-exp)
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (js2-parse)
+      (setq errs (js2-errors))
+      (cond
+       ((not errs)
+        (message "NO error found. Good job!"))
+       (t
+        ;; yes, first error in buffer is the last element in errs
+        (setq first-err (car (last errs)))
+        (setq first-err-pos (+ first-err-pos (- (cadr first-err) jsbuf-offet)))
+        (message "%d error(s), first at buffer position %d: %s"
+                 (length errs)
+                 first-err-pos
+                 (js2-get-msg (caar first-err))))))
+    (if first-err (goto-char first-err-pos))))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1395aec" class="outline-2">
+<h3 id="org1395aec">Print JSON path</h3>
+<div class="outline-text-2" id="text-org1395aec">
+<p>
+For example, you got JSON string  <code>{"a": {"b": 3}}</code>. If you place cursor over <code>3</code> and <code>M-x my-print-json-path</code>, you got output <code>a.b</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-print-json-path (&amp;optional hardcoded-array-index)
+  "Print the path to the JSON value under point, and save it in the kill ring.
+If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
+  (interactive "P")
+  (cond
+   ((memq major-mode '(js2-mode))
+    (js2-print-json-path hardcoded-array-index))
+   (t
+    (let* ((cur-pos (point))
+           (str (buffer-substring-no-properties (point-min) (point-max))))
+      (when (string= "json" (file-name-extension buffer-file-name))
+        (setq str (format "var a=%s;" str))
+        (setq cur-pos (+ cur-pos (length "var a="))))
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (with-temp-buffer
+        (insert str)
+        (js2-init-scanner)
+        (js2-do-parse)
+        (goto-char cur-pos)
+        (js2-print-json-path))))))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge74adc5" class="outline-2">
+<h3 id="orge74adc5">Summary</h3>
+<div class="outline-text-2" id="text-orge74adc5">
+<p>
+As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
+</p>
+<ul class="org-ul">
+<li>js2-errors</li>
+<li>js2-get-msg</li>
+<li>js2-print-json-path</li>
+<li>js2-init-scanner</li>
+<li>js2-do-parse</li>
+</ul>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/yan-tai-dun-tu-dou-si.html">烟台炖土豆丝</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-31T03:16:35+00:00">2016-07-31 03:16</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/yan-tai-dun-tu-dou-si.html#disqus_thread" data-disqus-identifier="cache/posts/yan-tai-dun-tu-dou-si.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/potato.html" rel="tag">potato</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<ul class="org-ul">
+<li>切丝浸入冷水中</li>
+<li>干辣椒蒜头切碎小火至略焦黄 (两三个蒜瓣对应四个土豆)</li>
+<li>放入土豆丝八角(一到两个,不要更多)炒到变软</li>
+<li>放入水,几滴醋,盖上小火焖一下,留点水</li>
+</ul>
+<div class="figure">
+<p><img src="wp-content/potato.jpg" alt="potato.jpg"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/enhance-emacs-git-gutter-with-ivy-mode.html">Enhance emacs-git-gutter with ivy-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-14T13:35:32+00:00">2016-07-14 13:35</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/enhance-emacs-git-gutter-with-ivy-mode.html#disqus_thread" data-disqus-identifier="cache/posts/enhance-emacs-git-gutter-with-ivy-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/gutter.html" rel="tag">gutter</a></li>
+           <li><a class="tag p-category" href="categories/ivy.html" rel="tag">ivy</a></li>
+           <li><a class="tag p-category" href="categories/mode.html" rel="tag">mode</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-07-14 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-23 Fri&gt;</span></span>
+</p>
+
+<p>
+<a href="https://github.com/syohex/emacs-git-gutter">emacs-git-gutter</a> shows an icon in the gutter area. The icon indicating whether a line has been inserted, modified or deleted in Emacs.
+</p>
+
+<p>
+I usually use <code>M-x git-gutter:previous-hunk</code> or <code>M-x git-gutter:next-hunk</code> to navigate between the hunks.
+</p>
+
+<p>
+But if there are too many hunks in one file, <a href="https://github.com/abo-abo/swiper">ivy-mode</a> is more efficient:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'ivy)
+(require 'git-gutter)
+
+(defun my-reshape-git-gutter (gutter)
+  "Re-shape gutter for `ivy-read'."
+  (let* ((linenum-start (aref gutter 3))
+         (linenum-end (aref gutter 4))
+         (target-line "")
+         (target-linenum 1)
+         (tmp-line "")
+         (max-line-length 0))
+    (save-excursion
+      (while (&lt;= linenum-start linenum-end)
+        (goto-line linenum-start)
+        (setq tmp-line (replace-regexp-in-string "^[ \t]*" ""
+                                                 (buffer-substring (line-beginning-position)
+                                                                   (line-end-position))))
+        (when (&gt; (length tmp-line) max-line-length)
+          (setq target-linenum linenum-start)
+          (setq target-line tmp-line)
+          (setq max-line-length (length tmp-line)))
+
+        (setq linenum-start (1+ linenum-start))))
+    ;; build (key . linenum-start)
+    (cons (format "%s %d: %s"
+                  (if (eq 'deleted (aref gutter 1)) "-" "+")
+                  target-linenum target-line)
+          target-linenum)))
+
+(defun my-goto-git-gutter ()
+  (interactive)
+  (if git-gutter:diffinfos
+      (ivy-read "git-gutters:"
+                (mapcar 'my-reshape-git-gutter git-gutter:diffinfos)
+                :action (lambda (e)
+                          ;; ivy9+ keep `(car e)'
+                          ;; ivy8- strip the `(car e)'
+                          ;; we handle both data structure
+                          (unless (numberp e) (setq e (cdr e)))
+                          (goto-line e)))
+    (message "NO git-gutters!")))
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+</p>
+
+<div class="figure">
+<p><img src="wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/turn-off-linum-mode-when-file-is-too-big.html">Turn off linum-mode when file is too big</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-14T13:21:02+00:00">2016-07-14 13:21</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/turn-off-linum-mode-when-file-is-too-big.html#disqus_thread" data-disqus-identifier="cache/posts/turn-off-linum-mode-when-file-is-too-big.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linum.html" rel="tag">linum</a></li>
+           <li><a class="tag p-category" href="categories/mode.html" rel="tag">mode</a></li>
+           <li><a class="tag p-category" href="categories/wc.html" rel="tag">wc</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-07-14 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-08-07 Sun&gt;</span></span>
+</p>
+
+<p>
+It's well known that linum-mode slows Emacs when the file contains thousands of lines.
+</p>
+
+<p>
+Here is the fix,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun buffer-too-big-p ()
+  (or (&gt; (buffer-size) (* 5000 80))
+      (&gt; (line-number-at-pos (point-max)) 5000)))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            ;; turn off `linum-mode' when there are more than 5000 lines
+            (if (buffer-too-big-p) (linum-mode -1))))
+</code></pre>
+
+</div>
+
+<p>
+Though <a href="https://elpa.gnu.org/packages/nlinum.html">nlinum-mode</a> has performance, I still stick to linum-mode because <a href="https://github.com/syohex/emacs-git-gutter">git-gutter</a> only supports linum-mode.
+</p>
+
+<p>
+You can check <a href="https://github.com/syohex/emacs-git-gutter/issues/124">the interesting discussion</a> about git-gutter/linum-mode/nlinum-mode. Syohei Yoshida made git-gutter 95% functional when linum-mode off.
+</p>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-24.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-22.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

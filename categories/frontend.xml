@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about frontend)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/frontend.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to do HTML/Javascript REPL (Read–eval–print loop) with NO server set up</title><link>http://blog.binchen.org/posts/how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org3dc9c3e" class="outline-2"&gt;
+&lt;h3 id="org3dc9c3e"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3dc9c3e"&gt;
+&lt;p&gt;
+I love the REPL (Read–eval–print loop). Watch live update of web page when typing code is cool.
+&lt;/p&gt;
+
+&lt;p&gt;
+But most solutions around the internet are not practical for me.
+&lt;/p&gt;
+
+&lt;p&gt;
+In my world, I never has a chance to develop fancy 2D/3D games written in HTML5 canvas.
+&lt;/p&gt;
+
+&lt;p&gt;
+Instead, I was &lt;b&gt;ALWAYS&lt;/b&gt; assigned to maintain some enterprise CMS with complex business logic. For example, after refreshing the web page I need click lots of buttons before doing the job. Avoiding press "refresh page button" does not help much.
+&lt;/p&gt;
+
+&lt;p&gt;
+Besides, I can't use the embedded server those solutions boasted because our web application has many dependencies. It needs a whole environment support team to set it up. There is no way I can persuade the team to use a different web server
+&lt;/p&gt;
+
+&lt;p&gt;
+For me, a practical solution must be:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;easy to set up&lt;/li&gt;
+&lt;li&gt;powerful. I can read/write any part of the web page in my text editor&lt;/li&gt;
+&lt;li&gt;no learning curve. I don't want to learn any domain specific language or API. For example, if my web application uses jquery, I want &lt;b&gt;use and only use jquery API&lt;/b&gt; to manipulate web page in my text editor. If it use backbone, then I use backbone. No more, no less.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1429eb4" class="outline-2"&gt;
+&lt;h3 id="org1429eb4"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1429eb4"&gt;
+&lt;p&gt;
+The best solution is firefox addon &lt;a href="https://github.com/bard/mozrepl/wiki"&gt;MozRepl&lt;/a&gt;. You can install it &lt;a href="https://addons.mozilla.org"&gt;https://addons.mozilla.org&lt;/a&gt;. Click firefox menu "Tools =&amp;gt; MozRepl =&amp;gt; Start" to run it.
+&lt;img src="http://blog.binchen.org/wp-content/moz-repl-start-nq8.png" alt="moz-repl-start-nq8.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+So what is MozRepl, as its web site says, "MozRepl lets you program Firefox and other Mozilla-based applications &lt;b&gt;from the inside&lt;/b&gt;." Basically it convert firefox into a socket server. Your text editor could talk to firefox and let firefox do anything you want. Since it only interact with the firefox, I don't need mess with the web server.
+&lt;/p&gt;
+
+&lt;p&gt;
+Well, I hope I can end this article by claiming "after reading its &lt;a href="https://github.com/bard/mozrepl/wiki/Tutorial"&gt;official tutorial&lt;/a&gt;,I live happily with MozRepl ever after".
+&lt;/p&gt;
+
+&lt;p&gt;
+The ugly truth is, MozRepl has some rough edges. That's the reason why I write this article. I will explain how to use MozRepl in next two sections.
+&lt;/p&gt;
+
+&lt;p&gt;
+Section 1 is about how to use MozRepl, whatever text editor you use, you should read this section.
+&lt;/p&gt;
+
+&lt;p&gt;
+Section 2 is on how to set up my text editor Emacs to interact with MozRepl. It's optional.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6198be1" class="outline-3"&gt;
+&lt;h4 id="org6198be1"&gt;Section 1, use MozRepl&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6198be1"&gt;
+&lt;p&gt;
+Here are key points:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;You need read above official tutorial at least once&lt;/li&gt;
+
+&lt;li&gt;There is video demo on youtube. I suggest watching from &lt;a href="http://www.youtube.com/watch?v=5RSnHN6S52c#t=137"&gt;2:18&lt;/a&gt; because you possibly are more interested in manipulating web page than toy with firefox internals.&lt;/li&gt;
+&lt;li&gt;web page is called "content" in MozRepl&lt;/li&gt;
+&lt;li&gt;In order to execute your javascript code with exactly same syntax as your web application is running code "repl.enter(content);" at first line, as you can see in both video and text tutorial&lt;/li&gt;
+&lt;li&gt;Use firefox 24.0+ and MozRepl 1.1.2+&lt;/li&gt;
+&lt;li&gt;For some weird reason, MozRepl socket server needs some warm up after web page refreshed. So run the code like "console.log('hello');" in the first connection, close the connection, and run your other code in second connection.&lt;/li&gt;
+&lt;li&gt;For code running in MozRepl, if one line will trigger some AJAX request, all the code just after that line &lt;b&gt;will not&lt;/b&gt; be executed. Use javascript API "setTimeout' to work around this issue.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Here is a complete example (note how I use setTimeout) written in javascript,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;$('#serviceId').val('0451235550');
+$('#serviceId').keyup();
+console.log('hi');
+setTimeout(function(){
+  console.log('world');
+  $('input[value="1"][name="isAccountHolder"]').click();
+  $('#accountNumber').val('01234567891234');
+  setTimeout(function(){
+    $('#registrationLoginEmailAddress').val('cb@cb.cb');
+    $('#registrationLoginEmailAddress2').val('cb@cb.cb');
+    $('#password').val('Password1');
+    $('#passwordConfirm').val('Password1');
+    $('#title').val('Mr');
+    $('#serviceFirstName').val('chen');
+    $('#serviceLastName').val('bin');
+    $('#registrationLoginDetailsContinueBtn').click();
+  },2000);
+  $('#serviceAccountContinueBtn').click();
+},3000);
+$('#confirmServiceBtn').click();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As you can see from above, I can use jQuery API loaded in that web page without any problem. Of course, you can always use vanilla javascript instead.
+&lt;/p&gt;
+
+&lt;p&gt;
+Please note the code is not part of my web application! It will be run only in MozRepl. You can telnet to the MozRepl socket server (127.0.0.1 with port 4424) and copy paste above code line by line.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org284fd94" class="outline-3"&gt;
+&lt;h4 id="org284fd94"&gt;Section 2, set up text editor (Emacs)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org284fd94"&gt;
+&lt;p&gt;
+My text editor is Emacs, so I use Emacs as an example.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 1, install moz.el according to &lt;a href="https://github.com/bard/mozrepl/wiki/Emacs-integration"&gt;official manual&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 2, Please insert below code into your ~/.emacs:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun moz-goto-content-and-run-cmd (cmd)
+  (comint-send-string (inferior-moz-process)
+                      (concat "repl.enter(content);"
+                              cmd
+                              "repl.back();")))
+
+(setq moz-repl-js-dir (expand-file-name "~/moz-repl-js-dir"))
+
+(defun moz--read-file (js-file)
+  (with-temp-buffer
+    (insert-file-contents js-file)
+    (buffer-string)))
+
+(defun moz--load-js-file (js-file)
+  (let (cmd )
+    (when (file-exists-p js-file)
+      ;; make moz API usable in any major-mode
+      (moz-minor-mode 1)
+      ;; flush mozrepl at first
+      (moz-goto-content-and-run-cmd "console.log('hello');")
+      ;; read the content of js-file
+      (setq cmd (moz--read-file js-file))
+      (moz-goto-content-and-run-cmd cmd))))
+
+(defun moz-load-js-file-and-send-it ()
+  "load js file from specific directory and send it to mozrepl"
+  (interactive)
+  (let ((js-file (read-file-name "js file:" moz-repl-js-dir)))
+    (moz--load-js-file js-file)
+    ))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+From now on, you only need "M-x moz-load-js-file-and-send-it" and select the js file you need MozRepl to run.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7743e7a" class="outline-2"&gt;
+&lt;h3 id="org7743e7a"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7743e7a"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org8a5bcec" class="outline-3"&gt;
+&lt;h4 id="org8a5bcec"&gt;Tip 1&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org8a5bcec"&gt;
+&lt;p&gt;
+Well, this is a simple tip. Maybe you are already aware of this.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can write a all-in-one.js. In all-in-one.js, you can parse the URL to separate logic for different project.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is javascript code,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;var url=document.URL;
+if(/^.*mycompany\.com\.au.*my-account\/registration/.test(url)){
+   console.log("for regitration module");
+} else if (/^.*mycompany\.com\.au.*my-account\/my-profile/.test(url)) {
+   console.log("for profile module");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Since javascript is good at analyzing URL, you can also tweak the URL parameters. Anyway, the full power of javascript is at your hand.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4039d01" class="outline-3"&gt;
+&lt;h4 id="org4039d01"&gt;Tip 2&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org4039d01"&gt;
+&lt;p&gt;
+Sometimes mozrepl will be unresponsive. You can test it by running "M-x moz-reload-browser" to refresh the page. If page is not refreshed, restart Firefox. Luckily this does not happen too often.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun moz-reload-browser ()
+  (interactive)
+  (comint-send-string (inferior-moz-process)
+                      "setTimeout(function(){content.document.location.reload(true);}, '500');"))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org898bd26" class="outline-2"&gt;
+&lt;h3 id="org898bd26"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org898bd26"&gt;
+&lt;p&gt;
+Here is a demo how I use it in a real world web application development.
+&lt;/p&gt;
+
+&lt;p&gt;
+The script to drive the firefox is written in simple javascript/jquery code, which I already show you.
+&lt;/p&gt;
+
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/mozrepl-in-action.gif" alt="mozrepl-in-action.gif"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>frontend</category><category>html</category><category>javascript</category><category>repl</category><guid>http://blog.binchen.org/posts/how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2.html</guid><pubDate>Mon, 10 Feb 2014 21:56:00 GMT</pubDate></item></channel></rss>

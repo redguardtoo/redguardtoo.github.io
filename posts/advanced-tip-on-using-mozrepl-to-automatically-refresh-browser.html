@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Advanced tip on using mozrepl to automatically refresh browser | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/advanced-tip-on-using-mozrepl-to-automatically-refresh-browser.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Advanced tip on using mozrepl to automatically refresh browser">
+<meta property="og:url" content="http://blog.binchen.org/posts/advanced-tip-on-using-mozrepl-to-automatically-refresh-browser.html">
+<meta property="og:description" content="Here is the setup on Emacswiki.
+
+
+
+I find it annoying instead of helpful in real world usage.
+
+
+
+The mozrepl trick basically will refresh the current active page in Firefox. It's not smart enough. Whe">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-12-03T08:44:27Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="firefox">
+<meta property="article:tag" content="mozrepl">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Advanced tip on using mozrepl to automatically refresh browser</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2014-12-03T08:44:27+00:00">2014-12-03 08:44</time>
+            
+
+            
+          |  
+        <a href="advanced-tip-on-using-mozrepl-to-automatically-refresh-browser.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/firefox.html" rel="tag">firefox</a></li>
+           <li><a class="tag p-category" href="../categories/mozrepl.html" rel="tag">mozrepl</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+Here is <a href="http://www.emacswiki.org/emacs/MozRepl">the setup on Emacswiki</a>.
+</p>
+
+<p>
+I find it annoying instead of helpful in real world usage.
+</p>
+
+<p>
+The mozrepl trick basically will refresh the <b>current active page</b> in Firefox. It's not smart enough. When developing a web application, I will open many stackoverflow pages to look for technical solution. I don't like my stackoverflow page being refreshed when I'm saving the HTML code for some web application.
+</p>
+
+<p>
+So here is my improved solution:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-moz-refresh-browser-condition (current-file)
+  "Should return a boolean javascript expression or nil"
+  (let (rlt)
+    (cond
+     ((string-match "\\(beeta\\|cb_tutorial\\)" current-file)
+      (setq rlt "content.document.location.href.indexOf(':8001')!==-1"))
+     (t
+      (setq rlt nil)))
+    rlt))
+
+;; {{ mozrepl auto-refresh browser
+(defun moz-reload-browser ()
+  (interactive)
+  (let (js-cond cmd)
+    (if (fboundp 'my-moz-refresh-browser-condition)
+        (setq js-cond (funcall 'my-moz-refresh-browser-condition (buffer-file-name))))
+    (cond
+     (js-cond
+      (setq cmd (concat "if(" js-cond "){setTimeout(function(){content.document.location.reload(true);}, '500');}")))
+     (t
+      (setq cmd "setTimeout(function(){content.document.location.reload(true);}, '500');")))
+    (comint-send-string (inferior-moz-process) cmd)
+    ))
+
+(defun moz-after-save ()
+  (interactive)
+  (when (memq major-mode '(web-mode html-mode nxml-mode nxhml-mode php-mode))
+    (moz-reload-browser)))
+
+(add-hook 'after-save-hook
+              'moz-after-save
+              'append 'local)
+;; }}
+</code></pre>
+
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="tips-on-using-ctags-with-emacs.html" rel="prev" title="Tips on using Ctags with Emacs">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="how-to-validate-html5-code-with-flymake-effectively.html" rel="next" title="How to validate HTML5 code with Flymake effectively">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/advanced-tip-on-using-mozrepl-to-automatically-refresh-browser.html",
+        disqus_title="Advanced tip on using mozrepl to automatically refresh browser",
+        disqus_identifier="cache/posts/advanced-tip-on-using-mozrepl-to-automatically-refresh-browser.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

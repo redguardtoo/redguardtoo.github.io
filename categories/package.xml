@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about package)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/package.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>No worries when elpa is down</title><link>http://blog.binchen.org/posts/no-worries-when-elpa-is-down.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I use one liner shell command to clone Emacs Lisp Package Archive (ELPA):
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;mkdir -p ~/elpaclone &amp;amp;&amp;amp; cd ~/elpaclone &amp;amp;&amp;amp; curl -L https://elpa.gnu.org/packages/archive-contents | perl -pe 's/(^\(1|\n)//g' | perl -pe 's/\]\)/])\n/g' | perl -pe 's/^ *\(([a-z0-9A-Z-]*).*\[\(([0-9 ]*).*(single|tar).*/\1-\2.\3/g' | perl -pe 's/ /./g' | perl -pe 's/single/el/g' | perl -pe 's/\)//g' | xargs -I {} curl -L  -O https://elpa.gnu.org/packages/{} &amp;amp;&amp;amp; curl -L -O https://elpa.gnu.org/packages/archive-contents
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The &lt;a href="https://elpa.gnu.org/packages/archive-contents"&gt;https://elpa.gnu.org/packages/archive-contents&lt;/a&gt; contains all the information of packages. I re-organize it to make sure each line corresponds to one package. Then I use &lt;a href="https://en.wikipedia.org/wiki/CURL"&gt;cURL&lt;/a&gt; to download everything.
+&lt;/p&gt;
+
+&lt;p&gt;
+Usage is simple.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below line at the beginning of ~/.emacs when &lt;b&gt;elpa.gnu.org is down&lt;/b&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq package-archives '(("elpaclone" . "~/elpaclone")))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+This solution also works for &lt;a href="https://melpa.org/"&gt;MELPA&lt;/a&gt;.
+&lt;/p&gt;&lt;/div&gt;</description><category>elpa</category><category>emacs</category><category>en</category><category>package</category><guid>http://blog.binchen.org/posts/no-worries-when-elpa-is-down.html</guid><pubDate>Sun, 14 Aug 2016 12:52:27 GMT</pubDate></item><item><title>How to manage Emacs packages effectively</title><link>http://blog.binchen.org/posts/how-to-manage-emacs-packages-effectively.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Here are a few techniques I developed after reading &lt;a href="https://github.com/purcell"&gt;Steve Purcell&lt;/a&gt;'s setup.
+&lt;/p&gt;
+
+&lt;p&gt;
+The techniques are compatible with &lt;a href="https://github.com/jwiegley/use-package"&gt;use-package&lt;/a&gt; because it uses Emacs API.
+&lt;/p&gt;
+
+&lt;p&gt;
+Mid-level Lisp knowledge is required to read this article.
+&lt;/p&gt;
+
+&lt;div id="outline-container-org7e408c7" class="outline-2"&gt;
+&lt;h3 id="org7e408c7"&gt;Do NOT use package.el for certain packages&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7e408c7"&gt;
+&lt;p&gt;
+Create the directory &lt;code&gt;~/.emacs.d/site-lisp&lt;/code&gt;. Then insert below code into &lt;code&gt;~/.emacs&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(if (fboundp 'normal-top-level-add-to-load-path)
+    (let* ((my-lisp-dir "~/.emacs.d/site-lisp/")
+           (default-directory my-lisp-dir))
+      (progn
+        (setq load-path
+              (append
+               (loop for dir in (directory-files my-lisp-dir)
+                     unless (string-match "^\\." dir)
+                     collecting (expand-file-name dir))
+               load-path)))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;p&gt;
+You can place a package's source code at sub-directory of &lt;code&gt;~/.emacs.d/site-lisp/&lt;/code&gt;. That's all you need to do to install packages.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcd3fd65" class="outline-2"&gt;
+&lt;h3 id="orgcd3fd65"&gt;Create your own package repository&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgcd3fd65"&gt;
+&lt;p&gt;
+Step 1, Place two files "archive-contents" and "hello-1.0.0.el" in any directory. Say &lt;code&gt;~/.emacs.d/localelpa&lt;/code&gt;. 
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the content of &lt;code&gt;archive-contents&lt;/code&gt;:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(1
+ (hello . [(1 0 0) nil "Say hello" single])
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is the content of &lt;code&gt;hello-1.0.0.el&lt;/code&gt;:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;;;###autoload
+(defun hello-say ()
+  (interactive)
+  (message "Hi, hello!"))
+
+(provide 'hello)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Step 2, insert below code into &lt;code&gt;~/.emacs&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-to-list 'package-archives '("localelpa" . "~/.emacs.d/localelpa"))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Step 3, restart Emacs and run &lt;code&gt;M-x list-packages&lt;/code&gt;. As you can see, you can install package named "hello" now!
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is a real world example how I apply this technique. I use &lt;code&gt;rainbow-mode&lt;/code&gt; from &lt;a href="https://elpa.gnu.org/"&gt;https://elpa.gnu.org/&lt;/a&gt; which shuts down sometimes. So I built a local repository to host &lt;code&gt;rainbow-mode&lt;/code&gt; and a few other packages to remove dependency on GNU site.
+&lt;/p&gt;
+
+&lt;p&gt;
+I also create a &lt;a href="https://github.com/redguardtoo/elpa-mirror"&gt;elpa-mirror&lt;/a&gt; which creates a local repository from the installed packages. This local repository could be converted to remote repository using &lt;a href="http://www.google.com.au/aclk?sa=l&amp;amp;ai=CzC-wxBR1V4TDLY-Q8AXB6JZYzpSQtgfG2tG-uAGEsbgLCAAQAWCl-JGAkAGgAY-k7twDyAEBqgQiT9A1G2VwLIfGToKkVCdOvyWNgzhcfW06fVwewFDtt2ESpYAHvuz4NZAHA6gHpr4b2AcB&amp;amp;sig=AOD64_0dA0XCyoO-dl0N6XK3n7knfXL5hA&amp;amp;clui=0&amp;amp;ved=0ahUKEwj-sJmh5M_NAhVEoZQKHVclCJ8Q0QwIEg&amp;amp;adurl=https://www.dropbox.com/business/landing-t61fl?_tk=sem_b_goog&amp;amp;_camp=sem-b-goog-au-nz-eng-top-exact&amp;amp;_kw=dropbox%7Ce&amp;amp;_ad=49525704222%7C1t1%7Cc"&gt;Dropbox&lt;/a&gt; and &lt;a href="https://github.com/"&gt;Github&lt;/a&gt; easily.
+&lt;/p&gt;
+
+&lt;p&gt;
+Orphan package issue is also resolved by &lt;code&gt;elpa-mirror&lt;/code&gt;. You can delete everything from &lt;code&gt;~/.emacs.d/elpa&lt;/code&gt; and set the repository to the local repository created by &lt;code&gt;elpa-mirror&lt;/code&gt;. It only takes 30 seconds to install 300 packages.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org79648f9" class="outline-2"&gt;
+&lt;h3 id="org79648f9"&gt;&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html"&gt;Advice&lt;/a&gt; &lt;code&gt;package--add-to-archive-contents&lt;/code&gt; to filter packages&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org79648f9"&gt;
+&lt;p&gt;
+Insert below code into ~/.emacs,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; List of VISIBLE packages from melpa-unstable (http://melpa.org)
+;; Feel free to add more packages!
+(defvar melpa-include-packages
+  '(bbdb
+    color-theme
+    company-c-headers)
+  "Don't install any mELPA packages except these packages")
+
+(defvar package-filter-function nil
+  "Optional predicate function used to internally filter packages used by package.el.
+
+The function is called with the arguments PACKAGE VERSION ARCHIVE, where
+PACKAGE is a symbol, VERSION is a vector as produced by `version-to-list', and
+ARCHIVE is the string name of the package archive.")
+
+;; Don't take MELPA versions of certain packages
+(setq package-filter-function
+      (lambda (package version archive)
+        (or (not (string-equal archive "melpa"))
+            ;; install package in whitelist
+            (memq package melpa-include-packages)
+            ;; use all color themes
+            (string-match (format "%s" package) "-theme"))))
+
+(defadvice package--add-to-archive-contents
+  (around filter-packages (package archive) activate)
+  "Add filtering of available packages using `package-filter-function', if non-nil."
+  (when (or (null package-filter-function)
+      (funcall package-filter-function
+         (car package)
+         (funcall (if (fboundp 'package-desc-version)
+          'package--ac-desc-version
+        'package-desc-vers)
+            (cdr package))
+         archive))
+    ad-do-it))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The above code builds the filter defined in &lt;code&gt;package-filter-function&lt;/code&gt; to get the final version of packages list.
+&lt;/p&gt;
+
+&lt;p&gt;
+The filter accepts the package if it's NOT from &lt;a href="https://melpa.org"&gt;melpa-unstable&lt;/a&gt; OR it's listed in &lt;code&gt;melpa-include-packages&lt;/code&gt; OR its name contains "-theme".
+&lt;/p&gt;
+
+&lt;p&gt;
+Surely you can build your own filter.
+&lt;/p&gt;
+
+&lt;p&gt;
+This solution is copied from Steve Purcell's setup with a little modification.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org937d9a4" class="outline-2"&gt;
+&lt;h3 id="org937d9a4"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org937d9a4"&gt;
+&lt;p&gt;
+You can combine above techniques to &lt;b&gt;solve any package issue&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, package A is dependent on package B. Both A and B have two versions, 1.0 and 2.0:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A 2.0 can use B 1.0 and B 2.0, but A 1.0 can ONLY use B 1.0&lt;/li&gt;
+&lt;li&gt;A 2.0 can ONLY use B 2.0, and A 1.0 can only use B 1.0&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+The solution is simple. We create a local repository to host B &lt;code&gt;1.0&lt;/code&gt; and A &lt;code&gt;1.0&lt;/code&gt;. As I said, &lt;code&gt;package-filter-function&lt;/code&gt; only returns a boolean expression. So you can design any strategy.
+&lt;/p&gt;
+
+&lt;p&gt;
+I know some one believs "Emacs package manager sucks" after mastering it for seven years. That's certainly not the truth as I have proved. I spent 15 minutes to reach the opposite conclusion when I was a Emacs dummy.
+&lt;/p&gt;
+
+&lt;p&gt;
+It's possibly I started my journey by &lt;a href="https://github.com/redguardtoo/mastering-emacs-in-one-year-guide"&gt;learning from experts&lt;/a&gt; instead of "studiyng" by myself.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>package</category><guid>http://blog.binchen.org/posts/how-to-manage-emacs-packages-effectively.html</guid><pubDate>Thu, 30 Jun 2016 11:09:42 GMT</pubDate></item><item><title>Find which package contains a file</title><link>http://blog.binchen.org/posts/find-which-package-contains-a-file.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;dpkg --search /usr/bin/amidi # debian/ubuntu, local search
+apt-file update;apt-file search amidi # debian/ubuntu, remote seach. You need install apt-file at first.
+equery b -e amidi # gentoo, remote/local search. You need install gentoolkits at first
+pacman -Qo admidi # archlinux, local search
+pkgfile amidi # archlinux, You need install pkgfile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>en</category><category>file</category><category>find</category><category>linux</category><category>package</category><guid>http://blog.binchen.org/posts/find-which-package-contains-a-file.html</guid><pubDate>Mon, 29 Jul 2013 14:51:00 GMT</pubDate></item><item><title>Find files provided by the installed package</title><link>http://blog.binchen.org/posts/find-files-provided-by-the-installed-package.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;dpkg -L emacs # Debian/Ubuntu
+pacman -Ql emacs # ArchLinux
+rpm -qlp emacs # Redhat/Centos
+cygcheck -l emacs # Cygwin
+brew ls --verbose emacs # Homebrew
+equery f emacs # Gentoo Linux, you need install gentoolkit
+gem contents zurb-foundation # Ruby gem
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>en</category><category>linux</category><category>manager</category><category>package</category><guid>http://blog.binchen.org/posts/find-files-provided-by-the-installed-package.html</guid><pubDate>Mon, 18 Feb 2013 17:34:00 GMT</pubDate></item></channel></rss>

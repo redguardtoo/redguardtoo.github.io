@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about gnus)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/gnus.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>dianyou 0.0.3 is out</title><link>http://blog.binchen.org/posts/dianyou-0-0-3-is-out.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I created &lt;a href="https://github.com/redguardtoo/dianyou"&gt;dianyou&lt;/a&gt; (电邮) to solve improve my Gnus work flow.
+&lt;/p&gt;
+
+&lt;div id="outline-container-org5dafccc" class="outline-2"&gt;
+&lt;h3 id="org5dafccc"&gt;Search mails&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5dafccc"&gt;
+&lt;p&gt;
+Most Gnus users use &lt;code&gt;gnus-group-make-nnir-group&lt;/code&gt; to search mails. But it's not usable in "Summary Buffer". Its &lt;a href="https://tools.ietf.org/html/rfc3501#section-6.4.4"&gt;IMAP SEARCH Command&lt;/a&gt; is hard to use.
+&lt;/p&gt;
+
+&lt;p&gt;
+It could be replaced by &lt;code&gt;dianyou-group-make-nnir-group&lt;/code&gt; which supports shortcuts. For example, you can input "f John s 1y2w2d" and select "imap" when Gnus asks the question "Imap Search in". It means search mails from John since 1 year, 2 weeks and 2 days ago.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6b80f5b" class="outline-2"&gt;
+&lt;h3 id="org6b80f5b"&gt;Auto complete email address&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6b80f5b"&gt;
+&lt;p&gt;
+I'm too lazy to set up my contacts. It would be better that Gnus could &lt;b&gt;automatically&lt;/b&gt; collect email addresses from all received mails. So I created the command &lt;code&gt;dianyou-insert-email-address-from-received-mails&lt;/code&gt;. The inserted email address is also inserted into the global variable &lt;code&gt;dianyou-email-address-history&lt;/code&gt; which could be persisted by &lt;a href="https://github.com/jwiegley/session"&gt;session&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org097af0c" class="outline-2"&gt;
+&lt;h3 id="org097af0c"&gt;Switch Gnus buffer&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org097af0c"&gt;
+&lt;p&gt;
+One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use &lt;code&gt;dianyou-switch-gnus-buffer&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9bd3dd0" class="outline-2"&gt;
+&lt;h3 id="org9bd3dd0"&gt;Paste image from clipboard&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9bd3dd0"&gt;
+&lt;p&gt;
+Use &lt;code&gt;dianyou-paste-image-from-clipboard&lt;/code&gt;. CLI program &lt;a href="https://github.com/astrand/xclip"&gt;xclip&lt;/a&gt; should be installed at first.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://blog.binchen.org/posts/dianyou-0-0-3-is-out.html</guid><pubDate>Tue, 04 Jun 2019 12:54:48 GMT</pubDate></item><item><title>How to use Gnus Group Topics efficiently</title><link>http://blog.binchen.org/posts/how-to-use-gnus-group-topics-efficiently.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Group Topics is used to manage Gnus groups.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, you can,
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Place groups (mail folders)  from Gmail into "gmail" topic&lt;/li&gt;
+&lt;li&gt;Place groups (mails folders) from Outlook.com into "hotmail" topic&lt;/li&gt;
+&lt;li&gt;Make "gmail" and "hotmail" belong to the root topic "Gnus"&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Enable it is just one line,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Now comes the question how to delete/add/move the topics?
+&lt;/p&gt;
+
+&lt;p&gt;
+The official answer is to read &lt;a href="http://www.gnu.org/software/emacs/manual/html_node/gnus/Topic-Commands.html#Topic-Commands"&gt;its manual&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+But there is a &lt;b&gt;simpler solution&lt;/b&gt;. All you need to do is insert below code into ~/.emacs or ~/.gnus.el,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load "gnus-topic"
+  (setq gnus-topic-topology '(("Gnus" visible)
+                              (("hotmail" visible nil nil))
+                              (("gmail" visible nil nil))))
+
+  (setq gnus-topic-alist '(("hotmail" ; the key of topic
+                            "nnimap+hotmail:Inbox"
+                            "nnimap+hotmail:Drafts"
+                            "nnimap+hotmail:Sent"
+                            "nnimap+hotmail:Junk"
+                            "nnimap+hotmail:Deleted")
+                           ("gmail" ; the key of topic
+                            "INBOX"
+                            "[Gmail]/Sent Mail"
+                            "[Gmail]/Trash"
+                            "Drafts")
+                           ("Gnus"))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The &lt;b&gt;management of topics is as easy as editing above code&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+My setup always works no matter ~/.newsrc.eld is loaded or not.
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, "hotmail" and "gmail" are the keys you used when configuring IMAP accounts,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq gnus-select-method
+             '(nnimap "gmail" ; key
+                      (nnimap-address "imap.gmail.com")
+                      (nnimap-server-port 993)
+                      (nnimap-stream ssl)))
+(add-to-list 'gnus-secondary-select-methods
+             '(nnimap "hotmail" ; key
+                      (nnimap-address "imap-mail.outlook.com")
+                      (nnimap-server-port 993)
+                      (nnimap-stream ssl)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gmail</category><category>gnus</category><guid>http://blog.binchen.org/posts/how-to-use-gnus-group-topics-efficiently.html</guid><pubDate>Sun, 10 Jan 2016 05:36:49 GMT</pubDate></item><item><title>Why Gnus is better than Gmail</title><link>http://blog.binchen.org/posts/why-gnus-is-better-than-gmail.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Here is my use case. My agent notify me that there is a potential contract from a company named "FF".
+&lt;/p&gt;
+
+&lt;p&gt;
+My first reaction is to reply the email with "Great! Please forward my CV".
+&lt;/p&gt;
+
+&lt;p&gt;
+Before I press the "Send" button, it occurs to me that other agents have possibly &lt;b&gt;already&lt;/b&gt; submitted my CV to FF since it is a big organization. I need double check.
+&lt;/p&gt;
+
+&lt;p&gt;
+I save current email as draft, search all the mails containing "FF" and forward them to the original email I've not sent yet. Then my agent could figure out whether other guys have already represented me for the same opportunity.
+&lt;/p&gt;
+
+&lt;p&gt;
+This operation is doable in desktop application like Outlook. I need search emails in a new dialog box. Select emails. Then drag them to the original email.
+&lt;/p&gt;
+
+&lt;p&gt;
+It's hard to do this thing in Gmail.
+&lt;/p&gt;
+
+&lt;p&gt;
+In Emacs, the job can be done easily:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Step 1, Switch to Groups buffer (the buffer which lists email folder). press key &lt;code&gt;G G&lt;/code&gt; or run command &lt;code&gt;M-x gnus-group-make-nnir-group&lt;/code&gt;, input the keyword "FF" to start search&lt;/li&gt;
+&lt;li&gt;Step 2, Mark the emails I want to forward with hot key &lt;code&gt;#&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Step 3, Press key &lt;code&gt;C-c C-f&lt;/code&gt; or run command &lt;code&gt;M-x gnus-summary-mail-forward&lt;/code&gt;. A new buffer is created. It contains a big chuck of xml string wrapped by either "&amp;lt;#multipart&amp;gt;" tag or "&amp;lt;#mml&amp;gt;" tag.&lt;/li&gt;
+&lt;li&gt;Step 4, Select and copy that string into you original email. Done!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Step 4 could be improved.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into &lt;code&gt;~/.emacs&lt;/code&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun message-select-forwarded-email-tags ()
+  "Select the &amp;lt;#mml-or-what-ever&amp;gt; tags in message-mode."
+  (interactive)
+  (let (start rlt)
+    (when (search-forward "&amp;lt;#")
+      (setq start (point))
+      (push-mark (point) t t)
+      (goto-char (point-max))
+      (search-backward "&amp;gt;")
+      (forward-char)
+      (setq rlt t))
+    rlt))
+
+(defun message-copy-select-forwarded-email-tags ()
+  "Copy the &amp;lt;#mml-or-what-ever&amp;gt; tags in message-mode."
+  (interactive)
+  (save-excursion
+    (cond
+     ((message-select-forwarded-email-tags)
+      (copy-region-as-kill (region-beginning) (region-end))
+      (message "forwarded email tags copied!"))
+     (t (message "NO forwarded email tags found!")))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+All you need is "M-x message-copy-select-forwarded-email-tags" to copy the tags into kill-ring.
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATE:
+This is only a case study. My complete guide on Gnus is at &lt;a href="http://blog.binchen.org/posts/notes-on-using-gnus.html"&gt;http://blog.binchen.org/posts/notes-on-using-gnus.html&lt;/a&gt;.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://blog.binchen.org/posts/why-gnus-is-better-than-gmail.html</guid><pubDate>Wed, 30 Apr 2014 12:46:31 GMT</pubDate></item><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org7c0767d" class="outline-2"&gt;
+&lt;h3 id="org7c0767d"&gt;Setup git-send-email&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7c0767d"&gt;
+&lt;p&gt;
+On Debian run &lt;code&gt;sudo apt-get install git-email&lt;/code&gt; to install git command line tools.
+&lt;/p&gt;
+
+&lt;p&gt;
+Then run &lt;code&gt;cpan Authen::SASL MIME::Base64 Net::SMTP::SSL&lt;/code&gt; to install perl packages (check &lt;a href="https://www.cpan.org/modules/INSTALL.html"&gt;cpan howto&lt;/a&gt;).
+&lt;/p&gt;
+
+&lt;p&gt;
+Modify &lt;code&gt;~/.gitconfig&lt;/code&gt; to use Gmail SMTP:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[sendemail]
+    smtpencryption = tls
+    smtpserver = smtp.gmail.com
+    smtpuser = username@gmail.com
+    smtpserverport = 587
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5174ce6" class="outline-2"&gt;
+&lt;h3 id="org5174ce6"&gt;Send the latest commit&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5174ce6"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# send one commit
+git send-email -1 --annotate
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9b9870b" class="outline-2"&gt;
+&lt;h3 id="org9b9870b"&gt;Apply patch&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9b9870b"&gt;
+&lt;p&gt;
+Select one mail. Run command "M-x gnus-summary-save-article-email" whose short key is "O m" in summary buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+Emacs will ask for directory to save that patch. Say I save it as &lt;code&gt;~/News/patch/hello.patch&lt;/code&gt;.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;git am ~/News/patch/hello.patch
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf8eadc2" class="outline-2"&gt;
+&lt;h3 id="orgf8eadc2"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf8eadc2"&gt;
+&lt;p&gt;
+Use &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/gnus-article-treat-patch/gnus-article-treat-patch.el"&gt;gnus-article-treat-patch.el&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Add below code to setup: 
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'gnus-article-treat-patch)
+(setq gnus-article-patch-conditions
+      '( "^@@ -[0-9]+,[0-9]+ \\+[0-9]+,[0-9]+ @@" ))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>git</category><category>gnus</category><category>patch</category><guid>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email.html</guid><pubDate>Sat, 07 Sep 2013 00:00:00 GMT</pubDate></item><item><title>How to get email from exchange server without Outlook</title><link>http://blog.binchen.org/posts/how-to-get-email-from-exchange-server-without-outlook.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+This article has three parts. 
+&lt;/p&gt;
+
+&lt;p&gt;
+First part explains setup of mail gateway &lt;a href="http://davmail.sourceforge.net/"&gt;DavMail&lt;/a&gt; for Exchange server.
+&lt;/p&gt;
+
+&lt;p&gt;
+Second part uses &lt;a href="https://www.mozilla.org/en-US/thunderbird/"&gt;thunderbird&lt;/a&gt; to fetch mails from Davmail.
+&lt;/p&gt;
+
+&lt;p&gt;
+Third part uses Emacs and Gnus to replace thunderbird. It's optional.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgd70e8f8" class="outline-2"&gt;
+&lt;h3 id="orgd70e8f8"&gt;DavMail as mail gateway&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd70e8f8"&gt;
+&lt;pre class="example"&gt;
+Ever wanted to get rid of Outlook ? DavMail is a POP/IMAP/SMTP/Caldav/Carddav/LDAP exchange gateway allowing users to use any mail/calendar client (e.g. Thunderbird with Lightning or Apple iCal) with an Exchange server.
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org77e9886" class="outline-3"&gt;
+&lt;h4 id="org77e9886"&gt;Install&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org77e9886"&gt;
+&lt;p&gt;
+&lt;a href="http://davmail.sourceforge.net/download.html"&gt;Download the installer&lt;/a&gt; at Debian/Ubuntu/Mint:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo apt-get install libswt-gtk-3-jni libswt-gtk-3-java libswt-cairo-gtk-3-jni
+# ubuntu/debian only; for other distribution, just download src package
+sudo dpkg -i davmail_4.5.1-2303-1_all.deb
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Installation is easy. DavMail by itself is a portable java application. Since its GUI is dependent on SWT. So I give the instruction on how to install SWT in ubuntu. If you don't use ubuntu, then you are already technically good enough to know how to install SWT.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org9327950" class="outline-3"&gt;
+&lt;h4 id="org9327950"&gt;Configuration&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org9327950"&gt;
+&lt;p&gt;
+Now start DavMail. 
+&lt;/p&gt;
+
+&lt;p&gt;
+Please input the web Outlook url like "&lt;a href="https://webmail.mycompany.com.au/owa/"&gt;https://webmail.mycompany.com.au/owa/&lt;/a&gt;" in its GUI.
+&lt;/p&gt;
+
+&lt;p&gt;
+By default all the services are &lt;b&gt;NOT&lt;/b&gt; encrypted. It makes sense because email client and gateway are at the same computer.
+&lt;/p&gt;
+
+&lt;p&gt;
+Write down the port numbers. In my case, I need port number of IMAP/POP3/SMTP.
+&lt;/p&gt;
+
+&lt;p&gt;
+That's all you need to do unless DavMail can't detect your Exchange server automatically!
+&lt;/p&gt;
+
+&lt;p&gt;
+If Exchange server uses un-conventional EWS URL, you need find the URL &lt;b&gt;manually&lt;/b&gt; with &lt;a href="http://ewseditor.codeplex.com/"&gt;EWSEditor&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, my EWS URL is &lt;code&gt;https://my-company.local/EWS/Exchange.asmx&lt;/code&gt;. In DavMail, input that URL in "Main -&amp;gt; OWA (Exchange) URL" and force the "Exchange Protocol" into "EWS".
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, &lt;a href="https://outlook.office365.com/"&gt;https://outlook.office365.com/&lt;/a&gt; EWS URL is &lt;code&gt;https://outlook.office365.com/EWS/Exchange.asmx&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdee13cb" class="outline-2"&gt;
+&lt;h3 id="orgdee13cb"&gt;Thunderbird&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdee13cb"&gt;
+&lt;p&gt;
+Create a new account, and &lt;b&gt;manually&lt;/b&gt; configure the server. The server name is "127.0.0.1", the port number is already on your paper. The minimum setup needs IMAP port to  receive mail and SMTP port to send email.
+&lt;/p&gt;
+
+&lt;p&gt;
+You don't need care about ssl stuff, let thunderbird handle it. But if you get the error message like "BAD command authentication required" in davmail's log, modify setup in "Account Settings -&amp;gt; Server Settings -&amp;gt; Security Settings -&amp;gt; Connection Settings". Select "None".
+&lt;/p&gt;
+
+&lt;p&gt;
+The only issue is the "Username". You can log in Outlook Web UI, click "Options -&amp;gt; Change Password". The user name is displayed above the first input box. Please note the full user name may include the work domain.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgaec7d04" class="outline-2"&gt;
+&lt;h3 id="orgaec7d04"&gt;Emacs Gnus&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgaec7d04"&gt;
+&lt;p&gt;
+Gnus cannot access IMAP service of DavMail. There is &lt;a href="http://permalink.gmane.org/gmane.emacs.gnus.general/83301"&gt;some bug&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+So we have to turn to POP3. Check &lt;a href="http://www.emacswiki.org/emacs/GnusTutorial"&gt;documentation&lt;/a&gt; at EmacsWiki.
+&lt;/p&gt;
+
+&lt;p&gt;
+If you use POP3, don NOT delete mails on server. You &lt;b&gt;must&lt;/b&gt; set the variable "pop3-leave-mail-on-server" to true!
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into your ~/.emacs:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; gnus+davmail bug, so I have to use pop3 for DavMail
+;; http://permalink.gmane.org/gmane.emacs.gnus.general/83301
+;; but delete all the mails on server is scary
+(setq pop3-leave-mail-on-server t)
+
+(add-to-list 'gnus-secondary-select-methods '(nnml "mycompany"))
+(setq mail-sources
+      '((pop :server "127.0.0.1" ;; DavMail is running at localhost
+         :port 1110
+         :user "username"
+         :password "password"
+         :stream network))) ;; by default, DavMail don't encrypt mail
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Since I've got many mails in INBOX folder, POP3 could take some time to get them. In worst cases, IT administrator may block DavMail access because it relay too many requests from Gnus! The solution is to use another IMAP client like thunderbird to clean up the INBOX folder before start Gnus.
+&lt;/p&gt;
+
+&lt;p&gt;
+Another tip is when opening a folder in Gnus, press &lt;code&gt;C-u ENTER&lt;/code&gt; instead of &lt;code&gt;ENTER&lt;/code&gt; key. &lt;code&gt;C-u&lt;/code&gt; here means display all the read &lt;b&gt;and unread mails&lt;/b&gt;. It's awkward when product manager ask you open an important mail but that mail is invisible because it's marked READ. Check my article &lt;a href="https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/gnus-guide-en.org"&gt;Practical guide to use Gnus with Gmail&lt;/a&gt; for more tips.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><category>imap</category><category>linux</category><category>outlook</category><guid>http://blog.binchen.org/posts/how-to-get-email-from-exchange-server-without-outlook.html</guid><pubDate>Tue, 06 Aug 2013 20:26:00 GMT</pubDate></item><item><title>Practical guide to use Gnus with Gmail</title><link>http://blog.binchen.org/posts/notes-on-using-gnus.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+The article is moved to &lt;a href="https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/gnus-guide-en.org"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</description><category>emacs</category><category>email</category><category>gmail</category><category>gnus</category><guid>http://blog.binchen.org/posts/notes-on-using-gnus.html</guid><pubDate>Fri, 12 Oct 2012 17:14:00 GMT</pubDate></item></channel></rss>

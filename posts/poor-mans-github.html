@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Poor man's github | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/poor-mans-github.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Poor man's github">
+<meta property="og:url" content="http://blog.binchen.org/posts/poor-mans-github.html">
+<meta property="og:description" content="Key points of this article:  Build a github prototype written in Bash within 5 minutes  Highlight key elements in my usual git work flow  Git is scalabe. you can use any tool to extend it.      As Yur">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-07-15T10:09:00Z">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ssh">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Poor man's github</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-07-15T10:09:00+00:00">2013-07-15 10:09</time>
+            
+
+            
+          |  
+        <a href="poor-mans-github.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="../categories/ssh.html" rel="tag">ssh</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p></p>
+<p>Key points of this article: </p>
+<ul>
+<li>Build a github prototype written in Bash within 5 minutes </li> <li>Highlight key elements in my usual git work flow </li> <li>Git is scalabe. you can use any tool to extend it. </li> </ul>
+<p> As <a href="https://plus.google.com/110090899194056392647">Yuri Albuquerque</a> mentioned, there are more powerful tools like <a href="https://github.com/sitaramc/gitolite">gitolite</a>. But the key concept behind the system is similar. </p> <p> Add following code into ~/.bashrc and run "source ~/.bashrc", then run "gih" to see help: </p>   <pre class="src src-sh"><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">gih</span>() {
+    <span style="color: #b294bb;">local</span> <span style="color: #f0c674;">MY_USERNAME</span>=git
+    <span style="color: #b294bb;">local</span> <span style="color: #f0c674;">MY_SSH_URL</span>=git@domain.name
+    <span style="color: #b294bb;">local</span> <span style="color: #f0c674;">MY_SSH_PORT</span>=8888
+    <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$1"</span> ]; <span style="color: #b5bd68;">then</span>
+        cat &lt;&lt; <span style="color: #8abeb7;">'EOF'</span>
+<span style="color: #8abeb7;">Usage: gih [command]</span>
+<p><span style="color: #8abeb7;">Commands:</span></p>
+<p><span style="color: #8abeb7;">l, ls, list - list the projects</span></p>
+<p><span style="color: #8abeb7;">n, new [project-name] - create a new project</span></p>
+<p><span style="color: #8abeb7;">r, readme [project-name] - show README</span></p>
+<p><span style="color: #8abeb7;">i, issue [project-name] - show issues list</span></p>
+<p><span style="color: #8abeb7;">st, status - check free space of git server</span></p>
+<p><span style="color: #8abeb7;">u, url [project-name] - the full url of the project</span></p>
+<p><span style="color: #8abeb7;">EOF</span>
+    <span style="color: #b5bd68;">else</span>
+        <span style="color: #b5bd68;">case</span> $<span style="color: #f0c674;">1</span><span style="color: #b5bd68;"> in</span>
+            l|ls|list)
+                ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                ;;
+            n|new)
+                <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$2"</span> ]; <span style="color: #b5bd68;">then</span>
+                    <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Please input the name of new project!"</span>
+                    <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Current projects hosted:"</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                <span style="color: #b5bd68;">else</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"mkdir -p ~/$2.git;cd ~/$2.git;git --bare init;"</span>
+                    <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Push existing repository from command line:"</span>
+                    <span style="color: #b294bb;">echo</span> git remote add origin ssh://$<span style="color: #f0c674;">MY_SSH_URL</span>:$<span style="color: #f0c674;">MY_SSH_PORT</span>/home/$<span style="color: #f0c674;">MY_USERNAME</span>/$<span style="color: #f0c674;">2</span>.git
+                    <span style="color: #b294bb;">echo</span> git push -u origin master
+                <span style="color: #b5bd68;">fi</span>
+                ;;
+            r|readme)
+                <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$2"</span> ]; <span style="color: #b5bd68;">then</span>
+                    <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Please input the name of new project!"</span>
+                    <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Current projects hosted:"</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                <span style="color: #b5bd68;">else</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"cd ~/$2.git;git show HEAD:README.org || git show HEAD:README.md"</span>
+                <span style="color: #b5bd68;">fi</span>
+                ;;
+            i|issue)
+                <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$2"</span> ]; <span style="color: #b5bd68;">then</span>
+                    <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Please input the name of new project!"</span>
+                    <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Current projects hosted:"</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                <span style="color: #b5bd68;">else</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> git@sydneypc.mooo.com <span style="color: #8abeb7;">"cd ~/$2.git;git show HEAD:ISSUE.org || git show HEAD:ISSUE.md"</span>
+                <span style="color: #b5bd68;">fi</span>
+                ;;
+            st|status)
+                ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"df -h /dev/sda1"</span>
+                ;;
+            u|url)
+                <span style="color: #b294bb;">echo</span> ssh://$<span style="color: #f0c674;">MY_SSH_URL</span>:$<span style="color: #f0c674;">MY_SSH_PORT</span>/home/$<span style="color: #f0c674;">MY_USERNAME</span>/$<span style="color: #f0c674;">2</span>.git
+                ;;
+            *)
+                <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Unknown command, check help please"</span>
+                ;;
+        <span style="color: #b5bd68;">esac</span>
+    <span style="color: #b5bd68;">fi</span>
+}</p>
+<p></p></pre>  </div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="fan-qie-chao-dan-de-zuo-fa.html" rel="prev" title="番茄炒蛋的做法">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="elisp-code-copy-full-path-of-current-file-into-os-clipboard-and-yank-ring.html" rel="next" title="Elisp code: copy full path of current file into OS clipboard and yank ring">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/poor-mans-github.html",
+        disqus_title="Poor man's github",
+        disqus_identifier="cache/posts/poor-mans-github.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

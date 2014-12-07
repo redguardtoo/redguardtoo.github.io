@@ -1,0 +1,972 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about mac)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/mac.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to use FTP in Emacs</title><link>http://blog.binchen.org/posts/how-to-use-ftp-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Emacs's default &lt;a href="http://www.emacswiki.org/AngeFtp"&gt;Ftp client&lt;/a&gt; is a little outdated compared to other modern Ftp clients. &lt;/p&gt; &lt;p&gt; What I want is a two panel file explorer with ftp client integrated (An excellent example is &lt;a href="http://www.ghisler.com"&gt;Total Commander&lt;/a&gt; on windows). &lt;/p&gt; &lt;p&gt; In Emacs, I've got &lt;a href="http://emacswiki.org/emacs/Sunrise_Commander"&gt;Sunrise Commander&lt;/a&gt; which is close to Total Commander, but NO Ftp integration. &lt;/p&gt; &lt;p&gt; I dig around the internet for a while and find that the perfect solution is mount the ftp server into my local file system with &lt;a href="http://curlftpfs.sourceforge.net"&gt;CurlFtpFS&lt;/a&gt;. &lt;/p&gt; &lt;p&gt; The best part of this solution is CurlFtpFS supports both OS X and Linux. &lt;/p&gt; &lt;p&gt; In order to install CurlFtpFS on OS X, you need use the package manager &lt;a href="http://mxcl.github.com/homebrew/"&gt;Homebrew&lt;/a&gt;. The only catch I met on OS X is that I need upgrade Fuse4X driver manually for some wired reason to avoid "incompatible with the kernel version" error. Upgrading is simple. Download dmg plus mouse click stuff only. See &lt;a href="http://fuse4x.github.com/faq.html"&gt;FAQ&lt;/a&gt; for details. &lt;/p&gt; &lt;p&gt; For the usage of CurlFtpFS, see &lt;a href="https://wiki.archlinux.org/index.php/Mount_FTP"&gt;HERE&lt;/a&gt; for documentation. It's for Linux. But totally fine for OS X users. &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>ftp</category><category>linux</category><category>mac</category><category>mount</category><guid>http://blog.binchen.org/posts/how-to-use-ftp-in-emacs.html</guid><pubDate>Sun, 11 Nov 2012 13:05:00 GMT</pubDate></item><item><title>奇客(Geek)的常用软件清单(OS X, Windows, Linux)</title><link>http://blog.binchen.org/posts/geek-chang-yong-ruan-jian-qin-dan.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+作者: 陈斌 (redguardtoo)
+&lt;/p&gt;
+
+&lt;p&gt;
+更新时间: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-10-09 Sun&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+原创时间: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2011-04-16 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+品味小众,如你用360/阿里巴巴/百度等免费软件套装,本文就不用看了.
+&lt;/p&gt;
+
+&lt;p&gt;
+我的标准是:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;功能强大(可编程,支持插件)&lt;/li&gt;
+&lt;li&gt;性能优秀(不带图形界面,用C写的,一般性能还可以)&lt;/li&gt;
+&lt;li&gt;诚实可靠(开源最好,闭源的话开发者要有相当信用)&lt;/li&gt;
+&lt;li&gt;绿色软件,配置文件最好是纯文本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div id="outline-container-org0c99b3f" class="outline-2"&gt;
+&lt;h3 id="org0c99b3f"&gt;Windows软件清单&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0c99b3f"&gt;
+&lt;p&gt;
+工作中我90%的时间用Cygwin+Visual Studio+Vim+Firefox.下班后基本不碰windows.
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;名称&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;说明&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;频率&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;性质&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Cygwin&lt;/td&gt;
+&lt;td class="org-left"&gt;Linux下常用工具集合&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;7-Zip&lt;/td&gt;
+&lt;td class="org-left"&gt;压缩解压缩&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;AviSynth 2.5&lt;/td&gt;
+&lt;td class="org-left"&gt;视频编辑&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;CDBurnerXP&lt;/td&gt;
+&lt;td class="org-left"&gt;刻录&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;CDex&lt;/td&gt;
+&lt;td class="org-left"&gt;cd转mp3,自动生成文件名&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Ditto&lt;/td&gt;
+&lt;td class="org-left"&gt;剪贴板管理&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;CMake 2.8&lt;/td&gt;
+&lt;td class="org-left"&gt;跨平台build工具,相见恨晚&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Comicsviewer&lt;/td&gt;
+&lt;td class="org-left"&gt;看漫画&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;DAEMON Tools&lt;/td&gt;
+&lt;td class="org-left"&gt;虚拟光驱&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wink&lt;/td&gt;
+&lt;td class="org-left"&gt;录屏&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Dependency Walker&lt;/td&gt;
+&lt;td class="org-left"&gt;检查dll依赖&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;eMule&lt;/td&gt;
+&lt;td class="org-left"&gt;p2p下载&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Foobar2000&lt;/td&gt;
+&lt;td class="org-left"&gt;音乐播放&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Gimp&lt;/td&gt;
+&lt;td class="org-left"&gt;图像编辑&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;小狼毫输入法&lt;/td&gt;
+&lt;td class="org-left"&gt;输入法&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;ClamWin&lt;/td&gt;
+&lt;td class="org-left"&gt;开源杀毒&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;ImageMagick&lt;/td&gt;
+&lt;td class="org-left"&gt;命令行图像处理&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;InfraRecorder&lt;/td&gt;
+&lt;td class="org-left"&gt;刻录&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Inno Setup 5&lt;/td&gt;
+&lt;td class="org-left"&gt;打包,开发用&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;IPMsg&lt;/td&gt;
+&lt;td class="org-left"&gt;局域网通信&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;IrfanView&lt;/td&gt;
+&lt;td class="org-left"&gt;看图,可与total commander集成&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Microsoft Visual Studio Express 2010&lt;/td&gt;
+&lt;td class="org-left"&gt;C++ IDE&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Firefox&lt;/td&gt;
+&lt;td class="org-left"&gt;网页浏览&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;mtPaint&lt;/td&gt;
+&lt;td class="org-left"&gt;mspaint的替代品,界面费解&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;LibreOffice&lt;/td&gt;
+&lt;td class="org-left"&gt;字处理,doc转pdf,组织结构图&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;OpenVPN&lt;/td&gt;
+&lt;td class="org-left"&gt;VPN&lt;/td&gt;
+&lt;td class="org-left"&gt;否&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Pandora Recovery&lt;/td&gt;
+&lt;td class="org-left"&gt;恢复误删除的文件&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;SumatraPDF&lt;/td&gt;
+&lt;td class="org-left"&gt;PDF阅读器&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;VirtualBox&lt;/td&gt;
+&lt;td class="org-left"&gt;虚拟机,网上银行用&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;MiniThunder(迅雷)&lt;/td&gt;
+&lt;td class="org-left"&gt;下载&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;UltraVNC&lt;/td&gt;
+&lt;td class="org-left"&gt;远程桌面控制&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Subtitle Workshop&lt;/td&gt;
+&lt;td class="org-left"&gt;字幕调整&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;USBOOT 1.7&lt;/td&gt;
+&lt;td class="org-left"&gt;制作usb自启动盘&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Goagent&lt;/td&gt;
+&lt;td class="org-left"&gt;翻墙&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Vim/GVim&lt;/td&gt;
+&lt;td class="org-left"&gt;文本编辑&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Total Commander&lt;/td&gt;
+&lt;td class="org-left"&gt;世界第一的文件管理器&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;共享&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;bblean&lt;/td&gt;
+&lt;td class="org-left"&gt;windows shell&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Bridge Base Online&lt;/td&gt;
+&lt;td class="org-left"&gt;游戏&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;ntemacs&lt;/td&gt;
+&lt;td class="org-left"&gt;文本编辑&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;openssl&lt;/td&gt;
+&lt;td class="org-left"&gt;如题&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Python2.7&lt;/td&gt;
+&lt;td class="org-left"&gt;一种脚本语言&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;wxWidgets 3.0&lt;/td&gt;
+&lt;td class="org-left"&gt;跨平台c++ GUI库&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Mplayer&lt;/td&gt;
+&lt;td class="org-left"&gt;命令行视频播放软件&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;开源&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;autoruns&lt;/td&gt;
+&lt;td class="org-left"&gt;检查默认启动软件&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;process explorer&lt;/td&gt;
+&lt;td class="org-left"&gt;检查运行程序&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Everything&lt;/td&gt;
+&lt;td class="org-left"&gt;找文件&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;td class="org-left"&gt;免费&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org26b30d4" class="outline-2"&gt;
+&lt;h3 id="org26b30d4"&gt;Linux软件清单&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org26b30d4"&gt;
+&lt;p&gt;
+操作系统为&lt;a href="http://www.gentoo.org"&gt;Gentoo Linux&lt;/a&gt;.使用频率最高的为Git+Emacs+Vi+Firefox+I3+Bash. &lt;a href="http://ftp.mozilla.org/pub/firefox/releases/"&gt;Firefox&lt;/a&gt;和&lt;a href="http://ftp.mozilla.org/pub/thunderbird/releases/"&gt;Thunderbird&lt;/a&gt;用的是绿色版本.
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;名称&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;说明&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;频率&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Emacs&lt;/td&gt;
+&lt;td class="org-left"&gt;任何事&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Vim&lt;/td&gt;
+&lt;td class="org-left"&gt;文本编辑&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Firefox&lt;/td&gt;
+&lt;td class="org-left"&gt;网页浏览&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Terminator&lt;/td&gt;
+&lt;td class="org-left"&gt;Terminal&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Bash&lt;/td&gt;
+&lt;td class="org-left"&gt;shell&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Percol&lt;/td&gt;
+&lt;td class="org-left"&gt;交互过滤文本&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Scrot&lt;/td&gt;
+&lt;td class="org-left"&gt;截图&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;I3&lt;/td&gt;
+&lt;td class="org-left"&gt;窗口管理&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wine&lt;/td&gt;
+&lt;td class="org-left"&gt;win32模拟器&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Goagent&lt;/td&gt;
+&lt;td class="org-left"&gt;翻墙&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Mplayer&lt;/td&gt;
+&lt;td class="org-left"&gt;视频播放&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Ncmpcpp+mpc+mpd&lt;/td&gt;
+&lt;td class="org-left"&gt;音频播放&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Amule (amule-dlp)&lt;/td&gt;
+&lt;td class="org-left"&gt;p2p下载&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Rtorrent&lt;/td&gt;
+&lt;td class="org-left"&gt;BT下载&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Virtualbox&lt;/td&gt;
+&lt;td class="org-left"&gt;虚拟机&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Gimp&lt;/td&gt;
+&lt;td class="org-left"&gt;图片编辑&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Git&lt;/td&gt;
+&lt;td class="org-left"&gt;版本控制&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Zathura&lt;/td&gt;
+&lt;td class="org-left"&gt;pdf阅读&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Parcellite&lt;/td&gt;
+&lt;td class="org-left"&gt;剪贴板管理&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Fcitx&lt;/td&gt;
+&lt;td class="org-left"&gt;中文输入&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Libreoffice&lt;/td&gt;
+&lt;td class="org-left"&gt;办公软件&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;ThunderBird&lt;/td&gt;
+&lt;td class="org-left"&gt;电子邮件&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Dunst&lt;/td&gt;
+&lt;td class="org-left"&gt;显示通知&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Popfile&lt;/td&gt;
+&lt;td class="org-left"&gt;邮件分类&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org70f7a6c" class="outline-2"&gt;
+&lt;h3 id="org70f7a6c"&gt;Mac软件清单&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org70f7a6c"&gt;
+&lt;p&gt;
+使用频率最高的软件为Emacs, Firefox, Bash, Adium.
+&lt;/p&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;名称&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;说明&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;频率&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Emacs&lt;/td&gt;
+&lt;td class="org-left"&gt;任何事&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Firefox&lt;/td&gt;
+&lt;td class="org-left"&gt;上网&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Bash&lt;/td&gt;
+&lt;td class="org-left"&gt;shell&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Libreoffice&lt;/td&gt;
+&lt;td class="org-left"&gt;办公软件&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;迷你迅雷&lt;/td&gt;
+&lt;td class="org-left"&gt;下载&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;HomeBrew&lt;/td&gt;
+&lt;td class="org-left"&gt;开源软件包管理(少数几个亮点之一)&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Flybuy&lt;/td&gt;
+&lt;td class="org-left"&gt;剪贴板管理&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Mplayer X&lt;/td&gt;
+&lt;td class="org-left"&gt;类mplayer的轻量级视频播放器&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;VLC&lt;/td&gt;
+&lt;td class="org-left"&gt;视频播放器,字幕支持好&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Monolingual&lt;/td&gt;
+&lt;td class="org-left"&gt;删除没用的语言和&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Skim&lt;/td&gt;
+&lt;td class="org-left"&gt;看PDF&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;CCleaner&lt;/td&gt;
+&lt;td class="org-left"&gt;清理系统垃圾&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;有道词典&lt;/td&gt;
+&lt;td class="org-left"&gt;查单词&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Chicken of the VNC&lt;/td&gt;
+&lt;td class="org-left"&gt;vnc客户端(远程桌面)&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;IPMessenger&lt;/td&gt;
+&lt;td class="org-left"&gt;局域网内通信传文件&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Adium&lt;/td&gt;
+&lt;td class="org-left"&gt;即时通信&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4dc6327" class="outline-2"&gt;
+&lt;h3 id="org4dc6327"&gt;某些优秀软件的配置&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4dc6327"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org399cdf4" class="outline-3"&gt;
+&lt;h4 id="org399cdf4"&gt;Firefox&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org399cdf4"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;插件名称&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;说明&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;频率&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Adblock Plus&lt;/td&gt;
+&lt;td class="org-left"&gt;过滤广告,支持正则表达式&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;KeySnail&lt;/td&gt;
+&lt;td class="org-left"&gt;安装了HoK脚本&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;ImageBlock (or Picture Blocker)&lt;/td&gt;
+&lt;td class="org-left"&gt;和图片说再见&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;ColorZilla&lt;/td&gt;
+&lt;td class="org-left"&gt;取色&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Vacuum Palaces Improved&lt;/td&gt;
+&lt;td class="org-left"&gt;firefox数据库加速&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Magrent&lt;/td&gt;
+&lt;td class="org-left"&gt;转换链接为torrent文件&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;MozRepl&lt;/td&gt;
+&lt;td class="org-left"&gt;和Emacs交互,前端开发必备&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Greasemonkey&lt;/td&gt;
+&lt;td class="org-left"&gt;js脚本操作firefox&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;MeasureIt&lt;/td&gt;
+&lt;td class="org-left"&gt;Firefox的尺子&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;QR Code Image Generator&lt;/td&gt;
+&lt;td class="org-left"&gt;产生QR码&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;JSONView&lt;/td&gt;
+&lt;td class="org-left"&gt;View JSON&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;LeechBlock&lt;/td&gt;
+&lt;td class="org-left"&gt;自绝于社交网络&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Tile Tabs&lt;/td&gt;
+&lt;td class="org-left"&gt;子窗口&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;ePub-Catalog&lt;/td&gt;
+&lt;td class="org-left"&gt;epub图书管理&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Fireinput&lt;/td&gt;
+&lt;td class="org-left"&gt;拼音输入法&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Nimbus Screen Capture&lt;/td&gt;
+&lt;td class="org-left"&gt;网页截屏&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org9208361" class="outline-3"&gt;
+&lt;h4 id="org9208361"&gt;ThunderBird&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org9208361"&gt;
+&lt;p&gt;
+原生支持Gtalk.
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;插件名称&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;说明&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EmailPicky&lt;/td&gt;
+&lt;td class="org-left"&gt;收集邮件地址&lt;/td&gt;
+&lt;td class="org-left"&gt;右击, Pick email IDs from this folder&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Lightning&lt;/td&gt;
+&lt;td class="org-left"&gt;Calendar&lt;/td&gt;
+&lt;td class="org-left"&gt;右击, new calendar&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Mail Redirect&lt;/td&gt;
+&lt;td class="org-left"&gt;redirect mail&lt;/td&gt;
+&lt;td class="org-left"&gt;不回信给你&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org2c682f5" class="outline-3"&gt;
+&lt;h4 id="org2c682f5"&gt;Greasemonkey&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org2c682f5"&gt;
+&lt;p&gt;
+需刷新网页使script生效
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;插件名称&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;说明&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;频率&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;NinjaWebCoder&lt;/td&gt;
+&lt;td class="org-left"&gt;从网站拷贝代码&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;眼不见心不烦&lt;/td&gt;
+&lt;td class="org-left"&gt;清理weibo.com&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgc2f267c" class="outline-3"&gt;
+&lt;h4 id="orgc2f267c"&gt;Vim&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgc2f267c"&gt;
+&lt;p&gt;
+见&lt;a href="https://github.com/redguardtoo/vimrc"&gt;https://github.com/redguardtoo/vimrc&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orga946895" class="outline-3"&gt;
+&lt;h4 id="orga946895"&gt;Emacs&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orga946895"&gt;
+&lt;p&gt;
+见&lt;a href="https://github.com/redguardtoo/emacs.d"&gt;https://github.com/redguardtoo/emacs.d&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org5b2354d" class="outline-3"&gt;
+&lt;h4 id="org5b2354d"&gt;Total Commander&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org5b2354d"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;插件名称&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;说明&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;频率&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;CatalogMaker.wcx&lt;/td&gt;
+&lt;td class="org-left"&gt;创建文件列表&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;CHMDir.wcx&lt;/td&gt;
+&lt;td class="org-left"&gt;生成chm文件&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;7zip.wcx&lt;/td&gt;
+&lt;td class="org-left"&gt;压缩解压缩7zip格式的压缩文件&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;UnInstTC.wfx&lt;/td&gt;
+&lt;td class="org-left"&gt;管理"添加/删除软件"面板&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Registry&lt;/td&gt;
+&lt;td class="org-left"&gt;管理注册表&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;ex2fs.wfx&lt;/td&gt;
+&lt;td class="org-left"&gt;访问linux分区(只读)&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;sftpplug.wfx&lt;/td&gt;
+&lt;td class="org-left"&gt;支持sftp&lt;/td&gt;
+&lt;td class="org-left"&gt;中&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;imagine.wlx&lt;/td&gt;
+&lt;td class="org-left"&gt;看图&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>geek</category><category>linux</category><category>mac</category><category>software</category><category>win32</category><category>zh</category><guid>http://blog.binchen.org/posts/geek-chang-yong-ruan-jian-qin-dan.html</guid><pubDate>Sat, 16 Apr 2011 15:11:00 GMT</pubDate></item></channel></rss>

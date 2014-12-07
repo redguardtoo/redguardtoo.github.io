@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>How to do the file navigation efficiently | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/how-to-do-the-file-navigation-efficiently.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="How to do the file navigation efficiently">
+<meta property="og:url" content="http://blog.binchen.org/posts/how-to-do-the-file-navigation-efficiently.html">
+<meta property="og:description" content="CREATED: &lt;2014-06-15 Sun&gt;
+
+
+
+UPDATED: &lt;2015-02-21 Sat&gt;
+
+
+
+The solutin is based on the ideas of top geeks. I only did the implementation.
+
+
+
+Mendel Cooper provided the original design in Advanced Bash-">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-06-15T13:51:02Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">How to do the file navigation efficiently</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2014-06-15T13:51:02+00:00">2014-06-15 13:51</time>
+            
+
+            
+          |  
+        <a href="how-to-do-the-file-navigation-efficiently.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-06-15 Sun&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-02-21 Sat&gt;</span></span>
+</p>
+
+<p>
+The solutin is based on the ideas of top geeks. I only did the implementation.
+</p>
+
+<p>
+Mendel Cooper provided the original design in <a href="http://www.tldp.org/LDP/abs/html/index.html">Advanced Bash-Scripting Guide</a>. Masafumi Oyamada (AKA mooz) added the missing piece by creating <a href="https://github.com/mooz/percol">percol</a>.
+</p>
+
+<div id="outline-container-org9feaec7" class="outline-2">
+<h3 id="org9feaec7">Problem</h3>
+<div class="outline-text-2" id="text-org9feaec7">
+<p>
+How to find full path of a file by fuzz search?
+</p>
+
+<p>
+The path should be shared easily to other application like Emacs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5b14101" class="outline-2">
+<h3 id="org5b14101">Installation</h3>
+<div class="outline-text-2" id="text-org5b14101">
+</div>
+<div id="outline-container-orgd5b4915" class="outline-3">
+<h4 id="orgd5b4915">Step 1, Install percol</h4>
+<div class="outline-text-3" id="text-orgd5b4915">
+<p>
+<a href="https://github.com/mooz/percol/archive/master.zip">Download the package</a> and extract it. Place the sub-directory named "percol/" into the directory "~/bin". Rename the program "percol" in sub-directory "bin" into "percol.py". Put the percol.py also into "~/bin".
+</p>
+</div>
+</div>
+
+<div id="outline-container-org82b8788" class="outline-3">
+<h4 id="org82b8788">Step 2, Insert below code into ~/.bashrc:</h4>
+<div class="outline-text-3" id="text-org82b8788">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">[ $(uname -s | grep -c CYGWIN) -eq 1 ] &amp;&amp; OS_NAME="CYGWIN" || OS_NAME=`uname -s`
+function pclip() {
+    if [ $OS_NAME == CYGWIN ]; then
+        putclip $@;
+    elif [ $OS_NAME == Darwin ]; then
+        pbcopy $@;
+    else
+        if [ -x /usr/bin/xsel ]; then
+            xsel -ib $@;
+        else
+            if [ -x /usr/bin/xclip ]; then
+                xclip -selection c $@;
+            else
+                echo "Neither xsel or xclip is installed!"
+            fi
+        fi
+    fi
+}
+
+# search the file and pop up dialog, then put the full path in clipboard
+function baseff()
+{
+    local fullpath=$*
+    local filename=${fullpath##*/} # remove "/" from the beginning
+    filename=${filename##*./} # remove  ".../" from the beginning
+    # Only the filename without path is needed
+    # filename should be reasonable
+    local cli=`find . -not -iwholename '*/vendor/*' -not -iwholename '*/bower_components/*' -not -iwholename '*/node_modules/*' -not -iwholename '*/target/*' -not -iwholename '*.svn*' -not -iwholename '*.git*' -not -iwholename '*.sass-cache*' -not -iwholename '*.hg*' -type f -path '*'${filename}'*' -print | ~/bin/percol.py`
+    # convert relative path to full path
+    echo $(cd $(dirname $cli); pwd)/$(basename $cli)
+}
+
+function ff()
+{
+    local cli=`baseff $*`
+    #echo ${cli} | sed 's%^'${HOME}'%~%'
+    #echo -n ${cli}  | sed 's%^'${HOME}'%~%' | pclip
+    echo ${cli}
+    echo -n ${cli} | pclip
+}
+
+function cf()
+{
+    local cli=`baseff $*`
+    local p=`cygpath -w $cli`
+    echo ${p}
+    echo -n ${p} | pclip;
+}
+</code></pre>
+
+</div>
+
+<p>
+`cf` is similar to `ff`. It will output Windows path under cygwin.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd183dc1" class="outline-2">
+<h3 id="orgd183dc1">Usage</h3>
+<div class="outline-text-2" id="text-orgd183dc1">
+<p>
+Type "ff partials-of-file-path" in shell. A filter window popups. You can filter and scroll down/up to select one file. The full path will be copied into system clipboard automatically (under Linux, either xsel or xclip are required for clipboard access).
+</p>
+
+<p>
+The paritials-of-file-path could contain wildcard character.
+</p>
+
+<p>
+For example, <b>for "/home/cb/projs/web-portal/app/styles/bootstrap/main.css", you can type either of below command</b>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">ff .../grunt-docs/*bootstrap*css
+ff web-port*ma*css
+ff styles
+</code></pre>
+
+</div>
+
+<p>
+Here is the screen shot when I type "ff el" in my ~/.emacs.d:
+<img src="../wp-content/use-ff-in-shell.png" alt="use-ff-in-shell.png"></p>
+
+<p>
+You will notice that I input the string "inflect" to filter the result.
+</p>
+
+<p>
+I can scroll up/down (press Ctrl-P or Ctrl-N) to select the exact file.
+</p>
+
+<p>
+In Emacs community, people try to embed a file explorer into Emacs (Sr speedbar, for example). This solution may make embedded file explorer unnecessary.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org29cd3e9" class="outline-2">
+<h3 id="org29cd3e9">Advanced usage</h3>
+<div class="outline-text-2" id="text-org29cd3e9">
+<p>
+More examples follow.
+</p>
+</div>
+
+<div id="outline-container-org37d446e" class="outline-3">
+<h4 id="org37d446e">Search the bash history.</h4>
+<div class="outline-text-3" id="text-org37d446e">
+<p>
+Code to insert ~/.bashrc:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">function h () {
+    # reverse history, pick up one line, remove new line characters and put it into clipboard
+    if [ -z "$1" ]; then
+        history | sed '1!G;h;$!d' | ~/bin/percol.py | sed -n 's/^ *[0-9][0-9]* *\(.*\)$/\1/p'| tr -d '\n' | pclip
+    else
+        history | grep "$1" | sed '1!G;h;$!d' | ~/bin/percol.py | sed -n 's/^ *[0-9][0-9]* *\(.*\)$/\1/p'| tr -d '\n' | pclip
+    fi
+}
+</code></pre>
+
+</div>
+
+<p>
+Though grep is quick enough for me, it can be replaced by <a href="https://github.com/ggreer/the_silver_searcher">Silver Searcher</a>.
+</p>
+
+<p>
+Screenshot:
+<img src="../wp-content/use-h-in-shell.png" alt="use-h-in-shell.png"></p>
+</div>
+</div>
+
+<div id="outline-container-org96a8022" class="outline-3">
+<h4 id="org96a8022">Select a file in git commit</h4>
+<div class="outline-text-3" id="text-org96a8022">
+<p>
+Code to insert ~/.bashrc:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">function glsf () {
+    local str=`git --no-pager log --oneline --stat $* |  ~/bin/percol.py`
+    if [[ $str =~ ^[[:space:]]*([a-z0-9A-Z_.\/-]*).*$ ]]; then
+        echo -n ${BASH_REMATCH[1]} |pclip;
+        echo ${BASH_REMATCH[1]}
+    fi
+}
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+<img src="../wp-content/use-glsf-in-shell.png" alt="use-glsf-in-shell.png"></p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdacfb18" class="outline-2">
+<h3 id="orgdacfb18">Summary</h3>
+<div class="outline-text-2" id="text-orgdacfb18">
+<p>
+The key idea is that I have full freedom to get job done in any way. Emacs is nothing more than a tool to help me achieve more power and more freedom. For example, I find mooz's percol because I like his Emacs plugin <a href="https://github.com/mooz/js2-mode">js2-mode</a> and I want to check his other works. 
+</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="install-emacs-into-home-directory-from-source.html" rel="prev" title="Install multiple versions of Emacs into $HOME directory from source">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="how-to-accept-the-github-pull-request-efficiently.html" rel="next" title="How to accept the github pull request efficiently">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/how-to-do-the-file-navigation-efficiently.html",
+        disqus_title="How to do the file navigation efficiently",
+        disqus_identifier="cache/posts/how-to-do-the-file-navigation-efficiently.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

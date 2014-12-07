@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about perl)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/perl.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Convert TEX to PDF</title><link>http://blog.binchen.org/posts/convert-tex-to-pdf.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Install &lt;a href="http://www.tug.org/texlive/"&gt;TexLive&lt;/a&gt; in your OS.
+&lt;/p&gt;
+
+&lt;p&gt;
+Install &lt;code&gt;latex2pdf&lt;/code&gt; which is dependent on TexLive.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;cpan App::cpanminus # handy tool to install cpan module
+cpanm Template # Template is missing on cygwin
+cpanm latex2pdf # finally
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Convert now!
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;pdf2latex cv.tex
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>cpan</category><category>en</category><category>latex</category><category>pdf</category><category>perl</category><guid>http://blog.binchen.org/posts/convert-tex-to-pdf.html</guid><pubDate>Tue, 17 Jul 2012 23:22:00 GMT</pubDate></item><item><title>Install perl module through source package on cygwin by using cpanm</title><link>http://blog.binchen.org/posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I failed to install package "Template" by running `cpanm Template'.
+&lt;/p&gt;
+
+&lt;p&gt;
+It's because the binary package requires gcc4 while on my cygwin only gcc3 available.
+&lt;/p&gt;
+
+&lt;p&gt;
+So I install it from source package (with some hack, of course),
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;cpanm --look Template # Download and unpack the distribution and then open the directory with your shellI
+cpanm . #install from local directory
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Updated: The simpler solution is to install gcc4 at cygwin.&lt;/p&gt;&lt;/div&gt;</description><category>cpan</category><category>cpanm</category><category>en</category><category>install</category><category>module</category><category>perl</category><guid>http://blog.binchen.org/posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm.html</guid><pubDate>Tue, 17 Jul 2012 23:22:00 GMT</pubDate></item><item><title>How to convert org to PDF</title><link>http://blog.binchen.org/posts/how-to-convert-org-to-pdf.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Install &lt;a href="http://www.tug.org/texlive/"&gt;TexLive&lt;/a&gt;. The &lt;code&gt;org-mode&lt;/code&gt; has some handy function to locate the TexLive. Press &lt;code&gt;C-c C-e p&lt;/code&gt; to convert.
+&lt;/p&gt;
+
+&lt;p&gt;
+At Cygwin and Linux, installing TexLive could be installed by their package system.
+&lt;/p&gt;
+
+&lt;p&gt;
+At macOS, I use the &lt;a href="http://www.tug.org/texlive/acquire-netinstall.html"&gt;TexLive source package&lt;/a&gt; (install-tl-unx.tar.gz). After installation, environment varaibles need be set.
+&lt;/p&gt;
+
+&lt;p&gt;
+Bash shell requires setup in &lt;code&gt;~/.bashrc&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;if [[ `uname -s` == *Darwin* ]]; then
+   #tex live on OS X
+   export PATH=/usr/local/texlive/2011/bin/universal-darwin:$PATH
+   export MANPATH=/usr/local/texlive/2011/texmf/doc/man:$MANPAH
+   export INFOPATH=/usr/local/texlive/2011/texmf/doc/info:$INFOPATH
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>latex</category><category>pdf</category><category>perl</category><guid>http://blog.binchen.org/posts/how-to-convert-org-to-pdf.html</guid><pubDate>Sun, 08 Jul 2012 15:27:00 GMT</pubDate></item></channel></rss>

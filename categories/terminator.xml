@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about terminator)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/terminator.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Why people say "Emacs is the best operating system"</title><link>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+ people say "Emacs is the best operating system"                           :en:emacs:font:linux:terminal:terminator:
+It's becasue Emacs has great documentation and enough APIs.
+&lt;/p&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+Emacs manual even helps me even on non-Emacs stuff.
+&lt;/p&gt;
+
+&lt;p&gt;
+When configuring the font for &lt;a href="http://gnometerminator.blogspot.com/p/introduction.html"&gt;Terminator&lt;/a&gt; (a terminal emulator) I find its manual is NOT clear. The manual doesn't explain what is "Pango font name". But Emacs manual provides all I need.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;fc-list&lt;/code&gt; is to list installed fonts. Since terminal use Mono font, I can type below command:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+
+&lt;pre&gt;&lt;code class="lang-bash"&gt;fc-list | grep Mono
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The output is like:
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+/usr/share/fonts/urw-fonts/n022003l.pfb: Nimbus Mono L:style=Regular
+/usr/share/fonts/urw-fonts/n022024l.pfb: Nimbus Mono L:style=Bold Oblique
+/usr/share/fonts/liberation-fonts/LiberationMono-Regular.ttf: Liberation Mono:style=Regular
+/usr/share/fonts/urw-fonts/n022004l.pfb: Nimbus Mono L:style=Bold
+/usr/share/fonts/liberation-fonts/LiberationMono-BoldItalic.ttf: Liberation Mono:style=Bold Italic
+/usr/share/fonts/liberation-fonts/LiberationMono-Bold.ttf: Liberation Mono:style=Bold
+/usr/share/fonts/wqy-zenhei/wqy-zenhei.ttc: 文泉驿等宽正黑,文泉驛等寬正黑,WenQuanYi Zen Hei Mono:style=Medium,中等
+/usr/share/fonts/liberation-fonts/LiberationMono-Italic.ttf: Liberation Mhttp://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system.htmlono:style=Italic
+/usr/share/fonts/urw-fonts/n022023l.pfb: Nimbus Mono L:style=Regular Oblique
+&lt;/pre&gt;
+
+&lt;p&gt;
+Since Emacs manual explains the meaning of output, I know the font name "WenQuanYi Zen Hei Mono" is the key component of "Pango font name"
+&lt;/p&gt;
+
+&lt;p&gt;
+Because the manual also gives the details of other components of "Pango font name", the final "~/.config/terminator/config" is like:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+
+&lt;pre&gt;&lt;code class="lang-conf"&gt;[profiles]
+  [[default]]
+  use_system_font = False
+  # @see emacs manual for tools and explanation of font formats
+  # https://www.gnu.org/software/emacs/manual/html_node/emacs/GTK-Resource-Basics.html
+  # https://www.gnu.org/software/emacs/manual/html_node/emacs/Fonts.html#Fonts
+  font =  WenQuanYi Zen Hei Mono 16
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h3 id="sec-2"&gt;API&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;p&gt;
+I create a new Emacs plugin which lists file names containing Chinese characters. At beginning I use Emacs API "find-name-dired". It uses the GNU find as the backend. But there is some integration issue on Linux. Chinese file names are displayed as garbled text in Emacs. I guess there is some decode/encode error between the interaction of Emacs process and GNU find process because Chinese files are fine on OS X.
+&lt;/p&gt;
+
+&lt;p&gt;
+Emacs has enough APIs. Later I found another pure Lisp API "find-lisp-find-dired". Problem solved.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>font</category><category>linux</category><category>terminal</category><category>terminator</category><guid>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system.html</guid><pubDate>Sun, 01 Feb 2015 09:40:44 GMT</pubDate></item></channel></rss>

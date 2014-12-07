@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about tile)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/tile.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>My herbstluftwm configuration</title><link>http://blog.binchen.org/posts/my-herbstluftwm-configuration.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2011-12-25 Sun&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2017-11-02 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+It's the best manual tile window manager I've used.
+&lt;/p&gt;
+
+&lt;p&gt;
+The default configuration is fine in most cases.
+&lt;/p&gt;
+
+&lt;p&gt;
+I added rules to make some firefox addons usable at my tiny netbook.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my modified $HOME/.config/herbstluftwm/autostart:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+
+# this is a simple config for herbstluftwm
+
+function hc() {
+    herbstclient "$@"
+}
+
+hc emit_hook reload
+
+xsetroot -solid '#000000'
+#feh --bg-scale /home/cb/.config/herbstluftwm/wallpaper.jpg
+
+
+# keybindings
+Mod=Mod4
+hc keybind $Mod-Shift-q quit
+hc keybind $Mod-Shift-r reload
+hc keybind $Mod-Shift-c close
+hc keybind $Mod-Return spawn terminator
+hc keybind $Mod-x spawn dmenu_run
+hc keybind $Mod-q spawn scrot -e 'mkdir -p ~/screenshot;mv $f ~/screenshot/'
+
+# tags
+TAG_NAMES=( {1..4} )
+TAG_KEYS=( {1..4} 0 )
+
+hc rename default "${TAG_NAMES[0]}" || true
+for i in ${!TAG_NAMES[@]} ; do
+    hc add "${TAG_NAMES[$i]}"
+    key="${TAG_KEYS[$i]}"
+    if ! [ -z "$key" ] ; then
+        hc keybind "$Mod-$key" use "${TAG_NAMES[$i]}"
+        hc keybind "$Mod-Shift-$key" move "${TAG_NAMES[$i]}"
+    fi
+done
+
+# layouting
+hc keybind $Mod-r remove
+hc keybind $Mod-space cycle_layout 1
+hc keybind $Mod-Shift-s split vertical 0.5
+hc keybind $Mod-s split horizontal 0.5
+hc keybind $Mod-o floating toggle
+hc keybind $Mod-f fullscreen toggle
+hc keybind $Mod-p pseudotile toggle
+
+# resizing
+RESIZESTEP=0.05
+hc keybind $Mod-Control-h resize left +$RESIZESTEP
+hc keybind $Mod-Control-j resize down +$RESIZESTEP
+hc keybind $Mod-Control-k resize up +$RESIZESTEP
+hc keybind $Mod-Control-l resize right +$RESIZESTEP
+
+# mouse
+hc mousebind $Mod-Button1 move
+hc mousebind $Mod-Button2 resize
+hc mousebind $Mod-Button3 zoom
+
+# focus
+hc keybind $Mod-BackSpace   cycle_monitor
+hc keybind $Mod-Tab         cycle_all +1
+hc keybind $Mod-Shift-Tab   cycle_all -1
+hc keybind $Mod-c cycle
+hc keybind $Mod-h focus left
+hc keybind $Mod-j focus down
+hc keybind $Mod-k focus up
+hc keybind $Mod-l focus right
+hc keybind $Mod-Shift-h shift left
+hc keybind $Mod-Shift-j shift down
+hc keybind $Mod-Shift-k shift up
+hc keybind $Mod-Shift-l shift right
+
+# colors
+hc set frame_border_active_color '#49351D'
+hc set frame_border_normal_color '#73532D'
+hc set frame_bg_normal_color '#BD9768'
+hc set frame_bg_active_color '#BD8541'
+hc set frame_border_width 0
+hc set window_border_width 0
+hc set window_border_normal_color '#AE8451'
+hc set window_border_active_color '#F6FF00'
+
+# rules
+hc unrule -F
+#hc rule class=XTerm tag=3 # move all xterms to tag 3
+hc rule focus=on # normally do not focus new clients
+# give focus to most common terminals
+hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK)' manage=off
+hc rule instance=xv class=MPlayer fullscreen=on
+#firefox dialog should be fullscreen, useful for my tiny eeepc
+hc rule instance="Dialog" class="Firefox" fullscreen=on #delicious bookmark
+hc rule instance="Aup" class="Firefox" fullscreen=on #autoproxy
+hc rule instance="Abp" class="Firefox" fullscreen=on #adblock plus
+#view the image in fullscreen
+#hc rule instance=feh class=feh fullscreen=on #feh has some bug
+
+#autorun
+hc spawn ~/.config/herbstluftwm/panel.sh
+hc spawn parcellite -nd #use parcellite -p/-c to see the content
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+xprop is useful for writing "hc rule". Please &lt;code&gt;man herbstclient&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+panel.sh is from the official package. It will display a panel at the top of the screen.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my $HOME/.config/herbstluftwm/panel.sh (modified for display batttery rate):
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+
+monitor=${1:-0}
+geometry=( $(herbstclient monitor_rect "$monitor") )
+if [ -z "$geometry" ] ;then
+    echo "Invalid monitor $monitor"
+    exit 1
+fi
+# geometry has the format: WxH+X+Y
+x=${geometry[0]}
+y=${geometry[1]}
+width=${geometry[2]}
+height=16
+font="-*-fixed-medium-*-*-*-12-*-*-*-*-*-*-*"
+bgcolor='#3E2600'
+
+function uniq_linebuffered() {
+    awk '$0 != l { print ; l=$0 ; fflush(); }' "$@"
+}
+
+herbstclient pad $monitor $height
+{
+    # events:
+    #mpc idleloop player &amp;amp;
+    while true ; do
+        date +'date ^fg(#efefef)%H:%M^fg(#909090), %Y-%m-^fg(#efefef)%d'
+        sleep 1 || break
+    done &amp;gt; &amp;gt;(uniq_linebuffered)  &amp;amp;
+    childpid=$!
+    herbstclient --idle
+    kill $childpid
+} 2&amp;gt; /dev/null | {
+    TAGS=( $(herbstclient tag_status $monitor) )
+    date=""
+    while true ; do
+        bordercolor="#26221C"
+        hintcolor="#573500"
+        separator="^fg(#141414)^ro(1x$height)^fg()"
+        # draw tags
+        for i in "${TAGS[@]}" ; do
+            case ${i:0:1} in
+                '#')
+                    echo -n "^bg(#9fbc00)^fg(#141414)"
+                    ;;
+                '+')
+                    echo -n "^bg(#9CA668)^fg(#141414)"
+                    ;;
+                ':')
+                    echo -n "^bg(#6A4100)^fg(#141414)"
+                    ;;
+                '!')
+                    echo -n "^bg(#FF0675)^fg(#141414)"
+                    ;;
+                *)
+                    echo -n "^bg()^fg()"
+                    ;;
+            esac
+            echo -n "^ca(1,herbstclient focus_monitor $monitor &amp;amp;&amp;amp; "'herbstclient use "'${i:1}'") '"${i:1} ^ca()"
+            echo -n "$separator"
+        done
+        echo -n "^bg()^p(_CENTER)"
+        # small adjustments
+        battery=$(expr $(expr $(cat /sys/class/power_supply/BAT*/charge_now) \* 100) / $(cat /sys/class/power_supply/BAT*/charge_full))
+        if [ "$battery" = "/" ] ;then
+            right="$separator^bg($hintcolor) $date $separator"
+        else
+            right="$separator^bg($hintcolor) $battery% $date $separator"
+        fi
+        right_text_only=$(echo -n "$right"|sed 's.\^[^(]*([^)]*)..g')
+        # get width of right aligned text.. and add some space..
+        width=$(textwidth "$font" "$right_text_only  ")
+        echo -n "^p(_RIGHT)^p(-$width)$right"
+        echo
+        # wait for next event
+        read line || break
+        cmd=( $line )
+        # find out event origin
+        case "${cmd[0]}" in
+            tag*)
+                #echo "reseting tags" &amp;gt;&amp;amp;2
+                TAGS=( $(herbstclient tag_status $monitor) )
+                ;;
+            date)
+                #echo "reseting date" &amp;gt;&amp;amp;2
+                date="${cmd[@]:1}"
+                ;;
+            quit_panel)
+                exit
+                ;;
+            reload)
+                exit
+                ;;
+            #player)
+            #    ;;
+        esac
+        done
+} 2&amp;gt; /dev/null | dzen2 -w $width -x $x -y $y -fn "$font" -h $height \
+    -ta l -bg "$bgcolor" -fg '#efefef'
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+UPDATE: I use &lt;a href="https://i3wm.org/"&gt;https://i3wm.org/&lt;/a&gt; now
+&lt;/p&gt;&lt;/div&gt;</description><category>config</category><category>en</category><category>herbstluftwm</category><category>linux</category><category>tile</category><category>wm</category><guid>http://blog.binchen.org/posts/my-herbstluftwm-configuration.html</guid><pubDate>Sun, 25 Dec 2011 21:53:00 GMT</pubDate></item></channel></rss>

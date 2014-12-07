@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about github)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/github.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>My git set up</title><link>http://blog.binchen.org/posts/my-git-set-up.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Content of my &lt;code&gt;.gitconfig&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[apply]
+    whitespace = nowarn
+[user]
+    name = my name
+    email =my@email.com
+[core]
+    ; @see http://comments.gmane.org/gmane.comp.version-control.git/166098
+    filemode = true
+    ;autocrlf = false
+    ignorecase = false
+    ;autocrlf=false
+    ;safecrlf=true
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = auto
+[alias]
+    ca=commit --amend
+    cl = clean -fxd
+    au = add -u
+    st = status -sb #short status output for geeks
+    stu= status --untracked-files=no
+    r = rebase
+    c = commit
+    co = checkout
+    b = branch
+    s=show
+    l = log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short --decorate --graph
+    d =diff
+    da= diff --name-only # get the file list
+    ds = diff --stat
+    dw=diff --word-diff #highlight word changes
+    dc = diff --cached
+    dcs = diff --cached --stat
+    t=stash
+    a=add
+    f=format-patch -n --stdout
+    rh=reset --hard
+    rs=reset --soft
+    undo=reset --soft HEAD^
+    rs=reset
+    cnt=count-objects
+    ps=push
+    p=pull --rebase
+    w = whatchanged
+    sb = show-branch
+    cp = cherry-pick
+    # @see http://magazine.redhat.com/2008/05/02/shipping-quality-code-with-git/
+    cpnx = cherry-pick --no-commit -x
+    rl = reflog
+    lp = log -p
+    lt = log --topo-order
+    gl = log --graph
+    m = merge
+    mt= mergetool
+    me = merge --no-commit --no-ff
+    brm = branch --merged
+    brnm = branch --no-merged
+    rnc = revert --no-commit
+    com = checkout master
+    glt = log --pretty=format:'%h : %s' --topo-order --graph
+    phm = push heroku master
+    pom = push origin master
+    puom= pull origin master
+    untrac=rm -r --cached
+    #produce patch for hg
+    hgp = show --format="From: %an &amp;lt;%ae&amp;gt;%n%s%n%b" -U8
+    show-root-folder = rev-parse --show-toplevel
+    forward = pull --ff -r
+    u = !git stash &amp;amp;&amp;amp; git pull --rebase &amp;amp;&amp;amp; git stash pop
+[sendemail]
+    smtpencryption = tls
+    smtpserver = smtp.gmail.com
+    smtpuser = myname@gmail.com
+    smtpserverport = 587
+[github]
+    user = github user
+[push]
+    default = tracking
+
+[merge]
+    branchdesc = true
+    log = true
+    tool = vimdiff
+[diff]
+    tool = vimdiff
+[mergetool]
+    prompt = false
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Content of my &lt;code&gt;.bashrc&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# enable bash completion in interactive shells
+# @see http://www.simplicidade.org/notes/archives/2008/02/bash_completion.html
+if [ -f /etc/bash_completion ]; then
+    # ArchLinux
+    . /etc/bash_completion
+elif [ -f /etc/profile.d/bash-completion.sh ]; then
+    # Gentoo Linux
+    . /etc/profile.d/bash-completion.sh
+fi
+. $HOME/bash_completion.d/gibo-completion.bash
+. $HOME/bash_completion.d/git-completion.bash
+
+function parse_git_branch ()
+{
+   git branch --no-color 2&amp;gt; /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+function simpleprompt()
+{
+   if test -n "`type -t git`"; then
+      PS1="\$(parse_git_branch) \\$ "
+   else
+      PS1="\\$ "
+   fi
+}
+
+alias gcd='cd $(git rev-parse --show-cdup)'
+alias g="git status --short -b"
+alias gn="git status --untracked-files=no --short -b"
+alias gfl="git diff-tree --no-commit-id --name-only -r"
+alias ga="git add"
+alias gaa="git add ."
+alias gau="git add -u"
+alias gc="git commit -m"
+alias gca="git commit --amend"
+alias gb="git branch"
+alias gbd="git branch -d"
+alias gco="git checkout"
+alias gcob="git checkout -b"
+alias gt="git stash"
+alias gta="git stash apply"
+alias gm="git merge"
+alias gmt="git mergetool"
+alias gr="git rebase"
+alias gl="git log --oneline --decorate --graph"
+alias gs="git show"
+alias gss="git show --stat"
+alias gd="git diff"
+alias gds="git diff --stat"
+alias gdc="git diff --cached"
+alias gdcs="git diff --cached --stat"
+alias gbl="git blame"
+alias gps="git push"
+alias gpl="git pull"
+alias cdgr='cd $(git rev-parse --show-toplevel)' #goto root dir
+function gu(){
+    local st=`git status --porcelain --untracked=no`
+    if [ -z "$st" ]; then
+        git pull --rebase
+    else
+        git stash &amp;amp;&amp;amp; git pull --rebase &amp;amp;&amp;amp; git stash pop
+    fi
+}
+
+function gsrp(){
+  if [ -z "$1" ]; then
+      echo "Usage: gsrp old_string new_string (string could be perl regex)"
+      echo "replace the content of file in latest git commit"
+  elif [ $# -eq "2" ]; then
+      git diff-tree --no-commit-id --name-only -r HEAD|xargs perl -pi -e "s/$1/$2/g"
+  elif [ $# -eq "3" ]; then
+      git diff-tree --no-commit-id --name-only -r $1|xargs perl -pi -e "s/$2/$3/g"
+  fi
+}
+
+[ $(uname -s | grep -c CYGWIN) -eq 1 ] &amp;amp;&amp;amp; OS_NAME="CYGWIN" || OS_NAME=`uname -s`
+# xclip has some problem with my emacs, so I use xsel for everything
+function pclip() {
+    if [ $OS_NAME == CYGWIN ]; then
+        putclip $@;
+    elif [ $OS_NAME == Darwin ]; then
+        pbcopy $@;
+    else
+        if [ -x /usr/bin/xsel ]; then
+            xsel -ib $@;
+        else
+            if [ -x /usr/bin/xclip ]; then
+                xclip -selection c $@;
+            else
+                echo "Neither xsel or xclip is installed!"
+            fi
+        fi
+    fi
+}
+
+# search the file in root directory of git repository, pop up dialog let you choose the path,
+# then put the full path in clipboard
+function gg()
+{
+    local cli=`find $(git rev-parse --show-toplevel) -type f -iname '*'$*'*'|percol`
+    echo -n ${cli}|pclip
+    echo ${cli}
+}
+
+alias ge='grep -rsn --exclude=TAGS --exclude=tags --exclude=GTAGS --exclude-dir=.svn --exclude-dir=.sass-cache --exclude-dir=.cache  --exclude-dir=.cvs --exclude-dir=.git --exclude-dir=.hg --exclude=\*.swp --exclude=\*~ --color=auto'
+function ggs()
+{
+    local cli=`ge -l $* $(git rev-parse --show-toplevel)/*|percol`
+    echo -n ${cli} |pclip;
+    echo ${cli}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I do lots of git stuff under shell, so I'm heavly dependent on below bash tools,
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a href="https://github.com/clvv/fasd"&gt;fasd&lt;/a&gt; to change current directory quickly&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mooz/percol"&gt;percol&lt;/a&gt; to filter the text from stdin interactively&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>github</category><guid>http://blog.binchen.org/posts/my-git-set-up.html</guid><pubDate>Sun, 07 Jul 2013 22:17:00 GMT</pubDate></item><item><title>open README under git root directory in Emacs</title><link>http://blog.binchen.org/posts/open-readme-under-git-root-directory-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;I often need update my README files at the root directory of my project which is always managed by git. &lt;/p&gt; &lt;p&gt; As a lazy guy, I' rather use some hotkey to open that README. &lt;/p&gt; &lt;p&gt; So if you add below elisp code into your ~/ .emacs, you can use hot key &lt;code&gt;C-c C-f&lt;/code&gt; to open the README: &lt;/p&gt;    &lt;pre class="src src-elisp"&gt;(&lt;span style="color: #b5bd68;"&gt;defun&lt;/span&gt; &lt;span style="color: #81a2be;"&gt;open-readme-in-git-root-directory&lt;/span&gt; ()
+  (interactive)
+  (&lt;span style="color: #b5bd68;"&gt;let&lt;/span&gt; (filename
+        (root-dir (locate-dominating-file (file-name-as-directory (file-name-directory buffer-file-name)) &lt;span style="color: #8abeb7;"&gt;".git"&lt;/span&gt;))
+        )
+    &lt;span style="color: #969896; font-style: italic;"&gt;;; &lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;(message "root-dir=%s" root-dir)&lt;/span&gt;
+    (and root-dir (file-name-as-directory root-dir))
+    (setq filename (concat root-dir &lt;span style="color: #8abeb7;"&gt;"README.org"&lt;/span&gt;))
+    (&lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt; (not (file-exists-p filename))
+        (setq filename (concat root-dir &lt;span style="color: #8abeb7;"&gt;"README.md"&lt;/span&gt;))
+      )
+    &lt;span style="color: #969896; font-style: italic;"&gt;;; &lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;(message "filename=%s" filename)&lt;/span&gt;
+    (&lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt; (file-exists-p filename)
+        (switch-to-buffer (find-file-noselect filename nil nil))
+      (message &lt;span style="color: #8abeb7;"&gt;"NO README.org or README.md found!"&lt;/span&gt;))
+    ))
+(global-set-key (kbd &lt;span style="color: #8abeb7;"&gt;"C-c C-f"&lt;/span&gt;) 'open-readme-in-git-root-directory)
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;  &lt;p&gt; ,,,, &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>github</category><guid>http://blog.binchen.org/posts/open-readme-under-git-root-directory-in-emacs.html</guid><pubDate>Sat, 08 Jun 2013 14:40:00 GMT</pubDate></item><item><title>How to measure a Emacs geek</title><link>http://blog.binchen.org/posts/i-became-a-true-emacs-geek-when-i-publicized-my-emacs-d-at-github-com.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Me, for example. &lt;/p&gt; &lt;p&gt; The first day I changed my .emacs.d: &lt;/p&gt;   &lt;pre class="example"&gt;master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "&lt;code&gt;git config user.name&lt;/code&gt;"|tail -n1
+11fd85f 2011-08-31 eim (Chinese input method) (chen bin)
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;   &lt;p&gt; How many times I modified my emacs.d since then: &lt;/p&gt;   &lt;pre class="example"&gt;master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "&lt;code&gt;git config user.name&lt;/code&gt;"|wc -l
+&lt;p&gt;672&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;   &lt;p&gt; My emacs.d at github: &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;https://github.com/redguardtoo/emacs.d&lt;/a&gt; &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>github</category><guid>http://blog.binchen.org/posts/i-became-a-true-emacs-geek-when-i-publicized-my-emacs-d-at-github-com.html</guid><pubDate>Fri, 31 May 2013 19:40:00 GMT</pubDate></item><item><title>How to manage my software configuration at github</title><link>http://blog.binchen.org/posts/how-to-manage-my-software-configuration-at-github.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Problem&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;p&gt;Here is the situation: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;I've set up a repository at github to store my configuration of specifi software. &lt;/li&gt; &lt;li&gt;I synchronize the configuration with several computers &lt;/li&gt; &lt;li&gt;All these computers belongs to me only. &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; My issue is after using &lt;code&gt;git pull/push&lt;/code&gt; for some time. My commit history looks not linear. &lt;/p&gt; &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Solution&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;p&gt;Simple. I need use &lt;code&gt;git pull –rebase origin master&lt;/code&gt; instead of &lt;code&gt;git pull origin master&lt;/code&gt; &lt;/p&gt; &lt;p&gt; Rebase will usually rewrite my commit history at your &lt;b&gt;local branch&lt;/b&gt;. It's totally fine because I won't share the software configuration on my local computer. If I want to share my configuration, I will use the public url at github. &lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>configuration</category><category>emacs</category><category>en</category><category>github</category><category>management</category><guid>http://blog.binchen.org/posts/how-to-manage-my-software-configuration-at-github.html</guid><pubDate>Wed, 10 Apr 2013 12:45:45 GMT</pubDate></item><item><title>gitorious is useless</title><link>http://blog.binchen.org/posts/gitorious-is-useless.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;It's too hard to get code from &lt;a href="http://en.wikipedia.org/wiki/Gitorious"&gt;gitorious&lt;/a&gt;. I tried &lt;code&gt;git clone&lt;/code&gt; from gitorious's server for half an hour and failed. My similar operation on &lt;a href="http://en.wikipedia.org/wiki/Github"&gt;github&lt;/a&gt; usually succeeded (I am at Shanghai/China). I would not panic if I could copy code from its web page. And I couldn't! Gitorious screwed up my clipboard by &lt;a href="https://gitorious.org/robmyers/scripts/blobs/master/artbollocks-mode.el"&gt;mixing the line number in&lt;/a&gt;! Horrible frontend UI design. &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/init-auto-complete.el"&gt;Select/copy code is easy&lt;/a&gt; at github is easy. &lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>git</category><category>github</category><category>gitorious</category><category>linux</category><guid>http://blog.binchen.org/posts/gitorious-is-useless.html</guid><pubDate>Sat, 24 Dec 2011 09:46:00 GMT</pubDate></item></channel></rss>

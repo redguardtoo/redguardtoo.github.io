@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>How to write javascript/html code quickly | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/how-to-write-javascripthtml-code-quickly.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="How to write javascript/html code quickly">
+<meta property="og:url" content="http://blog.binchen.org/posts/how-to-write-javascripthtml-code-quickly.html">
+<meta property="og:description" content="mixing code of javascript and html is a big problem     If we mix the javascript code into html file as below:    &lt;ul&gt;
+  &lt;% for(var key in service.get('Detail')){ %&gt;
+    &lt;% if(key!='creditcard_number)">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-05-22T10:24:00Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="html">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="programming">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">How to write javascript/html code quickly</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-05-22T10:24:00+00:00">2013-05-22 10:24</time>
+            
+
+            
+          |  
+        <a href="how-to-write-javascripthtml-code-quickly.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/html.html" rel="tag">html</a></li>
+           <li><a class="tag p-category" href="../categories/javascript.html" rel="tag">javascript</a></li>
+           <li><a class="tag p-category" href="../categories/programming.html" rel="tag">programming</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p></p>
+<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">mixing code of javascript and html is a big problem</h4> <div class="outline-text-3" id="text-1">   <p> If we mix the javascript code into html file as below: </p>   <pre class="src src-html">&lt;<span style="color: #81a2be;">ul</span>&gt;
+  &lt;% for(var key in service.get('Detail')){ %&gt;
+    &lt;<span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span> if(key!='creditcard_number){ %&gt;
+      &lt;<span style="color: #81a2be;">li</span>&gt;
+        &lt;<span style="color: #81a2be;">label</span> <span style="color: #f0c674;">for</span>='&lt;%= key %&gt;'&gt;&lt;%= key %&gt;&lt;/<span style="color: #81a2be;">label</span>&gt;
+          &lt;<span style="color: #81a2be;">div</span> <span style="color: #f0c674;">id</span>='&lt;%=key %&gt;'&gt;&lt;%= service.get('Details')[key] %&gt;&lt;/<span style="color: #81a2be;">div</span>&gt;
+        &lt;/<span style="color: #81a2be;">li</span>&gt;
+    &lt;% }<span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
+&lt;% } <span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
+<p>&lt;/<span style="color: #81a2be;">ul</span>&gt;</p>
+<p></p></pre>  <p> Then it's hard to write/debug/fix the javascript code because: </p>
+<ol>
+<li>html code becomes noise for javascript development. </li> <li>The syntax checker for javascript will not work properly. </li> </ol>
+<p> If  we mix the html code into javascript file as below: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">for</span>(<span style="color: #b5bd68;">var</span> <span style="color: #f0c674;">key</span> <span style="color: #b5bd68;">in</span> service.get(<span style="color: #8abeb7;">'Detail'</span>)){
+  <span style="color: #b5bd68;">if</span>(key!=<span style="color: #8abeb7;">'creditcard_number'</span>){
+    htmlRender(formatString(<span style="color: #8abeb7;">"&lt;li&gt;&lt;label for='%s'&gt;%s&lt;/label&gt;&lt;div id='%s'&gt;%s&lt;/div&gt;"</span>,key,key,service.get(<span style="color: #8abeb7;">'Details'</span>)[key]));
+  }
+}
+<p></p></pre>  <p> Now html code becomes hard to write/debug/fix because: </p>
+<ol>
+<li>javascript code becomes noise for html development. </li> <li>The syntax checker for html will not work properly. </li> </ol>
+<p> In summary, mixing code in different language syntax will: </p>
+<ol>
+<li>make code hard to read </li> <li>make syntax checker dysfunctional </li> </ol>
+<p> These are the top two causes why we can not code fast in real application. </p> </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Use functional programming to avoid mix the javascript and html</h4> <div class="outline-text-3" id="text-2">  <p>So here is our objective: </p>
+<ol>
+<li>We need put the business logic into javascript file. The logic usually contains "for/while/if" statements. </li> <li>Html tags like "&lt;div&gt;/&lt;span&gt;/&lt;ul&gt;/&lt;li&gt;" need be placed in html file. </li> </ol>
+<p> The solution is actually simple. We just need apply a little bit of functional programming skill. </p> <p> So here is our html file in functional programming style: </p>   <pre class="src src-html">&lt;% forEachAttributeInService(service,function(service,key) { %&gt;
+   &lt;<span style="color: #81a2be;">li</span>&gt;
+     &lt;<span style="color: #81a2be;">label</span> <span style="color: #f0c674;">for</span>='&lt;%= key %&gt;'&gt;&lt;%= key %&gt;&lt;/<span style="color: #81a2be;">label</span>&gt;
+     &lt;<span style="color: #81a2be;">div</span> <span style="color: #f0c674;">id</span>='&lt;%=key %&gt;'&gt;&lt;%= formatServiceAttributes(service,key) %&gt;&lt;/<span style="color: #81a2be;">div</span>&gt;
+   &lt;/<span style="color: #81a2be;">li</span>&gt;
+&lt;%  }); <span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
+<p></p></pre>   <p> Here is the javascript file: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">forEachAttributeInService</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">fn</span>) {
+  <span style="color: #b5bd68;">for</span>(<span style="color: #b5bd68;">var</span> <span style="color: #f0c674;">key</span> <span style="color: #b5bd68;">in</span> service.get(<span style="color: #8abeb7;">'Detail'</span>)){
+    <span style="color: #b5bd68;">if</span>(key!=<span style="color: #8abeb7;">'creditcard_number'</span>){
+      fn(service,key)
+    }
+  }
+}
+<p><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">formatServiceAttributes</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">key</span>) {
+  <span style="color: #b5bd68;">return</span> service.get(<span style="color: #8abeb7;">'Details'</span>)[key];
+}</p>
+<p></p></pre>   <p> Now let's check what happens. </p> <p> In the html file, the business logic is converted into combination of functional calls. </p> <p> In javascript file, all the code dealing with hard coded html tags are converted to the call of anonymous functions. Those anonymous function is basically dump of html tags which is defined in html file. </p> <p> You can use this technique to convert any existing code into new style. For example, a simple "if else" statement could be re-written in new style: </p>   <pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">code in old style /</span>
+<p><span style="color: #b5bd68;">if</span> (<span style="color: #de935f;">true</span>){
+  console.log(<span style="color: #8abeb7;">'&lt;li&gt;YES&lt;/li&gt;'</span>);
+} <span style="color: #b5bd68;">else</span> {
+  console.log(<span style="color: #8abeb7;">'&lt;li&gt;NO&lt;/li&gt;'</span>);
+}</p>
+<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">code in new style /</span></p>
+<p><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">func_if_else</span>(<span style="color: #f0c674;">f1</span>,<span style="color: #f0c674;">f2</span>,<span style="color: #f0c674;">f3</span>){
+  <span style="color: #b5bd68;">if</span>(f1()){
+    f2();
+  } <span style="color: #b5bd68;">else</span> {
+    f3();
+  }
+}</p>
+<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">the execution of func_if_else() /</span></p>
+<p>func_if_else(<span style="color: #b5bd68;">function</span>(){ <span style="color: #b5bd68;">return</span> <span style="color: #de935f;">true</span> },
+           <span style="color: #b5bd68;">function</span>(){
+             console.log(<span style="color: #8abeb7;">'&lt;li&gt;YES&lt;/li&gt;'</span>);
+           },
+           <span style="color: #b5bd68;">function</span>(){
+             console.log(<span style="color: #8abeb7;">'&lt;li&gt;NO&lt;/li&gt;'</span>);
+           });
+</p></pre>   <p> This is a kind of radical example. I'm only demonstrating the power of new style. I'm not suggesting you should convert any logic statement into function call. New style is not a silver bullet. It's only a useful if used properly in right timing. </p>
+</div> </div> </div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit.html" rel="prev" title="The most efficient way to `git add` files in dired-mode">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="how-to-refactorrename-a-variable-name-in-a-function-efficiently.html" rel="next" title="How to refactor/rename a variable name in a function efficiently">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/how-to-write-javascripthtml-code-quickly.html",
+        disqus_title="How to write javascript/html code quickly",
+        disqus_identifier="cache/posts/how-to-write-javascripthtml-code-quickly.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

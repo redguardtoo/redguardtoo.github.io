@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Import Gmail contacts into BBDB | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/import-gmail-contacts-into-bbdb.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Import Gmail contacts into BBDB">
+<meta property="og:url" content="http://blog.binchen.org/posts/import-gmail-contacts-into-bbdb.html">
+<meta property="og:description" content='Go to http://contacts.google.com, click the menu "More&gt;&gt;Export…&gt;&gt;vCard format (blah, blah …)".  Click "Export" button. Download the contacts.vcf.  Make sure bbdb-vcard.el installed.  In Emacs run "M-x'>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-01-26T11:56:00Z">
+<meta property="article:tag" content="bbdb">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="gmail">
+<meta property="article:tag" content="google">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Import Gmail contacts into BBDB</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-01-26T11:56:00+00:00">2013-01-26 11:56</time>
+            
+
+            
+          |  
+        <a href="import-gmail-contacts-into-bbdb.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/bbdb.html" rel="tag">bbdb</a></li>
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/gmail.html" rel="tag">gmail</a></li>
+           <li><a class="tag p-category" href="../categories/google.html" rel="tag">google</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p></p>
+<ul>
+<li>Go to <a href="http://contacts.google.com">http://contacts.google.com</a>, click the menu "More&gt;&gt;Export…&gt;&gt;vCard format (blah, blah …)". </li> <li>Click "Export" button. Download the contacts.vcf. </li> <li>Make sure <a href="https://github.com/trebb/bbdb-vcard">bbdb-vcard.el</a> installed. </li> <li>In Emacs run "M-x bbdb-vcard-import-file" and input the full path of contacts.vcf </li> <li>In Emacs run "M-x bbdb-save" </li> <li>Remove contacts whose names are empty. These are Google Plus people inserted automatically by Gmail: </li> </ul>
+<p>Run the command in shell: </p>   <pre class="src src-sh"><span style="color: #969896; font-style: italic;"># </span><span style="color: #969896; font-style: italic;">the orginal ~/.bbdb will be saved as ~/.bbdb.bak</span>
+sed -i.bak <span style="color: #70c0b1;">'/["" ""/d'</span> ~/.bbdb
+<p></p></pre>  </div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="search-the-word-under-cursor-in-stackoverflow-com-and-google-code-search.html" rel="prev" title="Search at both stackoverflow and google code in Emacs">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed.html" rel="next" title="Simplest workflow on email git commit in Emacs (No magit needed)">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/import-gmail-contacts-into-bbdb.html",
+        disqus_title="Import Gmail contacts into BBDB",
+        disqus_identifier="cache/posts/import-gmail-contacts-into-bbdb.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

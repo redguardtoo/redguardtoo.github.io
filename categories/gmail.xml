@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about gmail)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/gmail.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to use Gnus Group Topics efficiently</title><link>http://blog.binchen.org/posts/how-to-use-gnus-group-topics-efficiently.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Group Topics is used to manage Gnus groups.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, you can,
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Place groups (mail folders)  from Gmail into "gmail" topic&lt;/li&gt;
+&lt;li&gt;Place groups (mails folders) from Outlook.com into "hotmail" topic&lt;/li&gt;
+&lt;li&gt;Make "gmail" and "hotmail" belong to the root topic "Gnus"&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Enable it is just one line,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Now comes the question how to delete/add/move the topics?
+&lt;/p&gt;
+
+&lt;p&gt;
+The official answer is to read &lt;a href="http://www.gnu.org/software/emacs/manual/html_node/gnus/Topic-Commands.html#Topic-Commands"&gt;its manual&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+But there is a &lt;b&gt;simpler solution&lt;/b&gt;. All you need to do is insert below code into ~/.emacs or ~/.gnus.el,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load "gnus-topic"
+  (setq gnus-topic-topology '(("Gnus" visible)
+                              (("hotmail" visible nil nil))
+                              (("gmail" visible nil nil))))
+
+  (setq gnus-topic-alist '(("hotmail" ; the key of topic
+                            "nnimap+hotmail:Inbox"
+                            "nnimap+hotmail:Drafts"
+                            "nnimap+hotmail:Sent"
+                            "nnimap+hotmail:Junk"
+                            "nnimap+hotmail:Deleted")
+                           ("gmail" ; the key of topic
+                            "INBOX"
+                            "[Gmail]/Sent Mail"
+                            "[Gmail]/Trash"
+                            "Drafts")
+                           ("Gnus"))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The &lt;b&gt;management of topics is as easy as editing above code&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+My setup always works no matter ~/.newsrc.eld is loaded or not.
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, "hotmail" and "gmail" are the keys you used when configuring IMAP accounts,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq gnus-select-method
+             '(nnimap "gmail" ; key
+                      (nnimap-address "imap.gmail.com")
+                      (nnimap-server-port 993)
+                      (nnimap-stream ssl)))
+(add-to-list 'gnus-secondary-select-methods
+             '(nnimap "hotmail" ; key
+                      (nnimap-address "imap-mail.outlook.com")
+                      (nnimap-server-port 993)
+                      (nnimap-stream ssl)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gmail</category><category>gnus</category><guid>http://blog.binchen.org/posts/how-to-use-gnus-group-topics-efficiently.html</guid><pubDate>Sun, 10 Jan 2016 05:36:49 GMT</pubDate></item><item><title>Import Gmail contacts into BBDB</title><link>http://blog.binchen.org/posts/import-gmail-contacts-into-bbdb.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;Go to &lt;a href="http://contacts.google.com"&gt;http://contacts.google.com&lt;/a&gt;, click the menu "More&amp;gt;&amp;gt;Export…&amp;gt;&amp;gt;vCard format (blah, blah …)". &lt;/li&gt; &lt;li&gt;Click "Export" button. Download the contacts.vcf. &lt;/li&gt; &lt;li&gt;Make sure &lt;a href="https://github.com/trebb/bbdb-vcard"&gt;bbdb-vcard.el&lt;/a&gt; installed. &lt;/li&gt; &lt;li&gt;In Emacs run "M-x bbdb-vcard-import-file" and input the full path of contacts.vcf &lt;/li&gt; &lt;li&gt;In Emacs run "M-x bbdb-save" &lt;/li&gt; &lt;li&gt;Remove contacts whose names are empty. These are Google Plus people inserted automatically by Gmail: &lt;/li&gt; &lt;/ul&gt;  &lt;p&gt;Run the command in shell: &lt;/p&gt;   &lt;pre class="src src-sh"&gt;&lt;span style="color: #969896; font-style: italic;"&gt;# &lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;the orginal ~/.bbdb will be saved as ~/.bbdb.bak&lt;/span&gt;
+sed -i.bak &lt;span style="color: #70c0b1;"&gt;'/["" ""/d'&lt;/span&gt; ~/.bbdb
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;  &lt;/div&gt;</description><category>bbdb</category><category>emacs</category><category>en</category><category>gmail</category><category>google</category><guid>http://blog.binchen.org/posts/import-gmail-contacts-into-bbdb.html</guid><pubDate>Sat, 26 Jan 2013 11:56:00 GMT</pubDate></item><item><title>Practical guide to use Gnus with Gmail</title><link>http://blog.binchen.org/posts/notes-on-using-gnus.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+The article is moved to &lt;a href="https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/gnus-guide-en.org"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</description><category>emacs</category><category>email</category><category>gmail</category><category>gnus</category><guid>http://blog.binchen.org/posts/notes-on-using-gnus.html</guid><pubDate>Fri, 12 Oct 2012 17:14:00 GMT</pubDate></item></channel></rss>

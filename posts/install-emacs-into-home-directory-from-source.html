@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Install multiple versions of Emacs into $HOME directory from source | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/install-emacs-into-home-directory-from-source.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Install multiple versions of Emacs into $HOME directory from source">
+<meta property="og:url" content="http://blog.binchen.org/posts/install-emacs-into-home-directory-from-source.html">
+<meta property="og:description" content='CREATED: &lt;2014-05-31 Sat&gt;
+
+
+
+UPDATED: &lt;2016-10-05 Wed&gt;
+
+
+
+Here is the script install-emacs.sh,
+
+
+
+
+#!/bin/bash
+[ -z "$EMACS_VERSION" ] &amp;&amp; echo "Usage: EMACS_VERSION=24.3 install-emacs.sh" &amp;&amp; exit 1
+[ '>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-05-31T03:47:53Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Install multiple versions of Emacs into $HOME directory from source</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2014-05-31T03:47:53+00:00">2014-05-31 03:47</time>
+            
+
+            
+          |  
+        <a href="install-emacs-into-home-directory-from-source.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-05-31 Sat&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-05 Wed&gt;</span></span>
+</p>
+
+<p>
+Here is the script <code>install-emacs.sh</code>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/bash
+[ -z "$EMACS_VERSION" ] &amp;&amp; echo "Usage: EMACS_VERSION=24.3 install-emacs.sh" &amp;&amp; exit 1
+[ -z "$EMACS_URL" ] &amp;&amp; EMACS_URL="http://mirror.aarnet.edu.au/pub/gnu/emacs/"
+# I've assign 12G memory to /tmp as ramdisk
+[ -z "$EMACS_TMP" ] &amp;&amp; EMACS_TMP="/tmp"
+
+# configure: WARNING: unrecognized options: --without-gtk3, --without-aqua, --without-alsa, --without-aqua
+echo "curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz"
+curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz | tar xvz -C $EMACS_TMP
+# @see http://wiki.gentoo.org/wiki/Project:Emacs/GNU_Emacs_developer_guide
+# @see http://packages.gentoo.org/package/app-editors/emacs for info on Gentoo Linux
+# --without-gtk and --without-gtk3 is optional
+if [[ $EUID -ne 0 ]]; then
+    echo "Installing Emacs as normal user ..."
+    cd $EMACS_TMP/emacs-$EMACS_VERSION;mkdir -p $HOME/myemacs/$EMACS_VERSION;rm -rf $HOME/myemacs/$EMACS_VERSION/*;./configure --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-dbus --without-sound &amp;&amp; make &amp;&amp; make install
+    rm -rf $EMACS_TMP/emacs-$EMACS_VERSION
+    echo "Emacs $EMACS_VERSION installed!"
+else
+    echo "Installing Emacs as sudoer ..."
+    cd $EMACS_TMP/emacs-$EMACS_VERSION;./configure --without-x --without-dbus --without-sound &amp;&amp; make &amp;&amp; make install
+    echo "Emacs $EMACS_VERSION installed! Please remove $EMACS_TMP/emacs-$EMACS_VERSION"
+fi
+</code></pre>
+
+</div>
+
+<p>
+Usage of the script is as simple as running <code>EMACS_VERSION=24.3 ./install-emacs</code>
+</p>
+
+<p>
+The emacs will be installed into the directory <code>~/myemacs/24.3</code>.
+</p>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="how-to-manage-the-file-path-in-big-project.html" rel="prev" title="How to manage the file path in big project">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="how-to-do-the-file-navigation-efficiently.html" rel="next" title="How to do the file navigation efficiently">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/install-emacs-into-home-directory-from-source.html",
+        disqus_title="Install multiple versions of Emacs into $HOME directory from source",
+        disqus_identifier="cache/posts/install-emacs-into-home-directory-from-source.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

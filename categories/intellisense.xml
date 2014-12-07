@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about intellisense)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/intellisense.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs中的自动完成(Auto Completion)完全指南</title><link>http://blog.binchen.org/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+作者: 陈斌(redguardtoo)
+&lt;/p&gt;
+
+&lt;p&gt;
+更新时间: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2017-04-05 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+原创时间: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2012-08-21 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者不带文件名后缀都可以).
+&lt;/p&gt;
+
+&lt;p&gt;
+我不是来赞美Emacs的强大的,我是来吐槽的.自动完成框架太多,功能重叠,让人困扰.
+&lt;/p&gt;
+
+&lt;p&gt;
+所以本文目的有两个:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;说明哪些框架流行&lt;/li&gt;
+&lt;li&gt;如何使用框架&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div id="outline-container-orgf5d1909" class="outline-2"&gt;
+&lt;h3 id="orgf5d1909"&gt;概述&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf5d1909"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;函数/插件名&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;快捷键&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;使用频率&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;company-mode (结合clang)&lt;/td&gt;
+&lt;td class="org-left"&gt;不需要 (也可启用TAB)&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;hippie-expand&lt;/td&gt;
+&lt;td class="org-left"&gt;M-/&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;evil-mode&lt;/td&gt;
+&lt;td class="org-left"&gt;C-n/C-p(完成词),C-x C-n/p(完成行)&lt;/td&gt;
+&lt;td class="org-left"&gt;高&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;auto-complete (结合clang)&lt;/td&gt;
+&lt;td class="org-left"&gt;TAB&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;complete-symbol&lt;/td&gt;
+&lt;td class="org-left"&gt;C-M-i&lt;/td&gt;
+&lt;td class="org-left"&gt;低&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgbbaa1d7" class="outline-2"&gt;
+&lt;h3 id="orgbbaa1d7"&gt;auto-complete结合clang&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgbbaa1d7"&gt;
+&lt;p&gt;
+&lt;a href="http://emacswiki.org/emacs/AutoComplete"&gt;auto-complete&lt;/a&gt;是第三方开发的插件,提供了自动完成需要的支持(例如在命令行环境下对下拉菜单的模拟).
+&lt;/p&gt;
+
+&lt;p&gt;
+而&lt;a href="http://clang.llvm.org"&gt;clang&lt;/a&gt;是苹果公司C/C++/Objective-C编译器,对C++语法的解析很好.
+&lt;/p&gt;
+
+&lt;p&gt;
+显然,这种l案只适用于 &lt;code&gt;Clang&lt;/code&gt; 支持的语言.
+&lt;/p&gt;
+
+&lt;p&gt;
+需要通过&lt;a href="http://emacswiki.org/wiki/ELPA"&gt;elpa(Emacs的AppStore)&lt;/a&gt;安装第三方插件 &lt;code&gt;auto-complete&lt;/code&gt; 和&lt;a href="https://github.com/brianjcj/auto-complete-clang"&gt;auto-complete-clang&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+具体配置请参考我的&lt;a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-auto-complete.el"&gt;init-auto-complete.el&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+已被company-mode取代,不推荐.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgb76a1cb" class="outline-2"&gt;
+&lt;h3 id="orgb76a1cb"&gt;company-mode&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb76a1cb"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/company-mode/company-mode"&gt;company-mode&lt;/a&gt;和auto-complete功能类似，唯一的区别是clang以及其他语言支持已内置，所以不需要安装其他elisp插件或者额外配置.目前我已用company-mode代替了auto-complete.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org73c844d" class="outline-2"&gt;
+&lt;h3 id="org73c844d"&gt;hippie-expand&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org73c844d"&gt;
+&lt;p&gt;
+&lt;a href="http://emacswiki.org/emacs/HippieExpand"&gt;hippie-expand&lt;/a&gt;是Emacs自带的自动完成框架.
+&lt;/p&gt;
+
+&lt;p&gt;
+其默认的一些特色功能(例如,完成词/文件名/行的功能,或在 &lt;code&gt;minibuffer&lt;/code&gt; 中使用)可作为 &lt;code&gt;company-mode&lt;/code&gt; 补充.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org09d2582" class="outline-2"&gt;
+&lt;h3 id="org09d2582"&gt;complete-symbol&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org09d2582"&gt;
+&lt;p&gt;
+Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,它默认仅仅调用了后台的ctags而已.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;hippie-expand&lt;/code&gt; 经过调教也可用 &lt;code&gt;Ctags&lt;/code&gt;,且默认特色功能比 &lt;code&gt;complete-symbol&lt;/code&gt; 多,所以我没兴趣配置第三个自动完成框架了.
+&lt;/p&gt;
+
+&lt;p&gt;
+通过阅读Emacs24的ChangeLog,我发现 &lt;code&gt;complete-symbol&lt;/code&gt; 经过配置后可以用 &lt;code&gt;semantic&lt;/code&gt; 作为语法解析后端(Emacs23.4也支持,不明白为什么把该特性放在Emacs24的ChangeLog介绍).
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Semantic.html"&gt;semantic&lt;/a&gt;是lisp写的语法解析器,Emacs自带,智能程度介于ctags和clang之间,解析速度比较慢,如果机器配置较差会很卡.
+&lt;/p&gt;
+
+&lt;p&gt;
+我不喜欢这个语法解析器,过去在 &lt;code&gt;Semantic&lt;/code&gt; 尚是&lt;a href="http://cedet.sourceforge.net"&gt;Cedet&lt;/a&gt;的一个组件时,我折腾过 &lt;code&gt;Cedet&lt;/code&gt;,当时感觉速度慢,配置繁琐,不稳定.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;Semantic&lt;/code&gt; 支持多种语言,如C++/Java.
+&lt;/p&gt;
+
+&lt;p&gt;
+配置请参考我的&lt;a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-semantic.el"&gt;init-semantic.el&lt;/a&gt;(注意,我不用 &lt;code&gt;Semantic&lt;/code&gt;,所以相应代码被注释了.你可取消注释).
+&lt;/p&gt;
+
+&lt;p&gt;
+已被 &lt;code&gt;company-mode&lt;/code&gt; 取代,不推荐.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc33ffec" class="outline-2"&gt;
+&lt;h3 id="orgc33ffec"&gt;evil-mode&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc33ffec"&gt;
+&lt;p&gt;
+&lt;a href="http://emacswiki.org/emacs/Evil"&gt;Evil-mode&lt;/a&gt;把Emacs模拟成了Vim,是我最喜欢的第三方插件,其自动完成很简单,就是根据当前文件内容自动完成词或行.
+&lt;/p&gt;
+
+&lt;p&gt;
+值得推荐是因为我也是重度Vim用户,Vim的快捷键已成为我本能了.
+&lt;/p&gt;
+
+&lt;p&gt;
+无需配置,启动 &lt;code&gt;evil-mode&lt;/code&gt; 即可,参见我的&lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/init-evil.el"&gt;init-evil.el&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc0b6bcf" class="outline-2"&gt;
+&lt;h3 id="orgc0b6bcf"&gt;其他&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc0b6bcf"&gt;
+&lt;p&gt;
+我的一个想法. 类似于Evil的完成行.但是可以扫瞄指定目录中所有的文件,列出相似的行.
+&lt;/p&gt;
+
+&lt;p&gt;
+优点在于:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;匹配可以更加宽容一点&lt;/li&gt;
+&lt;li&gt;使用目前最快的grep工具如&lt;a href="https://github.com/BurntSushi/ripgrep"&gt;ripgrep&lt;/a&gt;扫瞄文本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+实现见&lt;a href="https://github.com/redguardtoo/emacs.d/blob/24dd0d7/lisp/init-ivy.el"&gt;init-ivy&lt;/a&gt;中的=counsel-complete-line-by-grep=.
+&lt;/p&gt;
+
+&lt;p&gt;
+试用好几个月了,非常好用.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga24cacc" class="outline-2"&gt;
+&lt;h3 id="orga24cacc"&gt;小结&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga24cacc"&gt;
+&lt;p&gt;
+自动完成包括前端用户界面和后端语法解析引擎两个部分.
+&lt;/p&gt;
+
+&lt;p&gt;
+作为前端的用户界面, &lt;code&gt;company-mode&lt;/code&gt; 和 &lt;code&gt;auto-complete&lt;/code&gt; 相当成熟.
+&lt;/p&gt;
+
+&lt;p&gt;
+后端 &lt;code&gt;Clang&lt;/code&gt; 最优秀.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;Ctags&lt;/code&gt; 谈不上语法解析,只是正则表达式罢了,但是因此才能通吃所有语言.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;Semantic&lt;/code&gt; 支持的语言比 &lt;code&gt;Clang&lt;/code&gt; 多一点,性能和稳定性比较差.
+&lt;/p&gt;
+
+&lt;p&gt;
+作为一个C++程序员,我过去用 &lt;code&gt;auto-complete&lt;/code&gt; 加上 &lt;code&gt;Clang&lt;/code&gt;,现在用 &lt;code&gt;company-mode&lt;/code&gt; 加 &lt;code&gt;Clang&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+脚本语言(Ruby/Python/Javascript)用 &lt;a href="https://en.wikipedia.org/wiki/Ctags"&gt;Ctags&lt;/a&gt; 加 &lt;a href="https://github.com/company-mode/company-mode"&gt;company-mode&lt;/a&gt; 加 &lt;a href="https://github.com/redguardtoo/company-ctags"&gt;company-ctags&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+基于框架自己发明新技术会更好用.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>completion</category><category>emacs</category><category>intellisense</category><category>zh</category><guid>http://blog.binchen.org/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan.html</guid><pubDate>Tue, 21 Aug 2012 14:50:00 GMT</pubDate></item><item><title>评估了Emacs下支持intellisense的几个方案</title><link>http://blog.binchen.org/posts/pin-gu-le-emacs-xia-zhi-chi-intellisense-de-ji-ge-fang-an.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;  我的结论,Emacs23自带的semantic简单可用. &lt;/p&gt; &lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Cedet1.0&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;p&gt;   (require 'semantic-ia)后一些函数可用. &lt;/p&gt; &lt;p&gt;    我没有试出来,和我安装的emacs是terminal版本有关(Cedet下的semantic-ia需要一个GUI介面的popup-menu). &lt;/p&gt; &lt;p&gt;    这也是游人探讨&lt;a href="http://www.emacswiki.org/emacs/AutoComplete"&gt;Auto Complete&lt;/a&gt;接合semantic-ia的原因,因为AutoComplete已经完美实现了popup-menu. &lt;/p&gt; &lt;p&gt;    缺点,semantic做后台语法解析的时候emacs会失去响应几妙种(我的硬件配置很好,intel i3 双核,4G内存),有时候会导致emacs退出. &lt;/p&gt; &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Emacs23自带的semantic&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;p&gt;   没有semantic-ia. &lt;/p&gt; &lt;p&gt;    semantic-analyze-possible-completion(快捷键为C-c , l)较符合要求,可惜这个函数只是打印候选字符串在另一个buffer.需用hippie-expand(快捷键为M-/)选择. &lt;/p&gt; &lt;p&gt;    启动semantic-mode在emacs23中很简单,M-x semantic-mode即可. &lt;/p&gt; &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-3" class="outline-3"&gt; &lt;h4 id="sec-3"&gt;Clang&lt;/h4&gt; &lt;div class="outline-text-3" id="text-3"&gt;  &lt;p&gt;   速度极快,&lt;a href="http://www.emacswiki.org/emacs/AutoComplete"&gt;AutoComplete&lt;/a&gt; 上有几个接合Clang和AutoComple的方案(&lt;a href="https://llvm.org/svn/llvm-project/cfe/trunk/utils/clang-completion-mode.el"&gt;其中一个&lt;/a&gt; 为clang官方提供演示原理,我不建议使用). &lt;/p&gt; &lt;p&gt;    通过elpa安装auto-complete-clang,试用后非常完美,智能且响应速度极快,支持Mac/Cygwin/Linux. &lt;/p&gt; &lt;p&gt;    如果做语法实时检查,可以用flymake,需要提供完整的CXXFLAG给clang.如果用CMake生成Makefile的话,可在flags.make中轻易得到. &lt;/p&gt; &lt;p&gt;    顺便说一下,我个人非常喜爱CMake,是构建打包配置管理的最佳工具.我以后所有的C++项目都将用CMake. &lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>emacs</category><category>intellisense</category><category>linux</category><category>zh</category><guid>http://blog.binchen.org/posts/pin-gu-le-emacs-xia-zhi-chi-intellisense-de-ji-ge-fang-an.html</guid><pubDate>Thu, 29 Dec 2011 16:26:00 GMT</pubDate></item></channel></rss>

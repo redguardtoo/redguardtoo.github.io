@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about dictionary)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/dictionary.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Autocomplete with a dictionary and hippie-expand</title><link>http://blog.binchen.org/posts/autocomplete-with-a-dictionary-with-hippie-expand.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I use &lt;a href="http://company-mode.github.io/"&gt;company-mode&lt;/a&gt; most of the time. Sometimes I use &lt;a href="http://emacswiki.org/emacs/HippieExpand"&gt;Hippie Expand&lt;/a&gt; to autocomplete the English words from a dictionary.
+&lt;/p&gt;
+
+&lt;p&gt;
+I surely can do this in company-mode too. But I prefer hippie-expand because I choose to make company-mode focus on programming stuff and hippie-expand on writing.
+&lt;/p&gt;
+
+&lt;div id="outline-container-org14408c8" class="outline-2"&gt;
+&lt;h3 id="org14408c8"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org14408c8"&gt;
+&lt;p&gt;
+This solution works &lt;b&gt;in any environment&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Step1 (OPTIONAL), download &lt;a href="https://github.com/redguardtoo/emacs.d/raw/master/misc/english-words.txt"&gt;english-words.txt&lt;/a&gt; and place it under "~/.emacs.d/misc/".&lt;/li&gt;
+
+&lt;li&gt;Step 2, Copy below setup into ~/.emacs and use key binding "M-/" to complete the word:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(global-set-key (kbd "M-/") 'hippie-expand)
+
+;; The actual expansion function
+(defun try-expand-by-dict (old)
+  ;; old is true if we have already attempted an expansion
+  (unless (bound-and-true-p ispell-minor-mode)
+    (ispell-minor-mode 1))
+
+  ;; english-words.txt is the fallback dicitonary
+  (if (not ispell-alternate-dictionary)
+      (setq ispell-alternate-dictionary (file-truename "~/.emacs.d/misc/english-words.txt")))
+  (let ((lookup-func (if (fboundp 'ispell-lookup-words)
+                       'ispell-lookup-words
+                       'lookup-words)))
+    (unless old
+      (he-init-string (he-lisp-symbol-beg) (point))
+      (if (not (he-string-member he-search-string he-tried-table))
+        (setq he-tried-table (cons he-search-string he-tried-table)))
+      (setq he-expand-list
+            (and (not (equal he-search-string ""))
+                 (funcall lookup-func (concat (buffer-substring-no-properties (he-lisp-symbol-beg) (point)) "*")))))
+    (if (null he-expand-list)
+      (if old (he-reset-string))
+      (he-substitute-string (car he-expand-list))
+      (setq he-expand-list (cdr he-expand-list))
+      t)
+    ))
+
+(setq hippie-expand-try-functions-list
+      '(;; try-expand-dabbrev
+        ;; try-expand-dabbrev-all-buffers
+        try-expand-by-dict))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgadbd1ab" class="outline-2"&gt;
+&lt;h3 id="orgadbd1ab"&gt;Technical details&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgadbd1ab"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;based on &lt;a href="https://github.com/syohex/emacs-ac-ispell"&gt;ac-ispell&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;lazy load of ispell-mode to speed Emacs startup&lt;/li&gt;
+&lt;li&gt;add a fallback dictionary "english-words.txt" so autocompletion never fails&lt;/li&gt;
+&lt;li&gt;`ispell-lookup-words` or `lookup-words` simply does grep thing, so english-words.txt is just a plain text file.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>autocomplete</category><category>dictionary</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/autocomplete-with-a-dictionary-with-hippie-expand.html</guid><pubDate>Mon, 30 Mar 2015 03:53:40 GMT</pubDate></item></channel></rss>

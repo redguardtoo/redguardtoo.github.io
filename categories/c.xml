@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about c)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/c.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs as C++ IDE, easy way</title><link>http://blog.binchen.org/posts/emacs-as-c-ide-easy-way.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-08-25 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2020-03-27 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+This solution works on Linux/macOS/Cygwin (should work at Windows too, but I don't develop at Windows).
+&lt;/p&gt;
+
+&lt;p&gt;
+Setup is minimum. Only GNU Global and two Emacs plugins are required:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;company-gtags.el&lt;/code&gt; from &lt;a href="https://github.com/company-mode/company-mode"&gt;company&lt;/a&gt; for code completion&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/syohex/emacs-helm-gtags"&gt;emacs-helm-gtags&lt;/a&gt; &lt;b&gt;or&lt;/b&gt; &lt;a href="https://github.com/syohex/emacs-counsel-gtags"&gt;emacs-counsel-gtags&lt;/a&gt; (recommended) for code navigation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Here is the step to step guide.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgb155180" class="outline-2"&gt;
+&lt;h3 id="orgb155180"&gt;Step 1, create sample projects for experiment&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb155180"&gt;
+&lt;p&gt;
+I have two projects &lt;code&gt;~/proj1&lt;/code&gt; and &lt;code&gt;~/proj2&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Both projects use files from &lt;b&gt;read only&lt;/b&gt; directories &lt;code&gt;/usr/include&lt;/code&gt; and &lt;code&gt;/usr/src/linux/include&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+We create a new directory &lt;code&gt;~/obj&lt;/code&gt; to store index files created by GNU Global because directories of third party libraries are &lt;b&gt;read only&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Let's create directories,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;mkdir -p ~/{proj1,proj2,obj}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The content of &lt;code&gt;~/proj2/lib.cpp&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;void proj2_hello(int a2, char* b2) {
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The content of &lt;code&gt;~/proj1/main.cpp&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;void proj1_hello(int a1, char* b1) {
+}
+
+int main(int argc, char *argv[]) {
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orged120cd" class="outline-2"&gt;
+&lt;h3 id="orged120cd"&gt;Step 2, scan C++ code and setup Emacs&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orged120cd"&gt;
+&lt;p&gt;
+Run below command in shell to scan code,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# dump index files to directory ~/obj if 3rd party library directory is read only
+cd /usr/include &amp;amp;&amp;amp; MAKEOBJDIRPREFIX=~/obj gtags --objdir
+cd /usr/linux/include &amp;amp;&amp;amp; MAKEOBJDIRPREFIX=~/obj gtags --objdir
+# # above two command lines are same as below two command lines
+# mkdir -p ~/obj/usr/include &amp;amp;&amp;amp; cd /usr/include &amp;amp;&amp;amp; gtags --objdir=~/obj/usr/include
+# mkdir -p ~/obj/usr/linux/include &amp;amp;&amp;amp; cd /usr/linux/include &amp;amp;&amp;amp; gtags --objdir=~/obj/usr/linux/include
+... 
+# index files are placed inside the projects
+cd ~/proj1 &amp;amp;&amp;amp; gtags 
+cd ~/proj2 &amp;amp;&amp;amp; gtags
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Global introduced &lt;code&gt;MAKEOBJDIRPREFIX&lt;/code&gt; on 2008-03-23. I tested with &lt;code&gt;GNU Global v6.6.2&lt;/code&gt; on Debian.
+&lt;/p&gt;
+
+&lt;p&gt;
+After installing Emacs plugins and setup (minimum setup from their website is enough), insert below code into ~/.emacs,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; `file-truename' MUST be used!
+(setenv "GTAGSLIBPATH" (concat "/usr/include"
+                               ":"
+                               "/usr/src/linux/include"
+                               ":"
+                               (file-truename "~/proj2")
+                               ":"
+                               (file-truename "~/proj1")))
+(setenv "MAKEOBJDIRPREFIX" (file-truename "~/obj/"))
+(setq company-backends '((company-dabbrev-code company-gtags)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5b358d3" class="outline-2"&gt;
+&lt;h3 id="org5b358d3"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5b358d3"&gt;
+&lt;p&gt;
+Use the Emacs plugins as usual.
+&lt;/p&gt;
+
+&lt;p&gt;
+But you need install latest company built on 25th August because I &lt;a href="https://github.com/company-mode/company-mode/issues/570"&gt;fixed a company issue&lt;/a&gt; yesterday.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot,
+&lt;/p&gt;
+
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/cpp-gtags-demo-nq8.png" alt="cpp-gtags-demo-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org2d00ec3" class="outline-2"&gt;
+&lt;h3 id="org2d00ec3"&gt;Tip&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2d00ec3"&gt;
+&lt;p&gt;
+GNU Global could use ctags (Either &lt;a href="http://ctags.sourceforge.net/"&gt;Exuberant Ctags&lt;/a&gt; or &lt;a href="https://ctags.io/"&gt;Universal Ctags&lt;/a&gt;) as backend to create tags file.
+&lt;/p&gt;
+
+&lt;p&gt;
+I suggest NOT doing so. Or else I'm not sure the &lt;code&gt;company-mode&lt;/code&gt; or &lt;code&gt;emacs-counsel-gtags&lt;/code&gt; will work.
+&lt;/p&gt;
+
+&lt;p&gt;
+If you prefer ctags, you could use it directly. Then you can use &lt;a href="https://github.com/redguardtoo/company-ctags"&gt;company-ctags&lt;/a&gt; plus &lt;a href="https://github.com/company-mode/company-mode"&gt;company-mode&lt;/a&gt; for auto-completion. Use &lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;counsel-etags&lt;/a&gt; for navigation.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgff65af7" class="outline-2"&gt;
+&lt;h3 id="orgff65af7"&gt;Technical Details (Optional)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgff65af7"&gt;
+&lt;p&gt;
+Check &lt;a href="https://www.gnu.org/software/global/manual/global.html"&gt;GNU Global manual&lt;/a&gt; to understand environment variables &lt;code&gt;GTAGSLIBPATH&lt;/code&gt; and &lt;code&gt;MAKEOBJDIRPREFIX&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>c</category><category>emacs</category><category>en</category><category>global</category><category>gtags</category><category>ide</category><guid>http://blog.binchen.org/posts/emacs-as-c-ide-easy-way.html</guid><pubDate>Thu, 25 Aug 2016 14:20:28 GMT</pubDate></item><item><title>C/C++/Java code indentation in Emacs</title><link>http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orgf4f17b5" class="outline-2"&gt;
+&lt;h3 id="orgf4f17b5"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf4f17b5"&gt;
+&lt;p&gt;
+There are two styles when insert curly braces in C like languages.
+&lt;/p&gt;
+
+&lt;p&gt;
+Style 1:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;if(true) {
+    printf("hello world\n");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Style 2:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;if(true)
+{
+    printf("hello world\n");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Whatever style I use, I expect Emacs will properly handle the indentation for me.
+&lt;/p&gt;
+
+&lt;p&gt;
+In "Style 1", when I press ENTER key after "{" at first line, I expect the new line will indent four spaces.
+&lt;/p&gt;
+
+&lt;p&gt;
+In "Style 2", when I press ENTER key after ")" at first line, I expect the new line will NOT indent.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org63f3f85" class="outline-2"&gt;
+&lt;h3 id="org63f3f85"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org63f3f85"&gt;
+&lt;p&gt;
+Insert below code into ~/.emacs:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun fix-c-indent-offset-according-to-syntax-context (key val)
+  ;; remove the old element
+  (setq c-offsets-alist (delq (assoc key c-offsets-alist) c-offsets-alist))
+  ;; new value
+  (add-to-list 'c-offsets-alist '(key . val)))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+              ;; indent
+              (fix-c-indent-offset-according-to-syntax-context 'substatement 0)
+              (fix-c-indent-offset-according-to-syntax-context 'func-decl-cont 0))
+            ))
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+That's it.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga02a57e" class="outline-2"&gt;
+&lt;h3 id="orga02a57e"&gt;Explanation&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga02a57e"&gt;
+&lt;p&gt;
+When you press the ENTER key, the function &lt;b&gt;c-indent-line&lt;/b&gt; will be called.
+&lt;/p&gt;
+
+&lt;p&gt;
+That function will do some simple syntax analysis and decide current syntactic context..
+&lt;/p&gt;
+
+&lt;p&gt;
+It will use that syntactic context to look up a global variable c-offsets-alist and decide how many spaces the new line will indent.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, the context &lt;b&gt;substatement&lt;/b&gt; corresponds to the code like below:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;if(true) // press ENTER here
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+And the context &lt;b&gt;func-decl-cont&lt;/b&gt; corresponds to:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;void fn () //press ENTER here
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc7f7b26" class="outline-2"&gt;
+&lt;h3 id="orgc7f7b26"&gt;Technical details&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc7f7b26"&gt;
+&lt;p&gt;
+When you press ENTER key, the new line will be inserted. Then the function &lt;b&gt;indent-according-to-mode&lt;/b&gt; will always be called
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;indent-according-to-mode&lt;/b&gt; will call function object &lt;b&gt;indent-line-function&lt;/b&gt; if it's not nil.
+&lt;/p&gt;
+
+&lt;p&gt;
+In C/C++/Java, that object is actually &lt;b&gt;c-indent-line&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;c-indent-line&lt;/b&gt; is defined in /usr/share/emacs/24.3/lisp/progmodes/cc-cmds.el (I use Emacs 24.3 on Gentoo Linux).
+&lt;/p&gt;
+
+&lt;p&gt;
+In that function, just below the code line:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq c-syntactic-context (c-guess-basic-syntax))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can insert log code as below:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(message "c-syntactic-context=%s" c-syntactic-context)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You will know the current syntactic context when you press ENTER key through the output of log code.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="http://www.emacswiki.org/emacs/IndentingC"&gt;EmacsWiki&lt;/a&gt; says you can run command "c-set-offset", whose hot key is "C-x C-o", in order to "see the syntax at point". As I tested, it does not work as expected. My way may seem a little bit intrusive but is reliable.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, the context &lt;b&gt;statement-cont&lt;/b&gt; corresponds to the use case like this:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;int a=3, // press ENTER here
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Please note syntax analysis in c-indent-line is turned on if and &lt;b&gt;only if&lt;/b&gt; the global flag &lt;b&gt;c-syntactic-indentation&lt;/b&gt; is true.
+&lt;/p&gt;
+
+&lt;p&gt;
+Thanks for &lt;a href="https://github.com/chengyi"&gt;chengyi&lt;/a&gt; for &lt;a href="https://github.com/redguardtoo/emacs.d/issues/98"&gt;reporting the issue and suggesting the fix&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, &lt;a href="http://www.emacswiki.org/emacs/IndentingC"&gt;EmacsWiki has a section&lt;/a&gt; to discuss the indenting in C. You may not need it if you have read this article and can read the Emacs lisp code.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>c</category><category>emacs</category><category>en</category><category>java</category><guid>http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs.html</guid><pubDate>Fri, 09 May 2014 09:19:18 GMT</pubDate></item><item><title>How to embed button in wxDataViewListCtrl</title><link>http://blog.binchen.org/posts/how-to-embed-button-in-wxdataviewlistctrl.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Before creating wxDataViewListCtrl, it's better to detect information about text size so that we can set the column width and height intelligently.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the code:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;void GuessRowSize(int* w, int* h) {
+    //@see http://sourceforge.net/apps/trac/codelite/browser/trunk/LiteEditor/new_build_tab.cpp?rev=5804
+
+// Determine the row height
+    wxBitmap tmpBmp(1, 1);
+    wxMemoryDC memDc;
+    memDc.SelectObject(tmpBmp);
+    wxFont f = wxSystemSettings::GetFont(wxSYS_ANSI_FIXED_FONT);
+    int xx, yy;
+    memDc.GetTextExtent(wxT("Tp"), &amp;amp;xx, &amp;amp;yy, NULL, NULL, &amp;amp;f);
+
+    //enough height for ICON
+    *h=yy&amp;lt;16? 16: yy;
+
+    memDc.GetTextExtent("Wp", &amp;amp;xx, &amp;amp;yy, NULL, NULL, &amp;amp;f);
+    *w=xx/2;
+
+    return;
+}
+wxDataViewListCtrl* ctrl=new wxDataViewListCtrl(parent,-1);
+ctrl-&amp;gt;Create(parent,id,wxDefaultPosition,wxDefaultSize);
+int w,h;
+GuessRowSize(&amp;amp;w,&amp;amp;h);
+//hard code width may not be good, may be can use w ,h
+AppendTextColumn(_T("Column 1"),wxDATAVIEW_CELL_INERT,200 /*width*/);
+//must be called after Create()
+ctrl-&amp;gt;SetRowHeight(h+6);
+
+
+// well I need provide button render by myself
+class wxDataViewMyButtonRenderer: public wxDataViewCustomRenderer, public wxTimer
+{
+public:
+    wxDataViewMyButtonRenderer( const wxString &amp;amp;varianttype = wxT("wxString"),
+                              int align = wxDVR_DEFAULT_ALIGNMENT );
+
+    virtual bool SetValue( const wxVariant &amp;amp;value );
+    virtual bool GetValue( wxVariant &amp;amp;value ) const;
+
+    virtual bool Render( wxRect, wxDC*, int);
+    virtual wxSize GetSize() const;
+    virtual void Notify();
+    void SetParent(GalleryListView*);
+    // Implementation only, don't use nor override
+    virtual bool ActivateCell(const wxRect&amp;amp; rect,
+        wxDataViewModel *model,
+        const wxDataViewItem&amp;amp; item,
+        unsigned int col,
+        const wxMouseEvent *mouseEvent);
+
+private:
+    wxString m_value;
+    bool m_button_clicked;
+    wxRect m_cell_rect;
+    GalleryListView* m_parent;
+
+protected:
+    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewMyButtonRenderer)
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+When user click one row, the ActivateCell is called, we can use some rect detect algorithm to find if the button rect is clicked.
+&lt;/p&gt;
+
+&lt;p&gt;
+There is no mouse up event handler! So I have to hack, basically start a wxTimer when button clicked and draw the button up effect after about 1 second in Notify(). That's why I ask wxDataViewMyButtonRenderer to inherit from wxTimer.
+&lt;/p&gt;
+
+&lt;p&gt;
+To draw the button up effect, I need ask the parent wxDataViewListCtrl to refresh itself, so that the button's Render() method has a chance to be called. That's why we need SetParent().
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the part of implementation:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;bool
+wxDataViewMyButtonRenderer::ActivateCell(const wxRect&amp;amp; rect,
+    wxDataViewModel *model,
+    const wxDataViewItem&amp;amp; item,
+    unsigned int col,
+    const wxMouseEvent *mouseEvent)
+{
+    wxDataViewListStore* store=(wxDataViewListStore*) model;
+
+    if ( mouseEvent ) {
+        if ( !wxRect(GetSize()).Contains(mouseEvent-&amp;gt;GetPosition()) ){
+            return false;
+        }
+        wxVariant item_value_pdf;
+        store-&amp;gt;GetValueByRow(item_value_pdf , store-&amp;gt;GetRow(item),0);
+        wxVariant item_value_created;
+        store-&amp;gt;GetValueByRow(item_value_created , store-&amp;gt;GetRow(item),1);
+
+        m_button_clicked=true;
+        m_cell_rect=rect;
+    } else {
+        wxLogDebug(_T("Sorry, I don't handle keyboard"));
+    }
+
+    return true;
+}
+
+bool
+wxDataViewMyButtonRenderer::Render( wxRect rect, wxDC *dc, int state )
+{
+    wxLogDebug(_T("Render called"));
+    // Ensure that the check boxes always have at least the minimal required
+    // size, otherwise DrawCheckBox() doesn't really work well. If this size is
+    // greater than the rect size, the checkbox will be truncated but this is a
+    // lesser evil.
+    wxSize size = rect.GetSize();
+    size.IncTo(GetSize());
+    rect.SetSize(size);
+
+    // draw button
+    if(m_button_clicked==true &amp;amp;&amp;amp; rect.Intersects(m_cell_rect)){
+        //draw the button when clicked
+        dc-&amp;gt;SetBrush(wxBrush(wxColour(65, 150, 65), wxBRUSHSTYLE_SOLID));
+        dc-&amp;gt;SetPen( *wxBLACK_PEN );
+        dc-&amp;gt;DrawRectangle(rect);
+
+        // draw button push down effect. since we cannot detect mouse up event, we use
+        // timer to draw it
+        const int time_to_button_up=350;
+        StartOnce(time_to_button_up);
+    } else {
+        // draw normal button
+        dc-&amp;gt;SetBrush(wxBrush(wxColour(84, 174, 84), wxBRUSHSTYLE_SOLID));
+        dc-&amp;gt;SetPen( *wxBLACK_PEN );
+        dc-&amp;gt;DrawRectangle(rect);
+
+        //draw inner white border
+        rect.Deflate(1);
+        dc-&amp;gt;SetPen( *wxWHITE_PEN );
+        dc-&amp;gt;DrawRectangle(rect);
+    }
+
+    dc-&amp;gt;SetTextForeground(*wxWHITE);
+    dc-&amp;gt;DrawLabel(m_value,wxRect(dc-&amp;gt;GetTextExtent(m_value)).CentreIn(rect));
+
+    return true;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>c</category><category>en</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/how-to-embed-button-in-wxdataviewlistctrl.html</guid><pubDate>Sun, 13 Apr 2014 15:39:28 GMT</pubDate></item><item><title>Make Emacs support auto-completion for CMake</title><link>http://blog.binchen.org/posts/make-emacs-support-auto-completion-for-cmake.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Easy. You only install company-mode and company-cmake.el according to the documentation &lt;a href="https://github.com/company-mode/company-cmake"&gt;HERE&lt;/a&gt;. &lt;/p&gt; &lt;p&gt; company-cmake.el is written by me. I'm in the process of signing necessary copyright papers to make it part of company-mode. I was told the process could take one month because I'm deal with GNU foundation. So please be patient. &lt;/p&gt; &lt;p&gt; Anyway, you can use company-cmake.el right now with company-mode without any problem. &lt;/p&gt; &lt;p&gt; Please note I only tested this plugin with cmake 2.8. &lt;/p&gt; &lt;p&gt; Here is screen shot: &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/01/company-cmake-nq8.png" alt="http://blog.binchen.org/wp-content/uploads/2014/01/company-cmake-nq8.png"&gt; &lt;/p&gt; &lt;p&gt; UPDATED (12th Jan, 2014): Legal procedure is done. Now company-cmake.el is officially part of company-mode since version 0.6.12. &lt;/p&gt; &lt;p&gt; So all you need to do is install latest company-mode, no other set up required! &lt;/p&gt;&lt;/div&gt;</description><category>c</category><category>cmake</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/make-emacs-support-auto-completion-for-cmake.html</guid><pubDate>Mon, 22 Apr 2013 10:48:00 GMT</pubDate></item></channel></rss>

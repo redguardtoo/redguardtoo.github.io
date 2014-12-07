@@ -1,0 +1,1008 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about html)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/html.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code completion for HTML/JS/CSS in Emacs</title><link>http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-11-27 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2020-03-27 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+You need install &lt;a href="https://en.wikipedia.org/wiki/Ctags"&gt;Ctags&lt;/a&gt; or &lt;a href="https://github.com/universal-ctags/ctags"&gt;universal-ctags&lt;/a&gt; at first.
+&lt;/p&gt;
+
+&lt;p&gt;
+People using macOS will find there already exists a built in program named "ctags". &lt;b&gt;This program should be deleted!&lt;/b&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+If you want a &lt;b&gt;quick start&lt;/b&gt;, jump to the end of this article.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can use &lt;a href="https://github.com/redguardtoo/company-ctags"&gt;company-ctags&lt;/a&gt; plus &lt;a href="https://github.com/company-mode/company-mode"&gt;company-mode&lt;/a&gt; to complete HTML/JS/CSS code.
+&lt;/p&gt;
+
+&lt;p&gt;
+Setup is easy.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 1, create TAGS:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;cd ~/myproj/ &amp;amp;&amp;amp; ctags -e -R .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Step 2, done.
+&lt;/p&gt;
+
+&lt;p&gt;
+That's OK for most programming languages.
+&lt;/p&gt;
+
+&lt;p&gt;
+But &lt;b&gt;not enough&lt;/b&gt; for web developers who use &lt;a href="https://github.com/fxbois/web-mode"&gt;web-mode&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+You need upgrade web-mode to &lt;a href="https://github.com/fxbois/web-mode/pull/640"&gt;latest version&lt;/a&gt; so that when inputting "btn-" or "data-" code completion still works.
+&lt;/p&gt;
+
+&lt;p&gt;
+One issue is &lt;code&gt;company-mode&lt;/code&gt; disables code completion in string and comment by default. We need &lt;b&gt;disable this feature in web-mode temporarily&lt;/b&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load "company"
+  ;; @see https://github.com/redguardtoo/emacs.d/commit/2ff305c1ddd7faff6dc9fa0869e39f1e9ed1182d
+  (defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
+    (if (memq major-mode '(php-mode html-mode web-mode nxml-mode))
+        (setq ad-return-value nil)
+      ad-do-it)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Tested on Emacs24, 25, 26.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot:
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/company-etags-code-completion-nq8.png" alt="company-etags-code-completion-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>css</category><category>emacs</category><category>en</category><category>html</category><category>javascript</category><guid>http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs.html</guid><pubDate>Fri, 27 Nov 2015 11:43:59 GMT</pubDate></item><item><title>How to validate HTML5 code with Flymake effectively</title><link>http://blog.binchen.org/posts/how-to-validate-html5-code-with-flymake-effectively.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-12-11 Thu&amp;gt; &lt;/span&gt;&lt;/span&gt; 
+&lt;/p&gt;
+
+&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-12-05 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the &lt;a href="http://www.emacswiki.org/emacs/FlymakeHtml"&gt;solution from EmacsWiki&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I found it not effective because &lt;a href="https://github.com/w3c/tidy-html5"&gt;tidy&lt;/a&gt; is too strict to HTML5 and produces too much noise.
+&lt;/p&gt;
+
+&lt;p&gt;
+I only need validation of missing open/closed html tag(s). Nothing more!
+&lt;/p&gt;
+
+&lt;p&gt;
+So here is my complete solution:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun flymake-html-init ()
+       (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                          'flymake-create-temp-inplace))
+              (local-file (file-relative-name
+                           temp-file
+                           (file-name-directory buffer-file-name))))
+         (list "tidy" (list local-file))))
+
+(defun flymake-html-load ()
+  (interactive)
+  (when (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
+    (set (make-local-variable 'flymake-allowed-file-name-masks)
+         '(("\\.html\\|\\.ctp\\|\\.ftl\\|\\.jsp\\|\\.php\\|\\.erb\\|\\.rhtml" flymake-html-init))
+         )
+    (set (make-local-variable 'flymake-err-line-patterns)
+         ;; only validate missing html tags
+         '(("line \\([0-9]+\\) column \\([0-9]+\\) - \\(Warning\\|Error\\): \\(missing &amp;lt;\/[a-z0-9A-Z]+&amp;gt;.*\\|discarding unexpected.*\\)" nil 1 2 4))
+         )
+    (flymake-mode t)))
+
+(add-hook 'web-mode-hook 'flymake-html-load)
+(add-hook 'html-mode-hook 'flymake-html-load)
+(add-hook 'nxml-mode-hook 'flymake-html-load)
+(add-hook 'php-mode-hook 'flymake-html-load)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The only difference from EmacsWiki is only one line:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;'(("line \\([0-9]+\\) column \\([0-9]+\\) - \\(Warning\\|Error\\): \\(missing &amp;lt;\/[a-z0-9A-Z]+&amp;gt;.*\\|discarding unexpected.*\\)" nil 1 2 4))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>html</category><category>tidy</category><category>validation</category><guid>http://blog.binchen.org/posts/how-to-validate-html5-code-with-flymake-effectively.html</guid><pubDate>Fri, 05 Dec 2014 13:00:31 GMT</pubDate></item><item><title>Make web-mode support HTML with AngularJS data-binding</title><link>http://blog.binchen.org/posts/make-web-mode-support-html-with-angularjs-data-binding.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I find it very useful to use `M-x imenu` to jump to the  &lt;a href="http://angularjs.org"&gt;AngularJS&lt;/a&gt; binding point of one HTML file.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into ~/.emacs:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load "web-mode"
+  ;; angular imenu
+  (add-to-list 'web-mode-imenu-regexp-list
+               '(" \\(ng-[a-z]*\\)=\"\\([a-zA-Z0-9]*\\)" 1 2 "=")))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>angular</category><category>emacs</category><category>en</category><category>html</category><guid>http://blog.binchen.org/posts/make-web-mode-support-html-with-angularjs-data-binding.html</guid><pubDate>Fri, 21 Nov 2014 11:45:24 GMT</pubDate></item><item><title>Export org file embedded with code snippets</title><link>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-11-20 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-06-06 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-org92b29c5" class="outline-2"&gt;
+&lt;h3 id="org92b29c5"&gt;problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org92b29c5"&gt;
+&lt;p&gt;
+I use &lt;a href="http://orgmode.org/"&gt;Org-mode&lt;/a&gt; to record all my notes.
+&lt;/p&gt;
+
+&lt;p&gt;
+As a developer, I place code snippets from many programming languages into one org file.
+&lt;/p&gt;
+
+&lt;p&gt;
+The issue is when exporting the org file, major mode for each language will be loaded to render the code snippet.
+&lt;/p&gt;
+
+&lt;p&gt;
+It means the hooks of the major modes will be executed. Since I put lots of heavy weight setup things in those hooks, my exporting is extremely slow.
+&lt;/p&gt;
+
+&lt;p&gt;
+My hooks are also dependent on third party tools. So if anyone else uses my setup without those tools, his/her exporting will &lt;a href="https://github.com/redguardtoo/emacs.d/issues/316"&gt;fail&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org07c7673" class="outline-2"&gt;
+&lt;h3 id="org07c7673"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org07c7673"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org786ade8" class="outline-3"&gt;
+&lt;h4 id="org786ade8"&gt;Setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org786ade8"&gt;
+&lt;p&gt;
+In order to solve the issue, I write a small function which will be called at the beginning of each major mode hook.
+&lt;/p&gt;
+
+&lt;p&gt;
+The function basically check whether the `(buffer-file-name)` is the temporary file created by Org-mode or the output HTML converted from org file. If answer is "YES", then code in major mode hook will not be executed.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar load-user-customized-major-mode-hook t)
+(defvar cached-normal-file-full-path nil)
+(defun is-buffer-file-temp ()
+  (interactive)
+  "If (buffer-file-name) is nil or a temp file or HTML file converted from org file"
+  (let ((f (buffer-file-name))
+        org
+        (rlt t))
+    (cond
+     ((not load-user-customized-major-mode-hook) t)
+     ((not f)
+      ;; file does not exist at all
+      (setq rlt t))
+     ((string= f cached-normal-file-full-path)
+      (setq rlt nil))
+     ((string-match (concat "^" temporary-file-directory) f)
+      ;; file is create from temp directory
+      (setq rlt t))
+     ((and (string-match "\.html$" f)
+           (file-exists-p (setq org (replace-regexp-in-string "\.html$" ".org" f))))
+      ;; file is a html file exported from org-mode
+      (setq rlt t))
+     (t
+      ;; avoid calling to file-exists-p too often for performance reason
+      (setq cached-normal-file-full-path f)
+      (setq rlt nil)))
+    rlt))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6484b82" class="outline-3"&gt;
+&lt;h4 id="org6484b82"&gt;Usage&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6484b82"&gt;
+&lt;p&gt;
+I use python-mode-hook setup as an example:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'python-mode-hook
+          '(lambda ()
+             (unless (is-buffer-file-temp)
+               (anaconda-mode)
+               (eldoc-mode)
+               (if (executable-find "pyflakes")
+                   (flymake-python-pyflakes-load))
+               (setq electric-indent-chars (delq ?: electric-indent-chars))
+               )))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc6faae2" class="outline-2"&gt;
+&lt;h3 id="orgc6faae2"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc6faae2"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org44d68ee" class="outline-3"&gt;
+&lt;h4 id="org44d68ee"&gt;Export shell code&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org44d68ee"&gt;
+&lt;p&gt;
+Exporting shell code will fail if `sh-mode` is loaded. So I use "bash" instead. Since there is no "bash-mode", exporting will be fine.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org2d6624d" class="outline-3"&gt;
+&lt;h4 id="org2d6624d"&gt;Yasnippet setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org2d6624d"&gt;
+&lt;p&gt;
+To avoid loading yasnippets when exporting, I have to &lt;a href="https://github.com/capitaomorte/yasnippet#use-yas-minor-mode-on-a-per-buffer-basis"&gt;"use yas-minor-mode on a per-buffer basis"&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgc1c57fc" class="outline-3"&gt;
+&lt;h4 id="orgc1c57fc"&gt;Manually turn off the major-mode hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgc1c57fc"&gt;
+&lt;p&gt;
+It's controlled by global flag `load-user-customized-major-mode-hook`, as you can see from the "Setup" section.
+&lt;/p&gt;
+
+&lt;p&gt;
+Say I want to turn off the major mode hooks when `M-x org-publish`, here is the setup:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defadvice org-publish (around org-publish-advice activate)
+  "Stop running major-mode hook when org-publish"
+  (let ((old load-user-customized-major-mode-hook))
+    (setq load-user-customized-major-mode-hook nil)
+    ad-do-it
+    (setq load-user-customized-major-mode-hook old)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgf1a75ee" class="outline-3"&gt;
+&lt;h4 id="orgf1a75ee"&gt;after-save-hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf1a75ee"&gt;
+&lt;p&gt;
+`after-save-hook` is the "Normal hook that is run after a buffer is saved to its file". You may also need tweak it up because it will be called when exporting org files
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>export</category><category>html</category><category>org</category><guid>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets.html</guid><pubDate>Thu, 20 Nov 2014 12:22:17 GMT</pubDate></item><item><title>How to do HTML/Javascript REPL (Read–eval–print loop) with NO server set up</title><link>http://blog.binchen.org/posts/how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org3dc9c3e" class="outline-2"&gt;
+&lt;h3 id="org3dc9c3e"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3dc9c3e"&gt;
+&lt;p&gt;
+I love the REPL (Read–eval–print loop). Watch live update of web page when typing code is cool.
+&lt;/p&gt;
+
+&lt;p&gt;
+But most solutions around the internet are not practical for me.
+&lt;/p&gt;
+
+&lt;p&gt;
+In my world, I never has a chance to develop fancy 2D/3D games written in HTML5 canvas.
+&lt;/p&gt;
+
+&lt;p&gt;
+Instead, I was &lt;b&gt;ALWAYS&lt;/b&gt; assigned to maintain some enterprise CMS with complex business logic. For example, after refreshing the web page I need click lots of buttons before doing the job. Avoiding press "refresh page button" does not help much.
+&lt;/p&gt;
+
+&lt;p&gt;
+Besides, I can't use the embedded server those solutions boasted because our web application has many dependencies. It needs a whole environment support team to set it up. There is no way I can persuade the team to use a different web server
+&lt;/p&gt;
+
+&lt;p&gt;
+For me, a practical solution must be:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;easy to set up&lt;/li&gt;
+&lt;li&gt;powerful. I can read/write any part of the web page in my text editor&lt;/li&gt;
+&lt;li&gt;no learning curve. I don't want to learn any domain specific language or API. For example, if my web application uses jquery, I want &lt;b&gt;use and only use jquery API&lt;/b&gt; to manipulate web page in my text editor. If it use backbone, then I use backbone. No more, no less.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1429eb4" class="outline-2"&gt;
+&lt;h3 id="org1429eb4"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1429eb4"&gt;
+&lt;p&gt;
+The best solution is firefox addon &lt;a href="https://github.com/bard/mozrepl/wiki"&gt;MozRepl&lt;/a&gt;. You can install it &lt;a href="https://addons.mozilla.org"&gt;https://addons.mozilla.org&lt;/a&gt;. Click firefox menu "Tools =&amp;gt; MozRepl =&amp;gt; Start" to run it.
+&lt;img src="http://blog.binchen.org/wp-content/moz-repl-start-nq8.png" alt="moz-repl-start-nq8.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+So what is MozRepl, as its web site says, "MozRepl lets you program Firefox and other Mozilla-based applications &lt;b&gt;from the inside&lt;/b&gt;." Basically it convert firefox into a socket server. Your text editor could talk to firefox and let firefox do anything you want. Since it only interact with the firefox, I don't need mess with the web server.
+&lt;/p&gt;
+
+&lt;p&gt;
+Well, I hope I can end this article by claiming "after reading its &lt;a href="https://github.com/bard/mozrepl/wiki/Tutorial"&gt;official tutorial&lt;/a&gt;,I live happily with MozRepl ever after".
+&lt;/p&gt;
+
+&lt;p&gt;
+The ugly truth is, MozRepl has some rough edges. That's the reason why I write this article. I will explain how to use MozRepl in next two sections.
+&lt;/p&gt;
+
+&lt;p&gt;
+Section 1 is about how to use MozRepl, whatever text editor you use, you should read this section.
+&lt;/p&gt;
+
+&lt;p&gt;
+Section 2 is on how to set up my text editor Emacs to interact with MozRepl. It's optional.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6198be1" class="outline-3"&gt;
+&lt;h4 id="org6198be1"&gt;Section 1, use MozRepl&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6198be1"&gt;
+&lt;p&gt;
+Here are key points:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;You need read above official tutorial at least once&lt;/li&gt;
+
+&lt;li&gt;There is video demo on youtube. I suggest watching from &lt;a href="http://www.youtube.com/watch?v=5RSnHN6S52c#t=137"&gt;2:18&lt;/a&gt; because you possibly are more interested in manipulating web page than toy with firefox internals.&lt;/li&gt;
+&lt;li&gt;web page is called "content" in MozRepl&lt;/li&gt;
+&lt;li&gt;In order to execute your javascript code with exactly same syntax as your web application is running code "repl.enter(content);" at first line, as you can see in both video and text tutorial&lt;/li&gt;
+&lt;li&gt;Use firefox 24.0+ and MozRepl 1.1.2+&lt;/li&gt;
+&lt;li&gt;For some weird reason, MozRepl socket server needs some warm up after web page refreshed. So run the code like "console.log('hello');" in the first connection, close the connection, and run your other code in second connection.&lt;/li&gt;
+&lt;li&gt;For code running in MozRepl, if one line will trigger some AJAX request, all the code just after that line &lt;b&gt;will not&lt;/b&gt; be executed. Use javascript API "setTimeout' to work around this issue.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Here is a complete example (note how I use setTimeout) written in javascript,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;$('#serviceId').val('0451235550');
+$('#serviceId').keyup();
+console.log('hi');
+setTimeout(function(){
+  console.log('world');
+  $('input[value="1"][name="isAccountHolder"]').click();
+  $('#accountNumber').val('01234567891234');
+  setTimeout(function(){
+    $('#registrationLoginEmailAddress').val('cb@cb.cb');
+    $('#registrationLoginEmailAddress2').val('cb@cb.cb');
+    $('#password').val('Password1');
+    $('#passwordConfirm').val('Password1');
+    $('#title').val('Mr');
+    $('#serviceFirstName').val('chen');
+    $('#serviceLastName').val('bin');
+    $('#registrationLoginDetailsContinueBtn').click();
+  },2000);
+  $('#serviceAccountContinueBtn').click();
+},3000);
+$('#confirmServiceBtn').click();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As you can see from above, I can use jQuery API loaded in that web page without any problem. Of course, you can always use vanilla javascript instead.
+&lt;/p&gt;
+
+&lt;p&gt;
+Please note the code is not part of my web application! It will be run only in MozRepl. You can telnet to the MozRepl socket server (127.0.0.1 with port 4424) and copy paste above code line by line.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org284fd94" class="outline-3"&gt;
+&lt;h4 id="org284fd94"&gt;Section 2, set up text editor (Emacs)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org284fd94"&gt;
+&lt;p&gt;
+My text editor is Emacs, so I use Emacs as an example.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 1, install moz.el according to &lt;a href="https://github.com/bard/mozrepl/wiki/Emacs-integration"&gt;official manual&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Step 2, Please insert below code into your ~/.emacs:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun moz-goto-content-and-run-cmd (cmd)
+  (comint-send-string (inferior-moz-process)
+                      (concat "repl.enter(content);"
+                              cmd
+                              "repl.back();")))
+
+(setq moz-repl-js-dir (expand-file-name "~/moz-repl-js-dir"))
+
+(defun moz--read-file (js-file)
+  (with-temp-buffer
+    (insert-file-contents js-file)
+    (buffer-string)))
+
+(defun moz--load-js-file (js-file)
+  (let (cmd )
+    (when (file-exists-p js-file)
+      ;; make moz API usable in any major-mode
+      (moz-minor-mode 1)
+      ;; flush mozrepl at first
+      (moz-goto-content-and-run-cmd "console.log('hello');")
+      ;; read the content of js-file
+      (setq cmd (moz--read-file js-file))
+      (moz-goto-content-and-run-cmd cmd))))
+
+(defun moz-load-js-file-and-send-it ()
+  "load js file from specific directory and send it to mozrepl"
+  (interactive)
+  (let ((js-file (read-file-name "js file:" moz-repl-js-dir)))
+    (moz--load-js-file js-file)
+    ))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+From now on, you only need "M-x moz-load-js-file-and-send-it" and select the js file you need MozRepl to run.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7743e7a" class="outline-2"&gt;
+&lt;h3 id="org7743e7a"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7743e7a"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org8a5bcec" class="outline-3"&gt;
+&lt;h4 id="org8a5bcec"&gt;Tip 1&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org8a5bcec"&gt;
+&lt;p&gt;
+Well, this is a simple tip. Maybe you are already aware of this.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can write a all-in-one.js. In all-in-one.js, you can parse the URL to separate logic for different project.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is javascript code,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;var url=document.URL;
+if(/^.*mycompany\.com\.au.*my-account\/registration/.test(url)){
+   console.log("for regitration module");
+} else if (/^.*mycompany\.com\.au.*my-account\/my-profile/.test(url)) {
+   console.log("for profile module");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Since javascript is good at analyzing URL, you can also tweak the URL parameters. Anyway, the full power of javascript is at your hand.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4039d01" class="outline-3"&gt;
+&lt;h4 id="org4039d01"&gt;Tip 2&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org4039d01"&gt;
+&lt;p&gt;
+Sometimes mozrepl will be unresponsive. You can test it by running "M-x moz-reload-browser" to refresh the page. If page is not refreshed, restart Firefox. Luckily this does not happen too often.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun moz-reload-browser ()
+  (interactive)
+  (comint-send-string (inferior-moz-process)
+                      "setTimeout(function(){content.document.location.reload(true);}, '500');"))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org898bd26" class="outline-2"&gt;
+&lt;h3 id="org898bd26"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org898bd26"&gt;
+&lt;p&gt;
+Here is a demo how I use it in a real world web application development.
+&lt;/p&gt;
+
+&lt;p&gt;
+The script to drive the firefox is written in simple javascript/jquery code, which I already show you.
+&lt;/p&gt;
+
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/mozrepl-in-action.gif" alt="mozrepl-in-action.gif"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>frontend</category><category>html</category><category>javascript</category><category>repl</category><guid>http://blog.binchen.org/posts/how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2.html</guid><pubDate>Mon, 10 Feb 2014 21:56:00 GMT</pubDate></item><item><title>Why Emacs is better editor - a case study for javascript developer</title><link>http://blog.binchen.org/posts/why-emacs-is-better-editor.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-01-15 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Let's see an example in real life development.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgd20a03d" class="outline-2"&gt;
+&lt;h3 id="orgd20a03d"&gt;Note&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd20a03d"&gt;
+&lt;p&gt;
+For people who does not get the key points of this article, here are the points:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Emacs has an embedded &lt;b&gt;javascript interpreter&lt;/b&gt; which I extend a little bit.&lt;/li&gt;
+&lt;li&gt;Other editors just use external tools or regular expression to do the semantic analysis.&lt;/li&gt;
+&lt;li&gt;The difference of above two is bigger than the difference between machine gun and spear.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgb3c9f29" class="outline-2"&gt;
+&lt;h3 id="orgb3c9f29"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb3c9f29"&gt;
+&lt;p&gt;
+I'm maintaining a big javascript file with thousands of lines of legacy code.
+&lt;/p&gt;
+
+&lt;p&gt;
+My most urgent issue is how to list all the functions in that javascript file and jump to the definition of specific function easily.
+&lt;/p&gt;
+
+&lt;p&gt;
+The modern enterprise application usually define the javascript function in some complex data structure. So most editors are not good at listing the functions.
+&lt;/p&gt;
+
+&lt;p&gt;
+To understand what "complex" means, let's check some code from real world application:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;$(el.completeRegistrationForm).validate({
+    ignore: " :hidden",
+    rules : {
+        password : {
+            required : function () { return $(el.password).is(":visible"); }
+        },
+        accountNumber : {
+            required : function () {
+                return $(el.accountNumber).is(":visible");
+            },
+            digits : true
+        }
+        // ... I skipped next 200 lines which are similar to above lines
+
+    },
+    messages : {
+        password: {
+            required : "Please input a valid password"
+        },
+        accountNumber: {
+            required : "Please provide a valid account number",
+            digits : "Please enter only digits",
+        }
+        // ... I skipped next 200 lines which are similar to above lines
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Most editors like Sublime Text 3 cannot display the javascript functions with meaningful context in this case. All you can see is only a bunch of functions with name "required".:
+&lt;img src="http://blog.binchen.org/wp-content/sublime-functions.png" alt="sublime-functions.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org85ceeb1" class="outline-2"&gt;
+&lt;h3 id="org85ceeb1"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org85ceeb1"&gt;
+&lt;p&gt;
+Emacs has a &lt;a href="http://www.emacswiki.org/emacs/Js2Mode"&gt;js2-mode&lt;/a&gt; which is basically a javascript interpreter written in lisp. It's created by &lt;a href="http://www.emacswiki.org/emacs/SteveYegge"&gt;Steve Yegge&lt;/a&gt; and now maintained by &lt;a href="https://github.com/mooz/js2-mode"&gt;mooz&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Since &lt;code&gt;js2-mode&lt;/code&gt; is a interpreter, basically it can do anything you want. The key point is to understand the &lt;a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree"&gt;Abstract Syntax Tree (AST)&lt;/a&gt; defined in js2-mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my patch to make &lt;code&gt;js2-mode&lt;/code&gt; display the list of functions with correct context:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-diff"&gt;commit 56ed89bf18a6b58fd4620056288ea2ab52bd4d77
+Author: Chen Bin &amp;lt;chenbin.sh@gmail.com&amp;gt;
+Date:   Sun Dec 15 18:18:06 2013 +1100
+
+    more hint for orphan function
+
+diff --git a/js2-imenu-extras.el b/js2-imenu-extras.el
+index e8e15a5..17bf158 100644
+--- a/js2-imenu-extras.el
++++ b/js2-imenu-extras.el
+@@ -174,6 +174,39 @@ prefix any functions defined inside the IIFE with the module name."
+          (js2-imenu-record-module-pattern node)))
+        t))))
+
++(defun js2-imenu-get-parent-keyname-list (node)
++  "get the list of keys of parent of node
++for example, for javascript code, {rules:{ password {required: function(){}}}}
++the return will be '(rules password)."
++  (let ((rlt '())
++        (n node))
++    (while (setq n (js2-imenu-parent-prop-node n))
++      (add-to-list 'rlt (js2-prop-node-name (js2-object-prop-node-left n)))
++      )
++    rlt
++    )
++  )
++
++(defun js2-imenu-parent-prop-node (node)
++  "for javascript code: parent-key-name:{ required:function(){} }
++we need know the  parent-key-name.
++ step1, 'required:function(){}' is the js2-object-prop-node
++ step2, '{ required:function(){} }' is the js2-object-node
++ step3, 'parent-key-name:{ required:function(){} }' is js2-object-prop-node
++"
++  (let (p2 p3)
++    ;; step 2
++    (setq p2 (js2-node-parent node))
++    ;; step 3
++    (when (and p2 (js2-object-node-p p2))
++      (setq p3 (js2-node-parent p2))
++      (if (and p3 (js2-object-prop-node-p p3))
++        p3
++        )
++      )
++    )
++  )
++
+ (defun js2-imenu-record-orphan-function (node)
+   "Record orphan function when it's the value of NODE.
+ NODE must be `js2-object-prop-node'."
+@@ -181,10 +214,15 @@ NODE must be `js2-object-prop-node'."
+     (let ((fn-node (js2-object-prop-node-right node)))
+       (unless (and js2-imenu-function-map
+                    (gethash fn-node js2-imenu-function-map))
+-        (let ((key-node (js2-object-prop-node-left node)))
+-          (js2-record-imenu-entry fn-node
+-                                  (list js2-imenu-other-functions-ns
+-                                        (js2-prop-node-name key-node))
++        (let ((key-node (js2-object-prop-node-left node))
++              (parent-prop-node (js2-imenu-parent-prop-node node))
++              mylist
++              )
++          (setq mylist (append (js2-imenu-get-parent-keyname-list node)
++                               (list (js2-prop-node-name key-node))
++                               ))
++          (add-to-list 'mylist js2-imenu-other-functions-ns)
++          (js2-record-imenu-entry fn-node mylist
+                                   (js2-node-abs-pos key-node)))))))
+
+ (defun js2-imenu-record-module-pattern (node)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I already submitted the patch to mooz so everyone will enjoy this feature in the future.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the screen shot of emacs in old js2-mode, the UI is based on &lt;a href="http://www.emacswiki.org/emacs/ImenuMode"&gt;Imenu Mode&lt;/a&gt; and &lt;a href="https://github.com/emacs-helm/helm"&gt;Helm&lt;/a&gt;:
+&lt;img src="http://blog.binchen.org/wp-content/emacs-functions.png" alt="emacs-functions.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The screen shot after we applying the above patch: 
+&lt;img src="http://blog.binchen.org/wp-content/emacs-functions-improved.png" alt="emacs-functions-improved.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org40fbb48" class="outline-2"&gt;
+&lt;h3 id="org40fbb48"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org40fbb48"&gt;
+&lt;p&gt;
+That's an example of beauty of Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+It gives you freedom and power. You can base your work on the top geeks like Steve Yegge and mooz. Just a few lines of lisp code to kick ass.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge6566be" class="outline-2"&gt;
+&lt;h3 id="orge6566be"&gt;Update&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge6566be"&gt;
+&lt;p&gt;
+My patch is incorporated into &lt;code&gt;js2-mode&lt;/code&gt; since version &lt;code&gt;20140114&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+After installing &lt;code&gt;js2-mode&lt;/code&gt;, you need paste one line setup into your &lt;code&gt;~/.emacs&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(js2-imenu-extras-mode)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The UI to display the candidate is from package &lt;a href="https://github.com/emacs-helm/helm"&gt;Helm&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The &lt;code&gt;Helm&lt;/code&gt; version should be &lt;code&gt;20140125.1101&lt;/code&gt; or higher, you can install &lt;code&gt;Helm&lt;/code&gt; from &lt;a href="http://melpa.milkbox.net/"&gt;MELPA&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+After installing &lt;code&gt;Helm&lt;/code&gt;, you can use command &lt;code&gt;M-x helm-imenu&lt;/code&gt; to show the list of functions to jump to. Here is the screen shot how I use imenu in my &lt;a href="https://github.com/redguardtoo/hello/raw/master/hello2.js"&gt;hello2.js&lt;/a&gt;:
+&lt;/p&gt;
+
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/helm-imenu-and-js2-mode-nq8.png" alt="helm-imenu-and-js2-mode-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+UPDATE: I suggest using &lt;code&gt;counsel-imenu&lt;/code&gt; from &lt;a href="https://github.com/abo-abo/swiper"&gt;Counsel&lt;/a&gt; instead of &lt;code&gt;Helm&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>html</category><category>javascript</category><category>js2</category><category>web</category><guid>http://blog.binchen.org/posts/why-emacs-is-better-editor.html</guid><pubDate>Sun, 15 Dec 2013 22:02:00 GMT</pubDate></item><item><title>Navigate/Select html tags in Emacs</title><link>http://blog.binchen.org/posts/navigateselect-html-tags-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2017-11-03 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Navigate/select html tags is kind of difficult. I've not found any plugin which could match Vim's &lt;a href="http://www.vim.org/scripts/script.php?script_id=39"&gt;matchit&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The most close one in Emacs is &lt;a href="https://github.com/Fuco1/smartparens"&gt;smartparens&lt;/a&gt;. You can check this &lt;a href="https://plus.google.com/110954683162859211810/posts/4Hb2FUkaPsp"&gt;discussion on Google Plus&lt;/a&gt; to get general impression.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use  &lt;code&gt;sp-select-next-thing&lt;/code&gt; from &lt;code&gt;smarparens&lt;/code&gt; to select html tags. But I'm not satisfied with this command because it's picky on the location of my cursor and selection of multiple html tags is buggy.
+&lt;/p&gt;
+
+&lt;p&gt;
+So here is my fix, the new command &lt;code&gt;my-sp-select-next-thing&lt;/code&gt; which fix all these issues.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screen cast:
+&lt;img src="https://dl.dropboxusercontent.com/u/858862/my-sp-select-next-thing.gif" alt="my-sp-select-next-thing.gif"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the code to insert it into your &lt;code&gt;~/.emacs&lt;/code&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; make sp-select-next-thing works even the cusor is in the open/close tag
+;; like matchit in vim
+;; @return t =&amp;gt; start from open tag; nil start from close tag
+(defun my-sp-select-next-thing (&amp;amp;optional NUM)
+  (interactive "p")
+  (let* ((b (line-beginning-position))
+         (e (line-end-position))
+         (char (following-char))
+         (p (point))
+         rbeg
+         rend
+         (rlt t))
+    ;; "&amp;lt;" char code is 60
+    ;; search backward
+    (if (not (= char 60))
+        (save-excursion
+          (while (and (&amp;lt;= b (point)) (not (= char 60)))
+            (setq char (following-char))
+            (setq p (point))
+            (backward-char))))
+    ;; search forward
+    (if (not (= char 60))
+        (save-excursion
+          (while (and (&amp;gt;= e (point)) (not (= char 60)))
+            (setq char (following-char))
+            (setq p (point))
+            (forward-char))))
+    ;; do the real thing
+    (when (and (= char 60) (&amp;lt; p e))
+      (goto-char p)
+      (forward-char)
+      (if (= (following-char) 47)
+          (progn
+            ;; &amp;lt;/
+            (backward-char)
+            (setq rlt nil))
+        (progn
+          ;; &amp;lt; , looks fine
+          (backward-char)
+          (setq rlt t)))
+      (sp-select-next-thing)
+      (setq rbeg (region-beginning))
+      (setq rend (region-end))
+
+      (while (&amp;gt; NUM 1)
+        ;; well, sp-select-next-thing is kind of wierd
+        (re-search-forward "&amp;lt;[^!]")
+        (backward-char 2)
+        (sp-select-next-thing)
+        (setq rend (region-end))
+        (setq NUM (1- NUM)))
+      (push-mark rbeg t t)
+      (goto-char (1-rend)))
+    rlt))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Navigation is easy. After selecting the tags, press &lt;code&gt;C-x C-x&lt;/code&gt; to move the focus. That's it.
+&lt;/p&gt;
+
+&lt;p&gt;
+For evil-mode, I write some code which simulate the famous &lt;b&gt;matchit&lt;/b&gt; in vi:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'evil)
+
+;; {{ evil-matchit
+(defun my-evil-jump-item-enhanced-for-html ()
+  (interactive)
+  (if (or (eq major-mode 'html-mode)
+          (eq major-mode 'xml-mode)
+          (eq major-mode 'nxml-mode))
+      (progn
+        (if (not (my-sp-select-next-thing 1)) (exchange-point-and-mark))
+        (deactivate-mark))
+    (progn
+      (evil-jump-item))))
+(define-key evil-normal-state-map "%" 'my-evil-jump-item-enhanced-for-html)
+;; }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Now you can press &lt;code&gt;%&lt;/code&gt; in evil to jump between tags!
+&lt;/p&gt;
+
+&lt;p&gt;
+Requirement:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;smartparens-1.5&lt;/li&gt;
+&lt;li&gt;evil-1.0.7&lt;/li&gt;
+&lt;li&gt;emacs-24.2.1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+BTW, I also tried the web-mode-tag-match in &lt;a href="https://github.com/fxbois/web-mode"&gt;web-mode&lt;/a&gt; which provided similar tag match feature.
+&lt;/p&gt;
+
+&lt;p&gt;
+At least now (2nd October,2013) web-mode does not support &lt;a href="http://freemarker.org/"&gt;freemarker&lt;/a&gt; syntax. But smartparens is more tolerant to these template syntax.
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATE (6th Nov, 2013):
+I started a new project &lt;a href="https://github.com/redguardtoo/evil-matchit"&gt;evil-matchit&lt;/a&gt; which is not dependent on smartparens. Please check it out. But you can still use my old code because it support more languages.
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED (13rd Jan, 2014):
+&lt;a href="https://github.com/redguardtoo/evil-matchit"&gt;evil-matchit&lt;/a&gt; is now powerful enough to replace my old tricks.
+&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>html</category><category>matchit</category><category>selection</category><category>tag</category><guid>http://blog.binchen.org/posts/navigateselect-html-tags-in-emacs.html</guid><pubDate>Thu, 22 Aug 2013 00:05:00 GMT</pubDate></item><item><title>How to write javascript/html code quickly</title><link>http://blog.binchen.org/posts/how-to-write-javascripthtml-code-quickly.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;mixing code of javascript and html is a big problem&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;   &lt;p&gt; If we mix the javascript code into html file as below: &lt;/p&gt;   &lt;pre class="src src-html"&gt;&amp;lt;&lt;span style="color: #81a2be;"&gt;ul&lt;/span&gt;&amp;gt;
+  &amp;lt;% for(var key in service.get('Detail')){ %&amp;gt;
+    &amp;lt;&lt;span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;"&gt;%&lt;/span&gt; if(key!='creditcard_number){ %&amp;gt;
+      &amp;lt;&lt;span style="color: #81a2be;"&gt;li&lt;/span&gt;&amp;gt;
+        &amp;lt;&lt;span style="color: #81a2be;"&gt;label&lt;/span&gt; &lt;span style="color: #f0c674;"&gt;for&lt;/span&gt;='&amp;lt;%= key %&amp;gt;'&amp;gt;&amp;lt;%= key %&amp;gt;&amp;lt;/&lt;span style="color: #81a2be;"&gt;label&lt;/span&gt;&amp;gt;
+          &amp;lt;&lt;span style="color: #81a2be;"&gt;div&lt;/span&gt; &lt;span style="color: #f0c674;"&gt;id&lt;/span&gt;='&amp;lt;%=key %&amp;gt;'&amp;gt;&amp;lt;%= service.get('Details')[key] %&amp;gt;&amp;lt;/&lt;span style="color: #81a2be;"&gt;div&lt;/span&gt;&amp;gt;
+        &amp;lt;/&lt;span style="color: #81a2be;"&gt;li&lt;/span&gt;&amp;gt;
+    &amp;lt;% }&lt;span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;"&gt;%&lt;/span&gt;&amp;gt;
+&amp;lt;% } &lt;span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;"&gt;%&lt;/span&gt;&amp;gt;
+&lt;p&gt;&amp;lt;/&lt;span style="color: #81a2be;"&gt;ul&lt;/span&gt;&amp;gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;  &lt;p&gt; Then it's hard to write/debug/fix the javascript code because: &lt;/p&gt;&lt;ol&gt; &lt;li&gt;html code becomes noise for javascript development. &lt;/li&gt; &lt;li&gt;The syntax checker for javascript will not work properly. &lt;/li&gt; &lt;/ol&gt;   &lt;p&gt; If  we mix the html code into javascript file as below: &lt;/p&gt;   &lt;pre class="src src-javascript"&gt;&lt;span style="color: #b5bd68;"&gt;for&lt;/span&gt;(&lt;span style="color: #b5bd68;"&gt;var&lt;/span&gt; &lt;span style="color: #f0c674;"&gt;key&lt;/span&gt; &lt;span style="color: #b5bd68;"&gt;in&lt;/span&gt; service.get(&lt;span style="color: #8abeb7;"&gt;'Detail'&lt;/span&gt;)){
+  &lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt;(key!=&lt;span style="color: #8abeb7;"&gt;'creditcard_number'&lt;/span&gt;){
+    htmlRender(formatString(&lt;span style="color: #8abeb7;"&gt;"&amp;lt;li&amp;gt;&amp;lt;label for='%s'&amp;gt;%s&amp;lt;/label&amp;gt;&amp;lt;div id='%s'&amp;gt;%s&amp;lt;/div&amp;gt;"&lt;/span&gt;,key,key,service.get(&lt;span style="color: #8abeb7;"&gt;'Details'&lt;/span&gt;)[key]));
+  }
+}
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;  &lt;p&gt; Now html code becomes hard to write/debug/fix because: &lt;/p&gt;&lt;ol&gt; &lt;li&gt;javascript code becomes noise for html development. &lt;/li&gt; &lt;li&gt;The syntax checker for html will not work properly. &lt;/li&gt; &lt;/ol&gt;   &lt;p&gt; In summary, mixing code in different language syntax will: &lt;/p&gt;&lt;ol&gt; &lt;li&gt;make code hard to read &lt;/li&gt; &lt;li&gt;make syntax checker dysfunctional &lt;/li&gt; &lt;/ol&gt;   &lt;p&gt; These are the top two causes why we can not code fast in real application. &lt;/p&gt; &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Use functional programming to avoid mix the javascript and html&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;p&gt;So here is our objective: &lt;/p&gt;&lt;ol&gt; &lt;li&gt;We need put the business logic into javascript file. The logic usually contains "for/while/if" statements. &lt;/li&gt; &lt;li&gt;Html tags like "&amp;lt;div&amp;gt;/&amp;lt;span&amp;gt;/&amp;lt;ul&amp;gt;/&amp;lt;li&amp;gt;" need be placed in html file. &lt;/li&gt; &lt;/ol&gt;   &lt;p&gt; The solution is actually simple. We just need apply a little bit of functional programming skill. &lt;/p&gt; &lt;p&gt; So here is our html file in functional programming style: &lt;/p&gt;   &lt;pre class="src src-html"&gt;&amp;lt;% forEachAttributeInService(service,function(service,key) { %&amp;gt;
+   &amp;lt;&lt;span style="color: #81a2be;"&gt;li&lt;/span&gt;&amp;gt;
+     &amp;lt;&lt;span style="color: #81a2be;"&gt;label&lt;/span&gt; &lt;span style="color: #f0c674;"&gt;for&lt;/span&gt;='&amp;lt;%= key %&amp;gt;'&amp;gt;&amp;lt;%= key %&amp;gt;&amp;lt;/&lt;span style="color: #81a2be;"&gt;label&lt;/span&gt;&amp;gt;
+     &amp;lt;&lt;span style="color: #81a2be;"&gt;div&lt;/span&gt; &lt;span style="color: #f0c674;"&gt;id&lt;/span&gt;='&amp;lt;%=key %&amp;gt;'&amp;gt;&amp;lt;%= formatServiceAttributes(service,key) %&amp;gt;&amp;lt;/&lt;span style="color: #81a2be;"&gt;div&lt;/span&gt;&amp;gt;
+   &amp;lt;/&lt;span style="color: #81a2be;"&gt;li&lt;/span&gt;&amp;gt;
+&amp;lt;%  }); &lt;span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;"&gt;%&lt;/span&gt;&amp;gt;
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;   &lt;p&gt; Here is the javascript file: &lt;/p&gt;   &lt;pre class="src src-javascript"&gt;&lt;span style="color: #b5bd68;"&gt;function&lt;/span&gt; &lt;span style="color: #81a2be;"&gt;forEachAttributeInService&lt;/span&gt;(&lt;span style="color: #f0c674;"&gt;service&lt;/span&gt;,&lt;span style="color: #f0c674;"&gt;fn&lt;/span&gt;) {
+  &lt;span style="color: #b5bd68;"&gt;for&lt;/span&gt;(&lt;span style="color: #b5bd68;"&gt;var&lt;/span&gt; &lt;span style="color: #f0c674;"&gt;key&lt;/span&gt; &lt;span style="color: #b5bd68;"&gt;in&lt;/span&gt; service.get(&lt;span style="color: #8abeb7;"&gt;'Detail'&lt;/span&gt;)){
+    &lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt;(key!=&lt;span style="color: #8abeb7;"&gt;'creditcard_number'&lt;/span&gt;){
+      fn(service,key)
+    }
+  }
+}
+&lt;p&gt;&lt;span style="color: #b5bd68;"&gt;function&lt;/span&gt; &lt;span style="color: #81a2be;"&gt;formatServiceAttributes&lt;/span&gt;(&lt;span style="color: #f0c674;"&gt;service&lt;/span&gt;,&lt;span style="color: #f0c674;"&gt;key&lt;/span&gt;) {
+  &lt;span style="color: #b5bd68;"&gt;return&lt;/span&gt; service.get(&lt;span style="color: #8abeb7;"&gt;'Details'&lt;/span&gt;)[key];
+}&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;   &lt;p&gt; Now let's check what happens. &lt;/p&gt; &lt;p&gt; In the html file, the business logic is converted into combination of functional calls. &lt;/p&gt; &lt;p&gt; In javascript file, all the code dealing with hard coded html tags are converted to the call of anonymous functions. Those anonymous function is basically dump of html tags which is defined in html file. &lt;/p&gt; &lt;p&gt; You can use this technique to convert any existing code into new style. For example, a simple "if else" statement could be re-written in new style: &lt;/p&gt;   &lt;pre class="src src-javascript"&gt;&lt;span style="color: #969896; font-style: italic;"&gt;/&lt;em&gt; &lt;/em&gt;&lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;code in old style /&lt;/span&gt;
+&lt;p&gt;&lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt; (&lt;span style="color: #de935f;"&gt;true&lt;/span&gt;){
+  console.log(&lt;span style="color: #8abeb7;"&gt;'&amp;lt;li&amp;gt;YES&amp;lt;/li&amp;gt;'&lt;/span&gt;);
+} &lt;span style="color: #b5bd68;"&gt;else&lt;/span&gt; {
+  console.log(&lt;span style="color: #8abeb7;"&gt;'&amp;lt;li&amp;gt;NO&amp;lt;/li&amp;gt;'&lt;/span&gt;);
+}&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #969896; font-style: italic;"&gt;/&lt;em&gt; &lt;/em&gt;&lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;code in new style /&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #b5bd68;"&gt;function&lt;/span&gt; &lt;span style="color: #81a2be;"&gt;func_if_else&lt;/span&gt;(&lt;span style="color: #f0c674;"&gt;f1&lt;/span&gt;,&lt;span style="color: #f0c674;"&gt;f2&lt;/span&gt;,&lt;span style="color: #f0c674;"&gt;f3&lt;/span&gt;){
+  &lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt;(f1()){
+    f2();
+  } &lt;span style="color: #b5bd68;"&gt;else&lt;/span&gt; {
+    f3();
+  }
+}&lt;/p&gt;
+&lt;p&gt;&lt;span style="color: #969896; font-style: italic;"&gt;/&lt;em&gt; &lt;/em&gt;&lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;the execution of func_if_else() /&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;func_if_else(&lt;span style="color: #b5bd68;"&gt;function&lt;/span&gt;(){ &lt;span style="color: #b5bd68;"&gt;return&lt;/span&gt; &lt;span style="color: #de935f;"&gt;true&lt;/span&gt; },
+           &lt;span style="color: #b5bd68;"&gt;function&lt;/span&gt;(){
+             console.log(&lt;span style="color: #8abeb7;"&gt;'&amp;lt;li&amp;gt;YES&amp;lt;/li&amp;gt;'&lt;/span&gt;);
+           },
+           &lt;span style="color: #b5bd68;"&gt;function&lt;/span&gt;(){
+             console.log(&lt;span style="color: #8abeb7;"&gt;'&amp;lt;li&amp;gt;NO&amp;lt;/li&amp;gt;'&lt;/span&gt;);
+           });
+&lt;/p&gt;&lt;/pre&gt;   &lt;p&gt; This is a kind of radical example. I'm only demonstrating the power of new style. I'm not suggesting you should convert any logic statement into function call. New style is not a silver bullet. It's only a useful if used properly in right timing. &lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>emacs</category><category>en</category><category>html</category><category>javascript</category><category>programming</category><guid>http://blog.binchen.org/posts/how-to-write-javascripthtml-code-quickly.html</guid><pubDate>Wed, 22 May 2013 10:24:00 GMT</pubDate></item></channel></rss>

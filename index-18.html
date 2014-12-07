@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 18) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-18.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-publish-static-html-blog-in-emacs-as-a-programmer.html">How a programmer publish static HTML blog in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-11-15T04:16:31+00:00">2014-11-15 04:16</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-publish-static-html-blog-in-emacs-as-a-programmer.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-publish-static-html-blog-in-emacs-as-a-programmer.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/ftp.html" rel="tag">ftp</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+I can publish my blog <b>in five seconds</b>, running only <b>one Emacs command</b>!
+</p>
+
+<p>
+I give you a minimum solution at first, then I explain why and provide technical details.
+</p>
+
+<p>
+Basic Emacs lisp knowledges are required.
+</p>
+
+<p>
+Please note I'm <b>NOT</b> targeted at specific static site generator like <a href="http://getnikola.com/blog/">Nikola</a> or <a href="http://jekyllrb.com/">Jekyll</a>.
+</p>
+
+<div id="outline-container-org18ceca0" class="outline-2">
+<h3 id="org18ceca0">Solution</h3>
+<div class="outline-text-2" id="text-org18ceca0">
+<p>
+Tested on <b>Linux and OSX</b>.
+</p>
+
+<p>
+Requirements:
+</p>
+<ul class="org-ul">
+<li>Org-mode bundled with Emacs 24.x</li>
+<li>Nikola as the blog generator</li>
+<li>FTP client <a href="http://www.ncftp.com/ncftp/">ncftp</a>
+</li>
+<li>Latest <a href="https://github.com/redguardtoo/org2nikola">org2nikola</a> (v0.0.9+)</li>
+<li>Insert below code into ~/.emacs</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun org2nikola-after-hook-setup (title slug)
+  (let ((url (concat "http://blog.yourdomain.net/posts/" slug ".html"))
+        (nikola-dir (file-truename "~/projs/nikola-root"))
+        (password "yourpassowrd")
+        (username "yourusername")
+        dir
+        file
+        lines
+        rlt
+        res
+        cmd)
+    (kill-new title)
+    (kill-new url)
+    (message "%s =&gt; kill-ring" url)
+    (setq rlt (shell-command-to-string (format "cd %s; nikola build" nikola-dir)))
+    (setq lines (split-string rlt "\n"))
+    (dolist (l lines)
+      (when (string-match "output\\(.*/\\)*\\([^/]*\\)$" l)
+        (setq dir (match-string 1 l))
+        (setq file (match-string 2 l))
+        (setq cmd (format "ncftpput -b -u %s -p %s ftp.yourdomain.net /blog%s %s/output%s%s"
+                          username password dir nikola-dir dir file))
+        (message "cmd=%s" cmd)
+        (shell-command cmd)
+        ))
+    ))
+
+(add-hook 'org2nikola-after-hook 'org2nikola-after-hook-setup)
+</code></pre>
+
+</div>
+
+<p>
+You can write blog into org file, export and publicize it with command `M-x org2nikola-export-subtree`.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf0843c9" class="outline-2">
+<h3 id="orgf0843c9">Why</h3>
+<div class="outline-text-2" id="text-orgf0843c9">
+<p>
+I used <a href="https://wordpress.org">Wordpress</a> and <a href="https://github.com/punchagan/org2blog">Org2blog</a> for a very long time. Then I turned to static blog generator because:
+</p>
+<ul class="org-ul">
+<li>Wordpress is slow to load web page</li>
+<li>I waste too much time to "manage" Wordpress (applying security patch, fighting with spam comment …)</li>
+<li>As a programmer, I need publish code snippets. Wordpress is <b>BAD</b> at rendering code.</li>
+</ul>
+<p>
+Yes, only wordpress sucks. For Org2blog, I can only say good things. Actually, this article is inspired purely by <a href="https://github.com/punchagan">Puneeth Chaganti</a>'s excellent work on org2blog.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9f9bc20" class="outline-2">
+<h3 id="org9f9bc20">Technical Details</h3>
+<div class="outline-text-2" id="text-org9f9bc20">
+</div>
+<div id="outline-container-org71e909f" class="outline-3">
+<h4 id="org71e909f">Generating HTML</h4>
+<div class="outline-text-3" id="text-org71e909f">
+<p>
+As I said, Nikola is my blog generator which converts my org file into HTML.
+</p>
+
+<p>
+But I prefer using <a href="http://orgmode.org/">Org-mode</a> to do the HTML rendering. Nikola only need handle remaining minor book keeping stuff (creating RSS feed, for example).
+</p>
+
+<p>
+It's because I want to minimize the dependency. I may switch to other blog generator in the future. But my web site always has the <b>same look and feel</b> because the HTML is generated by Org-mode.
+</p>
+
+<p>
+I learned this trick from Org2blog.
+</p>
+
+<p>
+If we only use org-mode to create HTML, then extracting code snippet is really easy. All we need is to use regular expression to extract the content between HTML tag "&lt;pre&gt;".
+</p>
+
+<p>
+Actually I don't even bother doing the extraction. I just replace all the "&lt;pre&gt;" tag with my own tag because I <b>assume</b> the HTML produced by org-mode is stable.
+</p>
+
+<p>
+Here is the Emacs lisp code I borrowed from Org2blog:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun org2nikola-replace-pre (html)
+  "Replace pre blocks with sourcecode shortcode blocks.
+shamelessly copied from org2blog/wp-replace-pre()"
+  (save-excursion
+    (let (pos code lang info params header code-start code-end html-attrs pre-class)
+      (with-temp-buffer
+        (insert html)
+        (goto-char (point-min))
+        (save-match-data
+          (while (re-search-forward "&lt;pre\\(.*?\\)&gt;" nil t 1)
+
+            ;; When the codeblock is a src_block
+            (unless
+                (save-match-data
+                  (setq pre-class (match-string-no-properties 1))
+                  (string-match "example" pre-class))
+              ;; Replace the &lt;pre...&gt; text
+              (setq lang (replace-regexp-in-string ".*src-\\([a-zA-Z0-9]+\\).*" "\\1" pre-class)  )
+
+              (replace-match "")
+              (setq code-start (point))
+
+              ;; Go to end of code and remove &lt;/pre&gt;
+              (re-search-forward "&lt;/pre.*?&gt;" nil t 1)
+              (replace-match "")
+              (setq code-end (point))
+              (setq code (buffer-substring-no-properties code-start code-end))
+
+              ;; Delete the code
+              (delete-region code-start code-end)
+              ;; Stripping out all the code highlighting done by htmlize
+              (setq code (replace-regexp-in-string "&lt;.*?&gt;" "" code))
+              ;; class linenums will add stripes which will destory the 3rd party skins
+              (insert (concat "\n&lt;pre class=\"prettyprint lang-"
+                              (org2nikola-fix-unsupported-language lang)
+                              "\"&gt;\n"
+                              code
+                              "&lt;/pre&gt;\n"))
+              )))
+
+        ;; Get the new html!
+        (setq html (buffer-substring-no-properties (point-min) (point-max))))
+      ))
+  html)
+</code></pre>
+
+</div>
+
+<p>
+The code snippet inside "&lt;pre&gt;" tag could be rendered by 3rd party javascript library <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> or <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a>.
+</p>
+
+<p>
+BTW, the last straw that push me away the Wordpress is its wrapper of SyntaxHighlighter. SyntaxHighlighter is a beautiful and user-friendly library. But the wrapper forces me to tweak the php code in terrible editor from Wordpress.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeace733" class="outline-3">
+<h4 id="orgeace733">Create blog posts</h4>
+<div class="outline-text-3" id="text-orgeace733">
+<p>
+Emacs creates HTML files and meta files.  Things created by Emacs will be copied into Nikola's folder.
+</p>
+
+<p>
+Nikola's duty is simple. Basically it only copy my stuff from its input folder to its output folder when I trigger "nikola build" command.
+</p>
+
+<p>
+The "nikola build" command will also dump the list of files to be uploaded into stdout.
+</p>
+
+<p>
+The build message dumped:
+</p>
+<pre class="example">
+Scanning posts....done!
+.  render_archive:output/2014/index.html
+.  render_sources:output/posts/jump-to-the-positions-before-and-after-m-x-imenu.wp
+.  render_posts:cache/posts/jump-to-the-positions-before-and-after-m-x-imenu.html
+.  render_indexes:output/index.html
+.  render_indexes:output/index-17.html
+.  render_tags:output/categories/en.html
+.  render_tags:output/categories/emacs.html
+.  render_tags:output/assets/js/tag_cloud_data.json
+.  render_tags:output/categories/emacs.xml
+.  generate_rss:output/rss.xml
+.  render_pages:output/posts/jump-to-the-positions-before-and-after-m-x-imenu.html
+.  render_pages:output/posts/why-emacs-is-better-editor-part-two.html
+.  render_tags:output/categories/en.xml
+</pre>
+
+<p>
+Only the files in sub-folder "output" need be uploaded.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org62d48a1" class="outline-3">
+<h4 id="org62d48a1">Preprocess nikola output</h4>
+<div class="outline-text-3" id="text-org62d48a1">
+<p>
+It's all done by Emacs Lisp.
+</p>
+
+<p>
+The final output contain lines like:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">ncftpput -b -u yourname -p yourpassword ftp.yourdomain.net /blog/2014/ /home/yourname/nikola-root/output/2014/index.html
+</code></pre>
+
+</div>
+
+<p>
+As you can see, each line is a ftp upload command we need execute in shell.
+</p>
+</div>
+</div>
+<div id="outline-container-org8c86735" class="outline-3">
+<h4 id="org8c86735">FTP upload</h4>
+<div class="outline-text-3" id="text-org8c86735">
+<p>
+Ncftp is my choice of FTP client. It's solid and efficient.
+</p>
+
+<p>
+Its command line tool "ncftpput" has a flag "-b". With the flag ncftpput will start a daemon at background and handles the ftp upload as a batch job submit. It means ftp connection will be reused and the user is not blocked by the upload operation. So the upload operation is <b>extremely fast</b>.
+</p>
+
+<p>
+I use Emacs Lisp API `file-truename` to convert all relative path to absolute path to avoid any platform (OSX) issue.
+</p>
+
+<p>
+BTW, you can `cat ~/.ncftp/spool/log` to check the FTP upload status.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6edc840" class="outline-2">
+<h3 id="org6edc840">Summary</h3>
+<div class="outline-text-2" id="text-org6edc840">
+<p>
+The workflow is simple.
+</p>
+
+<p>
+Emacs and third party JS libraries are responsible for the look and feel of my website.
+</p>
+
+<p>
+Blog generator like Nikola is just a thin layer to relay the HTML files created by Emacs.
+</p>
+
+<p>
+Ncftp will upload HTML files. It's the best FTP client which could be easily integrated into Emacs.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/jump-to-the-positions-before-and-after-m-x-imenu.html">Jump to the positions before and after `M-x imenu`</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-11-15T02:15:32+00:00">2014-11-15 02:15</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/jump-to-the-positions-before-and-after-m-x-imenu.html#disqus_thread" data-disqus-identifier="cache/posts/jump-to-the-positions-before-and-after-m-x-imenu.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+As a programmer, I use `M-x imenu` to jump to the callee when editing a code file. After a little code tweaking in the callee, I need jump back to caller as quickly as possible.
+</p>
+
+<div id="outline-container-orgd6855c4" class="outline-2">
+<h3 id="orgd6855c4">Solution</h3>
+<div class="outline-text-2" id="text-orgd6855c4">
+<p>
+Insert below code to ~/.emacs:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defvar rimenu-position-pair nil "positions before and after imenu jump")
+(add-hook 'imenu-after-jump-hook
+          (lambda ()
+            (let ((start-point (marker-position (car mark-ring)))
+                  (end-point (point)))
+              (setq rimenu-position-pair (list start-point end-point)))))
+
+(defun rimenu-jump ()
+  "jump to the closest before/after position of latest imenu jump"
+  (interactive)
+  (when rimenu-position-pair
+    (let ((p1 (car rimenu-position-pair))
+          (p2 (cadr rimenu-position-pair)))
+
+      ;; jump to the far way point of the rimenu-position-pair
+      (if (&lt; (abs (- (point) p1))
+             (abs (- (point) p2)))
+          (goto-char p2)
+          (goto-char p1))
+      )))
+</code></pre>
+
+</div>
+
+<p>
+Now you can use `M-x rimenu-jump` to jump.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb096ea7" class="outline-2">
+<h3 id="orgb096ea7">Technical details</h3>
+<div class="outline-text-2" id="text-orgb096ea7">
+<p>
+Imenu will push the start point into mark-ring. After reaching the destination, it will call the imenu-after-jump-hook where I can store the end point. 
+</p>
+
+<p>
+I store the start/end point into rimenu-position-pair and `M-x rimenu-jump` goes to the farthest one from the pair.
+</p>
+
+<p>
+Here is the <a href="https://plus.google.com/110954683162859211810/posts/gcdj1ZZT2zQ">original discussion on G+</a>. Thanks to <a href="https://plus.google.com/+jorgeAAlfaroMurillo/posts">Jorge A. Alfaro Murillo</a> for enlightening me on the solution.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/why-emacs-is-better-editor-part-two.html">Why Emacs is a better editor, part two</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-11-01T11:06:17+00:00">2014-11-01 11:06</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/why-emacs-is-better-editor-part-two.html#disqus_thread" data-disqus-identifier="cache/posts/why-emacs-is-better-editor-part-two.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/javascript.html" rel="tag">javascript</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+If you are impatient, jump to the "Quick Start" and paste my setup into your ~/.emacs. That's all you need to do!
+</p>
+
+<p>
+No extra setup needed! Then keep using your js2-mode happily, as if nothing happened. ;) 
+</p>
+
+<div id="outline-container-orgb1a8fad" class="outline-2">
+<h3 id="orgb1a8fad">Problem</h3>
+<div class="outline-text-2" id="text-orgb1a8fad">
+<p>
+In my previous article <a href="http://blog.binchen.org/posts/why-emacs-is-better-editor.html">Why Emacs is better editor - a case study for javascript developer</a>, I proved that Emacs is better than <a href="http://www.sublimetext.com/">Sublime Text</a>.
+</p>
+
+<p>
+So for this so-called "Goto Symbol" feature, Emacs wins.
+</p>
+
+<p>
+It's because we use a plugin <a href="https://github.com/mooz/js2-mode">js2-mode</a>. It's actually a javascript parser which creates the symbols from AST.
+</p>
+
+<p>
+But in real world, regular expression is better, sometimes.
+</p>
+
+<p>
+In modern MVC javascript frameworks (<a href="https://angularjs.org/">Angular</a>, for example), you will meet below code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">app.controller('MyController', function ($scope, $http) {
+  // ...
+});
+</code></pre>
+
+</div>
+
+<p>
+As you can see, using regular expression to extract the string "MyController" is more versatile and simpler.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org717bfa6" class="outline-2">
+<h3 id="org717bfa6">Solution</h3>
+<div class="outline-text-2" id="text-org717bfa6">
+<p>
+My latest <a href="https://github.com/mooz/js2-mode/pull/169">contribution to js2-mode</a> solves this problem perfectly. It <b>combines the powers of AST and regular expression</b>.
+</p>
+
+<p>
+The js2-mode will integrate this feature soon. I will notify you when next version is ready.
+</p>
+
+<p>
+Let's cut off the boring technical details and see the demo,
+</p>
+
+<p>
+For a simple <a href="https://gist.github.com/redguardtoo/558ea0133daa72010b73#file-hello-js">hello.js</a> with below content,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">function helloworld() {
+  console.log('hello called');
+}
+
+function test() {
+  console.log('test called');
+}
+
+app.controller('MyController', function ($scope, $http) {
+  console.log('MyController registered');
+
+  var that = this;
+
+  $scope.test1 = function() {
+    console.log('$scope.test called');
+  };
+
+  $scope.hello = function() {
+    console.log('$scope.hello called');
+  };
+
+  $scope.fn1 = function () {
+
+    function test() {
+      console.log('hello world');
+    };
+    console.log('hello');
+  };
+});
+</code></pre>
+
+</div>
+
+<p>
+<b>Emacs:</b>
+<img src="https://cloud.githubusercontent.com/assets/184553/4871228/3ebe6588-61a5-11e4-9e9f-e6eb8218e2ee.png" alt="3ebe6588-61a5-11e4-9e9f-e6eb8218e2ee.png"></p>
+
+<p>
+<b>Sublime3 (build 3047):</b> 
+<img src="https://cloud.githubusercontent.com/assets/184553/4871347/c33b8fee-61ae-11e4-8072-671935b68d6b.png" alt="c33b8fee-61ae-11e4-8072-671935b68d6b.png"></p>
+
+<p>
+Please note Emacs displays <b>two functions with the same name "test" correctly</b>!
+</p>
+
+<p>
+BTW, my previous "Why Emacs is better" article got many feedbacks from Sublime users.
+</p>
+
+<p>
+One feedback is that my comparison is not fair because I'm <b>comparing Emacs plugin with naked Sublime</b>. Though I did some research before writing the article,
+I could be wrong. Please enlighten me if you know such Sublime plugins.
+</p>
+
+<p>
+Another valuable feedback is that native Sublime provides better experience <b>out of the box</b> for junior developers. I admit that's a good point. But Emacs provides many awesome choices <b>out of the box</b> if junior guys start from <a href="https://github.com/purcell">setups of the masters (like Steven Purcell)</a>.
+</p>
+
+<p>
+Sublime users also argue that Sublime3 uses <a href="https://www.python.org/">Python</a>. Python is a <b>better programming language</b>. I'm qualified to answer this question because I wrote some large commercial Python application when I worked in Kodak R&amp;D. First version I used was v2.2. So I've got about <b>10 years experience</b> in Python. And I write lots of <a href="https://github.com/redguardtoo/">Emacs Lisp code</a> these days. My opinion is that both languages are good enough as DSL for text editors. In Python, you can use OO. In Emacs Lisp, you can treat function as object and there are <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Macros.html">Macros</a> and <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">Advising</a>. Both languages have enough widgets to shoot yourself in the foot. Python is surely newbie-friendly. But <b>number of newbies</b> doesn't matter in high-end rival.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4407dd0" class="outline-2">
+<h3 id="org4407dd0">Quick Start</h3>
+<div class="outline-text-2" id="text-org4407dd0">
+<p>
+I'm still discussing with the js2-mode maintainer Dmitry Gutov about the best way to merge my patch.
+</p>
+
+<p>
+Dmitry Gutov updated the algorithm to parse the imenu items by walking the AST instead. It's better than my REGEX hacking because AST could show the context of the function.
+</p>
+
+<p>
+But my patch is still useful for extract strings from modern JS framework, as I've shown you in Angular example. I'm just updating my pull request to be compatible with the new AST walk algorithm.
+</p>
+
+<p>
+In the meantime, you can paste below code into your ~/.emacs before the patch is officially merged.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; below regex list could be used in both js-mode and js2-mode
+(setq javascript-common-imenu-regex-list
+      '(("Controller" "\.controller( *'\\([^']+\\)" 1)
+        ("Filter" "\.filter( *'\\([^']+\\)" 1)
+        ("Factory" "\.factory( *'\\([^']+\\)" 1)
+        ("Service" "\.service( *'\\([^']+\\)" 1)
+        ("Directive" "\.directive( *'\\([^']+\\)" 1)
+        ("Event" "\.\$on( *'\\([^']+\\)" 1)
+        ("Config" "\.config( *function *( *\\([^\)]+\\)" 1)
+        ("Config" "\.config( *\\[ *'\\([^']+\\)" 1)
+        ("OnChange" " *\$('\\([^']*\\)').*\.change *( *function" 1)
+        ("OnClick" " *\$('\\([^']*\\)').*\.click *( *function" 1)
+        ("Watch" "\.\$watch( *'\\([^']+\\)" 1)
+        ("Function" "function\\s-+\\([^ ]+\\)(" 1)
+        ("Function" " \\([^ ]+\\)\\s-*=\\s-*function\\s-*(" 1)))
+
+;; {{ patching imenu in js2-mode
+(setq js2-imenu-extra-generic-expression javascript-common-imenu-regex-list)
+
+(defvar js2-imenu-original-item-lines nil
+  "List of line infomration of original imenu items.")
+
+(defun js2-imenu--get-line-start-end (pos)
+  (let (b e)
+    (save-excursion
+      (goto-char pos)
+      (setq b (line-beginning-position))
+      (setq e (line-end-position)))
+    (list b e)))
+
+(defun js2-imenu--get-pos (item)
+  (let (val)
+    (cond
+     ((integerp item)
+      (setq val item))
+
+     ((markerp item)
+      (setq val (marker-position item))))
+
+    val))
+
+(defun js2-imenu--get-extra-item-pos (item)
+  (let (val)
+    (cond
+     ((integerp item)
+      (setq val item))
+
+     ((markerp item)
+      (setq val (marker-position item)))
+
+     ;; plist
+     ((and (listp item) (listp (cdr item)))
+      (setq val (js2-imenu--get-extra-item-pos (cadr item))))
+
+     ;; alist
+     ((and (listp item) (not (listp (cdr item))))
+      (setq val (js2-imenu--get-extra-item-pos (cdr item)))))
+
+    val))
+
+(defun js2-imenu--extract-line-info (item)
+  "Recursively parse the original imenu items created by js2-mode.
+The line numbers of items will be extracted."
+  (let (val)
+    (if item
+      (cond
+       ;; Marker or line number
+       ((setq val (js2-imenu--get-pos item))
+        (push (js2-imenu--get-line-start-end val)
+              js2-imenu-original-item-lines))
+
+       ;; The item is Alist, example: (hello . 163)
+       ((and (listp item) (not (listp (cdr item))))
+        (setq val (js2-imenu--get-pos (cdr item)))
+        (if val (push (js2-imenu--get-line-start-end val)
+                      js2-imenu-original-item-lines)))
+
+       ;; The item is a Plist
+       ((and (listp item) (listp (cdr item)))
+        (js2-imenu--extract-line-info (cadr item))
+        (js2-imenu--extract-line-info (cdr item)))
+
+       ;;Error handling
+       (t (message "Impossible to here! item=%s" item)
+          )))
+    ))
+
+(defun js2-imenu--item-exist (pos lines)
+  "Try to detect does POS belong to some LINE"
+  (let (rlt)
+    (dolist (line lines)
+      (if (and (&lt; pos (cadr line)) (&gt;= pos (car line)))
+          (setq rlt t)))
+    rlt))
+
+(defun js2-imenu--is-item-already-created (item)
+  (unless (js2-imenu--item-exist
+           (js2-imenu--get-extra-item-pos item)
+           js2-imenu-original-item-lines)
+    item))
+
+(defun js2-imenu--check-single-item (r)
+  (cond
+   ((and (listp (cdr r)))
+    (let (new-types)
+      (setq new-types
+            (delq nil (mapcar 'js2-imenu--is-item-already-created (cdr r))))
+      (if new-types (setcdr r (delq nil new-types))
+        (setq r nil))))
+   (t (if (js2-imenu--item-exist (js2-imenu--get-extra-item-pos r)
+                                 js2-imenu-original-item-lines)
+          (setq r nil))))
+  r)
+
+(defun js2-imenu--remove-duplicate-items (extra-rlt)
+  (delq nil (mapcar 'js2-imenu--check-single-item extra-rlt)))
+
+(defun js2-imenu--merge-imenu-items (rlt extra-rlt)
+  "RLT contains imenu items created from AST.
+EXTRA-RLT contains items parsed with simple regex.
+Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
+  ;; Clear the lines.
+  (set (make-variable-buffer-local 'js2-imenu-original-item-lines) nil)
+  ;; Analyze the original imenu items created from AST,
+  ;; I only care about line number.
+  (dolist (item rlt)
+    (js2-imenu--extract-line-info item))
+
+  ;; @see https://gist.github.com/redguardtoo/558ea0133daa72010b73#file-hello-js
+  ;; EXTRA-RLT sample:
+  ;; ((function ("hello" . #&lt;marker 63&gt;) ("bye" . #&lt;marker 128&gt;))
+  ;;  (controller ("MyController" . #&lt;marker 128))
+  ;;  (hellworld . #&lt;marker 161&gt;))
+  (setq extra-rlt (js2-imenu--remove-duplicate-items extra-rlt))
+  (append rlt extra-rlt))
+
+(with-eval-after-load "js2-mode"
+  (defadvice js2-mode-create-imenu-index (around my-js2-mode-create-imenu-index activate)
+    (let (extra-rlt)
+      ad-do-it
+      (setq extra-rlt
+            (save-excursion
+              (imenu--generic-function js2-imenu-extra-generic-expression)))
+      (setq ad-return-value (js2-imenu--merge-imenu-items ad-return-value extra-rlt))
+      ad-return-value)))
+;; }}
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/my-emacs-skills-is-improved-after-3-years.html">My Emacs skill is improved after 3 years</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-09-17T13:30:34+00:00">2014-09-17 13:30</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/my-emacs-skills-is-improved-after-3-years.html#disqus_thread" data-disqus-identifier="cache/posts/my-emacs-skills-is-improved-after-3-years.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/skill.html" rel="tag">skill</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+This is <a href="http://blog.binchen.org/posts/you-yong-de-emacs-kuai-jie-jian.html">my note on useful commands/keybindings to memorize</a> three years ago.
+</p>
+
+<p>
+Most are obsolete because I'm more skillful now.
+</p>
+
+<p>
+Basically I use <b>fewer</b> but more powerful plugins. I write Emacs lisp if there is no suitable plugin.
+</p>
+
+<ul class="org-ul">
+<li>Three years ago, column edit,</li>
+</ul>
+<pre class="example">
+C-x r t yourstring RET (See "How to do select column then do editing in GNU Emacs ?"")
+</pre>
+
+<p>
+Now I use <a href="http://www.emacswiki.org/emacs/Evil">Evil</a>
+</p>
+
+<ul class="org-ul">
+<li>Three years ago, save current position to register and jump to the position,</li>
+</ul>
+<pre class="example">
+C-r SPC to save, C-j to jump (better-registers.el required) 
+</pre>
+
+<p>
+Now Evil.
+</p>
+
+<ul class="org-ul">
+<li>Three years ago, save frame configuration to register,</li>
+</ul>
+<pre class="example">
+C-r f (better-registers.el required) 
+</pre>
+
+<p>
+Now <a href="https://github.com/pashinin/workgroups2">workgroups2.</a>
+</p>
+
+<ul class="org-ul">
+<li>Three year ago, (un)comment line,</li>
+</ul>
+<pre class="example">
+M-; (qiang-comment-dwim-line required)
+</pre>
+
+<p>
+Now <a href="https://github.com/redguardtoo/evil-nerd-commenter">evil-nerd-commenter.</a>
+</p>
+
+<ul class="org-ul">
+<li>Three years ago for visiting the next/previous error message after compiling,</li>
+</ul>
+<pre class="example">
+"M-g M-n" or "M-g M-p"
+</pre>
+
+<p>
+I'm still using it.
+</p>
+
+<ul class="org-ul">
+<li>Three years ago, find-tag/pop-tag-mark</li>
+</ul>
+<pre class="example">
+"M-." and "M-*"
+</pre>
+
+<p>
+Now Evil
+</p>
+
+<ul class="org-ul">
+<li>Three years ago, grep current work directory only or all sub-directories</li>
+</ul>
+<pre class="example">
+M-x lgrep/rgrep
+</pre>
+
+<p>
+Now grep in shell plus <a href="https://github.com/mooz/percol">percol</a>
+</p>
+
+<ul class="org-ul">
+<li>Three years ago, visit multiple tags table</li>
+</ul>
+<pre class="example">
+M-x visit-tags-table
+</pre>
+
+<p>
+<a href="http://blog.binchen.org/posts/how-to-use-ctags-in-emacs-effectively-3.html">hack tags-table-list directly</a> might be simpler.
+</p>
+
+<ul class="org-ul">
+<li>Three years ago, set countdown timer</li>
+</ul>
+<pre class="example">
+M-x org-timer-set-timer, C-c C-x ;
+</pre>
+
+<p>
+Now I don't push myself with the timer thing.
+</p>
+
+<ul class="org-ul">
+<li>Three years ago, mark subtree in org-mode</li>
+</ul>
+<pre class="example">
+M-x org-mark-subtree
+</pre>
+
+<p>
+It was used to select the text to post to my blog.
+</p>
+
+<p>
+Now I use <a href="https://github.com/redguardtoo/org2nikola">org2nikola</a>. The org-mark-subtree is hardcoded into org2nikola.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-accept-the-github-pull-request-efficiently.html">How to accept the github pull request efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-08-01T13:52:18+00:00">2014-08-01 13:52</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-accept-the-github-pull-request-efficiently.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-accept-the-github-pull-request-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+I use keyboard only in order to maximize my productivity.
+</p>
+
+<div id="outline-container-org12a61c6" class="outline-2">
+<h3 id="org12a61c6">Preparation</h3>
+<div class="outline-text-2" id="text-org12a61c6">
+<p>
+Install Firefox addon <a href="https://github.com/mooz/keysnail/wiki">Keysnail</a> and its plugin <a href="https://github.com/mooz/keysnail/wiki/plugin">HOK</a>. From now on, all the web browsing is done ONLY in keyboard.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdcfe417" class="outline-2">
+<h3 id="orgdcfe417">Step 1</h3>
+<div class="outline-text-2" id="text-orgdcfe417">
+<p>
+Open pull request page at github.com, click the link "command line".
+</p>
+
+<p>
+In a real world project, I rarely accept a pull request without some modification. So I usually avoid pressing the big green button "merge pull request" on that page.
+</p>
+
+<p>
+In the "command line" page, github is kind enough to list the command lines to "check out a new branch and test the changes" from the pull request. The command lines are like:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">git checkout -b her-master master
+git pull git@github.com:her/myproject.git master
+</code></pre>
+
+</div>
+<p>
+I have installed a Greasemonkey user script <a href="https://github.com/redguardtoo/NinjaWebCoder">NinjaWebCoder</a> in order to <b>use keyboard</b> to copy those command lines from the browser into clipboard. Then I paste the command lines into terminal.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5eabcf1" class="outline-2">
+<h3 id="org5eabcf1">Step 2</h3>
+<div class="outline-text-2" id="text-org5eabcf1">
+<p>
+I open the code file with Emacs.
+</p>
+
+<p>
+There is an Emacs addon called <a href="https://github.com/syohex/emacs-git-gutter">git-gutter</a>. I use its command "git-gutter:next-hunk" to move the cursor to the next "diff hunk".
+</p>
+
+<p>
+Let me explain what's the diff hunk. When you edit some code under git's control, you code has some difference with the HEAD version. Every difference corresponds to the pair of a file name and a line number. That file-name-line-number pair is defined as a "diff hunk".
+</p>
+
+<p>
+Now comes <b>the most important part of this article</b>. Since version 0.71, git-gutter added a new command "git-gutter:set-start-version". If I "git-gutter:set-start-revision" to the "HEAD^" version. I can jump to "diff hunk" of the difference between "HEAD" and "HEAD^".
+</p>
+
+<p>
+In short, I can <b>review the latest commit and change the code in one step</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3be5742" class="outline-2">
+<h3 id="org3be5742">Done</h3>
+<div class="outline-text-2" id="text-org3be5742">
+<p>
+After review and code change, the remaining book-keeping things (git-commit/git-merge/git-push) are easy.
+</p>
+
+<p>
+Every operation in previous steps is optimized with some shortcut. For example, in shell I use alias "g" instead of full command line "git status".
+</p>
+
+<p>
+Please enlighten me if the work flow could be improved.</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-do-the-file-navigation-efficiently.html">How to do the file navigation efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-06-15T13:51:02+00:00">2014-06-15 13:51</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-do-the-file-navigation-efficiently.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-do-the-file-navigation-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-06-15 Sun&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-02-21 Sat&gt;</span></span>
+</p>
+
+<p>
+The solutin is based on the ideas of top geeks. I only did the implementation.
+</p>
+
+<p>
+Mendel Cooper provided the original design in <a href="http://www.tldp.org/LDP/abs/html/index.html">Advanced Bash-Scripting Guide</a>. Masafumi Oyamada (AKA mooz) added the missing piece by creating <a href="https://github.com/mooz/percol">percol</a>.
+</p>
+
+<div id="outline-container-org9feaec7" class="outline-2">
+<h3 id="org9feaec7">Problem</h3>
+<div class="outline-text-2" id="text-org9feaec7">
+<p>
+How to find full path of a file by fuzz search?
+</p>
+
+<p>
+The path should be shared easily to other application like Emacs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5b14101" class="outline-2">
+<h3 id="org5b14101">Installation</h3>
+<div class="outline-text-2" id="text-org5b14101">
+</div>
+<div id="outline-container-orgd5b4915" class="outline-3">
+<h4 id="orgd5b4915">Step 1, Install percol</h4>
+<div class="outline-text-3" id="text-orgd5b4915">
+<p>
+<a href="https://github.com/mooz/percol/archive/master.zip">Download the package</a> and extract it. Place the sub-directory named "percol/" into the directory "~/bin". Rename the program "percol" in sub-directory "bin" into "percol.py". Put the percol.py also into "~/bin".
+</p>
+</div>
+</div>
+
+<div id="outline-container-org82b8788" class="outline-3">
+<h4 id="org82b8788">Step 2, Insert below code into ~/.bashrc:</h4>
+<div class="outline-text-3" id="text-org82b8788">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">[ $(uname -s | grep -c CYGWIN) -eq 1 ] &amp;&amp; OS_NAME="CYGWIN" || OS_NAME=`uname -s`
+function pclip() {
+    if [ $OS_NAME == CYGWIN ]; then
+        putclip $@;
+    elif [ $OS_NAME == Darwin ]; then
+        pbcopy $@;
+    else
+        if [ -x /usr/bin/xsel ]; then
+            xsel -ib $@;
+        else
+            if [ -x /usr/bin/xclip ]; then
+                xclip -selection c $@;
+            else
+                echo "Neither xsel or xclip is installed!"
+            fi
+        fi
+    fi
+}
+
+# search the file and pop up dialog, then put the full path in clipboard
+function baseff()
+{
+    local fullpath=$*
+    local filename=${fullpath##*/} # remove "/" from the beginning
+    filename=${filename##*./} # remove  ".../" from the beginning
+    # Only the filename without path is needed
+    # filename should be reasonable
+    local cli=`find . -not -iwholename '*/vendor/*' -not -iwholename '*/bower_components/*' -not -iwholename '*/node_modules/*' -not -iwholename '*/target/*' -not -iwholename '*.svn*' -not -iwholename '*.git*' -not -iwholename '*.sass-cache*' -not -iwholename '*.hg*' -type f -path '*'${filename}'*' -print | ~/bin/percol.py`
+    # convert relative path to full path
+    echo $(cd $(dirname $cli); pwd)/$(basename $cli)
+}
+
+function ff()
+{
+    local cli=`baseff $*`
+    #echo ${cli} | sed 's%^'${HOME}'%~%'
+    #echo -n ${cli}  | sed 's%^'${HOME}'%~%' | pclip
+    echo ${cli}
+    echo -n ${cli} | pclip
+}
+
+function cf()
+{
+    local cli=`baseff $*`
+    local p=`cygpath -w $cli`
+    echo ${p}
+    echo -n ${p} | pclip;
+}
+</code></pre>
+
+</div>
+
+<p>
+`cf` is similar to `ff`. It will output Windows path under cygwin.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd183dc1" class="outline-2">
+<h3 id="orgd183dc1">Usage</h3>
+<div class="outline-text-2" id="text-orgd183dc1">
+<p>
+Type "ff partials-of-file-path" in shell. A filter window popups. You can filter and scroll down/up to select one file. The full path will be copied into system clipboard automatically (under Linux, either xsel or xclip are required for clipboard access).
+</p>
+
+<p>
+The paritials-of-file-path could contain wildcard character.
+</p>
+
+<p>
+For example, <b>for "/home/cb/projs/web-portal/app/styles/bootstrap/main.css", you can type either of below command</b>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">ff .../grunt-docs/*bootstrap*css
+ff web-port*ma*css
+ff styles
+</code></pre>
+
+</div>
+
+<p>
+Here is the screen shot when I type "ff el" in my ~/.emacs.d:
+<img src="wp-content/use-ff-in-shell.png" alt="use-ff-in-shell.png"></p>
+
+<p>
+You will notice that I input the string "inflect" to filter the result.
+</p>
+
+<p>
+I can scroll up/down (press Ctrl-P or Ctrl-N) to select the exact file.
+</p>
+
+<p>
+In Emacs community, people try to embed a file explorer into Emacs (Sr speedbar, for example). This solution may make embedded file explorer unnecessary.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org29cd3e9" class="outline-2">
+<h3 id="org29cd3e9">Advanced usage</h3>
+<div class="outline-text-2" id="text-org29cd3e9">
+<p>
+More examples follow.
+</p>
+</div>
+
+<div id="outline-container-org37d446e" class="outline-3">
+<h4 id="org37d446e">Search the bash history.</h4>
+<div class="outline-text-3" id="text-org37d446e">
+<p>
+Code to insert ~/.bashrc:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">function h () {
+    # reverse history, pick up one line, remove new line characters and put it into clipboard
+    if [ -z "$1" ]; then
+        history | sed '1!G;h;$!d' | ~/bin/percol.py | sed -n 's/^ *[0-9][0-9]* *\(.*\)$/\1/p'| tr -d '\n' | pclip
+    else
+        history | grep "$1" | sed '1!G;h;$!d' | ~/bin/percol.py | sed -n 's/^ *[0-9][0-9]* *\(.*\)$/\1/p'| tr -d '\n' | pclip
+    fi
+}
+</code></pre>
+
+</div>
+
+<p>
+Though grep is quick enough for me, it can be replaced by <a href="https://github.com/ggreer/the_silver_searcher">Silver Searcher</a>.
+</p>
+
+<p>
+Screenshot:
+<img src="wp-content/use-h-in-shell.png" alt="use-h-in-shell.png"></p>
+</div>
+</div>
+
+<div id="outline-container-org96a8022" class="outline-3">
+<h4 id="org96a8022">Select a file in git commit</h4>
+<div class="outline-text-3" id="text-org96a8022">
+<p>
+Code to insert ~/.bashrc:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">function glsf () {
+    local str=`git --no-pager log --oneline --stat $* |  ~/bin/percol.py`
+    if [[ $str =~ ^[[:space:]]*([a-z0-9A-Z_.\/-]*).*$ ]]; then
+        echo -n ${BASH_REMATCH[1]} |pclip;
+        echo ${BASH_REMATCH[1]}
+    fi
+}
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+<img src="wp-content/use-glsf-in-shell.png" alt="use-glsf-in-shell.png"></p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdacfb18" class="outline-2">
+<h3 id="orgdacfb18">Summary</h3>
+<div class="outline-text-2" id="text-orgdacfb18">
+<p>
+The key idea is that I have full freedom to get job done in any way. Emacs is nothing more than a tool to help me achieve more power and more freedom. For example, I find mooz's percol because I like his Emacs plugin <a href="https://github.com/mooz/js2-mode">js2-mode</a> and I want to check his other works. 
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/install-emacs-into-home-directory-from-source.html">Install multiple versions of Emacs into $HOME directory from source</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-05-31T03:47:53+00:00">2014-05-31 03:47</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/install-emacs-into-home-directory-from-source.html#disqus_thread" data-disqus-identifier="cache/posts/install-emacs-into-home-directory-from-source.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-05-31 Sat&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-10-05 Wed&gt;</span></span>
+</p>
+
+<p>
+Here is the script <code>install-emacs.sh</code>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/bash
+[ -z "$EMACS_VERSION" ] &amp;&amp; echo "Usage: EMACS_VERSION=24.3 install-emacs.sh" &amp;&amp; exit 1
+[ -z "$EMACS_URL" ] &amp;&amp; EMACS_URL="http://mirror.aarnet.edu.au/pub/gnu/emacs/"
+# I've assign 12G memory to /tmp as ramdisk
+[ -z "$EMACS_TMP" ] &amp;&amp; EMACS_TMP="/tmp"
+
+# configure: WARNING: unrecognized options: --without-gtk3, --without-aqua, --without-alsa, --without-aqua
+echo "curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz"
+curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz | tar xvz -C $EMACS_TMP
+# @see http://wiki.gentoo.org/wiki/Project:Emacs/GNU_Emacs_developer_guide
+# @see http://packages.gentoo.org/package/app-editors/emacs for info on Gentoo Linux
+# --without-gtk and --without-gtk3 is optional
+if [[ $EUID -ne 0 ]]; then
+    echo "Installing Emacs as normal user ..."
+    cd $EMACS_TMP/emacs-$EMACS_VERSION;mkdir -p $HOME/myemacs/$EMACS_VERSION;rm -rf $HOME/myemacs/$EMACS_VERSION/*;./configure --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-dbus --without-sound &amp;&amp; make &amp;&amp; make install
+    rm -rf $EMACS_TMP/emacs-$EMACS_VERSION
+    echo "Emacs $EMACS_VERSION installed!"
+else
+    echo "Installing Emacs as sudoer ..."
+    cd $EMACS_TMP/emacs-$EMACS_VERSION;./configure --without-x --without-dbus --without-sound &amp;&amp; make &amp;&amp; make install
+    echo "Emacs $EMACS_VERSION installed! Please remove $EMACS_TMP/emacs-$EMACS_VERSION"
+fi
+</code></pre>
+
+</div>
+
+<p>
+Usage of the script is as simple as running <code>EMACS_VERSION=24.3 ./install-emacs</code>
+</p>
+
+<p>
+The emacs will be installed into the directory <code>~/myemacs/24.3</code>.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-manage-the-file-path-in-big-project.html">How to manage the file path in big project</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-05-29T01:31:35+00:00">2014-05-29 01:31</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-manage-the-file-path-in-big-project.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-manage-the-file-path-in-big-project.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/bash.html" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/engineering.html" rel="tag">engineering</a></li>
+           <li><a class="tag p-category" href="categories/software.html" rel="tag">software</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+It's not good practice to use relative path in big project.
+</p>
+
+<p>
+Reasons:
+</p>
+
+<ul class="org-ul">
+<li>If file B refer to file A with "../A". Then B's position in the project *CANNOT be changed. Or else its reference to A will be wrong.</li>
+<li>Relative path is not intuitive when debugging.</li>
+<li>If the dependency is complex. Figure out the right path is mission impossible. For example, file A refer to file B with "./a/../../B" and file B refer to file C  "../../b/C".</li>
+</ul>
+<p>
+So you should <b>ALWAYS use the absolute path</b>.
+</p>
+
+<p>
+Absolute path is tedious to type and not portable.
+</p>
+
+<p>
+It could be improved a little bit be use an environment variable to replace the common prefix of the full path.
+</p>
+
+<p>
+For example, we can replace absolute path "/home/cb/projects/app1/src/test.c" with "$TTAGROOT/src/test.c", if the value of environment variable TTAGROOT is "/home/cb/projects/app1".
+</p>
+
+<p>
+Insert below code into ~/.bashrc so TTAGROOT value is set when you logged into bash:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">export TTAGROOT="/home/cb/projects/app1"
+</code></pre>
+
+</div>
+
+<p>
+In you script to do the real job, you could make TTAGROOT optional and still use your full path happily. It's just one bash liner.
+</p>
+
+<p>
+Here is a sample file named test.sh:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/bash
+[ -z "$TTAGROOT" ] &amp;&amp; TTAGROOT="hard-coded-full-path"
+echo "TTAGROOT = $TTAGROOT"
+</code></pre>
+
+</div>
+
+<p>
+You could use test.sh without $TTAGROOT. Or you can set up default value of $TTAGROOT in ~/.bashrc as I already mentioned.
+</p>
+
+<p>
+Or you can override the TTAGROOT value when you executing "test.sh":
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">TTAGROOT="hello" ./test.sh
+</code></pre>
+
+</div>
+
+<p>
+BTW, don't abuse this technique. Set <b>one environment variable</b> for the root directory of project is enough.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/ccjava-code-indentation-in-emacs.html">C/C++/Java code indentation in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-05-09T09:19:18+00:00">2014-05-09 09:19</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/ccjava-code-indentation-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/ccjava-code-indentation-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/c.html" rel="tag">c</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/java.html" rel="tag">java</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<div id="outline-container-orgf4f17b5" class="outline-2">
+<h3 id="orgf4f17b5">Problem</h3>
+<div class="outline-text-2" id="text-orgf4f17b5">
+<p>
+There are two styles when insert curly braces in C like languages.
+</p>
+
+<p>
+Style 1:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">if(true) {
+    printf("hello world\n");
+}
+</code></pre>
+
+</div>
+
+<p>
+Style 2:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">if(true)
+{
+    printf("hello world\n");
+}
+</code></pre>
+
+</div>
+
+<p>
+Whatever style I use, I expect Emacs will properly handle the indentation for me.
+</p>
+
+<p>
+In "Style 1", when I press ENTER key after "{" at first line, I expect the new line will indent four spaces.
+</p>
+
+<p>
+In "Style 2", when I press ENTER key after ")" at first line, I expect the new line will NOT indent.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org63f3f85" class="outline-2">
+<h3 id="org63f3f85">Solution</h3>
+<div class="outline-text-2" id="text-org63f3f85">
+<p>
+Insert below code into ~/.emacs:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun fix-c-indent-offset-according-to-syntax-context (key val)
+  ;; remove the old element
+  (setq c-offsets-alist (delq (assoc key c-offsets-alist) c-offsets-alist))
+  ;; new value
+  (add-to-list 'c-offsets-alist '(key . val)))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+              ;; indent
+              (fix-c-indent-offset-according-to-syntax-context 'substatement 0)
+              (fix-c-indent-offset-according-to-syntax-context 'func-decl-cont 0))
+            ))
+
+</code></pre>
+
+</div>
+
+<p>
+That's it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga02a57e" class="outline-2">
+<h3 id="orga02a57e">Explanation</h3>
+<div class="outline-text-2" id="text-orga02a57e">
+<p>
+When you press the ENTER key, the function <b>c-indent-line</b> will be called.
+</p>
+
+<p>
+That function will do some simple syntax analysis and decide current syntactic context..
+</p>
+
+<p>
+It will use that syntactic context to look up a global variable c-offsets-alist and decide how many spaces the new line will indent.
+</p>
+
+<p>
+For example, the context <b>substatement</b> corresponds to the code like below:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">if(true) // press ENTER here
+</code></pre>
+
+</div>
+
+<p>
+And the context <b>func-decl-cont</b> corresponds to:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">void fn () //press ENTER here
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc7f7b26" class="outline-2">
+<h3 id="orgc7f7b26">Technical details</h3>
+<div class="outline-text-2" id="text-orgc7f7b26">
+<p>
+When you press ENTER key, the new line will be inserted. Then the function <b>indent-according-to-mode</b> will always be called
+</p>
+
+<p>
+<b>indent-according-to-mode</b> will call function object <b>indent-line-function</b> if it's not nil.
+</p>
+
+<p>
+In C/C++/Java, that object is actually <b>c-indent-line</b>.
+</p>
+
+<p>
+<b>c-indent-line</b> is defined in /usr/share/emacs/24.3/lisp/progmodes/cc-cmds.el (I use Emacs 24.3 on Gentoo Linux).
+</p>
+
+<p>
+In that function, just below the code line:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq c-syntactic-context (c-guess-basic-syntax))
+</code></pre>
+
+</div>
+
+<p>
+You can insert log code as below:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(message "c-syntactic-context=%s" c-syntactic-context)
+</code></pre>
+
+</div>
+
+<p>
+You will know the current syntactic context when you press ENTER key through the output of log code.
+</p>
+
+<p>
+<a href="http://www.emacswiki.org/emacs/IndentingC">EmacsWiki</a> says you can run command "c-set-offset", whose hot key is "C-x C-o", in order to "see the syntax at point". As I tested, it does not work as expected. My way may seem a little bit intrusive but is reliable.
+</p>
+
+<p>
+For example, the context <b>statement-cont</b> corresponds to the use case like this:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">int a=3, // press ENTER here
+</code></pre>
+
+</div>
+
+<p>
+Please note syntax analysis in c-indent-line is turned on if and <b>only if</b> the global flag <b>c-syntactic-indentation</b> is true.
+</p>
+
+<p>
+Thanks for <a href="https://github.com/chengyi">chengyi</a> for <a href="https://github.com/redguardtoo/emacs.d/issues/98">reporting the issue and suggesting the fix</a>.
+</p>
+
+<p>
+BTW, <a href="http://www.emacswiki.org/emacs/IndentingC">EmacsWiki has a section</a> to discuss the indenting in C. You may not need it if you have read this article and can read the Emacs lisp code.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/what-s-aop-in-java.html">What's AOP in Java</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-05-03T06:21:31+00:00">2014-05-03 06:21</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/what-s-aop-in-java.html#disqus_thread" data-disqus-identifier="cache/posts/what-s-aop-in-java.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/java.html" rel="tag">java</a></li>
+           <li><a class="tag p-category" href="categories/lisp.html" rel="tag">lisp</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Yesterday in a interview I was asked what's AOP and how to use it. The two interviewers
+</p>
+
+<p>
+I was wordless then so I came back to read the documentation.
+</p>
+
+<p>
+It turns out AOP is simple. It's like emacs lisp's defadvice but less powerful. I've been using this since day one on different languages.
+</p>
+
+<p>
+Please read <a href="http://developers.slashdot.org/story/05/04/24/0343224/aspect-oriented-programming-considered-harmful">slashdot discussion</a> about AOP.
+</p>
+
+<p>
+Here is the comment from MarkusQ,
+</p>
+
+<pre class="example">
+ by MarkusQ (450076) on Sunday April 24, 2005 @11:01PM (#12333504) Journal
+
+Exactly.
+
+When I implemented this sort of thing for a project in Ruby a few years back, I just grabbed all the CLOS nomenclature because I was familiar with it. I didn't even realize I was using "AOP with funny names" until someone reading the code mentioned it. When he asked why I didn't use the "standard" terminology, I lent him a copy of "Object Oriented Programing in Common Lisp" (c) 1988, and asked why the AOP people had to invent new words for everything.
+
+I have yet to get an answer.
+
+--MarkusQ
+</pre>
+
+<p>
+So it's just some enterprise guy inventing new buzz words (<a href="http://en.wikipedia.org/wiki/Cross-cutting_concern">cross-cutting concern</a>, for example) on some old idea.
+</p>
+
+<p>
+Now as guy who got seven years academical training on system design (Bachelor and Master degree in system controlling major from <a href="http://en.wikipedia.org/wiki/Shanghai_Jiao_Tong_University">best engineering school in China</a>), I will give you some precious advice on how to use this thing (AOP in java, API hook in C, defadvice in Emacs lisp or whatever the buzz word is):
+</p>
+
+<p>
+<b>DO NOT USE IT IN ANY REAL SYSTEM OR APPLICATION!</b>
+</p>
+
+<p>
+Here are the reasons:
+</p>
+
+<ul class="org-ul">
+<li>The code change an external API's behavior</li>
+<li>The code's location is not close to the API's</li>
+<li>The system being corrupt quickly with those AOP things</li>
+</ul>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-19.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-17.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

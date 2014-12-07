@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Emacs as C++ IDE, easy way | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/emacs-as-c-ide-easy-way.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Emacs as C++ IDE, easy way">
+<meta property="og:url" content="http://blog.binchen.org/posts/emacs-as-c-ide-easy-way.html">
+<meta property="og:description" content="CREATED: &lt;2016-08-25 Thu&gt;
+
+
+
+UPDATED: &lt;2020-03-27 Fri&gt;
+
+
+
+This solution works on Linux/macOS/Cygwin (should work at Windows too, but I don't develop at Windows).
+
+
+
+Setup is minimum. Only GNU Global a">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-08-25T14:20:28Z">
+<meta property="article:tag" content="c">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="global">
+<meta property="article:tag" content="gtags">
+<meta property="article:tag" content="ide">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Emacs as C++ IDE, easy way</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2016-08-25T14:20:28+00:00">2016-08-25 14:20</time>
+            
+
+            
+          |  
+        <a href="emacs-as-c-ide-easy-way.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/c.html" rel="tag">c</a></li>
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/global.html" rel="tag">global</a></li>
+           <li><a class="tag p-category" href="../categories/gtags.html" rel="tag">gtags</a></li>
+           <li><a class="tag p-category" href="../categories/ide.html" rel="tag">ide</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-08-25 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 Fri&gt;</span></span>
+</p>
+
+<p>
+This solution works on Linux/macOS/Cygwin (should work at Windows too, but I don't develop at Windows).
+</p>
+
+<p>
+Setup is minimum. Only GNU Global and two Emacs plugins are required:
+</p>
+
+<ul class="org-ul">
+<li>
+<code>company-gtags.el</code> from <a href="https://github.com/company-mode/company-mode">company</a> for code completion</li>
+<li>
+<a href="https://github.com/syohex/emacs-helm-gtags">emacs-helm-gtags</a> <b>or</b> <a href="https://github.com/syohex/emacs-counsel-gtags">emacs-counsel-gtags</a> (recommended) for code navigation</li>
+</ul>
+<p>
+Here is the step to step guide.
+</p>
+
+<div id="outline-container-orgb155180" class="outline-2">
+<h3 id="orgb155180">Step 1, create sample projects for experiment</h3>
+<div class="outline-text-2" id="text-orgb155180">
+<p>
+I have two projects <code>~/proj1</code> and <code>~/proj2</code>.
+</p>
+
+<p>
+Both projects use files from <b>read only</b> directories <code>/usr/include</code> and <code>/usr/src/linux/include</code>.
+</p>
+
+<p>
+We create a new directory <code>~/obj</code> to store index files created by GNU Global because directories of third party libraries are <b>read only</b>.
+</p>
+
+<p>
+Let's create directories,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">mkdir -p ~/{proj1,proj2,obj}
+</code></pre>
+
+</div>
+
+<p>
+The content of <code>~/proj2/lib.cpp</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">void proj2_hello(int a2, char* b2) {
+}
+</code></pre>
+
+</div>
+
+<p>
+The content of <code>~/proj1/main.cpp</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">void proj1_hello(int a1, char* b1) {
+}
+
+int main(int argc, char *argv[]) {
+    return 0;
+}
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged120cd" class="outline-2">
+<h3 id="orged120cd">Step 2, scan C++ code and setup Emacs</h3>
+<div class="outline-text-2" id="text-orged120cd">
+<p>
+Run below command in shell to scan code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># dump index files to directory ~/obj if 3rd party library directory is read only
+cd /usr/include &amp;&amp; MAKEOBJDIRPREFIX=~/obj gtags --objdir
+cd /usr/linux/include &amp;&amp; MAKEOBJDIRPREFIX=~/obj gtags --objdir
+# # above two command lines are same as below two command lines
+# mkdir -p ~/obj/usr/include &amp;&amp; cd /usr/include &amp;&amp; gtags --objdir=~/obj/usr/include
+# mkdir -p ~/obj/usr/linux/include &amp;&amp; cd /usr/linux/include &amp;&amp; gtags --objdir=~/obj/usr/linux/include
+... 
+# index files are placed inside the projects
+cd ~/proj1 &amp;&amp; gtags 
+cd ~/proj2 &amp;&amp; gtags
+...
+</code></pre>
+
+</div>
+
+<p>
+Global introduced <code>MAKEOBJDIRPREFIX</code> on 2008-03-23. I tested with <code>GNU Global v6.6.2</code> on Debian.
+</p>
+
+<p>
+After installing Emacs plugins and setup (minimum setup from their website is enough), insert below code into ~/.emacs,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; `file-truename' MUST be used!
+(setenv "GTAGSLIBPATH" (concat "/usr/include"
+                               ":"
+                               "/usr/src/linux/include"
+                               ":"
+                               (file-truename "~/proj2")
+                               ":"
+                               (file-truename "~/proj1")))
+(setenv "MAKEOBJDIRPREFIX" (file-truename "~/obj/"))
+(setq company-backends '((company-dabbrev-code company-gtags)))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5b358d3" class="outline-2">
+<h3 id="org5b358d3">Usage</h3>
+<div class="outline-text-2" id="text-org5b358d3">
+<p>
+Use the Emacs plugins as usual.
+</p>
+
+<p>
+But you need install latest company built on 25th August because I <a href="https://github.com/company-mode/company-mode/issues/570">fixed a company issue</a> yesterday.
+</p>
+
+<p>
+Screenshot,
+</p>
+
+
+<div class="figure">
+<p><img src="../wp-content/cpp-gtags-demo-nq8.png" alt="cpp-gtags-demo-nq8.png"></p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2d00ec3" class="outline-2">
+<h3 id="org2d00ec3">Tip</h3>
+<div class="outline-text-2" id="text-org2d00ec3">
+<p>
+GNU Global could use ctags (Either <a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> or <a href="https://ctags.io/">Universal Ctags</a>) as backend to create tags file.
+</p>
+
+<p>
+I suggest NOT doing so. Or else I'm not sure the <code>company-mode</code> or <code>emacs-counsel-gtags</code> will work.
+</p>
+
+<p>
+If you prefer ctags, you could use it directly. Then you can use <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> plus <a href="https://github.com/company-mode/company-mode">company-mode</a> for auto-completion. Use <a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for navigation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgff65af7" class="outline-2">
+<h3 id="orgff65af7">Technical Details (Optional)</h3>
+<div class="outline-text-2" id="text-orgff65af7">
+<p>
+Check <a href="https://www.gnu.org/software/global/manual/global.html">GNU Global manual</a> to understand environment variables <code>GTAGSLIBPATH</code> and <code>MAKEOBJDIRPREFIX</code>.
+</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="no-worries-when-elpa-is-down.html" rel="prev" title="No worries when elpa is down">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="hu-nan-cai-you-xian-xiang-gan.html" rel="next" title="湖南菜攸县香干">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/emacs-as-c-ide-easy-way.html",
+        disqus_title="Emacs as C++ IDE, easy way",
+        disqus_identifier="cache/posts/emacs-as-c-ide-easy-way.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

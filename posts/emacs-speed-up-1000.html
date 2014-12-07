@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Emacs speed up 1000% | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/emacs-speed-up-1000.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Emacs speed up 1000%">
+<meta property="og:url" content="http://blog.binchen.org/posts/emacs-speed-up-1000.html">
+<meta property="og:description" content="I'm still NOT satisfied with my Emacs performance after applying below tricks:
+
+
+
+autoload packages
+idle-load packages
+compiling *.el to  *.elc
+
+
+
+After some research, I found I could make my Emacs 10">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2015-05-08T11:58:13Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="linux">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Emacs speed up 1000%</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2015-05-08T11:58:13+00:00">2015-05-08 11:58</time>
+            
+
+            
+          |  
+        <a href="emacs-speed-up-1000.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+I'm still <b>NOT</b> satisfied with my Emacs performance after applying below tricks:
+</p>
+
+<ul class="org-ul">
+<li>autoload packages</li>
+<li>idle-load packages</li>
+<li>compiling *.el to  *.elc</li>
+</ul>
+<p>
+After some research, I found I could make my Emacs 1000% fast <b>in 1 minute</b>.
+</p>
+
+<p>
+Please note I'm talking about the <b>general performance</b> not just startup time.
+</p>
+
+<p>
+The solution is really simple.
+</p>
+
+<p>
+Since I'm a Linux guy and my computer got enough (24G) memory. I can place my setup into <a href="http://en.wikipedia.org/wiki/Tmpfs">memory</a>.
+</p>
+
+<p>
+<b>Step 1</b>, insert below line into /etc/fstab and restart computer:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-ini">tmpfs       /tmp        tmpfs       nodev,nosuid,size=8G    0   0
+</code></pre>
+
+</div>
+
+<p>
+<b>Step 2</b>, run the script "emacs2ram":
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/sh
+
+if [ -z "$1" ];then
+    echo "Usage:"
+    echo "  emacs2ram start"
+    echo "  emacs2ram restore"
+    exit 1
+fi
+
+if [ "$1" == "start" ];then
+    backup=emacs.d-backup
+    link=.emacs.d
+    volatile=/tmp/.emacs.d-$USER
+
+    IFS=
+    set -efu
+
+    cd ~/
+
+    if [ ! -r $volatile ]; then
+        mkdir -m0700 $volatile
+    fi
+
+    # link -&gt; volatie does not exist
+    if [ "$(readlink $link)" != "$volatile" ]; then
+        # backup project at first
+        mv $link $backup
+        # create the link
+        ln -s $volatile $link
+    fi
+
+    if [ -e $link/.unpacked ]; then
+        echo "Sync .emacs.d from memory to backup ..."
+        rsync -avq --delete --exclude .unpacked ./$link/ ./$backup/
+        echo "DONE!"
+    else
+        echo "Sync .emacs.d from disk to memory ..."
+        rsync -avq ./$backup/ ./$link/
+        touch $link/.unpacked
+        echo "DONE!"
+    fi
+else
+    echo "Moving .emacs.d back to disk ..."
+    backup=$2-backup
+    link=$2
+    volatile=/tmp/$2-$USER
+    cd ~/projs
+    rm $link &amp;&amp; mv $backup $link &amp;&amp; rm -rf $volatile
+    echo "DONE!"
+fi
+</code></pre>
+
+</div>
+
+<p>
+That's all! Please enjoy Emacs as usual.
+</p>
+
+<p>
+The original script is from ArchLinux Wiki. I learned this technique eight years ago. I'm just wondering why I need eight years to apply it?
+</p>
+
+<p>
+BTW, I've also moved <b>all my projects into memory</b>, using similar scripts.
+</p>
+
+<p>
+<b>UPDATE 1:</b>
+I also publicize my project-managing script at <a href="https://gist.github.com/redguardtoo/596b1a9fd3eac1cedd13#file-proj2ram">gist</a>. It's almost same as emacs2ram. 
+</p>
+
+<p>
+<b>UPDATE 2:</b>
+Now I use <a href="https://hoytech.com/vmtouch/">vmtouch</a> which is easier to use and more light weight. Run <code>vmtouch -vt ~/.emacs.d</code> to place the directory into memory.
+</p>
+
+<p>
+Unfortunately, <code>vmtouch</code> doesn't support Windows. You can convert my bash script to DOS batch script. Basically the script copies the directory into ram disk and create a link to the directory in memory. You can use <a href="https://sourceforge.net/projects/imdisk-toolkit/">ImDisk Toolkit</a> to create ram disk.</p>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="use-git-timemachine-with-evil.html" rel="prev" title="Use git-timemachine with Evil">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="jian-bu-zhai-ming-tang-sgow-chrouk-soup.html" rel="next" title="柬埔寨名汤(Sgow Chrouk Soup)">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/emacs-speed-up-1000.html",
+        disqus_title="Emacs speed up 1000%",
+        disqus_identifier="cache/posts/emacs-speed-up-1000.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

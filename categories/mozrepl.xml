@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about mozrepl)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/mozrepl.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:20 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Advanced tip on using mozrepl to automatically refresh browser</title><link>http://blog.binchen.org/posts/advanced-tip-on-using-mozrepl-to-automatically-refresh-browser.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Here is &lt;a href="http://www.emacswiki.org/emacs/MozRepl"&gt;the setup on Emacswiki&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I find it annoying instead of helpful in real world usage.
+&lt;/p&gt;
+
+&lt;p&gt;
+The mozrepl trick basically will refresh the &lt;b&gt;current active page&lt;/b&gt; in Firefox. It's not smart enough. When developing a web application, I will open many stackoverflow pages to look for technical solution. I don't like my stackoverflow page being refreshed when I'm saving the HTML code for some web application.
+&lt;/p&gt;
+
+&lt;p&gt;
+So here is my improved solution:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-moz-refresh-browser-condition (current-file)
+  "Should return a boolean javascript expression or nil"
+  (let (rlt)
+    (cond
+     ((string-match "\\(beeta\\|cb_tutorial\\)" current-file)
+      (setq rlt "content.document.location.href.indexOf(':8001')!==-1"))
+     (t
+      (setq rlt nil)))
+    rlt))
+
+;; {{ mozrepl auto-refresh browser
+(defun moz-reload-browser ()
+  (interactive)
+  (let (js-cond cmd)
+    (if (fboundp 'my-moz-refresh-browser-condition)
+        (setq js-cond (funcall 'my-moz-refresh-browser-condition (buffer-file-name))))
+    (cond
+     (js-cond
+      (setq cmd (concat "if(" js-cond "){setTimeout(function(){content.document.location.reload(true);}, '500');}")))
+     (t
+      (setq cmd "setTimeout(function(){content.document.location.reload(true);}, '500');")))
+    (comint-send-string (inferior-moz-process) cmd)
+    ))
+
+(defun moz-after-save ()
+  (interactive)
+  (when (memq major-mode '(web-mode html-mode nxml-mode nxhml-mode php-mode))
+    (moz-reload-browser)))
+
+(add-hook 'after-save-hook
+              'moz-after-save
+              'append 'local)
+;; }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>firefox</category><category>mozrepl</category><guid>http://blog.binchen.org/posts/advanced-tip-on-using-mozrepl-to-automatically-refresh-browser.html</guid><pubDate>Wed, 03 Dec 2014 08:44:27 GMT</pubDate></item></channel></rss>

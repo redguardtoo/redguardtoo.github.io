@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about global)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/global.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs as C++ IDE, easy way</title><link>http://blog.binchen.org/posts/emacs-as-c-ide-easy-way.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-08-25 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2020-03-27 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+This solution works on Linux/macOS/Cygwin (should work at Windows too, but I don't develop at Windows).
+&lt;/p&gt;
+
+&lt;p&gt;
+Setup is minimum. Only GNU Global and two Emacs plugins are required:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;company-gtags.el&lt;/code&gt; from &lt;a href="https://github.com/company-mode/company-mode"&gt;company&lt;/a&gt; for code completion&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/syohex/emacs-helm-gtags"&gt;emacs-helm-gtags&lt;/a&gt; &lt;b&gt;or&lt;/b&gt; &lt;a href="https://github.com/syohex/emacs-counsel-gtags"&gt;emacs-counsel-gtags&lt;/a&gt; (recommended) for code navigation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Here is the step to step guide.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgb155180" class="outline-2"&gt;
+&lt;h3 id="orgb155180"&gt;Step 1, create sample projects for experiment&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb155180"&gt;
+&lt;p&gt;
+I have two projects &lt;code&gt;~/proj1&lt;/code&gt; and &lt;code&gt;~/proj2&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Both projects use files from &lt;b&gt;read only&lt;/b&gt; directories &lt;code&gt;/usr/include&lt;/code&gt; and &lt;code&gt;/usr/src/linux/include&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+We create a new directory &lt;code&gt;~/obj&lt;/code&gt; to store index files created by GNU Global because directories of third party libraries are &lt;b&gt;read only&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Let's create directories,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;mkdir -p ~/{proj1,proj2,obj}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The content of &lt;code&gt;~/proj2/lib.cpp&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;void proj2_hello(int a2, char* b2) {
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The content of &lt;code&gt;~/proj1/main.cpp&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-c"&gt;void proj1_hello(int a1, char* b1) {
+}
+
+int main(int argc, char *argv[]) {
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orged120cd" class="outline-2"&gt;
+&lt;h3 id="orged120cd"&gt;Step 2, scan C++ code and setup Emacs&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orged120cd"&gt;
+&lt;p&gt;
+Run below command in shell to scan code,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# dump index files to directory ~/obj if 3rd party library directory is read only
+cd /usr/include &amp;amp;&amp;amp; MAKEOBJDIRPREFIX=~/obj gtags --objdir
+cd /usr/linux/include &amp;amp;&amp;amp; MAKEOBJDIRPREFIX=~/obj gtags --objdir
+# # above two command lines are same as below two command lines
+# mkdir -p ~/obj/usr/include &amp;amp;&amp;amp; cd /usr/include &amp;amp;&amp;amp; gtags --objdir=~/obj/usr/include
+# mkdir -p ~/obj/usr/linux/include &amp;amp;&amp;amp; cd /usr/linux/include &amp;amp;&amp;amp; gtags --objdir=~/obj/usr/linux/include
+... 
+# index files are placed inside the projects
+cd ~/proj1 &amp;amp;&amp;amp; gtags 
+cd ~/proj2 &amp;amp;&amp;amp; gtags
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Global introduced &lt;code&gt;MAKEOBJDIRPREFIX&lt;/code&gt; on 2008-03-23. I tested with &lt;code&gt;GNU Global v6.6.2&lt;/code&gt; on Debian.
+&lt;/p&gt;
+
+&lt;p&gt;
+After installing Emacs plugins and setup (minimum setup from their website is enough), insert below code into ~/.emacs,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; `file-truename' MUST be used!
+(setenv "GTAGSLIBPATH" (concat "/usr/include"
+                               ":"
+                               "/usr/src/linux/include"
+                               ":"
+                               (file-truename "~/proj2")
+                               ":"
+                               (file-truename "~/proj1")))
+(setenv "MAKEOBJDIRPREFIX" (file-truename "~/obj/"))
+(setq company-backends '((company-dabbrev-code company-gtags)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5b358d3" class="outline-2"&gt;
+&lt;h3 id="org5b358d3"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5b358d3"&gt;
+&lt;p&gt;
+Use the Emacs plugins as usual.
+&lt;/p&gt;
+
+&lt;p&gt;
+But you need install latest company built on 25th August because I &lt;a href="https://github.com/company-mode/company-mode/issues/570"&gt;fixed a company issue&lt;/a&gt; yesterday.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot,
+&lt;/p&gt;
+
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/cpp-gtags-demo-nq8.png" alt="cpp-gtags-demo-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org2d00ec3" class="outline-2"&gt;
+&lt;h3 id="org2d00ec3"&gt;Tip&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2d00ec3"&gt;
+&lt;p&gt;
+GNU Global could use ctags (Either &lt;a href="http://ctags.sourceforge.net/"&gt;Exuberant Ctags&lt;/a&gt; or &lt;a href="https://ctags.io/"&gt;Universal Ctags&lt;/a&gt;) as backend to create tags file.
+&lt;/p&gt;
+
+&lt;p&gt;
+I suggest NOT doing so. Or else I'm not sure the &lt;code&gt;company-mode&lt;/code&gt; or &lt;code&gt;emacs-counsel-gtags&lt;/code&gt; will work.
+&lt;/p&gt;
+
+&lt;p&gt;
+If you prefer ctags, you could use it directly. Then you can use &lt;a href="https://github.com/redguardtoo/company-ctags"&gt;company-ctags&lt;/a&gt; plus &lt;a href="https://github.com/company-mode/company-mode"&gt;company-mode&lt;/a&gt; for auto-completion. Use &lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;counsel-etags&lt;/a&gt; for navigation.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgff65af7" class="outline-2"&gt;
+&lt;h3 id="orgff65af7"&gt;Technical Details (Optional)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgff65af7"&gt;
+&lt;p&gt;
+Check &lt;a href="https://www.gnu.org/software/global/manual/global.html"&gt;GNU Global manual&lt;/a&gt; to understand environment variables &lt;code&gt;GTAGSLIBPATH&lt;/code&gt; and &lt;code&gt;MAKEOBJDIRPREFIX&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>c</category><category>emacs</category><category>en</category><category>global</category><category>gtags</category><category>ide</category><guid>http://blog.binchen.org/posts/emacs-as-c-ide-easy-way.html</guid><pubDate>Thu, 25 Aug 2016 14:20:28 GMT</pubDate></item></channel></rss>

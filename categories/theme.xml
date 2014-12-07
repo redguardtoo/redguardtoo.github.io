@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about theme)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/theme.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Best wordpress theme for geeks</title><link>http://blog.binchen.org/posts/the-most-elegant-wordpress-theme-for-geeks.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I love the Wordpress theme &lt;a href="http://sixhours-demo.calobeedoodles.com/"&gt;Sixhours&lt;/a&gt; 1.5 designed the by &lt;a href="http://www.carolinemoore.net"&gt;Caroline Moore&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+It is purely simple text theme with dark background and elegant fonts.
+&lt;/p&gt;
+
+&lt;p&gt;
+But for geeks there are two shortcomings:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The font color of the hyperlinks is almost same to the plain text.&lt;/li&gt;
+&lt;li&gt;The code block in &amp;lt;pre&amp;gt; element is not highlighted with solid border.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+So here is my patch to fix these problems:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-diff"&gt;--- style.css   2012-03-08 23:56:31.000000000 +0800
++++ style.css   2012-03-08 23:55:53.000000000 +0800
+@@ -25,7 +25,7 @@
+ a:visited {
+    text-decoration: none;
+    font-weight: bold;
+-   color: #f3f3f3;
++   color: #888;
+ }
+ a:hover,
+ a:active {
+@@ -440,4 +440,17 @@
+    font-style: italic;
+ }
+
++/* source code block*/
++pre.src {
++    border:solid 1px;
++    -moz-box-shadow: 5px 5px 5px #000; /* Firefox */
++    -webkit-box-shadow: 5px 5px 5px #000; /* Safari, Chrome */
++    box-shadow: 5px 5px 5px #000; /* CSS3 */
++    clear: none;
++    float: none;
++    font-family: "Courier New",monospace,Monaco,Lucida Console !important;
++    margin:5px;
++    overflow:auto;
++    white-space: pre;
++}
+ /* End Comments */
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>geek</category><category>theme</category><category>wordpress</category><guid>http://blog.binchen.org/posts/the-most-elegant-wordpress-theme-for-geeks.html</guid><pubDate>Fri, 09 Mar 2012 00:16:00 GMT</pubDate></item></channel></rss>

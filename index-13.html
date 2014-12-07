@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 13) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-13.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/toggle-full-view-of-window-in-emacs.html">Toggle full view of window in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-09-14T12:56:00+00:00">2013-09-14 12:56</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/toggle-full-view-of-window-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/toggle-full-view-of-window-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Add below code into your ~/.emacs: </p>   
+<pre class="prettyprint ">
+
+(defun toggle-full-window()
+  "Toggle the full view of selected window"
+  (interactive)
+  ;; @see http://www.gnu.org/software/emacs/manual/html_node/elisp/Splitting-Windows.html
+  (if (window-parent)
+      (delete-other-windows)
+    (winner-undo)
+    ))
+</pre>
+
+<p></p>
+<p> I use <a href="http://www.emacswiki.org/emacs/Evil">evil</a>, so I assign hot key ",ff" to <code>toggle-full-window</code>. </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/the-minimum-packages-to-install-for-front-end-development-on-linux.html">The minimum packages to install for front end development on Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-09-09T15:05:31+00:00">2013-09-09 15:05</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/the-minimum-packages-to-install-for-front-end-development-on-linux.html#disqus_thread" data-disqus-identifier="cache/posts/the-minimum-packages-to-install-for-front-end-development-on-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/programming.html" rel="tag">programming</a></li>
+           <li><a class="tag p-category" href="categories/web.html" rel="tag">web</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p></p>
+<pre class="prettyprint ">
+<p>sudo apt-get install ack git emacs24-nox feh i3 xsel ctags vim scrot xbindkeys dunst unclutter parcellite gimp
+</p></pre>
+<p></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-gnus-to-apply-patch-sent-by-git-send-email.html">Use Gnus to apply patch sent by `git send-email`</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-09-07T00:00:00+00:00">2013-09-07 00:00</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-gnus-to-apply-patch-sent-by-git-send-email.html#disqus_thread" data-disqus-identifier="cache/posts/use-gnus-to-apply-patch-sent-by-git-send-email.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/gnus.html" rel="tag">gnus</a></li>
+           <li><a class="tag p-category" href="categories/patch.html" rel="tag">patch</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<div id="outline-container-org7c0767d" class="outline-2">
+<h3 id="org7c0767d">Setup git-send-email</h3>
+<div class="outline-text-2" id="text-org7c0767d">
+<p>
+On Debian run <code>sudo apt-get install git-email</code> to install git command line tools.
+</p>
+
+<p>
+Then run <code>cpan Authen::SASL MIME::Base64 Net::SMTP::SSL</code> to install perl packages (check <a href="https://www.cpan.org/modules/INSTALL.html">cpan howto</a>).
+</p>
+
+<p>
+Modify <code>~/.gitconfig</code> to use Gmail SMTP:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[sendemail]
+    smtpencryption = tls
+    smtpserver = smtp.gmail.com
+    smtpuser = username@gmail.com
+    smtpserverport = 587
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5174ce6" class="outline-2">
+<h3 id="org5174ce6">Send the latest commit</h3>
+<div class="outline-text-2" id="text-org5174ce6">
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># send one commit
+git send-email -1 --annotate
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9b9870b" class="outline-2">
+<h3 id="org9b9870b">Apply patch</h3>
+<div class="outline-text-2" id="text-org9b9870b">
+<p>
+Select one mail. Run command "M-x gnus-summary-save-article-email" whose short key is "O m" in summary buffer.
+</p>
+
+<p>
+Emacs will ask for directory to save that patch. Say I save it as <code>~/News/patch/hello.patch</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">git am ~/News/patch/hello.patch
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf8eadc2" class="outline-2">
+<h3 id="orgf8eadc2">Syntax highlight patch embedded in mail (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-orgf8eadc2">
+<p>
+Use <a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/gnus-article-treat-patch/gnus-article-treat-patch.el">gnus-article-treat-patch.el</a>.
+</p>
+
+<p>
+Add below code to setup: 
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'gnus-article-treat-patch)
+(setq gnus-article-patch-conditions
+      '( "^@@ -[0-9]+,[0-9]+ \\+[0-9]+,[0-9]+ @@" ))
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/xiang-gu-shen-gun-niu-rou-wo-dan-zhou-zuo-fa.html">香菇生滚牛肉窝蛋粥做法</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-31T16:58:00+00:00">2013-08-31 16:58</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/xiang-gu-shen-gun-niu-rou-wo-dan-zhou-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/xiang-gu-shen-gun-niu-rou-wo-dan-zhou-zuo-fa.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/porrige.html" rel="tag">porrige</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<ul>
+<li>
+<a href="http://www.meishij.net/zuofa/xianggushenggunniurouwodanzhou.html">菜谱</a> </li> <li>香菇先用冷水冲洗,然后25度温水浸泡至少1小时,浸泡后的水也要放到粥里 </li> <li>小火1到1.5小时后粥基本烂了,不断搅拌粥 </li> <li>牛肉最后开大火加入过一下,可能是为了避免把牛肉烧老 </li> <li>蛋是用粥捂熟的,据说很经典的技巧,就是要蛋白和粥混在一起,但是蛋黄半熟还是完整的 </li> <li>如果粥觉得不够味可以加盐和鲜露(家乐牌鲜露) </li> </ul>
+<p><img src="wp-content/uploads/2013/08/wpid-beef-porridge.jpg" alt="http://blog.binchen.org/wp-content/uploads/2013/08/wpid-beef-porridge.jpg"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-org2blog-to-share-blog-efficiently.html">Use org2blog to share blog efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-30T13:39:00+00:00">2013-08-30 13:39</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-org2blog-to-share-blog-efficiently.html#disqus_thread" data-disqus-identifier="cache/posts/use-org2blog-to-share-blog-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/blog.html" rel="tag">blog</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/org2blog.html" rel="tag">org2blog</a></li>
+           <li><a class="tag p-category" href="categories/wordpress.html" rel="tag">wordpress</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+<a href="https://github.com/punchagan/org2blog">org2blog</a> will post items in <code>org-mode</code> into wordpress blog.
+</p>
+
+<p>
+It's the best blog writer in the world.
+</p>
+
+<p>
+My only issue that I need share the blog url to social network sites after publishing.
+</p>
+
+<p>
+Here is my solution to automatically copy post url into clipboard after publishing:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-org2blog-post-subtree ()
+  (interactive)
+  ;; go to the top node which is a blog item
+  ;;(outline-up-heading)
+
+  ;; post and publish
+  (org2blog/wp-post-subtree t)
+  (let* ((postid (or (org-entry-get (point) "POSTID")
+                     (org-entry-get (point) "POST_ID")))
+         (url org2blog/wp-server-xmlrpc-url))
+    (if (not postid)
+        (message "This subtree hasn't been posted, yet.")
+      (setq url (substring url 0 -10))
+      (setq url (concat url "?p=" postid ))
+      (kill-new url)
+      (with-temp-buffer
+        (insert url)
+        (shell-command-on-region (point-min) (point-max)
+                                 (cond
+                                  ((eq system-type 'cygwin) "putclip")
+                                  ((eq system-type 'darwin) "pbcopy")
+                                  (t "xsel -ib"))))
+      (message (concat url " =&gt; clipboard")))))
+</code></pre>
+
+</div>
+
+<p>
+BTW, please use some clipboard manager to synchronize the X clipboards.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/install-gitso-v0-6-on-gentoo-linux.html">Install gitso v0.6 on Gentoo Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-29T22:43:14+00:00">2013-08-29 22:43</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/install-gitso-v0-6-on-gentoo-linux.html#disqus_thread" data-disqus-identifier="cache/posts/install-gitso-v0-6-on-gentoo-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/desktop.html" rel="tag">desktop</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/gentoo.html" rel="tag">gentoo</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/remote.html" rel="tag">remote</a></li>
+           <li><a class="tag p-category" href="categories/vnc.html" rel="tag">vnc</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Gitso is a frontend to reverse VNC connections. Say you want to access your office pc which is behind firewall. Then you need Gitso. </p> <p> Here is the commands to install gitso: </p>   
+<pre class="prettyprint ">
+
+sudo mkdir /usr/portage/net-misc/gitso
+
+sudo bash -c "curl -L https://github.com/longlene/clx/raw/master/net-misc/gitso/gitso-0.6.ebuild &gt; /usr/portage/net-misc/gitso/gitso-0.6.ebuild"
+
+sudo bash -c "curl -L https://github.com/longlene/clx/raw/master/net-misc/gitso/Manifest|sed -e '/gitso[-_]0.5/d' &gt; /usr/portage/net-misc/gitso/Manifest"
+
+sudo emerge wxpython iproute2 x11vnc tightvnc
+
+sudo ebuild /usr/portage/net-misc/gitso/gitso-0.6.ebuild unpack compile install qmerge clean
+</pre>
+
+<p></p>
+<p> There are many howtos on gitso on internet. Google it. </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/han-guo-da-jiang-tang-zuo-fa.html">韩国大酱汤做法</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-29T19:45:00+00:00">2013-08-29 19:45</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/han-guo-da-jiang-tang-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/han-guo-da-jiang-tang-zuo-fa.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/korean.html" rel="tag">korean</a></li>
+           <li><a class="tag p-category" href="categories/soup.html" rel="tag">soup</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<ul>
+<li>买酱,见下图 </li> </ul>
+<p><img src="wp-content/uploads/2013/08/wpid-korean-soup-sauce.jpg" alt="http://blog.binchen.org/wp-content/uploads/2013/08/wpid-korean-soup-sauce.jpg"></p>
+<ul>
+<li>倒入白菜，菇，韩国豆芽等等，加冷水，煮开 </li> <li>倒入酱，加糖盐调味 </li> </ul>
+<p><img src="wp-content/uploads/2013/08/wpid-korean-soup.jpg" alt="http://blog.binchen.org/wp-content/uploads/2013/08/wpid-korean-soup.jpg"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-use-expand-region-efficiently.html">How to use expand-region.el in Emacs efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-26T23:16:00+00:00">2013-08-26 23:16</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-use-expand-region-efficiently.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-expand-region-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/expand.html" rel="tag">expand</a></li>
+           <li><a class="tag p-category" href="categories/region.html" rel="tag">region</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+<a href="https://github.com/magnars/expand-region.el">expand-region.el</a> is very useful. I use it to select a code segment and keep press its expand key until the the desired region is selected.
+</p>
+
+<p>
+The only issue is its recommended hotkey for "er/expand-region" is "C-=". A little bit hard to press.
+</p>
+
+<p>
+After marking a region by pressing "C-<code>", I press "</code>" to expand the region and "-" to contract.
+</p>
+
+<p>
+As you may have noticed, I need move the right hand to press "=" or "-" so it's not quick enough.
+</p>
+
+<p>
+The solution is simple, press ",xx" to select the initial region. Keep press "x" to expand. "z" to contract region because "x" "z" is close to left hand fingers.
+</p>
+
+<p>
+<a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> and <a href="https://github.com/cofi/evil-leader">evil-leader</a> is required to implement this.
+</p>
+
+<p>
+Here is the setup:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'evil)
+(require 'evil-leader)
+(evil-mode 1) ;; enable evil-mode
+
+(with-eval-after-load "evil"
+  (setq expand-region-contract-fast-key "z"))
+(evil-leader/set-key "xx" 'er/expand-region)
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-use-expand-region-el-in-emacs-efficiently.html">How to use expand-region.el in Emacs efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-26T23:16:00+00:00">2013-08-26 23:16</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-use-expand-region-el-in-emacs-efficiently.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-expand-region-el-in-emacs-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/expand.html" rel="tag">expand</a></li>
+           <li><a class="tag p-category" href="categories/region.html" rel="tag">region</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p><a href="https://github.com/magnars/expand-region.el">expand-region.el</a> is very useful. I use it to select a code segment and keep press its expand key until the selected region expand to the desired region.
+</p>
+
+<p>
+The only issue is its recommended hotkey for "er/expand-region" is "C-=". A little bit hard to press.
+</p>
+
+<p>
+After marking a region by pressing "C-=", I press "=" to expand the region and "-" to contract.
+</p>
+
+<p>
+As you may have noticed, I need move the right hand to press "=" or "-" so it's not quick enough.
+</p>
+
+<p>
+The solution is simple, press ",xx" to select the initial region. Keep press "x" to expand. "z" to contract region because "x" "z" is close to left hand fingers.
+</p>
+
+<p>
+<a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> and <a href="https://github.com/cofi/evil-leader">evil-leader</a> is required to implement this.
+</p>
+
+<p>
+Here is the setup:
+</p>
+
+<pre class="prettyprint lang-lisp">
+(require 'evil)
+(require 'evil-leader)
+(evil-mode 1) ;; enable evil-mode
+
+(eval-after-load "evil" '(setq expand-region-contract-fast-key "z"))
+(evil-leader/set-key "xx" 'er/expand-region)
+</pre>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/navigateselect-html-tags-in-emacs.html">Navigate/Select html tags in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-22T00:05:00+00:00">2013-08-22 00:05</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/navigateselect-html-tags-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/navigateselect-html-tags-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/html.html" rel="tag">html</a></li>
+           <li><a class="tag p-category" href="categories/matchit.html" rel="tag">matchit</a></li>
+           <li><a class="tag p-category" href="categories/selection.html" rel="tag">selection</a></li>
+           <li><a class="tag p-category" href="categories/tag.html" rel="tag">tag</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-11-03 Fri&gt;</span></span>
+</p>
+
+<p>
+Navigate/select html tags is kind of difficult. I've not found any plugin which could match Vim's <a href="http://www.vim.org/scripts/script.php?script_id=39">matchit</a>.
+</p>
+
+<p>
+The most close one in Emacs is <a href="https://github.com/Fuco1/smartparens">smartparens</a>. You can check this <a href="https://plus.google.com/110954683162859211810/posts/4Hb2FUkaPsp">discussion on Google Plus</a> to get general impression.
+</p>
+
+<p>
+I use  <code>sp-select-next-thing</code> from <code>smarparens</code> to select html tags. But I'm not satisfied with this command because it's picky on the location of my cursor and selection of multiple html tags is buggy.
+</p>
+
+<p>
+So here is my fix, the new command <code>my-sp-select-next-thing</code> which fix all these issues.
+</p>
+
+<p>
+Screen cast:
+<img src="https://dl.dropboxusercontent.com/u/858862/my-sp-select-next-thing.gif" alt="my-sp-select-next-thing.gif"></p>
+
+<p>
+Here is the code to insert it into your <code>~/.emacs</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; make sp-select-next-thing works even the cusor is in the open/close tag
+;; like matchit in vim
+;; @return t =&gt; start from open tag; nil start from close tag
+(defun my-sp-select-next-thing (&amp;optional NUM)
+  (interactive "p")
+  (let* ((b (line-beginning-position))
+         (e (line-end-position))
+         (char (following-char))
+         (p (point))
+         rbeg
+         rend
+         (rlt t))
+    ;; "&lt;" char code is 60
+    ;; search backward
+    (if (not (= char 60))
+        (save-excursion
+          (while (and (&lt;= b (point)) (not (= char 60)))
+            (setq char (following-char))
+            (setq p (point))
+            (backward-char))))
+    ;; search forward
+    (if (not (= char 60))
+        (save-excursion
+          (while (and (&gt;= e (point)) (not (= char 60)))
+            (setq char (following-char))
+            (setq p (point))
+            (forward-char))))
+    ;; do the real thing
+    (when (and (= char 60) (&lt; p e))
+      (goto-char p)
+      (forward-char)
+      (if (= (following-char) 47)
+          (progn
+            ;; &lt;/
+            (backward-char)
+            (setq rlt nil))
+        (progn
+          ;; &lt; , looks fine
+          (backward-char)
+          (setq rlt t)))
+      (sp-select-next-thing)
+      (setq rbeg (region-beginning))
+      (setq rend (region-end))
+
+      (while (&gt; NUM 1)
+        ;; well, sp-select-next-thing is kind of wierd
+        (re-search-forward "&lt;[^!]")
+        (backward-char 2)
+        (sp-select-next-thing)
+        (setq rend (region-end))
+        (setq NUM (1- NUM)))
+      (push-mark rbeg t t)
+      (goto-char (1-rend)))
+    rlt))
+</code></pre>
+
+</div>
+
+<p>
+Navigation is easy. After selecting the tags, press <code>C-x C-x</code> to move the focus. That's it.
+</p>
+
+<p>
+For evil-mode, I write some code which simulate the famous <b>matchit</b> in vi:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'evil)
+
+;; {{ evil-matchit
+(defun my-evil-jump-item-enhanced-for-html ()
+  (interactive)
+  (if (or (eq major-mode 'html-mode)
+          (eq major-mode 'xml-mode)
+          (eq major-mode 'nxml-mode))
+      (progn
+        (if (not (my-sp-select-next-thing 1)) (exchange-point-and-mark))
+        (deactivate-mark))
+    (progn
+      (evil-jump-item))))
+(define-key evil-normal-state-map "%" 'my-evil-jump-item-enhanced-for-html)
+;; }}
+</code></pre>
+
+</div>
+
+<p>
+Now you can press <code>%</code> in evil to jump between tags!
+</p>
+
+<p>
+Requirement:
+</p>
+
+<ul class="org-ul">
+<li>smartparens-1.5</li>
+<li>evil-1.0.7</li>
+<li>emacs-24.2.1</li>
+</ul>
+<p>
+BTW, I also tried the web-mode-tag-match in <a href="https://github.com/fxbois/web-mode">web-mode</a> which provided similar tag match feature.
+</p>
+
+<p>
+At least now (2nd October,2013) web-mode does not support <a href="http://freemarker.org/">freemarker</a> syntax. But smartparens is more tolerant to these template syntax.
+</p>
+
+<p>
+UPDATE (6th Nov, 2013):
+I started a new project <a href="https://github.com/redguardtoo/evil-matchit">evil-matchit</a> which is not dependent on smartparens. Please check it out. But you can still use my old code because it support more languages.
+</p>
+
+<p>
+UPDATED (13rd Jan, 2014):
+<a href="https://github.com/redguardtoo/evil-matchit">evil-matchit</a> is now powerful enough to replace my old tricks.
+</p>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-14.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-12.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

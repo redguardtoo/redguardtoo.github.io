@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Why some systemd service on ArchLinux does not work | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Why some systemd service on ArchLinux does not work">
+<meta property="og:url" content="http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work.html">
+<meta property="og:description" content="List failed services
+
+
+
+sudo systemctl --failed
+
+
+
+
+
+I can also use `sudo journalctl -b` to get the log message when booting all the services. But not very useful.
+
+
+
+
+
+Find the root cause of failed s">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-12-01T17:53:00Z">
+<meta property="article:tag" content="archlinux">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="systemd">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Why some systemd service on ArchLinux does not work</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-12-01T17:53:00+00:00">2013-12-01 17:53</time>
+            
+
+            
+          |  
+        <a href="why-some-systemd-service-on-archlinux-does-not-work.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/archlinux.html" rel="tag">archlinux</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/systemd.html" rel="tag">systemd</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<div id="outline-container-orgbe2b329" class="outline-2">
+<h3 id="orgbe2b329">List failed services</h3>
+<div class="outline-text-2" id="text-orgbe2b329">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo systemctl --failed
+</code></pre>
+
+</div>
+
+<p>
+I can also use `sudo journalctl -b` to get the log message when booting all the services. But not very useful.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga785e24" class="outline-2">
+<h3 id="orga785e24">Find the root cause of failed service</h3>
+<div class="outline-text-2" id="text-orga785e24">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo systemctl status service-name
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge515c78" class="outline-2">
+<h3 id="orge515c78">Why my /usr/lib/systemd/system/network-wifi.service does not work</h3>
+<div class="outline-text-2" id="text-orge515c78">
+<p>
+Here is the content of my wifi service
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[Unit]
+Description=Wireless networkd connectivity (wlan0)
+Wants=network.target
+Before=network.target
+BindsTo=sys-subsystem-net-devices-wlan0.device
+After=sys-subsystem-net-devices-wlan0.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+#EnvironmentFile=/etc/conf.d/network-wireless@wlan0
+
+ExecStart=/usr/bin/ip link set wlan0 up
+ExecStart=/usr/bin/wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/yang.conf
+ExecStart=/usr/bin/dhcpcd wlan0
+
+ExecStop=/usr/bin/ip addr flush dev wlan0
+ExecStop=/usr/bin/ip link set dev wlan0 down
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+</div>
+<p>
+It's because netcfg.service blocks my network-wifi.service.
+</p>
+
+<p>
+Solutin is simple:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo systemctl disable netcfg
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgda38928" class="outline-2">
+<h3 id="orgda38928">How to start a service as specific user (mpd, for example)</h3>
+<div class="outline-text-2" id="text-orgda38928">
+<p>
+This is the content of /usr/lib/systemd/system/mpd.service: 
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[Unit]
+Description=Music Player Daemon
+After=network.target sound.target
+
+[Service]
+ExecStart=/usr/bin/mpd --no-daemon /home/cb/.mpd/config
+User=cb
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="hao-you-shen-cai-zuo-fa.html" rel="prev" title="蚝油生菜做法">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="why-emacs-is-better-editor.html" rel="next" title="Why Emacs is better editor - a case study for javascript developer">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work.html",
+        disqus_title="Why some systemd service on ArchLinux does not work",
+        disqus_identifier="cache/posts/why-some-systemd-service-on-archlinux-does-not-work.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

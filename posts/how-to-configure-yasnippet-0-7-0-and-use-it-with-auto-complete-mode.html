@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode">
+<meta property="og:url" content="http://blog.binchen.org/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html">
+<meta property="og:description" content="I will only talk about how to set up yasnippet 0.7.0 or higher version.
+
+
+
+If you follow `normal install` way, setup is simple
+
+
+See its official documentation.
+
+
+
+Install the yasnippet into somewhere">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2012-06-19T21:40:00Z">
+<meta property="article:tag" content="autocomplete">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="yasnippet">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2012-06-19T21:40:00+00:00">2012-06-19 21:40</time>
+            
+
+            
+          |  
+        <a href="how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/autocomplete.html" rel="tag">autocomplete</a></li>
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../categories/yasnippet.html" rel="tag">yasnippet</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+I will only talk about how to set up yasnippet 0.7.0 or higher version.
+</p>
+
+<div id="outline-container-org7ff423a" class="outline-2">
+<h3 id="org7ff423a">If you follow `normal install` way, setup is simple</h3>
+<div class="outline-text-2" id="text-org7ff423a">
+<p>
+See its <a href="http://capitaomorte.github.com/yasnippet/">official documentation</a>.
+</p>
+
+<p>
+Install the yasnippet into somewhere and add following code into your .emacs:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(add-to-list 'load-path
+              "~/.emacs.d/plugins/yasnippet-x.y.z")
+(require 'yasnippet) ;; not yasnippet-bundle
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/plugins/yasnippet-x.y.z/snippets")
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgee9a2fe" class="outline-2">
+<h3 id="orgee9a2fe">If you use elpa package system, setup is even simpler</h3>
+<div class="outline-text-2" id="text-orgee9a2fe">
+<p>
+After installation, you only need two lines in .emacs.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'yasnippet)
+(yas/initialize)
+</code></pre>
+
+</div>
+
+<p>
+Yasnippet 0.7.0 have already defined two locations for the snippets, "~/.emacs.d/yasnippet-install-path/yasnippet-x.y.z/snippets" and "~/.emacs.d/snippets". Yasnippet will load snippets in BOTH directories at startup.
+</p>
+
+<p>
+So you only put your own snippets in "~/.emacs.d/snippets" and done. No need to tweak .emacs at all. To verify my claim, you can `C-h v yas/snippet-dirs' to check value of "yas/snippet-dirs". Please note "yas/root-directory" is the alias of "yas/snippet-dirs".
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5047709" class="outline-2">
+<h3 id="org5047709">The real world setup is NOT simple</h3>
+<div class="outline-text-2" id="text-org5047709">
+<p>
+I will explain the reasons at first and give my complete yasnippet configuration code at the end of the this post.
+</p>
+</div>
+<div id="outline-container-orga1be0aa" class="outline-3">
+<h4 id="orga1be0aa">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
+<div class="outline-text-3" id="text-orga1be0aa">
+<p>
+One issue is I need a user-friendly dropdown window popped up when the key I input has several candidates. For example, when I type "inc" in C code. There are two candidates `#include "…"' and `#include &lt;…&gt;' available. A handy dropdown popup will help me to choose one of them as efficient as possible.
+</p>
+
+<p>
+The good news is such fancy popup is a standard component of yasnippet. It's called `yas/dropdown-prompt'.  Its default algorithm will activate it at highest priority.
+</p>
+
+<p>
+The bad news is for some strange reason yasnippet won't load that dropdown-list by default. So you need manually load that component by one line of elisp code `(require 'dropdown-list)'.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org48fd2c0" class="outline-3">
+<h4 id="org48fd2c0">`yas/dropdown-prompt' is not perfect</h4>
+<div class="outline-text-3" id="text-org48fd2c0">
+<p>
+I cannot scroll down the dropdown window when there are more candidates it can display. That's especially annoying when calling `yas/insert-snippet'. In this case, we need use `yas/completing-prompt' instead. I will show the fix at the end of this article.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3f1bec7" class="outline-3">
+<h4 id="org3f1bec7">Yasnippet conflicts with other plugins</h4>
+<div class="outline-text-3" id="text-org3f1bec7">
+<p>
+I use <a href="http://cx4a.org/software/auto-complete/">Auto Complete Mode</a> (version 20120327 in elpa).  There are two issues when using it with yasnippet.
+</p>
+
+<p>
+First, it use TAB key to do the auto-complete thing while yasnippet also uses TAB key. So I need re-configure hotkeys of yasnippet.
+</p>
+
+<p>
+Second, yasnippet changed its API `yas/get-snippet-tables' since version 0.7.0. This make the auto-complete cannot use yasnippet at all. This issue is <a href="https://github.com/m2ym/auto-complete/pull/107">reported</a> and <a href="https://github.com/tkf/auto-complete/commit/337caa2ccc254a79f615bb2417f0d2fb9552b547">fixed</a> by <a href="https://github.com/tkf">tkf</a>. Actually all you need do is simple:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd auto-complete-install-dir
+rm auto-complete-config.elc
+curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2fb9552b547/auto-complete-config.el &gt; auto-complete-config.el
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org85f1573" class="outline-2">
+<h3 id="org85f1573">My final yasnippet setup</h3>
+<div class="outline-text-2" id="text-org85f1573">
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'yasnippet)
+(yas/initialize)
+;; default TAB key is occupied by auto-complete
+(global-set-key (kbd "C-c ; u") 'yas/expand)
+;; default hotkey `C-c &amp; C-s` is still valid
+(global-set-key (kbd "C-c ; s") 'yas/insert-snippet)
+;; give yas/dropdown-prompt in yas/prompt-functions a chance
+(require 'dropdown-list)
+;; use yas/completing-prompt when ONLY when `M-x yas/insert-snippet'
+;; thanks to capitaomorte for providing the trick.
+(defadvice yas/insert-snippet (around use-completing-prompt activate)
+     "Use `yas/completing-prompt' for `yas/prompt-functions' but only here..."
+       (let ((yas/prompt-functions '(yas/completing-prompt)))
+             ad-do-it))
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu.html" rel="prev" title="在我的Mac OS X 10.7.3上为heroku开发rails程序">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="note-on-emacs-chat-between-john-wiegley-and-sacha-chua.html" rel="next" title="Notes on Emacs chat between John Wiegley and Sacha Chua">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html",
+        disqus_title="How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode",
+        disqus_identifier="cache/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about wc)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/wc.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Turn off linum-mode when file is too big</title><link>http://blog.binchen.org/posts/turn-off-linum-mode-when-file-is-too-big.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-07-14 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-08-07 Sun&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+It's well known that linum-mode slows Emacs when the file contains thousands of lines.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the fix,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun buffer-too-big-p ()
+  (or (&amp;gt; (buffer-size) (* 5000 80))
+      (&amp;gt; (line-number-at-pos (point-max)) 5000)))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            ;; turn off `linum-mode' when there are more than 5000 lines
+            (if (buffer-too-big-p) (linum-mode -1))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Though &lt;a href="https://elpa.gnu.org/packages/nlinum.html"&gt;nlinum-mode&lt;/a&gt; has performance, I still stick to linum-mode because &lt;a href="https://github.com/syohex/emacs-git-gutter"&gt;git-gutter&lt;/a&gt; only supports linum-mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can check &lt;a href="https://github.com/syohex/emacs-git-gutter/issues/124"&gt;the interesting discussion&lt;/a&gt; about git-gutter/linum-mode/nlinum-mode. Syohei Yoshida made git-gutter 95% functional when linum-mode off.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linum</category><category>mode</category><category>wc</category><guid>http://blog.binchen.org/posts/turn-off-linum-mode-when-file-is-too-big.html</guid><pubDate>Thu, 14 Jul 2016 13:21:02 GMT</pubDate></item></channel></rss>

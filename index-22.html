@@ -1,0 +1,2136 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 22) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-22.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-manage-emacs-packages-effectively.html">How to manage Emacs packages effectively</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-06-30T11:09:42+00:00">2016-06-30 11:09</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-manage-emacs-packages-effectively.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-manage-emacs-packages-effectively.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/package.html" rel="tag">package</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Here are a few techniques I developed after reading <a href="https://github.com/purcell">Steve Purcell</a>'s setup.
+</p>
+
+<p>
+The techniques are compatible with <a href="https://github.com/jwiegley/use-package">use-package</a> because it uses Emacs API.
+</p>
+
+<p>
+Mid-level Lisp knowledge is required to read this article.
+</p>
+
+<div id="outline-container-org7e408c7" class="outline-2">
+<h3 id="org7e408c7">Do NOT use package.el for certain packages</h3>
+<div class="outline-text-2" id="text-org7e408c7">
+<p>
+Create the directory <code>~/.emacs.d/site-lisp</code>. Then insert below code into <code>~/.emacs</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(if (fboundp 'normal-top-level-add-to-load-path)
+    (let* ((my-lisp-dir "~/.emacs.d/site-lisp/")
+           (default-directory my-lisp-dir))
+      (progn
+        (setq load-path
+              (append
+               (loop for dir in (directory-files my-lisp-dir)
+                     unless (string-match "^\\." dir)
+                     collecting (expand-file-name dir))
+               load-path)))))
+</code></pre>
+
+</div>
+<p>
+You can place a package's source code at sub-directory of <code>~/.emacs.d/site-lisp/</code>. That's all you need to do to install packages.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcd3fd65" class="outline-2">
+<h3 id="orgcd3fd65">Create your own package repository</h3>
+<div class="outline-text-2" id="text-orgcd3fd65">
+<p>
+Step 1, Place two files "archive-contents" and "hello-1.0.0.el" in any directory. Say <code>~/.emacs.d/localelpa</code>. 
+</p>
+
+<p>
+Here is the content of <code>archive-contents</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(1
+ (hello . [(1 0 0) nil "Say hello" single])
+)
+</code></pre>
+
+</div>
+
+<p>
+Here is the content of <code>hello-1.0.0.el</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;;;###autoload
+(defun hello-say ()
+  (interactive)
+  (message "Hi, hello!"))
+
+(provide 'hello)
+</code></pre>
+
+</div>
+
+<p>
+Step 2, insert below code into <code>~/.emacs</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(add-to-list 'package-archives '("localelpa" . "~/.emacs.d/localelpa"))
+</code></pre>
+
+</div>
+
+<p>
+Step 3, restart Emacs and run <code>M-x list-packages</code>. As you can see, you can install package named "hello" now!
+</p>
+
+<p>
+Here is a real world example how I apply this technique. I use <code>rainbow-mode</code> from <a href="https://elpa.gnu.org/">https://elpa.gnu.org/</a> which shuts down sometimes. So I built a local repository to host <code>rainbow-mode</code> and a few other packages to remove dependency on GNU site.
+</p>
+
+<p>
+I also create a <a href="https://github.com/redguardtoo/elpa-mirror">elpa-mirror</a> which creates a local repository from the installed packages. This local repository could be converted to remote repository using <a href="http://www.google.com.au/aclk?sa=l&amp;ai=CzC-wxBR1V4TDLY-Q8AXB6JZYzpSQtgfG2tG-uAGEsbgLCAAQAWCl-JGAkAGgAY-k7twDyAEBqgQiT9A1G2VwLIfGToKkVCdOvyWNgzhcfW06fVwewFDtt2ESpYAHvuz4NZAHA6gHpr4b2AcB&amp;sig=AOD64_0dA0XCyoO-dl0N6XK3n7knfXL5hA&amp;clui=0&amp;ved=0ahUKEwj-sJmh5M_NAhVEoZQKHVclCJ8Q0QwIEg&amp;adurl=https://www.dropbox.com/business/landing-t61fl?_tk=sem_b_goog&amp;_camp=sem-b-goog-au-nz-eng-top-exact&amp;_kw=dropbox%7Ce&amp;_ad=49525704222%7C1t1%7Cc">Dropbox</a> and <a href="https://github.com/">Github</a> easily.
+</p>
+
+<p>
+Orphan package issue is also resolved by <code>elpa-mirror</code>. You can delete everything from <code>~/.emacs.d/elpa</code> and set the repository to the local repository created by <code>elpa-mirror</code>. It only takes 30 seconds to install 300 packages.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org79648f9" class="outline-2">
+<h3 id="org79648f9">
+<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">Advice</a> <code>package--add-to-archive-contents</code> to filter packages</h3>
+<div class="outline-text-2" id="text-org79648f9">
+<p>
+Insert below code into ~/.emacs,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; List of VISIBLE packages from melpa-unstable (http://melpa.org)
+;; Feel free to add more packages!
+(defvar melpa-include-packages
+  '(bbdb
+    color-theme
+    company-c-headers)
+  "Don't install any mELPA packages except these packages")
+
+(defvar package-filter-function nil
+  "Optional predicate function used to internally filter packages used by package.el.
+
+The function is called with the arguments PACKAGE VERSION ARCHIVE, where
+PACKAGE is a symbol, VERSION is a vector as produced by `version-to-list', and
+ARCHIVE is the string name of the package archive.")
+
+;; Don't take MELPA versions of certain packages
+(setq package-filter-function
+      (lambda (package version archive)
+        (or (not (string-equal archive "melpa"))
+            ;; install package in whitelist
+            (memq package melpa-include-packages)
+            ;; use all color themes
+            (string-match (format "%s" package) "-theme"))))
+
+(defadvice package--add-to-archive-contents
+  (around filter-packages (package archive) activate)
+  "Add filtering of available packages using `package-filter-function', if non-nil."
+  (when (or (null package-filter-function)
+      (funcall package-filter-function
+         (car package)
+         (funcall (if (fboundp 'package-desc-version)
+          'package--ac-desc-version
+        'package-desc-vers)
+            (cdr package))
+         archive))
+    ad-do-it))
+</code></pre>
+
+</div>
+
+<p>
+The above code builds the filter defined in <code>package-filter-function</code> to get the final version of packages list.
+</p>
+
+<p>
+The filter accepts the package if it's NOT from <a href="https://melpa.org">melpa-unstable</a> OR it's listed in <code>melpa-include-packages</code> OR its name contains "-theme".
+</p>
+
+<p>
+Surely you can build your own filter.
+</p>
+
+<p>
+This solution is copied from Steve Purcell's setup with a little modification.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org937d9a4" class="outline-2">
+<h3 id="org937d9a4">Summary</h3>
+<div class="outline-text-2" id="text-org937d9a4">
+<p>
+You can combine above techniques to <b>solve any package issue</b>.
+</p>
+
+<p>
+For example, package A is dependent on package B. Both A and B have two versions, 1.0 and 2.0:
+</p>
+<ul class="org-ul">
+<li>A 2.0 can use B 1.0 and B 2.0, but A 1.0 can ONLY use B 1.0</li>
+<li>A 2.0 can ONLY use B 2.0, and A 1.0 can only use B 1.0</li>
+</ul>
+<p>
+The solution is simple. We create a local repository to host B <code>1.0</code> and A <code>1.0</code>. As I said, <code>package-filter-function</code> only returns a boolean expression. So you can design any strategy.
+</p>
+
+<p>
+I know some one believs "Emacs package manager sucks" after mastering it for seven years. That's certainly not the truth as I have proved. I spent 15 minutes to reach the opposite conclusion when I was a Emacs dummy.
+</p>
+
+<p>
+It's possibly I started my journey by <a href="https://github.com/redguardtoo/mastering-emacs-in-one-year-guide">learning from experts</a> instead of "studiyng" by myself.</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/new-git-timemachine-ui-based-on-ivy-mode.html">New git-timemachine UI based on ivy-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-06-05T14:32:39+00:00">2016-06-05 14:32</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/new-git-timemachine-ui-based-on-ivy-mode.html#disqus_thread" data-disqus-identifier="cache/posts/new-git-timemachine-ui-based-on-ivy-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/ivy.html" rel="tag">ivy</a></li>
+           <li><a class="tag p-category" href="categories/timemachine.html" rel="tag">timemachine</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-23 Fri&gt;</span></span>
+</p>
+
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-06-05 Sun&gt;</span></span>
+</p>
+
+<p>
+When using <a href="https://github.com/pidu/git-timemachine">git-timemachine</a>, I prefer start from my selected revision instead of HEAD.
+</p>
+
+<p>
+Here is my code based on <a href="https://github.com/abo-abo/swiper">ivy-mode</a>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-git-timemachine-show-selected-revision ()
+  "Show last (current) revision of file."
+  (interactive)
+  (let* ((collection (mapcar (lambda (rev)
+                    ;; re-shape list for the ivy-read
+                    (cons (concat (substring-no-properties (nth 0 rev) 0 7) "|" (nth 5 rev) "|" (nth 6 rev)) rev))
+                  (git-timemachine--revisions))))
+    (ivy-read "commits:"
+              collection
+              :action (lambda (rev)
+                        ;; compatible with ivy 9+ and ivy 8
+                        (unless (string-match-p "^[a-z0-9]*$" (car rev))
+                          (setq rev (cdr rev)))
+                        (git-timemachine-show-revision rev)))))
+
+(defun my-git-timemachine ()
+  "Open git snapshot with the selected version.  Based on ivy-mode."
+  (interactive)
+  (unless (featurep 'git-timemachine)
+    (require 'git-timemachine))
+  (git-timemachine--start #'my-git-timemachine-show-selected-revision))
+</code></pre>
+
+</div>
+
+<p>
+Screenshot after <code>M-x my-git-timemachine</code>,
+</p>
+
+<div class="figure">
+<p><img src="wp-content/my-git-timemachine-nq8.png" alt="my-git-timemachine-nq8.png"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/complete-line-with-ivy-mode.html">Complete line with ivy-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-05-23T01:41:14+00:00">2016-05-23 01:41</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/complete-line-with-ivy-mode.html#disqus_thread" data-disqus-identifier="cache/posts/complete-line-with-ivy-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/grep.html" rel="tag">grep</a></li>
+           <li><a class="tag p-category" href="categories/ivy.html" rel="tag">ivy</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Complete current line by <a href="https://git-scm.com/docs/git-grep">git grep</a> and <a href="https://github.com/abo-abo/swiper">ivy-mode</a>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun counsel-escape (keyword)
+  (setq keyword (replace-regexp-in-string "\\$" "\\\\\$" keyword))
+  (replace-regexp-in-string "\"" "\\\\\"" keyword))
+
+(defun counsel-replace-current-line (leading-spaces content)
+  (beginning-of-line)
+  (kill-line)
+  (insert (concat leading-spaces content))
+  (end-of-line))
+
+(defun counsel-git-grep-complete-line ()
+  (interactive)
+  (let* (cmd
+        (cur-line (buffer-substring-no-properties (line-beginning-position)
+                                                  (line-end-position)))
+        (default-directory (locate-dominating-file
+                            default-directory ".git"))
+        keyword
+        (leading-spaces "")
+        collection)
+    (setq keyword (counsel-escape (if (region-active-p)
+                                      (buffer-substring-no-properties (region-beginning)
+                                                                      (region-end))
+                                    (replace-regexp-in-string "^[ \t]*" "" cur-line))))
+    ;; grep lines without leading/trailing spaces
+    (setq cmd (format "git --no-pager grep -I -h --no-color -i -e \"^[ \\t]*%s\" | sed s\"\/^[ \\t]*\/\/\" | sed s\"\/[ \\t]*$\/\/\" | sort | uniq" keyword))
+    (when (setq collection (split-string (shell-command-to-string cmd) "\n" t))
+      (if (string-match "^\\([ \t]*\\)" cur-line)
+          (setq leading-spaces (match-string 1 cur-line)))
+      (cond
+       ((= 1 (length collection))
+        (counsel-replace-current-line leading-spaces (car collection)))
+       ((&gt; (length collection) 1)
+        (ivy-read "lines:"
+                  collection
+                  :action (lambda (l)
+                            (counsel-replace-current-line leading-spaces l))))))
+    ))
+(global-set-key (kbd "C-x C-l") 'counsel-git-grep-complete-line)
+</code></pre>
+
+</div>
+
+<p>
+I also tried <code>grep</code> which is too slow for my project.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/make-messages-buffer-modifiable-in-emacs-24-4.html">Make Messages Buffer modifiable in Emacs 24.4</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-05-18T00:42:32+00:00">2016-05-18 00:42</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/make-messages-buffer-modifiable-in-emacs-24-4.html#disqus_thread" data-disqus-identifier="cache/posts/make-messages-buffer-modifiable-in-emacs-24-4.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/buffer.html" rel="tag">buffer</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/messages.html" rel="tag">messages</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div class="org-src-container">
+
+<pre><code class="lang-lisp">(defadvice switch-to-buffer (after switch-to-buffer-after-hack activate)
+  (if (string= "*Messages*" (buffer-name))
+      (read-only-mode -1)))
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-input-non-english-character-in-evil-mode-efficiently.html">How to input Non-English character in evil-mode efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-05-16T13:33:25+00:00">2016-05-16 13:33</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-input-non-english-character-in-evil-mode-efficiently.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-input-non-english-character-in-evil-mode-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/evil.html" rel="tag">evil</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+You can <code>M-x toggle-input-method</code> or <code>C-\</code> to input Non-English characters.
+</p>
+
+<p>
+Analysis about evil-mode,
+</p>
+
+<ul class="org-ul">
+<li>You only input Non-English characters in evil-insert-state. So you need <b>go into evil-insert-state at first</b> before toggle on input method</li>
+<li>In evil-insert-state, you can toggle off input method to input English characters while <b>staying in evil-insert state</b>
+</li>
+<li>When press <code>ESC</code>, you quit from evil-insert-state. But input method could be still activated. So when you re-enter evil-insert-state, you need <b>notification of input method status</b>
+</li>
+</ul>
+<p>
+Here is the setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; {{ make IME compatible with evil-mode
+(defun evil-toggle-input-method ()
+  "when toggle on input method, goto evil-insert-state. "
+  (interactive)
+
+  ;; load IME when needed, less memory footprint
+  ;; (unless (featurep 'chinese-pyim)
+  ;;   (require 'chinese-pyim))
+
+  (cond
+   ((and (boundp 'evil-mode) evil-mode)
+    ;; evil-mode
+    (cond
+     ((eq evil-state 'insert)
+      (toggle-input-method))
+     (t
+      (evil-insert-state)
+      (unless current-input-method
+        (toggle-input-method))
+      ))
+    (if current-input-method (message "IME on!")))
+   (t
+    ;; NOT evil-mode, some guy don't use evil-mode at all
+    (toggle-input-method))))
+
+(defadvice evil-insert-state (around evil-insert-state-hack activate)
+  ad-do-it
+  (if current-input-method (message "IME on!")))
+
+(global-set-key (kbd "C-\\") 'evil-toggle-input-method)
+;; }}
+</code></pre>
+
+</div>
+
+<p>
+Chinese version:
+</p>
+
+<p>
+在evil-mode中切换输入法有以下要点,
+</p>
+
+<ul class="org-ul">
+<li>输中文前须进入evil-insert-state</li>
+<li>在evil-insert-state中可能会切换输入法</li>
+<li>按ESC退出evil-insert-state时输入法可能还开着,所以再进入evil-insert-state时需提示输入法状态</li>
+</ul>
+<p>
+代码见上.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/swiperivy-tip.html">Swiper/Ivy tip</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-05-04T08:15:27+00:00">2016-05-04 08:15</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/swiperivy-tip.html#disqus_thread" data-disqus-identifier="cache/posts/swiperivy-tip.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/evil.html" rel="tag">evil</a></li>
+           <li><a class="tag p-category" href="categories/ivy.html" rel="tag">ivy</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Please install <a href="https://github.com/syl20bnr/evil-escape">evil-escape</a> at first.
+</p>
+
+<p>
+When <a href="https://github.com/abo-abo/swiper">Swiper/Ivy</a> candidate window pops up. You can press <code>fd</code> quickly to close the window. 
+</p>
+
+<p>
+<code>fd</code> is the default key binding from evil-escape. I changed it to <code>kj</code> instead.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode.html">Use general.el to provide multiple leader key in evil-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-04-09T04:35:54+00:00">2016-04-09 04:35</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode.html#disqus_thread" data-disqus-identifier="cache/posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/evil.html" rel="tag">evil</a></li>
+           <li><a class="tag p-category" href="categories/vim.html" rel="tag">vim</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+<a href="https://github.com/noctuid/general.el">General.el</a> "provides a more convenient way to bind keys in emacs for both evil and non-evil users".
+</p>
+
+<p>
+I have been using it for more than one month without any issue. I prefer general.el to <a href="https://github.com/cofi/evil-leader">evil-leader</a> because I need both comma and space key as <a href="http://vimdoc.sourceforge.net/htmldoc/map.html#%3CLeader%3E">leader key</a>.
+</p>
+
+<p>
+Minimum setup is simple,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'general)
+(general-evil-setup t)
+(nvmap :prefix ","
+       "bb" 'back-to-previous-buffer
+       "ww" 'save-buffer
+       "oo" 'compile)
+
+;; all keywords arguments are still supported
+(nvmap :prefix "SPC"
+       ; save windows layout
+       "ss" 'wg-create-workgroup
+       ;; load windows layout
+       "ll" 'my-wg-switch-workgroup)
+</code></pre>
+
+</div>
+
+<p>
+My <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-evil.el">real world setup</a> is more complicated.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-ivy-to-open-recent-directories.html">Use ivy to open recent directories</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-03-30T11:13:23+00:00">2016-03-30 11:13</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-ivy-to-open-recent-directories.html#disqus_thread" data-disqus-identifier="cache/posts/use-ivy-to-open-recent-directories.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/ivy.html" rel="tag">ivy</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+The recent directories include parent directories of opened files in Emacs and the directories accessed in Bash shell. 
+</p>
+
+<p>
+I used <a href="https://github.com/clvv/fasd">fasd</a> to get the list of directories in shell. Fasd "offers quick access to files and directories for POSIX shells".
+</p>
+
+<p>
+Here is my setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'ivy) ; swiper 7.0+ should be installed
+
+(defun counsel-goto-recent-directory ()
+  "Open recent directory with dired"
+  (interactive)
+  (unless recentf-mode (recentf-mode 1))
+  (let ((collection
+         (delete-dups
+          (append (mapcar 'file-name-directory recentf-list)
+                  ;; fasd history
+                  (if (executable-find "fasd")
+                      (split-string (shell-command-to-string "fasd -ld") "\n" t))))))
+    (ivy-read "directories:" collection :action 'dired)))
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+</p>
+
+<div class="figure">
+<p><img src="wp-content/ivy-recent-directory-nq8.png" alt="ivy-recent-directory-nq8.png"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/emacs-vs-sublime-text-on-salesforce-development.html">Emacs vs Sublime Text on Salesforce development</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-03-14T10:42:31+00:00">2016-03-14 10:42</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/emacs-vs-sublime-text-on-salesforce-development.html#disqus_thread" data-disqus-identifier="cache/posts/emacs-vs-sublime-text-on-salesforce-development.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/salesforce.html" rel="tag">salesforce</a></li>
+           <li><a class="tag p-category" href="categories/sublime.html" rel="tag">sublime</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Our client decided to move their legacy system to a cloud platform called salesforce.com. So I got a chance to investigate how to <b>deploy code</b> to the salesforce server inside Emacs and Sublime Text.
+</p>
+
+<p>
+Salesforce provides <a href="https://developer.salesforce.com/docs/atlas.en-us.daas.meta/daas/forcemigrationtool_install.htm">a migration tool</a> to deploy everything from the scratch which takes about 2 minutes. Basically makes it impossbile to be integrated with text editors.
+</p>
+
+<p>
+Luckily, there is <a href="https://force-cli.heroku.com/">Force.com CLI</a> which can upload single file in a few seconds. Both Sublime Text and Emacs use this tool.
+</p>
+
+<div id="outline-container-orgb99b8ee" class="outline-2">
+<h3 id="orgb99b8ee">Sublime Text</h3>
+<div class="outline-text-2" id="text-orgb99b8ee">
+<p>
+You need install sublime text plugin <a href="http://mavensmate.com/Getting_Started/Users">mavensmate</a>. After installation, you need click <code>Login</code> menu at least once. Then when you save the code file, it's automatically deployed to the server.
+</p>
+
+<p>
+For some reason, the logged in session will timeout after a couple minutes. So you need re-login. Sometimes deployment will fail, you could click the <code>Fetch</code> menu and fill in the component name into the popup window to confirm the fetch. Fetching will re-activate upload ability.
+</p>
+
+<p>
+Mavensmate is actually just GUI wrapper of Force.com CLI,
+</p>
+<ul class="org-ul">
+<li>When you click login, the command <code>force login</code> is executed</li>
+<li>When saving file, <code>force aura push</code> or <code>force push</code> is executed</li>
+<li>When fetching, <code>force fetch</code> is executed</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdf342f4" class="outline-2">
+<h3 id="orgdf342f4">Emacs</h3>
+<div class="outline-text-2" id="text-orgdf342f4">
+<p>
+In Sublime Text I have to re-login and fetch from time to time. That get me distracted. I prefer executing only one commmand to upload the file in editing. That command should be always successful.
+</p>
+
+<p>
+My solution is to combine "login/fetch/push" commnands into one liner which is stored in a file local variable <code>compile-command</code>. So when I execute <code>M-x compile</code>, the commands "login/fetch/push" in <code>compile-command</code> will all be executed sequentially. So I don't need care about login and fetch things any more.
+</p>
+
+<p>
+Here is my setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-setup-develop-environment ()
+  (interactive)
+  (let (ffip-project-root)
+    (setq ffip-project-root "~/projects/my-salesforce-project1")
+
+    (when (memq major-mode '(web-mode js-mode js2-mode))
+      (setq-local compile-command
+                  (cond
+                   ;; lightning controller javascript file
+                   ((string-match "Controller\.js$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; cp %s %s &amp;&amp; force fetch -t Aura -n %s -d %s &amp;&amp; mv %s %s &amp;&amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name) (concat (buffer-file-name) ".bak")
+                            (replace-regexp-in-string "Controller" "" (file-name-base (buffer-file-name)))
+                            ffip-project-root
+                            (concat (buffer-file-name) ".bak") (buffer-file-name)
+                            (buffer-file-name)))
+                   ;; ant build
+                   ((string-match "build\.xml$" (buffer-file-name))
+                    (format "cd %s &amp;&amp; ant deployCode" ffip-project-root))
+                   ;; lightning html view
+                   ((string-match "\.cmp$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   ;; other salesforce pages
+                   (t
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   )))
+    ))
+
+;; I use web-mode for html/xml
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
+;; I use js2-mode for javascript
+(add-hook 'js2-mode-hook 'my-setup-develop-environment)
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-be-extremely-efficient-in-emacs.html">How to be extremely efficient in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-02-26T13:51:27+00:00">2016-02-26 13:51</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-be-extremely-efficient-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-be-extremely-efficient-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+You only need <a href="https://github.com/dacap/keyfreq">keyfreq</a> to <b>find</b> frequently used commands.
+</p>
+
+<p>
+The frequently used commands should be assigned efficient key bindings.
+</p>
+
+<p>
+But you need <b>exclude already optimized commands or commands which cannot be optimized</b> before starting keyfreq.
+</p>
+
+<p>
+For example, commands like <code>next-line/previous-line/forward-char/backward-char</code> could be excluded by tweaking variable <code>keyfreq-excluded-commands</code>.
+</p>
+
+<p>
+The minimum keyfreq setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'keyfreq)
+(setq keyfreq-excluded-commands
+      '(self-insert-command
+        abort-recursive-edit
+        forward-char
+        backward-char
+        previous-line
+        next-line))
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+</code></pre>
+
+</div>
+
+<p>
+My <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-keyfreq.el">actual keyfreq setup</a> is more complicated.
+</p>
+
+<p>
+Below is the eight month keyfreq data of my office computer,
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
+<col class="org-right">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-right">Times</th>
+<th scope="col" class="org-right">Percentage</th>
+<th scope="col" class="org-left">Command</th>
+<th scope="col" class="org-left">Key</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-right">4967</td>
+<td class="org-right">12.00%</td>
+<td class="org-left">evilmi-jump-items</td>
+<td class="org-left">%</td>
+</tr>
+<tr>
+<td class="org-right">2892</td>
+<td class="org-right">6.99%</td>
+<td class="org-left">compile</td>
+<td class="org-left">, o o</td>
+</tr>
+<tr>
+<td class="org-right">2178</td>
+<td class="org-right">5.26%</td>
+<td class="org-left">find-file-in-project-by-selected</td>
+<td class="org-left">, k k</td>
+</tr>
+<tr>
+<td class="org-right">1953</td>
+<td class="org-right">4.72%</td>
+<td class="org-left">copy-to-x-clipboard</td>
+<td class="org-left">, a a</td>
+</tr>
+<tr>
+<td class="org-right">1566</td>
+<td class="org-right">3.78%</td>
+<td class="org-left">paste-from-x-clipboard</td>
+<td class="org-left">, z z</td>
+</tr>
+<tr>
+<td class="org-right">1227</td>
+<td class="org-right">2.96%</td>
+<td class="org-left">er/expand-region</td>
+<td class="org-left">, x x</td>
+</tr>
+<tr>
+<td class="org-right">897</td>
+<td class="org-right">2.17%</td>
+<td class="org-left">evil-repeat</td>
+<td class="org-left">.</td>
+</tr>
+<tr>
+<td class="org-right">866</td>
+<td class="org-right">2.09%</td>
+<td class="org-left">ido-find-file</td>
+<td class="org-left">, x f, C-x C-f</td>
+</tr>
+<tr>
+<td class="org-right">819</td>
+<td class="org-right">1.98%</td>
+<td class="org-left">toggle-full-window</td>
+<td class="org-left">, f f</td>
+</tr>
+<tr>
+<td class="org-right">815</td>
+<td class="org-right">1.97%</td>
+<td class="org-left">etags-select-find-tag-at-point</td>
+<td class="org-left">C-], , h t</td>
+</tr>
+<tr>
+<td class="org-right">721</td>
+<td class="org-right">1.74%</td>
+<td class="org-left">back-to-previous-buffer</td>
+<td class="org-left">, b b</td>
+</tr>
+<tr>
+<td class="org-right">682</td>
+<td class="org-right">1.65%</td>
+<td class="org-left">split-window-vertically</td>
+<td class="org-left">, x 2</td>
+</tr>
+<tr>
+<td class="org-right">539</td>
+<td class="org-right">1.30%</td>
+<td class="org-left">find-function</td>
+<td class="org-left">, h f, C-h C-f</td>
+</tr>
+<tr>
+<td class="org-right">494</td>
+<td class="org-right">1.19%</td>
+<td class="org-left">counsel-recentf-goto</td>
+<td class="org-left">, r r</td>
+</tr>
+<tr>
+<td class="org-right">397</td>
+<td class="org-right">0.96%</td>
+<td class="org-left">counsel-git-grep</td>
+<td class="org-left">, g g</td>
+</tr>
+<tr>
+<td class="org-right">376</td>
+<td class="org-right">0.91%</td>
+<td class="org-left">delete-other-windows</td>
+<td class="org-left">, x 1, C-x 1</td>
+</tr>
+<tr>
+<td class="org-right">372</td>
+<td class="org-right">0.90%</td>
+<td class="org-left">evilnc-comment-or-uncomment-lines</td>
+<td class="org-left">, c i</td>
+</tr>
+<tr>
+<td class="org-right">351</td>
+<td class="org-right">0.85%</td>
+<td class="org-left">eval-expression</td>
+<td class="org-left">, e e, M-:</td>
+</tr>
+<tr>
+<td class="org-right">326</td>
+<td class="org-right">0.79%</td>
+<td class="org-left">evilmi-select-items</td>
+<td class="org-left">, s i</td>
+</tr>
+<tr>
+<td class="org-right">320</td>
+<td class="org-right">0.77%</td>
+<td class="org-left">paredit-doublequote</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">307</td>
+<td class="org-right">0.74%</td>
+<td class="org-left">evil-filepath-outer-text-object</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">300</td>
+<td class="org-right">0.72%</td>
+<td class="org-left">steve-ido-choose-from-recentf</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">295</td>
+<td class="org-right">0.71%</td>
+<td class="org-left">split-window-horizontally</td>
+<td class="org-left">, x 3</td>
+</tr>
+<tr>
+<td class="org-right">283</td>
+<td class="org-right">0.68%</td>
+<td class="org-left">git-add-current-file</td>
+<td class="org-left">, x v a</td>
+</tr>
+<tr>
+<td class="org-right">279</td>
+<td class="org-right">0.67%</td>
+<td class="org-left">winner-undo</td>
+<td class="org-left">, x u, , s u, C-x 4 u</td>
+</tr>
+<tr>
+<td class="org-right">278</td>
+<td class="org-right">0.67%</td>
+<td class="org-left">describe-function</td>
+<td class="org-left">, h d, C-h f</td>
+</tr>
+<tr>
+<td class="org-right">278</td>
+<td class="org-right">0.67%</td>
+<td class="org-left">evil-goto-mark-line</td>
+<td class="org-left">'</td>
+</tr>
+<tr>
+<td class="org-right">269</td>
+<td class="org-right">0.65%</td>
+<td class="org-left">ido-kill-buffer</td>
+<td class="org-left">, x k, C-x k</td>
+</tr>
+<tr>
+<td class="org-right">254</td>
+<td class="org-right">0.61%</td>
+<td class="org-left">evil-goto-definition</td>
+<td class="org-left">g d</td>
+</tr>
+<tr>
+<td class="org-right">253</td>
+<td class="org-right">0.61%</td>
+<td class="org-left">pop-tag-mark</td>
+<td class="org-left">M-*</td>
+</tr>
+<tr>
+<td class="org-right">251</td>
+<td class="org-right">0.61%</td>
+<td class="org-left">git-messenger:popup-message</td>
+<td class="org-left">, x v b, C-x v p</td>
+</tr>
+<tr>
+<td class="org-right">246</td>
+<td class="org-right">0.59%</td>
+<td class="org-left">my-goto-next-hunk</td>
+<td class="org-left">, n n</td>
+</tr>
+<tr>
+<td class="org-right">237</td>
+<td class="org-right">0.57%</td>
+<td class="org-left">evilnc-comment-operator</td>
+<td class="org-left">, ,</td>
+</tr>
+<tr>
+<td class="org-right">235</td>
+<td class="org-right">0.57%</td>
+<td class="org-left">flyspell-goto-next-error</td>
+<td class="org-left">, f e, C-,</td>
+</tr>
+<tr>
+<td class="org-right">214</td>
+<td class="org-right">0.52%</td>
+<td class="org-left">evil-exit-emacs-state</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">212</td>
+<td class="org-right">0.51%</td>
+<td class="org-left">browse-kill-ring-forward</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">210</td>
+<td class="org-right">0.51%</td>
+<td class="org-left">flyspell-buffer</td>
+<td class="org-left">, f b</td>
+</tr>
+<tr>
+<td class="org-right">203</td>
+<td class="org-right">0.49%</td>
+<td class="org-left">evil-ex-completion</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">195</td>
+<td class="org-right">0.47%</td>
+<td class="org-left">narrow-or-widen-dwim</td>
+<td class="org-left">, x n n</td>
+</tr>
+<tr>
+<td class="org-right">173</td>
+<td class="org-right">0.42%</td>
+<td class="org-left">comint-send-input</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">173</td>
+<td class="org-right">0.42%</td>
+<td class="org-left">beginning-of-defun</td>
+<td class="org-left">, b f</td>
+</tr>
+<tr>
+<td class="org-right">170</td>
+<td class="org-right">0.41%</td>
+<td class="org-left">evil-surround-region</td>
+<td class="org-left">&lt;visual-state&gt; S</td>
+</tr>
+<tr>
+<td class="org-right">161</td>
+<td class="org-right">0.39%</td>
+<td class="org-left">hippie-expand</td>
+<td class="org-left">M-/</td>
+</tr>
+<tr>
+<td class="org-right">151</td>
+<td class="org-right">0.36%</td>
+<td class="org-left">describe-key</td>
+<td class="org-left">, h k, C-h k</td>
+</tr>
+<tr>
+<td class="org-right">149</td>
+<td class="org-right">0.36%</td>
+<td class="org-left">evil-space–evil-next-visual-line</td>
+<td class="org-left">SPC</td>
+</tr>
+<tr>
+<td class="org-right">139</td>
+<td class="org-right">0.34%</td>
+<td class="org-left">gnus-topic-select-group</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">138</td>
+<td class="org-right">0.33%</td>
+<td class="org-left">js2-print-json-path</td>
+<td class="org-left">, j p p</td>
+</tr>
+<tr>
+<td class="org-right">132</td>
+<td class="org-right">0.32%</td>
+<td class="org-left">goto-line</td>
+<td class="org-left">M-g g, M-g M-g</td>
+</tr>
+<tr>
+<td class="org-right">132</td>
+<td class="org-right">0.32%</td>
+<td class="org-left">evil-avy-goto-subword-1</td>
+<td class="org-left">;</td>
+</tr>
+<tr>
+<td class="org-right">127</td>
+<td class="org-right">0.31%</td>
+<td class="org-left">ibuffer-mark-for-delete</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">127</td>
+<td class="org-right">0.31%</td>
+<td class="org-left">evil-inner-single-quote</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">126</td>
+<td class="org-right">0.30%</td>
+<td class="org-left">isearch-other-meta-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">124</td>
+<td class="org-right">0.30%</td>
+<td class="org-left">term-send-up</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">118</td>
+<td class="org-right">0.29%</td>
+<td class="org-left">isearch-other-control-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">116</td>
+<td class="org-right">0.28%</td>
+<td class="org-left">evil-set-marker</td>
+<td class="org-left">m</td>
+</tr>
+<tr>
+<td class="org-right">115</td>
+<td class="org-right">0.28%</td>
+<td class="org-left">browse-kill-ring</td>
+<td class="org-left">M-y, , y y</td>
+</tr>
+<tr>
+<td class="org-right">114</td>
+<td class="org-right">0.28%</td>
+<td class="org-left">counsel-git-grep-yank-line</td>
+<td class="org-left">, g l</td>
+</tr>
+<tr>
+<td class="org-right">114</td>
+<td class="org-right">0.28%</td>
+<td class="org-left">evil-window-down</td>
+<td class="org-left">C-w j</td>
+</tr>
+<tr>
+<td class="org-right">112</td>
+<td class="org-right">0.27%</td>
+<td class="org-left">evil-jump-backward</td>
+<td class="org-left">C-o</td>
+</tr>
+<tr>
+<td class="org-right">108</td>
+<td class="org-right">0.26%</td>
+<td class="org-left">evil-visual-block</td>
+<td class="org-left">C-v</td>
+</tr>
+<tr>
+<td class="org-right">108</td>
+<td class="org-right">0.26%</td>
+<td class="org-left">evil-space–evil-previous-visual-line</td>
+<td class="org-left">S-SPC</td>
+</tr>
+<tr>
+<td class="org-right">107</td>
+<td class="org-right">0.26%</td>
+<td class="org-left">comint-previous-input</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">98</td>
+<td class="org-right">0.24%</td>
+<td class="org-left">gnus-summary-exit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">98</td>
+<td class="org-right">0.24%</td>
+<td class="org-left">evil-search-word-backward</td>
+<td class="org-left">#</td>
+</tr>
+<tr>
+<td class="org-right">98</td>
+<td class="org-right">0.24%</td>
+<td class="org-left">forward-button</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">96</td>
+<td class="org-right">0.23%</td>
+<td class="org-left">evil-paste-pop-next</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">95</td>
+<td class="org-right">0.23%</td>
+<td class="org-left">ediff-next-difference</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">95</td>
+<td class="org-right">0.23%</td>
+<td class="org-left">ido-imenu</td>
+<td class="org-left">, i i</td>
+</tr>
+<tr>
+<td class="org-right">92</td>
+<td class="org-right">0.22%</td>
+<td class="org-left">my-wg-switch-workgroup</td>
+<td class="org-left">, w g g</td>
+</tr>
+<tr>
+<td class="org-right">90</td>
+<td class="org-right">0.22%</td>
+<td class="org-left">counsel-git-find-file</td>
+<td class="org-left">, g f</td>
+</tr>
+<tr>
+<td class="org-right">90</td>
+<td class="org-right">0.22%</td>
+<td class="org-left">evilmi-delete-items</td>
+<td class="org-left">, d i</td>
+</tr>
+<tr>
+<td class="org-right">87</td>
+<td class="org-right">0.21%</td>
+<td class="org-left">gnus-summary-extract-mail-address</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">87</td>
+<td class="org-right">0.21%</td>
+<td class="org-left">cliphist-paste-item</td>
+<td class="org-left">, h h</td>
+</tr>
+<tr>
+<td class="org-right">84</td>
+<td class="org-right">0.20%</td>
+<td class="org-left">subword-backward-kill</td>
+<td class="org-left">&lt;C-backspace&gt;</td>
+</tr>
+<tr>
+<td class="org-right">84</td>
+<td class="org-right">0.20%</td>
+<td class="org-left">paredit-backslash</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">83</td>
+<td class="org-right">0.20%</td>
+<td class="org-left">my-yas-reload-all</td>
+<td class="org-left">, y c r</td>
+</tr>
+<tr>
+<td class="org-right">81</td>
+<td class="org-right">0.20%</td>
+<td class="org-left">pwd</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">80</td>
+<td class="org-right">0.19%</td>
+<td class="org-left">previous-complete-history-element</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">80</td>
+<td class="org-right">0.19%</td>
+<td class="org-left">wg-create-workgroup</td>
+<td class="org-left">, w g t</td>
+</tr>
+<tr>
+<td class="org-right">78</td>
+<td class="org-right">0.19%</td>
+<td class="org-left">evil-forward-WORD-end</td>
+<td class="org-left">E</td>
+</tr>
+<tr>
+<td class="org-right">77</td>
+<td class="org-right">0.19%</td>
+<td class="org-left">gnus-summary-scroll-up</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">76</td>
+<td class="org-right">0.18%</td>
+<td class="org-left">gnus-summary-extract-cc-and-to</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">75</td>
+<td class="org-right">0.18%</td>
+<td class="org-left">compile-goto-error</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">73</td>
+<td class="org-right">0.18%</td>
+<td class="org-left">evil-find-char-to</td>
+<td class="org-left">t</td>
+</tr>
+<tr>
+<td class="org-right">72</td>
+<td class="org-right">0.17%</td>
+<td class="org-left">evil-repeat-find-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">69</td>
+<td class="org-right">0.17%</td>
+<td class="org-left">evil-window-up</td>
+<td class="org-left">C-w k</td>
+</tr>
+<tr>
+<td class="org-right">67</td>
+<td class="org-right">0.16%</td>
+<td class="org-left">eval-last-sexp</td>
+<td class="org-left">, x e, C-x C-e</td>
+</tr>
+<tr>
+<td class="org-right">66</td>
+<td class="org-right">0.16%</td>
+<td class="org-left">evil-complete-next-line</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">66</td>
+<td class="org-right">0.16%</td>
+<td class="org-left">exchange-point-and-mark</td>
+<td class="org-left">C-x C-x</td>
+</tr>
+<tr>
+<td class="org-right">63</td>
+<td class="org-right">0.15%</td>
+<td class="org-left">direx:previous-item</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">61</td>
+<td class="org-right">0.15%</td>
+<td class="org-left">ediff-jump-to-difference</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">60</td>
+<td class="org-right">0.14%</td>
+<td class="org-left">diredp-next-line</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">58</td>
+<td class="org-right">0.14%</td>
+<td class="org-left">evilmr-replace-in-buffer</td>
+<td class="org-left">, r b</td>
+</tr>
+<tr>
+<td class="org-right">58</td>
+<td class="org-right">0.14%</td>
+<td class="org-left">counsel-imenu-goto</td>
+<td class="org-left">, i m</td>
+</tr>
+<tr>
+<td class="org-right">56</td>
+<td class="org-right">0.14%</td>
+<td class="org-left">evil-goto-mark</td>
+<td class="org-left">`</td>
+</tr>
+<tr>
+<td class="org-right">55</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">gnus-group-unsubscribe-current-group</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">55</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">ivy-bookmark-goto</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">55</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">evil-filepath-inner-text-object</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">54</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">describe-mode</td>
+<td class="org-left">C-h m</td>
+</tr>
+<tr>
+<td class="org-right">54</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">recenter-top-bottom</td>
+<td class="org-left">C-l</td>
+</tr>
+<tr>
+<td class="org-right">54</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">list-packages</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">52</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">gnus-topic-mark-topic</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">52</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">kill-line</td>
+<td class="org-left">C-k, &lt;deleteline&gt;</td>
+</tr>
+<tr>
+<td class="org-right">51</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">find-and-ctags-update-all-tags-force</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">50</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">evil-paste-before</td>
+<td class="org-left">P</td>
+</tr>
+<tr>
+<td class="org-right">49</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">execute-extended-command</td>
+<td class="org-left">&lt;execute&gt;, C-x RET</td>
+</tr>
+<tr>
+<td class="org-right">49</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">etags-select-quit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">49</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">evil-inner-WORD</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">48</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">find-tag</td>
+<td class="org-left">g C-]</td>
+</tr>
+<tr>
+<td class="org-right">47</td>
+<td class="org-right">0.11%</td>
+<td class="org-left">diredp-previous-line</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">46</td>
+<td class="org-right">0.11%</td>
+<td class="org-left">paredit-close-square</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">44</td>
+<td class="org-right">0.11%</td>
+<td class="org-left">paredit-open-square</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">44</td>
+<td class="org-right">0.11%</td>
+<td class="org-left">evil-paste-last-insertion</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">42</td>
+<td class="org-right">0.10%</td>
+<td class="org-left">evil-inner-double-quote</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">42</td>
+<td class="org-right">0.10%</td>
+<td class="org-left">ivy-imenu-goto</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">40</td>
+<td class="org-right">0.10%</td>
+<td class="org-left">counsel-git-find-my-file</td>
+<td class="org-left">, g m</td>
+</tr>
+<tr>
+<td class="org-right">39</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">cp-filename-of-current-buffer</td>
+<td class="org-left">, f n</td>
+</tr>
+<tr>
+<td class="org-right">39</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">gnus-article-read-summary-keys</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">39</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">isearch-nonincremental-exit-minibuffer</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">38</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">sh-assignment</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">38</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">mark-whole-buffer</td>
+<td class="org-left">, x h, C-x h</td>
+</tr>
+<tr>
+<td class="org-right">38</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">evilmi-inner-text-object</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">36</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">evilnc-comment-or-uncomment-paragraphs</td>
+<td class="org-left">, c p, C-c p</td>
+</tr>
+<tr>
+<td class="org-right">36</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">evil-toggle-input-method</td>
+<td class="org-left">C-\</td>
+</tr>
+<tr>
+<td class="org-right">35</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">org2nikola-export-subtree</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">35</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">subword-forward</td>
+<td class="org-left">M-f, ESC &lt;right&gt;</td>
+</tr>
+<tr>
+<td class="org-right">34</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">evil-open-above</td>
+<td class="org-left">O</td>
+</tr>
+<tr>
+<td class="org-right">34</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">compose-mail</td>
+<td class="org-left">C-x m</td>
+</tr>
+<tr>
+<td class="org-right">33</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">evil-inner-paren</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">33</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">term-send-raw-meta</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">33</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">evil-invert-char</td>
+<td class="org-left">~</td>
+</tr>
+<tr>
+<td class="org-right">32</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">evil-space–evil-repeat-find-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">32</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">httpd-restart-at-default-directory</td>
+<td class="org-left">, w r d</td>
+</tr>
+<tr>
+<td class="org-right">32</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">cp-fullpath-of-current-buffer</td>
+<td class="org-left">, f p</td>
+</tr>
+<tr>
+<td class="org-right">31</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">evil-forward-WORD-begin</td>
+<td class="org-left">W</td>
+</tr>
+<tr>
+<td class="org-right">30</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">sort-lines</td>
+<td class="org-left">, s l</td>
+</tr>
+<tr>
+<td class="org-right">30</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">bmkp-w3m-jump</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">30</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">evilnc-copy-and-comment-lines</td>
+<td class="org-left">, c c, C-c c</td>
+</tr>
+<tr>
+<td class="org-right">29</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">toggle-company-ispell</td>
+<td class="org-left">, t c i</td>
+</tr>
+<tr>
+<td class="org-right">29</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">top-level</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">28</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">package-menu-mark-upgrades</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">27</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">evil-numbers/dec-at-pt</td>
+<td class="org-left">-</td>
+</tr>
+<tr>
+<td class="org-right">27</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">end-of-defun</td>
+<td class="org-left">, e f, C-M-e</td>
+</tr>
+<tr>
+<td class="org-right">27</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">my-setup-develop-environment</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">26</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">evil-paste-pop</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">ediff-previous-difference</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">evil-backward-WORD-begin</td>
+<td class="org-left">B</td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">goto-char</td>
+<td class="org-left">g o, M-g c</td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">w3m-close-window</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">org-mime-htmlize</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">gnus-group-exit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">24</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">git-gutter:toggle</td>
+<td class="org-left">C-x C-g</td>
+</tr>
+<tr>
+<td class="org-right">23</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">my-gnus-group-list-subscribed-groups</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">23</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">find-directory-in-project-by-selected</td>
+<td class="org-left">, f d</td>
+</tr>
+<tr>
+<td class="org-right">23</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">evil-inner-curly</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">org-edit-src-exit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">string-edit-at-point</td>
+<td class="org-left">, s e</td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">package-menu-mark-delete</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">ido-magic-forward-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">run-js</td>
+<td class="org-left">, r j s</td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">git-gutter-reset-to-head-parent</td>
+<td class="org-left">, g s h</td>
+</tr>
+<tr>
+<td class="org-right">21</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">counsel-read-history</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">21</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">rcirc-send-input</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">21</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">gnus-undo</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">21</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">subword-backward</td>
+<td class="org-left">M-b</td>
+</tr>
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">company-select-next</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">what-cursor-position</td>
+<td class="org-left">g a, g 8, C-x =</td>
+</tr>
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">my-grep</td>
+<td class="org-left">, q q</td>
+</tr>
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">hydra-gnus-summary/body</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">ansi-term</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">evil-window-right</td>
+<td class="org-left">C-w l</td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">debugger-jump</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">wg-switch-to-workgroup</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">yas-abort-snippet</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">tags-loop-continue</td>
+<td class="org-left">M-,</td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">swiper-the-thing</td>
+<td class="org-left">, s s</td>
+</tr>
+<tr>
+<td class="org-right">18</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">my-wg-swich-to-workgroup</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">18</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">org-edit-special</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">lisp-complete-symbol</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">my-wg-switch-to-workgroup-at-index</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">test</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">ediff-scroll-vertically</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">w3m-view-previous-page</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">evil-window-left</td>
+<td class="org-left">C-w h</td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">isearch-yank-kill</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">my-goto-previous-hunk</td>
+<td class="org-left">, p p</td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">js-beautify</td>
+<td class="org-left">, j b</td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">hydra-launcher/body</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">read-only-mode</td>
+<td class="org-left">C-x C-q</td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">message-send-and-exit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">etags-select-goto-tag</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">evil-next-match</td>
+<td class="org-left">g n</td>
+</tr>
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">js2r-kill</td>
+<td class="org-left">, j j k</td>
+</tr>
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">string-edit-conclude</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">delete-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">14</td>
+<td class="org-right">0.03%</td>
+<td class="org-left">gnus-summary-limit-to-author</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">14</td>
+<td class="org-right">0.03%</td>
+<td class="org-left">ediff-swap-buffers</td>
+<td class="org-left"> </td>
+</tr>
+</tbody>
+</table>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-23.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-21.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

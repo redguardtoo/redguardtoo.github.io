@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about clipboard)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/clipboard.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Copy file name or full path of file from Emacs dired buffer into system clipboard</title><link>http://blog.binchen.org/posts/copy-file-name-or-full-path-of-file-in-emacs-dired-buffer-into-system-clipboard.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Simple, insert below code into your ~/.emacs: &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+;; {{ copy the file-name/full-path in dired buffer into clipboard
+
+;; `w` =&amp;gt; copy file name
+
+;; `C-u 0 w` =&amp;gt; copy full path
+
+(defadvice dired-copy-filename-as-kill (after dired-filename-to-clipboard activate)
+  (with-temp-buffer
+    (insert (current-kill 0))
+    (shell-command-on-region (point-min) (point-max)
+                             (cond
+                              ((eq system-type 'cygwin) "putclip")
+                              ((eq system-type 'darwin) "pbcopy")
+                              (t "xsel -ib")
+                              )))
+  (message "%s =&amp;gt; clipboard" (current-kill 0))
+  )
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;p&gt; It support Cygwin and OSX out of the box. You need install xsel under Linux. &lt;/p&gt; &lt;p&gt; BTW, I suggest installing a clipboard manager like parcellite under Linux to sync the two X clipboards. &lt;/p&gt;&lt;/div&gt;</description><category>clipboard</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/copy-file-name-or-full-path-of-file-in-emacs-dired-buffer-into-system-clipboard.html</guid><pubDate>Wed, 25 Sep 2013 20:46:00 GMT</pubDate></item><item><title>The reliable way to access system clipboard from Emacs</title><link>http://blog.binchen.org/posts/the-reliable-way-to-access-system-clipboard-from-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2013-05-31 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-11-20 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The &lt;a href="http://emacs.stackexchange.com/search?q=clipboard"&gt;Emacs clipboard questions&lt;/a&gt; has been asked so many times. Yet few give a complete and reliable solution. 
+&lt;/p&gt;
+
+&lt;p&gt;
+Only a dedicated project maintained by professional developer could solve this issue once for all.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="https://github.com/rolandwalker/simpleclip"&gt;simpleclip&lt;/a&gt; is such a project.
+&lt;/p&gt;
+
+&lt;p&gt;
+I only use its APIs `simpleclip-get-contents` and `simpleclip-set-contents`.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my setup:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'simpleclip)
+(defun copy-to-x-clipboard ()
+  (interactive)
+  (let ((thing (if (region-active-p)
+                   (buffer-substring-no-properties (region-beginning) (region-end))
+                 (thing-at-point 'symbol))))
+    (simpleclip-set-contents thing)
+    (message "thing =&amp;gt; clipboard!")))
+
+(defun paste-from-x-clipboard()
+  "Paste string clipboard"
+  (interactive)
+  (insert (simpleclip-get-contents)))
+
+;; Press `Alt-Y' to paste from clibpoard when in minibuffer
+(defun my/paste-in-minibuffer ()
+  (local-set-key (kbd "M-y") 'paste-from-x-clipboard))
+(add-hook 'minibuffer-setup-hook 'my/paste-in-minibuffer)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>clipboard</category><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/the-reliable-way-to-access-system-clipboard-from-emacs.html</guid><pubDate>Fri, 31 May 2013 09:25:00 GMT</pubDate></item><item><title>Copy/Paste in Emacs</title><link>http://blog.binchen.org/posts/copypaste-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2012-01-30 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2018-06-04 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-org0d4c108" class="outline-2"&gt;
+&lt;h3 id="org0d4c108"&gt;Prepare&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0d4c108"&gt;
+&lt;p&gt;
+At Linux, &lt;a href="http://www.vergenet.net/~conrad/software/xsel/"&gt;xsel&lt;/a&gt; is required.
+&lt;/p&gt;
+
+&lt;p&gt;
+At Cygwin, please install package &lt;code&gt;cygutils-extra&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+At macOS, no external tool is required.
+&lt;/p&gt;
+
+&lt;p&gt;
+At Windows 10 Linux Subsystem, no external tool is required.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcce5a09" class="outline-2"&gt;
+&lt;h3 id="orgcce5a09"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgcce5a09"&gt;
+&lt;p&gt;
+This solution works reliably in &lt;b&gt;any environment&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Insert below code into &lt;code&gt;~/.emacs&lt;/code&gt;. Run &lt;code&gt;M-x paste-from-xclipboard&lt;/code&gt; to paste.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-gclip ()
+  "Get clipboard content."
+  (cond
+   ((eq system-type 'darwin)
+    (with-output-to-string
+      (with-current-buffer standard-output
+        (call-process "/usr/bin/pbpaste" nil t nil "-Prefer" "txt"))))
+   ((eq system-type 'cygwin)
+    (with-output-to-string
+      (with-current-buffer standard-output
+        (call-process "getclip" nil t nil))))
+   ((memq system-type '(gnu gnu/linux gnu/kfreebsd))
+    (let* ((powershell-program (executable-find "powershell.exe")))
+           (cond
+            (powershell-program
+             ;; PowerLine adds extra white space character at the end of text
+             (string-trim-right
+              (with-output-to-string
+                (with-current-buffer standard-output
+                  (call-process powershell-program nil t nil "-command" "Get-Clipboard")))))
+            (t
+             (with-output-to-string
+               (with-current-buffer standard-output
+                 (call-process "xsel" nil t nil "--clipboard" "--output")))))))))
+
+(defun my-pclip (str-val)
+  "Copy STR-VAL into clipboard."
+  (cond
+   ((eq system-type 'darwin)
+    (with-temp-buffer
+      (insert str-val)
+      (call-process-region (point-min) (point-max) "/usr/bin/pbcopy")))
+   ((eq system-type 'cygwin)
+    (with-temp-buffer
+      (insert str-val)
+      (call-process-region (point-min) (point-max) "putclip")))
+   ((memq system-type '(gnu gnu/linux gnu/kfreebsd))
+    (let* ((win64-clip-program (executable-find "clip.exe")))
+      (with-temp-buffer
+        (insert str-val)
+        (cond
+         ;; Linux Subsystem on Windows 10
+         (win64-clip-program
+          (call-process-region (point-min) (point-max) win64-clip-program))
+         (t
+          (call-process-region (point-min) (point-max) "xsel" nil nil nil "--clipboard" "--input"))))))))
+
+(defun paste-from-x-clipboard(&amp;amp;optional n)
+  "Paste string clipboard."
+  (interactive "P")
+  ;; paste after the cursor in evil normal state
+  (when (and (functionp 'evil-normal-state-p)
+             (functionp 'evil-move-cursor-back)
+             (evil-normal-state-p)
+             (not (eolp))
+             (not (eobp)))
+    (forward-char))
+  (insert (my-gclip)))
+
+(add-hook 'minibuffer-setup-hook
+          (lambda ()
+            (local-set-key (kbd "M-y") 'paste-from-xclipboard)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+My actual setup is more robust. See &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-clipboard.el"&gt;https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-clipboard.el&lt;/a&gt; for details.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org35a7127" class="outline-2"&gt;
+&lt;h3 id="org35a7127"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org35a7127"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgc8be853" class="outline-3"&gt;
+&lt;h4 id="orgc8be853"&gt;Clipboard manager&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgc8be853"&gt;
+&lt;p&gt;
+I suggest &lt;a href="http://parcellite.sourceforge.net/"&gt;Parcellite&lt;/a&gt; on Linux, &lt;a href="http://ditto-cp.sourceforge.net/"&gt;Ditto&lt;/a&gt; on Windows, &lt;a href="https://github.com/TermiT/Flycut"&gt;Flycut&lt;/a&gt; on macOS.
+&lt;/p&gt;
+
+&lt;p&gt;
+My parcellite setup ($HOME/.config/parcellite/parcelliterc):
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[rc]
+use_copy=true
+use_primary=true
+synchronize=true
+save_history=true
+history_limit=64
+hyperlinks_only=false
+confirm_clear=false
+single_line=true
+reverse_history=false
+item_length=50
+ellipsize=2
+history_key=&amp;lt;Super&amp;gt;Y
+actions_key=
+menu_key=
+history_pos=false
+history_x=1
+history_y=1
+case_search=false
+type_search=false
+data_size=0
+ignore_whiteonly=false
+trim_wspace_begend=false
+trim_newline=false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org046bbb7" class="outline-3"&gt;
+&lt;h4 id="org046bbb7"&gt;Clipboard in ssh&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org046bbb7"&gt;
+&lt;p&gt;
+Use &lt;code&gt;ssh -X -C username@some-server.whatever.domain&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>clipboard</category><category>cygwin</category><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/copypaste-in-emacs.html</guid><pubDate>Mon, 30 Jan 2012 10:52:00 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about version)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/version.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>My git alias in .bashrc</title><link>http://blog.binchen.org/posts/my-git-alias-in-bashrc.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2012-12-26 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2017-11-02 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+My favorite alias are &lt;code&gt;g&lt;/code&gt;, &lt;code&gt;gau&lt;/code&gt;, &lt;code&gt;gc&lt;/code&gt;, &lt;code&gt;gt&lt;/code&gt;, &lt;code&gt;gl&lt;/code&gt;,and  &lt;code&gt;gdc&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# {{ git
+# Git alias
+function gitshortlogcmd () {
+    git log --date=short --decorate --graph "$@"
+}
+function gitlogcmd () {
+    git log --date=short --decorate --graph --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' "$@"
+}
+alias g="git status --short -b"
+alias gb="git branch"
+alias gn="git status --untracked-files=no --short -b"
+alias gfl="git diff-tree --no-commit-id --name-only -r"
+alias ga="git add"
+alias gr="git rebase -i `git remote`/`git symbolic-ref --short HEAD`"
+alias gap='git add --patch'
+alias gai='git add -i'
+alias gau="git add -u"
+alias gc="git commit -m"
+alias gca="git commit --amend"
+alias gja="git --no-pager commit --amend --reuse-message=HEAD" # git just amend
+alias gt="git stash"
+alias gta="git stash apply"
+alias gmt="git mergetool"
+alias gl="gitlogcmd"
+alias glp="gitlogcmd -p"
+alias gls="gitlogcmd --stat"
+alias gnb="git checkout -b"
+alias gss="git show --stat"
+alias gsl="git log --pretty=format:'%h %s (%an)' --date=short -n1 | pclip"
+alias gd="git diff"
+alias gds="git diff --stat"
+alias gdc="git diff --cached"
+alias gdcs="git diff --cached --stat"
+alias gps="git push"
+alias gpf="git push --force"
+alias gpl="git pull"
+alias gpr="git pull -r"
+alias cg='cd $(git rev-parse --show-toplevel)' #goto root dir
+alias ghe='git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --theirs {} &amp;amp;&amp;amp; git add {}"'
+alias gme='git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --our {} &amp;amp;&amp;amp; git add {}"'
+# delete selected local branch
+alias gdd='git branch -D $(git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py)'
+# show diff from the branch to current HEAD
+alias gdp='git diff $(git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py)..HEAD'
+alias grh='git reset --hard HEAD'
+alias gr1='git reset --hard HEAD^'
+alias gr2='git reset --hard HEAD^^'
+alias gs="git show"
+
+function gsh {
+    git log --date=short --pretty=format:'%h%d %ad %s (%an)' | python ~/bin/percol.py | awk '{print $1}' | xargs -i git show {}
+}
+
+function gcn()
+{
+    # commit with timestamp
+    local d=`date +%m%d-%H%M%S`
+    git add -u . &amp;amp;&amp;amp; git commit -m ${d}
+}
+
+# find full path of file who under git controll
+# the optional parameter is the keyword
+function gf()
+{
+    if [ -z "$1" ]; then
+        local cli=`git ls-tree -r HEAD --name-status | python ~/bin/percol.py`
+    else
+        local cli=`git ls-tree -r HEAD --name-status | grep "$1" | python ~/bin/percol.py`
+    fi
+    local rlt=$(cd $(dirname $cli); pwd)/$(basename $cli)
+    echo ${rlt}
+    echo -n ${rlt} | pclip
+}
+
+function glwho () {
+    local guy=`git shortlog -sn | ~/bin/percol.py | sed 's/^\s*[0-9]\+\s*//g'`
+    # space is a problem, so we can't use gitshortlogcmd here
+    gitshortlogcmd --pretty=format:'%C(yellow)%h%Creset%C(green)%d%Creset %ad %s %Cred(%an)%Creset' --author="$guy" "$@"
+}
+
+function gfp ()  {
+    if [ -z "$1" ]; then
+        echo "Usage: gfp since [file]"
+        echo "  Just alias of 'git format-patch -n --stdout since -- [file]'"
+        echo "  'gfp since | git am' to apply the patch"
+    fi
+    git format-patch -n --stdout $1 -- $2
+}
+
+function gcnb () {
+    local remoteb=$(git branch --all | sed '/no branch/d' | ~/bin/percol.py)
+    local localb=$(echo $remoteb | sed 's/^ *remotes\/[a-z]*\///g')
+    git checkout -b $localb $remoteb
+}
+function grb () {
+    # switch to recent git branch or just another branch
+
+    local crtb=`git branch | grep \*`
+    local ptn="no branch"
+    # compatible way to detect sub-strin in bash
+    # @see http://stackoverflow.com/questions/229551/string-contains-in-bash
+    if [ -z "${crtb##*$ptn*}" ]; then
+        # detached HEAD
+        git checkout $(git branch | sed '/no branch/d' | ~/bin/percol.py)
+    else
+        local myrbs=`git for-each-ref --sort=-committerdate refs/heads/ | sed -e s%.*refs\/heads\/%%g`
+        local crb=`git symbolic-ref --short HEAD`
+        git checkout `echo "$myrbs" | sed '/$crb/d' | ~/bin/percol.py`
+    fi
+}
+
+# rebase on LOCAL branches
+function gri () {
+    local b=`git branch | sed 's/[\* ]\+//g' | ~/bin/percol.py`
+    git rebase -i ${b}
+}
+
+# rebase on ALL braches
+function gra () {
+    local b=`git branch --all | sed 's/[\* ]\+//g' | sed 's/remotes\///g' | ~/bin/percol.py`
+    git rebase -i ${b}
+}
+
+# select a local git branch
+function gsb () {
+    local b=`git branch | sed "s/[\* ]\+//g" | ~/bin/percol.py`
+    echo -n ${b} | pclip;
+    echo ${b}
+}
+
+# print current branch name
+function gcb () {
+    local crb=`git symbolic-ref --short HEAD`
+    echo -n ${crb} | pclip;
+    echo ${crb}
+}
+
+# new local branch based on remote branch
+function gnr () {
+    local myrb=`git for-each-ref --sort=-committerdate refs/remotes/ | sed -e s%.*refs\/remotes\/%%g | ~/bin/percol.py`
+    local mylb=`echo -n $myrb | sed 's/.*\/\([^\/]\+\)$/\1/'`
+    git checkout -b $mylb $myrb
+}
+
+function gchk () {
+    if [ -z "$1" ]; then
+        echo "Usage: gchk commit_id"
+        echo "reset hard certain version of current working directory"
+    else
+        rm -rf $PWD/*
+        git checkout $1 -- $PWD
+    fi
+}
+
+function git2fullpath {
+    local fullpath=$(git rev-parse --show-toplevel)/$1
+    echo -n $fullpath | pclip
+    echo $fullpath
+}
+
+function glf () {
+    local str=`git --no-pager log --oneline --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+
+function gsf () {
+    local str=`git --no-pager show --pretty=format:'%h %s (%an)' --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function gdf () {
+    local str=`git --no-pager diff --oneline --name-only $*| ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function gdcf () {
+    local str=`git --no-pager diff --oneline --cached --name-only $* |  ~/bin/percol.py`
+    git2fullpath $str
+}
+
+function ggr () {
+  if [ -z "$1" ]; then
+      echo "Grep files under git controll"
+      echo "Usage: ggr [filename-pattern] text-pattern"
+  elif [ $# -eq "1" ]; then
+      git ls-tree -r HEAD --name-only |  xargs grep -sn "$1"
+  elif [ $# -eq "2" ]; then
+      git ls-tree -r HEAD --name-only | grep "$1" | xargs grep -sn --color -E "$2"
+  fi
+}
+
+function grpc() {
+  if [ -z "$1" ]; then
+      echo "Replace the content of file in latest git commit"
+      echo "Usage: grpc [commit-hash] old_string new_string (string could be perl regex)"
+  elif [ $# -eq "2" ]; then
+      git diff-tree --no-commit-id --name-only -r HEAD | xargs perl -pi -e "s/$1/$2/g"
+  elif [ $# -eq "3" ]; then
+      git diff-tree --no-commit-id --name-only -r $1 | xargs perl -pi -e "s/$2/$3/g"
+  fi
+}
+
+function grpf() {
+  if [ -z "$1" ]; then
+      echo "Replace the content of file under git"
+      echo "Usage: grpf old_string new_string (string could be perl regex)"
+  elif [ $# -eq "2" ]; then
+      git grep -l "$1" | xargs perl -pi -e "s/$1/$2/g"
+  fi
+}
+
+function gp() {
+    if [ $# = 0 ]; then
+        local from=`gitshortlogcmd --pretty=format:'%h %ad %s (%an)' $* | ~/bin/percol.py|sed -e"s/^[ *|]*\([a-z0-9]*\) .*$/\1/"`;
+        local fn=from-$from-`date +%Y%m%d-%H%M`.patch
+        git format-patch -n --stdout $from &amp;gt; $fn &amp;amp;&amp;amp; ls $fn
+    else
+        local fn=from-$1-`date +%Y%m%d-%H%M`.patch
+        git format-patch -n --stdout $1 &amp;gt; $fn &amp;amp;&amp;amp; ls $fn
+    fi;
+}
+# }}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>bash</category><category>control</category><category>en</category><category>git</category><category>version</category><guid>http://blog.binchen.org/posts/my-git-alias-in-bashrc.html</guid><pubDate>Fri, 20 Jul 2012 17:22:00 GMT</pubDate></item></channel></rss>

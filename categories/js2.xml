@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about js2)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/js2.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use js2-mode as minor mode to process JSON</title><link>http://blog.binchen.org/posts/use-js2-mode-as-minor-mode-to-process-json.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Most people use &lt;a href="https://github.com/mooz/js2-mode"&gt;js2-mode&lt;/a&gt; as a major mode for javascript. For JSON file, they prefer &lt;a href="https://github.com/joshwnj/json-mode"&gt;json-mode&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+But if you &lt;b&gt;truly&lt;/b&gt; understand the meaning of &lt;a href="https://www.gnu.org/philosophy/free-sw.en.html"&gt;Software Freedom&lt;/a&gt;, you will realize "&lt;a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Major-Modes.html"&gt;major-mode&lt;/a&gt;" and "&lt;a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Minor-Modes.html"&gt;minor-mode&lt;/a&gt;" are man-made concepts which actually have no difference.
+&lt;/p&gt;
+
+&lt;p&gt;
+In essence, a major mode is just a collection of APIs. We could use its APIs without enabling it, perfectly complying with "The freedom to run the program as you wish, for any purpose (freedom 0).".
+&lt;/p&gt;
+
+&lt;p&gt;
+Here are two examples.
+&lt;/p&gt;
+
+&lt;div id="outline-container-org07eb2d7" class="outline-2"&gt;
+&lt;h3 id="org07eb2d7"&gt;Validate JSON&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org07eb2d7"&gt;
+&lt;p&gt;
+&lt;code&gt;M-x my-validate-json-or-js-expression&lt;/code&gt; to validate the buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;C-u my-validate-json-or-js-expression&lt;/code&gt; to validate selected region.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-validate-json-or-js-expression (&amp;amp;optional not-json-p)
+  "Validate buffer or select region as JSON.
+If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
+  (interactive "P")
+  (let* ((json-exp (if (region-active-p) (buffer-substring-no-properties (region-beginning) (region-end))
+                     (buffer-substring-no-properties (point-min) (point-max))))
+         (jsbuf-offet (if not-json-p 0 (length "var a=")))
+         errs
+         first-err
+         (first-err-pos (if (region-active-p) (region-beginning) 0)))
+    (unless not-json-p
+      (setq json-exp (format "var a=%s;"  json-exp)))
+    (with-temp-buffer
+      (insert json-exp)
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (js2-parse)
+      (setq errs (js2-errors))
+      (cond
+       ((not errs)
+        (message "NO error found. Good job!"))
+       (t
+        ;; yes, first error in buffer is the last element in errs
+        (setq first-err (car (last errs)))
+        (setq first-err-pos (+ first-err-pos (- (cadr first-err) jsbuf-offet)))
+        (message "%d error(s), first at buffer position %d: %s"
+                 (length errs)
+                 first-err-pos
+                 (js2-get-msg (caar first-err))))))
+    (if first-err (goto-char first-err-pos))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1395aec" class="outline-2"&gt;
+&lt;h3 id="org1395aec"&gt;Print JSON path&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1395aec"&gt;
+&lt;p&gt;
+For example, you got JSON string  &lt;code&gt;{"a": {"b": 3}}&lt;/code&gt;. If you place cursor over &lt;code&gt;3&lt;/code&gt; and &lt;code&gt;M-x my-print-json-path&lt;/code&gt;, you got output &lt;code&gt;a.b&lt;/code&gt;.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-print-json-path (&amp;amp;optional hardcoded-array-index)
+  "Print the path to the JSON value under point, and save it in the kill ring.
+If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
+  (interactive "P")
+  (cond
+   ((memq major-mode '(js2-mode))
+    (js2-print-json-path hardcoded-array-index))
+   (t
+    (let* ((cur-pos (point))
+           (str (buffer-substring-no-properties (point-min) (point-max))))
+      (when (string= "json" (file-name-extension buffer-file-name))
+        (setq str (format "var a=%s;" str))
+        (setq cur-pos (+ cur-pos (length "var a="))))
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (with-temp-buffer
+        (insert str)
+        (js2-init-scanner)
+        (js2-do-parse)
+        (goto-char cur-pos)
+        (js2-print-json-path))))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge74adc5" class="outline-2"&gt;
+&lt;h3 id="orge74adc5"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge74adc5"&gt;
+&lt;p&gt;
+As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;js2-errors&lt;/li&gt;
+&lt;li&gt;js2-get-msg&lt;/li&gt;
+&lt;li&gt;js2-print-json-path&lt;/li&gt;
+&lt;li&gt;js2-init-scanner&lt;/li&gt;
+&lt;li&gt;js2-do-parse&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>js2</category><category>json</category><guid>http://blog.binchen.org/posts/use-js2-mode-as-minor-mode-to-process-json.html</guid><pubDate>Sun, 31 Jul 2016 05:24:04 GMT</pubDate></item><item><title>Use js2-mode to print json path</title><link>http://blog.binchen.org/posts/use-js2-mode-to-print-json-path.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-10-29 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-11-22 Sun&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+These days most web applications are based on RESTful.
+&lt;/p&gt;
+
+&lt;p&gt;
+So javascript developers have to deal with JSON frequently.
+&lt;/p&gt;
+
+&lt;p&gt;
+When working on JSON, the most boring and error prone task is to get the full path of specific field.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, given the JSON response like:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;{
+  key1: {
+    subkey1: {
+      arr1: [{ key3: 'hello'}]
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The developer need figure out the full path of "key3" which is "&lt;code&gt;key1.subkey1.arr1[0].key3&lt;/code&gt;".
+&lt;/p&gt;
+
+&lt;p&gt;
+My solution is to take advantage of AST created by &lt;a href="https://github.com/mooz/js2-mode"&gt;js2-mode&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 1&lt;/b&gt;, insert below code into ~/.emacs,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; {{ print json path, will be removed when latest STABLE js2-mode released
+(defun js2-get-element-index-from-array-node (elem array-node &amp;amp;optional hardcoded-array-index)
+  "Get index of ELEM from ARRAY-NODE or 0 and return it as string."
+  (let ((idx 0) elems (rlt hardcoded-array-index))
+    (setq elems (js2-array-node-elems array-node))
+    (if (and elem (not hardcoded-array-index))
+        (setq rlt (catch 'nth-elt
+                    (dolist (x elems)
+                      ;; We know the ELEM does belong to ARRAY-NODE,
+                      (if (eq elem x) (throw 'nth-elt idx))
+                      (setq idx (1+ idx)))
+                    0)))
+    (format "[%s]" rlt)))
+
+(defun js2-print-json-path (&amp;amp;optional hardcoded-array-index)
+  "Print the path to the JSON value under point, and save it in the kill ring.
+If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
+  (interactive "P")
+  (let (previous-node current-node
+        key-name
+        rlt)
+
+    ;; The `js2-node-at-point' starts scanning from AST root node.
+    ;; So there is no way to optimize it.
+    (setq current-node (js2-node-at-point))
+
+    (while (not (js2-ast-root-p current-node))
+      (cond
+       ;; JSON property node
+       ((js2-object-prop-node-p current-node)
+        (setq key-name (js2-prop-node-name (js2-object-prop-node-left current-node)))
+        (if rlt (setq rlt (concat "." key-name rlt))
+          (setq rlt (concat "." key-name))))
+
+       ;; Array node
+       ((or (js2-array-node-p current-node))
+        (setq rlt (concat (js2-get-element-index-from-array-node previous-node
+                                                                 current-node
+                                                                 hardcoded-array-index)
+                          rlt)))
+
+       ;; Other nodes are ignored
+       (t))
+
+      ;; current node is archived
+      (setq previous-node current-node)
+      ;; Get parent node and continue the loop
+      (setq current-node (js2-node-parent current-node)))
+
+    (cond
+     (rlt
+      ;; Clean the final result
+      (setq rlt (replace-regexp-in-string "^\\." "" rlt))
+      (kill-new rlt)
+      (message "%s =&amp;gt; kill-ring" rlt))
+     (t
+      (message "No JSON path found!")))
+
+    rlt))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 2&lt;/b&gt;, move the cursor over the key/value of the field and `M-x js2-print-json-path`.
+&lt;/p&gt;
+
+&lt;p&gt;
+My code is &lt;a href="https://github.com/mooz/js2-mode/commit/49555849abf9e5f03766056f10e6ac89ddc487b4"&gt;merged into js2-mode&lt;/a&gt;. You need only install latest js2-mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+(apply #'derived-mode-p '(org-mode web-mode))
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>javascript</category><category>js2</category><guid>http://blog.binchen.org/posts/use-js2-mode-to-print-json-path.html</guid><pubDate>Thu, 29 Oct 2015 14:18:10 GMT</pubDate></item><item><title>Why Emacs is better editor - a case study for javascript developer</title><link>http://blog.binchen.org/posts/why-emacs-is-better-editor.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-01-15 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Let's see an example in real life development.
+&lt;/p&gt;
+
+&lt;div id="outline-container-orgd20a03d" class="outline-2"&gt;
+&lt;h3 id="orgd20a03d"&gt;Note&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd20a03d"&gt;
+&lt;p&gt;
+For people who does not get the key points of this article, here are the points:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Emacs has an embedded &lt;b&gt;javascript interpreter&lt;/b&gt; which I extend a little bit.&lt;/li&gt;
+&lt;li&gt;Other editors just use external tools or regular expression to do the semantic analysis.&lt;/li&gt;
+&lt;li&gt;The difference of above two is bigger than the difference between machine gun and spear.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgb3c9f29" class="outline-2"&gt;
+&lt;h3 id="orgb3c9f29"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb3c9f29"&gt;
+&lt;p&gt;
+I'm maintaining a big javascript file with thousands of lines of legacy code.
+&lt;/p&gt;
+
+&lt;p&gt;
+My most urgent issue is how to list all the functions in that javascript file and jump to the definition of specific function easily.
+&lt;/p&gt;
+
+&lt;p&gt;
+The modern enterprise application usually define the javascript function in some complex data structure. So most editors are not good at listing the functions.
+&lt;/p&gt;
+
+&lt;p&gt;
+To understand what "complex" means, let's check some code from real world application:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-javascript"&gt;$(el.completeRegistrationForm).validate({
+    ignore: " :hidden",
+    rules : {
+        password : {
+            required : function () { return $(el.password).is(":visible"); }
+        },
+        accountNumber : {
+            required : function () {
+                return $(el.accountNumber).is(":visible");
+            },
+            digits : true
+        }
+        // ... I skipped next 200 lines which are similar to above lines
+
+    },
+    messages : {
+        password: {
+            required : "Please input a valid password"
+        },
+        accountNumber: {
+            required : "Please provide a valid account number",
+            digits : "Please enter only digits",
+        }
+        // ... I skipped next 200 lines which are similar to above lines
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Most editors like Sublime Text 3 cannot display the javascript functions with meaningful context in this case. All you can see is only a bunch of functions with name "required".:
+&lt;img src="http://blog.binchen.org/wp-content/sublime-functions.png" alt="sublime-functions.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org85ceeb1" class="outline-2"&gt;
+&lt;h3 id="org85ceeb1"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org85ceeb1"&gt;
+&lt;p&gt;
+Emacs has a &lt;a href="http://www.emacswiki.org/emacs/Js2Mode"&gt;js2-mode&lt;/a&gt; which is basically a javascript interpreter written in lisp. It's created by &lt;a href="http://www.emacswiki.org/emacs/SteveYegge"&gt;Steve Yegge&lt;/a&gt; and now maintained by &lt;a href="https://github.com/mooz/js2-mode"&gt;mooz&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Since &lt;code&gt;js2-mode&lt;/code&gt; is a interpreter, basically it can do anything you want. The key point is to understand the &lt;a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree"&gt;Abstract Syntax Tree (AST)&lt;/a&gt; defined in js2-mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my patch to make &lt;code&gt;js2-mode&lt;/code&gt; display the list of functions with correct context:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-diff"&gt;commit 56ed89bf18a6b58fd4620056288ea2ab52bd4d77
+Author: Chen Bin &amp;lt;chenbin.sh@gmail.com&amp;gt;
+Date:   Sun Dec 15 18:18:06 2013 +1100
+
+    more hint for orphan function
+
+diff --git a/js2-imenu-extras.el b/js2-imenu-extras.el
+index e8e15a5..17bf158 100644
+--- a/js2-imenu-extras.el
++++ b/js2-imenu-extras.el
+@@ -174,6 +174,39 @@ prefix any functions defined inside the IIFE with the module name."
+          (js2-imenu-record-module-pattern node)))
+        t))))
+
++(defun js2-imenu-get-parent-keyname-list (node)
++  "get the list of keys of parent of node
++for example, for javascript code, {rules:{ password {required: function(){}}}}
++the return will be '(rules password)."
++  (let ((rlt '())
++        (n node))
++    (while (setq n (js2-imenu-parent-prop-node n))
++      (add-to-list 'rlt (js2-prop-node-name (js2-object-prop-node-left n)))
++      )
++    rlt
++    )
++  )
++
++(defun js2-imenu-parent-prop-node (node)
++  "for javascript code: parent-key-name:{ required:function(){} }
++we need know the  parent-key-name.
++ step1, 'required:function(){}' is the js2-object-prop-node
++ step2, '{ required:function(){} }' is the js2-object-node
++ step3, 'parent-key-name:{ required:function(){} }' is js2-object-prop-node
++"
++  (let (p2 p3)
++    ;; step 2
++    (setq p2 (js2-node-parent node))
++    ;; step 3
++    (when (and p2 (js2-object-node-p p2))
++      (setq p3 (js2-node-parent p2))
++      (if (and p3 (js2-object-prop-node-p p3))
++        p3
++        )
++      )
++    )
++  )
++
+ (defun js2-imenu-record-orphan-function (node)
+   "Record orphan function when it's the value of NODE.
+ NODE must be `js2-object-prop-node'."
+@@ -181,10 +214,15 @@ NODE must be `js2-object-prop-node'."
+     (let ((fn-node (js2-object-prop-node-right node)))
+       (unless (and js2-imenu-function-map
+                    (gethash fn-node js2-imenu-function-map))
+-        (let ((key-node (js2-object-prop-node-left node)))
+-          (js2-record-imenu-entry fn-node
+-                                  (list js2-imenu-other-functions-ns
+-                                        (js2-prop-node-name key-node))
++        (let ((key-node (js2-object-prop-node-left node))
++              (parent-prop-node (js2-imenu-parent-prop-node node))
++              mylist
++              )
++          (setq mylist (append (js2-imenu-get-parent-keyname-list node)
++                               (list (js2-prop-node-name key-node))
++                               ))
++          (add-to-list 'mylist js2-imenu-other-functions-ns)
++          (js2-record-imenu-entry fn-node mylist
+                                   (js2-node-abs-pos key-node)))))))
+
+ (defun js2-imenu-record-module-pattern (node)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I already submitted the patch to mooz so everyone will enjoy this feature in the future.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the screen shot of emacs in old js2-mode, the UI is based on &lt;a href="http://www.emacswiki.org/emacs/ImenuMode"&gt;Imenu Mode&lt;/a&gt; and &lt;a href="https://github.com/emacs-helm/helm"&gt;Helm&lt;/a&gt;:
+&lt;img src="http://blog.binchen.org/wp-content/emacs-functions.png" alt="emacs-functions.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The screen shot after we applying the above patch: 
+&lt;img src="http://blog.binchen.org/wp-content/emacs-functions-improved.png" alt="emacs-functions-improved.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org40fbb48" class="outline-2"&gt;
+&lt;h3 id="org40fbb48"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org40fbb48"&gt;
+&lt;p&gt;
+That's an example of beauty of Emacs.
+&lt;/p&gt;
+
+&lt;p&gt;
+It gives you freedom and power. You can base your work on the top geeks like Steve Yegge and mooz. Just a few lines of lisp code to kick ass.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge6566be" class="outline-2"&gt;
+&lt;h3 id="orge6566be"&gt;Update&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge6566be"&gt;
+&lt;p&gt;
+My patch is incorporated into &lt;code&gt;js2-mode&lt;/code&gt; since version &lt;code&gt;20140114&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+After installing &lt;code&gt;js2-mode&lt;/code&gt;, you need paste one line setup into your &lt;code&gt;~/.emacs&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(js2-imenu-extras-mode)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The UI to display the candidate is from package &lt;a href="https://github.com/emacs-helm/helm"&gt;Helm&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+The &lt;code&gt;Helm&lt;/code&gt; version should be &lt;code&gt;20140125.1101&lt;/code&gt; or higher, you can install &lt;code&gt;Helm&lt;/code&gt; from &lt;a href="http://melpa.milkbox.net/"&gt;MELPA&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+After installing &lt;code&gt;Helm&lt;/code&gt;, you can use command &lt;code&gt;M-x helm-imenu&lt;/code&gt; to show the list of functions to jump to. Here is the screen shot how I use imenu in my &lt;a href="https://github.com/redguardtoo/hello/raw/master/hello2.js"&gt;hello2.js&lt;/a&gt;:
+&lt;/p&gt;
+
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/helm-imenu-and-js2-mode-nq8.png" alt="helm-imenu-and-js2-mode-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+UPDATE: I suggest using &lt;code&gt;counsel-imenu&lt;/code&gt; from &lt;a href="https://github.com/abo-abo/swiper"&gt;Counsel&lt;/a&gt; instead of &lt;code&gt;Helm&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>html</category><category>javascript</category><category>js2</category><category>web</category><guid>http://blog.binchen.org/posts/why-emacs-is-better-editor.html</guid><pubDate>Sun, 15 Dec 2013 22:02:00 GMT</pubDate></item></channel></rss>

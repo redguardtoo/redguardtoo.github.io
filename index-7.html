@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 7) | Chen's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/index-7.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="posts/find-files-provided-by-the-installed-package.html">Find files provided by the installed package</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-02-18T17:34:00+00:00">2013-02-18 17:34</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/find-files-provided-by-the-installed-package.html#disqus_thread" data-disqus-identifier="cache/posts/find-files-provided-by-the-installed-package.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/manager.html" rel="tag">manager</a></li>
+           <li><a class="tag p-category" href="categories/package.html" rel="tag">package</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div class="org-src-container">
+
+<pre><code class="lang-sh">dpkg -L emacs # Debian/Ubuntu
+pacman -Ql emacs # ArchLinux
+rpm -qlp emacs # Redhat/Centos
+cygcheck -l emacs # Cygwin
+brew ls --verbose emacs # Homebrew
+equery f emacs # Gentoo Linux, you need install gentoolkit
+gem contents zurb-foundation # Ruby gem
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/moving-focus-and-buffer-between-emacs-window.html">Moving focus and buffer between Emacs window</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-02-03T14:19:00+00:00">2013-02-03 14:19</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/moving-focus-and-buffer-between-emacs-window.html#disqus_thread" data-disqus-identifier="cache/posts/moving-focus-and-buffer-between-emacs-window.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/buffer.html" rel="tag">buffer</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/move.html" rel="tag">move</a></li>
+           <li><a class="tag p-category" href="categories/window.html" rel="tag">window</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Please read the excellent article <a href="http://irreal.org/blog/?p=1562">Moving between Emacs windows</a> for basic setup.
+</p>
+
+<p>
+Here is my summary of that article:
+</p>
+
+<ul class="org-ul">
+<li>you can use <code>windmove.el</code> (embedded in Emacs). Its hotkey is Shift+Arrow</li>
+<li>
+<a href="https://github.com/dimitri/switch-window">switch-window.el</a> is great. The default hot key is <code>C-x o</code>
+</li>
+</ul>
+<p>
+I also use other packages which is more efficient.
+</p>
+
+<div id="outline-container-orgc7813b6" class="outline-2">
+<h3 id="orgc7813b6">window-numbering.el</h3>
+<div class="outline-text-2" id="text-orgc7813b6">
+<p>
+<a href="https://github.com/nschum/window-numbering.el">window-numbering.el</a> is <b>great</b>. It uses hot key <code>M-number</code> to switch window (for example, <code>M-3</code> to select window with number 3). So I can press only <b>one</b> key to switch window. Besides, it has some extra features like <code>M-0</code> to jump to the minibuffer.
+</p>
+
+<p>
+Here is my configuration for <code>window-numbering.el</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'window-numbering)
+;; highlight the window number in pink color
+(custom-set-faces '(window-numbering-face ((t (:foreground "DeepPink" :underline "DeepPink" :weight bold)))))
+(window-numbering-mode 1)
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9273d3e" class="outline-2">
+<h3 id="org9273d3e">Evil</h3>
+<div class="outline-text-2" id="text-org9273d3e">
+<p>
+<a href="http://emacswiki.org/emacs/Evil">Evil</a> is a vim-emulation. It use vim's keybindings <code>C-w h/j/k/l</code> to move. Please note <code>C-w h</code> is more efficient than <code>C-x o</code>. It's because <code>w</code> key is more close than <code>x</code> key and <code>h/j/k/l</code> is easy to press.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgad91a79" class="outline-2">
+<h3 id="orgad91a79">buffer-move.el</h3>
+<div class="outline-text-2" id="text-orgad91a79">
+<p>
+<a href="http://www.emacswiki.org/cgi-bin/wiki/buffer-move.el">buffer-move.el</a> moves the buffer instead of focus between windows. It can be installed through <a href="http://melpa.milkbox.net/">MELPA</a>.
+</p>
+
+<p>
+Here is my configuration:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(global-set-key (kbd "C-c C-b C-k") 'buf-move-up)
+(global-set-key (kbd "C-c C-b C-j") 'buf-move-down)
+(global-set-key (kbd "C-c C-b C-h") 'buf-move-left)
+(global-set-key (kbd "C-c C-b C-l") 'buf-move-right)
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org18ca1ee" class="outline-2">
+<h3 id="org18ca1ee">Optimization</h3>
+<div class="outline-text-2" id="text-org18ca1ee">
+<p>
+I use <a href="https://github.com/dacap/keyfreq">keyfreq</a> to record all my key pressing for <b>more than six months</b>.
+</p>
+
+<p>
+According to the data collected by keyfreq, more than 99 percent of my moving focus between windows is done through <b>window-numbering.el</b>.
+</p>
+
+<p>
+So it's necessary to optimize window-numbering.el further. By default, window-numbering.el uses <code>M-num</code> key to select window which is already efficient. But as a geek, I have a tendency to push the efficiency to the extreme end.
+</p>
+
+<p>
+Finally I use hotkey <code>,1</code>, <code>,2</code>, and <code>,3</code> to switch to the window numbering <code>1</code>, <code>2</code>, and <code>3</code>.
+</p>
+
+<p>
+Here is the code:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(define-key evil-normal-state-map ",1" 'select-window-1)
+(define-key evil-normal-state-map ",2" 'select-window-2)
+(define-key evil-normal-state-map ",3" 'select-window-3)
+(define-key evil-normal-state-map ",4" 'select-window-4)
+</code></pre>
+
+</div>
+
+<p>
+Check <a href="https://github.com/redguardtoo/emacs.d/commit/8a51696">my setup at github</a>.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/commentuncomment-line-is-easy-in-emacs.html">Comment/uncomment line(s) is easy in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-02-01T23:49:00+00:00">2013-02-01 23:49</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/commentuncomment-line-is-easy-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/commentuncomment-line-is-easy-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+It's easy if you use <a href="https://github.com/redguardtoo/evil-nerd-commenter">evil-nerd-commenter</a> because commenting/uncommenting line(s) is only pressing ",ci" in <code>evil-mode</code>.
+</p>
+
+<p>
+You can also select text and press <code>M-;</code> to comment the lines in the region. If part of the line is not in the selected, the whole line will still be commented out. This saves your extra key pressing for moving cursor to the beginning of the first line or moving the cursor to the end of the last line.
+</p>
+
+<p>
+The reason to make commenting efficient is that I need comment/uncomment code for debug purpose.
+</p>
+
+<p>
+Some people say comment out the code is not a right way to debug. The right way is using debugger.
+</p>
+
+<p>
+In some huge projects, debugger makes no sense for many reasons:
+</p>
+
+<ul class="org-ul">
+<li>The debugger for that Domain Specific Language simply does not exist</li>
+<li>Bugs can be reproduced <b>ONLY</b> on production server where debugger is not installed</li>
+<li>Too much overhead to set up debugger</li>
+</ul>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/fa-biao-yi-nian-chen-wei-emacs-gao-shou-man-yi-zhou-nian-de-gan-wu.html">发表满一周年的感悟</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-01-30T21:00:00+00:00">2013-01-30 21:00</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/fa-biao-yi-nian-chen-wei-emacs-gao-shou-man-yi-zhou-nian-de-gan-wu.html#disqus_thread" data-disqus-identifier="cache/posts/fa-biao-yi-nian-chen-wei-emacs-gao-shou-man-yi-zhou-nian-de-gan-wu.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>原创日期: <span class="timestamp-wrapper"> <span class="timestamp">2013-01-31 四</span></span> </p> <p> 2012年1月31日我写了<a href="http://blog.binchen.org/?p=268">一年成为Emacs高手(像神一样使用编辑器)</a> (后文简称&lt;一年&gt;),到今天(2013年1月31日)正好一周年. </p> <p> 这一年中,我不断地维护更新该文,力求能够反映最新社区咨询,解决读者的实际问题,这个过程本身使我受益匪浅. </p> <p> 最大的收获就是静下心来花时间把一件事情做到极致,对个人收获是最大的. </p> <p> 例如,我不断维护&lt;一年&gt;一文,使得这篇文章成为我所有文章中最受欢迎的文章,其评论数和读者私下联系我的次数超过了我所有其他文章的总和.很多读者还热心给我推荐了Emacs其他好用的功能(如插件<a href="https://github.com/dimitri/switch-window">switch-window</a>),学习这些功能靠我自己摸索可能要花大量的时间. </p> <p> 该文之所以能够受欢迎,我想主要是因为文章质量比较高,信息丰富.我的总结是,只有花大量时间,反复修改,才能写出高质量的文章.例如,&lt;一年成为Emacs高手&gt;我前前后后改了十多个版本,前后花了一年时间,最新版本是两天前更新的. </p> <p> 持之以恒的最大优点是可以达到很深的深度,获得不可替代性,而报酬(读者的赞扬回馈,我个人知识智力的增长)是和我钻研的深度成正比的. </p> <p> 例如,在反复修改&lt;一年&gt;一文中,我自己对于该文的中心思想认识越来越深刻了.该中心思想就是,一个人能够达到的高度,是由他的设的起点有多高决定的,而最好的起点就是世界级的顶尖高手.这个道理除了写博客和Emacs外,还可以应用到很多地方. </p> <p> 持之以恒的道理我从小都懂,但是在维护&lt;一年&gt;的过程我才算真正领悟了这个道理(纸面上知道不算知道,做了才算真正知道).就我个人来讲,主要是因为对自己的智力比较自负,总觉得追求有趣新奇的东西才配得上自己的天赋,对于已知的比较枯燥的小修小补的工作有点不屑一顾.事实上,修补完善的过程是很轻松的,不需要花太多时间精力,而获得的回报是巨大的.我要做得就是适当地抑制一下自己追新求变的热情. </p> <p> 接下来是我给读者的问题. </p> <p> <b>如果你一年前读过了&lt;一年成为Emacs高手&gt;,你现在是否成为了Emacs高手?你的一周年感悟是什么?</b> </p> <p> 无论你已经是高手了,或正在成为高手的路上,把你的感悟告诉我.我会汇总后发表在我的博客上. </p> <p> 这是我的<a href="https://twitter.com/#!/chen_bin">twitter</a>和<a href="https://plus.google.com/110954683162859211810">google plus</a>以及<a href="http://www.weibo.com/u/2453581630">微博</a>,也可以通过我的email&lt;chenbin DOT sh AT GMAIL DOT COM&gt;联系我.我也在新浪weibo.com上开通账号emacsguru. </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/open-url-in-emacs-with-external-browser.html">Open url in Emacs with external browser</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-01-28T10:59:00+00:00">2013-01-28 10:59</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/open-url-in-emacs-with-external-browser.html#disqus_thread" data-disqus-identifier="cache/posts/open-url-in-emacs-with-external-browser.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/browser.html" rel="tag">browser</a></li>
+           <li><a class="tag p-category" href="categories/elisp.html" rel="tag">elisp</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Here is some handy elisp function which use browse-url-generic to open the url in external browser (firefox, for example). </p> <p> The key point is how to detect the url. If we are in w3m-mode, we will use the link under cursor or the URI of current web page. Or else, we will let browse-url-generic to detect the url. </p>    <pre class="src src-elisp">(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">w3mext-open-link-or-image-or-url</span> ()
+  <span style="color: #b294bb;">"Opens the current link or image or current page's uri or any url-like text under cursor in firefox."</span>
+  (interactive)
+  (<span style="color: #b5bd68;">let</span> (url)
+    (<span style="color: #b5bd68;">if</span> (string= major-mode <span style="color: #8abeb7;">"w3m-mode"</span>)
+        (setq url (or (w3m-anchor) (w3m-image) w3m-current-url)))
+    (browse-url-generic (<span style="color: #b5bd68;">if</span> url url (car (browse-url-interactive-arg <span style="color: #8abeb7;">"URL: "</span>))))
+    ))
+(global-set-key (kbd <span style="color: #8abeb7;">"C-c b"</span>) 'w3mext-open-link-or-image-or-url)
+<p></p></pre>   <p> To specify the external browser like firefox, add below code into ~/.emacs: </p>   <pre class="src src-elisp"><span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;"><code>C-h v browse-url-generic-program RET</code> to see the documentation</span>
+<p><span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;"><em>is-a-mac</em> and <em>linux</em> is the boolean constants defined by me</span></p>
+<p>(setq browse-url-generic-program
+      (<span style="color: #b5bd68;">cond</span>
+       (<em>is-a-mac</em> <span style="color: #8abeb7;">"open"</span>)
+       (<em>linux</em> (executable-find <span style="color: #8abeb7;">"firefox"</span>))
+       ))
+</p></pre>  </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed.html">Simplest workflow on email git commit in Emacs (No magit needed)</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-01-27T15:51:00+00:00">2013-01-27 15:51</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed.html#disqus_thread" data-disqus-identifier="cache/posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/patch.html" rel="tag">patch</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Sometimes I just want to email my trivial patch to the original author and forget it. In this case "github fork" or "git format-patch" is too heavy weight for me. </p> <p> So here is the simplest workflow I can figure out: </p>
+<ul>
+<li>Step 1, command "M-x vc-dir" whose hotkey is "C-x v d" </li> <li>Step 2, command "M-x git-print-log" whose hotkey is "C-x v l" </li> <li>Step 3, Move focus to the specific commit and run command "M-x log-view-diff" whose hotkey is "d". </li> <li>Step 4, Yank the commit/diff </li> <li>Step 5, Compose new email (command "M-x compose-mail" whose hotkey is "C-x m") </li> <li>Step 6, Make sure the subject of email start with "[PATCH]". See <a href="http://linuxtv.org/wiki/index.php/Development:_How_to_submit_patches">this patch sumbit guide</a> for reasons. </li> <li>Step 7, Paste the content of commit/diff into email body. </li> <li>Step 8, Send the email by command "M-x message-send-and-exit" whose hotkey is "C-c C-c" </li> </ul>
+<p> Please note: </p>
+<ul>
+<li>Step 1 is usually necessary unless you only need the diff of current file. </li> <li>Step 2 and step 3 could be replaced with command "M-x vc-diff" or hotkey "C-x v =" if you want to email the diff of work directory. </li> </ul>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/import-gmail-contacts-into-bbdb.html">Import Gmail contacts into BBDB</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-01-26T11:56:00+00:00">2013-01-26 11:56</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/import-gmail-contacts-into-bbdb.html#disqus_thread" data-disqus-identifier="cache/posts/import-gmail-contacts-into-bbdb.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/bbdb.html" rel="tag">bbdb</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/gmail.html" rel="tag">gmail</a></li>
+           <li><a class="tag p-category" href="categories/google.html" rel="tag">google</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<ul>
+<li>Go to <a href="http://contacts.google.com">http://contacts.google.com</a>, click the menu "More&gt;&gt;Export…&gt;&gt;vCard format (blah, blah …)". </li> <li>Click "Export" button. Download the contacts.vcf. </li> <li>Make sure <a href="https://github.com/trebb/bbdb-vcard">bbdb-vcard.el</a> installed. </li> <li>In Emacs run "M-x bbdb-vcard-import-file" and input the full path of contacts.vcf </li> <li>In Emacs run "M-x bbdb-save" </li> <li>Remove contacts whose names are empty. These are Google Plus people inserted automatically by Gmail: </li> </ul>
+<p>Run the command in shell: </p>   <pre class="src src-sh"><span style="color: #969896; font-style: italic;"># </span><span style="color: #969896; font-style: italic;">the orginal ~/.bbdb will be saved as ~/.bbdb.bak</span>
+sed -i.bak <span style="color: #70c0b1;">'/["" ""/d'</span> ~/.bbdb
+<p></p></pre>  </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/search-the-word-under-cursor-in-stackoverflow-com-and-google-code-search.html">Search at both stackoverflow and google code in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-01-23T09:18:00+00:00">2013-01-23 09:18</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/search-the-word-under-cursor-in-stackoverflow-com-and-google-code-search.html#disqus_thread" data-disqus-identifier="cache/posts/search-the-word-under-cursor-in-stackoverflow-com-and-google-code-search.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/programming.html" rel="tag">programming</a></li>
+           <li><a class="tag p-category" href="categories/search.html" rel="tag">search</a></li>
+           <li><a class="tag p-category" href="categories/stackoverflow.html" rel="tag">stackoverflow</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Two programming sites are most valuable to me: </p>
+<dl>
+<dt>stackoverflow.com</dt>
+<dd>solution design and code prototype </dd> <dt>google code search</dt>
+<dd>code sample from real product </dd> </dl>
+<p> So I write some elisp code w3mext-hacker-search to automate the workflow. </p> <p> Copy the into ~/.emacs and you can use hotkey "C-c ; s" to open search results in external browser (firefox, for example): </p>   <pre class="src src-elisp"><span style="color: #969896; font-style: italic;">; </span><span style="color: #969896; font-style: italic;">external browser should be firefox</span>
+(setq browse-url-generic-program
+      (<span style="color: #b9ca4a;">cond</span>
+       (<em>is-a-mac</em> <span style="color: #70c0b1;">"open"</span>)
+       (<em>linux</em> (executable-find <span style="color: #70c0b1;">"firefox"</span>))
+       ))
+<p><span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">use external browser to search</span></p>
+<p>(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">w3mext-hacker-search</span> ()
+  <span style="color: #c397d8;">"search word under cursor in google code search and stackoverflow.com"</span>
+  (interactive)
+  (<span style="color: #b9ca4a;">require</span> '<span style="color: #e78c45;">w3m</span>)
+  (<span style="color: #b9ca4a;">let</span> ((keyword (w3m-url-encode-string (thing-at-point 'symbol))))
+    (browse-url-generic (concat <span style="color: #70c0b1;">"http://code.google.com/codesearch?q="</span> keyword))
+    (browse-url-generic (concat <span style="color: #70c0b1;">"http://www.google.com.au/search?hl=en&amp;q="</span> keyword <span style="color: #70c0b1;">"+site:stackoverflow.com"</span> )))
+  )</p>
+<p>(add-hook 'prog-mode-hook '( lambda () (local-set-key (kbd <span style="color: #70c0b1;">"C-c ; s"</span>) 'w3mext-hacker-search)) )</p>
+<p></p></pre>  </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/toggle-http-proxy-in-emacs-w3m.html">Toggle http proxy in emacs-w3m</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-01-04T17:50:00+00:00">2013-01-04 17:50</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/toggle-http-proxy-in-emacs-w3m.html#disqus_thread" data-disqus-identifier="cache/posts/toggle-http-proxy-in-emacs-w3m.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/elisp.html" rel="tag">elisp</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/http.html" rel="tag">http</a></li>
+           <li><a class="tag p-category" href="categories/proxy.html" rel="tag">proxy</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+<a href="http://www.emacswiki.org/emacs/emacs-w3m">emacs-w3m</a> is a browser which handles all my basic web surfing needs.
+</p>
+
+<p>
+For some reason, I need switch my http proxy frequently.
+</p>
+
+<p>
+The solution is to set/unset the environment variable "http_proxy" in elisp code. Restarting the w3m session after change the environment variable is not needed at all.
+</p>
+
+<p>
+Here is my code:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun toggle-env-http-proxy ()
+  "set/unset the environment variable http_proxy which w3m uses"
+  (interactive)
+  (let ((proxy "http://127.0.0.1:8000"))
+    (if (string= (getenv "http_proxy") proxy)
+        ;; clear the proxy
+        (progn
+          (setenv "http_proxy" "")
+          (message "env http_proxy is empty now"))
+      ;; set the proxy
+      (setenv "http_proxy" proxy)
+      (message "env http_proxy is %s now" proxy))))
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-popfile-at-linux.html">Use POPFile at Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-12-28T09:18:54+00:00">2012-12-28 09:18</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-popfile-at-linux.html#disqus_thread" data-disqus-identifier="cache/posts/use-popfile-at-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/filter.html" rel="tag">filter</a></li>
+           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/popfile.html" rel="tag">popfile</a></li>
+           <li><a class="tag p-category" href="categories/spam.html" rel="tag">spam</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-12-28 Fri&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-03-12 Sun&gt;</span></span>
+</p>
+
+<p>
+<a href="http://getpopfile.org">POPFile</a> automatically sorts emails.
+</p>
+
+<div id="outline-container-orgb90ef0c" class="outline-2">
+<h3 id="orgb90ef0c">Install POPFile</h3>
+<div class="outline-text-2" id="text-orgb90ef0c">
+<p>
+<a href="http://getpopfile.org/docs/download">Download and extract cross-platform version</a> to <code>~/bin/popfile/</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5079cb8" class="outline-2">
+<h3 id="org5079cb8">Install third party packages</h3>
+<div class="outline-text-2" id="text-org5079cb8">
+<p>
+Run:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::Socket::SSL Net::IDN::Encode Mozilla::CA Encode:IMAPUTF7
+</code></pre>
+
+</div>
+
+<p>
+When being asked by cpan, say you prefer installing local lib.
+</p>
+
+<p>
+My cpan configuration <code>~/.cpan/CPAN/MyConfig.pm</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-perl">$CPAN::Config = {
+  'applypatch' =&gt; q[],
+  'auto_commit' =&gt; q[0],
+  'build_cache' =&gt; q[100],
+  'build_dir' =&gt; q[/home/cb/.cpan/build],
+  'build_dir_reuse' =&gt; q[0],
+  'build_requires_install_policy' =&gt; q[yes],
+  'bzip2' =&gt; q[/bin/bzip2],
+  'cache_metadata' =&gt; q[1],
+  'check_sigs' =&gt; q[0],
+  'colorize_output' =&gt; q[0],
+  'commandnumber_in_prompt' =&gt; q[1],
+  'connect_to_internet_ok' =&gt; q[1],
+  'cpan_home' =&gt; q[/home/cb/.cpan],
+  'ftp_passive' =&gt; q[1],
+  'ftp_proxy' =&gt; q[],
+  'getcwd' =&gt; q[cwd],
+  'gpg' =&gt; q[/usr/bin/gpg],
+  'gzip' =&gt; q[/bin/gzip],
+  'halt_on_failure' =&gt; q[0],
+  'histfile' =&gt; q[/home/cb/.cpan/histfile],
+  'histsize' =&gt; q[100],
+  'http_proxy' =&gt; q[],
+  'inactivity_timeout' =&gt; q[0],
+  'index_expire' =&gt; q[90],
+  'inhibit_startup_message' =&gt; q[0],
+  'keep_source_where' =&gt; q[/home/cb/.cpan/sources],
+  'load_module_verbosity' =&gt; q[none],
+  'make' =&gt; q[/usr/bin/make],
+  'make_arg' =&gt; q[],
+  'make_install_make_command' =&gt; q[/usr/bin/make],
+  'mbuild_arg' =&gt; q[--install-dirs site],
+  'mbuild_install_arg' =&gt; q[./Build],
+  'mbuild_install_build_command' =&gt; q[./Build],
+  'mbuildpl_arg' =&gt; q[--installdirs site],
+  'no_proxy' =&gt; q[],
+  'pager' =&gt; q[/usr/bin/less],
+  'patch' =&gt; q[/usr/bin/patch],
+  'perl5lib_verbosity' =&gt; q[none],
+  'prefer_external_tar' =&gt; q[1],
+  'prefer_installer' =&gt; q[MB],
+  'prefs_dir' =&gt; q[/home/cb/.cpan/prefs],
+  'prerequisites_policy' =&gt; q[follow],
+  'recommends_policy' =&gt; q[1],
+  'scan_cache' =&gt; q[atstart],
+  'shell' =&gt; q[/bin/bash],
+  'show_unparsable_versions' =&gt; q[0],
+  'show_upload_date' =&gt; q[0],
+  'show_zero_versions' =&gt; q[0],
+  'suggests_policy' =&gt; q[0],
+  'tar' =&gt; q[/bin/tar],
+  'tar_verbosity' =&gt; q[none],
+  'term_is_latin' =&gt; q[1],
+  'term_ornaments' =&gt; q[1],
+  'test_report' =&gt; q[0],
+  'trust_test_report_history' =&gt; q[0],
+  'unzip' =&gt; q[/usr/bin/unzip],
+  'urllist' =&gt; [q[http://mirror.optusnet.com.au/CPAN/]],
+  'use_prompt_default' =&gt; q[0],
+  'use_sqlite' =&gt; q[0],
+  'version_timeout' =&gt; q[15],
+  'wget' =&gt; q[/usr/bin/wget],
+  'yaml_load_code' =&gt; q[0],
+  'yaml_module' =&gt; q[YAML],
+};
+__END__
+</code></pre>
+
+</div>
+
+<p>
+<code>cpan</code> will append setup into <code>~/.bashrc</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
+</code></pre>
+
+</div>
+
+<p>
+Double check installed packages:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">perl -MDBI -e 'print $MIME::DBI::VERSION'
+</code></pre>
+
+</div>
+
+<p>
+If there is any error:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">perl -V
+rm -rf ~/perl5/*
+cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::Socket::SSL Net::IDN::Encode MOZILLA::CA
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org687744b" class="outline-2">
+<h3 id="org687744b">Setup</h3>
+<div class="outline-text-2" id="text-org687744b">
+<p>
+I only use IMAP. The purpose of tweak POP3 port is only to make the program executable without root permission.
+</p>
+
+<p>
+See <a href="http://getpopfile.org/docs/howtos:mayneedroot">http://getpopfile.org/docs/howtos:mayneedroot</a> for details.
+</p>
+
+<p>
+Run the below command to fix the root issue.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sed -i 's/pop3_port \+110/pop3_port 1110/g' ~/bin/popfile/popfile.cfg
+</code></pre>
+
+</div>
+
+
+<p>
+Davmail is a gateway to convert Outlook/Exchange service to IMAP/POP3). It's required if and only if you use Microsoft's Exchange/Outlook.
+</p>
+
+<p>
+If you don't use Davmail and fetch mails directly, you'd better set <code>imap_expunge 1</code> to fix <a href="http://getpopfile.org/discussion/1/550/2144">Microsoft Office 365 issue</a>.
+</p>
+
+<p>
+Please disable ssl if running local Davmail Server only. Or else, ssl should be enabled.
+</p>
+
+<p>
+My popfile setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">bayes_bad_sqlite_version 4.0.0
+bayes_corpus corpus
+bayes_database popfile.db
+bayes_dbauth 
+bayes_dbconnect dbi:SQLite:dbname=$dbname
+bayes_dbuser 
+bayes_hostname 192-168-1-3.tpgi.com.au
+bayes_localhostname 
+bayes_nihongo_parser kakasi
+bayes_sqlite_journal_mode delete
+bayes_sqlite_tweaks 4294967295
+bayes_subject_mod_left [
+bayes_subject_mod_pos 1
+bayes_subject_mod_right ]
+bayes_unclassified_weight 100
+bayes_xpl_angle 0
+config_pidcheck_interval 5
+config_piddir ./
+GLOBAL_debug 1
+GLOBAL_last_update_check 1407715200
+GLOBAL_message_cutoff 100000
+GLOBAL_msgdir messages/
+GLOBAL_ssl_verify_peer_certs 0
+GLOBAL_timeout 60
+GLOBAL_update_check 1
+history_archive 0
+history_archive_classes 0
+history_archive_dir archive
+history_history_days 2
+html_cache_templates 0
+html_column_characters 0
+html_columns +inserted,+from,+to,-cc,+subject,-date,-size,+bucket
+html_date_format 
+html_language English
+html_last_reset Sat Dec  1 11:06:48 2012
+html_local 0
+html_page_size 20
+html_password b6b3637136ad630eba43aa5ee7106780
+html_port 8888
+html_search_filter_highlight 0
+html_send_stats 1
+html_session_dividers 1
+html_show_bucket_help 1
+html_show_training_help 0
+html_skin simplyblue
+html_strict_templates 0
+html_test_language 0
+html_wordtable_format 
+imap_bucket_folder_mappings job--&gt;job--&gt;geek--&gt;geek--&gt;business--&gt;business--&gt;ad--&gt;ad--&gt;unclassified--&gt;INBOX--&gt;work--&gt;work--&gt;
+imap_enabled 1
+imap_expunge 1
+imap_hostname localhost
+imap_login binc1
+imap_password password1
+imap_port 1143
+imap_training_mode 0
+imap_uidnexts work--&gt;749--&gt;job--&gt;5914--&gt;INBOX--&gt;20736--&gt;geek--&gt;5009--&gt;ad--&gt;1296--&gt;business--&gt;15--&gt;
+imap_uidvalidities job--&gt;98--&gt;work--&gt;107--&gt;ad--&gt;100--&gt;business--&gt;106--&gt;geek--&gt;99--&gt;INBOX--&gt;2--&gt;
+imap_update_interval 1000
+imap_use_ssl 0
+imap_watched_folders INBOX--&gt;INBOX--&gt;
+logger_format default
+logger_level 0
+logger_logdir ./
+nntp_enabled 0
+nntp_force_fork 1
+nntp_headtoo 0
+nntp_local 1
+nntp_port 119
+nntp_separator :
+nntp_socks_port 1080
+nntp_socks_server 
+nntp_welcome_string NNTP POPFile (v1.1.3) server ready
+pop3_enabled 0
+pop3_force_fork 1
+pop3_local 1
+pop3_port 1110
+pop3_secure_port 110
+pop3_secure_server 
+pop3_separator :
+pop3_socks_port 1080
+pop3_socks_server 
+pop3_toptoo 0
+pop3_welcome_string POP3 POPFile (v1.1.3) server ready
+smtp_chain_port 25
+smtp_chain_server 
+smtp_enabled 0
+smtp_force_fork 1
+smtp_local 1
+smtp_port 25
+smtp_socks_port 1080
+smtp_socks_server 
+smtp_welcome_string SMTP POPFile (v1.1.3) welcome
+xmlrpc_enabled 0
+xmlrpc_local 1
+xmlrpc_port 8081
+</code></pre>
+
+</div>
+
+<p>
+The only remaining issue is user name. If it contains "\", you should replace it with "\\" when inputting in Popfile!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1a930cb" class="outline-2">
+<h3 id="org1a930cb">Run the program</h3>
+<div class="outline-text-2" id="text-org1a930cb">
+<p>
+See <a href="http://getpopfile.org/docs/howtos:runlocation">http://getpopfile.org/docs/howtos:runlocation</a> for details.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd ~/bin/popfile;perl popfile.pl
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd16d580" class="outline-2">
+<h3 id="orgd16d580">Start the POPFile automatically when bash login</h3>
+<div class="outline-text-2" id="text-orgd16d580">
+<p>
+Insert below code in ~/.bashrc:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">OS_NAME=`uname -s`
+if [ $OS_NAME == Linux ]; then
+   # start popfile
+   if [ -f $HOME/bin/popfile/popfile.pl ]; then
+      # @see http://getpopfile.org/docs/howtos:runlocation
+      pop_pid=`ps -ef | grep perl | grep popfile.pl | gawk '{print $2}'`
+      if [ "${pop_pid}" = "" ] ; then
+         cd $HOME/bin/popfile
+         perl popfile.pl &gt;&gt; /dev/null 2&gt;&amp;1 &amp;
+      fi
+      cd $HOME
+   fi
+fi
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org84cf0a2" class="outline-2">
+<h3 id="org84cf0a2">Start the POPFile systemd service as a user (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-org84cf0a2">
+<p>
+My user name is cb. Put popfile.service in <i>usr/lib/systemd/system</i>. Then run `systemctl enable popfile` to install service. Run `systemctl start popfile` to start the service. My Linux distribution is ArchLinux.
+</p>
+
+<p>
+here is content of popfile.service.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[Unit]
+Description=POPFile (Automatic Email Classification) Service
+
+[Service]
+WorkingDirectory=/home/cb/bin/popfile
+ExecStart=/usr/bin/perl popfile.pl
+User=cb
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org547a2a8" class="outline-2">
+<h3 id="org547a2a8">Backup</h3>
+<div class="outline-text-2" id="text-org547a2a8">
+<p>
+Please backup popfile.cfg and popfile.db.
+</p>
+
+<p>
+See <a href="http://getpopfile.org/docs/howtos:backup">http://getpopfile.org/docs/howtos:backup</a> for details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org03c18ce" class="outline-2">
+<h3 id="org03c18ce">Summary</h3>
+<div class="outline-text-2" id="text-org03c18ce">
+<ul class="org-ul">
+<li>Portable</li>
+<li>No root privilege needed</li>
+<li>No X windows needed. I can manage mails in remote shell</li>
+</ul>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-8.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-6.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about gentoo)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/gentoo.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Memo on upgrading ArchLinux</title><link>http://blog.binchen.org/posts/memo-on-upgrading-archlinux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Run &lt;code&gt;pacman -Syu&lt;/code&gt; to upgrade all packages.
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Archlinux replaces grub with grub2&lt;/li&gt;
+&lt;li&gt;I cannot install grub2, blocklists stuff&lt;/li&gt;
+&lt;li&gt;Downgrade to grub-obsolee&lt;/li&gt;
+&lt;li&gt;Then grub&lt;/li&gt;
+&lt;li&gt;Setup (hd0) to install MBR&lt;/li&gt;
+&lt;li&gt;Restart netbook (make sure the boot priority is right)&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>linux</category><category>upgrade</category><guid>http://blog.binchen.org/posts/memo-on-upgrading-archlinux.html</guid><pubDate>Sun, 03 Nov 2013 23:29:00 GMT</pubDate></item><item><title>notes on upgrading Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-on-upgrading-gentoo-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;pre class="prettyprint "&gt;
+&lt;p&gt;sudo emerge --update --deep --with-bdeps=y --newuse world
+&lt;/p&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;I get notified that some newer version package is required, so I have to manually install those package and re-run the &lt;code&gt;emerge world&lt;/code&gt; &lt;/li&gt; &lt;li&gt;Some package is gone (libreoffice-bin, for example). &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; Here is command to manually install package: &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+sudo ebuild /usr/portage/www-client/firefox-bin/firefox-bin-23.0.ebuild unpack compile install qmerge clean
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>linux</category><category>upgrade</category><guid>http://blog.binchen.org/posts/notes-on-upgrading-gentoo-linux.html</guid><pubDate>Sat, 26 Oct 2013 19:47:54 GMT</pubDate></item><item><title>Install gitso v0.6 on Gentoo Linux</title><link>http://blog.binchen.org/posts/install-gitso-v0-6-on-gentoo-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Gitso is a frontend to reverse VNC connections. Say you want to access your office pc which is behind firewall. Then you need Gitso. &lt;/p&gt; &lt;p&gt; Here is the commands to install gitso: &lt;/p&gt;   
+&lt;pre class="prettyprint "&gt;
+
+sudo mkdir /usr/portage/net-misc/gitso
+
+sudo bash -c "curl -L https://github.com/longlene/clx/raw/master/net-misc/gitso/gitso-0.6.ebuild &amp;gt; /usr/portage/net-misc/gitso/gitso-0.6.ebuild"
+
+sudo bash -c "curl -L https://github.com/longlene/clx/raw/master/net-misc/gitso/Manifest|sed -e '/gitso[-_]0.5/d' &amp;gt; /usr/portage/net-misc/gitso/Manifest"
+
+sudo emerge wxpython iproute2 x11vnc tightvnc
+
+sudo ebuild /usr/portage/net-misc/gitso/gitso-0.6.ebuild unpack compile install qmerge clean
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;p&gt; There are many howtos on gitso on internet. Google it. &lt;/p&gt;&lt;/div&gt;</description><category>desktop</category><category>en</category><category>gentoo</category><category>linux</category><category>remote</category><category>vnc</category><guid>http://blog.binchen.org/posts/install-gitso-v0-6-on-gentoo-linux.html</guid><pubDate>Thu, 29 Aug 2013 22:43:14 GMT</pubDate></item><item><title>Notes to install Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-to-install-gentoo-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orgf86af2e" class="outline-2"&gt;
+&lt;h3 id="orgf86af2e"&gt;Intel integrated video card&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf86af2e"&gt;
+&lt;p&gt;
+Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&amp;gt; Graphic =&amp;gt; Intel) is critical:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo genkernel --menuconfig all
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgab19b55" class="outline-2"&gt;
+&lt;h3 id="orgab19b55"&gt;Grub2&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgab19b55"&gt;
+&lt;p&gt;
+Let grub2 create the cfg for me automatically,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;grub2-mkconfig -o /boot/grub/grub.cfg
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org175588e" class="outline-2"&gt;
+&lt;h3 id="org175588e"&gt;Network&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org175588e"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgfe044fb" class="outline-3"&gt;
+&lt;h4 id="orgfe044fb"&gt;Ethernet&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgfe044fb"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
+# @see https://wiki.gentoo.org/wiki/Netifrc
+ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
+echo 'config_eth0="dhcp"' &amp;gt;&amp;gt; /etc/conf.d/net
+/etc/init.d/net.eth0 start
+rc-update add net.eth0 default
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org778af7a" class="outline-3"&gt;
+&lt;h4 id="org778af7a"&gt;Wireless (wifi)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org778af7a"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
+# @see https://wiki.gentoo.org/wiki/Netifrc
+# I need setup /etc/wpa_supplicant/wpa_supplicant.conf at first
+ln -s /etc/init.d/net.lo /etc/init.d/net.ra0
+echo 'config_ra0="dhcp"' &amp;gt;&amp;gt; /etc/conf.d/net
+/etc/init.d/net.ra0 start
+rc-update add net.ra0 default
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Content of /etc/wpa_supplicant/wpa_supplicant.conf:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;#let wpa_supplicant take care of scanning and AP selection
+ap_scan=1
+
+#simple case: WPA-PSK, PPSK as an simple passphrase
+network={
+  ssid="myssid"
+  psk="mypassword"
+  # the higher priority the sooner we matched
+  priority=5
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+For kernel 3.17.*+, by default wpa_supplicant use &lt;code&gt;nl80211&lt;/code&gt; driver instead of &lt;code&gt;wext&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+We need for it use &lt;code&gt;wext&lt;/code&gt; instead. To double check &lt;code&gt;wext&lt;/code&gt; does work,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo wpa_supplicant -dd -B -i ra0 -Dwext -c /etc/wpa_supplicant/wpa_supplicant.conf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+But OpenRC script does not have &lt;code&gt;-Dwext&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;# as root
+cd /lib;grep -rsn --exclude-dir=/home "Starting wpa_supplicant on" *
+# netifrc/net/wpa_supplicant.sh:85: ebegin "Starting wpa_supplicant on ${IF
+# VAR}"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;opts="-Dwext ${opts} -c ${cfgfile}"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4e71164" class="outline-2"&gt;
+&lt;h3 id="org4e71164"&gt;Clock Synchronization&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4e71164"&gt;
+&lt;p&gt;
+&lt;a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate"&gt;htpdate&lt;/a&gt; is great because it only use HTTP protocol, don't forget add server in its config file.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdd8571c" class="outline-2"&gt;
+&lt;h3 id="orgdd8571c"&gt;Sound&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdd8571c"&gt;
+&lt;p&gt;
+Nothing to tell. There may be some issue, but I forgot.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>install</category><category>linux</category><guid>http://blog.binchen.org/posts/notes-to-install-gentoo-linux.html</guid><pubDate>Mon, 25 Feb 2013 02:22:00 GMT</pubDate></item></channel></rss>

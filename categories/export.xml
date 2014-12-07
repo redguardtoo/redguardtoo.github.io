@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about export)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/export.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Export org file embedded with code snippets</title><link>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-11-20 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-06-06 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;div id="outline-container-org92b29c5" class="outline-2"&gt;
+&lt;h3 id="org92b29c5"&gt;problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org92b29c5"&gt;
+&lt;p&gt;
+I use &lt;a href="http://orgmode.org/"&gt;Org-mode&lt;/a&gt; to record all my notes.
+&lt;/p&gt;
+
+&lt;p&gt;
+As a developer, I place code snippets from many programming languages into one org file.
+&lt;/p&gt;
+
+&lt;p&gt;
+The issue is when exporting the org file, major mode for each language will be loaded to render the code snippet.
+&lt;/p&gt;
+
+&lt;p&gt;
+It means the hooks of the major modes will be executed. Since I put lots of heavy weight setup things in those hooks, my exporting is extremely slow.
+&lt;/p&gt;
+
+&lt;p&gt;
+My hooks are also dependent on third party tools. So if anyone else uses my setup without those tools, his/her exporting will &lt;a href="https://github.com/redguardtoo/emacs.d/issues/316"&gt;fail&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org07c7673" class="outline-2"&gt;
+&lt;h3 id="org07c7673"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org07c7673"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org786ade8" class="outline-3"&gt;
+&lt;h4 id="org786ade8"&gt;Setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org786ade8"&gt;
+&lt;p&gt;
+In order to solve the issue, I write a small function which will be called at the beginning of each major mode hook.
+&lt;/p&gt;
+
+&lt;p&gt;
+The function basically check whether the `(buffer-file-name)` is the temporary file created by Org-mode or the output HTML converted from org file. If answer is "YES", then code in major mode hook will not be executed.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar load-user-customized-major-mode-hook t)
+(defvar cached-normal-file-full-path nil)
+(defun is-buffer-file-temp ()
+  (interactive)
+  "If (buffer-file-name) is nil or a temp file or HTML file converted from org file"
+  (let ((f (buffer-file-name))
+        org
+        (rlt t))
+    (cond
+     ((not load-user-customized-major-mode-hook) t)
+     ((not f)
+      ;; file does not exist at all
+      (setq rlt t))
+     ((string= f cached-normal-file-full-path)
+      (setq rlt nil))
+     ((string-match (concat "^" temporary-file-directory) f)
+      ;; file is create from temp directory
+      (setq rlt t))
+     ((and (string-match "\.html$" f)
+           (file-exists-p (setq org (replace-regexp-in-string "\.html$" ".org" f))))
+      ;; file is a html file exported from org-mode
+      (setq rlt t))
+     (t
+      ;; avoid calling to file-exists-p too often for performance reason
+      (setq cached-normal-file-full-path f)
+      (setq rlt nil)))
+    rlt))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6484b82" class="outline-3"&gt;
+&lt;h4 id="org6484b82"&gt;Usage&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6484b82"&gt;
+&lt;p&gt;
+I use python-mode-hook setup as an example:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'python-mode-hook
+          '(lambda ()
+             (unless (is-buffer-file-temp)
+               (anaconda-mode)
+               (eldoc-mode)
+               (if (executable-find "pyflakes")
+                   (flymake-python-pyflakes-load))
+               (setq electric-indent-chars (delq ?: electric-indent-chars))
+               )))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc6faae2" class="outline-2"&gt;
+&lt;h3 id="orgc6faae2"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc6faae2"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org44d68ee" class="outline-3"&gt;
+&lt;h4 id="org44d68ee"&gt;Export shell code&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org44d68ee"&gt;
+&lt;p&gt;
+Exporting shell code will fail if `sh-mode` is loaded. So I use "bash" instead. Since there is no "bash-mode", exporting will be fine.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org2d6624d" class="outline-3"&gt;
+&lt;h4 id="org2d6624d"&gt;Yasnippet setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org2d6624d"&gt;
+&lt;p&gt;
+To avoid loading yasnippets when exporting, I have to &lt;a href="https://github.com/capitaomorte/yasnippet#use-yas-minor-mode-on-a-per-buffer-basis"&gt;"use yas-minor-mode on a per-buffer basis"&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgc1c57fc" class="outline-3"&gt;
+&lt;h4 id="orgc1c57fc"&gt;Manually turn off the major-mode hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgc1c57fc"&gt;
+&lt;p&gt;
+It's controlled by global flag `load-user-customized-major-mode-hook`, as you can see from the "Setup" section.
+&lt;/p&gt;
+
+&lt;p&gt;
+Say I want to turn off the major mode hooks when `M-x org-publish`, here is the setup:
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defadvice org-publish (around org-publish-advice activate)
+  "Stop running major-mode hook when org-publish"
+  (let ((old load-user-customized-major-mode-hook))
+    (setq load-user-customized-major-mode-hook nil)
+    ad-do-it
+    (setq load-user-customized-major-mode-hook old)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgf1a75ee" class="outline-3"&gt;
+&lt;h4 id="orgf1a75ee"&gt;after-save-hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf1a75ee"&gt;
+&lt;p&gt;
+`after-save-hook` is the "Normal hook that is run after a buffer is saved to its file". You may also need tweak it up because it will be called when exporting org files
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>export</category><category>html</category><category>org</category><guid>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets.html</guid><pubDate>Thu, 20 Nov 2014 12:22:17 GMT</pubDate></item></channel></rss>

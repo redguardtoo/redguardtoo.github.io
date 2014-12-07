@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Autocomplete with a dictionary and hippie-expand | Chen's blog</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/autocomplete-with-a-dictionary-with-hippie-expand.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Autocomplete with a dictionary and hippie-expand">
+<meta property="og:url" content="http://blog.binchen.org/posts/autocomplete-with-a-dictionary-with-hippie-expand.html">
+<meta property="og:description" content="I use company-mode most of the time. Sometimes I use Hippie Expand to autocomplete the English words from a dictionary.
+
+
+
+I surely can do this in company-mode too. But I prefer hippie-expand because ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2015-03-30T03:53:40Z">
+<meta property="article:tag" content="autocomplete">
+<meta property="article:tag" content="dictionary">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Autocomplete with a dictionary and hippie-expand</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2015-03-30T03:53:40+00:00">2015-03-30 03:53</time>
+            
+
+            
+          |  
+        <a href="autocomplete-with-a-dictionary-with-hippie-expand.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../categories/autocomplete.html" rel="tag">autocomplete</a></li>
+           <li><a class="tag p-category" href="../categories/dictionary.html" rel="tag">dictionary</a></li>
+           <li><a class="tag p-category" href="../categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+I use <a href="http://company-mode.github.io/">company-mode</a> most of the time. Sometimes I use <a href="http://emacswiki.org/emacs/HippieExpand">Hippie Expand</a> to autocomplete the English words from a dictionary.
+</p>
+
+<p>
+I surely can do this in company-mode too. But I prefer hippie-expand because I choose to make company-mode focus on programming stuff and hippie-expand on writing.
+</p>
+
+<div id="outline-container-org14408c8" class="outline-2">
+<h3 id="org14408c8">Solution</h3>
+<div class="outline-text-2" id="text-org14408c8">
+<p>
+This solution works <b>in any environment</b>.
+</p>
+
+<ul class="org-ul">
+<li>Step1 (OPTIONAL), download <a href="https://github.com/redguardtoo/emacs.d/raw/master/misc/english-words.txt">english-words.txt</a> and place it under "~/.emacs.d/misc/".</li>
+
+<li>Step 2, Copy below setup into ~/.emacs and use key binding "M-/" to complete the word:</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(global-set-key (kbd "M-/") 'hippie-expand)
+
+;; The actual expansion function
+(defun try-expand-by-dict (old)
+  ;; old is true if we have already attempted an expansion
+  (unless (bound-and-true-p ispell-minor-mode)
+    (ispell-minor-mode 1))
+
+  ;; english-words.txt is the fallback dicitonary
+  (if (not ispell-alternate-dictionary)
+      (setq ispell-alternate-dictionary (file-truename "~/.emacs.d/misc/english-words.txt")))
+  (let ((lookup-func (if (fboundp 'ispell-lookup-words)
+                       'ispell-lookup-words
+                       'lookup-words)))
+    (unless old
+      (he-init-string (he-lisp-symbol-beg) (point))
+      (if (not (he-string-member he-search-string he-tried-table))
+        (setq he-tried-table (cons he-search-string he-tried-table)))
+      (setq he-expand-list
+            (and (not (equal he-search-string ""))
+                 (funcall lookup-func (concat (buffer-substring-no-properties (he-lisp-symbol-beg) (point)) "*")))))
+    (if (null he-expand-list)
+      (if old (he-reset-string))
+      (he-substitute-string (car he-expand-list))
+      (setq he-expand-list (cdr he-expand-list))
+      t)
+    ))
+
+(setq hippie-expand-try-functions-list
+      '(;; try-expand-dabbrev
+        ;; try-expand-dabbrev-all-buffers
+        try-expand-by-dict))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgadbd1ab" class="outline-2">
+<h3 id="orgadbd1ab">Technical details</h3>
+<div class="outline-text-2" id="text-orgadbd1ab">
+<ul class="org-ul">
+<li>based on <a href="https://github.com/syohex/emacs-ac-ispell">ac-ispell</a>
+</li>
+<li>lazy load of ispell-mode to speed Emacs startup</li>
+<li>add a fallback dictionary "english-words.txt" so autocompletion never fails</li>
+<li>`ispell-lookup-words` or `lookup-words` simply does grep thing, so english-words.txt is just a plain text file.</li>
+</ul>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="why-people-say-emacs-is-the-best-operating-system.html" rel="prev" title='Why people say "Emacs is the best operating system"'>Previous post</a>
+            </li>
+            <li class="next">
+                <a href="effective-code-navigation-for-web-development.html" rel="next" title="Effective code navigation for web development">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/autocomplete-with-a-dictionary-with-hippie-expand.html",
+        disqus_title="Autocomplete with a dictionary and hippie-expand",
+        disqus_identifier="cache/posts/autocomplete-with-a-dictionary-with-hippie-expand.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>
