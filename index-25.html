@@ -23,6 +23,78 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/dianyou-0-0-3-is-out.html">dianyou 0.0.3 is out</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2019-06-04T12:54:48+00:00">2019-06-04 12:54</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/dianyou-0-0-3-is-out.html#disqus_thread" data-disqus-identifier="cache/posts/dianyou-0-0-3-is-out.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/gnus.html" rel="tag">gnus</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+I created <a href="https://github.com/redguardtoo/dianyou">dianyou</a> (电邮) to solve improve my Gnus work flow.
+</p>
+
+<div id="outline-container-org5dafccc" class="outline-2">
+<h3 id="org5dafccc">Search mails</h3>
+<div class="outline-text-2" id="text-org5dafccc">
+<p>
+Most Gnus users use <code>gnus-group-make-nnir-group</code> to search mails. But it's not usable in "Summary Buffer". Its <a href="https://tools.ietf.org/html/rfc3501#section-6.4.4">IMAP SEARCH Command</a> is hard to use.
+</p>
+
+<p>
+It could be replaced by <code>dianyou-group-make-nnir-group</code> which supports shortcuts. For example, you can input "f John s 1y2w2d" and select "imap" when Gnus asks the question "Imap Search in". It means search mails from John since 1 year, 2 weeks and 2 days ago.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6b80f5b" class="outline-2">
+<h3 id="org6b80f5b">Auto complete email address</h3>
+<div class="outline-text-2" id="text-org6b80f5b">
+<p>
+I'm too lazy to set up my contacts. It would be better that Gnus could <b>automatically</b> collect email addresses from all received mails. So I created the command <code>dianyou-insert-email-address-from-received-mails</code>. The inserted email address is also inserted into the global variable <code>dianyou-email-address-history</code> which could be persisted by <a href="https://github.com/jwiegley/session">session</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org097af0c" class="outline-2">
+<h3 id="org097af0c">Switch Gnus buffer</h3>
+<div class="outline-text-2" id="text-org097af0c">
+<p>
+One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use <code>dianyou-switch-gnus-buffer</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9bd3dd0" class="outline-2">
+<h3 id="org9bd3dd0">Paste image from clipboard</h3>
+<div class="outline-text-2" id="text-org9bd3dd0">
+<p>
+Use <code>dianyou-paste-image-from-clipboard</code>. CLI program <a href="https://github.com/astrand/xclip">xclip</a> should be installed at first.</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/my-favourite-richard-stallman-interviews.html">My favorite Richard Stallman interviews</a></h1>
             <div class="meta">
                 <div class="authordate">

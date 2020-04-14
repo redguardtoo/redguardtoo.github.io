@@ -1,5 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Make Emacs faster than Vim in "git mergetool"</title><link>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 14 Apr 2020 13:56:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+My workflow in Git is,
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Create a new feature branch based on main branch&lt;/li&gt;
+&lt;li&gt;Add some small commits into feature branch&lt;/li&gt;
+&lt;li&gt;Rebase feature branch interactively&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+The final rebase step happens a lot.
+&lt;/p&gt;
+
+&lt;p&gt;
+So I'm thinking I can use use Magit api &lt;code&gt;magit-rebase-interactive&lt;/code&gt; to speed up the third step.
+&lt;/p&gt;
+
+&lt;p&gt;
+The key is to analyze output of &lt;code&gt;git log --decorate --oneline&lt;/code&gt; to find the main branch commit.
+&lt;/p&gt;
+
+&lt;p&gt;
+Code,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-git-extract-based (target)
+  "Extract based version from TARGET."
+  (replace-regexp-in-string "^tag: +"
+                            ""
+                            (car (nreverse (split-string target ", +")))))
+
+(defun my-git-rebase-interactive (&amp;amp;optional user-select-branch)
+  "Rebase interactively on the closest branch or tag in git log output.
+If USER-SELECT-BRANCH is not nil, rebase on the tag or branch selected by user."
+  (interactive "P")
+  (let* ((log-output (shell-command-to-string "git --no-pager log --decorate --oneline -n 1024"))
+         (lines (split-string log-output "\n"))
+         (targets (delq nil
+                        (mapcar (lambda (e)
+                                  (when (and (string-match "^[a-z0-9]+ (\\([^()]+\\)) " e)
+                                             (not (string-match "^[a-z0-9]+ (HEAD " e)))
+                                    (match-string 1 e))) lines)))
+         based)
+    (cond
+     ((or (not targets) (eq (length targets) 0))
+      (message "No tag or branch is found to base on."))
+     ((or (not user-select-branch)) (eq (length targets) 1)
+      ;; select the closest/only tag or branch
+      (setq based (my-git-extract-based (nth 0 targets))))
+     (t
+      ;; select the one tag or branch
+      (setq based (my-git-extract-based (completing-read "Select based: " targets)))))
+
+    ;; start git rebase
+    (when based
+      (magit-rebase-interactive based nil))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screencast:
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"&gt;
+&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</guid><pubDate>Tue, 14 Apr 2020 13:54:28 GMT</pubDate></item><item><title>Make Emacs faster than Vim in "git mergetool"</title><link>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html"&gt;Emacs is the best merge tool for Git&lt;/a&gt; explains how to combine &lt;a href="https://git-scm.com/docs/git-mergetool/2.20.0"&gt;git mergetool&lt;/a&gt; with &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ediff/"&gt;ediff-mode&lt;/a&gt; in Emacs.
 &lt;/p&gt;
 
@@ -885,45 +954,4 @@ It could dynamically change web application's appearance and is a critical techn
 
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>etags</category><category>javascript</category><guid>http://blog.binchen.org/posts/javascript-code-navigation-in-counsel-etags.html</guid><pubDate>Mon, 22 Jul 2019 12:07:16 GMT</pubDate></item><item><title>dianyou 0.0.3 is out</title><link>http://blog.binchen.org/posts/dianyou-0-0-3-is-out.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-I created &lt;a href="https://github.com/redguardtoo/dianyou"&gt;dianyou&lt;/a&gt; (电邮) to solve improve my Gnus work flow.
-&lt;/p&gt;
-
-&lt;div id="outline-container-org5dafccc" class="outline-2"&gt;
-&lt;h3 id="org5dafccc"&gt;Search mails&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5dafccc"&gt;
-&lt;p&gt;
-Most Gnus users use &lt;code&gt;gnus-group-make-nnir-group&lt;/code&gt; to search mails. But it's not usable in "Summary Buffer". Its &lt;a href="https://tools.ietf.org/html/rfc3501#section-6.4.4"&gt;IMAP SEARCH Command&lt;/a&gt; is hard to use.
-&lt;/p&gt;
-
-&lt;p&gt;
-It could be replaced by &lt;code&gt;dianyou-group-make-nnir-group&lt;/code&gt; which supports shortcuts. For example, you can input "f John s 1y2w2d" and select "imap" when Gnus asks the question "Imap Search in". It means search mails from John since 1 year, 2 weeks and 2 days ago.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org6b80f5b" class="outline-2"&gt;
-&lt;h3 id="org6b80f5b"&gt;Auto complete email address&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org6b80f5b"&gt;
-&lt;p&gt;
-I'm too lazy to set up my contacts. It would be better that Gnus could &lt;b&gt;automatically&lt;/b&gt; collect email addresses from all received mails. So I created the command &lt;code&gt;dianyou-insert-email-address-from-received-mails&lt;/code&gt;. The inserted email address is also inserted into the global variable &lt;code&gt;dianyou-email-address-history&lt;/code&gt; which could be persisted by &lt;a href="https://github.com/jwiegley/session"&gt;session&lt;/a&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org097af0c" class="outline-2"&gt;
-&lt;h3 id="org097af0c"&gt;Switch Gnus buffer&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org097af0c"&gt;
-&lt;p&gt;
-One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use &lt;code&gt;dianyou-switch-gnus-buffer&lt;/code&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org9bd3dd0" class="outline-2"&gt;
-&lt;h3 id="org9bd3dd0"&gt;Paste image from clipboard&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9bd3dd0"&gt;
-&lt;p&gt;
-Use &lt;code&gt;dianyou-paste-image-from-clipboard&lt;/code&gt;. CLI program &lt;a href="https://github.com/astrand/xclip"&gt;xclip&lt;/a&gt; should be installed at first.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://blog.binchen.org/posts/dianyou-0-0-3-is-out.html</guid><pubDate>Tue, 04 Jun 2019 12:54:48 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>etags</category><category>javascript</category><guid>http://blog.binchen.org/posts/javascript-code-navigation-in-counsel-etags.html</guid><pubDate>Mon, 22 Jul 2019 12:07:16 GMT</pubDate></item></channel></rss>

@@ -1,5 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Make Emacs faster than Vim in "git mergetool"</title><link>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 14 Apr 2020 13:56:02 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+My workflow in Git is,
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Create a new feature branch based on main branch&lt;/li&gt;
+&lt;li&gt;Add some small commits into feature branch&lt;/li&gt;
+&lt;li&gt;Rebase feature branch interactively&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+The final rebase step happens a lot.
+&lt;/p&gt;
+
+&lt;p&gt;
+So I'm thinking I can use use Magit api &lt;code&gt;magit-rebase-interactive&lt;/code&gt; to speed up the third step.
+&lt;/p&gt;
+
+&lt;p&gt;
+The key is to analyze output of &lt;code&gt;git log --decorate --oneline&lt;/code&gt; to find the main branch commit.
+&lt;/p&gt;
+
+&lt;p&gt;
+Code,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-git-extract-based (target)
+  "Extract based version from TARGET."
+  (replace-regexp-in-string "^tag: +"
+                            ""
+                            (car (nreverse (split-string target ", +")))))
+
+(defun my-git-rebase-interactive (&amp;amp;optional user-select-branch)
+  "Rebase interactively on the closest branch or tag in git log output.
+If USER-SELECT-BRANCH is not nil, rebase on the tag or branch selected by user."
+  (interactive "P")
+  (let* ((log-output (shell-command-to-string "git --no-pager log --decorate --oneline -n 1024"))
+         (lines (split-string log-output "\n"))
+         (targets (delq nil
+                        (mapcar (lambda (e)
+                                  (when (and (string-match "^[a-z0-9]+ (\\([^()]+\\)) " e)
+                                             (not (string-match "^[a-z0-9]+ (HEAD " e)))
+                                    (match-string 1 e))) lines)))
+         based)
+    (cond
+     ((or (not targets) (eq (length targets) 0))
+      (message "No tag or branch is found to base on."))
+     ((or (not user-select-branch)) (eq (length targets) 1)
+      ;; select the closest/only tag or branch
+      (setq based (my-git-extract-based (nth 0 targets))))
+     (t
+      ;; select the one tag or branch
+      (setq based (my-git-extract-based (completing-read "Select based: " targets)))))
+
+    ;; start git rebase
+    (when based
+      (magit-rebase-interactive based nil))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screencast:
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"&gt;
+&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</guid><pubDate>Tue, 14 Apr 2020 13:54:28 GMT</pubDate></item><item><title>Make Emacs faster than Vim in "git mergetool"</title><link>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html"&gt;Emacs is the best merge tool for Git&lt;/a&gt; explains how to combine &lt;a href="https://git-scm.com/docs/git-mergetool/2.20.0"&gt;git mergetool&lt;/a&gt; with &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ediff/"&gt;ediff-mode&lt;/a&gt; in Emacs.
 &lt;/p&gt;
 
@@ -680,120 +749,4 @@ Please enlighten me if the work flow could be improved.&lt;/p&gt;
 git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --theirs {} &amp;amp;&amp;amp; git add {}"
 &lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/git-merge-in-command-line.html</guid><pubDate>Tue, 28 Jan 2014 16:53:00 GMT</pubDate></item><item><title>How to use git effectively</title><link>http://blog.binchen.org/posts/how-to-use-git-effectively.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-To take the full power of git, you need forget GUI and use CLI only. A little knowledge of script language like Bash/Perl/Python may be helpful.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is an example how I use git.
-&lt;/p&gt;
-
-&lt;div id="outline-container-orgc297372" class="outline-2"&gt;
-&lt;h3 id="orgc297372"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc297372"&gt;
-&lt;p&gt;
-I'm working for a big enterprise project which uses git as version control software.  My daily routine is find what files I changed. So I often use git commands with "–stat" parameters.
-&lt;/p&gt;
-
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;git show --stat
-git diff --cached --stat
-git log --stat
-git diff --stat
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Since I use CLI git in bash shell only. I set alias for these commands in bash. For example, I need only type &lt;code&gt;gds&lt;/code&gt; in bash instead of &lt;code&gt;git diff --stat&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-Git commands with "–stat" option usually only display relative paths, so I write some bash function which enable me select that relative path interactively (without using mouse, of course), convert that path to absolute path, and copy that absolute path into clipboard.
-&lt;/p&gt;
-
-&lt;p&gt;
-Getting full path into clipboard is useful because in big projects I need do lots of communication with managers and colleagues. For example, I need list files I changed in our bug tracking system (JIRA) and also email them using Outlook. If you still don't understand why it's hard in big project, let me give you some hint. Big project is usually a big shit. If you edit file A, you will find another 10 files distributed in different location with &lt;b&gt;same file name&lt;/b&gt; and &lt;b&gt;similar code&lt;/b&gt;. Those files are not your business.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org288158b" class="outline-2"&gt;
-&lt;h3 id="org288158b"&gt;Set up&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org288158b"&gt;
-&lt;p&gt;
-Now you understand the problem. Here comes the solution.
-&lt;/p&gt;
-
-&lt;p&gt;
-Step 1, You need install percol by &lt;code&gt;sudo pip install percol&lt;/code&gt;. Percol will provide some interactive UI to help you select the line in shell.
-&lt;/p&gt;
-
-&lt;p&gt;
-Step 2, install xclip under Linux to support paste text into X clipboard. BTW, you did install some clipboard manager under Linux, didn't you?
-&lt;/p&gt;
-
-&lt;p&gt;
-Step 3, insert below code into your ~/.bash:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;# search the file and pop up dialog, then put the full path in clipboard
-
-function pclip() {
-    if [ $OS_NAME == CYGWIN ]; then
-        putclip $@;
-    elif [ $OS_NAME == Darwin ]; then
-        pbcopy $@;
-    elif [ -x /usr/bin/xclip ]; then
-        xclip -selection c $@;
-    else
-        echo "xclip is not installed!"
-    fi
-}
-
-function glsf () {
-    local str=`git --no-pager log --oneline --decorate --stat $* |percol`
-    if [[ $str =~ ^[[:space:]]*([a-z0-9A-Z_.\/-]*).*$ ]]; then
-        echo -n ${BASH_REMATCH[1]} |pclip;
-        echo ${BASH_REMATCH[1]}
-    fi
-}
-
-function ff()
-{
-    # @see http://stackoverflow.com/questions/13373249/extract-substring-using-regexp-in-plain-bash
-    local fullpath=$*
-    local filename=${fullpath##*/}
-    local filter=${fullpath##*./}
-    #  only the filename without path is needed
-    # filename should be reasonable
-    local cli=`find $PWD -type f -iname '*'${filename}'*'|grep ${filter}|percol`
-    echo ${cli}
-    echo -n ${cli} |pclip;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgc8a3372" class="outline-2"&gt;
-&lt;h3 id="orgc8a3372"&gt;Usage&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc8a3372"&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;glsf
-ff line-from-clipboard
-# now I can paste the full path into firefox, outlook ...
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Here is the screen cast:
-&lt;img src="https://dl.dropboxusercontent.com/u/858862/screencast/git-find-full-path.gif" alt="git-find-full-path.gif"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>bash</category><category>en</category><category>git</category><category>linux</category><guid>http://blog.binchen.org/posts/how-to-use-git-effectively.html</guid><pubDate>Fri, 11 Oct 2013 12:38:00 GMT</pubDate></item></channel></rss>
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/git-merge-in-command-line.html</guid><pubDate>Tue, 28 Jan 2014 16:53:00 GMT</pubDate></item></channel></rss>
