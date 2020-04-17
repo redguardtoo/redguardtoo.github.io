@@ -122,7 +122,7 @@ Here is code:
                         (wg-find-session-file wg-default-session-file)
                         (wg-switch-to-workgroup group)))))
 
-(with-eval-after-load "workgroups2"
+(with-eval-after-load 'workgroups2
   ;; make sure wg-create-workgroup always success
   (defadvice wg-create-workgroup (around wg-create-workgroup-hack activate)
     (unless (file-exists-p (wg-get-session-file))

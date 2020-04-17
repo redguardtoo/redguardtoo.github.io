@@ -160,9 +160,9 @@ My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-
 I did some research and found a perfect solution. It's even faster than Vim.
 </p>
 
-<div id="outline-container-org1e80e9a" class="outline-2">
-<h3 id="org1e80e9a">Initial solution</h3>
-<div class="outline-text-2" id="text-org1e80e9a">
+<div id="outline-container-org3fc472f" class="outline-2">
+<h3 id="org3fc472f">Initial solution</h3>
+<div class="outline-text-2" id="text-org3fc472f">
 <p>
 Please note emacsclient is only use for resolving conflicts.
 </p>
@@ -197,9 +197,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 </div>
 </div>
 
-<div id="outline-container-org7f57fa7" class="outline-2">
-<h3 id="org7f57fa7">My real world solution</h3>
-<div class="outline-text-2" id="text-org7f57fa7">
+<div id="outline-container-orga7b1c4d" class="outline-2">
+<h3 id="orga7b1c4d">My real world solution</h3>
+<div class="outline-text-2" id="text-orga7b1c4d">
 <p>
 It's similar to initial solution. But some scripts are created for automation.
 </p>
@@ -351,7 +351,7 @@ My setup code for the packages Troy Hinckley suggested,
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; Enable auto-completion in `shell'.
-(with-eval-after-load "shell"
+(with-eval-after-load 'shell
   (native-complete-setup-bash))
 
 ;; `bash-completion-tokenize' can handle garbage output of "complete -p"
@@ -424,7 +424,7 @@ Here is my setup,
 
 <div class="org-src-container">
 
-<pre><code class="lang-lisp">(with-eval-after-load "lsp-mode"
+<pre><code class="lang-lisp">(with-eval-after-load 'lsp-mode
   ;; enable log only for debug
   (setq lsp-log-io nil)
 
@@ -798,7 +798,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 </p>
 
-<div id="outline-container-org1f594fa" class="outline-2">
+<div id="outline-container-orgc0eb2f1" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -855,7 +855,7 @@ Native Emacs API is enough to save/load windows layout.
 </div>
 </div>
 
-<div id="outline-container-org7dd9561" class="outline-2">
+<div id="outline-container-org6072b85" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 <p>
@@ -1198,9 +1198,9 @@ My current project uses a technology called <a href="https://www.styled-componen
 It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
 </p>
 
-<div id="outline-container-org8453daf" class="outline-2">
-<h3 id="org8453daf">Screencast</h3>
-<div class="outline-text-2" id="text-org8453daf">
+<div id="outline-container-org56369d9" class="outline-2">
+<h3 id="org56369d9">Screencast</h3>
+<div class="outline-text-2" id="text-org56369d9">
 
 <div class="figure">
 <p><img src="wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"></p>
@@ -1208,9 +1208,9 @@ It could dynamically change web application's appearance and is a critical techn
 </div>
 </div>
 
-<div id="outline-container-orgfc5c08b" class="outline-2">
-<h3 id="orgfc5c08b">Code</h3>
-<div class="outline-text-2" id="text-orgfc5c08b">
+<div id="outline-container-orga82eb2a" class="outline-2">
+<h3 id="orga82eb2a">Code</h3>
+<div class="outline-text-2" id="text-orga82eb2a">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'counsel-etags)

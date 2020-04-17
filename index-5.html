@@ -593,9 +593,9 @@ I only record key points,
 I will only talk about how to set up yasnippet 0.7.0 or higher version.
 </p>
 
-<div id="outline-container-org7ff423a" class="outline-2">
-<h3 id="org7ff423a">If you follow `normal install` way, setup is simple</h3>
-<div class="outline-text-2" id="text-org7ff423a">
+<div id="outline-container-org0c1e5c9" class="outline-2">
+<h3 id="org0c1e5c9">If you follow `normal install` way, setup is simple</h3>
+<div class="outline-text-2" id="text-org0c1e5c9">
 <p>
 See its <a href="http://capitaomorte.github.com/yasnippet/">official documentation</a>.
 </p>
@@ -616,9 +616,9 @@ Install the yasnippet into somewhere and add following code into your .emacs:
 </div>
 </div>
 
-<div id="outline-container-orgee9a2fe" class="outline-2">
-<h3 id="orgee9a2fe">If you use elpa package system, setup is even simpler</h3>
-<div class="outline-text-2" id="text-orgee9a2fe">
+<div id="outline-container-orge8bd0d5" class="outline-2">
+<h3 id="orge8bd0d5">If you use elpa package system, setup is even simpler</h3>
+<div class="outline-text-2" id="text-orge8bd0d5">
 <p>
 After installation, you only need two lines in .emacs.
 </p>
@@ -640,16 +640,16 @@ So you only put your own snippets in "~/.emacs.d/snippets" and done. No need to 
 </div>
 </div>
 
-<div id="outline-container-org5047709" class="outline-2">
-<h3 id="org5047709">The real world setup is NOT simple</h3>
-<div class="outline-text-2" id="text-org5047709">
+<div id="outline-container-org71d5288" class="outline-2">
+<h3 id="org71d5288">The real world setup is NOT simple</h3>
+<div class="outline-text-2" id="text-org71d5288">
 <p>
 I will explain the reasons at first and give my complete yasnippet configuration code at the end of the this post.
 </p>
 </div>
-<div id="outline-container-orga1be0aa" class="outline-3">
-<h4 id="orga1be0aa">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
-<div class="outline-text-3" id="text-orga1be0aa">
+<div id="outline-container-orge5168e4" class="outline-3">
+<h4 id="orge5168e4">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
+<div class="outline-text-3" id="text-orge5168e4">
 <p>
 One issue is I need a user-friendly dropdown window popped up when the key I input has several candidates. For example, when I type "inc" in C code. There are two candidates `#include "…"' and `#include &lt;…&gt;' available. A handy dropdown popup will help me to choose one of them as efficient as possible.
 </p>
@@ -664,18 +664,18 @@ The bad news is for some strange reason yasnippet won't load that dropdown-list 
 </div>
 </div>
 
-<div id="outline-container-org48fd2c0" class="outline-3">
-<h4 id="org48fd2c0">`yas/dropdown-prompt' is not perfect</h4>
-<div class="outline-text-3" id="text-org48fd2c0">
+<div id="outline-container-orgeda8ecd" class="outline-3">
+<h4 id="orgeda8ecd">`yas/dropdown-prompt' is not perfect</h4>
+<div class="outline-text-3" id="text-orgeda8ecd">
 <p>
 I cannot scroll down the dropdown window when there are more candidates it can display. That's especially annoying when calling `yas/insert-snippet'. In this case, we need use `yas/completing-prompt' instead. I will show the fix at the end of this article.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org3f1bec7" class="outline-3">
-<h4 id="org3f1bec7">Yasnippet conflicts with other plugins</h4>
-<div class="outline-text-3" id="text-org3f1bec7">
+<div id="outline-container-org39a30b9" class="outline-3">
+<h4 id="org39a30b9">Yasnippet conflicts with other plugins</h4>
+<div class="outline-text-3" id="text-org39a30b9">
 <p>
 I use <a href="http://cx4a.org/software/auto-complete/">Auto Complete Mode</a> (version 20120327 in elpa).  There are two issues when using it with yasnippet.
 </p>
@@ -699,9 +699,9 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
 </div>
 </div>
 
-<div id="outline-container-org85f1573" class="outline-2">
-<h3 id="org85f1573">My final yasnippet setup</h3>
-<div class="outline-text-2" id="text-org85f1573">
+<div id="outline-container-org3b2ca9f" class="outline-2">
+<h3 id="org3b2ca9f">My final yasnippet setup</h3>
+<div class="outline-text-2" id="text-org3b2ca9f">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'yasnippet)

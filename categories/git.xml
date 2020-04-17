@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 14 Apr 2020 13:57:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 17 Apr 2020 01:30:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 My workflow in Git is,
 &lt;/p&gt;
 
@@ -80,9 +80,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org1e80e9a" class="outline-2"&gt;
-&lt;h3 id="org1e80e9a"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org1e80e9a"&gt;
+&lt;div id="outline-container-org3fc472f" class="outline-2"&gt;
+&lt;h3 id="org3fc472f"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3fc472f"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -117,9 +117,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7f57fa7" class="outline-2"&gt;
-&lt;h3 id="org7f57fa7"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7f57fa7"&gt;
+&lt;div id="outline-container-orga7b1c4d" class="outline-2"&gt;
+&lt;h3 id="orga7b1c4d"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga7b1c4d"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -279,7 +279,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org1f594fa" class="outline-2"&gt;
+&lt;div id="outline-container-orgc0eb2f1" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -336,7 +336,7 @@ Native Emacs API is enough to save/load windows layout.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7dd9561" class="outline-2"&gt;
+&lt;div id="outline-container-org6072b85" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;
@@ -655,7 +655,7 @@ The solution is simple. Insert below code into ~/.emacs:
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
-(with-eval-after-load "git-timemachine"
+(with-eval-after-load 'git-timemachine
   (evil-make-overriding-map git-timemachine-mode-map 'normal)
   ;; force update evil keymaps after git-timemachine-mode loaded
   (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
@@ -668,18 +668,18 @@ I also recommend reading &lt;a href="https://bitbucket.org/lyro/evil/issue/511/l
 I use keyboard only in order to maximize my productivity.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org12a61c6" class="outline-2"&gt;
-&lt;h3 id="org12a61c6"&gt;Preparation&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org12a61c6"&gt;
+&lt;div id="outline-container-orgd36daa0" class="outline-2"&gt;
+&lt;h3 id="orgd36daa0"&gt;Preparation&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd36daa0"&gt;
 &lt;p&gt;
 Install Firefox addon &lt;a href="https://github.com/mooz/keysnail/wiki"&gt;Keysnail&lt;/a&gt; and its plugin &lt;a href="https://github.com/mooz/keysnail/wiki/plugin"&gt;HOK&lt;/a&gt;. From now on, all the web browsing is done ONLY in keyboard.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdcfe417" class="outline-2"&gt;
-&lt;h3 id="orgdcfe417"&gt;Step 1&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgdcfe417"&gt;
+&lt;div id="outline-container-org0f44341" class="outline-2"&gt;
+&lt;h3 id="org0f44341"&gt;Step 1&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0f44341"&gt;
 &lt;p&gt;
 Open pull request page at github.com, click the link "command line".
 &lt;/p&gt;
@@ -704,9 +704,9 @@ I have installed a Greasemonkey user script &lt;a href="https://github.com/redgu
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5eabcf1" class="outline-2"&gt;
-&lt;h3 id="org5eabcf1"&gt;Step 2&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5eabcf1"&gt;
+&lt;div id="outline-container-org703bf47" class="outline-2"&gt;
+&lt;h3 id="org703bf47"&gt;Step 2&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org703bf47"&gt;
 &lt;p&gt;
 I open the code file with Emacs.
 &lt;/p&gt;
@@ -729,9 +729,9 @@ In short, I can &lt;b&gt;review the latest commit and change the code in one ste
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3be5742" class="outline-2"&gt;
-&lt;h3 id="org3be5742"&gt;Done&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3be5742"&gt;
+&lt;div id="outline-container-orga35a2e2" class="outline-2"&gt;
+&lt;h3 id="orga35a2e2"&gt;Done&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga35a2e2"&gt;
 &lt;p&gt;
 After review and code change, the remaining book-keeping things (git-commit/git-merge/git-push) are easy.
 &lt;/p&gt;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about systemd)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/systemd.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 12 Apr 2020 05:44:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Why some systemd service on ArchLinux does not work</title><link>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orgbe2b329" class="outline-2"&gt;
-&lt;h3 id="orgbe2b329"&gt;List failed services&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgbe2b329"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about systemd)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/systemd.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 17 Apr 2020 01:30:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Why some systemd service on ArchLinux does not work</title><link>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orgad9d5c4" class="outline-2"&gt;
+&lt;h3 id="orgad9d5c4"&gt;List failed services&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgad9d5c4"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl --failed
@@ -15,9 +15,9 @@ I can also use `sudo journalctl -b` to get the log message when booting all the 
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga785e24" class="outline-2"&gt;
-&lt;h3 id="orga785e24"&gt;Find the root cause of failed service&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga785e24"&gt;
+&lt;div id="outline-container-org050da8d" class="outline-2"&gt;
+&lt;h3 id="org050da8d"&gt;Find the root cause of failed service&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org050da8d"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl status service-name
@@ -27,9 +27,9 @@ I can also use `sudo journalctl -b` to get the log message when booting all the 
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge515c78" class="outline-2"&gt;
-&lt;h3 id="orge515c78"&gt;Why my /usr/lib/systemd/system/network-wifi.service does not work&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge515c78"&gt;
+&lt;div id="outline-container-orge82cdcb" class="outline-2"&gt;
+&lt;h3 id="orge82cdcb"&gt;Why my /usr/lib/systemd/system/network-wifi.service does not work&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge82cdcb"&gt;
 &lt;p&gt;
 Here is the content of my wifi service
 &lt;/p&gt;
@@ -75,9 +75,9 @@ Solutin is simple:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgda38928" class="outline-2"&gt;
-&lt;h3 id="orgda38928"&gt;How to start a service as specific user (mpd, for example)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgda38928"&gt;
+&lt;div id="outline-container-orgc7859f4" class="outline-2"&gt;
+&lt;h3 id="orgc7859f4"&gt;How to start a service as specific user (mpd, for example)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc7859f4"&gt;
 &lt;p&gt;
 This is the content of /usr/lib/systemd/system/mpd.service: 
 &lt;/p&gt;

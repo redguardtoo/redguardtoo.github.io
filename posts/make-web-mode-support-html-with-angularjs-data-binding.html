@@ -11,7 +11,7 @@
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="Make web-mode support HTML with AngularJS data-binding">
 <meta property="og:url" content="http://blog.binchen.org/posts/make-web-mode-support-html-with-angularjs-data-binding.html">
-<meta property="og:description" content='I find it very useful to use `M-x imenu` to jump to the  AngularJS binding point of one HTML file.
+<meta property="og:description" content="I find it very useful to use `M-x imenu` to jump to the  AngularJS binding point of one HTML file.
 
 
 
@@ -20,9 +20,9 @@ Insert below code into ~/.emacs:
 
 
 
-(with-eval-after-load "web-mode"
+(with-eval-after-load 'web-mode
   ;; angular imenu
-  (add-to'>
+  (add-to-">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2014-11-21T11:45:24Z">
 <meta property="article:tag" content="angular">
@@ -80,7 +80,7 @@ Insert below code into ~/.emacs:
 
 <div class="org-src-container">
 
-<pre><code class="lang-lisp">(with-eval-after-load "web-mode"
+<pre><code class="lang-lisp">(with-eval-after-load 'web-mode
   ;; angular imenu
   (add-to-list 'web-mode-imenu-regexp-list
                '(" \\(ng-[a-z]*\\)=\"\\([a-zA-Z0-9]*\\)" 1 2 "=")))

@@ -134,7 +134,7 @@ One issue is <code>company-mode</code> disables code completion in string and co
 
 <div class="org-src-container">
 
-<pre><code class="lang-lisp">(with-eval-after-load "company"
+<pre><code class="lang-lisp">(with-eval-after-load 'company
   ;; @see https://github.com/redguardtoo/emacs.d/commit/2ff305c1ddd7faff6dc9fa0869e39f1e9ed1182d
   (defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
     (if (memq major-mode '(php-mode html-mode web-mode nxml-mode))

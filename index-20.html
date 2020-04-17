@@ -226,9 +226,9 @@ Insert below code into ~/.emacs:
 <a href="https://www.youtube.com/watch?v=Aclyh2c_BEs">https://www.youtube.com/watch?v=Aclyh2c_BEs</a>
 </p>
 
-<div id="outline-container-org7b715d0" class="outline-2">
-<h3 id="org7b715d0">备料</h3>
-<div class="outline-text-2" id="text-org7b715d0">
+<div id="outline-container-orga823610" class="outline-2">
+<h3 id="orga823610">备料</h3>
+<div class="outline-text-2" id="text-orga823610">
 <ul class="org-ul">
 <li>两人份冷水</li>
 <li>米少许(半茶勺)</li>
@@ -247,9 +247,9 @@ Insert below code into ~/.emacs:
 </div>
 </div>
 
-<div id="outline-container-org27c591d" class="outline-2">
-<h3 id="org27c591d">步骤</h3>
-<div class="outline-text-2" id="text-org27c591d">
+<div id="outline-container-org69a93eb" class="outline-2">
+<h3 id="org69a93eb">步骤</h3>
+<div class="outline-text-2" id="text-org69a93eb">
 <ul class="org-ul">
 <li>鸡胸脯肉切成小块,盐过一下三四分钟,洗净刀和板</li>
 <li>烧开水</li>
@@ -264,9 +264,9 @@ Insert below code into ~/.emacs:
 </div>
 </div>
 
-<div id="outline-container-org3534e2c" class="outline-2">
-<h3 id="org3534e2c">上菜</h3>
-<div class="outline-text-2" id="text-org3534e2c">
+<div id="outline-container-org7ac9f8f" class="outline-2">
+<h3 id="org7ac9f8f">上菜</h3>
+<div class="outline-text-2" id="text-org7ac9f8f">
 <ul class="org-ul">
 <li>准备大碗,放入薄荷,葱,适量柠檬汁,倒汤</li>
 <li>柬埔寨神秘香菜(可选)</li>
@@ -478,7 +478,7 @@ The solution is simple. Insert below code into ~/.emacs:
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
-(with-eval-after-load "git-timemachine"
+(with-eval-after-load 'git-timemachine
   (evil-make-overriding-map git-timemachine-mode-map 'normal)
   ;; force update evil keymaps after git-timemachine-mode loaded
   (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
@@ -737,9 +737,9 @@ I will explain how to resolve code merge conflicts with plain vim. The only thir
 The reason to use vim is that I can't use vimdiff as a merge tool for certain VCS (CVS, Subversion, Perforce, …).
 </p>
 
-<div id="outline-container-orge2d6fab" class="outline-2">
-<h3 id="orge2d6fab">Problem</h3>
-<div class="outline-text-2" id="text-orge2d6fab">
+<div id="outline-container-org3fd53f8" class="outline-2">
+<h3 id="org3fd53f8">Problem</h3>
+<div class="outline-text-2" id="text-org3fd53f8">
 <p>
 A typical file in conflict is like:
 </p>
@@ -768,9 +768,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </div>
 </div>
 
-<div id="outline-container-org76e01bf" class="outline-2">
-<h3 id="org76e01bf">Basic knowledge of Vim</h3>
-<div class="outline-text-2" id="text-org76e01bf">
+<div id="outline-container-orgb980c30" class="outline-2">
+<h3 id="orgb980c30">Basic knowledge of Vim</h3>
+<div class="outline-text-2" id="text-orgb980c30">
 <ul class="org-ul">
 <li>"]n" move the focus to the next marker and "[n" to the previous marker.</li>
 <li>"dd" delete current line</li>
@@ -779,9 +779,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </div>
 </div>
 
-<div id="outline-container-org098fe53" class="outline-2">
-<h3 id="org098fe53">Solution</h3>
-<div class="outline-text-2" id="text-org098fe53">
+<div id="outline-container-orgfdab05c" class="outline-2">
+<h3 id="orgfdab05c">Solution</h3>
+<div class="outline-text-2" id="text-orgfdab05c">
 <p>
 Our workflow is actually simple:
 </p>
@@ -848,9 +848,9 @@ UPDATE: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-06-22 W
 This question has been asked so many times, so I answered it here once for all.
 </p>
 
-<div id="outline-container-orgd8f7c92" class="outline-2">
-<h3 id="orgd8f7c92">Solution</h3>
-<div class="outline-text-2" id="text-orgd8f7c92">
+<div id="outline-container-org1a89bc9" class="outline-2">
+<h3 id="org1a89bc9">Solution</h3>
+<div class="outline-text-2" id="text-org1a89bc9">
 <p>
 Insert below code into ~/.emacs:
 </p>
@@ -922,9 +922,9 @@ For <b>any new programming language</b> not covered in this post, there are two 
 </div>
 </div>
 
-<div id="outline-container-org12f7abf" class="outline-2">
-<h3 id="org12f7abf">Tips (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-org12f7abf">
+<div id="outline-container-orgc2bc048" class="outline-2">
+<h3 id="orgc2bc048">Tips (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-orgc2bc048">
 <ul class="org-ul">
 <li>Please note the first paramter of `string-match-p` is actually <b>regular expression</b>. So you can write regular expression like "\\(/proj1\\|work.org\\)"</li>
 
@@ -994,9 +994,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 
 I use <a href="https://angularjs.org/">AngularJS</a> as an example. The technique is actually generic and not limited to Angular Only.
 </p>
 
-<div id="outline-container-org96bec25" class="outline-2">
-<h3 id="org96bec25">Problem</h3>
-<div class="outline-text-2" id="text-org96bec25">
+<div id="outline-container-org761a4ea" class="outline-2">
+<h3 id="org761a4ea">Problem</h3>
+<div class="outline-text-2" id="text-org761a4ea">
 <p>
 In Angular application, a function is defined in a javascript file and called in a html file.
 </p>
@@ -1040,9 +1040,9 @@ In this article, I focus on how I combine Emacs and Ctags. If you use other text
 </div>
 </div>
 
-<div id="outline-container-orgf7cbcc0" class="outline-2">
-<h3 id="orgf7cbcc0">Solution</h3>
-<div class="outline-text-2" id="text-orgf7cbcc0">
+<div id="outline-container-orga963cfb" class="outline-2">
+<h3 id="orga963cfb">Solution</h3>
+<div class="outline-text-2" id="text-orga963cfb">
 <p>
 Ctags is good at parsing files with <b>regular expression</b>.
 </p>
@@ -1057,9 +1057,9 @@ I use Ctags because:
 </ul>
 </div>
 
-<div id="outline-container-org23643e1" class="outline-3">
-<h4 id="org23643e1">Old solution</h4>
-<div class="outline-text-3" id="text-org23643e1">
+<div id="outline-container-org91d2d79" class="outline-3">
+<h4 id="org91d2d79">Old solution</h4>
+<div class="outline-text-3" id="text-org91d2d79">
 <p>
 Here is my <a href="https://gist.github.com/redguardtoo/b12ddae3b8010a276e9b#file-ctags">~/.ctags</a>.
 </p>
@@ -1086,9 +1086,9 @@ Please install the latest helm because I <a href="https://github.com/emacs-helm/
 </div>
 </div>
 
-<div id="outline-container-org971bb36" class="outline-3">
-<h4 id="org971bb36">Latest solution (recommended)</h4>
-<div class="outline-text-3" id="text-org971bb36">
+<div id="outline-container-orgc986548" class="outline-3">
+<h4 id="orgc986548">Latest solution (recommended)</h4>
+<div class="outline-text-3" id="text-orgc986548">
 <p>
 I have developed some ctags packages on code completion and code navigation. No manual setup is needed. Everything just works out of box. My packages are very popular in the Emacs community right now,
 </p>
@@ -1161,9 +1161,9 @@ I use <a href="http://company-mode.github.io/">company-mode</a> most of the time
 I surely can do this in company-mode too. But I prefer hippie-expand because I choose to make company-mode focus on programming stuff and hippie-expand on writing.
 </p>
 
-<div id="outline-container-org14408c8" class="outline-2">
-<h3 id="org14408c8">Solution</h3>
-<div class="outline-text-2" id="text-org14408c8">
+<div id="outline-container-orgb82a01a" class="outline-2">
+<h3 id="orgb82a01a">Solution</h3>
+<div class="outline-text-2" id="text-orgb82a01a">
 <p>
 This solution works <b>in any environment</b>.
 </p>
@@ -1213,9 +1213,9 @@ This solution works <b>in any environment</b>.
 </div>
 </div>
 
-<div id="outline-container-orgadbd1ab" class="outline-2">
-<h3 id="orgadbd1ab">Technical details</h3>
-<div class="outline-text-2" id="text-orgadbd1ab">
+<div id="outline-container-orgbf6e390" class="outline-2">
+<h3 id="orgbf6e390">Technical details</h3>
+<div class="outline-text-2" id="text-orgbf6e390">
 <ul class="org-ul">
 <li>based on <a href="https://github.com/syohex/emacs-ac-ispell">ac-ispell</a>
 </li>

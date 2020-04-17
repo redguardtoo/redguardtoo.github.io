@@ -60,9 +60,9 @@ The techniques are compatible with <a href="https://github.com/jwiegley/use-pack
 Mid-level Lisp knowledge is required to read this article.
 </p>
 
-<div id="outline-container-org7e408c7" class="outline-2">
-<h3 id="org7e408c7">Do NOT use package.el for certain packages</h3>
-<div class="outline-text-2" id="text-org7e408c7">
+<div id="outline-container-org9901d70" class="outline-2">
+<h3 id="org9901d70">Do NOT use package.el for certain packages</h3>
+<div class="outline-text-2" id="text-org9901d70">
 <p>
 Create the directory <code>~/.emacs.d/site-lisp</code>. Then insert below code into <code>~/.emacs</code>,
 </p>
@@ -87,9 +87,9 @@ You can place a package's source code at sub-directory of <code>~/.emacs.d/site-
 </div>
 </div>
 
-<div id="outline-container-orgcd3fd65" class="outline-2">
-<h3 id="orgcd3fd65">Create your own package repository</h3>
-<div class="outline-text-2" id="text-orgcd3fd65">
+<div id="outline-container-orgf68090d" class="outline-2">
+<h3 id="orgf68090d">Create your own package repository</h3>
+<div class="outline-text-2" id="text-orgf68090d">
 <p>
 Step 1, Place two files "archive-contents" and "hello-1.0.0.el" in any directory. Say <code>~/.emacs.d/localelpa</code>. 
 </p>
@@ -149,10 +149,10 @@ Orphan package issue is also resolved by <code>elpa-mirror</code>. You can delet
 </div>
 </div>
 
-<div id="outline-container-org79648f9" class="outline-2">
-<h3 id="org79648f9">
+<div id="outline-container-org8c66d93" class="outline-2">
+<h3 id="org8c66d93">
 <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">Advice</a> <code>package--add-to-archive-contents</code> to filter packages</h3>
-<div class="outline-text-2" id="text-org79648f9">
+<div class="outline-text-2" id="text-org8c66d93">
 <p>
 Insert below code into ~/.emacs,
 </p>
@@ -216,9 +216,9 @@ This solution is copied from Steve Purcell's setup with a little modification.
 </div>
 </div>
 
-<div id="outline-container-org937d9a4" class="outline-2">
-<h3 id="org937d9a4">Summary</h3>
-<div class="outline-text-2" id="text-org937d9a4">
+<div id="outline-container-orgcc4bb3f" class="outline-2">
+<h3 id="orgcc4bb3f">Summary</h3>
+<div class="outline-text-2" id="text-orgcc4bb3f">
 <p>
 You can combine above techniques to <b>solve any package issue</b>.
 </p>
@@ -756,9 +756,9 @@ Salesforce provides <a href="https://developer.salesforce.com/docs/atlas.en-us.d
 Luckily, there is <a href="https://force-cli.heroku.com/">Force.com CLI</a> which can upload single file in a few seconds. Both Sublime Text and Emacs use this tool.
 </p>
 
-<div id="outline-container-orgb99b8ee" class="outline-2">
-<h3 id="orgb99b8ee">Sublime Text</h3>
-<div class="outline-text-2" id="text-orgb99b8ee">
+<div id="outline-container-orgb51326b" class="outline-2">
+<h3 id="orgb51326b">Sublime Text</h3>
+<div class="outline-text-2" id="text-orgb51326b">
 <p>
 You need install sublime text plugin <a href="http://mavensmate.com/Getting_Started/Users">mavensmate</a>. After installation, you need click <code>Login</code> menu at least once. Then when you save the code file, it's automatically deployed to the server.
 </p>
@@ -778,9 +778,9 @@ Mavensmate is actually just GUI wrapper of Force.com CLI,
 </div>
 </div>
 
-<div id="outline-container-orgdf342f4" class="outline-2">
-<h3 id="orgdf342f4">Emacs</h3>
-<div class="outline-text-2" id="text-orgdf342f4">
+<div id="outline-container-org8ca6eba" class="outline-2">
+<h3 id="org8ca6eba">Emacs</h3>
+<div class="outline-text-2" id="text-org8ca6eba">
 <p>
 In Sublime Text I have to re-login and fetch from time to time. That get me distracted. I prefer executing only one commmand to upload the file in editing. That command should be always successful.
 </p>

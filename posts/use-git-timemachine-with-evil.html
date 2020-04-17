@@ -88,7 +88,7 @@ The solution is simple. Insert below code into ~/.emacs:
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
-(with-eval-after-load "git-timemachine"
+(with-eval-after-load 'git-timemachine
   (evil-make-overriding-map git-timemachine-mode-map 'normal)
   ;; force update evil keymaps after git-timemachine-mode loaded
   (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))

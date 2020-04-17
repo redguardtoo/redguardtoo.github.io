@@ -67,9 +67,9 @@ Perforce is a proprietary VCS. It's less powerful than <a href="https://git-scm.
 For example, <code>git log -p file-path</code> displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like <code>p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}</code> can't do it. I have to use Emacs Lisp to clean the output of <code>p4</code>.
 </p>
 
-<div id="outline-container-org23de93c" class="outline-2">
-<h3 id="org23de93c">Perforce workflow</h3>
-<div class="outline-text-2" id="text-org23de93c">
+<div id="outline-container-orgc9517c0" class="outline-2">
+<h3 id="orgc9517c0">Perforce workflow</h3>
+<div class="outline-text-2" id="text-orgc9517c0">
 <ul class="org-ul">
 <li>
 <code>p4 set</code> to <a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html">set up</a>
@@ -90,9 +90,9 @@ For example, <code>git log -p file-path</code> displays the detailed history of 
 </div>
 </div>
 
-<div id="outline-container-org4a99138" class="outline-2">
-<h3 id="org4a99138">My solution</h3>
-<div class="outline-text-2" id="text-org4a99138">
+<div id="outline-container-org91261ed" class="outline-2">
+<h3 id="org91261ed">My solution</h3>
+<div class="outline-text-2" id="text-org91261ed">
 <p>
 Perforce Cygwin portable is not recommended.
 </p>
@@ -105,9 +105,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed <code>p4</code> that URL, the operation is always successful.
 </p>
 </div>
-<div id="outline-container-orgd8ee54f" class="outline-3">
-<h4 id="orgd8ee54f">Emacs</h4>
-<div class="outline-text-3" id="text-orgd8ee54f">
+<div id="outline-container-org6329f2f" class="outline-3">
+<h4 id="org6329f2f">Emacs</h4>
+<div class="outline-text-3" id="text-org6329f2f">
 <p>
 I developed <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a> which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need <code>p4 login</code> at first.)
 </p>
@@ -269,9 +269,9 @@ You can also check my <a href="https://github.com/redguardtoo/emacs.d/blob/maste
 </p>
 </div>
 </div>
-<div id="outline-container-org25faf65" class="outline-3">
-<h4 id="org25faf65">Bash Shell</h4>
-<div class="outline-text-3" id="text-org25faf65">
+<div id="outline-container-org30d9057" class="outline-3">
+<h4 id="org30d9057">Bash Shell</h4>
+<div class="outline-text-3" id="text-org30d9057">
 <p>
 Other operations are finished in Bash Shell,
 </p>
@@ -507,9 +507,9 @@ Screenshot:
             </div>
             <div class="body">
                 <div>
-<div id="outline-container-org82ea80a" class="outline-2">
-<h3 id="org82ea80a">原料</h3>
-<div class="outline-text-2" id="text-org82ea80a">
+<div id="outline-container-orga56bb1d" class="outline-2">
+<h3 id="orga56bb1d">原料</h3>
+<div class="outline-text-2" id="text-orga56bb1d">
 <ul class="org-ul">
 <li>韭菜一斤(8把)</li>
 <li>虾仁适量</li>
@@ -520,9 +520,9 @@ Screenshot:
 </div>
 </div>
 
-<div id="outline-container-org7389d96" class="outline-2">
-<h3 id="org7389d96">流程</h3>
-<div class="outline-text-2" id="text-org7389d96">
+<div id="outline-container-orga5742c1" class="outline-2">
+<h3 id="orga5742c1">流程</h3>
+<div class="outline-text-2" id="text-orga5742c1">
 <ul class="org-ul">
 <li>韭菜切碎</li>
 <li>虾仁切成小块</li>
@@ -672,9 +672,9 @@ Setup is minimum. Only GNU Global and two Emacs plugins are required:
 Here is the step to step guide.
 </p>
 
-<div id="outline-container-orgb155180" class="outline-2">
-<h3 id="orgb155180">Step 1, create sample projects for experiment</h3>
-<div class="outline-text-2" id="text-orgb155180">
+<div id="outline-container-org14928d8" class="outline-2">
+<h3 id="org14928d8">Step 1, create sample projects for experiment</h3>
+<div class="outline-text-2" id="text-org14928d8">
 <p>
 I have two projects <code>~/proj1</code> and <code>~/proj2</code>.
 </p>
@@ -725,9 +725,9 @@ int main(int argc, char *argv[]) {
 </div>
 </div>
 
-<div id="outline-container-orged120cd" class="outline-2">
-<h3 id="orged120cd">Step 2, scan C++ code and setup Emacs</h3>
-<div class="outline-text-2" id="text-orged120cd">
+<div id="outline-container-orgd1773b1" class="outline-2">
+<h3 id="orgd1773b1">Step 2, scan C++ code and setup Emacs</h3>
+<div class="outline-text-2" id="text-orgd1773b1">
 <p>
 Run below command in shell to scan code,
 </p>
@@ -773,9 +773,9 @@ After installing Emacs plugins and setup (minimum setup from their website is en
 </div>
 </div>
 
-<div id="outline-container-org5b358d3" class="outline-2">
-<h3 id="org5b358d3">Usage</h3>
-<div class="outline-text-2" id="text-org5b358d3">
+<div id="outline-container-org87c9850" class="outline-2">
+<h3 id="org87c9850">Usage</h3>
+<div class="outline-text-2" id="text-org87c9850">
 <p>
 Use the Emacs plugins as usual.
 </p>
@@ -795,9 +795,9 @@ Screenshot,
 </div>
 </div>
 
-<div id="outline-container-org2d00ec3" class="outline-2">
-<h3 id="org2d00ec3">Tip</h3>
-<div class="outline-text-2" id="text-org2d00ec3">
+<div id="outline-container-org894c195" class="outline-2">
+<h3 id="org894c195">Tip</h3>
+<div class="outline-text-2" id="text-org894c195">
 <p>
 GNU Global could use ctags (Either <a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> or <a href="https://ctags.io/">Universal Ctags</a>) as backend to create tags file.
 </p>
@@ -812,9 +812,9 @@ If you prefer ctags, you could use it directly. Then you can use <a href="https:
 </div>
 </div>
 
-<div id="outline-container-orgff65af7" class="outline-2">
-<h3 id="orgff65af7">Technical Details (Optional)</h3>
-<div class="outline-text-2" id="text-orgff65af7">
+<div id="outline-container-org5499df7" class="outline-2">
+<h3 id="org5499df7">Technical Details (Optional)</h3>
+<div class="outline-text-2" id="text-org5499df7">
 <p>
 Check <a href="https://www.gnu.org/software/global/manual/global.html">GNU Global manual</a> to understand environment variables <code>GTAGSLIBPATH</code> and <code>MAKEOBJDIRPREFIX</code>.
 </p>
@@ -929,9 +929,9 @@ In essence, a major mode is just a collection of APIs. We could use its APIs wit
 Here are two examples.
 </p>
 
-<div id="outline-container-org07eb2d7" class="outline-2">
-<h3 id="org07eb2d7">Validate JSON</h3>
-<div class="outline-text-2" id="text-org07eb2d7">
+<div id="outline-container-org9ee08c4" class="outline-2">
+<h3 id="org9ee08c4">Validate JSON</h3>
+<div class="outline-text-2" id="text-org9ee08c4">
 <p>
 <code>M-x my-validate-json-or-js-expression</code> to validate the buffer.
 </p>
@@ -977,9 +977,9 @@ If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
 </div>
 </div>
 
-<div id="outline-container-org1395aec" class="outline-2">
-<h3 id="org1395aec">Print JSON path</h3>
-<div class="outline-text-2" id="text-org1395aec">
+<div id="outline-container-org9377294" class="outline-2">
+<h3 id="org9377294">Print JSON path</h3>
+<div class="outline-text-2" id="text-org9377294">
 <p>
 For example, you got JSON string  <code>{"a": {"b": 3}}</code>. If you place cursor over <code>3</code> and <code>M-x my-print-json-path</code>, you got output <code>a.b</code>.
 </p>
@@ -1012,9 +1012,9 @@ If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it.
 </div>
 </div>
 
-<div id="outline-container-orge74adc5" class="outline-2">
-<h3 id="orge74adc5">Summary</h3>
-<div class="outline-text-2" id="text-orge74adc5">
+<div id="outline-container-orgbe30d80" class="outline-2">
+<h3 id="orgbe30d80">Summary</h3>
+<div class="outline-text-2" id="text-orgbe30d80">
 <p>
 As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
 </p>

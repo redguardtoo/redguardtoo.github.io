@@ -69,9 +69,9 @@ If you are impatient, jump to the "Quick Start" and paste my setup into your ~/.
 No extra setup needed! Then keep using your js2-mode happily, as if nothing happened. ;) 
 </p>
 
-<div id="outline-container-orgb1a8fad" class="outline-2">
-<h3 id="orgb1a8fad">Problem</h3>
-<div class="outline-text-2" id="text-orgb1a8fad">
+<div id="outline-container-org4e65bd8" class="outline-2">
+<h3 id="org4e65bd8">Problem</h3>
+<div class="outline-text-2" id="text-org4e65bd8">
 <p>
 In my previous article <a href="http://blog.binchen.org/posts/why-emacs-is-better-editor.html">Why Emacs is better editor - a case study for javascript developer</a>, I proved that Emacs is better than <a href="http://www.sublimetext.com/">Sublime Text</a>.
 </p>
@@ -106,9 +106,9 @@ As you can see, using regular expression to extract the string "MyController" is
 </div>
 </div>
 
-<div id="outline-container-org717bfa6" class="outline-2">
-<h3 id="org717bfa6">Solution</h3>
-<div class="outline-text-2" id="text-org717bfa6">
+<div id="outline-container-org568b21b" class="outline-2">
+<h3 id="org568b21b">Solution</h3>
+<div class="outline-text-2" id="text-org568b21b">
 <p>
 My latest <a href="https://github.com/mooz/js2-mode/pull/169">contribution to js2-mode</a> solves this problem perfectly. It <b>combines the powers of AST and regular expression</b>.
 </p>
@@ -190,9 +190,9 @@ Sublime users also argue that Sublime3 uses <a href="https://www.python.org/">Py
 </div>
 </div>
 
-<div id="outline-container-org4407dd0" class="outline-2">
-<h3 id="org4407dd0">Quick Start</h3>
-<div class="outline-text-2" id="text-org4407dd0">
+<div id="outline-container-orgcb873e0" class="outline-2">
+<h3 id="orgcb873e0">Quick Start</h3>
+<div class="outline-text-2" id="text-orgcb873e0">
 <p>
 I'm still discussing with the js2-mode maintainer Dmitry Gutov about the best way to merge my patch.
 </p>
@@ -346,7 +346,7 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
   (setq extra-rlt (js2-imenu--remove-duplicate-items extra-rlt))
   (append rlt extra-rlt))
 
-(with-eval-after-load "js2-mode"
+(with-eval-after-load 'js2-mode
   (defadvice js2-mode-create-imenu-index (around my-js2-mode-create-imenu-index activate)
     (let (extra-rlt)
       ad-do-it
