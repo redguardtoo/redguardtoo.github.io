@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 17 Apr 2020 01:30:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 21 Apr 2020 11:37:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 My workflow in Git is,
 &lt;/p&gt;
 
@@ -80,9 +80,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org3fc472f" class="outline-2"&gt;
-&lt;h3 id="org3fc472f"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3fc472f"&gt;
+&lt;div id="outline-container-orgdb24522" class="outline-2"&gt;
+&lt;h3 id="orgdb24522"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdb24522"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -117,9 +117,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga7b1c4d" class="outline-2"&gt;
-&lt;h3 id="orga7b1c4d"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga7b1c4d"&gt;
+&lt;div id="outline-container-org62b3681" class="outline-2"&gt;
+&lt;h3 id="org62b3681"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org62b3681"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -166,11 +166,12 @@ Step 3, create &lt;code&gt;ediff.sh&lt;/code&gt;:
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
 [ -z "$MYEMACSCLIENT" ] &amp;amp;&amp;amp; MYEMACSCLIENT="emacs"
-# $1=$BASE, $2=$LOCAL, $3=$REMOTE, $4=$MERGED
+# emacsclient won't work in git mergetool
+# $1=$LOCAL $2=$REMOTE $3=$BASE $4=$MERGED
 if [ "$MYEMACSCLIENT" = "emacs" ]; then
-    $MYEMACSCLIENT -nw -Q --eval "(setq startup-now t)" -l "$HOME/.emacs.d/init.el" --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$2\" \"$3\" nil \"$4\")))"
+    $MYEMACSCLIENT -nw -Q --eval "(setq startup-now t)" -l "$HOME/.emacs.d/init.el" --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
 else
-    $MYEMACSCLIENT -nw --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$2\" \"$3\" nil \"$4\")))"
+    $MYEMACSCLIENT -nw --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
 fi
 &lt;/code&gt;&lt;/pre&gt;
 
