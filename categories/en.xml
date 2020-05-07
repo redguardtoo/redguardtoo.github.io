@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 21 Apr 2020 11:37:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Thu, 07 May 2020 12:08:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
+&lt;li&gt;Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and turn off mic to reduce the noise&lt;/li&gt;
+&lt;li&gt;Run &lt;code&gt;alsamixer&lt;/code&gt; to double check pulse setup&lt;/li&gt;
+&lt;li&gt;Make sure correct device is selected in &lt;a href="https://www.audacityteam.org/"&gt;audacity&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Restart &lt;code&gt;audacity&lt;/code&gt; and test&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+My &lt;code&gt;alsamixer&lt;/code&gt; setup,
+&lt;img src="http://blog.binchen.org/wp-content/alsamixer-nq8.png" alt="alsamixer-nq8.png"&gt;&lt;/p&gt;&lt;/div&gt;</description><category>audio</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/audio-recording-on-linux.html</guid><pubDate>Thu, 07 May 2020 12:04:13 GMT</pubDate></item><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 My workflow in Git is,
 &lt;/p&gt;
 
@@ -925,45 +934,4 @@ It could dynamically change web application's appearance and is a critical techn
 
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>etags</category><category>javascript</category><guid>http://blog.binchen.org/posts/javascript-code-navigation-in-counsel-etags.html</guid><pubDate>Mon, 22 Jul 2019 12:07:16 GMT</pubDate></item><item><title>dianyou 0.0.3 is out</title><link>http://blog.binchen.org/posts/dianyou-0-0-3-is-out.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-I created &lt;a href="https://github.com/redguardtoo/dianyou"&gt;dianyou&lt;/a&gt; (电邮) to solve improve my Gnus work flow.
-&lt;/p&gt;
-
-&lt;div id="outline-container-org9bcfe17" class="outline-2"&gt;
-&lt;h3 id="org9bcfe17"&gt;Search mails&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9bcfe17"&gt;
-&lt;p&gt;
-Most Gnus users use &lt;code&gt;gnus-group-make-nnir-group&lt;/code&gt; to search mails. But it's not usable in "Summary Buffer". Its &lt;a href="https://tools.ietf.org/html/rfc3501#section-6.4.4"&gt;IMAP SEARCH Command&lt;/a&gt; is hard to use.
-&lt;/p&gt;
-
-&lt;p&gt;
-It could be replaced by &lt;code&gt;dianyou-group-make-nnir-group&lt;/code&gt; which supports shortcuts. For example, you can input "f John s 1y2w2d" and select "imap" when Gnus asks the question "Imap Search in". It means search mails from John since 1 year, 2 weeks and 2 days ago.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgb336618" class="outline-2"&gt;
-&lt;h3 id="orgb336618"&gt;Auto complete email address&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb336618"&gt;
-&lt;p&gt;
-I'm too lazy to set up my contacts. It would be better that Gnus could &lt;b&gt;automatically&lt;/b&gt; collect email addresses from all received mails. So I created the command &lt;code&gt;dianyou-insert-email-address-from-received-mails&lt;/code&gt;. The inserted email address is also inserted into the global variable &lt;code&gt;dianyou-email-address-history&lt;/code&gt; which could be persisted by &lt;a href="https://github.com/jwiegley/session"&gt;session&lt;/a&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org3a52a6f" class="outline-2"&gt;
-&lt;h3 id="org3a52a6f"&gt;Switch Gnus buffer&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3a52a6f"&gt;
-&lt;p&gt;
-One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use &lt;code&gt;dianyou-switch-gnus-buffer&lt;/code&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgde764e8" class="outline-2"&gt;
-&lt;h3 id="orgde764e8"&gt;Paste image from clipboard&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgde764e8"&gt;
-&lt;p&gt;
-Use &lt;code&gt;dianyou-paste-image-from-clipboard&lt;/code&gt;. CLI program &lt;a href="https://github.com/astrand/xclip"&gt;xclip&lt;/a&gt; should be installed at first.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://blog.binchen.org/posts/dianyou-0-0-3-is-out.html</guid><pubDate>Tue, 04 Jun 2019 12:54:48 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>etags</category><category>javascript</category><guid>http://blog.binchen.org/posts/javascript-code-navigation-in-counsel-etags.html</guid><pubDate>Mon, 22 Jul 2019 12:07:16 GMT</pubDate></item></channel></rss>

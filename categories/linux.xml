@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 17 Apr 2020 01:30:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs speed up 1000%</title><link>http://blog.binchen.org/posts/emacs-speed-up-1000.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Thu, 07 May 2020 12:08:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
+&lt;li&gt;Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and turn off mic to reduce the noise&lt;/li&gt;
+&lt;li&gt;Run &lt;code&gt;alsamixer&lt;/code&gt; to double check pulse setup&lt;/li&gt;
+&lt;li&gt;Make sure correct device is selected in &lt;a href="https://www.audacityteam.org/"&gt;audacity&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Restart &lt;code&gt;audacity&lt;/code&gt; and test&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+My &lt;code&gt;alsamixer&lt;/code&gt; setup,
+&lt;img src="http://blog.binchen.org/wp-content/alsamixer-nq8.png" alt="alsamixer-nq8.png"&gt;&lt;/p&gt;&lt;/div&gt;</description><category>audio</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/audio-recording-on-linux.html</guid><pubDate>Thu, 07 May 2020 12:04:13 GMT</pubDate></item><item><title>Emacs speed up 1000%</title><link>http://blog.binchen.org/posts/emacs-speed-up-1000.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 I'm still &lt;b&gt;NOT&lt;/b&gt; satisfied with my Emacs performance after applying below tricks:
 &lt;/p&gt;
 
@@ -538,13 +547,4 @@ Run &lt;code&gt;pacman -Syu&lt;/code&gt; to upgrade all packages.
 &lt;li&gt;Then grub&lt;/li&gt;
 &lt;li&gt;Setup (hd0) to install MBR&lt;/li&gt;
 &lt;li&gt;Restart netbook (make sure the boot priority is right)&lt;/li&gt;
-&lt;/ul&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>linux</category><category>upgrade</category><guid>http://blog.binchen.org/posts/memo-on-upgrading-archlinux.html</guid><pubDate>Sun, 03 Nov 2013 23:29:00 GMT</pubDate></item><item><title>notes on upgrading Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-on-upgrading-gentoo-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;pre class="prettyprint "&gt;
-&lt;p&gt;sudo emerge --update --deep --with-bdeps=y --newuse world
-&lt;/p&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;I get notified that some newer version package is required, so I have to manually install those package and re-run the &lt;code&gt;emerge world&lt;/code&gt; &lt;/li&gt; &lt;li&gt;Some package is gone (libreoffice-bin, for example). &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; Here is command to manually install package: &lt;/p&gt;   
-&lt;pre class="prettyprint "&gt;
-
-sudo ebuild /usr/portage/www-client/firefox-bin/firefox-bin-23.0.ebuild unpack compile install qmerge clean
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>linux</category><category>upgrade</category><guid>http://blog.binchen.org/posts/notes-on-upgrading-gentoo-linux.html</guid><pubDate>Sat, 26 Oct 2013 19:47:54 GMT</pubDate></item></channel></rss>
+&lt;/ul&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>linux</category><category>upgrade</category><guid>http://blog.binchen.org/posts/memo-on-upgrading-archlinux.html</guid><pubDate>Sun, 03 Nov 2013 23:29:00 GMT</pubDate></item></channel></rss>
