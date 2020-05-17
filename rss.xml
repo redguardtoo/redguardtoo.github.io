@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 17 May 2020 06:26:38 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 17 May 2020 06:30:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
@@ -16,7 +16,7 @@ The CLI program aspell and hunspell can only parse plain text. They don't know a
 &lt;/p&gt;
 
 &lt;p&gt;
-Fly Spell feeds the output of CLI program into its own Lisp predicate named &lt;code&gt;flyspell-generic-check-word-predicate&lt;/code&gt; whose default values is nil.
+Fly Spell feeds the output of CLI program into its own Lisp predicate named &lt;code&gt;flyspell-generic-check-word-predicate&lt;/code&gt; whose default value is nil.
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -24,11 +24,11 @@ When executing &lt;code&gt;(flyspell-mode 1)&lt;/code&gt;, the &lt;a href="https
 &lt;/p&gt;
 
 &lt;p&gt;
-For example, you can run &lt;code&gt;(get major-mode 'flyspell-mode-predicate)&lt;/code&gt; to get predicate of current major mode and &lt;code&gt;(get 'web-mode 'flyspell-mode-predicate)&lt;/code&gt; to get predicate of &lt;code&gt;web-mode&lt;/code&gt;. 
+For example, you can run &lt;code&gt;(get major-mode 'flyspell-mode-predicate)&lt;/code&gt; to get predicate of current major mode, &lt;code&gt;(get 'web-mode 'flyspell-mode-predicate)&lt;/code&gt; to get predicate of &lt;code&gt;web-mode&lt;/code&gt;. 
 &lt;/p&gt;
 
 &lt;p&gt;
-The predicate is just a simple function without parameter, here is my predicate for &lt;code&gt;web-mode&lt;/code&gt;,
+The predicate is a simple function without parameter. Here is my predicate for &lt;code&gt;web-mode&lt;/code&gt;,
 &lt;/p&gt;
 
 &lt;div class="org-src-container"&gt;

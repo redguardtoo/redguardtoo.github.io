@@ -82,7 +82,7 @@ The CLI program aspell and hunspell can only parse plain text. They don't know a
 </p>
 
 <p>
-Fly Spell feeds the output of CLI program into its own Lisp predicate named <code>flyspell-generic-check-word-predicate</code> whose default values is nil.
+Fly Spell feeds the output of CLI program into its own Lisp predicate named <code>flyspell-generic-check-word-predicate</code> whose default value is nil.
 </p>
 
 <p>
@@ -90,11 +90,11 @@ When executing <code>(flyspell-mode 1)</code>, the <a href="https://github.com/e
 </p>
 
 <p>
-For example, you can run <code>(get major-mode 'flyspell-mode-predicate)</code> to get predicate of current major mode and <code>(get 'web-mode 'flyspell-mode-predicate)</code> to get predicate of <code>web-mode</code>. 
+For example, you can run <code>(get major-mode 'flyspell-mode-predicate)</code> to get predicate of current major mode, <code>(get 'web-mode 'flyspell-mode-predicate)</code> to get predicate of <code>web-mode</code>. 
 </p>
 
 <p>
-The predicate is just a simple function without parameter, here is my predicate for <code>web-mode</code>,
+The predicate is a simple function without parameter. Here is my predicate for <code>web-mode</code>,
 </p>
 
 <div class="org-src-container">
