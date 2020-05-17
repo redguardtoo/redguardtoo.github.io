@@ -1,5 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Thu, 07 May 2020 12:08:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 17 May 2020 06:22:34 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
+&lt;/p&gt;
+
+&lt;p&gt;
+You could read my article &lt;a href="https://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html"&gt;What's the best spell check setup in emacs&lt;/a&gt; for basic knowledge.
+&lt;/p&gt;
+
+&lt;p&gt;
+The purpose of this article is to introduce some new techniques to make Fly Spell more powerful and faster.
+&lt;/p&gt;
+
+&lt;p&gt;
+The CLI program aspell and hunspell can only parse plain text. They don't know any programming language syntax.
+&lt;/p&gt;
+
+&lt;p&gt;
+Fly Spell feeds the output of CLI program into its own Lisp predicate named &lt;code&gt;flyspell-generic-check-word-predicate&lt;/code&gt; whose default values is nil.
+&lt;/p&gt;
+
+&lt;p&gt;
+When executing &lt;code&gt;(flyspell-mode 1)&lt;/code&gt;, the &lt;a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L655"&gt;per mode predicate is assigned&lt;/a&gt; to &lt;code&gt;flyspell-generic-check-word-predicate&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, you can run &lt;code&gt;(get major-mode 'flyspell-mode-predicate)&lt;/code&gt; to get predicate of current major mode and &lt;code&gt;(get 'web-mode 'flyspell-mode-predicate)&lt;/code&gt; to get predicate of &lt;code&gt;web-mode&lt;/code&gt;. 
+&lt;/p&gt;
+
+&lt;p&gt;
+The predicate is just a simple function without parameter, here is my predicate for &lt;code&gt;web-mode&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-web-mode-flyspell-verify ()
+  "Fly Spell predicate of `web-mode`."
+  (let* ((font-face-at-point (get-text-property (- (point) 1) 'face))
+         rlt)
+    ;; If rlt is t, the word at point is POSSIBLY a typo, continue checking.
+    (setq rlt t)
+    ;; if rlt is nil, the word at point is definitely NOT a typo.
+    ;; (setq rlt nil)
+    rlt))
+;; Attach my predicate to `web-mode`
+(put 'web-mode 'flyspell-mode-predicate 'my-web-mode-flyspell-verify)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+If you read code of &lt;a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L435"&gt;flyspell-prog-mode&lt;/a&gt;, you will find it just set &lt;code&gt;flyspell-generic-check-word-predicate&lt;/code&gt; to its own predicate &lt;code&gt;flyspell-generic-progmode-verify&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar flyspell-prog-text-faces
+  '(font-lock-string-face font-lock-comment-face font-lock-doc-face)
+  "Faces corresponding to text in programming-mode buffers.")
+
+(defun flyspell-generic-progmode-verify ()
+  "Used for `flyspell-generic-check-word-predicate' in programming modes."
+  (unless (eql (point) (point-min))
+    ;; (point) is next char after the word. Must check one char before.
+    (let ((f (get-text-property (1- (point)) 'face)))
+      (memq f flyspell-prog-text-faces))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As you can see, &lt;code&gt;flyspell-generic-progmode-verify&lt;/code&gt; is very simple. If the word at point is not inside comment or string, the predicate returns nil which means the word is not a typo.
+&lt;/p&gt;
+
+&lt;p&gt;
+So in theory I can write my own predicate to replace simple &lt;code&gt;flyspell-generic-progmode-verify&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+But in reality it's not as simple. The predicate is written in Lisp so it's slow. If my predicate is too complicated, flyspell process will block other actions and Emacs could be frequently un-responsive when I'm editing text.
+&lt;/p&gt;
+
+&lt;p&gt;
+The &lt;code&gt;flyspell-mode&lt;/code&gt; starts checking when &lt;a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L158"&gt;text in current buffer is modified&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+My solution is not to turn on &lt;code&gt;flyspell-mode&lt;/code&gt;. Instead, I manage the spell checking by myself using APIs from flyspell.
+&lt;/p&gt;
+
+&lt;p&gt;
+I only spell check when user saving current buffer. The interval between spell check should not be less than 5 minutes. Spell check is done by calling API &lt;code&gt;flyspell-buffer&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Checking the whole buffer is still slow. Instead, we can check the text region in current window by calling &lt;code&gt;flyspell-region&lt;/code&gt; instead. The api &lt;code&gt;window-total-height&lt;/code&gt; returns the height of current Windows. So I can use below code to get the region to check,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(let* (beg end (orig-pos (point)))
+  (save-excursion
+    (forward-line (- (window-total-height)))
+    (setq beg (line-beginning-position))
+    (goto-char orig-pos)
+    (forward-line (window-total-height))
+    (setq end (line-end-position)))
+  (flyspell-region beg end))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I also need respect the predicate embedded in the major mode in my own generic predicate. Since per mode predicate has already checked the font face, I should &lt;a href="https://github.com/redguardtoo/wucuo/blob/49d2ae558068954eb8c4324b8ee7a6b2b0a00ef9/wucuo.el#L320"&gt;skip the font face check in generic predicate if per mode predicate exists&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Above algorithms are implemented in &lt;a href="https://github.com/redguardtoo/wucuo"&gt;wucuo&lt;/a&gt;. Here is its usage,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun prog-mode-hook-setup ()
+  ;; (setq wucuo-flyspell-start-mode "lite")
+  ;; (setq wucuo-flyspell-start-mode "ultra")
+  (wucuo-start t))
+(add-hook 'prog-mode-hook 'prog-mode-hook-setup)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "full" (default value), &lt;code&gt;flyspell-mode&lt;/code&gt; is enabled. In this case, wucuo is only the advanced version of &lt;code&gt;flyspell-mode&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;p&gt;
+If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "lite", &lt;code&gt;flyspell-buffer&lt;/code&gt; is used, checking is done when user saves current buffer.
+&lt;/p&gt;
+
+&lt;p&gt;
+If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "ultra", &lt;code&gt;flyspell-region&lt;/code&gt; is used, checking is done when user saves current buffer.&lt;/p&gt;&lt;/div&gt;</description><category>check</category><category>emacs</category><category>en</category><category>flyspell</category><category>spell</category><guid>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs.html</guid><pubDate>Sun, 17 May 2020 06:20:55 GMT</pubDate></item><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
 &lt;li&gt;Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and turn off mic to reduce the noise&lt;/li&gt;
 &lt;li&gt;Run &lt;code&gt;alsamixer&lt;/code&gt; to double check pulse setup&lt;/li&gt;
 &lt;li&gt;Make sure correct device is selected in &lt;a href="https://www.audacityteam.org/"&gt;audacity&lt;/a&gt;&lt;/li&gt;
@@ -808,34 +947,4 @@ screenshot:
 &lt;div class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/counsel-etags-imenu.png" alt="counsel-etags-imenu.png"&gt;
 &lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;</description><guid>http://blog.binchen.org/posts/counsel-etags-1-9-0-is-out.html</guid><pubDate>Sun, 27 Oct 2019 12:38:05 GMT</pubDate></item><item><title>Aspell 0.60.8 will have direct support for camelCase words</title><link>http://blog.binchen.org/posts/aspell-0-60-8-will-have-direct-support-for-camelcase-words.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-&lt;a href="https://github.com/redguardtoo/emacs.d/issues/796"&gt;Kevin Atkinso&lt;/a&gt; told me this good news.
-&lt;/p&gt;
-
-&lt;p&gt;
-Currently I'm using &lt;a href="https://github.com/redguardtoo/wucuo"&gt;Emacs Lisp&lt;/a&gt; to check camel case words.
-&lt;/p&gt;
-
-&lt;p&gt;
-The new option &lt;code&gt;--camel-case&lt;/code&gt; from aspell will definitely speed up the whole process.
-&lt;/p&gt;
-
-&lt;p&gt;
-Minimum Emacs setup,
-&lt;/p&gt;
-
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq ispell-program-name "aspell")
-(setq-default ispell-extra-args '("--sug-mode=ultra"
-                                  "--lang=en_US"))
-;; Make sure new aspell is installed
-(when (string-match-p "--camel-case"
-                      (shell-command-to-string (concat ispell-program-name " --help")))
-  (push "--camel-case" ispell-extra-args))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Optionally, you could read &lt;a href="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html"&gt;What's the best spell check setup in emacs&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>aspell</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/aspell-0-60-8-will-have-direct-support-for-camelcase-words.html</guid><pubDate>Sun, 01 Sep 2019 13:13:35 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><guid>http://blog.binchen.org/posts/counsel-etags-1-9-0-is-out.html</guid><pubDate>Sun, 27 Oct 2019 12:38:05 GMT</pubDate></item></channel></rss>

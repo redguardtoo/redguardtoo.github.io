@@ -23,6 +23,66 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/aspell-0-60-8-will-have-direct-support-for-camelcase-words.html">Aspell 0.60.8 will have direct support for camelCase words</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2019-09-01T13:13:35+00:00">2019-09-01 13:13</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/aspell-0-60-8-will-have-direct-support-for-camelcase-words.html#disqus_thread" data-disqus-identifier="cache/posts/aspell-0-60-8-will-have-direct-support-for-camelcase-words.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/aspell.html" rel="tag">aspell</a></li>
+           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+<a href="https://github.com/redguardtoo/emacs.d/issues/796">Kevin Atkinso</a> told me this good news.
+</p>
+
+<p>
+Currently I'm using <a href="https://github.com/redguardtoo/wucuo">Emacs Lisp</a> to check camel case words.
+</p>
+
+<p>
+The new option <code>--camel-case</code> from aspell will definitely speed up the whole process.
+</p>
+
+<p>
+Minimum Emacs setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq ispell-program-name "aspell")
+(setq-default ispell-extra-args '("--sug-mode=ultra"
+                                  "--lang=en_US"))
+;; Make sure new aspell is installed
+(when (string-match-p "--camel-case"
+                      (shell-command-to-string (concat ispell-program-name " --help")))
+  (push "--camel-case" ispell-extra-args))
+</code></pre>
+
+</div>
+
+<p>
+Optionally, you could read <a href="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html">What's the best spell check setup in emacs</a>.</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/javascript-code-navigation-in-counsel-etags.html">Javascript code navigation in counsel-etags</a></h1>
             <div class="meta">
                 <div class="authordate">
