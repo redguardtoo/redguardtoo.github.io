@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 17 May 2020 07:52:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 17 May 2020 12:35:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
@@ -49,7 +49,7 @@ The predicate is a simple function without parameter. Here is my predicate for &
 &lt;/div&gt;
 
 &lt;p&gt;
-If you read code of &lt;a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L435"&gt;flyspell-prog-mode&lt;/a&gt;, you will find it just set &lt;code&gt;flyspell-generic-check-word-predicate&lt;/code&gt; to its own predicate &lt;code&gt;flyspell-generic-progmode-verify&lt;/code&gt;,
+If you read code of &lt;a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L435"&gt;flyspell-prog-mode&lt;/a&gt;, you will find it set &lt;code&gt;flyspell-generic-check-word-predicate&lt;/code&gt; to its own predicate &lt;code&gt;flyspell-generic-progmode-verify&lt;/code&gt;,
 &lt;/p&gt;
 
 &lt;div class="org-src-container"&gt;
@@ -73,11 +73,15 @@ As you can see, &lt;code&gt;flyspell-generic-progmode-verify&lt;/code&gt; is ver
 &lt;/p&gt;
 
 &lt;p&gt;
-So in theory I can write my own predicate to replace simple &lt;code&gt;flyspell-generic-progmode-verify&lt;/code&gt;.
+So in theory I can write my own predicate by following &lt;code&gt;flyspell-generic-progmode-verify&lt;/code&gt;.
 &lt;/p&gt;
 
 &lt;p&gt;
-But in reality it's not as simple as it seems. The predicate is written in Lisp so it's slow. If my predicate is too complicated, flyspell process will block other actions and Emacs could be frequently un-responsive when editing text.
+But in reality it's not as simple as it seems. The predicate is written in Lisp so it's slow. If it contains too much code, Fly Spell process might block other actions in Emacs. Emacs could be un-responsive when editing text.
+&lt;/p&gt;
+
+&lt;p&gt;
+The solution is not to start Fly Spell process too frequently.
 &lt;/p&gt;
 
 &lt;p&gt;

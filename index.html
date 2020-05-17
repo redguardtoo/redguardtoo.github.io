@@ -100,7 +100,7 @@ The predicate is a simple function without parameter. Here is my predicate for <
 </div>
 
 <p>
-If you read code of <a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L435">flyspell-prog-mode</a>, you will find it just set <code>flyspell-generic-check-word-predicate</code> to its own predicate <code>flyspell-generic-progmode-verify</code>,
+If you read code of <a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L435">flyspell-prog-mode</a>, you will find it set <code>flyspell-generic-check-word-predicate</code> to its own predicate <code>flyspell-generic-progmode-verify</code>,
 </p>
 
 <div class="org-src-container">
@@ -124,11 +124,15 @@ As you can see, <code>flyspell-generic-progmode-verify</code> is very simple. If
 </p>
 
 <p>
-So in theory I can write my own predicate to replace simple <code>flyspell-generic-progmode-verify</code>.
+So in theory I can write my own predicate by following <code>flyspell-generic-progmode-verify</code>.
 </p>
 
 <p>
-But in reality it's not as simple as it seems. The predicate is written in Lisp so it's slow. If my predicate is too complicated, flyspell process will block other actions and Emacs could be frequently un-responsive when editing text.
+But in reality it's not as simple as it seems. The predicate is written in Lisp so it's slow. If it contains too much code, Fly Spell process might block other actions in Emacs. Emacs could be un-responsive when editing text.
+</p>
+
+<p>
+The solution is not to start Fly Spell process too frequently.
 </p>
 
 <p>
