@@ -90,7 +90,7 @@ When executing <code>(flyspell-mode 1)</code>, the <a href="https://github.com/e
 </p>
 
 <p>
-For example, you can run <code>(get major-mode 'flyspell-mode-predicate)</code> to get predicate of current major mode, <code>(get 'web-mode 'flyspell-mode-predicate)</code> to get predicate of <code>web-mode</code>. 
+For example, you can run <code>(get major-mode 'flyspell-mode-predicate)</code> to get predicate of current major mode, <code>(get 'web-mode 'flyspell-mode-predicate)</code> to get predicate of <code>web-mode</code>.
 </p>
 
 <p>
@@ -143,7 +143,7 @@ So in theory I can write my own predicate to replace simple <code>flyspell-gener
 </p>
 
 <p>
-But in reality it's not as simple. The predicate is written in Lisp so it's slow. If my predicate is too complicated, flyspell process will block other actions and Emacs could be frequently un-responsive when I'm editing text.
+But in reality it's not as simple as it seems. The predicate is written in Lisp so it's slow. If my predicate is too complicated, flyspell process will block other actions and Emacs could be frequently un-responsive when editing text.
 </p>
 
 <p>
