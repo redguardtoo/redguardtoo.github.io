@@ -11,9 +11,21 @@
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="How to use ctags in Emacs effectively">
 <meta property="og:url" content="http://blog.binchen.org/posts/how-to-use-ctags-in-emacs-effectively-3.html">
-<meta property="og:description" content="Exuberant Ctags is a code navigation tool. It supports many language and could be integrated into Emacs well.   Please read EmacsWiki for basic usage.   I will talk about how I manage my ctags.   Basi">
+<meta property="og:description" content="CREATED: &lt;2014-03-11 Tue&gt;
+
+
+
+UPDATED: &lt;2020-05-26 Tue&gt;
+
+
+
+Exuberant Ctags is used for code completion and code navigation. It supports many programming languages.
+
+
+
+Please read EmacsWiki for basic us">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2014-03-11T18:52:00Z">
+<meta property="article:published_time" content="2014-03-11T21:52:00Z">
 <meta property="article:tag" content="ctags">
 <meta property="article:tag" content="emacs">
 <meta property="article:tag" content="en">
@@ -36,7 +48,7 @@
 
         <div class="meta">
             <div class="authordate">
-                <time class="timeago" datetime="2014-03-11T18:52:00+00:00">2014-03-11 18:52</time>
+                <time class="timeago" datetime="2014-03-11T21:52:00+00:00">2014-03-11 21:52</time>
             
 
             
@@ -57,45 +69,82 @@
         </div>
         <div class="body">
             <div>
-<p></p>
-<p><a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> is a code navigation tool. It supports many language and could be integrated into Emacs well. </p> <p> Please read <a href="http://www.emacswiki.org/emacs/BuildTags">EmacsWiki</a> for basic usage. </p> <p> I will talk about how I manage my ctags. </p> <p> Basically ctags will produce a index file with file name TAGS. The full path of TAGS will be stored in a global list "tags-table-list". </p> <p> An example of tags-table-list: </p>
-<pre class="prettyprint ">
-(setq tags-table-list '("~/wxWidgets-master/TAGS" "~/projs/Loris/src/desktop/TAGS"))
-</pre>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-03-11 Tue&gt;</span></span>
+</p>
 
-<p></p>
-<p> Every time we you "M-x find-tag", the TAGS file in above list will be read from the scratch to locate the definition of the symbol under cursor. </p> <p> Here is my strategy to manage TAGS <b>automatically</b>: </p>
-<ul>
-<li>I hard coded full path of TAGS in .emacs because I usually don't change project path. </li> <li>In major mode hook like c++-mode-hook or js2-mode-hook I will check the directory path of current file. If it contains certain string, I suppose the file belong to certain project. </li> <li>Then I will create TAGS for that project if needed </li> <li>Every time when I save the file, I may update TAGS according to the value of tags-table-list. </li> </ul>
-<p> Here is the code: </p>
-<pre class="prettyprint lang-lisp">
-(defun my-project-name-contains-substring (REGEX)
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-05-26 Tue&gt;</span></span>
+</p>
+
+<p>
+<a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> is used for code completion and code navigation. It supports many programming languages.
+</p>
+
+<p>
+Please read <a href="http://www.emacswiki.org/emacs/BuildTags">EmacsWiki</a> for basic usage.
+</p>
+
+<p>
+Ctags creates an index file named "TAGS". The path of TAGS is stored in a Emacs variable <code>tags-table-list</code>.
+</p>
+
+<p>
+Example of <code>tags-table-list</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq tags-table-list '("~/wxWidgets-master/TAGS" "~/projs/Loris/src/desktop/TAGS"))
+</code></pre>
+
+</div>
+
+<p>
+When running <code>M-x find-tag</code>, the tag files in <code>tags-table-list</code> is read to find the definition of the symbol under cursor.
+</p>
+
+<p>
+Here is my strategy to manage TAGS <b>automatically</b>:
+</p>
+
+<ul class="org-ul">
+<li>I hard coded path of TAGS in <code>.emacs</code> because I don't change project path frequently</li>
+<li>In major mode hook like <code>c++-mode-hook</code> or <code>js2-mode-hook</code> I check the path current file. If it matches project name, the file is part of the project</li>
+<li>TAGS for the project is created</li>
+<li>When saving the file, update TAGS by the value of <code>tags-table-list</code>
+</li>
+</ul>
+<p>
+Code:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-project-name-contains-substring (regex)
   (let ((dir (if (buffer-file-name)
                  (file-name-directory (buffer-file-name))
                "")))
-    (string-match-p REGEX dir)))
+    (string-match-p regex dir)))
 
 (defun my-create-tags-if-needed (SRC-DIR &amp;optional FORCE)
-  "return the full path of tags file"
+  "Return the full path of tags file."
   (let ((dir (file-name-as-directory (file-truename SRC-DIR)) )
        file)
     (setq file (concat dir "TAGS"))
     (when (or FORCE (not (file-exists-p file)))
       (message "Creating TAGS in %s ..." dir)
       (shell-command
-       (format "ctags -f %s -e -R %s" file dir))
-      )
-    file
-    ))
+       (format "ctags -f %s -e -R %s" file dir)))
+    file))
 
 (defvar my-tags-updated-time nil)
 
 (defun my-update-tags ()
+  "Check the tags in tags-table-list and re-create it."
   (interactive)
-  "check the tags in tags-table-list and re-create it"
   (dolist (tag tags-table-list)
-    (my-create-tags-if-needed (file-name-directory tag) t)
-    ))
+    (my-create-tags-if-needed (file-name-directory tag) t)))
 
 (defun my-auto-update-tags-when-save ()
   (interactive)
@@ -109,37 +158,61 @@
    (t
     (setq my-tags-updated-time (current-time))
     (my-update-tags)
-    (message "updated tags after %d seconds." (- (float-time (current-time))  (float-time my-tags-updated-time)))
-    )
-   ))
+    (message "updated tags after %d seconds."
+             (- (float-time (current-time))
+                (float-time my-tags-updated-time))))))
 
 (defun my-setup-develop-environment ()
     (when (my-project-name-contains-substring "Loris")
       (cond
        ((my-project-name-contains-substring "src/desktop")
         ;; C++ project don't need html tags
-        (setq tags-table-list (list
-                               (my-create-tags-if-needed
-                                (concat (file-name-as-directory (getenv "WXWIN")) "include"))
-                               (my-create-tags-if-needed "~/projs/Loris/loris/src/desktop")))
-        )
+        (setq tags-table-list
+              (list (my-create-tags-if-needed
+                     (concat (file-name-as-directory (getenv "WXWIN")) "include"))
+                    (my-create-tags-if-needed "~/projs/Loris/loris/src/desktop"))))
        ((my-project-name-contains-substring "src/html")
         ;; html project donot need C++ tags
-        (setq tags-table-list (list (my-create-tags-if-needed "~/projs/Loris/loris/src/html")))
-        ))))
+        (setq tags-table-list (list (my-create-tags-if-needed "~/projs/Loris/loris/src/html")))))))
 
 (add-hook 'after-save-hook 'my-auto-update-tags-when-save)
 (add-hook 'js2-mode-hook 'my-setup-develop-environment)
 (add-hook 'web-mode-hook 'my-setup-develop-environment)
 (add-hook 'c++-mode-hook 'my-setup-develop-environment)
 (add-hook 'c-mode-hook 'my-setup-develop-environment)
-</pre>
+</code></pre>
 
-<p></p>
-<p> UPDATE: There is some discussion at <a href="https://plus.google.com/110954683162859211810/posts/NsdzvywuoX3">Google Plus</a> about using ctags. Kaushal Modi recommended three emacs plugins: </p>
-<ol>
-<li>ctags-update </li> <li>etags-table </li> <li>etags-select </li> </ol>
-<p> I tried these three plugins. ctags-update and etags-table duplicate my above elisp code. I prefer my own code because it's simpler and totally controllable. For example, the fact that I need only care about <b>only one global variable tags-table-list</b> makes my code shorter. </p> <p> But I do like etags-select, it provide better UI for finding tag and I will use it from now on. </p>
+</div>
+
+<p>
+UPDATE:
+Ctags is discussed at <a href="https://plus.google.com/110954683162859211810/posts/NsdzvywuoX3">Google Plus</a>. Kaushal Modi recommended three Emacs plugins:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://github.com/jixiuf/ctags-update">ctags-update</a></li>
+<li><a href="https://www.emacswiki.org/emacs/etags-table.el">etags-table</a></li>
+<li><a href="https://www.emacswiki.org/emacs/etags-select.el">etags-select</a></li>
+</ul>
+<p>
+I tried them. My code has same features as <code>ctags-update</code> and <code>etags-table</code>. I prefer my own code because it's simpler and controllable.
+</p>
+
+<p>
+But I do like <code>etags-select</code>, it provides better UI for finding tag and I will use it from now on.
+</p>
+
+<p>
+UPDATE:
+I have developed my own ctags solution for Emacs,
+</p>
+
+<ul class="org-ul">
+<li>
+<a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation and imenu</li>
+<li>
+<a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> for code completion</li>
+</ul>
 </div>
         </div>
         
