@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Use POPFile at Linux | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/use-popfile-at-linux/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Use POPFile at Linux">
+<meta property="og:url" content="http://blog.binchen.org/posts/use-popfile-at-linux/">
+<meta property="og:description" content="CREATED: &lt;2012-12-28 Fri&gt;
+
+
+
+UPDATED: &lt;2017-03-12 Sun&gt;
+
+
+
+POPFile automatically sorts emails.
+
+
+
+Install POPFile
+
+
+Download and extract cross-platform version to ~/bin/popfile/.
+
+
+
+
+
+Install third par">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2012-12-28T09:18:54Z">
+<meta property="article:tag" content="email">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="filter">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="popfile">
+<meta property="article:tag" content="spam">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Use POPFile at Linux</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2012-12-28T09:18:54+00:00">2012-12-28 09:18</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/email/" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/filter/" rel="tag">filter</a></li>
+           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="../../categories/popfile/" rel="tag">popfile</a></li>
+           <li><a class="tag p-category" href="../../categories/spam/" rel="tag">spam</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-12-28 Fri&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-03-12 Sun&gt;</span></span>
+</p>
+
+<p>
+<a href="http://getpopfile.org">POPFile</a> automatically sorts emails.
+</p>
+
+<div id="outline-container-orgf1e5a4e" class="outline-2">
+<h3 id="orgf1e5a4e">Install POPFile</h3>
+<div class="outline-text-2" id="text-orgf1e5a4e">
+<p>
+<a href="http://getpopfile.org/docs/download">Download and extract cross-platform version</a> to <code>~/bin/popfile/</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0086468" class="outline-2">
+<h3 id="org0086468">Install third party packages</h3>
+<div class="outline-text-2" id="text-org0086468">
+<p>
+Run:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::Socket::SSL Net::IDN::Encode Mozilla::CA Encode:IMAPUTF7
+</code></pre>
+
+</div>
+
+<p>
+When being asked by cpan, say you prefer installing local lib.
+</p>
+
+<p>
+My cpan configuration <code>~/.cpan/CPAN/MyConfig.pm</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-perl">$CPAN::Config = {
+  'applypatch' =&gt; q[],
+  'auto_commit' =&gt; q[0],
+  'build_cache' =&gt; q[100],
+  'build_dir' =&gt; q[/home/cb/.cpan/build],
+  'build_dir_reuse' =&gt; q[0],
+  'build_requires_install_policy' =&gt; q[yes],
+  'bzip2' =&gt; q[/bin/bzip2],
+  'cache_metadata' =&gt; q[1],
+  'check_sigs' =&gt; q[0],
+  'colorize_output' =&gt; q[0],
+  'commandnumber_in_prompt' =&gt; q[1],
+  'connect_to_internet_ok' =&gt; q[1],
+  'cpan_home' =&gt; q[/home/cb/.cpan],
+  'ftp_passive' =&gt; q[1],
+  'ftp_proxy' =&gt; q[],
+  'getcwd' =&gt; q[cwd],
+  'gpg' =&gt; q[/usr/bin/gpg],
+  'gzip' =&gt; q[/bin/gzip],
+  'halt_on_failure' =&gt; q[0],
+  'histfile' =&gt; q[/home/cb/.cpan/histfile],
+  'histsize' =&gt; q[100],
+  'http_proxy' =&gt; q[],
+  'inactivity_timeout' =&gt; q[0],
+  'index_expire' =&gt; q[90],
+  'inhibit_startup_message' =&gt; q[0],
+  'keep_source_where' =&gt; q[/home/cb/.cpan/sources],
+  'load_module_verbosity' =&gt; q[none],
+  'make' =&gt; q[/usr/bin/make],
+  'make_arg' =&gt; q[],
+  'make_install_make_command' =&gt; q[/usr/bin/make],
+  'mbuild_arg' =&gt; q[--install-dirs site],
+  'mbuild_install_arg' =&gt; q[./Build],
+  'mbuild_install_build_command' =&gt; q[./Build],
+  'mbuildpl_arg' =&gt; q[--installdirs site],
+  'no_proxy' =&gt; q[],
+  'pager' =&gt; q[/usr/bin/less],
+  'patch' =&gt; q[/usr/bin/patch],
+  'perl5lib_verbosity' =&gt; q[none],
+  'prefer_external_tar' =&gt; q[1],
+  'prefer_installer' =&gt; q[MB],
+  'prefs_dir' =&gt; q[/home/cb/.cpan/prefs],
+  'prerequisites_policy' =&gt; q[follow],
+  'recommends_policy' =&gt; q[1],
+  'scan_cache' =&gt; q[atstart],
+  'shell' =&gt; q[/bin/bash],
+  'show_unparsable_versions' =&gt; q[0],
+  'show_upload_date' =&gt; q[0],
+  'show_zero_versions' =&gt; q[0],
+  'suggests_policy' =&gt; q[0],
+  'tar' =&gt; q[/bin/tar],
+  'tar_verbosity' =&gt; q[none],
+  'term_is_latin' =&gt; q[1],
+  'term_ornaments' =&gt; q[1],
+  'test_report' =&gt; q[0],
+  'trust_test_report_history' =&gt; q[0],
+  'unzip' =&gt; q[/usr/bin/unzip],
+  'urllist' =&gt; [q[http://mirror.optusnet.com.au/CPAN/]],
+  'use_prompt_default' =&gt; q[0],
+  'use_sqlite' =&gt; q[0],
+  'version_timeout' =&gt; q[15],
+  'wget' =&gt; q[/usr/bin/wget],
+  'yaml_load_code' =&gt; q[0],
+  'yaml_module' =&gt; q[YAML],
+};
+__END__
+</code></pre>
+
+</div>
+
+<p>
+<code>cpan</code> will append setup into <code>~/.bashrc</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
+</code></pre>
+
+</div>
+
+<p>
+Double check installed packages:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">perl -MDBI -e 'print $MIME::DBI::VERSION'
+</code></pre>
+
+</div>
+
+<p>
+If there is any error:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">perl -V
+rm -rf ~/perl5/*
+cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::Socket::SSL Net::IDN::Encode MOZILLA::CA
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9d9396d" class="outline-2">
+<h3 id="org9d9396d">Setup</h3>
+<div class="outline-text-2" id="text-org9d9396d">
+<p>
+I only use IMAP. The purpose of tweak POP3 port is only to make the program executable without root permission.
+</p>
+
+<p>
+See <a href="http://getpopfile.org/docs/howtos:mayneedroot">http://getpopfile.org/docs/howtos:mayneedroot</a> for details.
+</p>
+
+<p>
+Run the below command to fix the root issue.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sed -i 's/pop3_port \+110/pop3_port 1110/g' ~/bin/popfile/popfile.cfg
+</code></pre>
+
+</div>
+
+
+<p>
+Davmail is a gateway to convert Outlook/Exchange service to IMAP/POP3). It's required if and only if you use Microsoft's Exchange/Outlook.
+</p>
+
+<p>
+If you don't use Davmail and fetch mails directly, you'd better set <code>imap_expunge 1</code> to fix <a href="http://getpopfile.org/discussion/1/550/2144">Microsoft Office 365 issue</a>.
+</p>
+
+<p>
+Please disable ssl if running local Davmail Server only. Or else, ssl should be enabled.
+</p>
+
+<p>
+My popfile setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">bayes_bad_sqlite_version 4.0.0
+bayes_corpus corpus
+bayes_database popfile.db
+bayes_dbauth 
+bayes_dbconnect dbi:SQLite:dbname=$dbname
+bayes_dbuser 
+bayes_hostname 192-168-1-3.tpgi.com.au
+bayes_localhostname 
+bayes_nihongo_parser kakasi
+bayes_sqlite_journal_mode delete
+bayes_sqlite_tweaks 4294967295
+bayes_subject_mod_left [
+bayes_subject_mod_pos 1
+bayes_subject_mod_right ]
+bayes_unclassified_weight 100
+bayes_xpl_angle 0
+config_pidcheck_interval 5
+config_piddir ./
+GLOBAL_debug 1
+GLOBAL_last_update_check 1407715200
+GLOBAL_message_cutoff 100000
+GLOBAL_msgdir messages/
+GLOBAL_ssl_verify_peer_certs 0
+GLOBAL_timeout 60
+GLOBAL_update_check 1
+history_archive 0
+history_archive_classes 0
+history_archive_dir archive
+history_history_days 2
+html_cache_templates 0
+html_column_characters 0
+html_columns +inserted,+from,+to,-cc,+subject,-date,-size,+bucket
+html_date_format 
+html_language English
+html_last_reset Sat Dec  1 11:06:48 2012
+html_local 0
+html_page_size 20
+html_password b6b3637136ad630eba43aa5ee7106780
+html_port 8888
+html_search_filter_highlight 0
+html_send_stats 1
+html_session_dividers 1
+html_show_bucket_help 1
+html_show_training_help 0
+html_skin simplyblue
+html_strict_templates 0
+html_test_language 0
+html_wordtable_format 
+imap_bucket_folder_mappings job--&gt;job--&gt;geek--&gt;geek--&gt;business--&gt;business--&gt;ad--&gt;ad--&gt;unclassified--&gt;INBOX--&gt;work--&gt;work--&gt;
+imap_enabled 1
+imap_expunge 1
+imap_hostname localhost
+imap_login binc1
+imap_password password1
+imap_port 1143
+imap_training_mode 0
+imap_uidnexts work--&gt;749--&gt;job--&gt;5914--&gt;INBOX--&gt;20736--&gt;geek--&gt;5009--&gt;ad--&gt;1296--&gt;business--&gt;15--&gt;
+imap_uidvalidities job--&gt;98--&gt;work--&gt;107--&gt;ad--&gt;100--&gt;business--&gt;106--&gt;geek--&gt;99--&gt;INBOX--&gt;2--&gt;
+imap_update_interval 1000
+imap_use_ssl 0
+imap_watched_folders INBOX--&gt;INBOX--&gt;
+logger_format default
+logger_level 0
+logger_logdir ./
+nntp_enabled 0
+nntp_force_fork 1
+nntp_headtoo 0
+nntp_local 1
+nntp_port 119
+nntp_separator :
+nntp_socks_port 1080
+nntp_socks_server 
+nntp_welcome_string NNTP POPFile (v1.1.3) server ready
+pop3_enabled 0
+pop3_force_fork 1
+pop3_local 1
+pop3_port 1110
+pop3_secure_port 110
+pop3_secure_server 
+pop3_separator :
+pop3_socks_port 1080
+pop3_socks_server 
+pop3_toptoo 0
+pop3_welcome_string POP3 POPFile (v1.1.3) server ready
+smtp_chain_port 25
+smtp_chain_server 
+smtp_enabled 0
+smtp_force_fork 1
+smtp_local 1
+smtp_port 25
+smtp_socks_port 1080
+smtp_socks_server 
+smtp_welcome_string SMTP POPFile (v1.1.3) welcome
+xmlrpc_enabled 0
+xmlrpc_local 1
+xmlrpc_port 8081
+</code></pre>
+
+</div>
+
+<p>
+The only remaining issue is user name. If it contains "\", you should replace it with "\\" when inputting in Popfile!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7721e8b" class="outline-2">
+<h3 id="org7721e8b">Run the program</h3>
+<div class="outline-text-2" id="text-org7721e8b">
+<p>
+See <a href="http://getpopfile.org/docs/howtos:runlocation">http://getpopfile.org/docs/howtos:runlocation</a> for details.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd ~/bin/popfile;perl popfile.pl
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org01aea0d" class="outline-2">
+<h3 id="org01aea0d">Start the POPFile automatically when bash login</h3>
+<div class="outline-text-2" id="text-org01aea0d">
+<p>
+Insert below code in ~/.bashrc:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">OS_NAME=`uname -s`
+if [ $OS_NAME == Linux ]; then
+   # start popfile
+   if [ -f $HOME/bin/popfile/popfile.pl ]; then
+      # @see http://getpopfile.org/docs/howtos:runlocation
+      pop_pid=`ps -ef | grep perl | grep popfile.pl | gawk '{print $2}'`
+      if [ "${pop_pid}" = "" ] ; then
+         cd $HOME/bin/popfile
+         perl popfile.pl &gt;&gt; /dev/null 2&gt;&amp;1 &amp;
+      fi
+      cd $HOME
+   fi
+fi
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org447f91a" class="outline-2">
+<h3 id="org447f91a">Start the POPFile systemd service as a user (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-org447f91a">
+<p>
+My user name is cb. Put popfile.service in <i>usr/lib/systemd/system</i>. Then run `systemctl enable popfile` to install service. Run `systemctl start popfile` to start the service. My Linux distribution is ArchLinux.
+</p>
+
+<p>
+here is content of popfile.service.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[Unit]
+Description=POPFile (Automatic Email Classification) Service
+
+[Service]
+WorkingDirectory=/home/cb/bin/popfile
+ExecStart=/usr/bin/perl popfile.pl
+User=cb
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdfb9ac0" class="outline-2">
+<h3 id="orgdfb9ac0">Backup</h3>
+<div class="outline-text-2" id="text-orgdfb9ac0">
+<p>
+Please backup popfile.cfg and popfile.db.
+</p>
+
+<p>
+See <a href="http://getpopfile.org/docs/howtos:backup">http://getpopfile.org/docs/howtos:backup</a> for details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbedc6d1" class="outline-2">
+<h3 id="orgbedc6d1">Summary</h3>
+<div class="outline-text-2" id="text-orgbedc6d1">
+<ul class="org-ul">
+<li>Portable</li>
+<li>No root privilege needed</li>
+<li>No X windows needed. I can manage mails in remote shell</li>
+</ul>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../emacs-lisp-bin-bu-nan-xue/" rel="prev" title="Emacs Lisp并不难学">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../toggle-http-proxy-in-emacs-w3m/" rel="next" title="Toggle http proxy in emacs-w3m">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/use-popfile-at-linux/",
+        disqus_title="Use POPFile at Linux",
+        disqus_identifier="cache/posts/use-popfile-at-linux.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

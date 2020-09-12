@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>How to input Non-English character in evil-mode efficiently | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/how-to-input-non-english-character-in-evil-mode-efficiently/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="How to input Non-English character in evil-mode efficiently">
+<meta property="og:url" content="http://blog.binchen.org/posts/how-to-input-non-english-character-in-evil-mode-efficiently/">
+<meta property="og:description" content="You can M-x toggle-input-method or C-\ to input Non-English characters.
+
+
+
+Analysis about evil-mode,
+
+
+
+You only input Non-English characters in evil-insert-state. So you need go into evil-insert-stat">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-05-16T13:33:25Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="evil">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">How to input Non-English character in evil-mode efficiently</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2016-05-16T13:33:25+00:00">2016-05-16 13:33</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/evil/" rel="tag">evil</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+You can <code>M-x toggle-input-method</code> or <code>C-\</code> to input Non-English characters.
+</p>
+
+<p>
+Analysis about evil-mode,
+</p>
+
+<ul class="org-ul">
+<li>You only input Non-English characters in evil-insert-state. So you need <b>go into evil-insert-state at first</b> before toggle on input method</li>
+<li>In evil-insert-state, you can toggle off input method to input English characters while <b>staying in evil-insert state</b>
+</li>
+<li>When press <code>ESC</code>, you quit from evil-insert-state. But input method could be still activated. So when you re-enter evil-insert-state, you need <b>notification of input method status</b>
+</li>
+</ul>
+<p>
+Here is the setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; {{ make IME compatible with evil-mode
+(defun evil-toggle-input-method ()
+  "when toggle on input method, goto evil-insert-state. "
+  (interactive)
+
+  ;; load IME when needed, less memory footprint
+  ;; (unless (featurep 'chinese-pyim)
+  ;;   (require 'chinese-pyim))
+
+  (cond
+   ((and (boundp 'evil-mode) evil-mode)
+    ;; evil-mode
+    (cond
+     ((eq evil-state 'insert)
+      (toggle-input-method))
+     (t
+      (evil-insert-state)
+      (unless current-input-method
+        (toggle-input-method))
+      ))
+    (if current-input-method (message "IME on!")))
+   (t
+    ;; NOT evil-mode, some guy don't use evil-mode at all
+    (toggle-input-method))))
+
+(defadvice evil-insert-state (around evil-insert-state-hack activate)
+  ad-do-it
+  (if current-input-method (message "IME on!")))
+
+(global-set-key (kbd "C-\\") 'evil-toggle-input-method)
+;; }}
+</code></pre>
+
+</div>
+
+<p>
+Chinese version:
+</p>
+
+<p>
+在evil-mode中切换输入法有以下要点,
+</p>
+
+<ul class="org-ul">
+<li>输中文前须进入evil-insert-state</li>
+<li>在evil-insert-state中可能会切换输入法</li>
+<li>按ESC退出evil-insert-state时输入法可能还开着,所以再进入evil-insert-state时需提示输入法状态</li>
+</ul>
+<p>
+代码见上.
+</p>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../swiperivy-tip/" rel="prev" title="Swiper/Ivy tip">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../make-messages-buffer-modifiable-in-emacs-24-4/" rel="next" title="Make Messages Buffer modifiable in Emacs 24.4">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/how-to-input-non-english-character-in-evil-mode-efficiently/",
+        disqus_title="How to input Non-English character in evil-mode efficiently",
+        disqus_identifier="cache/posts/how-to-input-non-english-character-in-evil-mode-efficiently.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

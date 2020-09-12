@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Yin and Yang in Emacs | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/yin-and-yang-in-emacs/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Yin and Yang in Emacs">
+<meta property="og:url" content="http://blog.binchen.org/posts/yin-and-yang-in-emacs/">
+<meta property="og:description" content="As a Chinese, I studied Tao Te Ching since childhood. So I believe Tao (the way) exist in Emacs. Tao is basically Yin and Yang who lives in harmony in Emacs.
+
+
+
+I can't say Yin is good and Yang is evi">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2019-11-25T08:09:33Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Yin and Yang in Emacs</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2019-11-25T08:09:33+00:00">2019-11-25 08:09</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+As a Chinese, I studied <a href="https://en.wikipedia.org/wiki/Tao_Te_Ching">Tao Te Ching</a> since childhood. So I believe Tao (the way) exist in Emacs. Tao is basically Yin and Yang who lives in harmony in Emacs.
+</p>
+
+<p>
+I can't say Yin is good and Yang is evil, or vice versa. All I can do is to find the way to make Yin and Yang co-exist. 
+</p>
+
+<p>
+For example, a few days ago I published <a href="https://www.reddit.com/r/emacs/comments/dz2a80/effective_git_blame_in_emacs/">Effective "git blame" in Emacs</a> which introduced my package <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a>.
+</p>
+
+<p>
+It became one of my most popular reddit post because its unique feature <b>partial line blame</b>,
+</p>
+
+<div class="figure">
+<p><img src="../../wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
+</div>
+
+<div class="figure">
+<p><img src="../../wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
+</div>
+
+<p>
+I noticed some comments compared my package with <a href="https://magit.vc/">Magit</a>. Those comments were very educational and I did learn a few useful tricks.
+</p>
+
+<p>
+My point is, <code>vc-msg</code> and <code>Magit</code> could collaborate without any problem, like Yin and Yang lives harmony. If you find any conflict between <code>vc-msg</code> and <code>Magit</code>, just let me know. I will fix it.
+</p>
+
+<p>
+I totally understand there are many Magit lovers in Emacs community. So I make <code>vs-msg v1.0.2</code> to support Magit. You can use <code>partial line blame</code> in <code>vc-msg</code> but calling Magit command to open the commit.  
+</p>
+
+<p>
+It's only one line setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq vc-msg-git-show-commit-function 'magit-show-commit)
+</code></pre>
+
+</div>
+
+<div class="figure">
+<p><img src="../../wp-content/vc-msg-and-magit.png" alt="vc-msg-and-magit.png"></p>
+</div>
+
+<p>
+I tested in <code>magit-blame-mode</code> and found no issue.
+</p>
+
+<p>
+I'm sure <code>vc-msg</code> should work in other major modes or minor modes. There are also two callback functions <code>vc-msg-get-current-file-function</code> and <code>vc-msg-get-line-num-function</code> which users can customize.</p>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../effective-git-blame-in-emacs/" rel="prev" title='Effective "git blame" in Emacs'>Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../how-to-speed-up-lsp-mode/" rel="next" title="How to speed up lsp-mode">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/yin-and-yang-in-emacs/",
+        disqus_title="Yin and Yang in Emacs",
+        disqus_identifier="cache/posts/yin-and-yang-in-emacs.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="Linux, Programming, Emacs">
@@ -23,15 +23,15 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/the-minimum-emacs-for-debug-purpose.html">The minimum .emacs for debug purpose</a></h1>
+            <h1 class="title"><a href="posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit/">The most efficient way to `git add` files in dired-mode</a></h1>
             <div class="meta">
                 <div class="authordate">
-                    <time class="timeago" datetime="2013-05-12T15:55:00+00:00">2013-05-12 15:55</time>
+                    <time class="timeago" datetime="2013-05-14T23:16:00+00:00">2013-05-14 23:16</time>
 </div>
                 <div class="stats">
                     
         
-    <a href="posts/the-minimum-emacs-for-debug-purpose.html#disqus_thread" data-disqus-identifier="cache/posts/the-minimum-emacs-for-debug-purpose.html">Comments</a>
+    <a href="posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit/#disqus_thread" data-disqus-identifier="cache/posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit.html">Comments</a>
 
 
                 </div>
@@ -39,11 +39,192 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/configuration.html" rel="tag">configuration</a></li>
-           <li><a class="tag p-category" href="categories/dot.html" rel="tag">dot</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/test.html" rel="tag">test</a></li>
+           <li><a class="tag p-category" href="categories/dired/" rel="tag">dired</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Add following code into your .emacs, then use "/" to execute <code>git command</code> on your marked files in dired-mode: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">diredext-exec-git-command-in-shell</span> (command <span style="color: #e78c45;">&amp;optional</span> arg file-list)
+  <span style="color: #c397d8;">"Run a shell command <code>git COMMAND</code>' on the marked files.</span>
+<span style="color: #c397d8;">if no files marked, always operate on current line in dired-mode</span>
+<p><span style="color: #c397d8;">"</span>
+  (interactive
+   (<span style="color: #b9ca4a;">let</span> ((files (dired-get-marked-files t current-prefix-arg)))
+     (list
+      <span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">Want to give feedback whether this file or marked files are used:</span>
+      (dired-read-shell-command <span style="color: #70c0b1;">"git command on %s: "</span> current-prefix-arg files)
+      current-prefix-arg
+      files)))
+  (<span style="color: #b9ca4a;">unless</span> (string-match <span style="color: #70c0b1;">"[<em>?][ \t]</em>\'"</span> command)
+    (setq command (concat command <span style="color: #70c0b1;">" *"</span>)))
+  (setq command (concat <span style="color: #70c0b1;">"git "</span> command))
+  (dired-do-shell-command command arg file-list)
+  (message command))</p>
+<p>(<span style="color: #b9ca4a;">eval-after-load</span> 'dired '(define-key dired-mode-map <span style="color: #70c0b1;">"/"</span> 'diredext-exec-git-command-in-shell))</p>
+<p></p></pre>   <p> For example, say you set the alias "a" for git command "add" in your $HOME/.gitconfig. </p> <p> In order to <code>git add</code> files, you marked files in dired-mode and press "/", then press "a". The command <code>git a(dd)</code> will be executed. </p> <p> The reason to use git in dired-mode is simple. I'm working for some big enterprise application. You know the enterprise guys have the tendency to create lots of small modules/files for one feature. So I need do lots of <code>cp files somewhere</code> and <code>git add files</code> things these days. </p> <p> Thanks all the <a href="https://plus.google.com/110954683162859211810/posts/4CmwuDxVCA1">Emacs geeks on the Google+</a> who enlighten me. </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux/">How to split album into different flac and tag them under Gentoo Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-12T22:32:00+00:00">2013-05-12 22:32</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux/#disqus_thread" data-disqus-identifier="cache/posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cue/" rel="tag">cue</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/flac/" rel="tag">flac</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<div id="outline-container-org541a9f6" class="outline-2">
+<h3 id="org541a9f6">Install CLI tools</h3>
+<div class="outline-text-2" id="text-org541a9f6">
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># mac to support ape
+sudo USE="alac flac mac shorten sox wavpack" emerge media-sound/shntool
+sudo emerge cuetools
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org70e9ee8" class="outline-2">
+<h3 id="org70e9ee8">Download script</h3>
+<div class="outline-text-2" id="text-org70e9ee8">
+<p>
+See <a href="https://bbs.archlinux.org/viewtopic.php?id=58766">https://bbs.archlinux.org/viewtopic.php?id=58766</a> for the source of bash script.
+</p>
+
+<p>
+Here is the full content of the bash script:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/bash
+# split image file (flac, ape, wav, etc.) according to cue-file
+if [ -f "$1" ]; then
+    i=0
+    for cuefile in *.cue; do
+        i=$(($i + 1))
+    done
+    if [ $i -eq 1 ]; then
+        # precies 1 cuesheet gevonden
+        if grep -q "INDEX 01 00:00:00" *.cue ; then
+            nice shntool split -t "%n %t" -f *.cue "$1"
+        else
+            echo "The first track has a pre-gap. Shntool will cut that off and put it in a seperate file."
+            echo "You don't want that. Please modify the cuesheet from:"
+            grep -m1 "INDEX 00" *.cue
+            grep -m1 "INDEX 01" *.cue
+            echo "to:"
+            echo "    INDEX 01 00:00:00"
+            exit 1
+        fi
+    elif [ $i -eq 0 ]; then
+        echo "No cuesheet found in the current directory."
+        exit 1
+    elif [ $i -gt 1 ]; then
+        echo "$i cuesheets found in the current directory. Please remove the superfluous cuesheets."
+        exit 1
+    fi
+else
+    echo "Split image file (flac, ape, wav, etc.) according to cue-file."
+    echo "Output files are in FLAC."
+    echo "Usage: `basename $0` &lt;image-file&gt;"
+    exit 1
+fi
+
+echo
+album=`grep -m 1 TITLE *.cue | cut -d\" -f2`
+artist=`grep -m 1 PERFORMER *.cue | cut -d\" -f2`
+
+for file in [0-9]*.wav; do
+    echo "Encoding $file"
+
+    if [[ ${file:0:1} == 0 ]] ; then
+        tracknr=${file:1:1}
+    else
+        tracknr=${file:0:2}
+    fi
+    title=`echo ${file:2} | sed -e "s/.wav$//"`
+
+    nice flac -s -T "artist=$artist" -T "album=$album" -T "title=$title" \
+    -T "tracknumber=$tracknr" "$file" &amp;&amp; rm "$file"
+done
+</code></pre>
+
+</div>
+
+<p>
+Put the script somewhere and name it to <code>cue2flac</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0a7c3cc" class="outline-2">
+<h3 id="org0a7c3cc">Start conversion</h3>
+<div class="outline-text-2" id="text-org0a7c3cc">
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># convert the ape to corresponding wav file, for example, "a.ape" is converted to "a.ape.wav"
+find . -name '*.ape'|xargs -I {} ffmpeg -i {} {}.wav
+# split wav and convert it to flac, make sure the *.cue exists in current directory
+cue2flac a.ape.wav
+# do the cleaning (OPTIONAL)
+rm *.ape *.wav
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/the-minimum-emacs-for-debug-purpose/">The minimum .emacs for debug purpose</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-12T15:55:00+00:00">2013-05-12 15:55</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/the-minimum-emacs-for-debug-purpose/#disqus_thread" data-disqus-identifier="cache/posts/the-minimum-emacs-for-debug-purpose.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/configuration/" rel="tag">configuration</a></li>
+           <li><a class="tag p-category" href="categories/dot/" rel="tag">dot</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/test/" rel="tag">test</a></li>
         </ul>
 </div>
 
@@ -105,7 +286,7 @@ I've uploaded the <code>.emacs</code> to Dropbox, so you can use one bash liner 
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-use-keyboard-to-navigate-feedly-com.html">How to use keyboard to navigate feedly.com</a></h1>
+            <h1 class="title"><a href="posts/how-to-use-keyboard-to-navigate-feedly-com/">How to use keyboard to navigate feedly.com</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-05-06T21:59:00+00:00">2013-05-06 21:59</time>
@@ -113,7 +294,7 @@ I've uploaded the <code>.emacs</code> to Dropbox, so you can use one bash liner 
                 <div class="stats">
                     
         
-    <a href="posts/how-to-use-keyboard-to-navigate-feedly-com.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-keyboard-to-navigate-feedly-com.html">Comments</a>
+    <a href="posts/how-to-use-keyboard-to-navigate-feedly-com/#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-keyboard-to-navigate-feedly-com.html">Comments</a>
 
 
                 </div>
@@ -121,9 +302,9 @@ I've uploaded the <code>.emacs</code> to Dropbox, so you can use one bash liner 
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/keysnail.html" rel="tag">keysnail</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/keysnail/" rel="tag">keysnail</a></li>
         </ul>
 </div>
 
@@ -165,7 +346,7 @@ key.setViewKey(<span style="color: #70c0b1;">'e'</span>, <span style="color: #b9
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html">How to use yasnippets to produce email templates in Emacs</a></h1>
+            <h1 class="title"><a href="posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs/">How to use yasnippets to produce email templates in Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-05-01T15:53:08+00:00">2013-05-01 15:53</time>
@@ -173,7 +354,7 @@ key.setViewKey(<span style="color: #70c0b1;">'e'</span>, <span style="color: #b9
                 <div class="stats">
                     
         
-    <a href="posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html">Comments</a>
+    <a href="posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs.html">Comments</a>
 
 
                 </div>
@@ -181,9 +362,9 @@ key.setViewKey(<span style="color: #70c0b1;">'e'</span>, <span style="color: #b9
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/email/" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
         </ul>
 </div>
 
@@ -308,7 +489,7 @@ Add following code into .emacs to make yasnippet load the emacs templates:
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/make-emacs-support-auto-completion-for-cmake.html">Make Emacs support auto-completion for CMake</a></h1>
+            <h1 class="title"><a href="posts/make-emacs-support-auto-completion-for-cmake/">Make Emacs support auto-completion for CMake</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-04-22T10:48:00+00:00">2013-04-22 10:48</time>
@@ -316,7 +497,7 @@ Add following code into .emacs to make yasnippet load the emacs templates:
                 <div class="stats">
                     
         
-    <a href="posts/make-emacs-support-auto-completion-for-cmake.html#disqus_thread" data-disqus-identifier="cache/posts/make-emacs-support-auto-completion-for-cmake.html">Comments</a>
+    <a href="posts/make-emacs-support-auto-completion-for-cmake/#disqus_thread" data-disqus-identifier="cache/posts/make-emacs-support-auto-completion-for-cmake.html">Comments</a>
 
 
                 </div>
@@ -324,10 +505,10 @@ Add following code into .emacs to make yasnippet load the emacs templates:
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/c.html" rel="tag">c</a></li>
-           <li><a class="tag p-category" href="categories/cmake.html" rel="tag">cmake</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/c/" rel="tag">c</a></li>
+           <li><a class="tag p-category" href="categories/cmake/" rel="tag">cmake</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
         </ul>
 </div>
 
@@ -340,7 +521,7 @@ Add following code into .emacs to make yasnippet load the emacs templates:
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/convert-multiple-line-into-one-big-string-in-emacs.html">Convert multiple line into one big string in Emacs</a></h1>
+            <h1 class="title"><a href="posts/convert-multiple-line-into-one-big-string-in-emacs/">Convert multiple line into one big string in Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-04-17T14:14:00+00:00">2013-04-17 14:14</time>
@@ -348,7 +529,7 @@ Add following code into .emacs to make yasnippet load the emacs templates:
                 <div class="stats">
                     
         
-    <a href="posts/convert-multiple-line-into-one-big-string-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/convert-multiple-line-into-one-big-string-in-emacs.html">Comments</a>
+    <a href="posts/convert-multiple-line-into-one-big-string-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/convert-multiple-line-into-one-big-string-in-emacs.html">Comments</a>
 
 
                 </div>
@@ -356,9 +537,9 @@ Add following code into .emacs to make yasnippet load the emacs templates:
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/elisp.html" rel="tag">elisp</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/elisp/" rel="tag">elisp</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
         </ul>
 </div>
 
@@ -420,7 +601,7 @@ Current position is preserved."
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-manage-my-software-configuration-at-github.html">How to manage my software configuration at github</a></h1>
+            <h1 class="title"><a href="posts/how-to-manage-my-software-configuration-at-github/">How to manage my software configuration at github</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-04-10T12:45:45+00:00">2013-04-10 12:45</time>
@@ -428,7 +609,7 @@ Current position is preserved."
                 <div class="stats">
                     
         
-    <a href="posts/how-to-manage-my-software-configuration-at-github.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-manage-my-software-configuration-at-github.html">Comments</a>
+    <a href="posts/how-to-manage-my-software-configuration-at-github/#disqus_thread" data-disqus-identifier="cache/posts/how-to-manage-my-software-configuration-at-github.html">Comments</a>
 
 
                 </div>
@@ -436,11 +617,11 @@ Current position is preserved."
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/configuration.html" rel="tag">configuration</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/github.html" rel="tag">github</a></li>
-           <li><a class="tag p-category" href="categories/management.html" rel="tag">management</a></li>
+           <li><a class="tag p-category" href="categories/configuration/" rel="tag">configuration</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/github/" rel="tag">github</a></li>
+           <li><a class="tag p-category" href="categories/management/" rel="tag">management</a></li>
         </ul>
 </div>
 
@@ -456,7 +637,7 @@ Current position is preserved."
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/my-work-flow-to-debug-emacs-plugin.html">My work flow to debug emacs plugin</a></h1>
+            <h1 class="title"><a href="posts/my-work-flow-to-debug-emacs-plugin/">My work flow to debug emacs plugin</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-03-30T15:08:00+00:00">2013-03-30 15:08</time>
@@ -464,7 +645,7 @@ Current position is preserved."
                 <div class="stats">
                     
         
-    <a href="posts/my-work-flow-to-debug-emacs-plugin.html#disqus_thread" data-disqus-identifier="cache/posts/my-work-flow-to-debug-emacs-plugin.html">Comments</a>
+    <a href="posts/my-work-flow-to-debug-emacs-plugin/#disqus_thread" data-disqus-identifier="cache/posts/my-work-flow-to-debug-emacs-plugin.html">Comments</a>
 
 
                 </div>
@@ -472,9 +653,9 @@ Current position is preserved."
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/elisp.html" rel="tag">elisp</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/elisp/" rel="tag">elisp</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
         </ul>
 </div>
 
@@ -497,7 +678,7 @@ Current position is preserved."
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/use-screenrtorrentcronie-to-manage-torrent-client.html">Use screen/rtorrent/cronie to manage torrent client</a></h1>
+            <h1 class="title"><a href="posts/use-screenrtorrentcronie-to-manage-torrent-client/">Use screen/rtorrent/cronie to manage torrent client</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-03-09T15:08:00+00:00">2013-03-09 15:08</time>
@@ -505,7 +686,7 @@ Current position is preserved."
                 <div class="stats">
                     
         
-    <a href="posts/use-screenrtorrentcronie-to-manage-torrent-client.html#disqus_thread" data-disqus-identifier="cache/posts/use-screenrtorrentcronie-to-manage-torrent-client.html">Comments</a>
+    <a href="posts/use-screenrtorrentcronie-to-manage-torrent-client/#disqus_thread" data-disqus-identifier="cache/posts/use-screenrtorrentcronie-to-manage-torrent-client.html">Comments</a>
 
 
                 </div>
@@ -513,9 +694,9 @@ Current position is preserved."
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/archlinux.html" rel="tag">archlinux</a></li>
-           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/torrent.html" rel="tag">torrent</a></li>
+           <li><a class="tag p-category" href="categories/archlinux/" rel="tag">archlinux</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/torrent/" rel="tag">torrent</a></li>
         </ul>
 </div>
 
@@ -587,251 +768,6 @@ The default editor will be open, input below content:
 <p>
 Done!
 </p>
-</div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/start-wxwidgets-programming-on-linux.html">Start wxWidgets programming on Linux/OSX</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-02-26T09:17:00+00:00">2013-02-26 09:17</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/start-wxwidgets-programming-on-linux.html#disqus_thread" data-disqus-identifier="cache/posts/start-wxwidgets-programming-on-linux.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/wxwidgets.html" rel="tag">wxwidgets</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-wxWidgets 3.0.0
-</p>
-
-<p>
-WARNING: before building, please make sure remove everything in build directory, <b>including hidden directory</b>!
-</p>
-
-<div id="outline-container-orgd65be41" class="outline-2">
-<h3 id="orgd65be41">Install webkit by using Linux distribution's package manager</h3>
-<div class="outline-text-2" id="text-orgd65be41">
-<p>
-I need use wxWebView which dependent on webkit on Linux. The issue here is that webkit on Linux is using GTK.
-</p>
-
-<p>
-Make sure the webkit and wxWidgets are using same version of GTK.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org6ec299d" class="outline-2">
-<h3 id="org6ec299d">build the source</h3>
-<div class="outline-text-2" id="text-org6ec299d">
-<p>
-Please note I don't use libtiff. I think libpng and libjpeg is enough.
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">mkdir -p ${WXWIN}/build-release;cd ${WXWIN}/build-release;../configure --disable-shared --without-libtiff;make
-mkdir -p ${WXWIN}/build-debug;cd ${WXWIN}/build-debug;../configure --disable-shared --enable-debug --without-libtiff;make
-</code></pre>
-
-</div>
-
-<p>
-On OSX, I need extra <code>--with-osx_cocoa</code> parameter for configure.
-</p>
-
-<p>
-On Linux, build will be fine following above steps. But for building application, I need <code>sudo apt-get install libgtk2.0-dev</code> on Debian/Ubuntu/Mint.
-</p>
-</div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/notes-to-install-gentoo-linux.html">Notes to install Gentoo Linux</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-02-25T02:22:00+00:00">2013-02-25 02:22</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/notes-to-install-gentoo-linux.html#disqus_thread" data-disqus-identifier="cache/posts/notes-to-install-gentoo-linux.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/gentoo.html" rel="tag">gentoo</a></li>
-           <li><a class="tag p-category" href="categories/install.html" rel="tag">install</a></li>
-           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<div id="outline-container-orga502432" class="outline-2">
-<h3 id="orga502432">Intel integrated video card</h3>
-<div class="outline-text-2" id="text-orga502432">
-<p>
-Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">sudo genkernel --menuconfig all
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-orga575eeb" class="outline-2">
-<h3 id="orga575eeb">Grub2</h3>
-<div class="outline-text-2" id="text-orga575eeb">
-<p>
-Let grub2 create the cfg for me automatically,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">grub2-mkconfig -o /boot/grub/grub.cfg
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-org928e3d3" class="outline-2">
-<h3 id="org928e3d3">Network</h3>
-<div class="outline-text-2" id="text-org928e3d3">
-</div>
-<div id="outline-container-org149bfc1" class="outline-3">
-<h4 id="org149bfc1">Ethernet</h4>
-<div class="outline-text-3" id="text-org149bfc1">
-<div class="org-src-container">
-
-<pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
-# @see https://wiki.gentoo.org/wiki/Netifrc
-ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
-echo 'config_eth0="dhcp"' &gt;&gt; /etc/conf.d/net
-/etc/init.d/net.eth0 start
-rc-update add net.eth0 default
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-org9a1c8ab" class="outline-3">
-<h4 id="org9a1c8ab">Wireless (wifi)</h4>
-<div class="outline-text-3" id="text-org9a1c8ab">
-<div class="org-src-container">
-
-<pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
-# @see https://wiki.gentoo.org/wiki/Netifrc
-# I need setup /etc/wpa_supplicant/wpa_supplicant.conf at first
-ln -s /etc/init.d/net.lo /etc/init.d/net.ra0
-echo 'config_ra0="dhcp"' &gt;&gt; /etc/conf.d/net
-/etc/init.d/net.ra0 start
-rc-update add net.ra0 default
-</code></pre>
-
-</div>
-
-<p>
-Content of /etc/wpa_supplicant/wpa_supplicant.conf:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-ini">#let wpa_supplicant take care of scanning and AP selection
-ap_scan=1
-
-#simple case: WPA-PSK, PPSK as an simple passphrase
-network={
-  ssid="myssid"
-  psk="mypassword"
-  # the higher priority the sooner we matched
-  priority=5
-}
-</code></pre>
-
-</div>
-
-<p>
-For kernel 3.17.*+, by default wpa_supplicant use <code>nl80211</code> driver instead of <code>wext</code>.
-</p>
-
-<p>
-We need for it use <code>wext</code> instead. To double check <code>wext</code> does work,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">sudo wpa_supplicant -dd -B -i ra0 -Dwext -c /etc/wpa_supplicant/wpa_supplicant.conf
-</code></pre>
-
-</div>
-
-<p>
-But OpenRC script does not have <code>-Dwext</code>,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh"># as root
-cd /lib;grep -rsn --exclude-dir=/home "Starting wpa_supplicant on" *
-# netifrc/net/wpa_supplicant.sh:85: ebegin "Starting wpa_supplicant on ${IF
-# VAR}"
-</code></pre>
-
-</div>
-
-<p>
-Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">opts="-Dwext ${opts} -c ${cfgfile}"
-</code></pre>
-
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgf6cd20f" class="outline-2">
-<h3 id="orgf6cd20f">Clock Synchronization</h3>
-<div class="outline-text-2" id="text-orgf6cd20f">
-<p>
-<a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate">htpdate</a> is great because it only use HTTP protocol, don't forget add server in its config file.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org6e20b54" class="outline-2">
-<h3 id="org6e20b54">Sound</h3>
-<div class="outline-text-2" id="text-org6e20b54">
-<p>
-Nothing to tell. There may be some issue, but I forgot.</p>
 </div>
 </div>
 </div>

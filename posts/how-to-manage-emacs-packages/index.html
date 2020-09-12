@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>How to manage emacs packages | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/how-to-manage-emacs-packages/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="How to manage emacs packages">
+<meta property="og:url" content="http://blog.binchen.org/posts/how-to-manage-emacs-packages/">
+<meta property="og:description" content="I have 168 packages installed through Emacs package manager. And I shared my emacs.d at github.   So these days I have been spending much time on solve the issues for people who use my .emacs.d.   The">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-08-16T22:30:00Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">How to manage emacs packages</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-08-16T22:30:00+00:00">2013-08-16 22:30</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p></p>
+<p>I have 168 packages installed through Emacs package manager. And I shared my <a href="https://github.com/redguardtoo/emacs.d">emacs.d at github</a>. </p> <p> So these days I have been spending much time on solve the issues for people who use my .emacs.d. </p> <p> The root cause of most issues is the packages downloaded from <a href="http://melpa.milkbox.net">melpa</a> are not stable enough. </p> <p> That's understandable because packages hosted at melpa are built automatically from developers' git repositories. </p> <p> Now here is my solution: </p>
+<ol>
+<li>I use more stable packages from other repositories if possible. </li> <li>I use whitelist to explicitly list the packages I want to install from melpa. </li> </ol>
+<p> White list because although packages on non-melpa are more stable, there are still some exceptions. </p> <p> For example, the package "erlang" exists both in melpa and <a href="http://marmalade-repo.org/">marmalade</a>. But only the version at melpa is usable. </p> <p> Now I need show you the code. See my <a href="https://github.com/redguardtoo/emacs.d/blob/master/init-elpa.el">init-elpa.el</a> at github for configuration. Especially the code related to variable "melpa-include-package". </p>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../use-git-send-email-at-ubuntu/" rel="prev" title="Use `git send-email' at ubuntu">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../niu-rou-mian-zuo-fa/" rel="next" title="牛肉面作法">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/how-to-manage-emacs-packages/",
+        disqus_title="How to manage emacs packages",
+        disqus_identifier="cache/posts/how-to-manage-emacs-packages.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

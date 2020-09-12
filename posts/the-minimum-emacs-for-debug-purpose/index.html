@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>The minimum .emacs for debug purpose | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/the-minimum-emacs-for-debug-purpose/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="The minimum .emacs for debug purpose">
+<meta property="og:url" content="http://blog.binchen.org/posts/the-minimum-emacs-for-debug-purpose/">
+<meta property="og:description" content="I've installed more than 100 emacs plugins.
+
+
+
+Here is my minimum .emacs to test plugins,
+
+
+
+
+(show-paren-mode 1)
+(eval-when-compile (require 'cl))
+
+;; test elisps download from internet here
+(setq te">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-05-12T15:55:00Z">
+<meta property="article:tag" content="configuration">
+<meta property="article:tag" content="dot">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="test">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">The minimum .emacs for debug purpose</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-05-12T15:55:00+00:00">2013-05-12 15:55</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/configuration/" rel="tag">configuration</a></li>
+           <li><a class="tag p-category" href="../../categories/dot/" rel="tag">dot</a></li>
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/test/" rel="tag">test</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+I've installed <a href="https://github.com/redguardtoo/emacs.d">more than 100 emacs plugins</a>.
+</p>
+
+<p>
+Here is my minimum <code>.emacs</code> to test plugins,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(show-paren-mode 1)
+(eval-when-compile (require 'cl))
+
+;; test elisps download from internet here
+(setq test-elisp-dir "~/test-elisp/")
+(if (not (file-exists-p (expand-file-name test-elisp-dir)))
+    (make-directory (expand-file-name test-elisp-dir)))
+
+(setq load-path
+      (append
+        (loop for dir in (directory-files test-elisp-dir)
+              unless (string-match "^\\." dir)
+              collecting (expand-file-name (concat test-elisp-dir dir)))
+        load-path))
+
+;; package repositories
+(require 'package)
+(add-to-list 'package-archives '("marmalade" .  "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+;; ==== put your code below this line!
+;;
+</code></pre>
+
+</div>
+
+<p>
+The code is straight forward. I scan any sub-directories in <code>~/test-elisp</code> and add them into <code>load-path</code>.
+</p>
+
+<p>
+I've uploaded the <code>.emacs</code> to Dropbox, so you can use one bash liner to download it:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd ~/;wget https://dl.dropboxusercontent.com/u/858862/emacs/.emacs;mkdir -p ~/test-elisp;
+</code></pre>
+
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../how-to-use-keyboard-to-navigate-feedly-com/" rel="prev" title="How to use keyboard to navigate feedly.com">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux/" rel="next" title="How to split album into different flac and tag them under Gentoo Linux">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/the-minimum-emacs-for-debug-purpose/",
+        disqus_title="The minimum .emacs for debug purpose",
+        disqus_identifier="cache/posts/the-minimum-emacs-for-debug-purpose.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

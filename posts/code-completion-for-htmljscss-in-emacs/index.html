@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Code completion for HTML/JS/CSS in Emacs | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Code completion for HTML/JS/CSS in Emacs">
+<meta property="og:url" content="http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs/">
+<meta property="og:description" content='CREATED: &lt;2015-11-27 Fri&gt;
+
+
+
+UPDATED: &lt;2020-03-27 Fri&gt;
+
+
+
+You need install Ctags or universal-ctags at first.
+
+
+
+People using macOS will find there already exists a built in program named "ctags". Thi'>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2015-11-27T11:43:59Z">
+<meta property="article:tag" content="css">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="html">
+<meta property="article:tag" content="javascript">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Code completion for HTML/JS/CSS in Emacs</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2015-11-27T11:43:59+00:00">2015-11-27 11:43</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/css/" rel="tag">css</a></li>
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/html/" rel="tag">html</a></li>
+           <li><a class="tag p-category" href="../../categories/javascript/" rel="tag">javascript</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-27 Fri&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 Fri&gt;</span></span>
+</p>
+
+<p>
+You need install <a href="https://en.wikipedia.org/wiki/Ctags">Ctags</a> or <a href="https://github.com/universal-ctags/ctags">universal-ctags</a> at first.
+</p>
+
+<p>
+People using macOS will find there already exists a built in program named "ctags". <b>This program should be deleted!</b>
+</p>
+
+<p>
+If you want a <b>quick start</b>, jump to the end of this article.
+</p>
+
+<p>
+You can use <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> plus <a href="https://github.com/company-mode/company-mode">company-mode</a> to complete HTML/JS/CSS code.
+</p>
+
+<p>
+Setup is easy.
+</p>
+
+<p>
+Step 1, create TAGS:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd ~/myproj/ &amp;&amp; ctags -e -R .
+</code></pre>
+
+</div>
+
+<p>
+Step 2, done.
+</p>
+
+<p>
+That's OK for most programming languages.
+</p>
+
+<p>
+But <b>not enough</b> for web developers who use <a href="https://github.com/fxbois/web-mode">web-mode</a>.
+</p>
+
+<p>
+You need upgrade web-mode to <a href="https://github.com/fxbois/web-mode/pull/640">latest version</a> so that when inputting "btn-" or "data-" code completion still works.
+</p>
+
+<p>
+One issue is <code>company-mode</code> disables code completion in string and comment by default. We need <b>disable this feature in web-mode temporarily</b>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(with-eval-after-load 'company
+  ;; @see https://github.com/redguardtoo/emacs.d/commit/2ff305c1ddd7faff6dc9fa0869e39f1e9ed1182d
+  (defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
+    (if (memq major-mode '(php-mode html-mode web-mode nxml-mode))
+        (setq ad-return-value nil)
+      ad-do-it)))
+</code></pre>
+
+</div>
+
+<p>
+Tested on Emacs24, 25, 26.
+</p>
+
+<p>
+Screenshot:
+</p>
+
+<div class="figure">
+<p><img src="../../wp-content/company-etags-code-completion-nq8.png" alt="company-etags-code-completion-nq8.png"></p>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../use-js2-mode-to-print-json-path/" rel="prev" title="Use js2-mode to print json path">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../emacs-auto-completion-for-non-programmers/" rel="next" title="Emacs auto-completion for non-programmers">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs/",
+        disqus_title="Code completion for HTML/JS/CSS in Emacs",
+        disqus_identifier="cache/posts/code-completion-for-htmljscss-in-emacs.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

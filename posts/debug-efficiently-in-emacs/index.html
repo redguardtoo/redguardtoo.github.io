@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Debug efficiently in Emacs | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/debug-efficiently-in-emacs/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Debug efficiently in Emacs">
+<meta property="og:url" content="http://blog.binchen.org/posts/debug-efficiently-in-emacs/">
+<meta property="og:description" content="Please note:
+
+
+
+I use javascript as a use case. The solution is generic enough to be applied to any language. At the end of the article, Emacs Lisp is used as another example.
+I'm good at most debugge">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-11-23T12:45:18Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="javascript">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Debug efficiently in Emacs</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2014-11-23T12:45:18+00:00">2014-11-23 12:45</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/javascript/" rel="tag">javascript</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+Please note:
+</p>
+
+<ul class="org-ul">
+<li>I use javascript as a use case. The solution is <b>generic</b> enough to be applied to <b>any language</b>. At the end of the article, Emacs Lisp is used as another example.</li>
+<li>I'm good at most debuggers. The point of this article is to deal with <b>more difficult issues</b> the debugger can not handle.</li>
+<li>My code quality is fine. It handles all the corner cases I've met. For example, single quote and double quotes will be escaped properly.</li>
+</ul>
+<div id="outline-container-orga1fd159" class="outline-2">
+<h3 id="orga1fd159">Problem</h3>
+<div class="outline-text-2" id="text-orga1fd159">
+<p>
+As a freelancer I am often required to debug legacy javascript code from some huge "enterprise"" applications.
+</p>
+
+<p>
+The only way to debug such application is to insert as many as possible logging code, watch the output, and think.
+</p>
+
+<p>
+So my problem is how to insert logging code as quickly as possible.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9e880d6" class="outline-2">
+<h3 id="org9e880d6">Solution</h3>
+<div class="outline-text-2" id="text-org9e880d6">
+<p>
+My solution is <a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a>. Yasnippet allow me to insert executable Emacs Lisp code in its snippet. I will Sotake full advantage of that feature. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org868be1f" class="outline-2">
+<h3 id="org868be1f">Logging simple JS variable</h3>
+<div class="outline-text-2" id="text-org868be1f">
+<p>
+Given a variable name like "var1", I need insert javascript code as below:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">console.log("var1=", var1)
+</code></pre>
+
+</div>
+
+<p>
+Snippet:
+<a href="https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/logobject.yasnippet">https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/logobject.yasnippet</a>
+</p>
+
+<p>
+This snippet need you input variable name once.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0f1b662" class="outline-2">
+<h3 id="org0f1b662">Logging complex JS variable</h3>
+<div class="outline-text-2" id="text-org0f1b662">
+<p>
+In real world, the JS variable is often a string like "MyController.servicea.find('.class').attr1" which I hate to type.
+</p>
+
+<p>
+So the solution is that I copy the JS variable into kill ring where my snippet will read the variable name.
+</p>
+
+<p>
+Snippet:
+<a href="https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/log-recent-kill-ring.yasnippet">https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/log-recent-kill-ring.yasnippet</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org974034a" class="outline-2">
+<h3 id="org974034a">Logging JS function name when it's called</h3>
+<div class="outline-text-2" id="text-org974034a">
+<p>
+In below example, I need insert  "console.log('hello is called');" in function "hello":
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">function hello() {
+  console.log('hello is called');
+}
+</code></pre>
+
+</div>
+
+<p>
+Snippet:
+<a href="https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/log-which-function.yasnippet">https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/log-which-function.yasnippet</a>
+</p>
+
+<p>
+This snippet use the Emacs command `which-function`. If you read the code of `which-function`, you will find that it's <a href="http://www.emacswiki.org/emacs/ImenuMode">Imenu-mode</a>
+who actually extracts the function name. But Imenu-mode requires you pre-define <b>enough regular expressions</b>. 
+</p>
+
+<p>
+Please check <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el">https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el</a>. I have defined many regular expressions for <a href="https://angularjs.org/">AngularJS</a> and JQuery.
+</p>
+
+<p>
+The regular expressions could be used in <b>both</b> js-mode and js2-mode.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf5f57b3" class="outline-2">
+<h3 id="orgf5f57b3">Logging JS function name with its parameters</h3>
+<div class="outline-text-2" id="text-orgf5f57b3">
+<p>
+JS example:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">function hello(v1, v2,
+               v3, v4) {
+  console.log("v1=", v1, "v2=", v2, "v3=", v3, "v4=", v4);
+}
+</code></pre>
+
+</div>
+
+<p>
+I copy the parameter of JS function named "hello". It's just the content between "hello(" and ")", then Emacs Lisp code embedded in the snippet will parse and output the right content from kill ring.
+</p>
+
+<p>
+Snippet:
+<a href="https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/log-which-function-with-para.yasnippet">https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/log-which-function-with-para.yasnippet</a>
+</p>
+
+<p>
+BTW, since I use <a href="http://www.emacswiki.org/Evil">Evil</a>, copy the parameter into kill-ring is as simple as pressing "yi(".
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7200bf3" class="outline-2">
+<h3 id="org7200bf3">Insert JS debugger statement</h3>
+<div class="outline-text-2" id="text-org7200bf3">
+<p>
+@cjk provided this tip. The debugger like Firebug will pause at the debugger statement. It saves me the time to locate JS file, to go to the specific line and set breakpoint after re-deploying the application.
+</p>
+
+<p>
+Snippets:
+<a href="https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/debugger.yasnippet">https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/debugger.yasnippet</a>
+</p>
+
+<p>
+<a href="https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/debugger-cond-breakpoint-from-kill-ring.yasnippet">https://github.com/redguardtoo/emacs.d/blob/master/snippets/js-mode/debugger-cond-breakpoint-from-kill-ring.yasnippet</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge824e2b" class="outline-2">
+<h3 id="orge824e2b">Bonus</h3>
+<div class="outline-text-2" id="text-orge824e2b">
+<p>
+Similar snippets for Emacs Lisp are defined <a href="https://github.com/redguardtoo/emacs.d/tree/master/snippets/emacs-lisp-mode">HERE</a>.
+</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../use-bootstrapfont-awesomejquery-for-ie7-web-application/" rel="prev" title="Use bootstrap+font-awesome+jquery for IE7 web application">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../tips-on-using-ctags-with-emacs/" rel="next" title="Tips on using Ctags with Emacs">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/debug-efficiently-in-emacs/",
+        disqus_title="Debug efficiently in Emacs",
+        disqus_identifier="cache/posts/debug-efficiently-in-emacs.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

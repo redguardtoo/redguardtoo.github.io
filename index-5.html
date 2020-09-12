@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="Linux, Programming, Emacs">
@@ -23,15 +23,15 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/my-git-alias-in-bashrc.html">My git alias in .bashrc</a></h1>
+            <h1 class="title"><a href="posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/">Emacs中的自动完成(Auto Completion)完全指南</a></h1>
             <div class="meta">
                 <div class="authordate">
-                    <time class="timeago" datetime="2012-07-20T17:22:00+00:00">2012-07-20 17:22</time>
+                    <time class="timeago" datetime="2012-08-21T14:50:00+00:00">2012-08-21 14:50</time>
 </div>
                 <div class="stats">
                     
         
-    <a href="posts/my-git-alias-in-bashrc.html#disqus_thread" data-disqus-identifier="cache/posts/my-git-alias-in-bashrc.html">Comments</a>
+    <a href="posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/#disqus_thread" data-disqus-identifier="cache/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan.html">Comments</a>
 
 
                 </div>
@@ -39,11 +39,278 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/bash.html" rel="tag">bash</a></li>
-           <li><a class="tag p-category" href="categories/control.html" rel="tag">control</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
-           <li><a class="tag p-category" href="categories/version.html" rel="tag">version</a></li>
+           <li><a class="tag p-category" href="categories/completion/" rel="tag">completion</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/intellisense/" rel="tag">intellisense</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+作者: 陈斌(redguardtoo)
+</p>
+
+<p>
+更新时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-04-05 Wed&gt;</span></span>
+</p>
+
+<p>
+原创时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-08-21 Tue&gt;</span></span>
+</p>
+
+<p>
+Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者不带文件名后缀都可以).
+</p>
+
+<p>
+我不是来赞美Emacs的强大的,我是来吐槽的.自动完成框架太多,功能重叠,让人困扰.
+</p>
+
+<p>
+所以本文目的有两个:
+</p>
+
+<ul class="org-ul">
+<li>说明哪些框架流行</li>
+<li>如何使用框架</li>
+</ul>
+<div id="outline-container-orgcb53df2" class="outline-2">
+<h3 id="orgcb53df2">概述</h3>
+<div class="outline-text-2" id="text-orgcb53df2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">函数/插件名</th>
+<th scope="col" class="org-left">快捷键</th>
+<th scope="col" class="org-left">使用频率</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">company-mode (结合clang)</td>
+<td class="org-left">不需要 (也可启用TAB)</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">hippie-expand</td>
+<td class="org-left">M-/</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">evil-mode</td>
+<td class="org-left">C-n/C-p(完成词),C-x C-n/p(完成行)</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">auto-complete (结合clang)</td>
+<td class="org-left">TAB</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">complete-symbol</td>
+<td class="org-left">C-M-i</td>
+<td class="org-left">低</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org49029fa" class="outline-2">
+<h3 id="org49029fa">auto-complete结合clang</h3>
+<div class="outline-text-2" id="text-org49029fa">
+<p>
+<a href="http://emacswiki.org/emacs/AutoComplete">auto-complete</a>是第三方开发的插件,提供了自动完成需要的支持(例如在命令行环境下对下拉菜单的模拟).
+</p>
+
+<p>
+而<a href="http://clang.llvm.org">clang</a>是苹果公司C/C++/Objective-C编译器,对C++语法的解析很好.
+</p>
+
+<p>
+显然,这种l案只适用于 <code>Clang</code> 支持的语言.
+</p>
+
+<p>
+需要通过<a href="http://emacswiki.org/wiki/ELPA">elpa(Emacs的AppStore)</a>安装第三方插件 <code>auto-complete</code> 和<a href="https://github.com/brianjcj/auto-complete-clang">auto-complete-clang</a>.
+</p>
+
+<p>
+具体配置请参考我的<a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-auto-complete.el">init-auto-complete.el</a>.
+</p>
+
+<p>
+已被company-mode取代,不推荐.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org05657ce" class="outline-2">
+<h3 id="org05657ce">company-mode</h3>
+<div class="outline-text-2" id="text-org05657ce">
+<p>
+<a href="https://github.com/company-mode/company-mode">company-mode</a>和auto-complete功能类似，唯一的区别是clang以及其他语言支持已内置，所以不需要安装其他elisp插件或者额外配置.目前我已用company-mode代替了auto-complete.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org22c9aa2" class="outline-2">
+<h3 id="org22c9aa2">hippie-expand</h3>
+<div class="outline-text-2" id="text-org22c9aa2">
+<p>
+<a href="http://emacswiki.org/emacs/HippieExpand">hippie-expand</a>是Emacs自带的自动完成框架.
+</p>
+
+<p>
+其默认的一些特色功能(例如,完成词/文件名/行的功能,或在 <code>minibuffer</code> 中使用)可作为 <code>company-mode</code> 补充.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org35f991b" class="outline-2">
+<h3 id="org35f991b">complete-symbol</h3>
+<div class="outline-text-2" id="text-org35f991b">
+<p>
+Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,它默认仅仅调用了后台的ctags而已.
+</p>
+
+<p>
+<code>hippie-expand</code> 经过调教也可用 <code>Ctags</code>,且默认特色功能比 <code>complete-symbol</code> 多,所以我没兴趣配置第三个自动完成框架了.
+</p>
+
+<p>
+通过阅读Emacs24的ChangeLog,我发现 <code>complete-symbol</code> 经过配置后可以用 <code>semantic</code> 作为语法解析后端(Emacs23.4也支持,不明白为什么把该特性放在Emacs24的ChangeLog介绍).
+</p>
+
+<p>
+<a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Semantic.html">semantic</a>是lisp写的语法解析器,Emacs自带,智能程度介于ctags和clang之间,解析速度比较慢,如果机器配置较差会很卡.
+</p>
+
+<p>
+我不喜欢这个语法解析器,过去在 <code>Semantic</code> 尚是<a href="http://cedet.sourceforge.net">Cedet</a>的一个组件时,我折腾过 <code>Cedet</code>,当时感觉速度慢,配置繁琐,不稳定.
+</p>
+
+<p>
+<code>Semantic</code> 支持多种语言,如C++/Java.
+</p>
+
+<p>
+配置请参考我的<a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-semantic.el">init-semantic.el</a>(注意,我不用 <code>Semantic</code>,所以相应代码被注释了.你可取消注释).
+</p>
+
+<p>
+已被 <code>company-mode</code> 取代,不推荐.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org67d6aa2" class="outline-2">
+<h3 id="org67d6aa2">evil-mode</h3>
+<div class="outline-text-2" id="text-org67d6aa2">
+<p>
+<a href="http://emacswiki.org/emacs/Evil">Evil-mode</a>把Emacs模拟成了Vim,是我最喜欢的第三方插件,其自动完成很简单,就是根据当前文件内容自动完成词或行.
+</p>
+
+<p>
+值得推荐是因为我也是重度Vim用户,Vim的快捷键已成为我本能了.
+</p>
+
+<p>
+无需配置,启动 <code>evil-mode</code> 即可,参见我的<a href="https://github.com/redguardtoo/emacs.d/blob/master/init-evil.el">init-evil.el</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfd7e53d" class="outline-2">
+<h3 id="orgfd7e53d">其他</h3>
+<div class="outline-text-2" id="text-orgfd7e53d">
+<p>
+我的一个想法. 类似于Evil的完成行.但是可以扫瞄指定目录中所有的文件,列出相似的行.
+</p>
+
+<p>
+优点在于:
+</p>
+<ul class="org-ul">
+<li>匹配可以更加宽容一点</li>
+<li>使用目前最快的grep工具如<a href="https://github.com/BurntSushi/ripgrep">ripgrep</a>扫瞄文本</li>
+</ul>
+<p>
+实现见<a href="https://github.com/redguardtoo/emacs.d/blob/24dd0d7/lisp/init-ivy.el">init-ivy</a>中的=counsel-complete-line-by-grep=.
+</p>
+
+<p>
+试用好几个月了,非常好用.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge16e3a2" class="outline-2">
+<h3 id="orge16e3a2">小结</h3>
+<div class="outline-text-2" id="text-orge16e3a2">
+<p>
+自动完成包括前端用户界面和后端语法解析引擎两个部分.
+</p>
+
+<p>
+作为前端的用户界面, <code>company-mode</code> 和 <code>auto-complete</code> 相当成熟.
+</p>
+
+<p>
+后端 <code>Clang</code> 最优秀.
+</p>
+
+<p>
+<code>Ctags</code> 谈不上语法解析,只是正则表达式罢了,但是因此才能通吃所有语言.
+</p>
+
+<p>
+<code>Semantic</code> 支持的语言比 <code>Clang</code> 多一点,性能和稳定性比较差.
+</p>
+
+<p>
+作为一个C++程序员,我过去用 <code>auto-complete</code> 加上 <code>Clang</code>,现在用 <code>company-mode</code> 加 <code>Clang</code>.
+</p>
+
+<p>
+脚本语言(Ruby/Python/Javascript)用 <a href="https://en.wikipedia.org/wiki/Ctags">Ctags</a> 加 <a href="https://github.com/company-mode/company-mode">company-mode</a> 加 <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a>.
+</p>
+
+<p>
+基于框架自己发明新技术会更好用.</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/my-git-alias-in-bashrc/">My git alias in .bashrc</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-07-20T17:22:00+00:00">2012-07-20 17:22</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/my-git-alias-in-bashrc/#disqus_thread" data-disqus-identifier="cache/posts/my-git-alias-in-bashrc.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/bash/" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="categories/control/" rel="tag">control</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/version/" rel="tag">version</a></li>
         </ul>
 </div>
 
@@ -294,7 +561,7 @@ function gp() {
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo.html">Emacs中的完美多窗口操作</a></h1>
+            <h1 class="title"><a href="posts/emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo/">Emacs中的完美多窗口操作</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2012-07-20T14:56:00+00:00">2012-07-20 14:56</time>
@@ -302,7 +569,7 @@ function gp() {
                 <div class="stats">
                     
         
-    <a href="posts/emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo.html#disqus_thread" data-disqus-identifier="cache/posts/emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo.html">Comments</a>
+    <a href="posts/emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo/#disqus_thread" data-disqus-identifier="cache/posts/emacs-zhong-de-wan-mei-duo-chuang-kou-cao-zuo.html">Comments</a>
 
 
                 </div>
@@ -310,10 +577,10 @@ function gp() {
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/multiple.html" rel="tag">multiple</a></li>
-           <li><a class="tag p-category" href="categories/window.html" rel="tag">window</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/multiple/" rel="tag">multiple</a></li>
+           <li><a class="tag p-category" href="categories/window/" rel="tag">window</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -337,7 +604,7 @@ function gp() {
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/convert-tex-to-pdf.html">Convert TEX to PDF</a></h1>
+            <h1 class="title"><a href="posts/convert-tex-to-pdf/">Convert TEX to PDF</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2012-07-17T23:22:00+00:00">2012-07-17 23:22</time>
@@ -345,7 +612,7 @@ function gp() {
                 <div class="stats">
                     
         
-    <a href="posts/convert-tex-to-pdf.html#disqus_thread" data-disqus-identifier="cache/posts/convert-tex-to-pdf.html">Comments</a>
+    <a href="posts/convert-tex-to-pdf/#disqus_thread" data-disqus-identifier="cache/posts/convert-tex-to-pdf.html">Comments</a>
 
 
                 </div>
@@ -353,11 +620,11 @@ function gp() {
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/cpan.html" rel="tag">cpan</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/latex.html" rel="tag">latex</a></li>
-           <li><a class="tag p-category" href="categories/pdf.html" rel="tag">pdf</a></li>
-           <li><a class="tag p-category" href="categories/perl.html" rel="tag">perl</a></li>
+           <li><a class="tag p-category" href="categories/cpan/" rel="tag">cpan</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/latex/" rel="tag">latex</a></li>
+           <li><a class="tag p-category" href="categories/pdf/" rel="tag">pdf</a></li>
+           <li><a class="tag p-category" href="categories/perl/" rel="tag">perl</a></li>
         </ul>
 </div>
 
@@ -395,7 +662,7 @@ Convert now!
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm.html">Install perl module through source package on cygwin by using cpanm</a></h1>
+            <h1 class="title"><a href="posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm/">Install perl module through source package on cygwin by using cpanm</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2012-07-17T23:22:00+00:00">2012-07-17 23:22</time>
@@ -403,7 +670,7 @@ Convert now!
                 <div class="stats">
                     
         
-    <a href="posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm.html#disqus_thread" data-disqus-identifier="cache/posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm.html">Comments</a>
+    <a href="posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm/#disqus_thread" data-disqus-identifier="cache/posts/install-perl-module-through-source-package-on-cygwin-by-using-cpanm.html">Comments</a>
 
 
                 </div>
@@ -411,12 +678,12 @@ Convert now!
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/cpan.html" rel="tag">cpan</a></li>
-           <li><a class="tag p-category" href="categories/cpanm.html" rel="tag">cpanm</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/install.html" rel="tag">install</a></li>
-           <li><a class="tag p-category" href="categories/module.html" rel="tag">module</a></li>
-           <li><a class="tag p-category" href="categories/perl.html" rel="tag">perl</a></li>
+           <li><a class="tag p-category" href="categories/cpan/" rel="tag">cpan</a></li>
+           <li><a class="tag p-category" href="categories/cpanm/" rel="tag">cpanm</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/install/" rel="tag">install</a></li>
+           <li><a class="tag p-category" href="categories/module/" rel="tag">module</a></li>
+           <li><a class="tag p-category" href="categories/perl/" rel="tag">perl</a></li>
         </ul>
 </div>
 
@@ -449,65 +716,7 @@ Updated: The simpler solution is to install gcc4 at cygwin.</p>
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-convert-org-to-pdf.html">How to convert org to PDF</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2012-07-08T15:27:00+00:00">2012-07-08 15:27</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/how-to-convert-org-to-pdf.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-convert-org-to-pdf.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/latex.html" rel="tag">latex</a></li>
-           <li><a class="tag p-category" href="categories/pdf.html" rel="tag">pdf</a></li>
-           <li><a class="tag p-category" href="categories/perl.html" rel="tag">perl</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-Install <a href="http://www.tug.org/texlive/">TexLive</a>. The <code>org-mode</code> has some handy function to locate the TexLive. Press <code>C-c C-e p</code> to convert.
-</p>
-
-<p>
-At Cygwin and Linux, installing TexLive could be installed by their package system.
-</p>
-
-<p>
-At macOS, I use the <a href="http://www.tug.org/texlive/acquire-netinstall.html">TexLive source package</a> (install-tl-unx.tar.gz). After installation, environment varaibles need be set.
-</p>
-
-<p>
-Bash shell requires setup in <code>~/.bashrc</code>,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-sh">if [[ `uname -s` == *Darwin* ]]; then
-   #tex live on OS X
-   export PATH=/usr/local/texlive/2011/bin/universal-darwin:$PATH
-   export MANPATH=/usr/local/texlive/2011/texmf/doc/man:$MANPAH
-   export INFOPATH=/usr/local/texlive/2011/texmf/doc/info:$INFOPATH
-fi
-</code></pre>
-
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua.html">Notes on Emacs chat between John Wiegley and Sacha Chua</a></h1>
+            <h1 class="title"><a href="posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua/">Notes on Emacs chat between John Wiegley and Sacha Chua</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2012-07-04T17:15:00+00:00">2012-07-04 17:15</time>
@@ -515,7 +724,7 @@ fi
                 <div class="stats">
                     
         
-    <a href="posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua.html#disqus_thread" data-disqus-identifier="cache/posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua.html">Comments</a>
+    <a href="posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua/#disqus_thread" data-disqus-identifier="cache/posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua.html">Comments</a>
 
 
                 </div>
@@ -523,9 +732,9 @@ fi
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
         </ul>
 </div>
 
@@ -563,7 +772,7 @@ I only record key points,
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html">How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode</a></h1>
+            <h1 class="title"><a href="posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode/">How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2012-06-19T21:40:00+00:00">2012-06-19 21:40</time>
@@ -571,7 +780,7 @@ I only record key points,
                 <div class="stats">
                     
         
-    <a href="posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html">Comments</a>
+    <a href="posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode/#disqus_thread" data-disqus-identifier="cache/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html">Comments</a>
 
 
                 </div>
@@ -579,10 +788,10 @@ I only record key points,
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/autocomplete.html" rel="tag">autocomplete</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/yasnippet.html" rel="tag">yasnippet</a></li>
+           <li><a class="tag p-category" href="categories/autocomplete/" rel="tag">autocomplete</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/yasnippet/" rel="tag">yasnippet</a></li>
         </ul>
 </div>
 
@@ -727,7 +936,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu.html">在我的Mac OS X 10.7.3上为heroku开发rails程序</a></h1>
+            <h1 class="title"><a href="posts/zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu/">在我的Mac OS X 10.7.3上为heroku开发rails程序</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2012-05-31T14:13:00+00:00">2012-05-31 14:13</time>
@@ -735,7 +944,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
                 <div class="stats">
                     
         
-    <a href="posts/zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu.html#disqus_thread" data-disqus-identifier="cache/posts/zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu.html">Comments</a>
+    <a href="posts/zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu/#disqus_thread" data-disqus-identifier="cache/posts/zai-wo-de-osx-shang-wei-heroku-kai-fa-rails-chen-xu.html">Comments</a>
 
 
                 </div>
@@ -743,11 +952,11 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/deployment.html" rel="tag">deployment</a></li>
-           <li><a class="tag p-category" href="categories/heorku.html" rel="tag">heorku</a></li>
-           <li><a class="tag p-category" href="categories/postgresql.html" rel="tag">postgresql</a></li>
-           <li><a class="tag p-category" href="categories/rails.html" rel="tag">rails</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/deployment/" rel="tag">deployment</a></li>
+           <li><a class="tag p-category" href="categories/heorku/" rel="tag">heorku</a></li>
+           <li><a class="tag p-category" href="categories/postgresql/" rel="tag">postgresql</a></li>
+           <li><a class="tag p-category" href="categories/rails/" rel="tag">rails</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -768,7 +977,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/zhen-dui-ruby-on-rails-kai-fa-de-emacs-cha-jian.html">针对Ruby on Rails开发的Emacs插件</a></h1>
+            <h1 class="title"><a href="posts/zhen-dui-ruby-on-rails-kai-fa-de-emacs-cha-jian/">针对Ruby on Rails开发的Emacs插件</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2012-05-28T12:19:18+00:00">2012-05-28 12:19</time>
@@ -776,7 +985,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
                 <div class="stats">
                     
         
-    <a href="posts/zhen-dui-ruby-on-rails-kai-fa-de-emacs-cha-jian.html#disqus_thread" data-disqus-identifier="cache/posts/zhen-dui-ruby-on-rails-kai-fa-de-emacs-cha-jian.html">Comments</a>
+    <a href="posts/zhen-dui-ruby-on-rails-kai-fa-de-emacs-cha-jian/#disqus_thread" data-disqus-identifier="cache/posts/zhen-dui-ruby-on-rails-kai-fa-de-emacs-cha-jian.html">Comments</a>
 
 
                 </div>
@@ -784,10 +993,10 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/rails.html" rel="tag">rails</a></li>
-           <li><a class="tag p-category" href="categories/ruby.html" rel="tag">ruby</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/rails/" rel="tag">rails</a></li>
+           <li><a class="tag p-category" href="categories/ruby/" rel="tag">ruby</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -800,7 +1009,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie.html">阅读了rails中使用bootstrap相关文章的小结</a></h1>
+            <h1 class="title"><a href="posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie/">阅读了rails中使用bootstrap相关文章的小结</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2012-05-19T20:51:00+00:00">2012-05-19 20:51</time>
@@ -808,7 +1017,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
                 <div class="stats">
                     
         
-    <a href="posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie.html#disqus_thread" data-disqus-identifier="cache/posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie.html">Comments</a>
+    <a href="posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie/#disqus_thread" data-disqus-identifier="cache/posts/shi-yong-bootstrap-wen-zhang-de-xiao-jie.html">Comments</a>
 
 
                 </div>
@@ -816,11 +1025,11 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/bootstrap.html" rel="tag">bootstrap</a></li>
-           <li><a class="tag p-category" href="categories/css.html" rel="tag">css</a></li>
-           <li><a class="tag p-category" href="categories/less.html" rel="tag">less</a></li>
-           <li><a class="tag p-category" href="categories/sass.html" rel="tag">sass</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/bootstrap/" rel="tag">bootstrap</a></li>
+           <li><a class="tag p-category" href="categories/css/" rel="tag">css</a></li>
+           <li><a class="tag p-category" href="categories/less/" rel="tag">less</a></li>
+           <li><a class="tag p-category" href="categories/sass/" rel="tag">sass</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 

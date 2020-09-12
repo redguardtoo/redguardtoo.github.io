@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Emacs vs Sublime Text on Salesforce development | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/emacs-vs-sublime-text-on-salesforce-development/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Emacs vs Sublime Text on Salesforce development">
+<meta property="og:url" content="http://blog.binchen.org/posts/emacs-vs-sublime-text-on-salesforce-development/">
+<meta property="og:description" content="Our client decided to move their legacy system to a cloud platform called salesforce.com. So I got a chance to investigate how to deploy code to the salesforce server inside Emacs and Sublime Text.
+
+
+">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-03-14T10:42:31Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="salesforce">
+<meta property="article:tag" content="sublime">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Emacs vs Sublime Text on Salesforce development</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2016-03-14T10:42:31+00:00">2016-03-14 10:42</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/salesforce/" rel="tag">salesforce</a></li>
+           <li><a class="tag p-category" href="../../categories/sublime/" rel="tag">sublime</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+Our client decided to move their legacy system to a cloud platform called salesforce.com. So I got a chance to investigate how to <b>deploy code</b> to the salesforce server inside Emacs and Sublime Text.
+</p>
+
+<p>
+Salesforce provides <a href="https://developer.salesforce.com/docs/atlas.en-us.daas.meta/daas/forcemigrationtool_install.htm">a migration tool</a> to deploy everything from the scratch which takes about 2 minutes. Basically makes it impossbile to be integrated with text editors.
+</p>
+
+<p>
+Luckily, there is <a href="https://force-cli.heroku.com/">Force.com CLI</a> which can upload single file in a few seconds. Both Sublime Text and Emacs use this tool.
+</p>
+
+<div id="outline-container-orgb51326b" class="outline-2">
+<h3 id="orgb51326b">Sublime Text</h3>
+<div class="outline-text-2" id="text-orgb51326b">
+<p>
+You need install sublime text plugin <a href="http://mavensmate.com/Getting_Started/Users">mavensmate</a>. After installation, you need click <code>Login</code> menu at least once. Then when you save the code file, it's automatically deployed to the server.
+</p>
+
+<p>
+For some reason, the logged in session will timeout after a couple minutes. So you need re-login. Sometimes deployment will fail, you could click the <code>Fetch</code> menu and fill in the component name into the popup window to confirm the fetch. Fetching will re-activate upload ability.
+</p>
+
+<p>
+Mavensmate is actually just GUI wrapper of Force.com CLI,
+</p>
+<ul class="org-ul">
+<li>When you click login, the command <code>force login</code> is executed</li>
+<li>When saving file, <code>force aura push</code> or <code>force push</code> is executed</li>
+<li>When fetching, <code>force fetch</code> is executed</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8ca6eba" class="outline-2">
+<h3 id="org8ca6eba">Emacs</h3>
+<div class="outline-text-2" id="text-org8ca6eba">
+<p>
+In Sublime Text I have to re-login and fetch from time to time. That get me distracted. I prefer executing only one commmand to upload the file in editing. That command should be always successful.
+</p>
+
+<p>
+My solution is to combine "login/fetch/push" commnands into one liner which is stored in a file local variable <code>compile-command</code>. So when I execute <code>M-x compile</code>, the commands "login/fetch/push" in <code>compile-command</code> will all be executed sequentially. So I don't need care about login and fetch things any more.
+</p>
+
+<p>
+Here is my setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-setup-develop-environment ()
+  (interactive)
+  (let (ffip-project-root)
+    (setq ffip-project-root "~/projects/my-salesforce-project1")
+
+    (when (memq major-mode '(web-mode js-mode js2-mode))
+      (setq-local compile-command
+                  (cond
+                   ;; lightning controller javascript file
+                   ((string-match "Controller\.js$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; cp %s %s &amp;&amp; force fetch -t Aura -n %s -d %s &amp;&amp; mv %s %s &amp;&amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name) (concat (buffer-file-name) ".bak")
+                            (replace-regexp-in-string "Controller" "" (file-name-base (buffer-file-name)))
+                            ffip-project-root
+                            (concat (buffer-file-name) ".bak") (buffer-file-name)
+                            (buffer-file-name)))
+                   ;; ant build
+                   ((string-match "build\.xml$" (buffer-file-name))
+                    (format "cd %s &amp;&amp; ant deployCode" ffip-project-root))
+                   ;; lightning html view
+                   ((string-match "\.cmp$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   ;; other salesforce pages
+                   (t
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   )))
+    ))
+
+;; I use web-mode for html/xml
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
+;; I use js2-mode for javascript
+(add-hook 'js2-mode-hook 'my-setup-develop-environment)
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../how-to-be-extremely-efficient-in-emacs/" rel="prev" title="How to be extremely efficient in Emacs">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../use-ivy-to-open-recent-directories/" rel="next" title="Use ivy to open recent directories">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/emacs-vs-sublime-text-on-salesforce-development/",
+        disqus_title="Emacs vs Sublime Text on Salesforce development",
+        disqus_identifier="cache/posts/emacs-vs-sublime-text-on-salesforce-development.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

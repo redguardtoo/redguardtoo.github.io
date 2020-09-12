@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Use js2-mode as minor mode to process JSON | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/use-js2-mode-as-minor-mode-to-process-json/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Use js2-mode as minor mode to process JSON">
+<meta property="og:url" content="http://blog.binchen.org/posts/use-js2-mode-as-minor-mode-to-process-json/">
+<meta property="og:description" content='Most people use js2-mode as a major mode for javascript. For JSON file, they prefer json-mode.
+
+
+
+But if you truly understand the meaning of Software Freedom, you will realize "major-mode" and "minor-'>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-07-31T05:24:04Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="js2">
+<meta property="article:tag" content="json">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Use js2-mode as minor mode to process JSON</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2016-07-31T05:24:04+00:00">2016-07-31 05:24</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/js2/" rel="tag">js2</a></li>
+           <li><a class="tag p-category" href="../../categories/json/" rel="tag">json</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+Most people use <a href="https://github.com/mooz/js2-mode">js2-mode</a> as a major mode for javascript. For JSON file, they prefer <a href="https://github.com/joshwnj/json-mode">json-mode</a>.
+</p>
+
+<p>
+But if you <b>truly</b> understand the meaning of <a href="https://www.gnu.org/philosophy/free-sw.en.html">Software Freedom</a>, you will realize "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Major-Modes.html">major-mode</a>" and "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Minor-Modes.html">minor-mode</a>" are man-made concepts which actually have no difference.
+</p>
+
+<p>
+In essence, a major mode is just a collection of APIs. We could use its APIs without enabling it, perfectly complying with "The freedom to run the program as you wish, for any purpose (freedom 0).".
+</p>
+
+<p>
+Here are two examples.
+</p>
+
+<div id="outline-container-org9ee08c4" class="outline-2">
+<h3 id="org9ee08c4">Validate JSON</h3>
+<div class="outline-text-2" id="text-org9ee08c4">
+<p>
+<code>M-x my-validate-json-or-js-expression</code> to validate the buffer.
+</p>
+
+<p>
+<code>C-u my-validate-json-or-js-expression</code> to validate selected region.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-validate-json-or-js-expression (&amp;optional not-json-p)
+  "Validate buffer or select region as JSON.
+If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
+  (interactive "P")
+  (let* ((json-exp (if (region-active-p) (buffer-substring-no-properties (region-beginning) (region-end))
+                     (buffer-substring-no-properties (point-min) (point-max))))
+         (jsbuf-offet (if not-json-p 0 (length "var a=")))
+         errs
+         first-err
+         (first-err-pos (if (region-active-p) (region-beginning) 0)))
+    (unless not-json-p
+      (setq json-exp (format "var a=%s;"  json-exp)))
+    (with-temp-buffer
+      (insert json-exp)
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (js2-parse)
+      (setq errs (js2-errors))
+      (cond
+       ((not errs)
+        (message "NO error found. Good job!"))
+       (t
+        ;; yes, first error in buffer is the last element in errs
+        (setq first-err (car (last errs)))
+        (setq first-err-pos (+ first-err-pos (- (cadr first-err) jsbuf-offet)))
+        (message "%d error(s), first at buffer position %d: %s"
+                 (length errs)
+                 first-err-pos
+                 (js2-get-msg (caar first-err))))))
+    (if first-err (goto-char first-err-pos))))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9377294" class="outline-2">
+<h3 id="org9377294">Print JSON path</h3>
+<div class="outline-text-2" id="text-org9377294">
+<p>
+For example, you got JSON string  <code>{"a": {"b": 3}}</code>. If you place cursor over <code>3</code> and <code>M-x my-print-json-path</code>, you got output <code>a.b</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-print-json-path (&amp;optional hardcoded-array-index)
+  "Print the path to the JSON value under point, and save it in the kill ring.
+If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
+  (interactive "P")
+  (cond
+   ((memq major-mode '(js2-mode))
+    (js2-print-json-path hardcoded-array-index))
+   (t
+    (let* ((cur-pos (point))
+           (str (buffer-substring-no-properties (point-min) (point-max))))
+      (when (string= "json" (file-name-extension buffer-file-name))
+        (setq str (format "var a=%s;" str))
+        (setq cur-pos (+ cur-pos (length "var a="))))
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (with-temp-buffer
+        (insert str)
+        (js2-init-scanner)
+        (js2-do-parse)
+        (goto-char cur-pos)
+        (js2-print-json-path))))))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbe30d80" class="outline-2">
+<h3 id="orgbe30d80">Summary</h3>
+<div class="outline-text-2" id="text-orgbe30d80">
+<p>
+As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
+</p>
+<ul class="org-ul">
+<li>js2-errors</li>
+<li>js2-get-msg</li>
+<li>js2-print-json-path</li>
+<li>js2-init-scanner</li>
+<li>js2-do-parse</li>
+</ul>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../yan-tai-dun-tu-dou-si/" rel="prev" title="烟台炖土豆丝">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../no-worries-when-elpa-is-down/" rel="next" title="No worries when elpa is down">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/use-js2-mode-as-minor-mode-to-process-json/",
+        disqus_title="Use js2-mode as minor mode to process JSON",
+        disqus_identifier="cache/posts/use-js2-mode-as-minor-mode-to-process-json.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

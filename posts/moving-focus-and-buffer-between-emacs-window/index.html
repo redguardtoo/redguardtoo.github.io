@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Moving focus and buffer between Emacs window | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/moving-focus-and-buffer-between-emacs-window/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Moving focus and buffer between Emacs window">
+<meta property="og:url" content="http://blog.binchen.org/posts/moving-focus-and-buffer-between-emacs-window/">
+<meta property="og:description" content="Please read the excellent article Moving between Emacs windows for basic setup.
+
+
+
+Here is my summary of that article:
+
+
+
+you can use windmove.el (embedded in Emacs). Its hotkey is Shift+Arrow
+switch-">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-02-03T14:19:00Z">
+<meta property="article:tag" content="buffer">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="move">
+<meta property="article:tag" content="window">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Moving focus and buffer between Emacs window</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-02-03T14:19:00+00:00">2013-02-03 14:19</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/buffer/" rel="tag">buffer</a></li>
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/move/" rel="tag">move</a></li>
+           <li><a class="tag p-category" href="../../categories/window/" rel="tag">window</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+Please read the excellent article <a href="http://irreal.org/blog/?p=1562">Moving between Emacs windows</a> for basic setup.
+</p>
+
+<p>
+Here is my summary of that article:
+</p>
+
+<ul class="org-ul">
+<li>you can use <code>windmove.el</code> (embedded in Emacs). Its hotkey is Shift+Arrow</li>
+<li>
+<a href="https://github.com/dimitri/switch-window">switch-window.el</a> is great. The default hot key is <code>C-x o</code>
+</li>
+</ul>
+<p>
+I also use other packages which is more efficient.
+</p>
+
+<div id="outline-container-org76be974" class="outline-2">
+<h3 id="org76be974">window-numbering.el</h3>
+<div class="outline-text-2" id="text-org76be974">
+<p>
+<a href="https://github.com/nschum/window-numbering.el">window-numbering.el</a> is <b>great</b>. It uses hot key <code>M-number</code> to switch window (for example, <code>M-3</code> to select window with number 3). So I can press only <b>one</b> key to switch window. Besides, it has some extra features like <code>M-0</code> to jump to the minibuffer.
+</p>
+
+<p>
+Here is my configuration for <code>window-numbering.el</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'window-numbering)
+;; highlight the window number in pink color
+(custom-set-faces '(window-numbering-face ((t (:foreground "DeepPink" :underline "DeepPink" :weight bold)))))
+(window-numbering-mode 1)
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeb700fd" class="outline-2">
+<h3 id="orgeb700fd">Evil</h3>
+<div class="outline-text-2" id="text-orgeb700fd">
+<p>
+<a href="http://emacswiki.org/emacs/Evil">Evil</a> is a vim-emulation. It use vim's keybindings <code>C-w h/j/k/l</code> to move. Please note <code>C-w h</code> is more efficient than <code>C-x o</code>. It's because <code>w</code> key is more close than <code>x</code> key and <code>h/j/k/l</code> is easy to press.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7210d00" class="outline-2">
+<h3 id="org7210d00">buffer-move.el</h3>
+<div class="outline-text-2" id="text-org7210d00">
+<p>
+<a href="http://www.emacswiki.org/cgi-bin/wiki/buffer-move.el">buffer-move.el</a> moves the buffer instead of focus between windows. It can be installed through <a href="http://melpa.milkbox.net/">MELPA</a>.
+</p>
+
+<p>
+Here is my configuration:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(global-set-key (kbd "C-c C-b C-k") 'buf-move-up)
+(global-set-key (kbd "C-c C-b C-j") 'buf-move-down)
+(global-set-key (kbd "C-c C-b C-h") 'buf-move-left)
+(global-set-key (kbd "C-c C-b C-l") 'buf-move-right)
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbde004a" class="outline-2">
+<h3 id="orgbde004a">Optimization</h3>
+<div class="outline-text-2" id="text-orgbde004a">
+<p>
+I use <a href="https://github.com/dacap/keyfreq">keyfreq</a> to record all my key pressing for <b>more than six months</b>.
+</p>
+
+<p>
+According to the data collected by keyfreq, more than 99 percent of my moving focus between windows is done through <b>window-numbering.el</b>.
+</p>
+
+<p>
+So it's necessary to optimize window-numbering.el further. By default, window-numbering.el uses <code>M-num</code> key to select window which is already efficient. But as a geek, I have a tendency to push the efficiency to the extreme end.
+</p>
+
+<p>
+Finally I use hotkey <code>,1</code>, <code>,2</code>, and <code>,3</code> to switch to the window numbering <code>1</code>, <code>2</code>, and <code>3</code>.
+</p>
+
+<p>
+Here is the code:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(define-key evil-normal-state-map ",1" 'select-window-1)
+(define-key evil-normal-state-map ",2" 'select-window-2)
+(define-key evil-normal-state-map ",3" 'select-window-3)
+(define-key evil-normal-state-map ",4" 'select-window-4)
+</code></pre>
+
+</div>
+
+<p>
+Check <a href="https://github.com/redguardtoo/emacs.d/commit/8a51696">my setup at github</a>.
+</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../commentuncomment-line-is-easy-in-emacs/" rel="prev" title="Comment/uncomment line(s) is easy in Emacs">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../find-files-provided-by-the-installed-package/" rel="next" title="Find files provided by the installed package">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/moving-focus-and-buffer-between-emacs-window/",
+        disqus_title="Moving focus and buffer between Emacs window",
+        disqus_identifier="cache/posts/moving-focus-and-buffer-between-emacs-window.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

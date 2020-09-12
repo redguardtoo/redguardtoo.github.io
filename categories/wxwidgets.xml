@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about wxwidgets)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/wxwidgets.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 17 Apr 2020 01:30:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to embed button in wxDataViewListCtrl</title><link>http://blog.binchen.org/posts/how-to-embed-button-in-wxdataviewlistctrl.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about wxwidgets)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/wxwidgets.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 12 Sep 2020 03:03:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to embed button in wxDataViewListCtrl</title><link>http://blog.binchen.org/posts/how-to-embed-button-in-wxdataviewlistctrl/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 Before creating wxDataViewListCtrl, it's better to detect information about text size so that we can set the column width and height intelligently.
 &lt;/p&gt;
 
@@ -159,7 +159,7 @@ wxDataViewMyButtonRenderer::Render( wxRect rect, wxDC *dc, int state )
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;&lt;/div&gt;</description><category>c</category><category>en</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/how-to-embed-button-in-wxdataviewlistctrl.html</guid><pubDate>Sun, 13 Apr 2014 15:39:28 GMT</pubDate></item><item><title>Start wxWidgets programming on Linux/OSX</title><link>http://blog.binchen.org/posts/start-wxwidgets-programming-on-linux.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>c</category><category>en</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/how-to-embed-button-in-wxdataviewlistctrl/</guid><pubDate>Sun, 13 Apr 2014 15:39:28 GMT</pubDate></item><item><title>Start wxWidgets programming on Linux/OSX</title><link>http://blog.binchen.org/posts/start-wxwidgets-programming-on-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 wxWidgets 3.0.0
 &lt;/p&gt;
 
@@ -167,9 +167,9 @@ wxWidgets 3.0.0
 WARNING: before building, please make sure remove everything in build directory, &lt;b&gt;including hidden directory&lt;/b&gt;!
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgd65be41" class="outline-2"&gt;
-&lt;h3 id="orgd65be41"&gt;Install webkit by using Linux distribution's package manager&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgd65be41"&gt;
+&lt;div id="outline-container-org1a0821a" class="outline-2"&gt;
+&lt;h3 id="org1a0821a"&gt;Install webkit by using Linux distribution's package manager&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1a0821a"&gt;
 &lt;p&gt;
 I need use wxWebView which dependent on webkit on Linux. The issue here is that webkit on Linux is using GTK.
 &lt;/p&gt;
@@ -180,9 +180,9 @@ Make sure the webkit and wxWidgets are using same version of GTK.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6ec299d" class="outline-2"&gt;
-&lt;h3 id="org6ec299d"&gt;build the source&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org6ec299d"&gt;
+&lt;div id="outline-container-orge7a336a" class="outline-2"&gt;
+&lt;h3 id="orge7a336a"&gt;build the source&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge7a336a"&gt;
 &lt;p&gt;
 Please note I don't use libtiff. I think libpng and libjpeg is enough.
 &lt;/p&gt;
@@ -202,7 +202,7 @@ On OSX, I need extra &lt;code&gt;--with-osx_cocoa&lt;/code&gt; parameter for con
 On Linux, build will be fine following above steps. But for building application, I need &lt;code&gt;sudo apt-get install libgtk2.0-dev&lt;/code&gt; on Debian/Ubuntu/Mint.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>linux</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/start-wxwidgets-programming-on-linux.html</guid><pubDate>Tue, 26 Feb 2013 09:17:00 GMT</pubDate></item><item><title>How to debug GTK warning</title><link>http://blog.binchen.org/posts/how-to-debug-gtk-warning.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;My code (based on wxWidgets) will produce some annoying gtk warnings when debugged in gdb. The best way to debug it is &lt;code&gt;run –g-fatal-warnings&lt;/code&gt; in gdb. &lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>gtk</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/how-to-debug-gtk-warning.html</guid><pubDate>Fri, 10 Feb 2012 14:20:34 GMT</pubDate></item><item><title>Start wxWdigets programming on Windows</title><link>http://blog.binchen.org/posts/start-wxwdigets-programming-on-windows.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>linux</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/start-wxwidgets-programming-on-linux/</guid><pubDate>Tue, 26 Feb 2013 09:17:00 GMT</pubDate></item><item><title>How to debug GTK warning</title><link>http://blog.binchen.org/posts/how-to-debug-gtk-warning/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;My code (based on wxWidgets) will produce some annoying gtk warnings when debugged in gdb. The best way to debug it is &lt;code&gt;run –g-fatal-warnings&lt;/code&gt; in gdb. &lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>gtk</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/how-to-debug-gtk-warning/</guid><pubDate>Fri, 10 Feb 2012 14:20:34 GMT</pubDate></item><item><title>Start wxWdigets programming on Windows</title><link>http://blog.binchen.org/posts/start-wxwdigets-programming-on-windows/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
 &lt;li&gt;Download &lt;a href="http://wwww.wxwdigets.org"&gt;wxWidgets&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Extracted it somewhere. "c:\wxWidgets-3.0.0", for example.&lt;/li&gt;
 &lt;li&gt;Create environment variable WXWIN with value "c:\wxWidgets-3.3.0"&lt;/li&gt;
@@ -334,5 +334,5 @@ cmake path/of/directory/which/contains/CMakeLists.txt/
 &lt;/ul&gt;
 
 &lt;p&gt;
-BTW, for other systems, see &lt;a href="http://wiki.wxwidgets.org/Compiling_wxWidgets_using_the_command-line_(Terminal)"&gt;wxWiki&lt;/a&gt;.
-&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>win32</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/start-wxwdigets-programming-on-windows.html</guid><pubDate>Wed, 18 Jan 2012 14:28:00 GMT</pubDate></item></channel></rss>
+BTW, for other systems, see &lt;a href="http://wiki.wxwidgets.org/Compiling_wxWidgets_using_the_command-line_%28Terminal%29"&gt;wxWiki&lt;/a&gt;.
+&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>win32</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/start-wxwdigets-programming-on-windows/</guid><pubDate>Wed, 18 Jan 2012 14:28:00 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Make Emacs faster than Vim in "git mergetool" | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content='Make Emacs faster than Vim in "git mergetool"'>
+<meta property="og:url" content="http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/">
+<meta property="og:description" content="My article Emacs is the best merge tool for Git explains how to combine git mergetool with ediff-mode in Emacs.
+
+
+
+Harrison McCullough suggested the work flow can be faster if emacs is replaced with e">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-04-10T09:33:40Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="mergetool">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Make Emacs faster than Vim in "git mergetool"</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2020-04-10T09:33:40+00:00">2020-04-10 09:33</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/git/" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="../../categories/mergetool/" rel="tag">mergetool</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html">Emacs is the best merge tool for Git</a> explains how to combine <a href="https://git-scm.com/docs/git-mergetool/2.20.0">git mergetool</a> with <a href="https://www.gnu.org/software/emacs/manual/html_node/ediff/">ediff-mode</a> in Emacs.
+</p>
+
+<p>
+<a href="https://disqus.com/by/harrisonmccullough/">Harrison McCullough</a> suggested the work flow can be faster if emacs is replaced with emacsclient.
+</p>
+
+<p>
+I did some research and found a perfect solution. It's even faster than Vim.
+</p>
+
+<div id="outline-container-orgdb24522" class="outline-2">
+<h3 id="orgdb24522">Initial solution</h3>
+<div class="outline-text-2" id="text-orgdb24522">
+<p>
+Please note emacsclient is only use for resolving conflicts.
+</p>
+
+<p>
+Step 1, start emacs server by running <code>emacs -Q --daemon --eval "(setq startup-now t)" -l "/home/my-username/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))"</code> in shell.
+</p>
+
+<p>
+Step 2, insert below code into <code>~/.emacs.d/init.el</code> (see the comment why this advice is required):
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defadvice server-save-buffers-kill-terminal (after server-save-buffers-kill-terminal-after-hack activate)
+  ;; kill all buffers, so new ediff panel is re-created and `ediff-startup-hook-setup' is called again
+  ;; besides, remove the buffers whose binding files are alredy merged in `buffer-list'
+  (mapc 'kill-buffer (buffer-list)))
+</code></pre>
+
+</div>
+
+<p>
+Step 3, insert below code into <code>~/.gitconfig</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[mergetool.ediff]
+cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \\\"$BASE\\\") (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\") (ediff-merge-files \\\"$LOCAL\\\" \\\"$REMOTE\\\" nil \\\"$MERGED\\\")))\"
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org62b3681" class="outline-2">
+<h3 id="org62b3681">My real world solution</h3>
+<div class="outline-text-2" id="text-org62b3681">
+<p>
+It's similar to initial solution. But some scripts are created for automation.
+</p>
+
+<p>
+Step 1, read <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html">Using Emacs as a Server</a> in the manual and create <code>~/.config/systemd/user/emacs.service</code> for <a href="https://en.wikipedia.org/wiki/Systemd">Systemd</a>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=forking
+ExecStart=emacs -Q --daemon --eval "(setq startup-now t)" -l "/home/my-username/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))" 
+ExecStop=emacsclient --eval "(kill-emacs)"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+</code></pre>
+
+</div>
+
+<p>
+Step 2, set up in <code>~/.gitconfig</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[mergetool.emacs]
+    cmd = ediff.sh "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+[mergetool.emacsclient]
+    cmd = MYEMACSCLIENT=emacsclient ediff.sh "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+</code></pre>
+
+</div>
+
+<p>
+Step 3, create <code>ediff.sh</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/sh
+[ -z "$MYEMACSCLIENT" ] &amp;&amp; MYEMACSCLIENT="emacs"
+# emacsclient won't work in git mergetool
+# $1=$LOCAL $2=$REMOTE $3=$BASE $4=$MERGED
+if [ "$MYEMACSCLIENT" = "emacs" ]; then
+    $MYEMACSCLIENT -nw -Q --eval "(setq startup-now t)" -l "$HOME/.emacs.d/init.el" --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
+else
+    $MYEMACSCLIENT -nw --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
+fi
+</code></pre>
+
+</div>
+
+<p>
+Step 4, run <code>git mergetool -t emacsclient</code> to resolve conflicts.
+</p>
+
+<p>
+My <a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d">init-ediff.el</a> in <a href="https://github.com/redguardtoo/emacs.d">emacs.d</a>.
+</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/" rel="prev" title='Thoughts on "Native shell completion in Emacs"'>Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../use-magit-api-to-rebase-to-closest-branch/" rel="next" title="Use Magit API to rebase to closest branch">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/",
+        disqus_title="Make Emacs faster than Vim in \"git mergetool\"",
+        disqus_identifier="cache/posts/make-emacs-faster-than-vim-in-git-mergetool.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

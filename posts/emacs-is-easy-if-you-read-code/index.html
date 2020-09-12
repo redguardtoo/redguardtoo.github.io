@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Emacs is easy if you read code | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Emacs is easy if you read code">
+<meta property="og:url" content="http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code/">
+<meta property="og:description" content="If you regard a package as a collection of APIs and read its code, Emacs is easy to master.
+
+
+
+For example, here is a useful tip on using counsel-ag and wgrep to edit multiple files I recently learned">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-05-09T13:38:06Z">
+<meta property="article:tag" content="counsel">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="ivy">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Emacs is easy if you read code</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2017-05-09T13:38:06+00:00">2017-05-09 13:38</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/counsel/" rel="tag">counsel</a></li>
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/ivy/" rel="tag">ivy</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+If you regard a package as a collection of APIs and read its code, Emacs is easy to master.
+</p>
+
+<p>
+For example, here is a useful tip on <a href="https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/">using counsel-ag and wgrep to edit multiple files</a> I recently learned.
+</p>
+
+<p>
+To <b>understand this black magic</b>, you only need know <code>counsel-ag-occur</code> from <code>counsel.el</code> (v0.9.1):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun counsel-ag-occur ()
+  "Generate a custom occur buffer for `counsel-ag'."
+  (unless (eq major-mode 'ivy-occur-grep-mode)
+    (ivy-occur-grep-mode))
+  (setq default-directory counsel--git-grep-dir)
+  (let* ((regex (counsel-unquote-regex-parens
+                 (setq ivy--old-re
+                       (ivy--regex
+                        (progn (string-match "\"\\(.*\\)\"" (buffer-name))
+                               (match-string 1 (buffer-name)))))))
+         (cands (split-string
+                 (shell-command-to-string
+                  (format counsel-ag-base-command (shell-quote-argument regex)))
+                 "\n"
+                 t)))
+    ;; Need precise number of header lines for `wgrep' to work.
+    (insert (format "-*- mode:grep; default-directory: %S -*-\n\n\n"
+                    default-directory))
+    (insert (format "%d candidates:\n" (length cands)))
+    (ivy--occur-insert-lines
+     (mapcar
+      (lambda (cand) (concat "./" cand))
+      cands))))
+(ivy-set-occur 'counsel-ag 'counsel-ag-occur)
+(ivy-set-display-transformer 'counsel-ag 'counsel-git-grep-transformer)
+</code></pre>
+
+</div>
+
+<p>
+Inside <code>counsel-ag-occur</code>:
+</p>
+
+<ul class="org-ul">
+<li>The variable <code>regex</code> is the regular expression built from the filter string you input. Please note that <code>regex</code> is unquoted by <code>counsel-unquote-regex-parens</code> so it can be used in shell. If you use <code>regex</code> in Emacs Lisp, you don't need unquote it</li>
+<li>The variable <code>cands</code> is the candidate lines created by running <code>ag</code> with <code>regex</code> as parameters in shell</li>
+<li>Then a wgrep-friendly buffer is created</li>
+</ul>
+<p>
+After spending 5 minutes to understand the internals, you can <b>easily implement similar features</b>.
+</p>
+
+<p>
+Now let's <b>develop our own black magic</b> by enhancing the wgrep-friendly buffer.
+</p>
+
+<p>
+My project uses Perforce as VCS. So <b>I need check out files and make them writable before using wgrep</b>.
+</p>
+
+<p>
+Read code of <code>wgrep.el</code> (v2.1.10),
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun wgrep-prepare-context ()
+  (save-restriction
+    (let ((start (wgrep-goto-first-found))
+          (end (wgrep-goto-end-of-found)))
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (funcall wgrep-results-parser))))
+</code></pre>
+
+</div>
+
+<p>
+<code>wgrep-results-parser</code> is actually alias of <code>wgrep-parse-command-results</code> whose code is too much to paste here. You can <code>M-x find-function wgrep-parse-command-results</code> to read its code.
+</p>
+
+<p>
+By combining <code>wgrep-prepare-context</code> and <code>wgrep-parse-command-results</code> I got my own <code>access-files-in-wgrep-buffer</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun access-files-in-wgrep-buffer()
+  (interactive)
+  (save-restriction
+    (let* ((start (wgrep-goto-first-found))
+           (end (wgrep-goto-end-of-found))
+           fn-accessed)
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (unless (featurep 'wgrep) (require 'featurep))
+      (while (not (eobp))
+        (if (looking-at wgrep-line-file-regexp)
+            (let* ((fn (match-string-no-properties 1)))
+              (unless (string= fn fn-accessed)
+                (setq fn-accessed fn)
+                (message "File relative path=%s" fn))))
+        (forward-line 1)))))
+</code></pre>
+
+</div>
+
+<p>
+You can replace the line <code>(message "File relative path=%s" fn)</code> to <code>(shell-command (format "any-shell-cli %s" fn))</code> to <b>do anything on the files</b>.
+</p>
+
+<p>
+You can insert definition of <code>access-files-in-wgrep-buffer</code> into your <code>.emacs</code> and run <code>M-x access-files-in-wgrep-buffer</code> in wgrep buffer to have a test.
+</p>
+
+<p>
+For example, I modified <code>access-files-in-wgrep-buffer</code> to <code>p4edit-in-grep-buffer</code> to checkout files under <a href="https://www.perforce.com/">Perforce</a> control,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-emacs">(defun p4edit-in-wgrep-buffer()
+  "'p4 edit' files in wgrep buffer.
+Turn off `read-only-mode' of opened files."
+  (interactive)
+  (save-restriction
+    (let* ((start (wgrep-goto-first-found))
+           (end (wgrep-goto-end-of-found))
+           fn-accessed)
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (unless (featurep 'wgrep) (require 'featurep))
+      (while (not (eobp))
+        (if (looking-at wgrep-line-file-regexp)
+            (let* ((filename (match-string-no-properties 1)) buf)
+              (unless (string= filename fn-accessed)
+                (setq fn-accessed filename)
+                (shell-command (format "p4 edit %s" filename))
+                (if (setq buf (get-file-buffer filename))
+                    (with-current-buffer buf
+                      ;; turn off read-only since we've already `p4 edit'
+                      (read-only-mode -1))))))
+        (forward-line 1)))))
+</code></pre>
+
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../auto-complete-word-in-emacs-mini-buffer-when-using-evil/" rel="prev" title="Auto-complete word in Emacs mini-buffer when using Evil">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../use-wgrep-and-evil-to-replace-text-efficiently/" rel="next" title="Use wgrep and evil to replace text efficiently">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code/",
+        disqus_title="Emacs is easy if you read code",
+        disqus_identifier="cache/posts/emacs-is-easy-if-you-read-code.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

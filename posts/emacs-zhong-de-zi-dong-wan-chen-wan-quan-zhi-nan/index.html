@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Emacs中的自动完成(Auto Completion)完全指南 | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Emacs中的自动完成(Auto Completion)完全指南">
+<meta property="og:url" content="http://blog.binchen.org/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/">
+<meta property="og:description" content="作者: 陈斌(redguardtoo)
+
+
+
+更新时间: &lt;2017-04-05 Wed&gt;
+
+
+
+原创时间: &lt;2012-08-21 Tue&gt;
+
+
+
+Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者不带文件名后缀都可以).
+
+
+
+我不是来赞美Emacs的强大的,我是来吐槽的.自动完成框架太多,功能重叠,让人困扰.
+
+
+
+所以本文目的有两个:
+
+
+
+说明哪些框架流行">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2012-08-21T14:50:00Z">
+<meta property="article:tag" content="completion">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="intellisense">
+<meta property="article:tag" content="zh">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Emacs中的自动完成(Auto Completion)完全指南</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2012-08-21T14:50:00+00:00">2012-08-21 14:50</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/completion/" rel="tag">completion</a></li>
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/intellisense/" rel="tag">intellisense</a></li>
+           <li><a class="tag p-category" href="../../categories/zh/" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+作者: 陈斌(redguardtoo)
+</p>
+
+<p>
+更新时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-04-05 Wed&gt;</span></span>
+</p>
+
+<p>
+原创时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-08-21 Tue&gt;</span></span>
+</p>
+
+<p>
+Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者不带文件名后缀都可以).
+</p>
+
+<p>
+我不是来赞美Emacs的强大的,我是来吐槽的.自动完成框架太多,功能重叠,让人困扰.
+</p>
+
+<p>
+所以本文目的有两个:
+</p>
+
+<ul class="org-ul">
+<li>说明哪些框架流行</li>
+<li>如何使用框架</li>
+</ul>
+<div id="outline-container-orgcb53df2" class="outline-2">
+<h3 id="orgcb53df2">概述</h3>
+<div class="outline-text-2" id="text-orgcb53df2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">函数/插件名</th>
+<th scope="col" class="org-left">快捷键</th>
+<th scope="col" class="org-left">使用频率</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">company-mode (结合clang)</td>
+<td class="org-left">不需要 (也可启用TAB)</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">hippie-expand</td>
+<td class="org-left">M-/</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">evil-mode</td>
+<td class="org-left">C-n/C-p(完成词),C-x C-n/p(完成行)</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">auto-complete (结合clang)</td>
+<td class="org-left">TAB</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">complete-symbol</td>
+<td class="org-left">C-M-i</td>
+<td class="org-left">低</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org49029fa" class="outline-2">
+<h3 id="org49029fa">auto-complete结合clang</h3>
+<div class="outline-text-2" id="text-org49029fa">
+<p>
+<a href="http://emacswiki.org/emacs/AutoComplete">auto-complete</a>是第三方开发的插件,提供了自动完成需要的支持(例如在命令行环境下对下拉菜单的模拟).
+</p>
+
+<p>
+而<a href="http://clang.llvm.org">clang</a>是苹果公司C/C++/Objective-C编译器,对C++语法的解析很好.
+</p>
+
+<p>
+显然,这种l案只适用于 <code>Clang</code> 支持的语言.
+</p>
+
+<p>
+需要通过<a href="http://emacswiki.org/wiki/ELPA">elpa(Emacs的AppStore)</a>安装第三方插件 <code>auto-complete</code> 和<a href="https://github.com/brianjcj/auto-complete-clang">auto-complete-clang</a>.
+</p>
+
+<p>
+具体配置请参考我的<a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-auto-complete.el">init-auto-complete.el</a>.
+</p>
+
+<p>
+已被company-mode取代,不推荐.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org05657ce" class="outline-2">
+<h3 id="org05657ce">company-mode</h3>
+<div class="outline-text-2" id="text-org05657ce">
+<p>
+<a href="https://github.com/company-mode/company-mode">company-mode</a>和auto-complete功能类似，唯一的区别是clang以及其他语言支持已内置，所以不需要安装其他elisp插件或者额外配置.目前我已用company-mode代替了auto-complete.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org22c9aa2" class="outline-2">
+<h3 id="org22c9aa2">hippie-expand</h3>
+<div class="outline-text-2" id="text-org22c9aa2">
+<p>
+<a href="http://emacswiki.org/emacs/HippieExpand">hippie-expand</a>是Emacs自带的自动完成框架.
+</p>
+
+<p>
+其默认的一些特色功能(例如,完成词/文件名/行的功能,或在 <code>minibuffer</code> 中使用)可作为 <code>company-mode</code> 补充.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org35f991b" class="outline-2">
+<h3 id="org35f991b">complete-symbol</h3>
+<div class="outline-text-2" id="text-org35f991b">
+<p>
+Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,它默认仅仅调用了后台的ctags而已.
+</p>
+
+<p>
+<code>hippie-expand</code> 经过调教也可用 <code>Ctags</code>,且默认特色功能比 <code>complete-symbol</code> 多,所以我没兴趣配置第三个自动完成框架了.
+</p>
+
+<p>
+通过阅读Emacs24的ChangeLog,我发现 <code>complete-symbol</code> 经过配置后可以用 <code>semantic</code> 作为语法解析后端(Emacs23.4也支持,不明白为什么把该特性放在Emacs24的ChangeLog介绍).
+</p>
+
+<p>
+<a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Semantic.html">semantic</a>是lisp写的语法解析器,Emacs自带,智能程度介于ctags和clang之间,解析速度比较慢,如果机器配置较差会很卡.
+</p>
+
+<p>
+我不喜欢这个语法解析器,过去在 <code>Semantic</code> 尚是<a href="http://cedet.sourceforge.net">Cedet</a>的一个组件时,我折腾过 <code>Cedet</code>,当时感觉速度慢,配置繁琐,不稳定.
+</p>
+
+<p>
+<code>Semantic</code> 支持多种语言,如C++/Java.
+</p>
+
+<p>
+配置请参考我的<a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-semantic.el">init-semantic.el</a>(注意,我不用 <code>Semantic</code>,所以相应代码被注释了.你可取消注释).
+</p>
+
+<p>
+已被 <code>company-mode</code> 取代,不推荐.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org67d6aa2" class="outline-2">
+<h3 id="org67d6aa2">evil-mode</h3>
+<div class="outline-text-2" id="text-org67d6aa2">
+<p>
+<a href="http://emacswiki.org/emacs/Evil">Evil-mode</a>把Emacs模拟成了Vim,是我最喜欢的第三方插件,其自动完成很简单,就是根据当前文件内容自动完成词或行.
+</p>
+
+<p>
+值得推荐是因为我也是重度Vim用户,Vim的快捷键已成为我本能了.
+</p>
+
+<p>
+无需配置,启动 <code>evil-mode</code> 即可,参见我的<a href="https://github.com/redguardtoo/emacs.d/blob/master/init-evil.el">init-evil.el</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfd7e53d" class="outline-2">
+<h3 id="orgfd7e53d">其他</h3>
+<div class="outline-text-2" id="text-orgfd7e53d">
+<p>
+我的一个想法. 类似于Evil的完成行.但是可以扫瞄指定目录中所有的文件,列出相似的行.
+</p>
+
+<p>
+优点在于:
+</p>
+<ul class="org-ul">
+<li>匹配可以更加宽容一点</li>
+<li>使用目前最快的grep工具如<a href="https://github.com/BurntSushi/ripgrep">ripgrep</a>扫瞄文本</li>
+</ul>
+<p>
+实现见<a href="https://github.com/redguardtoo/emacs.d/blob/24dd0d7/lisp/init-ivy.el">init-ivy</a>中的=counsel-complete-line-by-grep=.
+</p>
+
+<p>
+试用好几个月了,非常好用.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge16e3a2" class="outline-2">
+<h3 id="orge16e3a2">小结</h3>
+<div class="outline-text-2" id="text-orge16e3a2">
+<p>
+自动完成包括前端用户界面和后端语法解析引擎两个部分.
+</p>
+
+<p>
+作为前端的用户界面, <code>company-mode</code> 和 <code>auto-complete</code> 相当成熟.
+</p>
+
+<p>
+后端 <code>Clang</code> 最优秀.
+</p>
+
+<p>
+<code>Ctags</code> 谈不上语法解析,只是正则表达式罢了,但是因此才能通吃所有语言.
+</p>
+
+<p>
+<code>Semantic</code> 支持的语言比 <code>Clang</code> 多一点,性能和稳定性比较差.
+</p>
+
+<p>
+作为一个C++程序员,我过去用 <code>auto-complete</code> 加上 <code>Clang</code>,现在用 <code>company-mode</code> 加 <code>Clang</code>.
+</p>
+
+<p>
+脚本语言(Ruby/Python/Javascript)用 <a href="https://en.wikipedia.org/wiki/Ctags">Ctags</a> 加 <a href="https://github.com/company-mode/company-mode">company-mode</a> 加 <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a>.
+</p>
+
+<p>
+基于框架自己发明新技术会更好用.</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../my-git-alias-in-bashrc/" rel="prev" title="My git alias in .bashrc">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../python-code-to-migrate-the-mysql-database-enmysqldatabasepython/" rel="next" title="python code to migrate the MySQL database">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/",
+        disqus_title="Emacs\u4e2d\u7684\u81ea\u52a8\u5b8c\u6210(Auto Completion)\u5b8c\u5168\u6307\u5357",
+        disqus_identifier="cache/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

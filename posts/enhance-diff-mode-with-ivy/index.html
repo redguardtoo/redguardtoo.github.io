@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Enhance diff-mode with Ivy | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/enhance-diff-mode-with-ivy/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Enhance diff-mode with Ivy">
+<meta property="og:url" content="http://blog.binchen.org/posts/enhance-diff-mode-with-ivy/">
+<meta property="og:description" content="My current job requires me to review the freelancer's patches and apply them to our code branch under Perforce control. Due to my client's security policy, the freelancer can only work on isolated san">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-05-30T12:29:12Z">
+<meta property="article:tag" content="diff">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="ivy">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Enhance diff-mode with Ivy</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2017-05-30T12:29:12+00:00">2017-05-30 12:29</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/diff/" rel="tag">diff</a></li>
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/ivy/" rel="tag">ivy</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+My current job requires me to review the freelancer's patches and apply them to our code branch under <a href="https://www.perforce.com/">Perforce</a> control. Due to my client's security policy, the freelancer can only work on isolated sandbox environment and can't access our code base directly.
+</p>
+
+<p>
+I need two steps to finish the task:
+</p>
+
+<ul class="org-ul">
+<li>Open the freelancer's patch in <code>diff-mode</code>
+</li>
+<li>Run <code>diff-apply-hunk</code> to apply the hunks interactively</li>
+</ul>
+<p>
+The problem is <code>diff-mode</code> always ask me to specify the file to be patched.
+</p>
+
+<p>
+I read the code of <code>diff-apply-hunk</code>. The logic of <code>diff-apply-hunk</code> is simple. It tries different algorithms to guess the right file to patch. When the algorithms fail, it calls API <code>read-file-name</code> to ask me to provide the file path manually. If right file is found, the algorithms will work again and <code>read-file-name</code> will never be used for other hunks.
+</p>
+
+<p>
+Here is my solution. I can find the file to patch in recent opened files because I store all of them by <code>(setq recentf-max-saved-items 2048)</code>. I plan to use <code>ivy-read</code> from <a href="https://github.com/abo-abo/swiper">Ivy</a> to locate the file at first. If this step fails , I can still fall back on original API <code>read-file-name</code>.
+</p>
+
+<p>
+Here is the code
+</p>
+
+<pre class="example">
+
+</pre>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defvar ffip-read-file-name-hijacked-p nil)
+(defun ffip-diff-apply-hunk (&amp;optional reverse)
+  (interactive "P")
+  (unless recentf-mode (recentf-mode 1))
+  (setq ffip-read-file-name-hijacked-p t)
+  (defadvice read-file-name (around ffip-read-file-name-hack activate)
+    (cond
+     (ffip-read-file-name-hijacked-p
+      (let* ((args (ad-get-args 0))
+             (file-name (file-name-nondirectory (nth 2 args)))
+             (cands (remove nil (mapcar (lambda (s) (if (string-match-p (format "%s$" file-name) s) s))
+                                        (mapcar #'substring-no-properties recentf-list))))
+             (rlt (ivy-read "Recentf: " cands)))
+        (if rlt (setq ad-return-value rlt) rlt ad-doit)))
+     (t
+      ad-do-it)))
+  (diff-apply-hunk reverse)
+  (setq ffip-read-file-name-hijacked-p nil))
+</code></pre>
+
+</div>
+
+<p>
+Please note <code>ffip-diff-apply-hunk</code> can replace <code>diff-apply-hunk</code>.
+</p>
+
+<p>
+BTW, I can edit the patch on the spot when applying hunks. Similar to the work flow of <code>git add --patch</code>.
+</p>
+
+<p>
+The solution is added into <a href="https://github.com/technomancy/find-file-in-project">https://github.com/technomancy/find-file-in-project</a>.</p>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../firefox-and-emacs/" rel="prev" title="Firefox and Emacs">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../split-emacs-window-with-certain-ratio/" rel="next" title="Split Emacs window with certain ratio">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/enhance-diff-mode-with-ivy/",
+        disqus_title="Enhance diff-mode with Ivy",
+        disqus_identifier="cache/posts/enhance-diff-mode-with-ivy.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

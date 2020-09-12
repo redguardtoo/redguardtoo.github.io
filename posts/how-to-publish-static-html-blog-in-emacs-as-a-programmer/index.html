@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>How a programmer publish static HTML blog in Emacs | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/how-to-publish-static-html-blog-in-emacs-as-a-programmer/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="How a programmer publish static HTML blog in Emacs">
+<meta property="og:url" content="http://blog.binchen.org/posts/how-to-publish-static-html-blog-in-emacs-as-a-programmer/">
+<meta property="og:description" content="I can publish my blog in five seconds, running only one Emacs command!
+
+
+
+I give you a minimum solution at first, then I explain why and provide technical details.
+
+
+
+Basic Emacs lisp knowledges are r">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-11-15T04:16:31Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="ftp">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">How a programmer publish static HTML blog in Emacs</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2014-11-15T04:16:31+00:00">2014-11-15 04:16</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/ftp/" rel="tag">ftp</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+I can publish my blog <b>in five seconds</b>, running only <b>one Emacs command</b>!
+</p>
+
+<p>
+I give you a minimum solution at first, then I explain why and provide technical details.
+</p>
+
+<p>
+Basic Emacs lisp knowledges are required.
+</p>
+
+<p>
+Please note I'm <b>NOT</b> targeted at specific static site generator like <a href="http://getnikola.com/blog/">Nikola</a> or <a href="http://jekyllrb.com/">Jekyll</a>.
+</p>
+
+<div id="outline-container-orgda84227" class="outline-2">
+<h3 id="orgda84227">Solution</h3>
+<div class="outline-text-2" id="text-orgda84227">
+<p>
+Tested on <b>Linux and OSX</b>.
+</p>
+
+<p>
+Requirements:
+</p>
+<ul class="org-ul">
+<li>Org-mode bundled with Emacs 24.x</li>
+<li>Nikola as the blog generator</li>
+<li>FTP client <a href="http://www.ncftp.com/ncftp/">ncftp</a>
+</li>
+<li>Latest <a href="https://github.com/redguardtoo/org2nikola">org2nikola</a> (v0.0.9+)</li>
+<li>Insert below code into ~/.emacs</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun org2nikola-after-hook-setup (title slug)
+  (let ((url (concat "http://blog.yourdomain.net/posts/" slug ".html"))
+        (nikola-dir (file-truename "~/projs/nikola-root"))
+        (password "yourpassowrd")
+        (username "yourusername")
+        dir
+        file
+        lines
+        rlt
+        res
+        cmd)
+    (kill-new title)
+    (kill-new url)
+    (message "%s =&gt; kill-ring" url)
+    (setq rlt (shell-command-to-string (format "cd %s; nikola build" nikola-dir)))
+    (setq lines (split-string rlt "\n"))
+    (dolist (l lines)
+      (when (string-match "output\\(.*/\\)*\\([^/]*\\)$" l)
+        (setq dir (match-string 1 l))
+        (setq file (match-string 2 l))
+        (setq cmd (format "ncftpput -b -u %s -p %s ftp.yourdomain.net /blog%s %s/output%s%s"
+                          username password dir nikola-dir dir file))
+        (message "cmd=%s" cmd)
+        (shell-command cmd)
+        ))
+    ))
+
+(add-hook 'org2nikola-after-hook 'org2nikola-after-hook-setup)
+</code></pre>
+
+</div>
+
+<p>
+You can write blog into org file, export and publicize it with command `M-x org2nikola-export-subtree`.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org205236d" class="outline-2">
+<h3 id="org205236d">Why</h3>
+<div class="outline-text-2" id="text-org205236d">
+<p>
+I used <a href="https://wordpress.org">Wordpress</a> and <a href="https://github.com/punchagan/org2blog">Org2blog</a> for a very long time. Then I turned to static blog generator because:
+</p>
+<ul class="org-ul">
+<li>Wordpress is slow to load web page</li>
+<li>I waste too much time to "manage" Wordpress (applying security patch, fighting with spam comment …)</li>
+<li>As a programmer, I need publish code snippets. Wordpress is <b>BAD</b> at rendering code.</li>
+</ul>
+<p>
+Yes, only wordpress sucks. For Org2blog, I can only say good things. Actually, this article is inspired purely by <a href="https://github.com/punchagan">Puneeth Chaganti</a>'s excellent work on org2blog.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org73375d3" class="outline-2">
+<h3 id="org73375d3">Technical Details</h3>
+<div class="outline-text-2" id="text-org73375d3">
+</div>
+<div id="outline-container-org8c92ca1" class="outline-3">
+<h4 id="org8c92ca1">Generating HTML</h4>
+<div class="outline-text-3" id="text-org8c92ca1">
+<p>
+As I said, Nikola is my blog generator which converts my org file into HTML.
+</p>
+
+<p>
+But I prefer using <a href="http://orgmode.org/">Org-mode</a> to do the HTML rendering. Nikola only need handle remaining minor book keeping stuff (creating RSS feed, for example).
+</p>
+
+<p>
+It's because I want to minimize the dependency. I may switch to other blog generator in the future. But my web site always has the <b>same look and feel</b> because the HTML is generated by Org-mode.
+</p>
+
+<p>
+I learned this trick from Org2blog.
+</p>
+
+<p>
+If we only use org-mode to create HTML, then extracting code snippet is really easy. All we need is to use regular expression to extract the content between HTML tag "&lt;pre&gt;".
+</p>
+
+<p>
+Actually I don't even bother doing the extraction. I just replace all the "&lt;pre&gt;" tag with my own tag because I <b>assume</b> the HTML produced by org-mode is stable.
+</p>
+
+<p>
+Here is the Emacs lisp code I borrowed from Org2blog:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun org2nikola-replace-pre (html)
+  "Replace pre blocks with sourcecode shortcode blocks.
+shamelessly copied from org2blog/wp-replace-pre()"
+  (save-excursion
+    (let (pos code lang info params header code-start code-end html-attrs pre-class)
+      (with-temp-buffer
+        (insert html)
+        (goto-char (point-min))
+        (save-match-data
+          (while (re-search-forward "&lt;pre\\(.*?\\)&gt;" nil t 1)
+
+            ;; When the codeblock is a src_block
+            (unless
+                (save-match-data
+                  (setq pre-class (match-string-no-properties 1))
+                  (string-match "example" pre-class))
+              ;; Replace the &lt;pre...&gt; text
+              (setq lang (replace-regexp-in-string ".*src-\\([a-zA-Z0-9]+\\).*" "\\1" pre-class)  )
+
+              (replace-match "")
+              (setq code-start (point))
+
+              ;; Go to end of code and remove &lt;/pre&gt;
+              (re-search-forward "&lt;/pre.*?&gt;" nil t 1)
+              (replace-match "")
+              (setq code-end (point))
+              (setq code (buffer-substring-no-properties code-start code-end))
+
+              ;; Delete the code
+              (delete-region code-start code-end)
+              ;; Stripping out all the code highlighting done by htmlize
+              (setq code (replace-regexp-in-string "&lt;.*?&gt;" "" code))
+              ;; class linenums will add stripes which will destory the 3rd party skins
+              (insert (concat "\n&lt;pre class=\"prettyprint lang-"
+                              (org2nikola-fix-unsupported-language lang)
+                              "\"&gt;\n"
+                              code
+                              "&lt;/pre&gt;\n"))
+              )))
+
+        ;; Get the new html!
+        (setq html (buffer-substring-no-properties (point-min) (point-max))))
+      ))
+  html)
+</code></pre>
+
+</div>
+
+<p>
+The code snippet inside "&lt;pre&gt;" tag could be rendered by 3rd party javascript library <a href="https://code.google.com/p/google-code-prettify/">google-code-prettify</a> or <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a>.
+</p>
+
+<p>
+BTW, the last straw that push me away the Wordpress is its wrapper of SyntaxHighlighter. SyntaxHighlighter is a beautiful and user-friendly library. But the wrapper forces me to tweak the php code in terrible editor from Wordpress.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdb264c8" class="outline-3">
+<h4 id="orgdb264c8">Create blog posts</h4>
+<div class="outline-text-3" id="text-orgdb264c8">
+<p>
+Emacs creates HTML files and meta files.  Things created by Emacs will be copied into Nikola's folder.
+</p>
+
+<p>
+Nikola's duty is simple. Basically it only copy my stuff from its input folder to its output folder when I trigger "nikola build" command.
+</p>
+
+<p>
+The "nikola build" command will also dump the list of files to be uploaded into stdout.
+</p>
+
+<p>
+The build message dumped:
+</p>
+<pre class="example">
+Scanning posts....done!
+.  render_archive:output/2014/index.html
+.  render_sources:output/posts/jump-to-the-positions-before-and-after-m-x-imenu.wp
+.  render_posts:cache/posts/jump-to-the-positions-before-and-after-m-x-imenu.html
+.  render_indexes:output/index.html
+.  render_indexes:output/index-17.html
+.  render_tags:output/categories/en.html
+.  render_tags:output/categories/emacs.html
+.  render_tags:output/assets/js/tag_cloud_data.json
+.  render_tags:output/categories/emacs.xml
+.  generate_rss:output/rss.xml
+.  render_pages:output/posts/jump-to-the-positions-before-and-after-m-x-imenu.html
+.  render_pages:output/posts/why-emacs-is-better-editor-part-two.html
+.  render_tags:output/categories/en.xml
+</pre>
+
+<p>
+Only the files in sub-folder "output" need be uploaded.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5b5d9fb" class="outline-3">
+<h4 id="org5b5d9fb">Preprocess nikola output</h4>
+<div class="outline-text-3" id="text-org5b5d9fb">
+<p>
+It's all done by Emacs Lisp.
+</p>
+
+<p>
+The final output contain lines like:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">ncftpput -b -u yourname -p yourpassword ftp.yourdomain.net /blog/2014/ /home/yourname/nikola-root/output/2014/index.html
+</code></pre>
+
+</div>
+
+<p>
+As you can see, each line is a ftp upload command we need execute in shell.
+</p>
+</div>
+</div>
+<div id="outline-container-orge57b4a8" class="outline-3">
+<h4 id="orge57b4a8">FTP upload</h4>
+<div class="outline-text-3" id="text-orge57b4a8">
+<p>
+Ncftp is my choice of FTP client. It's solid and efficient.
+</p>
+
+<p>
+Its command line tool "ncftpput" has a flag "-b". With the flag ncftpput will start a daemon at background and handles the ftp upload as a batch job submit. It means ftp connection will be reused and the user is not blocked by the upload operation. So the upload operation is <b>extremely fast</b>.
+</p>
+
+<p>
+I use Emacs Lisp API `file-truename` to convert all relative path to absolute path to avoid any platform (OSX) issue.
+</p>
+
+<p>
+BTW, you can `cat ~/.ncftp/spool/log` to check the FTP upload status.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org35ef8cb" class="outline-2">
+<h3 id="org35ef8cb">Summary</h3>
+<div class="outline-text-2" id="text-org35ef8cb">
+<p>
+The workflow is simple.
+</p>
+
+<p>
+Emacs and third party JS libraries are responsible for the look and feel of my website.
+</p>
+
+<p>
+Blog generator like Nikola is just a thin layer to relay the HTML files created by Emacs.
+</p>
+
+<p>
+Ncftp will upload HTML files. It's the best FTP client which could be easily integrated into Emacs.
+</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../jump-to-the-positions-before-and-after-m-x-imenu/" rel="prev" title="Jump to the positions before and after `M-x imenu`">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../export-org-file-embedded-with-code-snippets/" rel="next" title="Export org file embedded with code snippets">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/how-to-publish-static-html-blog-in-emacs-as-a-programmer/",
+        disqus_title="How a programmer publish static HTML blog in Emacs",
+        disqus_identifier="cache/posts/how-to-publish-static-html-blog-in-emacs-as-a-programmer.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

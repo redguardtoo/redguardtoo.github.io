@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Migrate blog from wordpress into nikola | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/migrate-blog-from-wordpress-into-nikola/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Migrate blog from wordpress into nikola">
+<meta property="og:url" content="http://blog.binchen.org/posts/migrate-blog-from-wordpress-into-nikola/">
+<meta property="og:description" content="CREATED: &lt;2014-04-22 Tue&gt;
+
+
+
+UPDATED: &lt;2017-06-28 Wed&gt;
+
+
+
+If you are only interested in web page optimization, start from the second section of the article.
+
+
+
+Migrate from WordPress to Nikola
+
+
+
+# yo">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-04-22T09:09:21Z">
+<meta property="article:tag" content="blog">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="migrate">
+<meta property="article:tag" content="nikola">
+<meta property="article:tag" content="wordpress">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Migrate blog from wordpress into nikola</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2014-04-22T09:09:21+00:00">2014-04-22 09:09</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/blog/" rel="tag">blog</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/migrate/" rel="tag">migrate</a></li>
+           <li><a class="tag p-category" href="../../categories/nikola/" rel="tag">nikola</a></li>
+           <li><a class="tag p-category" href="../../categories/wordpress/" rel="tag">wordpress</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-04-22 Tue&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-06-28 Wed&gt;</span></span>
+</p>
+
+<p>
+If you are only interested in web page optimization, start from the second section of the article.
+</p>
+
+<div id="outline-container-org6b4ad79" class="outline-2">
+<h3 id="org6b4ad79">Migrate from WordPress to Nikola</h3>
+<div class="outline-text-2" id="text-org6b4ad79">
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># you might need need `sudo apt-get install python-gdbm` on Debian
+# install python2 and make sure sqlite is supported
+sudo USE="sqlite" emerge -a =python-2* # Gentoo Linux
+
+# one debian/ubuntu, you need: `apt-get install libxml2-dev libxslt1-dev python-dev libjpeg-dev` for lxml
+
+# Not to mess up with root
+export PATH=$PATH:$HOME/.local/bin
+
+# Best way to get latest pip,
+# see https://packaging.python.org/installing/#install-pip-setuptools-and-wheel
+python ~/bin/get-pip.py --user # ~/.local/bin/pip
+
+# install dependencies (requests is required by zen theme)
+# sudo pip install markdown webassets phpserialize nikola requests
+# "sudo pip install" could screw up my python setup on Gentoo Linux
+# @see https://forums.gentoo.org/viewtopic-t-1006044-view-next.html?sid=931f7be2c16ac99fd85eb2940c0bf82b
+# so install the python packages in my HOME directory might be better
+# @see http://stackoverflow.com/questions/2915471/install-a-python-package-into-a-different-directory-using-pip
+pip install --user markdown webassets phpserialize nikola requests
+
+# create root directory of nikola
+mkdir -p ~/.config/nikola;cd ~/.config/nikola
+
+# import from wordpress dump
+nicola import_wordpress my_wordpress_dump.xml
+
+# since I use zen theme, I need install lessc
+# obviously NodeJS is required
+npm install -g less # use portable nodejs in $HOME is better
+
+# I use zen theme, before intalling new theme, clean the legacy theme at first
+rm -rf themes/zen/;nikola install_theme zen
+# or rm -rf themes/zen/; http_proxy=http://127.0.0.1:8087 nikola install_theme zen at mainland China
+
+# build the web site
+nikola build
+</code></pre>
+
+</div>
+
+<p>
+Use below command to fix embedded code in HTML files:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">find -name '*.wp' -exec grep -l "\[sourcecode.*\&lt;diff\&gt;.*\]" {} \; |xargs sed -i 's/\[sourcecode.*\&lt;diff\&gt;.*\]/&lt;pre class="brush: diff;"&gt;/g
+find -name '*.wp' -exec grep -l "~~~~~~~~~~~~" {} \;|xargs sed -i "s%~~~~~~~~~~~~%&lt;/pre&gt;%g"
+</code></pre>
+
+</div>
+
+<p>
+Manually fixed those articles with Chinese title in url_map.csv
+</p>
+
+<p>
+Use below script to fixed the xml dumped from wordpress:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-python">#!/usr/bin/python
+import getopt, sys, csv
+def usage():
+    print '''
+NAME
+    fix url mapping when migrate wordpress blog into nikola
+Usage
+    python fix-url-map.py [options]
+'''[1:-1]
+
+if __name__ == '__main__':
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hf:x:", ["help", "file=","xml="])
+    except getopt.GetoptError as err:
+        # print help information and exit:
+        print str(err) # will print something like "option -a not recognized"
+        usage()
+        sys.exit(2)
+
+    file=""
+    xml=""
+
+    for o, a in opts:
+        if o in ("-h", "--help"):
+            usage()
+            sys.exit()
+        elif o in ("-f", "--file"):
+            file= a
+        elif o in ("-x", "--xml"):
+            xml=a
+        else:
+            assert False, "unhandled option"
+
+    with open(xml, 'r') as content_file:
+        content = content_file.read()
+
+    with open(file, 'rb') as csvfile:
+         spamreader = csv.reader(csvfile, delimiter=',')
+         for row in spamreader:
+             content=content.replace("&gt;"+row[0]+"&lt;","&gt;"+row[1]+"&lt;")
+
+    print content
+</code></pre>
+
+</div>
+
+<p>
+Import the xml into <a href="http://disqus.com">http://disqus.com</a>.
+</p>
+
+<p>
+You can use javascript to re-direct the URL, so your old article links are still valid. Ask at <a href="http://stackoverflow.com">http://stackoverflow.com</a> or contact your local Javascript developers on how to do it. It's simple task but a little boring.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga01ad10" class="outline-2">
+<h3 id="orga01ad10">Optimization</h3>
+<div class="outline-text-2" id="text-orga01ad10">
+<p>
+I developed <a href="https://github.com/redguardtoo/org2nikola">org2nikola</a> to convert Org subtree into Nikola page. 
+</p>
+
+<p>
+Instead of hacking conf.py, I <b>tweak the theme's javascript/html/css directly</b>. It's simpler and more flexible.
+</p>
+
+<p>
+For example, the <a href="https://themes.getnikola.com/v7/zen/">Zen theme</a> uses JQuery plugins to format time. I replace JQuery with <a href="https://momentjs.com/">Moment.js v1.0</a> which is much smaller. 
+</p>
+
+<p>
+Since only a few icons from <a href="http://fontawesome.io/">Font Awesome</a> is used by Zen theme.. We can use NodeJS plugin <a href="https://github.com/aui/font-spider">font-spider</a> to trim down the font file.
+</p>
+
+<p>
+Other conventional front end tricks like static assets concatenating/minifying can also be used. These tricks are introduced everywhere. So I won't waste time on details.
+</p>
+
+<p>
+In order to see the real example of optimization, please visit <a href="http://blog.binchen.org">http://blog.binchen.org</a>. Watching through the browser's developer tool, you can see my web page is 90% smaller than pages without optimization.
+</p>
+
+<p>
+<a href="https://highlightjs.org/">highlight.js</a> is the best solution for code syntax highlighting. I customized the <code>highlight.js</code> to render only the programming languages I use.
+</p>
+
+<p>
+My static blog is hosted at <a href="https://pages.github.com/">GitHub Pages</a>.
+</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../what-s-the-best-spell-check-set-up-in-emacs/" rel="prev" title="What's the best spell check setup in emacs">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../why-gnus-is-better-than-gmail/" rel="next" title="Why Gnus is better than Gmail">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/migrate-blog-from-wordpress-into-nikola/",
+        disqus_title="Migrate blog from wordpress into nikola",
+        disqus_identifier="cache/posts/migrate-blog-from-wordpress-into-nikola.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

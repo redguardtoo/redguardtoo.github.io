@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>install google talk plugin (64bit) on gentoo Linux | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/install-google-talk-plugin-64bit-on-gentoo-linux/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="install google talk plugin (64bit) on gentoo Linux">
+<meta property="og:url" content="http://blog.binchen.org/posts/install-google-talk-plugin-64bit-on-gentoo-linux/">
+<meta property="og:description" content="firefox 'http://www.google.com/chat/video/thankyou.html'
+emerge -v deb2targz &amp;&amp;
+deb2targz google-talkplugin_current_amd64.deb &amp;&amp;
+mkdir googletalk &amp;&amp; cd googletalk
+tar xvf ../google-talkplugin_current_">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-06-24T20:42:00Z">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="google">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="talk">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">install google talk plugin (64bit) on gentoo Linux</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-06-24T20:42:00+00:00">2013-06-24 20:42</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/google/" rel="tag">google</a></li>
+           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="../../categories/talk/" rel="tag">talk</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p></p>
+<pre class="src src-sh">firefox <span style="color: #8abeb7;">'http://www.google.com/chat/video/thankyou.html'</span>
+emerge -v deb2targz &amp;&amp;
+<p>deb2targz google-talkplugin_current_amd64.deb &amp;&amp;</p>
+<p>mkdir googletalk &amp;&amp; <span style="color: #b294bb;">cd</span> googletalk</p>
+<p>tar xvf ../google-talkplugin_current_i386.tar.gz &amp;&amp;</p>
+<p>sudo cp -Rfv {etc,opt} /</p>
+<p>sudo cp -Rfv usr/lib/* /usr/lib64/</p>
+<p></p></pre>   <p> Here is the content of google talk: </p>   <pre class="src src-sh">./etc/cron.daily:
+<p>google-talkplugin</p>
+<p>./opt/google:</p>
+<p>chrome</p>
+<p>talkplugin</p>
+<p>./opt/google/chrome:</p>
+<p>pepper</p>
+<p>./opt/google/chrome/pepper:</p>
+<p>libppo1d.so</p>
+<p>./opt/google/talkplugin:</p>
+<p>./usr/lib:</p>
+<p>firefox</p>
+<p>iceape</p>
+<p>iceweasel</p>
+<p>midbrowser</p>
+<p>mozilla</p>
+<p>xulrunner</p>
+<p>xulrunner-addons</p>
+<p>./usr/lib/firefox:</p>
+<p>plugins</p>
+<p>./usr/lib/firefox/plugins:</p>
+<p>libnpgoogletalk.so</p>
+<p>libnpgtpo3dautoplugin.so</p>
+<p>libnpo1d.so</p>
+<p>./usr/lib/iceape:</p>
+<p>plugins</p>
+<p>./usr/lib/iceape/plugins:</p>
+<p>libnpgoogletalk.so</p>
+<p>libnpgtpo3dautoplugin.so</p>
+<p>libnpo1d.so</p>
+<p>./usr/lib/iceweasel:</p>
+<p>plugins</p>
+<p>./usr/lib/iceweasel/plugins:</p>
+<p>libnpgoogletalk.so</p>
+<p>libnpgtpo3dautoplugin.so</p>
+<p>libnpo1d.so</p>
+<p>./usr/lib/midbrowser:</p>
+<p>plugins</p>
+<p>./usr/lib/midbrowser/plugins:</p>
+<p>libnpgoogletalk.so</p>
+<p>libnpgtpo3dautoplugin.so</p>
+<p>libnpo1d.so</p>
+<p>./usr/lib/mozilla:</p>
+<p>plugins</p>
+<p>./usr/lib/mozilla/plugins:</p>
+<p>libnpgoogletalk.so</p>
+<p>libnpgtpo3dautoplugin.so</p>
+<p>libnpo1d.so</p>
+<p>./usr/lib/xulrunner:</p>
+<p>plugins</p>
+<p>./usr/lib/xulrunner/plugins:</p>
+<p>libnpgoogletalk.so</p>
+<p>libnpgtpo3dautoplugin.so</p>
+<p>libnpo1d.so</p>
+<p>./usr/lib/xulrunner-addons:</p>
+<p>plugins</p>
+<p>./usr/lib/xulrunner-addons/plugins:</p>
+<p>libnpgoogletalk.so</p>
+<p>libnpgtpo3dautoplugin.so</p>
+<p>libnpo1d.so</p>
+<p>./usr/share:</p>
+<p>doc</p>
+<p>./usr/share/doc:</p>
+<p>google-talkplugin</p>
+<p>./usr/share/doc/google-talkplugin:</p>
+<p>changelog.Debian.gz</p>
+<p></p></pre>  </div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../set-up-nfs-server-on-archlinux/" rel="prev" title="set up nfs server on ArchLinux">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../shi-mian-yu-du-tang-shao-fa/" rel="next" title="虱面鱼肚汤烧法">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/install-google-talk-plugin-64bit-on-gentoo-linux/",
+        disqus_title="install google talk plugin (64bit) on gentoo Linux",
+        disqus_identifier="cache/posts/install-google-talk-plugin-64bit-on-gentoo-linux.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

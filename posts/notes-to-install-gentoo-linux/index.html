@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Notes to install Gentoo Linux | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/notes-to-install-gentoo-linux/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Notes to install Gentoo Linux">
+<meta property="og:url" content="http://blog.binchen.org/posts/notes-to-install-gentoo-linux/">
+<meta property="og:description" content="Intel integrated video card
+
+
+Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
+
+
+
+sudo genkernel --menuconfig all
+
+
+
+
+
+
+
+Grub2
+
+
+Let grub2 create the cfg fo">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-02-25T02:22:00Z">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="gentoo">
+<meta property="article:tag" content="install">
+<meta property="article:tag" content="linux">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Notes to install Gentoo Linux</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-02-25T02:22:00+00:00">2013-02-25 02:22</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/gentoo/" rel="tag">gentoo</a></li>
+           <li><a class="tag p-category" href="../../categories/install/" rel="tag">install</a></li>
+           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<div id="outline-container-orga502432" class="outline-2">
+<h3 id="orga502432">Intel integrated video card</h3>
+<div class="outline-text-2" id="text-orga502432">
+<p>
+Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo genkernel --menuconfig all
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga575eeb" class="outline-2">
+<h3 id="orga575eeb">Grub2</h3>
+<div class="outline-text-2" id="text-orga575eeb">
+<p>
+Let grub2 create the cfg for me automatically,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">grub2-mkconfig -o /boot/grub/grub.cfg
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org928e3d3" class="outline-2">
+<h3 id="org928e3d3">Network</h3>
+<div class="outline-text-2" id="text-org928e3d3">
+</div>
+<div id="outline-container-org149bfc1" class="outline-3">
+<h4 id="org149bfc1">Ethernet</h4>
+<div class="outline-text-3" id="text-org149bfc1">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
+# @see https://wiki.gentoo.org/wiki/Netifrc
+ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
+echo 'config_eth0="dhcp"' &gt;&gt; /etc/conf.d/net
+/etc/init.d/net.eth0 start
+rc-update add net.eth0 default
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9a1c8ab" class="outline-3">
+<h4 id="org9a1c8ab">Wireless (wifi)</h4>
+<div class="outline-text-3" id="text-org9a1c8ab">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
+# @see https://wiki.gentoo.org/wiki/Netifrc
+# I need setup /etc/wpa_supplicant/wpa_supplicant.conf at first
+ln -s /etc/init.d/net.lo /etc/init.d/net.ra0
+echo 'config_ra0="dhcp"' &gt;&gt; /etc/conf.d/net
+/etc/init.d/net.ra0 start
+rc-update add net.ra0 default
+</code></pre>
+
+</div>
+
+<p>
+Content of /etc/wpa_supplicant/wpa_supplicant.conf:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">#let wpa_supplicant take care of scanning and AP selection
+ap_scan=1
+
+#simple case: WPA-PSK, PPSK as an simple passphrase
+network={
+  ssid="myssid"
+  psk="mypassword"
+  # the higher priority the sooner we matched
+  priority=5
+}
+</code></pre>
+
+</div>
+
+<p>
+For kernel 3.17.*+, by default wpa_supplicant use <code>nl80211</code> driver instead of <code>wext</code>.
+</p>
+
+<p>
+We need for it use <code>wext</code> instead. To double check <code>wext</code> does work,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo wpa_supplicant -dd -B -i ra0 -Dwext -c /etc/wpa_supplicant/wpa_supplicant.conf
+</code></pre>
+
+</div>
+
+<p>
+But OpenRC script does not have <code>-Dwext</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># as root
+cd /lib;grep -rsn --exclude-dir=/home "Starting wpa_supplicant on" *
+# netifrc/net/wpa_supplicant.sh:85: ebegin "Starting wpa_supplicant on ${IF
+# VAR}"
+</code></pre>
+
+</div>
+
+<p>
+Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">opts="-Dwext ${opts} -c ${cfgfile}"
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf6cd20f" class="outline-2">
+<h3 id="orgf6cd20f">Clock Synchronization</h3>
+<div class="outline-text-2" id="text-orgf6cd20f">
+<p>
+<a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate">htpdate</a> is great because it only use HTTP protocol, don't forget add server in its config file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6e20b54" class="outline-2">
+<h3 id="org6e20b54">Sound</h3>
+<div class="outline-text-2" id="text-org6e20b54">
+<p>
+Nothing to tell. There may be some issue, but I forgot.</p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../find-files-provided-by-the-installed-package/" rel="prev" title="Find files provided by the installed package">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../start-wxwidgets-programming-on-linux/" rel="next" title="Start wxWidgets programming on Linux/OSX">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/notes-to-install-gentoo-linux/",
+        disqus_title="Notes to install Gentoo Linux",
+        disqus_identifier="cache/posts/notes-to-install-gentoo-linux.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

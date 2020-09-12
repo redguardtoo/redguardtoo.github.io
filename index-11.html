@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="Linux, Programming, Emacs">
@@ -23,15 +23,15 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html">How to avoid Repeated Strain Injury when using emacs by re-assigning hotkeys</a></h1>
+            <h1 class="title"><a href="posts/one-liner-bash-to-createupdate-playlist-for-mpd/">One liner bash to create/update playlist for mpd</a></h1>
             <div class="meta">
                 <div class="authordate">
-                    <time class="timeago" datetime="2013-08-09T10:05:00+00:00">2013-08-09 10:05</time>
+                    <time class="timeago" datetime="2013-08-13T21:30:00+00:00">2013-08-13 21:30</time>
 </div>
                 <div class="stats">
                     
         
-    <a href="posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html">Comments</a>
+    <a href="posts/one-liner-bash-to-createupdate-playlist-for-mpd/#disqus_thread" data-disqus-identifier="cache/posts/one-liner-bash-to-createupdate-playlist-for-mpd.html">Comments</a>
 
 
                 </div>
@@ -39,10 +39,107 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/evil.html" rel="tag">evil</a></li>
-           <li><a class="tag p-category" href="categories/rsi.html" rel="tag">rsi</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/mpd/" rel="tag">mpd</a></li>
+           <li><a class="tag p-category" href="categories/music/" rel="tag">music</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p> I put all my audio files in ~/Music. </p>  <p> The below script create a playlist in m3u format and ask mpd to load it: </p> <div class="org-src-container">
+<pre class="prettyprint ">cd ~/Music;find . -name '<em>.mp3' -o -name '</em>.flac'|sed -e 's%^./%%g' &amp;gt; all.m3u;mpd ~/.mpd/config;mpc clear;mpc load all.m3u;mpc update</pre>
+<p></p>
+</div>  <p> Here is content of my ~/.mpd/config which is basically only a copy from official sample configuration: </p> <div class="org-src-container">
+<pre class="prettyprint "># See the mpd.conf man page for a more detailed description of each parameter.
+music_directory     "~/Music"
+playlist_directory "~/.mpd/playlists"
+db_file "~/.mpd/mpd.db"
+log_file "~/.mpd/mpd.log"
+pid_file "~/.mpd/mpd.pid"
+state_file "~/.mpd/mpdstate"</pre>
+<p></p>
+</div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-install-emacs-source-code-under-ubuntu/">How to install Emacs source code under Ubuntu</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-12T11:44:00+00:00">2013-08-12 11:44</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-install-emacs-source-code-under-ubuntu/#disqus_thread" data-disqus-identifier="cache/posts/how-to-install-emacs-source-code-under-ubuntu.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/ubuntu/" rel="tag">ubuntu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Only one command:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">sudo apt-get install emacs24-el
+</code></pre>
+
+</div>
+
+<p>
+How I locate that package emacs24-el:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo apt-get install apt-file;sudo apt-file update;
+apt-file search help.el.gz
+</code></pre>
+
+</div>
+
+<p>
+BTW, I assign hot key <code>C-h C-f</code> to command <code>find-function</code> which "Find the definition of the FUNCTION near point".</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2/">How to avoid Repeated Strain Injury when using emacs by re-assigning hotkeys</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-09T10:05:00+00:00">2013-08-09 10:05</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2/#disqus_thread" data-disqus-identifier="cache/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/evil/" rel="tag">evil</a></li>
+           <li><a class="tag p-category" href="categories/rsi/" rel="tag">rsi</a></li>
         </ul>
 </div>
 
@@ -153,7 +250,7 @@ The key point is to understand the principles instead copy my configuration:
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-get-email-from-exchange-server-without-outlook.html">How to get email from exchange server without Outlook</a></h1>
+            <h1 class="title"><a href="posts/how-to-get-email-from-exchange-server-without-outlook/">How to get email from exchange server without Outlook</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-06T20:26:00+00:00">2013-08-06 20:26</time>
@@ -161,7 +258,7 @@ The key point is to understand the principles instead copy my configuration:
                 <div class="stats">
                     
         
-    <a href="posts/how-to-get-email-from-exchange-server-without-outlook.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-get-email-from-exchange-server-without-outlook.html">Comments</a>
+    <a href="posts/how-to-get-email-from-exchange-server-without-outlook/#disqus_thread" data-disqus-identifier="cache/posts/how-to-get-email-from-exchange-server-without-outlook.html">Comments</a>
 
 
                 </div>
@@ -169,13 +266,13 @@ The key point is to understand the principles instead copy my configuration:
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/gnus.html" rel="tag">gnus</a></li>
-           <li><a class="tag p-category" href="categories/imap.html" rel="tag">imap</a></li>
-           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/outlook.html" rel="tag">outlook</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/email/" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/gnus/" rel="tag">gnus</a></li>
+           <li><a class="tag p-category" href="categories/imap/" rel="tag">imap</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/outlook/" rel="tag">outlook</a></li>
         </ul>
 </div>
 
@@ -329,7 +426,7 @@ Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> inste
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/qin-jiao-chao-ji-rou-zuo-fa.html">青椒炒鸡肉作法</a></h1>
+            <h1 class="title"><a href="posts/qin-jiao-chao-ji-rou-zuo-fa/">青椒炒鸡肉作法</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-05T20:20:56+00:00">2013-08-05 20:20</time>
@@ -337,7 +434,7 @@ Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> inste
                 <div class="stats">
                     
         
-    <a href="posts/qin-jiao-chao-ji-rou-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/qin-jiao-chao-ji-rou-zuo-fa.html">Comments</a>
+    <a href="posts/qin-jiao-chao-ji-rou-zuo-fa/#disqus_thread" data-disqus-identifier="cache/posts/qin-jiao-chao-ji-rou-zuo-fa.html">Comments</a>
 
 
                 </div>
@@ -345,8 +442,8 @@ Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> inste
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -365,7 +462,7 @@ Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> inste
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/the-power-of-git-command-line-interface-4.html">The power of git command line interface</a></h1>
+            <h1 class="title"><a href="posts/the-power-of-git-command-line-interface-4/">The power of git command line interface</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-01T15:17:00+00:00">2013-08-01 15:17</time>
@@ -373,7 +470,7 @@ Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> inste
                 <div class="stats">
                     
         
-    <a href="posts/the-power-of-git-command-line-interface-4.html#disqus_thread" data-disqus-identifier="cache/posts/the-power-of-git-command-line-interface-4.html">Comments</a>
+    <a href="posts/the-power-of-git-command-line-interface-4/#disqus_thread" data-disqus-identifier="cache/posts/the-power-of-git-command-line-interface-4.html">Comments</a>
 
 
                 </div>
@@ -381,11 +478,11 @@ Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> inste
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/bash.html" rel="tag">bash</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
-           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/percol.html" rel="tag">percol</a></li>
+           <li><a class="tag p-category" href="categories/bash/" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/percol/" rel="tag">percol</a></li>
         </ul>
 </div>
 
@@ -462,7 +559,7 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/australia-food-brands.html">Australia food brands</a></h1>
+            <h1 class="title"><a href="posts/australia-food-brands/">Australia food brands</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-01T09:16:00+00:00">2013-08-01 09:16</time>
@@ -470,7 +567,7 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
                 <div class="stats">
                     
         
-    <a href="posts/australia-food-brands.html#disqus_thread" data-disqus-identifier="cache/posts/australia-food-brands.html">Comments</a>
+    <a href="posts/australia-food-brands/#disqus_thread" data-disqus-identifier="cache/posts/australia-food-brands.html">Comments</a>
 
 
                 </div>
@@ -478,9 +575,9 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/australia.html" rel="tag">australia</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/food.html" rel="tag">food</a></li>
+           <li><a class="tag p-category" href="categories/australia/" rel="tag">australia</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
         </ul>
 </div>
 
@@ -520,7 +617,7 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/hua-shen-jiang-len-mian-zuo-fa.html">花生酱冷面做法</a></h1>
+            <h1 class="title"><a href="posts/hua-shen-jiang-len-mian-zuo-fa/">花生酱冷面做法</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-07-29T21:01:46+00:00">2013-07-29 21:01</time>
@@ -528,7 +625,7 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
                 <div class="stats">
                     
         
-    <a href="posts/hua-shen-jiang-len-mian-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/hua-shen-jiang-len-mian-zuo-fa.html">Comments</a>
+    <a href="posts/hua-shen-jiang-len-mian-zuo-fa/#disqus_thread" data-disqus-identifier="cache/posts/hua-shen-jiang-len-mian-zuo-fa.html">Comments</a>
 
 
                 </div>
@@ -536,8 +633,8 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -553,7 +650,7 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/find-which-package-contains-a-file.html">Find which package contains a file</a></h1>
+            <h1 class="title"><a href="posts/find-which-package-contains-a-file/">Find which package contains a file</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-07-29T14:51:00+00:00">2013-07-29 14:51</time>
@@ -561,7 +658,7 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
                 <div class="stats">
                     
         
-    <a href="posts/find-which-package-contains-a-file.html#disqus_thread" data-disqus-identifier="cache/posts/find-which-package-contains-a-file.html">Comments</a>
+    <a href="posts/find-which-package-contains-a-file/#disqus_thread" data-disqus-identifier="cache/posts/find-which-package-contains-a-file.html">Comments</a>
 
 
                 </div>
@@ -569,11 +666,11 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/file.html" rel="tag">file</a></li>
-           <li><a class="tag p-category" href="categories/find.html" rel="tag">find</a></li>
-           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/package.html" rel="tag">package</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/file/" rel="tag">file</a></li>
+           <li><a class="tag p-category" href="categories/find/" rel="tag">find</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/package/" rel="tag">package</a></li>
         </ul>
 </div>
 
@@ -592,7 +689,7 @@ pkgfile amidi # archlinux, You need install pkgfile
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/nai-you-bao-yu-gu.html">奶油鲍鱼菇</a></h1>
+            <h1 class="title"><a href="posts/nai-you-bao-yu-gu/">奶油鲍鱼菇</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-07-27T16:05:00+00:00">2013-07-27 16:05</time>
@@ -600,7 +697,7 @@ pkgfile amidi # archlinux, You need install pkgfile
                 <div class="stats">
                     
         
-    <a href="posts/nai-you-bao-yu-gu.html#disqus_thread" data-disqus-identifier="cache/posts/nai-you-bao-yu-gu.html">Comments</a>
+    <a href="posts/nai-you-bao-yu-gu/#disqus_thread" data-disqus-identifier="cache/posts/nai-you-bao-yu-gu.html">Comments</a>
 
 
                 </div>
@@ -608,8 +705,8 @@ pkgfile amidi # archlinux, You need install pkgfile
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -626,7 +723,7 @@ pkgfile amidi # archlinux, You need install pkgfile
 <p>調味料：</p>
 <p>醬油2大匙、蘋果淳1大匙、香油1大匙、糖1/2小匙、黑胡椒粒1/2小匙。</p>
 <p>作法：</p>
-<pre class="code literal-block">鮑魚菇切花刀、洋地瓜切成末、香菜切末，備用。
+<pre class="code literal-block"><span></span>鮑魚菇切花刀、洋地瓜切成末、香菜切末，備用。
 鮑魚菇沾上麵粉放入鍋中煎至上色，備用。
 鍋中放入1大匙葡萄籽油，爆香洋地瓜、樹子、薑末放入鮑魚菇、調味料燒至入味，灑上香菜即可盛盤。
 </pre>
@@ -635,87 +732,6 @@ pkgfile amidi # archlinux, You need install pkgfile
 <p></p></pre>  <ul>
 <li>我误用红薯代替了<a href="http://blog.sina.com.tw/yoko6712/article.php?entryid=580537">洋地瓜</a>.洋地瓜又名豆薯,见<a href="http://en.wikipedia.org/wiki/Pachyrhizus">Wiki</a>. </li> <li>菇应该煎得焦一点 </li> <li>红薯本身甜的，加苹果醋和糖后就过甜了.而洋地瓜则是淡的,可能口感上也好一点 </li> <li>生姜尽可能切碎 </li> <li>面粉应该一开始放在干燥的碗里,面粉本身不结块,用生粉代替不好 </li> <li>黑胡椒粒还是需要的 </li> <li>香菜保持干燥包好隔绝空气放到冰箱保存 </li> <li>树子是台湾特产,在悉尼可能只能买罐头了，见<a href="http://www.sbar.com.cn/caipu/66836">这道菜谱</a>. </li> <li>酱油好像放了多一点 </li> <li>不过再视频里一大勺实际上是满满两勺 </li> </ul>
 <p><img src="wp-content/uploads/2013/07/wpid-butter-chinese-mushroom.jpg" alt="image/butter-chinese-mushroom.jpg"></p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/mo-gu-ji-rou-yi-da-li-mian-zuo-fa.html">蘑菇鸡肉意大利面做法</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-07-24T19:34:00+00:00">2013-07-24 19:34</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/mo-gu-ji-rou-yi-da-li-mian-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/mo-gu-ji-rou-yi-da-li-mian-zuo-fa.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/pasta.html" rel="tag">pasta</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p></p>
-<ul>
-<li>大蒜15片切碎，橄榄油炸到焦黄 </li> <li>蘑菇倒入翻炒到软掉 </li> <li>倒入鸡肉块300克炒至鸡肉变白 </li> <li>倒入Five Brother Alfredo Pasta Sauce 220克加少量水 </li> <li>又有说小火炒5分钟,偶尔翻炒,到浆粘稠，不要沸腾 </li> <li>参考<a href="http://en.wikipedia.org/wiki/Fettuccine_Alfredo">Fettuccine Alfredo at wikipedia</a>获得背景，看来要加大量黄油和Cheese </li> <li>看<a href="http://www.taste.com.au/recipes/3157/fettuccine+alfredo">另一菜谱</a> </li> <li>盐要少加一点调味,因为sauce以有盐 </li> <li>起锅拌上熟意大利面，加九层塔(Basil),撒上黑胡椒 </li> <li>大概三人份 </li> </ul>
-<p><img src="wp-content/uploads/2013/07/wpid-mushroom-chicken-pasta.jpg" alt="image/mushroom-chicken-pasta.jpg"></p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/hu-luo-bo-zhou-zuo-fa.html">胡萝卜粥做法</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-07-20T16:37:00+00:00">2013-07-20 16:37</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/hu-luo-bo-zhou-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/hu-luo-bo-zhou-zuo-fa.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-07-20 Sat&gt; </span></span> 
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-30 Fri&gt;</span></span>
-</p>
-
-<ul class="org-ul">
-<li><a href="http://jingyan.baidu.com/article/ceb9fb10f996e48cad2ba0f7.html">菜谱</a></li>
-<li>
-<a href="https://www.youtube.com/watch?v=OBfZc5nmkpU">胡萝卜切丝刀法</a> (刀沾水好切)</li>
-<li>新鲜萝卜</li>
-<li>多放油炒胡萝卜丝</li>
-<li>米水比例至少1:6</li>
-<li>吃前放碎香菜,胡椒粉,盐,味精</li>
-</ul>
-<div class="figure">
-<p><img src="wp-content/carrot-rice.jpg" alt="carrot-rice.jpg"></p>
-</div>
 </div>
             </div>
         </div>

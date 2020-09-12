@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="Linux, Programming, Emacs">
@@ -23,15 +23,15 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/ku-gua-hu-luo-bo-chao-ji-dan-zuo-fa.html">苦瓜胡萝卜炒鸡蛋做法</a></h1>
+            <h1 class="title"><a href="posts/how-to-use-expand-region-el-in-emacs-efficiently/">How to use expand-region.el in Emacs efficiently</a></h1>
             <div class="meta">
                 <div class="authordate">
-                    <time class="timeago" datetime="2013-08-21T18:31:21+00:00">2013-08-21 18:31</time>
+                    <time class="timeago" datetime="2013-08-26T23:16:00+00:00">2013-08-26 23:16</time>
 </div>
                 <div class="stats">
                     
         
-    <a href="posts/ku-gua-hu-luo-bo-chao-ji-dan-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/ku-gua-hu-luo-bo-chao-ji-dan-zuo-fa.html">Comments</a>
+    <a href="posts/how-to-use-expand-region-el-in-emacs-efficiently/#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-expand-region-el-in-emacs-efficiently.html">Comments</a>
 
 
                 </div>
@@ -39,10 +39,253 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/carrot.html" rel="tag">carrot</a></li>
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/egg.html" rel="tag">egg</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/expand/" rel="tag">expand</a></li>
+           <li><a class="tag p-category" href="categories/region/" rel="tag">region</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p><a href="https://github.com/magnars/expand-region.el">expand-region.el</a> is very useful. I use it to select a code segment and keep press its expand key until the selected region expand to the desired region.
+</p>
+
+<p>
+The only issue is its recommended hotkey for "er/expand-region" is "C-=". A little bit hard to press.
+</p>
+
+<p>
+After marking a region by pressing "C-=", I press "=" to expand the region and "-" to contract.
+</p>
+
+<p>
+As you may have noticed, I need move the right hand to press "=" or "-" so it's not quick enough.
+</p>
+
+<p>
+The solution is simple, press ",xx" to select the initial region. Keep press "x" to expand. "z" to contract region because "x" "z" is close to left hand fingers.
+</p>
+
+<p>
+<a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> and <a href="https://github.com/cofi/evil-leader">evil-leader</a> is required to implement this.
+</p>
+
+<p>
+Here is the setup:
+</p>
+
+<pre class="prettyprint lang-lisp">
+(require 'evil)
+(require 'evil-leader)
+(evil-mode 1) ;; enable evil-mode
+
+(eval-after-load "evil" '(setq expand-region-contract-fast-key "z"))
+(evil-leader/set-key "xx" 'er/expand-region)
+</pre>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/navigateselect-html-tags-in-emacs/">Navigate/Select html tags in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-22T00:05:00+00:00">2013-08-22 00:05</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/navigateselect-html-tags-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/navigateselect-html-tags-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/html/" rel="tag">html</a></li>
+           <li><a class="tag p-category" href="categories/matchit/" rel="tag">matchit</a></li>
+           <li><a class="tag p-category" href="categories/selection/" rel="tag">selection</a></li>
+           <li><a class="tag p-category" href="categories/tag/" rel="tag">tag</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-11-03 Fri&gt;</span></span>
+</p>
+
+<p>
+Navigate/select html tags is kind of difficult. I've not found any plugin which could match Vim's <a href="http://www.vim.org/scripts/script.php?script_id=39">matchit</a>.
+</p>
+
+<p>
+The most close one in Emacs is <a href="https://github.com/Fuco1/smartparens">smartparens</a>. You can check this <a href="https://plus.google.com/110954683162859211810/posts/4Hb2FUkaPsp">discussion on Google Plus</a> to get general impression.
+</p>
+
+<p>
+I use  <code>sp-select-next-thing</code> from <code>smarparens</code> to select html tags. But I'm not satisfied with this command because it's picky on the location of my cursor and selection of multiple html tags is buggy.
+</p>
+
+<p>
+So here is my fix, the new command <code>my-sp-select-next-thing</code> which fix all these issues.
+</p>
+
+<p>
+Screen cast:
+<img src="https://dl.dropboxusercontent.com/u/858862/my-sp-select-next-thing.gif" alt="my-sp-select-next-thing.gif"></p>
+
+<p>
+Here is the code to insert it into your <code>~/.emacs</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; make sp-select-next-thing works even the cusor is in the open/close tag
+;; like matchit in vim
+;; @return t =&gt; start from open tag; nil start from close tag
+(defun my-sp-select-next-thing (&amp;optional NUM)
+  (interactive "p")
+  (let* ((b (line-beginning-position))
+         (e (line-end-position))
+         (char (following-char))
+         (p (point))
+         rbeg
+         rend
+         (rlt t))
+    ;; "&lt;" char code is 60
+    ;; search backward
+    (if (not (= char 60))
+        (save-excursion
+          (while (and (&lt;= b (point)) (not (= char 60)))
+            (setq char (following-char))
+            (setq p (point))
+            (backward-char))))
+    ;; search forward
+    (if (not (= char 60))
+        (save-excursion
+          (while (and (&gt;= e (point)) (not (= char 60)))
+            (setq char (following-char))
+            (setq p (point))
+            (forward-char))))
+    ;; do the real thing
+    (when (and (= char 60) (&lt; p e))
+      (goto-char p)
+      (forward-char)
+      (if (= (following-char) 47)
+          (progn
+            ;; &lt;/
+            (backward-char)
+            (setq rlt nil))
+        (progn
+          ;; &lt; , looks fine
+          (backward-char)
+          (setq rlt t)))
+      (sp-select-next-thing)
+      (setq rbeg (region-beginning))
+      (setq rend (region-end))
+
+      (while (&gt; NUM 1)
+        ;; well, sp-select-next-thing is kind of wierd
+        (re-search-forward "&lt;[^!]")
+        (backward-char 2)
+        (sp-select-next-thing)
+        (setq rend (region-end))
+        (setq NUM (1- NUM)))
+      (push-mark rbeg t t)
+      (goto-char (1-rend)))
+    rlt))
+</code></pre>
+
+</div>
+
+<p>
+Navigation is easy. After selecting the tags, press <code>C-x C-x</code> to move the focus. That's it.
+</p>
+
+<p>
+For evil-mode, I write some code which simulate the famous <b>matchit</b> in vi:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'evil)
+
+;; {{ evil-matchit
+(defun my-evil-jump-item-enhanced-for-html ()
+  (interactive)
+  (if (or (eq major-mode 'html-mode)
+          (eq major-mode 'xml-mode)
+          (eq major-mode 'nxml-mode))
+      (progn
+        (if (not (my-sp-select-next-thing 1)) (exchange-point-and-mark))
+        (deactivate-mark))
+    (progn
+      (evil-jump-item))))
+(define-key evil-normal-state-map "%" 'my-evil-jump-item-enhanced-for-html)
+;; }}
+</code></pre>
+
+</div>
+
+<p>
+Now you can press <code>%</code> in evil to jump between tags!
+</p>
+
+<p>
+Requirement:
+</p>
+
+<ul class="org-ul">
+<li>smartparens-1.5</li>
+<li>evil-1.0.7</li>
+<li>emacs-24.2.1</li>
+</ul>
+<p>
+BTW, I also tried the web-mode-tag-match in <a href="https://github.com/fxbois/web-mode">web-mode</a> which provided similar tag match feature.
+</p>
+
+<p>
+At least now (2nd October,2013) web-mode does not support <a href="http://freemarker.org/">freemarker</a> syntax. But smartparens is more tolerant to these template syntax.
+</p>
+
+<p>
+UPDATE (6th Nov, 2013):
+I started a new project <a href="https://github.com/redguardtoo/evil-matchit">evil-matchit</a> which is not dependent on smartparens. Please check it out. But you can still use my old code because it support more languages.
+</p>
+
+<p>
+UPDATED (13rd Jan, 2014):
+<a href="https://github.com/redguardtoo/evil-matchit">evil-matchit</a> is now powerful enough to replace my old tricks.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/ku-gua-hu-luo-bo-chao-ji-dan-zuo-fa/">苦瓜胡萝卜炒鸡蛋做法</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-08-21T18:31:21+00:00">2013-08-21 18:31</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/ku-gua-hu-luo-bo-chao-ji-dan-zuo-fa/#disqus_thread" data-disqus-identifier="cache/posts/ku-gua-hu-luo-bo-chao-ji-dan-zuo-fa.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/carrot/" rel="tag">carrot</a></li>
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/egg/" rel="tag">egg</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -59,7 +302,7 @@
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/take-bavarian-tasting-platter-at-bavarian-bier-cafe-parramatta.html">Take bavarian tasting platter at Bavarian Bier Cafe Parramatta</a></h1>
+            <h1 class="title"><a href="posts/take-bavarian-tasting-platter-at-bavarian-bier-cafe-parramatta/">Take bavarian tasting platter at Bavarian Bier Cafe Parramatta</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-19T09:29:00+00:00">2013-08-19 09:29</time>
@@ -67,7 +310,7 @@
                 <div class="stats">
                     
         
-    <a href="posts/take-bavarian-tasting-platter-at-bavarian-bier-cafe-parramatta.html#disqus_thread" data-disqus-identifier="cache/posts/take-bavarian-tasting-platter-at-bavarian-bier-cafe-parramatta.html">Comments</a>
+    <a href="posts/take-bavarian-tasting-platter-at-bavarian-bier-cafe-parramatta/#disqus_thread" data-disqus-identifier="cache/posts/take-bavarian-tasting-platter-at-bavarian-bier-cafe-parramatta.html">Comments</a>
 
 
                 </div>
@@ -75,9 +318,9 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/restaurant.html" rel="tag">restaurant</a></li>
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/restaurant/" rel="tag">restaurant</a></li>
         </ul>
 </div>
 
@@ -93,7 +336,7 @@
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/dou-ban-jiang-gai-jiao-fan-zuo-fa.html">豆瓣酱盖交饭做法</a></h1>
+            <h1 class="title"><a href="posts/dou-ban-jiang-gai-jiao-fan-zuo-fa/">豆瓣酱盖交饭做法</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-19T09:19:11+00:00">2013-08-19 09:19</time>
@@ -101,7 +344,7 @@
                 <div class="stats">
                     
         
-    <a href="posts/dou-ban-jiang-gai-jiao-fan-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/dou-ban-jiang-gai-jiao-fan-zuo-fa.html">Comments</a>
+    <a href="posts/dou-ban-jiang-gai-jiao-fan-zuo-fa/#disqus_thread" data-disqus-identifier="cache/posts/dou-ban-jiang-gai-jiao-fan-zuo-fa.html">Comments</a>
 
 
                 </div>
@@ -109,9 +352,9 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/rice.html" rel="tag">rice</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/rice/" rel="tag">rice</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -126,7 +369,7 @@
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/my-salad.html">my salad</a></h1>
+            <h1 class="title"><a href="posts/my-salad/">my salad</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-19T09:09:17+00:00">2013-08-19 09:09</time>
@@ -134,7 +377,7 @@
                 <div class="stats">
                     
         
-    <a href="posts/my-salad.html#disqus_thread" data-disqus-identifier="cache/posts/my-salad.html">Comments</a>
+    <a href="posts/my-salad/#disqus_thread" data-disqus-identifier="cache/posts/my-salad.html">Comments</a>
 
 
                 </div>
@@ -142,9 +385,9 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/salad.html" rel="tag">salad</a></li>
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/salad/" rel="tag">salad</a></li>
         </ul>
 </div>
 
@@ -157,7 +400,7 @@
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/nan-gua-zhou-zuo-fa.html">南瓜粥作法</a></h1>
+            <h1 class="title"><a href="posts/nan-gua-zhou-zuo-fa/">南瓜粥作法</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-19T08:52:00+00:00">2013-08-19 08:52</time>
@@ -165,7 +408,7 @@
                 <div class="stats">
                     
         
-    <a href="posts/nan-gua-zhou-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/nan-gua-zhou-zuo-fa.html">Comments</a>
+    <a href="posts/nan-gua-zhou-zuo-fa/#disqus_thread" data-disqus-identifier="cache/posts/nan-gua-zhou-zuo-fa.html">Comments</a>
 
 
                 </div>
@@ -173,9 +416,9 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/porridge.html" rel="tag">porridge</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/porridge/" rel="tag">porridge</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -190,7 +433,7 @@
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/niu-rou-mian-zuo-fa.html">牛肉面作法</a></h1>
+            <h1 class="title"><a href="posts/niu-rou-mian-zuo-fa/">牛肉面作法</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-19T08:27:51+00:00">2013-08-19 08:27</time>
@@ -198,7 +441,7 @@
                 <div class="stats">
                     
         
-    <a href="posts/niu-rou-mian-zuo-fa.html#disqus_thread" data-disqus-identifier="cache/posts/niu-rou-mian-zuo-fa.html">Comments</a>
+    <a href="posts/niu-rou-mian-zuo-fa/#disqus_thread" data-disqus-identifier="cache/posts/niu-rou-mian-zuo-fa.html">Comments</a>
 
 
                 </div>
@@ -206,10 +449,10 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/beef.html" rel="tag">beef</a></li>
-           <li><a class="tag p-category" href="categories/cuisine.html" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/noodle.html" rel="tag">noodle</a></li>
-           <li><a class="tag p-category" href="categories/zh.html" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="categories/beef/" rel="tag">beef</a></li>
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/noodle/" rel="tag">noodle</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -227,7 +470,7 @@
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-manage-emacs-packages.html">How to manage emacs packages</a></h1>
+            <h1 class="title"><a href="posts/how-to-manage-emacs-packages/">How to manage emacs packages</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-16T22:30:00+00:00">2013-08-16 22:30</time>
@@ -235,7 +478,7 @@
                 <div class="stats">
                     
         
-    <a href="posts/how-to-manage-emacs-packages.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-manage-emacs-packages.html">Comments</a>
+    <a href="posts/how-to-manage-emacs-packages/#disqus_thread" data-disqus-identifier="cache/posts/how-to-manage-emacs-packages.html">Comments</a>
 
 
                 </div>
@@ -243,8 +486,8 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
         </ul>
 </div>
 
@@ -260,7 +503,7 @@
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/use-git-send-email-at-ubuntu.html">Use `git send-email' at ubuntu</a></h1>
+            <h1 class="title"><a href="posts/use-git-send-email-at-ubuntu/">Use `git send-email' at ubuntu</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-08-15T08:24:21+00:00">2013-08-15 08:24</time>
@@ -268,7 +511,7 @@
                 <div class="stats">
                     
         
-    <a href="posts/use-git-send-email-at-ubuntu.html#disqus_thread" data-disqus-identifier="cache/posts/use-git-send-email-at-ubuntu.html">Comments</a>
+    <a href="posts/use-git-send-email-at-ubuntu/#disqus_thread" data-disqus-identifier="cache/posts/use-git-send-email-at-ubuntu.html">Comments</a>
 
 
                 </div>
@@ -276,9 +519,9 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/email/" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
         </ul>
 </div>
 
@@ -293,103 +536,6 @@
 
 <p></p>
 </div> </div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/one-liner-bash-to-createupdate-playlist-for-mpd.html">One liner bash to create/update playlist for mpd</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-08-13T21:30:00+00:00">2013-08-13 21:30</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/one-liner-bash-to-createupdate-playlist-for-mpd.html#disqus_thread" data-disqus-identifier="cache/posts/one-liner-bash-to-createupdate-playlist-for-mpd.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux.html" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/mpd.html" rel="tag">mpd</a></li>
-           <li><a class="tag p-category" href="categories/music.html" rel="tag">music</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p></p>
-<p> I put all my audio files in ~/Music. </p>  <p> The below script create a playlist in m3u format and ask mpd to load it: </p> <div class="org-src-container">
-<pre class="prettyprint ">cd ~/Music;find . -name '<em>.mp3' -o -name '</em>.flac'|sed -e 's%^./%%g' &amp;gt; all.m3u;mpd ~/.mpd/config;mpc clear;mpc load all.m3u;mpc update</pre>
-<p></p>
-</div>  <p> Here is content of my ~/.mpd/config which is basically only a copy from official sample configuration: </p> <div class="org-src-container">
-<pre class="prettyprint "># See the mpd.conf man page for a more detailed description of each parameter.
-music_directory     "~/Music"
-playlist_directory "~/.mpd/playlists"
-db_file "~/.mpd/mpd.db"
-log_file "~/.mpd/mpd.log"
-pid_file "~/.mpd/mpd.pid"
-state_file "~/.mpd/mpdstate"</pre>
-<p></p>
-</div> </div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/how-to-install-emacs-source-code-under-ubuntu.html">How to install Emacs source code under Ubuntu</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-08-12T11:44:00+00:00">2013-08-12 11:44</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/how-to-install-emacs-source-code-under-ubuntu.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-install-emacs-source-code-under-ubuntu.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/ubuntu.html" rel="tag">ubuntu</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-Only one command:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">sudo apt-get install emacs24-el
-</code></pre>
-
-</div>
-
-<p>
-How I locate that package emacs24-el:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-sh">sudo apt-get install apt-file;sudo apt-file update;
-apt-file search help.el.gz
-</code></pre>
-
-</div>
-
-<p>
-BTW, I assign hot key <code>C-h C-f</code> to command <code>find-function</code> which "Find the definition of the FUNCTION near point".</p>
-</div>
             </div>
         </div>
     

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Chen's blog (Posts about hunspell)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/hunspell.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 17 Apr 2020 01:30:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>What's the best spell check setup in emacs</title><link>http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-05-13 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about hunspell)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/hunspell.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 12 Sep 2020 03:04:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>What's the best spell check setup in emacs</title><link>http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2020-09-12 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -8,20 +8,20 @@ CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;/p&gt;
 
 &lt;p&gt;
-I will show you the minimum setup and explain details.
+I will show the minimum set up and explain details.
 &lt;/p&gt;
 
 &lt;p&gt;
-Topics already covered in official manual (&lt;code&gt;flyspell-mode-predicate&lt;/code&gt;, for example) are NOT discussed here.
+Topics covered in official manual (&lt;code&gt;flyspell-mode-predicate&lt;/code&gt;, for example) are NOT discussed here.
 &lt;/p&gt;
 
 &lt;p&gt;
-But you can see my &lt;b&gt;complete&lt;/b&gt; setup &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelling.el"&gt;HERE&lt;/a&gt;.
+But you can see my &lt;b&gt;complete&lt;/b&gt; configuration &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelling.el"&gt;HERE&lt;/a&gt;.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgdb72d58" class="outline-2"&gt;
-&lt;h3 id="orgdb72d58"&gt;Suggestion for non-programmers&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgdb72d58"&gt;
+&lt;div id="outline-container-orgdb3d868" class="outline-2"&gt;
+&lt;h3 id="orgdb3d868"&gt;Suggestion for non-programmers&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdb3d868"&gt;
 &lt;p&gt;
 Emacs finds the right dictionary by querying your locale.
 &lt;/p&gt;
@@ -45,7 +45,12 @@ If you want to force Emacs use the dictionary "en_US", insert below code into yo
   (setq ispell-local-dictionary-alist
         ;; Please note the list `("-d" "en_US")` contains ACTUAL parameters passed to hunspell
         ;; You could use `("-d" "en_US,en_US-med")` to check with multiple dictionaries
-        '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))))
+        '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+
+  ;; new variable `ispell-hunspell-dictionary-alist' is defined in Emacs
+  ;; If it's nil, Emacs tries to automatically set up the dictionaries.
+  (when (boundp 'ispell-hunspell-dictionary-alist)
+    (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist)))
 
  ((executable-find "aspell")
   (setq ispell-program-name "aspell")
@@ -76,9 +81,9 @@ Run &lt;code&gt;man aspell&lt;/code&gt; or &lt;code&gt;man hunspell&lt;/code&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga1582cd" class="outline-2"&gt;
-&lt;h3 id="orga1582cd"&gt;Suggestion for programmers&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga1582cd"&gt;
+&lt;div id="outline-container-org0830a6c" class="outline-2"&gt;
+&lt;h3 id="org0830a6c"&gt;Suggestion for programmers&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0830a6c"&gt;
 &lt;p&gt;
 I strongly recommend aspell instead of hunspell (Though hunspell is fine).
 &lt;/p&gt;
@@ -129,37 +134,38 @@ Please insert below code into your &lt;code&gt;~/.emacs&lt;/code&gt;:
  ((executable-find "hunspell")
   (setq ispell-program-name "hunspell")
 
-  ;; Please note that `ispell-local-dictionary` itself will be passed to hunspell cli with "-d"
-  ;; it's also used as the key to lookup ispell-local-dictionary-alist
+  ;; Please note that `ispell-local-dictionary' itself will be passed to hunspell cli with "-d"
+  ;; it's also used as the key to lookup `ispell-local-dictionary-alist'
   ;; if we use different dictionary
   (setq ispell-local-dictionary "en_US")
   (setq ispell-local-dictionary-alist
-        '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))))
+        '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+  ;; new variable `ispell-hunspell-dictionary-alist' is defined in Emacs
+  ;; If it's nil, Emacs tries to automatically set up the dictionaries.
+  (when (boundp 'ispell-hunspell-dictionary-alist)
+    (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist)))
+
  (t (setq ispell-program-name nil)))
 
-;; ispell-cmd-args is useless, it's the list of *extra* arguments we will append to the ispell process when "ispell-word" is called.
-;; ispell-extra-args is the command arguments which will *always* be used when start ispell process
-;; Please note when you use hunspell, ispell-extra-args will NOT be used.
-;; Hack ispell-local-dictionary-alist instead.
+;; `ispell-cmd-args' is useless, it's the list of *extra* arguments we will append to the ispell process when `ispell-word' is called.
+;; `ispell-extra-args' is the command arguments which will *always* be used when start ispell process
+;; Please note when you use hunspell, `ispell-extra-args' will NOT be used.
+;; Hack `ispell-local-dictionary-alist' instead.
 (setq-default ispell-extra-args (flyspell-detect-ispell-args t))
-;; (setq ispell-cmd-args (flyspell-detect-ispell-args))
-(defadvice ispell-word (around my-ispell-word activate)
-  (let ((old-ispell-extra-args ispell-extra-args))
-    (ispell-kill-ispell t)
-    (setq ispell-extra-args (flyspell-detect-ispell-args))
-    ad-do-it
-    (setq ispell-extra-args old-ispell-extra-args)
-    (ispell-kill-ispell t)))
 
-(defadvice flyspell-auto-correct-word (around my-flyspell-auto-correct-word activate)
-  (let ((old-ispell-extra-args ispell-extra-args))
+(defun my-ispell-word-hack (orig-func &amp;amp;rest args)
+  "Use Emacs original arguments when calling `ispell-word'.
+When fixing a typo, avoid pass camel case option to cli program."
+  (let* ((old-ispell-extra-args ispell-extra-args))
     (ispell-kill-ispell t)
-    ;; use emacs original arguments
-    (setq ispell-extra-args (flyspell-detect-ispell-args))
-    ad-do-it
+    ;; use emacs original argument
+    (setq ispell-extra-args (my-detect-ispell-args))
+    (apply orig-func args)
     ;; restore our own ispell arguments
     (setq ispell-extra-args old-ispell-extra-args)
     (ispell-kill-ispell t)))
+(advice-add 'ispell-word :around #'my-ispell-word-hack)
+(advice-add 'flyspell-auto-correct-word :around #'my-ispell-word-hack)
 
 (defun text-mode-hook-setup ()
   ;; Turn off RUN-TOGETHER option when spell check text-mode
@@ -179,13 +185,13 @@ See &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spe
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1620e78" class="outline-2"&gt;
-&lt;h3 id="org1620e78"&gt;Why&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org1620e78"&gt;
+&lt;div id="outline-container-org9400073" class="outline-2"&gt;
+&lt;h3 id="org9400073"&gt;Why&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9400073"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd4fba5c" class="outline-3"&gt;
-&lt;h4 id="orgd4fba5c"&gt;Aspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgd4fba5c"&gt;
+&lt;div id="outline-container-org4e9d24a" class="outline-3"&gt;
+&lt;h4 id="org4e9d24a"&gt;Aspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org4e9d24a"&gt;
 &lt;p&gt;
 aspell is recommended because its option &lt;code&gt;--run-together&lt;/code&gt;. That option could check the &lt;b&gt;camel case word&lt;/b&gt;. Variable name often uses camel case naming convention these days. Read my &lt;a href="http://blog.binchen.org/?p=950"&gt;Effective spell check in Emacs&lt;/a&gt; for advanced tips.
 &lt;/p&gt;
@@ -221,9 +227,9 @@ There is another variable &lt;code&gt;ispell-cmd-args&lt;/code&gt;. It is actual
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org803f437" class="outline-3"&gt;
-&lt;h4 id="org803f437"&gt;Hunspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org803f437"&gt;
+&lt;div id="outline-container-orgedaf11d" class="outline-3"&gt;
+&lt;h4 id="orgedaf11d"&gt;Hunspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgedaf11d"&gt;
 &lt;p&gt;
 I cannot find hunspell option to check camel case words. Please enlighten me if you know the option.
 &lt;/p&gt;
@@ -265,13 +271,13 @@ You can pass the extra arguments to the hunspell by tweaking &lt;code&gt;ispell-
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6947fcb" class="outline-2"&gt;
-&lt;h3 id="org6947fcb"&gt;FAQ&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org6947fcb"&gt;
+&lt;div id="outline-container-orgadeeec3" class="outline-2"&gt;
+&lt;h3 id="orgadeeec3"&gt;FAQ&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgadeeec3"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd3be7e9" class="outline-3"&gt;
-&lt;h4 id="orgd3be7e9"&gt;How to setup Hunspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgd3be7e9"&gt;
+&lt;div id="outline-container-org5512326" class="outline-3"&gt;
+&lt;h4 id="org5512326"&gt;How to setup Hunspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org5512326"&gt;
 &lt;p&gt;
 The easiest way is to set up environment variable &lt;code&gt;DICPATH&lt;/code&gt;,
 &lt;/p&gt;
@@ -288,4 +294,4 @@ You can also run &lt;code&gt;hunspell -D&lt;/code&gt; in shell to figure out whe
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>aspell</category><category>check</category><category>emacs</category><category>en</category><category>hunspell</category><category>ispell</category><category>spell</category><guid>http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html</guid><pubDate>Mon, 21 Apr 2014 08:25:20 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>aspell</category><category>check</category><category>emacs</category><category>en</category><category>hunspell</category><category>ispell</category><category>spell</category><guid>http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/</guid><pubDate>Mon, 21 Apr 2014 08:25:20 GMT</pubDate></item></channel></rss>

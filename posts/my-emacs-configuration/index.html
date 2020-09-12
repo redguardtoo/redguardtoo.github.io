@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>My Emacs configuration | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/my-emacs-configuration/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="My Emacs configuration">
+<meta property="og:url" content="http://blog.binchen.org/posts/my-emacs-configuration/">
+<meta property="og:description" content="Features     support c++/python/perl/ruby-on-rails/javascript  eim (Chinese Pinying IME for emacs)  org2blog (post wordpress blog by org-mode)         Install       git clone git@github.com:redguardto">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2011-08-28T13:33:00Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">My Emacs configuration</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2011-08-28T13:33:00+00:00">2011-08-28 13:33</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p></p>
+<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Features </h4> <div class="outline-text-3" id="text-1">  <ul>
+<li>support c++/python/perl/ruby-on-rails/javascript </li> <li>eim (Chinese Pinying IME for emacs) </li> <li>org2blog (post wordpress blog by org-mode) </li> </ul>
+</div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Install </h4> <div class="outline-text-3" id="text-2">     <pre class="src src-sh">git clone git@github.com:redguardtoo/emacs.d.git ~/.emacs.d;
+</pre>    </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">Some plugins need be compiled for better performance (OPTIONAL) </h4> <div class="outline-text-3" id="text-3">  <ul>
+<li>cedet,ecb,emacs-w3m,org-mode,nxml-mode,mmm-mode,auto-complete </li> </ul>
+<pre class="src src-sh"><span style="color:#0000ee;font-weight:bold;">cd</span> ~/.emacs.d/site-lisp;make -C cedet;make -C ecb;make -C org-mode;make -C nxml-mode;make -C auto-complete
+<span style="color:#0000ee;font-weight:bold;">cd</span> ~/.emacs.d/site-lisp/emacs-w3m;autoconf;./configure;make;sudo make install-info-en;
+<span style="color:#0000ee;font-weight:bold;">cd</span> ~/.emacs.d/site-lisp/mmm-mode;./autogen.sh;./configure;make;sudo make install-info;</pre>   <p>  sh </p> <ul>
+<li>rinari (install info only) </li> </ul>
+<pre class="src src-sh"><span style="color:#0000ee;font-weight:bold;">cd</span> ~/.emacs.d/site-lisp/rinari;rake doc:make_info;sudo cp doc/rinari.info /usr/share/info;sudo install-info /usr/share/info/rinari.info /usr/share/info/dir</pre>     <ul>
+<li>eim </li> </ul>
+<pre class="src src-sh"><span style="color:#0000ee;font-weight:bold;">cd</span> ~/.emacs.d/site-lisp/eim;emacs -batch -f batch-byte-compile *.el;</pre>    </div> </div> </div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../you-yong-de-emacs-kuai-jie-jian/" rel="prev" title="有用的emacs快捷键">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../mysqldump-for-sqlite3/" rel="next" title="mysqldump for sqlite3">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/my-emacs-configuration/",
+        disqus_title="My Emacs configuration",
+        disqus_identifier="cache/posts/my-emacs-configuration.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

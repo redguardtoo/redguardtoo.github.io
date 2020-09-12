@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="description" content="Linux, Programming, Emacs">
@@ -23,15 +23,15 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/diff-regions-in-emacs.html">Diff regions in Emacs</a></h1>
+            <h1 class="title"><a href="posts/make-messages-buffer-modifiable-in-emacs-24-4/">Make Messages Buffer modifiable in Emacs 24.4</a></h1>
             <div class="meta">
                 <div class="authordate">
-                    <time class="timeago" datetime="2016-01-27T13:44:22+00:00">2016-01-27 13:44</time>
+                    <time class="timeago" datetime="2016-05-18T00:42:32+00:00">2016-05-18 00:42</time>
 </div>
                 <div class="stats">
                     
         
-    <a href="posts/diff-regions-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/diff-regions-in-emacs.html">Comments</a>
+    <a href="posts/make-messages-buffer-modifiable-in-emacs-24-4/#disqus_thread" data-disqus-identifier="cache/posts/make-messages-buffer-modifiable-in-emacs-24-4.html">Comments</a>
 
 
                 </div>
@@ -39,9 +39,1710 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/diff.html" rel="tag">diff</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/buffer/" rel="tag">buffer</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/messages/" rel="tag">messages</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div class="org-src-container">
+
+<pre><code class="lang-lisp">(defadvice switch-to-buffer (after switch-to-buffer-after-hack activate)
+  (if (string= "*Messages*" (buffer-name))
+      (read-only-mode -1)))
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-input-non-english-character-in-evil-mode-efficiently/">How to input Non-English character in evil-mode efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-05-16T13:33:25+00:00">2016-05-16 13:33</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-input-non-english-character-in-evil-mode-efficiently/#disqus_thread" data-disqus-identifier="cache/posts/how-to-input-non-english-character-in-evil-mode-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/evil/" rel="tag">evil</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+You can <code>M-x toggle-input-method</code> or <code>C-\</code> to input Non-English characters.
+</p>
+
+<p>
+Analysis about evil-mode,
+</p>
+
+<ul class="org-ul">
+<li>You only input Non-English characters in evil-insert-state. So you need <b>go into evil-insert-state at first</b> before toggle on input method</li>
+<li>In evil-insert-state, you can toggle off input method to input English characters while <b>staying in evil-insert state</b>
+</li>
+<li>When press <code>ESC</code>, you quit from evil-insert-state. But input method could be still activated. So when you re-enter evil-insert-state, you need <b>notification of input method status</b>
+</li>
+</ul>
+<p>
+Here is the setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; {{ make IME compatible with evil-mode
+(defun evil-toggle-input-method ()
+  "when toggle on input method, goto evil-insert-state. "
+  (interactive)
+
+  ;; load IME when needed, less memory footprint
+  ;; (unless (featurep 'chinese-pyim)
+  ;;   (require 'chinese-pyim))
+
+  (cond
+   ((and (boundp 'evil-mode) evil-mode)
+    ;; evil-mode
+    (cond
+     ((eq evil-state 'insert)
+      (toggle-input-method))
+     (t
+      (evil-insert-state)
+      (unless current-input-method
+        (toggle-input-method))
+      ))
+    (if current-input-method (message "IME on!")))
+   (t
+    ;; NOT evil-mode, some guy don't use evil-mode at all
+    (toggle-input-method))))
+
+(defadvice evil-insert-state (around evil-insert-state-hack activate)
+  ad-do-it
+  (if current-input-method (message "IME on!")))
+
+(global-set-key (kbd "C-\\") 'evil-toggle-input-method)
+;; }}
+</code></pre>
+
+</div>
+
+<p>
+Chinese version:
+</p>
+
+<p>
+在evil-mode中切换输入法有以下要点,
+</p>
+
+<ul class="org-ul">
+<li>输中文前须进入evil-insert-state</li>
+<li>在evil-insert-state中可能会切换输入法</li>
+<li>按ESC退出evil-insert-state时输入法可能还开着,所以再进入evil-insert-state时需提示输入法状态</li>
+</ul>
+<p>
+代码见上.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/swiperivy-tip/">Swiper/Ivy tip</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-05-04T08:15:27+00:00">2016-05-04 08:15</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/swiperivy-tip/#disqus_thread" data-disqus-identifier="cache/posts/swiperivy-tip.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/evil/" rel="tag">evil</a></li>
+           <li><a class="tag p-category" href="categories/ivy/" rel="tag">ivy</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Please install <a href="https://github.com/syl20bnr/evil-escape">evil-escape</a> at first.
+</p>
+
+<p>
+When <a href="https://github.com/abo-abo/swiper">Swiper/Ivy</a> candidate window pops up. You can press <code>fd</code> quickly to close the window. 
+</p>
+
+<p>
+<code>fd</code> is the default key binding from evil-escape. I changed it to <code>kj</code> instead.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode/">Use general.el to provide multiple leader key in evil-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-04-09T04:35:54+00:00">2016-04-09 04:35</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode/#disqus_thread" data-disqus-identifier="cache/posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/evil/" rel="tag">evil</a></li>
+           <li><a class="tag p-category" href="categories/vim/" rel="tag">vim</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+<a href="https://github.com/noctuid/general.el">General.el</a> "provides a more convenient way to bind keys in emacs for both evil and non-evil users".
+</p>
+
+<p>
+I have been using it for more than one month without any issue. I prefer general.el to <a href="https://github.com/cofi/evil-leader">evil-leader</a> because I need both comma and space key as <a href="http://vimdoc.sourceforge.net/htmldoc/map.html#%3CLeader%3E">leader key</a>.
+</p>
+
+<p>
+Minimum setup is simple,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'general)
+(general-evil-setup t)
+(nvmap :prefix ","
+       "bb" 'back-to-previous-buffer
+       "ww" 'save-buffer
+       "oo" 'compile)
+
+;; all keywords arguments are still supported
+(nvmap :prefix "SPC"
+       ; save windows layout
+       "ss" 'wg-create-workgroup
+       ;; load windows layout
+       "ll" 'my-wg-switch-workgroup)
+</code></pre>
+
+</div>
+
+<p>
+My <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-evil.el">real world setup</a> is more complicated.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-ivy-to-open-recent-directories/">Use ivy to open recent directories</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-03-30T11:13:23+00:00">2016-03-30 11:13</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-ivy-to-open-recent-directories/#disqus_thread" data-disqus-identifier="cache/posts/use-ivy-to-open-recent-directories.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/ivy/" rel="tag">ivy</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+The recent directories include parent directories of opened files in Emacs and the directories accessed in Bash shell. 
+</p>
+
+<p>
+I used <a href="https://github.com/clvv/fasd">fasd</a> to get the list of directories in shell. Fasd "offers quick access to files and directories for POSIX shells".
+</p>
+
+<p>
+Here is my setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'ivy) ; swiper 7.0+ should be installed
+
+(defun counsel-goto-recent-directory ()
+  "Open recent directory with dired"
+  (interactive)
+  (unless recentf-mode (recentf-mode 1))
+  (let ((collection
+         (delete-dups
+          (append (mapcar 'file-name-directory recentf-list)
+                  ;; fasd history
+                  (if (executable-find "fasd")
+                      (split-string (shell-command-to-string "fasd -ld") "\n" t))))))
+    (ivy-read "directories:" collection :action 'dired)))
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+</p>
+
+<div class="figure">
+<p><img src="wp-content/ivy-recent-directory-nq8.png" alt="ivy-recent-directory-nq8.png"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/emacs-vs-sublime-text-on-salesforce-development/">Emacs vs Sublime Text on Salesforce development</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-03-14T10:42:31+00:00">2016-03-14 10:42</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/emacs-vs-sublime-text-on-salesforce-development/#disqus_thread" data-disqus-identifier="cache/posts/emacs-vs-sublime-text-on-salesforce-development.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/salesforce/" rel="tag">salesforce</a></li>
+           <li><a class="tag p-category" href="categories/sublime/" rel="tag">sublime</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Our client decided to move their legacy system to a cloud platform called salesforce.com. So I got a chance to investigate how to <b>deploy code</b> to the salesforce server inside Emacs and Sublime Text.
+</p>
+
+<p>
+Salesforce provides <a href="https://developer.salesforce.com/docs/atlas.en-us.daas.meta/daas/forcemigrationtool_install.htm">a migration tool</a> to deploy everything from the scratch which takes about 2 minutes. Basically makes it impossbile to be integrated with text editors.
+</p>
+
+<p>
+Luckily, there is <a href="https://force-cli.heroku.com/">Force.com CLI</a> which can upload single file in a few seconds. Both Sublime Text and Emacs use this tool.
+</p>
+
+<div id="outline-container-orgb51326b" class="outline-2">
+<h3 id="orgb51326b">Sublime Text</h3>
+<div class="outline-text-2" id="text-orgb51326b">
+<p>
+You need install sublime text plugin <a href="http://mavensmate.com/Getting_Started/Users">mavensmate</a>. After installation, you need click <code>Login</code> menu at least once. Then when you save the code file, it's automatically deployed to the server.
+</p>
+
+<p>
+For some reason, the logged in session will timeout after a couple minutes. So you need re-login. Sometimes deployment will fail, you could click the <code>Fetch</code> menu and fill in the component name into the popup window to confirm the fetch. Fetching will re-activate upload ability.
+</p>
+
+<p>
+Mavensmate is actually just GUI wrapper of Force.com CLI,
+</p>
+<ul class="org-ul">
+<li>When you click login, the command <code>force login</code> is executed</li>
+<li>When saving file, <code>force aura push</code> or <code>force push</code> is executed</li>
+<li>When fetching, <code>force fetch</code> is executed</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8ca6eba" class="outline-2">
+<h3 id="org8ca6eba">Emacs</h3>
+<div class="outline-text-2" id="text-org8ca6eba">
+<p>
+In Sublime Text I have to re-login and fetch from time to time. That get me distracted. I prefer executing only one commmand to upload the file in editing. That command should be always successful.
+</p>
+
+<p>
+My solution is to combine "login/fetch/push" commnands into one liner which is stored in a file local variable <code>compile-command</code>. So when I execute <code>M-x compile</code>, the commands "login/fetch/push" in <code>compile-command</code> will all be executed sequentially. So I don't need care about login and fetch things any more.
+</p>
+
+<p>
+Here is my setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-setup-develop-environment ()
+  (interactive)
+  (let (ffip-project-root)
+    (setq ffip-project-root "~/projects/my-salesforce-project1")
+
+    (when (memq major-mode '(web-mode js-mode js2-mode))
+      (setq-local compile-command
+                  (cond
+                   ;; lightning controller javascript file
+                   ((string-match "Controller\.js$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; cp %s %s &amp;&amp; force fetch -t Aura -n %s -d %s &amp;&amp; mv %s %s &amp;&amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name) (concat (buffer-file-name) ".bak")
+                            (replace-regexp-in-string "Controller" "" (file-name-base (buffer-file-name)))
+                            ffip-project-root
+                            (concat (buffer-file-name) ".bak") (buffer-file-name)
+                            (buffer-file-name)))
+                   ;; ant build
+                   ((string-match "build\.xml$" (buffer-file-name))
+                    (format "cd %s &amp;&amp; ant deployCode" ffip-project-root))
+                   ;; lightning html view
+                   ((string-match "\.cmp$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   ;; other salesforce pages
+                   (t
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   )))
+    ))
+
+;; I use web-mode for html/xml
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
+;; I use js2-mode for javascript
+(add-hook 'js2-mode-hook 'my-setup-develop-environment)
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-be-extremely-efficient-in-emacs/">How to be extremely efficient in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-02-26T13:51:27+00:00">2016-02-26 13:51</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-be-extremely-efficient-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/how-to-be-extremely-efficient-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+You only need <a href="https://github.com/dacap/keyfreq">keyfreq</a> to <b>find</b> frequently used commands.
+</p>
+
+<p>
+The frequently used commands should be assigned efficient key bindings.
+</p>
+
+<p>
+But you need <b>exclude already optimized commands or commands which cannot be optimized</b> before starting keyfreq.
+</p>
+
+<p>
+For example, commands like <code>next-line/previous-line/forward-char/backward-char</code> could be excluded by tweaking variable <code>keyfreq-excluded-commands</code>.
+</p>
+
+<p>
+The minimum keyfreq setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'keyfreq)
+(setq keyfreq-excluded-commands
+      '(self-insert-command
+        abort-recursive-edit
+        forward-char
+        backward-char
+        previous-line
+        next-line))
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+</code></pre>
+
+</div>
+
+<p>
+My <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-keyfreq.el">actual keyfreq setup</a> is more complicated.
+</p>
+
+<p>
+Below is the eight month keyfreq data of my office computer,
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-right">
+<col class="org-right">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-right">Times</th>
+<th scope="col" class="org-right">Percentage</th>
+<th scope="col" class="org-left">Command</th>
+<th scope="col" class="org-left">Key</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-right">4967</td>
+<td class="org-right">12.00%</td>
+<td class="org-left">evilmi-jump-items</td>
+<td class="org-left">%</td>
+</tr>
+<tr>
+<td class="org-right">2892</td>
+<td class="org-right">6.99%</td>
+<td class="org-left">compile</td>
+<td class="org-left">, o o</td>
+</tr>
+<tr>
+<td class="org-right">2178</td>
+<td class="org-right">5.26%</td>
+<td class="org-left">find-file-in-project-by-selected</td>
+<td class="org-left">, k k</td>
+</tr>
+<tr>
+<td class="org-right">1953</td>
+<td class="org-right">4.72%</td>
+<td class="org-left">copy-to-x-clipboard</td>
+<td class="org-left">, a a</td>
+</tr>
+<tr>
+<td class="org-right">1566</td>
+<td class="org-right">3.78%</td>
+<td class="org-left">paste-from-x-clipboard</td>
+<td class="org-left">, z z</td>
+</tr>
+<tr>
+<td class="org-right">1227</td>
+<td class="org-right">2.96%</td>
+<td class="org-left">er/expand-region</td>
+<td class="org-left">, x x</td>
+</tr>
+<tr>
+<td class="org-right">897</td>
+<td class="org-right">2.17%</td>
+<td class="org-left">evil-repeat</td>
+<td class="org-left">.</td>
+</tr>
+<tr>
+<td class="org-right">866</td>
+<td class="org-right">2.09%</td>
+<td class="org-left">ido-find-file</td>
+<td class="org-left">, x f, C-x C-f</td>
+</tr>
+<tr>
+<td class="org-right">819</td>
+<td class="org-right">1.98%</td>
+<td class="org-left">toggle-full-window</td>
+<td class="org-left">, f f</td>
+</tr>
+<tr>
+<td class="org-right">815</td>
+<td class="org-right">1.97%</td>
+<td class="org-left">etags-select-find-tag-at-point</td>
+<td class="org-left">C-], , h t</td>
+</tr>
+<tr>
+<td class="org-right">721</td>
+<td class="org-right">1.74%</td>
+<td class="org-left">back-to-previous-buffer</td>
+<td class="org-left">, b b</td>
+</tr>
+<tr>
+<td class="org-right">682</td>
+<td class="org-right">1.65%</td>
+<td class="org-left">split-window-vertically</td>
+<td class="org-left">, x 2</td>
+</tr>
+<tr>
+<td class="org-right">539</td>
+<td class="org-right">1.30%</td>
+<td class="org-left">find-function</td>
+<td class="org-left">, h f, C-h C-f</td>
+</tr>
+<tr>
+<td class="org-right">494</td>
+<td class="org-right">1.19%</td>
+<td class="org-left">counsel-recentf-goto</td>
+<td class="org-left">, r r</td>
+</tr>
+<tr>
+<td class="org-right">397</td>
+<td class="org-right">0.96%</td>
+<td class="org-left">counsel-git-grep</td>
+<td class="org-left">, g g</td>
+</tr>
+<tr>
+<td class="org-right">376</td>
+<td class="org-right">0.91%</td>
+<td class="org-left">delete-other-windows</td>
+<td class="org-left">, x 1, C-x 1</td>
+</tr>
+<tr>
+<td class="org-right">372</td>
+<td class="org-right">0.90%</td>
+<td class="org-left">evilnc-comment-or-uncomment-lines</td>
+<td class="org-left">, c i</td>
+</tr>
+<tr>
+<td class="org-right">351</td>
+<td class="org-right">0.85%</td>
+<td class="org-left">eval-expression</td>
+<td class="org-left">, e e, M-:</td>
+</tr>
+<tr>
+<td class="org-right">326</td>
+<td class="org-right">0.79%</td>
+<td class="org-left">evilmi-select-items</td>
+<td class="org-left">, s i</td>
+</tr>
+<tr>
+<td class="org-right">320</td>
+<td class="org-right">0.77%</td>
+<td class="org-left">paredit-doublequote</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">307</td>
+<td class="org-right">0.74%</td>
+<td class="org-left">evil-filepath-outer-text-object</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">300</td>
+<td class="org-right">0.72%</td>
+<td class="org-left">steve-ido-choose-from-recentf</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">295</td>
+<td class="org-right">0.71%</td>
+<td class="org-left">split-window-horizontally</td>
+<td class="org-left">, x 3</td>
+</tr>
+<tr>
+<td class="org-right">283</td>
+<td class="org-right">0.68%</td>
+<td class="org-left">git-add-current-file</td>
+<td class="org-left">, x v a</td>
+</tr>
+<tr>
+<td class="org-right">279</td>
+<td class="org-right">0.67%</td>
+<td class="org-left">winner-undo</td>
+<td class="org-left">, x u, , s u, C-x 4 u</td>
+</tr>
+<tr>
+<td class="org-right">278</td>
+<td class="org-right">0.67%</td>
+<td class="org-left">describe-function</td>
+<td class="org-left">, h d, C-h f</td>
+</tr>
+<tr>
+<td class="org-right">278</td>
+<td class="org-right">0.67%</td>
+<td class="org-left">evil-goto-mark-line</td>
+<td class="org-left">'</td>
+</tr>
+<tr>
+<td class="org-right">269</td>
+<td class="org-right">0.65%</td>
+<td class="org-left">ido-kill-buffer</td>
+<td class="org-left">, x k, C-x k</td>
+</tr>
+<tr>
+<td class="org-right">254</td>
+<td class="org-right">0.61%</td>
+<td class="org-left">evil-goto-definition</td>
+<td class="org-left">g d</td>
+</tr>
+<tr>
+<td class="org-right">253</td>
+<td class="org-right">0.61%</td>
+<td class="org-left">pop-tag-mark</td>
+<td class="org-left">M-*</td>
+</tr>
+<tr>
+<td class="org-right">251</td>
+<td class="org-right">0.61%</td>
+<td class="org-left">git-messenger:popup-message</td>
+<td class="org-left">, x v b, C-x v p</td>
+</tr>
+<tr>
+<td class="org-right">246</td>
+<td class="org-right">0.59%</td>
+<td class="org-left">my-goto-next-hunk</td>
+<td class="org-left">, n n</td>
+</tr>
+<tr>
+<td class="org-right">237</td>
+<td class="org-right">0.57%</td>
+<td class="org-left">evilnc-comment-operator</td>
+<td class="org-left">, ,</td>
+</tr>
+<tr>
+<td class="org-right">235</td>
+<td class="org-right">0.57%</td>
+<td class="org-left">flyspell-goto-next-error</td>
+<td class="org-left">, f e, C-,</td>
+</tr>
+<tr>
+<td class="org-right">214</td>
+<td class="org-right">0.52%</td>
+<td class="org-left">evil-exit-emacs-state</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">212</td>
+<td class="org-right">0.51%</td>
+<td class="org-left">browse-kill-ring-forward</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">210</td>
+<td class="org-right">0.51%</td>
+<td class="org-left">flyspell-buffer</td>
+<td class="org-left">, f b</td>
+</tr>
+<tr>
+<td class="org-right">203</td>
+<td class="org-right">0.49%</td>
+<td class="org-left">evil-ex-completion</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">195</td>
+<td class="org-right">0.47%</td>
+<td class="org-left">narrow-or-widen-dwim</td>
+<td class="org-left">, x n n</td>
+</tr>
+<tr>
+<td class="org-right">173</td>
+<td class="org-right">0.42%</td>
+<td class="org-left">comint-send-input</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">173</td>
+<td class="org-right">0.42%</td>
+<td class="org-left">beginning-of-defun</td>
+<td class="org-left">, b f</td>
+</tr>
+<tr>
+<td class="org-right">170</td>
+<td class="org-right">0.41%</td>
+<td class="org-left">evil-surround-region</td>
+<td class="org-left">&lt;visual-state&gt; S</td>
+</tr>
+<tr>
+<td class="org-right">161</td>
+<td class="org-right">0.39%</td>
+<td class="org-left">hippie-expand</td>
+<td class="org-left">M-/</td>
+</tr>
+<tr>
+<td class="org-right">151</td>
+<td class="org-right">0.36%</td>
+<td class="org-left">describe-key</td>
+<td class="org-left">, h k, C-h k</td>
+</tr>
+<tr>
+<td class="org-right">149</td>
+<td class="org-right">0.36%</td>
+<td class="org-left">evil-space–evil-next-visual-line</td>
+<td class="org-left">SPC</td>
+</tr>
+<tr>
+<td class="org-right">139</td>
+<td class="org-right">0.34%</td>
+<td class="org-left">gnus-topic-select-group</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">138</td>
+<td class="org-right">0.33%</td>
+<td class="org-left">js2-print-json-path</td>
+<td class="org-left">, j p p</td>
+</tr>
+<tr>
+<td class="org-right">132</td>
+<td class="org-right">0.32%</td>
+<td class="org-left">goto-line</td>
+<td class="org-left">M-g g, M-g M-g</td>
+</tr>
+<tr>
+<td class="org-right">132</td>
+<td class="org-right">0.32%</td>
+<td class="org-left">evil-avy-goto-subword-1</td>
+<td class="org-left">;</td>
+</tr>
+<tr>
+<td class="org-right">127</td>
+<td class="org-right">0.31%</td>
+<td class="org-left">ibuffer-mark-for-delete</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">127</td>
+<td class="org-right">0.31%</td>
+<td class="org-left">evil-inner-single-quote</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">126</td>
+<td class="org-right">0.30%</td>
+<td class="org-left">isearch-other-meta-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">124</td>
+<td class="org-right">0.30%</td>
+<td class="org-left">term-send-up</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">118</td>
+<td class="org-right">0.29%</td>
+<td class="org-left">isearch-other-control-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">116</td>
+<td class="org-right">0.28%</td>
+<td class="org-left">evil-set-marker</td>
+<td class="org-left">m</td>
+</tr>
+<tr>
+<td class="org-right">115</td>
+<td class="org-right">0.28%</td>
+<td class="org-left">browse-kill-ring</td>
+<td class="org-left">M-y, , y y</td>
+</tr>
+<tr>
+<td class="org-right">114</td>
+<td class="org-right">0.28%</td>
+<td class="org-left">counsel-git-grep-yank-line</td>
+<td class="org-left">, g l</td>
+</tr>
+<tr>
+<td class="org-right">114</td>
+<td class="org-right">0.28%</td>
+<td class="org-left">evil-window-down</td>
+<td class="org-left">C-w j</td>
+</tr>
+<tr>
+<td class="org-right">112</td>
+<td class="org-right">0.27%</td>
+<td class="org-left">evil-jump-backward</td>
+<td class="org-left">C-o</td>
+</tr>
+<tr>
+<td class="org-right">108</td>
+<td class="org-right">0.26%</td>
+<td class="org-left">evil-visual-block</td>
+<td class="org-left">C-v</td>
+</tr>
+<tr>
+<td class="org-right">108</td>
+<td class="org-right">0.26%</td>
+<td class="org-left">evil-space–evil-previous-visual-line</td>
+<td class="org-left">S-SPC</td>
+</tr>
+<tr>
+<td class="org-right">107</td>
+<td class="org-right">0.26%</td>
+<td class="org-left">comint-previous-input</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">98</td>
+<td class="org-right">0.24%</td>
+<td class="org-left">gnus-summary-exit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">98</td>
+<td class="org-right">0.24%</td>
+<td class="org-left">evil-search-word-backward</td>
+<td class="org-left">#</td>
+</tr>
+<tr>
+<td class="org-right">98</td>
+<td class="org-right">0.24%</td>
+<td class="org-left">forward-button</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">96</td>
+<td class="org-right">0.23%</td>
+<td class="org-left">evil-paste-pop-next</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">95</td>
+<td class="org-right">0.23%</td>
+<td class="org-left">ediff-next-difference</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">95</td>
+<td class="org-right">0.23%</td>
+<td class="org-left">ido-imenu</td>
+<td class="org-left">, i i</td>
+</tr>
+<tr>
+<td class="org-right">92</td>
+<td class="org-right">0.22%</td>
+<td class="org-left">my-wg-switch-workgroup</td>
+<td class="org-left">, w g g</td>
+</tr>
+<tr>
+<td class="org-right">90</td>
+<td class="org-right">0.22%</td>
+<td class="org-left">counsel-git-find-file</td>
+<td class="org-left">, g f</td>
+</tr>
+<tr>
+<td class="org-right">90</td>
+<td class="org-right">0.22%</td>
+<td class="org-left">evilmi-delete-items</td>
+<td class="org-left">, d i</td>
+</tr>
+<tr>
+<td class="org-right">87</td>
+<td class="org-right">0.21%</td>
+<td class="org-left">gnus-summary-extract-mail-address</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">87</td>
+<td class="org-right">0.21%</td>
+<td class="org-left">cliphist-paste-item</td>
+<td class="org-left">, h h</td>
+</tr>
+<tr>
+<td class="org-right">84</td>
+<td class="org-right">0.20%</td>
+<td class="org-left">subword-backward-kill</td>
+<td class="org-left">&lt;C-backspace&gt;</td>
+</tr>
+<tr>
+<td class="org-right">84</td>
+<td class="org-right">0.20%</td>
+<td class="org-left">paredit-backslash</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">83</td>
+<td class="org-right">0.20%</td>
+<td class="org-left">my-yas-reload-all</td>
+<td class="org-left">, y c r</td>
+</tr>
+<tr>
+<td class="org-right">81</td>
+<td class="org-right">0.20%</td>
+<td class="org-left">pwd</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">80</td>
+<td class="org-right">0.19%</td>
+<td class="org-left">previous-complete-history-element</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">80</td>
+<td class="org-right">0.19%</td>
+<td class="org-left">wg-create-workgroup</td>
+<td class="org-left">, w g t</td>
+</tr>
+<tr>
+<td class="org-right">78</td>
+<td class="org-right">0.19%</td>
+<td class="org-left">evil-forward-WORD-end</td>
+<td class="org-left">E</td>
+</tr>
+<tr>
+<td class="org-right">77</td>
+<td class="org-right">0.19%</td>
+<td class="org-left">gnus-summary-scroll-up</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">76</td>
+<td class="org-right">0.18%</td>
+<td class="org-left">gnus-summary-extract-cc-and-to</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">75</td>
+<td class="org-right">0.18%</td>
+<td class="org-left">compile-goto-error</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">73</td>
+<td class="org-right">0.18%</td>
+<td class="org-left">evil-find-char-to</td>
+<td class="org-left">t</td>
+</tr>
+<tr>
+<td class="org-right">72</td>
+<td class="org-right">0.17%</td>
+<td class="org-left">evil-repeat-find-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">69</td>
+<td class="org-right">0.17%</td>
+<td class="org-left">evil-window-up</td>
+<td class="org-left">C-w k</td>
+</tr>
+<tr>
+<td class="org-right">67</td>
+<td class="org-right">0.16%</td>
+<td class="org-left">eval-last-sexp</td>
+<td class="org-left">, x e, C-x C-e</td>
+</tr>
+<tr>
+<td class="org-right">66</td>
+<td class="org-right">0.16%</td>
+<td class="org-left">evil-complete-next-line</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">66</td>
+<td class="org-right">0.16%</td>
+<td class="org-left">exchange-point-and-mark</td>
+<td class="org-left">C-x C-x</td>
+</tr>
+<tr>
+<td class="org-right">63</td>
+<td class="org-right">0.15%</td>
+<td class="org-left">direx:previous-item</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">61</td>
+<td class="org-right">0.15%</td>
+<td class="org-left">ediff-jump-to-difference</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">60</td>
+<td class="org-right">0.14%</td>
+<td class="org-left">diredp-next-line</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">58</td>
+<td class="org-right">0.14%</td>
+<td class="org-left">evilmr-replace-in-buffer</td>
+<td class="org-left">, r b</td>
+</tr>
+<tr>
+<td class="org-right">58</td>
+<td class="org-right">0.14%</td>
+<td class="org-left">counsel-imenu-goto</td>
+<td class="org-left">, i m</td>
+</tr>
+<tr>
+<td class="org-right">56</td>
+<td class="org-right">0.14%</td>
+<td class="org-left">evil-goto-mark</td>
+<td class="org-left">`</td>
+</tr>
+<tr>
+<td class="org-right">55</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">gnus-group-unsubscribe-current-group</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">55</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">ivy-bookmark-goto</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">55</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">evil-filepath-inner-text-object</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">54</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">describe-mode</td>
+<td class="org-left">C-h m</td>
+</tr>
+<tr>
+<td class="org-right">54</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">recenter-top-bottom</td>
+<td class="org-left">C-l</td>
+</tr>
+<tr>
+<td class="org-right">54</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">list-packages</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">52</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">gnus-topic-mark-topic</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">52</td>
+<td class="org-right">0.13%</td>
+<td class="org-left">kill-line</td>
+<td class="org-left">C-k, &lt;deleteline&gt;</td>
+</tr>
+<tr>
+<td class="org-right">51</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">find-and-ctags-update-all-tags-force</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">50</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">evil-paste-before</td>
+<td class="org-left">P</td>
+</tr>
+<tr>
+<td class="org-right">49</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">execute-extended-command</td>
+<td class="org-left">&lt;execute&gt;, C-x RET</td>
+</tr>
+<tr>
+<td class="org-right">49</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">etags-select-quit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">49</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">evil-inner-WORD</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">48</td>
+<td class="org-right">0.12%</td>
+<td class="org-left">find-tag</td>
+<td class="org-left">g C-]</td>
+</tr>
+<tr>
+<td class="org-right">47</td>
+<td class="org-right">0.11%</td>
+<td class="org-left">diredp-previous-line</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">46</td>
+<td class="org-right">0.11%</td>
+<td class="org-left">paredit-close-square</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">44</td>
+<td class="org-right">0.11%</td>
+<td class="org-left">paredit-open-square</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">44</td>
+<td class="org-right">0.11%</td>
+<td class="org-left">evil-paste-last-insertion</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">42</td>
+<td class="org-right">0.10%</td>
+<td class="org-left">evil-inner-double-quote</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">42</td>
+<td class="org-right">0.10%</td>
+<td class="org-left">ivy-imenu-goto</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">40</td>
+<td class="org-right">0.10%</td>
+<td class="org-left">counsel-git-find-my-file</td>
+<td class="org-left">, g m</td>
+</tr>
+<tr>
+<td class="org-right">39</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">cp-filename-of-current-buffer</td>
+<td class="org-left">, f n</td>
+</tr>
+<tr>
+<td class="org-right">39</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">gnus-article-read-summary-keys</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">39</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">isearch-nonincremental-exit-minibuffer</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">38</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">sh-assignment</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">38</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">mark-whole-buffer</td>
+<td class="org-left">, x h, C-x h</td>
+</tr>
+<tr>
+<td class="org-right">38</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">evilmi-inner-text-object</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">36</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">evilnc-comment-or-uncomment-paragraphs</td>
+<td class="org-left">, c p, C-c p</td>
+</tr>
+<tr>
+<td class="org-right">36</td>
+<td class="org-right">0.09%</td>
+<td class="org-left">evil-toggle-input-method</td>
+<td class="org-left">C-\</td>
+</tr>
+<tr>
+<td class="org-right">35</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">org2nikola-export-subtree</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">35</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">subword-forward</td>
+<td class="org-left">M-f, ESC &lt;right&gt;</td>
+</tr>
+<tr>
+<td class="org-right">34</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">evil-open-above</td>
+<td class="org-left">O</td>
+</tr>
+<tr>
+<td class="org-right">34</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">compose-mail</td>
+<td class="org-left">C-x m</td>
+</tr>
+<tr>
+<td class="org-right">33</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">evil-inner-paren</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">33</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">term-send-raw-meta</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">33</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">evil-invert-char</td>
+<td class="org-left">~</td>
+</tr>
+<tr>
+<td class="org-right">32</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">evil-space–evil-repeat-find-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">32</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">httpd-restart-at-default-directory</td>
+<td class="org-left">, w r d</td>
+</tr>
+<tr>
+<td class="org-right">32</td>
+<td class="org-right">0.08%</td>
+<td class="org-left">cp-fullpath-of-current-buffer</td>
+<td class="org-left">, f p</td>
+</tr>
+<tr>
+<td class="org-right">31</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">evil-forward-WORD-begin</td>
+<td class="org-left">W</td>
+</tr>
+<tr>
+<td class="org-right">30</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">sort-lines</td>
+<td class="org-left">, s l</td>
+</tr>
+<tr>
+<td class="org-right">30</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">bmkp-w3m-jump</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">30</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">evilnc-copy-and-comment-lines</td>
+<td class="org-left">, c c, C-c c</td>
+</tr>
+<tr>
+<td class="org-right">29</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">toggle-company-ispell</td>
+<td class="org-left">, t c i</td>
+</tr>
+<tr>
+<td class="org-right">29</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">top-level</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">28</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">package-menu-mark-upgrades</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">27</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">evil-numbers/dec-at-pt</td>
+<td class="org-left">-</td>
+</tr>
+<tr>
+<td class="org-right">27</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">end-of-defun</td>
+<td class="org-left">, e f, C-M-e</td>
+</tr>
+<tr>
+<td class="org-right">27</td>
+<td class="org-right">0.07%</td>
+<td class="org-left">my-setup-develop-environment</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">26</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">evil-paste-pop</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">ediff-previous-difference</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">evil-backward-WORD-begin</td>
+<td class="org-left">B</td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">goto-char</td>
+<td class="org-left">g o, M-g c</td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">w3m-close-window</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">org-mime-htmlize</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">25</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">gnus-group-exit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">24</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">git-gutter:toggle</td>
+<td class="org-left">C-x C-g</td>
+</tr>
+<tr>
+<td class="org-right">23</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">my-gnus-group-list-subscribed-groups</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">23</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">find-directory-in-project-by-selected</td>
+<td class="org-left">, f d</td>
+</tr>
+<tr>
+<td class="org-right">23</td>
+<td class="org-right">0.06%</td>
+<td class="org-left">evil-inner-curly</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">org-edit-src-exit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">string-edit-at-point</td>
+<td class="org-left">, s e</td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">package-menu-mark-delete</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">ido-magic-forward-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">run-js</td>
+<td class="org-left">, r j s</td>
+</tr>
+<tr>
+<td class="org-right">22</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">git-gutter-reset-to-head-parent</td>
+<td class="org-left">, g s h</td>
+</tr>
+<tr>
+<td class="org-right">21</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">counsel-read-history</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">21</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">rcirc-send-input</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">21</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">gnus-undo</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">21</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">subword-backward</td>
+<td class="org-left">M-b</td>
+</tr>
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">company-select-next</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">what-cursor-position</td>
+<td class="org-left">g a, g 8, C-x =</td>
+</tr>
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">my-grep</td>
+<td class="org-left">, q q</td>
+</tr>
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">hydra-gnus-summary/body</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">ansi-term</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">evil-window-right</td>
+<td class="org-left">C-w l</td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">debugger-jump</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">wg-switch-to-workgroup</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">yas-abort-snippet</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">tags-loop-continue</td>
+<td class="org-left">M-,</td>
+</tr>
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">0.05%</td>
+<td class="org-left">swiper-the-thing</td>
+<td class="org-left">, s s</td>
+</tr>
+<tr>
+<td class="org-right">18</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">my-wg-swich-to-workgroup</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">18</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">org-edit-special</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">lisp-complete-symbol</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">my-wg-switch-to-workgroup-at-index</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">test</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">ediff-scroll-vertically</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">w3m-view-previous-page</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">evil-window-left</td>
+<td class="org-left">C-w h</td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">isearch-yank-kill</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">my-goto-previous-hunk</td>
+<td class="org-left">, p p</td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">js-beautify</td>
+<td class="org-left">, j b</td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">hydra-launcher/body</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">read-only-mode</td>
+<td class="org-left">C-x C-q</td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">message-send-and-exit</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">etags-select-goto-tag</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">evil-next-match</td>
+<td class="org-left">g n</td>
+</tr>
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">js2r-kill</td>
+<td class="org-left">, j j k</td>
+</tr>
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">string-edit-conclude</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">0.04%</td>
+<td class="org-left">delete-char</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">14</td>
+<td class="org-right">0.03%</td>
+<td class="org-left">gnus-summary-limit-to-author</td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-right">14</td>
+<td class="org-right">0.03%</td>
+<td class="org-left">ediff-swap-buffers</td>
+<td class="org-left"> </td>
+</tr>
+</tbody>
+</table>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/diff-regions-in-emacs/">Diff regions in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-01-27T13:44:22+00:00">2016-01-27 13:44</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/diff-regions-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/diff-regions-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/diff/" rel="tag">diff</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
         </ul>
 </div>
 
@@ -173,7 +1874,7 @@ So here is my code,
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/use-ivy-mode-to-search-bash-history.html">Use ivy-mode to search bash history</a></h1>
+            <h1 class="title"><a href="posts/use-ivy-mode-to-search-bash-history/">Use ivy-mode to search bash history</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2016-01-25T05:40:41+00:00">2016-01-25 05:40</time>
@@ -181,7 +1882,7 @@ So here is my code,
                 <div class="stats">
                     
         
-    <a href="posts/use-ivy-mode-to-search-bash-history.html#disqus_thread" data-disqus-identifier="cache/posts/use-ivy-mode-to-search-bash-history.html">Comments</a>
+    <a href="posts/use-ivy-mode-to-search-bash-history/#disqus_thread" data-disqus-identifier="cache/posts/use-ivy-mode-to-search-bash-history.html">Comments</a>
 
 
                 </div>
@@ -189,10 +1890,10 @@ So here is my code,
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/bash.html" rel="tag">bash</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/ivy.html" rel="tag">ivy</a></li>
+           <li><a class="tag p-category" href="categories/bash/" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/ivy/" rel="tag">ivy</a></li>
         </ul>
 </div>
 
@@ -222,7 +1923,7 @@ So here is my code,
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-use-gnus-group-topics-efficiently.html">How to use Gnus Group Topics efficiently</a></h1>
+            <h1 class="title"><a href="posts/how-to-use-gnus-group-topics-efficiently/">How to use Gnus Group Topics efficiently</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2016-01-10T05:36:49+00:00">2016-01-10 05:36</time>
@@ -230,7 +1931,7 @@ So here is my code,
                 <div class="stats">
                     
         
-    <a href="posts/how-to-use-gnus-group-topics-efficiently.html#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-gnus-group-topics-efficiently.html">Comments</a>
+    <a href="posts/how-to-use-gnus-group-topics-efficiently/#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-gnus-group-topics-efficiently.html">Comments</a>
 
 
                 </div>
@@ -238,11 +1939,11 @@ So here is my code,
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/email.html" rel="tag">email</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/gmail.html" rel="tag">gmail</a></li>
-           <li><a class="tag p-category" href="categories/gnus.html" rel="tag">gnus</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/email/" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/gmail/" rel="tag">gmail</a></li>
+           <li><a class="tag p-category" href="categories/gnus/" rel="tag">gnus</a></li>
         </ul>
 </div>
 
@@ -335,866 +2036,6 @@ BTW, "hotmail" and "gmail" are the keys you used when configuring IMAP accounts,
 </code></pre>
 
 </div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/git-gutter-tip.html">Git gutter tip</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2016-01-08T12:41:59+00:00">2016-01-08 12:41</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/git-gutter-tip.html#disqus_thread" data-disqus-identifier="cache/posts/git-gutter-tip.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/git.html" rel="tag">git</a></li>
-           <li><a class="tag p-category" href="categories/gutter.html" rel="tag">gutter</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-I use <a href="https://github.com/syohex/emacs-git-gutter">git-gutter.el</a> everyday. It indicats "whether a line has been inserted, modified or deleted". You can jump to the inser/modified/deleted line easily.
-</p>
-
-<p>
-But I usually need to know what line changed in <b>latest commit</b>.
-</p>
-
-<p>
-So I designed `M-x git-gutter-reset-to-head-parent`,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun git-gutter-reset-to-head-parent()
-  (interactive)
-  (let (parent (filename (buffer-file-name)))
-    (if (eq git-gutter:vcs-type 'svn)
-        (setq parent "PREV")
-      (setq parent (if filename (concat (shell-command-to-string (concat "git --no-pager log --oneline -n1 --pretty='format:%H' " filename)) "^") "HEAD^")))
-    (git-gutter:set-start-revision parent)
-    (message "git-gutter:set-start-revision HEAD^")))
-
-(defun git-gutter-reset-to-default ()
-  (interactive)
-  (git-gutter:set-start-revision nil)
-  (message "git-gutter reset"))
-</code></pre>
-
-</div>
-
-<p>
-`M-x git-gutter-reset-to-default` compare you file under working directory with the latet version under VCS.
-</p>
-
-<p>
-`M-x git-gutter:next-hunk` and `M-x git-gutter:previous-hunk` will jump to the deleted/modified/added line.
-</p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-gcalcli-for-google-calendar.html">Use gcalcli for google calendar</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2016-01-05T02:37:20+00:00">2016-01-05 02:37</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/use-gcalcli-for-google-calendar.html#disqus_thread" data-disqus-identifier="cache/posts/use-gcalcli-for-google-calendar.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/calendar.html" rel="tag">calendar</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/google.html" rel="tag">google</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-I use cli `pip install –user gcalcli parsedatetime` to install <a href="https://github.com/insanum/gcalcli">gcalcli</a> into HOME folder.
-</p>
-
-<p>
-Usage is simple. `gcalcli calw` is enough.
-</p>
-
-<p>
-For <a href="https://github.com/insanum/gcalcli/issues/167">multiple accounts</a>, `mkdir -p ~/.config/gcacli-work; gcalcli –configFolder ~/.config/gcacli-work calw`.
-</p>
-
-<p>
-Use <a href="https://en.wikipedia.org/wiki/Paste_(Unix)">paste (Unix)</a> to join two calendars in bash,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-sh">paste &lt;(gcalcli --configFolder ~/.config/gcacli-work calw) &lt;(gcalcli calw)
-</code></pre>
-
-</div>
-
-<p>
-Edit crontab to remind me about the calendar events,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-crontab">*/10 * * * * $HOME/.local/bin/gcalcli remind
-*/10 * * * * $HOME/.local/bin/gcalcli --configFolder $HOME/.config/gcacli-work remind
-</code></pre>
-
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-ivy-mode-to-tweak-workgroups2.html">Use Ivy-mode to tweak workgroups2</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-12-22T04:42:03+00:00">2015-12-22 04:42</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/use-ivy-mode-to-tweak-workgroups2.html#disqus_thread" data-disqus-identifier="cache/posts/use-ivy-mode-to-tweak-workgroups2.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/ivy.html" rel="tag">ivy</a></li>
-           <li><a class="tag p-category" href="categories/workgroups.html" rel="tag">workgroups</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-12-22 Tue&gt;</span></span>
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-04-21 Thu&gt;</span></span>
-</p>
-
-<p>
-<a href="https://github.com/pashinin/workgroups2">Workgroups2</a> will load previous windows layout by default. That's handy for most developers.
-</p>
-
-<p>
-But as a freelancer I am assigned a low spec computer. It takes too long to load the old windows layout.
-</p>
-
-<p>
-So I use <a href="https://github.com/abo-abo/swiper">Ivy-mode</a> to create a light weight command `my-wg-switch-workgroup`. 
-</p>
-
-<p>
-Here is code:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(setq wg-use-default-session-file nil)
-;; don't open last workgroup automatically in `wg-open-session',
-;; I only want to check available workgroups! Nothing more.
-(setq wg-load-last-workgroup nil)
-(setq wg-open-this-wg nil)
-
-;(workgroups-mode 1) ; put this one at the bottom of .emacs
-;; by default, the sessions are saved in "~/.emacs_workgroups"
-(autoload 'wg-create-workgroup "workgroups2" nil t)
-
-(defun my-wg-switch-workgroup ()
-  (interactive)
-  (let (group-names selected-group)
-    (unless (featurep 'workgroups2)
-      (require 'workgroups2))
-    (setq group-names
-          (mapcar (lambda (group)
-                    ;; re-shape list for the ivy-read
-                    (cons (wg-workgroup-name group) group))
-                  (wg-session-workgroup-list (read (f-read-text (file-truename wg-session-file))))))
-    (ivy-read "work groups" group-names
-              :action (lambda (group)
-                        (wg-find-session-file wg-default-session-file)
-                        (wg-switch-to-workgroup group)))))
-
-(with-eval-after-load 'workgroups2
-  ;; make sure wg-create-workgroup always success
-  (defadvice wg-create-workgroup (around wg-create-workgroup-hack activate)
-    (unless (file-exists-p (wg-get-session-file))
-      (wg-reset t)
-      (wg-save-session t))
-
-    (unless wg-current-session
-      ;; code extracted from `wg-open-session'.
-      ;; open session but do NOT load any workgroup.
-      (let ((session (read (f-read-text (file-truename wg-session-file)))))
-        (setf (wg-session-file-name session) wg-session-file)
-        (wg-reset-internal (wg-unpickel-session-parameters session))))
-    ad-do-it
-    ;; save the session file in real time
-    (wg-save-session t))
-
-  (defadvice wg-reset (after wg-reset-hack activate)
-    (wg-save-session t))
-
-  ;; I'm fine to to override the original workgroup
-  (defadvice wg-unique-workgroup-name-p (around wg-unique-workgroup-name-p-hack activate)
-    (setq ad-return-value t)))
-</code></pre>
-
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/hello-ivy-mode-bye-helm.html">Hello Ivy-mode, bye Helm</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-12-18T02:41:04+00:00">2015-12-18 02:41</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/hello-ivy-mode-bye-helm.html#disqus_thread" data-disqus-identifier="cache/posts/hello-ivy-mode-bye-helm.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/helm.html" rel="tag">helm</a></li>
-           <li><a class="tag p-category" href="categories/ivy.html" rel="tag">ivy</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-I love <a href="https://github.com/abo-abo/swiper">Ivy-mode/Swiper</a> because it's fast and easy to extend. So my <a href="https://github.com/emacs-helm/helm">Helm</a> setup is replaced by ivy-mode.
-</p>
-
-<p>
-I will show you how I use ivy-mode.
-</p>
-
-<p>
-<b>Only one API</b> `ivy-read` from ivy-mode is used.
-</p>
-
-<div id="outline-container-orgf1b7c30" class="outline-2">
-<h3 id="orgf1b7c30">Demo</h3>
-<div class="outline-text-2" id="text-orgf1b7c30">
-</div>
-<div id="outline-container-org1737dc2" class="outline-3">
-<h4 id="org1737dc2">M-x counsel-git-grep-yank-line</h4>
-<div class="outline-text-3" id="text-org1737dc2">
-<p>
-Use <a href="https://git-scm.com/docs/git-grep">git-grep</a> to grep lines. Then copy the selected line into kill ring.
-</p>
-
-<div class="figure">
-<p><img src="wp-content/ivy-git-grep-yank-line-nq8.png" alt="ivy-git-grep-yank-line-nq8.png"></p>
-</div>
-</div>
-</div>
-<div id="outline-container-org1b5e818" class="outline-3">
-<h4 id="org1b5e818">M-x counsel-git-find-my-file</h4>
-<div class="outline-text-3" id="text-org1b5e818">
-<p>
-Find my file under git version control in recent N weeks.
-</p>
-
-
-<div class="figure">
-<p><img src="wp-content/ivy-git-find-my-file-nq8.png" alt="ivy-git-find-my-file-nq8.png"></p>
-</div>
-</div>
-</div>
-<div id="outline-container-org5dde303" class="outline-3">
-<h4 id="org5dde303">M-x ivy-imenu-goto</h4>
-<div class="outline-text-3" id="text-org5dde303">
-<p>
-Imenu. It's quick.
-</p>
-
-
-<div class="figure">
-<p><img src="wp-content/ivy-imenu-goto-nq8.png" alt="ivy-imenu-goto-nq8.png"></p>
-</div>
-</div>
-</div>
-<div id="outline-container-orga1263b4" class="outline-3">
-<h4 id="orga1263b4">M-x ivy-bookmark-goto</h4>
-<div class="outline-text-3" id="text-orga1263b4">
-<p>
-Quick and customizable.
-</p>
-
-
-<div class="figure">
-<p><img src="wp-content/ivy-bookmarks-goto-nq8.png" alt="ivy-bookmarks-goto-nq8.png"></p>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org9f68ec1" class="outline-2">
-<h3 id="org9f68ec1">Code</h3>
-<div class="outline-text-2" id="text-org9f68ec1">
-<p>
-Swiper 7.0+ required.
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">;; {{ @see http://oremacs.com/2015/04/19/git-grep-ivy/
-(defun counsel-git-grep-or-find-api (fn git-cmd hint open-another-window)
-  "Apply FN on the output lines of GIT-CMD.  HINT is hint when user input.
-IF OPEN-ANOTHER-WINDOW is true, open the file in another window."
-  (let ((default-directory (locate-dominating-file
-                            default-directory ".git"))
-        (keyword (if (region-active-p)
-                     (buffer-substring-no-properties (region-beginning) (region-end))
-                   (read-string (concat "Enter " hint " pattern:" ))))
-        collection val lst)
-
-    (setq collection (split-string (shell-command-to-string (format git-cmd keyword))
-                                   "\n"
-                                   t))
-
-    (when (and collection (&gt; (length collection) 0))
-      (setq val (if (= 1 (length collection)) (car collection)
-                    (ivy-read (format " matching \"%s\":" keyword) collection)))
-      (funcall fn open-another-window val))))
-
-(defun counsel-git-grep (&amp;optional open-another-window)
-  "Grep in the current git repository.
-If OPEN-ANOTHER-WINDOW is not nil, results are displayed in new window."
-  (interactive "P")
-  (let (fn)
-    (setq fn (lambda (open-another-window val)
-               (let ((lst (split-string val ":")))
-                 (funcall (if open-another-window 'find-file-other-window 'find-file)
-                          (car lst))
-                 (let ((linenum (string-to-number (cadr lst))))
-                   (when (and linenum (&gt; linenum 0))
-                     (goto-char (point-min))
-                     (forward-line (1- linenum)))))))
-
-    (counsel-git-grep-or-find-api fn
-                                  "git --no-pager grep --full-name -n --no-color -i -e \"%s\""
-                                  "grep"
-                                  open-another-window)))
-
-(defun counsel-git-find-file (&amp;optional open-another-window)
-  "Find file in the current git repository.
-If OPEN-ANOTHER-WINDOW is not nil, results are displayed in new window."
-  (interactive "P")
-  (let (fn)
-    (setq fn (lambda (open-another-window val)
-               (funcall (if open-another-window 'find-file-other-window 'find-file) val)))
-    (counsel-git-grep-or-find-api fn
-                                  "git ls-tree -r HEAD --name-status | grep \"%s\""
-                                  "file"
-                                  open-another-window)))
-
-(defun counsel-git-grep-yank-line (&amp;optional insert-line)
-  "Grep in the current git repository and yank the line.
-If INSERT-LINE is not nil, insert the line grepped"
-  (interactive "P")
-  (let (fn)
-    (setq fn (lambda (unused-param val)
-               (let ((lst (split-string val ":")) text-line)
-                 ;; the actual text line could contain ":"
-                 (setq text-line (replace-regexp-in-string (format "^%s:%s:" (car lst) (nth 1 lst)) "" val))
-                 ;; trim the text line
-                 (setq text-line (replace-regexp-in-string (rx (* (any " \t\n")) eos) "" text-line))
-                 (kill-new text-line)
-                 (if insert-line (insert text-line))
-                 (message "line from %s:%s =&gt; kill-ring" (car lst) (nth 1 lst)))))
-
-    (counsel-git-grep-or-find-api fn
-                                  "git --no-pager grep --full-name -n --no-color -i -e \"%s\""
-                                  "grep"
-                                  nil)))
-
-(defvar counsel-my-name-regex ""
-  "My name used by `counsel-git-find-my-file', support regex like '[Tt]om [Cc]hen'.")
-
-(defun counsel-git-find-my-file (&amp;optional num)
-  "Find my files in the current git repository.
-If NUM is not nil, find files since NUM weeks ago.
-Or else, find files since 24 weeks (6 months) ago."
-  (interactive "P")
-  (let (fn cmd)
-    (setq fn (lambda (open-another-window val)
-               (find-file val)))
-    (unless (and num (&gt; num 0))
-      (setq num 24))
-    (setq cmd (concat "git log --pretty=format: --name-only --since=\""
-                                          (number-to-string num)
-                                          " weeks ago\" --author=\""
-                                          counsel-my-name-regex
-                                          "\" | grep \"%s\" | sort | uniq"))
-    ;; (message "cmd=%s" cmd)
-    (counsel-git-grep-or-find-api fn cmd "file" nil)))
-;; }}
-
-(defun ivy-imenu-get-candidates-from (alist  &amp;optional prefix)
-  (cl-loop for elm in alist
-           nconc (if (imenu--subalist-p elm)
-                       (ivy-imenu-get-candidates-from
-                        (cl-loop for (e . v) in (cdr elm) collect
-                                 (cons e (if (integerp v) (copy-marker v) v)))
-                        (concat prefix (if prefix ".") (car elm)))
-                   (and (cdr elm) ; bug in imenu, should not be needed.
-                        (setcdr elm (copy-marker (cdr elm))) ; Same as [1].
-                        (list (cons (concat prefix (if prefix ".") (car elm))
-                                    (copy-marker (cdr elm))))))))
-
-(defun ivy-imenu-goto ()
-  "Go to buffer position"
-  (interactive)
-  (let ((imenu-auto-rescan t) items)
-    (unless (featurep 'imenu)
-      (require 'imenu nil t))
-    (setq items (imenu--make-index-alist t))
-    (ivy-read "imenu items:"
-              (ivy-imenu-get-candidates-from (delete (assoc "*Rescan*" items) items))
-              :action (lambda (k) (goto-char k)))))
-
-(defun ivy-bookmark-goto ()
-  "Open ANY bookmark"
-  (interactive)
-  (let (bookmarks filename)
-    ;; load bookmarks
-    (unless (featurep 'bookmark)
-      (require 'bookmark))
-    (bookmark-maybe-load-default-file)
-    (setq bookmarks (and (boundp 'bookmark-alist) bookmark-alist))
-
-    ;; do the real thing
-    (ivy-read "bookmarks:"
-              (delq nil (mapcar (lambda (bookmark)
-                                  (let (key)
-                                    ;; build key which will be displayed
-                                    (cond
-                                     ((and (assoc 'filename bookmark) (cdr (assoc 'filename bookmark)))
-                                      (setq key (format "%s (%s)" (car bookmark) (cdr (assoc 'filename bookmark)))))
-                                     ((and (assoc 'location bookmark) (cdr (assoc 'location bookmark)))
-                                      ;; bmkp-jump-w3m is from bookmark+
-                                      (unless (featurep 'bookmark+)
-                                        (require 'bookmark+))
-                                      (setq key (format "%s (%s)" (car bookmark) (cdr (assoc 'location bookmark)))))
-                                     (t
-                                      (setq key (car bookmark))))
-                                    ;; re-shape the data so full bookmark be passed to ivy-read:action
-                                    (cons key bookmark)))
-                                bookmarks))
-              :action (lambda (bookmark)
-                        (bookmark-jump bookmark)))
-    ))
-</code></pre>
-
-</div>
-</div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/emacs-auto-completion-for-non-programmers.html">Emacs auto-completion for non-programmers</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-12-01T11:41:34+00:00">2015-12-01 11:41</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/emacs-auto-completion-for-non-programmers.html#disqus_thread" data-disqus-identifier="cache/posts/emacs-auto-completion-for-non-programmers.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/completion.html" rel="tag">completion</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/word.html" rel="tag">word</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-12-01 Tue&gt;</span></span>
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-12-03 Thu&gt;</span></span>
-</p>
-
-<p>
-That's easy if you use <a href="https://github.com/company-mode/company-mode">company-mode</a>.
-</p>
-
-<p>
-Say if you want to complete words ONLY in org-mode,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(require 'company)
-
-(add-hook 'after-init-hook 'global-company-mode)
-
-;; Don't enable company-mode in below major modes, OPTIONAL
-(setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
-
-;; "text-mode" is a major mode for editing files of text in a human language"
-;; most major modes for non-programmers inherit from text-mode
-(defun text-mode-hook-setup ()
-  ;; make `company-backends' local is critcal
-  ;; or else, you will have completion in every major mode, that's very annoying!
-  (make-local-variable 'company-backends)
-
-  ;; company-ispell is the plugin to complete words
-  (add-to-list 'company-backends 'company-ispell)
-
-  ;; OPTIONAL, if `company-ispell-dictionary' is nil, `ispell-complete-word-dict' is used
-  ;;  but I prefer hard code the dictionary path. That's more portable.
-  (setq company-ispell-dictionary (file-truename "~/.emacs.d/misc/english-words.txt")))
-
-(add-hook 'text-mode-hook 'text-mode-hook-setup)
-
-(defun toggle-company-ispell ()
-  (interactive)
-  (cond
-   ((memq 'company-ispell company-backends)
-    (setq company-backends (delete 'company-ispell company-backends))
-    (message "company-ispell disabled"))
-   (t
-    (add-to-list 'company-backends 'company-ispell)
-    (message "company-ispell enabled!"))))
-</code></pre>
-
-</div>
-
-<p>
-`M-x toggle-company-ispell` to toggle company-ispell in <b>any major mode</b>.
-</p>
-
-<p>
-"english-words.txt" is just a plain text file where lines sorted alphabetically. Every line is a word.
-</p>
-
-<p>
-You can download my <a href="https://github.com/redguardtoo/emacs.d/raw/master/misc/english-words.txt">english-words.txt</a>.
-</p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/code-completion-for-htmljscss-in-emacs.html">Code completion for HTML/JS/CSS in Emacs</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-11-27T11:43:59+00:00">2015-11-27 11:43</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/code-completion-for-htmljscss-in-emacs.html#disqus_thread" data-disqus-identifier="cache/posts/code-completion-for-htmljscss-in-emacs.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/css.html" rel="tag">css</a></li>
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/html.html" rel="tag">html</a></li>
-           <li><a class="tag p-category" href="categories/javascript.html" rel="tag">javascript</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-27 Fri&gt;</span></span>
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 Fri&gt;</span></span>
-</p>
-
-<p>
-You need install <a href="https://en.wikipedia.org/wiki/Ctags">Ctags</a> or <a href="https://github.com/universal-ctags/ctags">universal-ctags</a> at first.
-</p>
-
-<p>
-People using macOS will find there already exists a built in program named "ctags". <b>This program should be deleted!</b>
-</p>
-
-<p>
-If you want a <b>quick start</b>, jump to the end of this article.
-</p>
-
-<p>
-You can use <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> plus <a href="https://github.com/company-mode/company-mode">company-mode</a> to complete HTML/JS/CSS code.
-</p>
-
-<p>
-Setup is easy.
-</p>
-
-<p>
-Step 1, create TAGS:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-sh">cd ~/myproj/ &amp;&amp; ctags -e -R .
-</code></pre>
-
-</div>
-
-<p>
-Step 2, done.
-</p>
-
-<p>
-That's OK for most programming languages.
-</p>
-
-<p>
-But <b>not enough</b> for web developers who use <a href="https://github.com/fxbois/web-mode">web-mode</a>.
-</p>
-
-<p>
-You need upgrade web-mode to <a href="https://github.com/fxbois/web-mode/pull/640">latest version</a> so that when inputting "btn-" or "data-" code completion still works.
-</p>
-
-<p>
-One issue is <code>company-mode</code> disables code completion in string and comment by default. We need <b>disable this feature in web-mode temporarily</b>,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(with-eval-after-load 'company
-  ;; @see https://github.com/redguardtoo/emacs.d/commit/2ff305c1ddd7faff6dc9fa0869e39f1e9ed1182d
-  (defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
-    (if (memq major-mode '(php-mode html-mode web-mode nxml-mode))
-        (setq ad-return-value nil)
-      ad-do-it)))
-</code></pre>
-
-</div>
-
-<p>
-Tested on Emacs24, 25, 26.
-</p>
-
-<p>
-Screenshot:
-</p>
-
-<div class="figure">
-<p><img src="wp-content/company-etags-code-completion-nq8.png" alt="company-etags-code-completion-nq8.png"></p>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-js2-mode-to-print-json-path.html">Use js2-mode to print json path</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-10-29T14:18:10+00:00">2015-10-29 14:18</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/use-js2-mode-to-print-json-path.html#disqus_thread" data-disqus-identifier="cache/posts/use-js2-mode-to-print-json-path.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs.html" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en.html" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/javascript.html" rel="tag">javascript</a></li>
-           <li><a class="tag p-category" href="categories/js2.html" rel="tag">js2</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-10-29 Thu&gt;</span></span>
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-22 Sun&gt;</span></span>
-</p>
-
-<p>
-These days most web applications are based on RESTful.
-</p>
-
-<p>
-So javascript developers have to deal with JSON frequently.
-</p>
-
-<p>
-When working on JSON, the most boring and error prone task is to get the full path of specific field.
-</p>
-
-<p>
-For example, given the JSON response like:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-javascript">{
-  key1: {
-    subkey1: {
-      arr1: [{ key3: 'hello'}]
-    }
-  }
-}
-</code></pre>
-
-</div>
-
-<p>
-The developer need figure out the full path of "key3" which is "<code>key1.subkey1.arr1[0].key3</code>".
-</p>
-
-<p>
-My solution is to take advantage of AST created by <a href="https://github.com/mooz/js2-mode">js2-mode</a>.
-</p>
-
-<p>
-<b>Step 1</b>, insert below code into ~/.emacs,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">;; {{ print json path, will be removed when latest STABLE js2-mode released
-(defun js2-get-element-index-from-array-node (elem array-node &amp;optional hardcoded-array-index)
-  "Get index of ELEM from ARRAY-NODE or 0 and return it as string."
-  (let ((idx 0) elems (rlt hardcoded-array-index))
-    (setq elems (js2-array-node-elems array-node))
-    (if (and elem (not hardcoded-array-index))
-        (setq rlt (catch 'nth-elt
-                    (dolist (x elems)
-                      ;; We know the ELEM does belong to ARRAY-NODE,
-                      (if (eq elem x) (throw 'nth-elt idx))
-                      (setq idx (1+ idx)))
-                    0)))
-    (format "[%s]" rlt)))
-
-(defun js2-print-json-path (&amp;optional hardcoded-array-index)
-  "Print the path to the JSON value under point, and save it in the kill ring.
-If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
-  (interactive "P")
-  (let (previous-node current-node
-        key-name
-        rlt)
-
-    ;; The `js2-node-at-point' starts scanning from AST root node.
-    ;; So there is no way to optimize it.
-    (setq current-node (js2-node-at-point))
-
-    (while (not (js2-ast-root-p current-node))
-      (cond
-       ;; JSON property node
-       ((js2-object-prop-node-p current-node)
-        (setq key-name (js2-prop-node-name (js2-object-prop-node-left current-node)))
-        (if rlt (setq rlt (concat "." key-name rlt))
-          (setq rlt (concat "." key-name))))
-
-       ;; Array node
-       ((or (js2-array-node-p current-node))
-        (setq rlt (concat (js2-get-element-index-from-array-node previous-node
-                                                                 current-node
-                                                                 hardcoded-array-index)
-                          rlt)))
-
-       ;; Other nodes are ignored
-       (t))
-
-      ;; current node is archived
-      (setq previous-node current-node)
-      ;; Get parent node and continue the loop
-      (setq current-node (js2-node-parent current-node)))
-
-    (cond
-     (rlt
-      ;; Clean the final result
-      (setq rlt (replace-regexp-in-string "^\\." "" rlt))
-      (kill-new rlt)
-      (message "%s =&gt; kill-ring" rlt))
-     (t
-      (message "No JSON path found!")))
-
-    rlt))
-</code></pre>
-
-</div>
-
-<p>
-<b>Step 2</b>, move the cursor over the key/value of the field and `M-x js2-print-json-path`.
-</p>
-
-<p>
-My code is <a href="https://github.com/mooz/js2-mode/commit/49555849abf9e5f03766056f10e6ac89ddc487b4">merged into js2-mode</a>. You need only install latest js2-mode.
-</p>
-
-<p>
-(apply #'derived-mode-p '(org-mode web-mode))
-</p>
 </div>
             </div>
         </div>

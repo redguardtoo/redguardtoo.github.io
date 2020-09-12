@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Why Emacs is a better editor, part two | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/why-emacs-is-better-editor-part-two/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Why Emacs is a better editor, part two">
+<meta property="og:url" content="http://blog.binchen.org/posts/why-emacs-is-better-editor-part-two/">
+<meta property="og:description" content="If you are impatient, jump to the &quot;Quick Start&quot; and paste my setup into your ~/.emacs. That's all you need to do!
+
+
+
+No extra setup needed! Then keep using your js2-mode happily, as if nothing happene">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-11-01T11:06:17Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="javascript">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Why Emacs is a better editor, part two</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2014-11-01T11:06:17+00:00">2014-11-01 11:06</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/javascript/" rel="tag">javascript</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+If you are impatient, jump to the "Quick Start" and paste my setup into your ~/.emacs. That's all you need to do!
+</p>
+
+<p>
+No extra setup needed! Then keep using your js2-mode happily, as if nothing happened. ;) 
+</p>
+
+<div id="outline-container-org4e65bd8" class="outline-2">
+<h3 id="org4e65bd8">Problem</h3>
+<div class="outline-text-2" id="text-org4e65bd8">
+<p>
+In my previous article <a href="http://blog.binchen.org/posts/why-emacs-is-better-editor.html">Why Emacs is better editor - a case study for javascript developer</a>, I proved that Emacs is better than <a href="http://www.sublimetext.com/">Sublime Text</a>.
+</p>
+
+<p>
+So for this so-called "Goto Symbol" feature, Emacs wins.
+</p>
+
+<p>
+It's because we use a plugin <a href="https://github.com/mooz/js2-mode">js2-mode</a>. It's actually a javascript parser which creates the symbols from AST.
+</p>
+
+<p>
+But in real world, regular expression is better, sometimes.
+</p>
+
+<p>
+In modern MVC javascript frameworks (<a href="https://angularjs.org/">Angular</a>, for example), you will meet below code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">app.controller('MyController', function ($scope, $http) {
+  // ...
+});
+</code></pre>
+
+</div>
+
+<p>
+As you can see, using regular expression to extract the string "MyController" is more versatile and simpler.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org568b21b" class="outline-2">
+<h3 id="org568b21b">Solution</h3>
+<div class="outline-text-2" id="text-org568b21b">
+<p>
+My latest <a href="https://github.com/mooz/js2-mode/pull/169">contribution to js2-mode</a> solves this problem perfectly. It <b>combines the powers of AST and regular expression</b>.
+</p>
+
+<p>
+The js2-mode will integrate this feature soon. I will notify you when next version is ready.
+</p>
+
+<p>
+Let's cut off the boring technical details and see the demo,
+</p>
+
+<p>
+For a simple <a href="https://gist.github.com/redguardtoo/558ea0133daa72010b73#file-hello-js">hello.js</a> with below content,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">function helloworld() {
+  console.log('hello called');
+}
+
+function test() {
+  console.log('test called');
+}
+
+app.controller('MyController', function ($scope, $http) {
+  console.log('MyController registered');
+
+  var that = this;
+
+  $scope.test1 = function() {
+    console.log('$scope.test called');
+  };
+
+  $scope.hello = function() {
+    console.log('$scope.hello called');
+  };
+
+  $scope.fn1 = function () {
+
+    function test() {
+      console.log('hello world');
+    };
+    console.log('hello');
+  };
+});
+</code></pre>
+
+</div>
+
+<p>
+<b>Emacs:</b>
+<img src="https://cloud.githubusercontent.com/assets/184553/4871228/3ebe6588-61a5-11e4-9e9f-e6eb8218e2ee.png" alt="3ebe6588-61a5-11e4-9e9f-e6eb8218e2ee.png"></p>
+
+<p>
+<b>Sublime3 (build 3047):</b> 
+<img src="https://cloud.githubusercontent.com/assets/184553/4871347/c33b8fee-61ae-11e4-8072-671935b68d6b.png" alt="c33b8fee-61ae-11e4-8072-671935b68d6b.png"></p>
+
+<p>
+Please note Emacs displays <b>two functions with the same name "test" correctly</b>!
+</p>
+
+<p>
+BTW, my previous "Why Emacs is better" article got many feedbacks from Sublime users.
+</p>
+
+<p>
+One feedback is that my comparison is not fair because I'm <b>comparing Emacs plugin with naked Sublime</b>. Though I did some research before writing the article,
+I could be wrong. Please enlighten me if you know such Sublime plugins.
+</p>
+
+<p>
+Another valuable feedback is that native Sublime provides better experience <b>out of the box</b> for junior developers. I admit that's a good point. But Emacs provides many awesome choices <b>out of the box</b> if junior guys start from <a href="https://github.com/purcell">setups of the masters (like Steven Purcell)</a>.
+</p>
+
+<p>
+Sublime users also argue that Sublime3 uses <a href="https://www.python.org/">Python</a>. Python is a <b>better programming language</b>. I'm qualified to answer this question because I wrote some large commercial Python application when I worked in Kodak R&amp;D. First version I used was v2.2. So I've got about <b>10 years experience</b> in Python. And I write lots of <a href="https://github.com/redguardtoo/">Emacs Lisp code</a> these days. My opinion is that both languages are good enough as DSL for text editors. In Python, you can use OO. In Emacs Lisp, you can treat function as object and there are <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Macros.html">Macros</a> and <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">Advising</a>. Both languages have enough widgets to shoot yourself in the foot. Python is surely newbie-friendly. But <b>number of newbies</b> doesn't matter in high-end rival.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcb873e0" class="outline-2">
+<h3 id="orgcb873e0">Quick Start</h3>
+<div class="outline-text-2" id="text-orgcb873e0">
+<p>
+I'm still discussing with the js2-mode maintainer Dmitry Gutov about the best way to merge my patch.
+</p>
+
+<p>
+Dmitry Gutov updated the algorithm to parse the imenu items by walking the AST instead. It's better than my REGEX hacking because AST could show the context of the function.
+</p>
+
+<p>
+But my patch is still useful for extract strings from modern JS framework, as I've shown you in Angular example. I'm just updating my pull request to be compatible with the new AST walk algorithm.
+</p>
+
+<p>
+In the meantime, you can paste below code into your ~/.emacs before the patch is officially merged.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; below regex list could be used in both js-mode and js2-mode
+(setq javascript-common-imenu-regex-list
+      '(("Controller" "\.controller( *'\\([^']+\\)" 1)
+        ("Filter" "\.filter( *'\\([^']+\\)" 1)
+        ("Factory" "\.factory( *'\\([^']+\\)" 1)
+        ("Service" "\.service( *'\\([^']+\\)" 1)
+        ("Directive" "\.directive( *'\\([^']+\\)" 1)
+        ("Event" "\.\$on( *'\\([^']+\\)" 1)
+        ("Config" "\.config( *function *( *\\([^\)]+\\)" 1)
+        ("Config" "\.config( *\\[ *'\\([^']+\\)" 1)
+        ("OnChange" " *\$('\\([^']*\\)').*\.change *( *function" 1)
+        ("OnClick" " *\$('\\([^']*\\)').*\.click *( *function" 1)
+        ("Watch" "\.\$watch( *'\\([^']+\\)" 1)
+        ("Function" "function\\s-+\\([^ ]+\\)(" 1)
+        ("Function" " \\([^ ]+\\)\\s-*=\\s-*function\\s-*(" 1)))
+
+;; {{ patching imenu in js2-mode
+(setq js2-imenu-extra-generic-expression javascript-common-imenu-regex-list)
+
+(defvar js2-imenu-original-item-lines nil
+  "List of line infomration of original imenu items.")
+
+(defun js2-imenu--get-line-start-end (pos)
+  (let (b e)
+    (save-excursion
+      (goto-char pos)
+      (setq b (line-beginning-position))
+      (setq e (line-end-position)))
+    (list b e)))
+
+(defun js2-imenu--get-pos (item)
+  (let (val)
+    (cond
+     ((integerp item)
+      (setq val item))
+
+     ((markerp item)
+      (setq val (marker-position item))))
+
+    val))
+
+(defun js2-imenu--get-extra-item-pos (item)
+  (let (val)
+    (cond
+     ((integerp item)
+      (setq val item))
+
+     ((markerp item)
+      (setq val (marker-position item)))
+
+     ;; plist
+     ((and (listp item) (listp (cdr item)))
+      (setq val (js2-imenu--get-extra-item-pos (cadr item))))
+
+     ;; alist
+     ((and (listp item) (not (listp (cdr item))))
+      (setq val (js2-imenu--get-extra-item-pos (cdr item)))))
+
+    val))
+
+(defun js2-imenu--extract-line-info (item)
+  "Recursively parse the original imenu items created by js2-mode.
+The line numbers of items will be extracted."
+  (let (val)
+    (if item
+      (cond
+       ;; Marker or line number
+       ((setq val (js2-imenu--get-pos item))
+        (push (js2-imenu--get-line-start-end val)
+              js2-imenu-original-item-lines))
+
+       ;; The item is Alist, example: (hello . 163)
+       ((and (listp item) (not (listp (cdr item))))
+        (setq val (js2-imenu--get-pos (cdr item)))
+        (if val (push (js2-imenu--get-line-start-end val)
+                      js2-imenu-original-item-lines)))
+
+       ;; The item is a Plist
+       ((and (listp item) (listp (cdr item)))
+        (js2-imenu--extract-line-info (cadr item))
+        (js2-imenu--extract-line-info (cdr item)))
+
+       ;;Error handling
+       (t (message "Impossible to here! item=%s" item)
+          )))
+    ))
+
+(defun js2-imenu--item-exist (pos lines)
+  "Try to detect does POS belong to some LINE"
+  (let (rlt)
+    (dolist (line lines)
+      (if (and (&lt; pos (cadr line)) (&gt;= pos (car line)))
+          (setq rlt t)))
+    rlt))
+
+(defun js2-imenu--is-item-already-created (item)
+  (unless (js2-imenu--item-exist
+           (js2-imenu--get-extra-item-pos item)
+           js2-imenu-original-item-lines)
+    item))
+
+(defun js2-imenu--check-single-item (r)
+  (cond
+   ((and (listp (cdr r)))
+    (let (new-types)
+      (setq new-types
+            (delq nil (mapcar 'js2-imenu--is-item-already-created (cdr r))))
+      (if new-types (setcdr r (delq nil new-types))
+        (setq r nil))))
+   (t (if (js2-imenu--item-exist (js2-imenu--get-extra-item-pos r)
+                                 js2-imenu-original-item-lines)
+          (setq r nil))))
+  r)
+
+(defun js2-imenu--remove-duplicate-items (extra-rlt)
+  (delq nil (mapcar 'js2-imenu--check-single-item extra-rlt)))
+
+(defun js2-imenu--merge-imenu-items (rlt extra-rlt)
+  "RLT contains imenu items created from AST.
+EXTRA-RLT contains items parsed with simple regex.
+Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
+  ;; Clear the lines.
+  (set (make-variable-buffer-local 'js2-imenu-original-item-lines) nil)
+  ;; Analyze the original imenu items created from AST,
+  ;; I only care about line number.
+  (dolist (item rlt)
+    (js2-imenu--extract-line-info item))
+
+  ;; @see https://gist.github.com/redguardtoo/558ea0133daa72010b73#file-hello-js
+  ;; EXTRA-RLT sample:
+  ;; ((function ("hello" . #&lt;marker 63&gt;) ("bye" . #&lt;marker 128&gt;))
+  ;;  (controller ("MyController" . #&lt;marker 128))
+  ;;  (hellworld . #&lt;marker 161&gt;))
+  (setq extra-rlt (js2-imenu--remove-duplicate-items extra-rlt))
+  (append rlt extra-rlt))
+
+(with-eval-after-load 'js2-mode
+  (defadvice js2-mode-create-imenu-index (around my-js2-mode-create-imenu-index activate)
+    (let (extra-rlt)
+      ad-do-it
+      (setq extra-rlt
+            (save-excursion
+              (imenu--generic-function js2-imenu-extra-generic-expression)))
+      (setq ad-return-value (js2-imenu--merge-imenu-items ad-return-value extra-rlt))
+      ad-return-value)))
+;; }}
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../my-emacs-skills-is-improved-after-3-years/" rel="prev" title="My Emacs skill is improved after 3 years">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../jump-to-the-positions-before-and-after-m-x-imenu/" rel="next" title="Jump to the positions before and after `M-x imenu`">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/why-emacs-is-better-editor-part-two/",
+        disqus_title="Why Emacs is a better editor, part two",
+        disqus_identifier="cache/posts/why-emacs-is-better-editor-part-two.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>
