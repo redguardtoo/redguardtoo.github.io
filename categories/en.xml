@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 12 Sep 2020 03:04:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 14 Sep 2020 14:26:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
@@ -119,14 +119,18 @@ I also need respect the predicate embedded in the major mode in my own generic p
 &lt;/p&gt;
 
 &lt;p&gt;
-Above algorithms are implemented in &lt;a href="https://github.com/redguardtoo/wucuo"&gt;wucuo&lt;/a&gt;. Here is its usage,
+Above algorithms are implemented in &lt;a href="https://github.com/redguardtoo/wucuo"&gt;wucuo&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Usage,
 &lt;/p&gt;
 
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun prog-mode-hook-setup ()
-  ;; (setq wucuo-flyspell-start-mode "lite")
-  ;; (setq wucuo-flyspell-start-mode "ultra")
+  ;; (setq wucuo-flyspell-start-mode "normal")
+  ;; (setq wucuo-flyspell-start-mode "fast") ; default value
   (wucuo-start t))
 (add-hook 'prog-mode-hook 'prog-mode-hook-setup)
 &lt;/code&gt;&lt;/pre&gt;
@@ -134,15 +138,11 @@ Above algorithms are implemented in &lt;a href="https://github.com/redguardtoo/w
 &lt;/div&gt;
 
 &lt;p&gt;
-If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "full" (default value), &lt;code&gt;flyspell-mode&lt;/code&gt; is enabled. In this case, wucuo is only the advanced version of &lt;code&gt;flyspell-prog-mode&lt;/code&gt;,
+If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "normal", &lt;code&gt;flyspell-buffer&lt;/code&gt; is used, current buffer is checked when user saves current file.
 &lt;/p&gt;
 
 &lt;p&gt;
-If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "lite", &lt;code&gt;flyspell-buffer&lt;/code&gt; is used, checking is done when user saves current buffer.
-&lt;/p&gt;
-
-&lt;p&gt;
-If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "ultra", &lt;code&gt;flyspell-region&lt;/code&gt; is used, checking is done when user saves current buffer.&lt;/p&gt;&lt;/div&gt;</description><category>check</category><category>emacs</category><category>en</category><category>flyspell</category><category>spell</category><guid>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</guid><pubDate>Sun, 17 May 2020 06:20:55 GMT</pubDate></item><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
+If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "fast", &lt;code&gt;flyspell-region&lt;/code&gt; is used, visible region is checked when user saves current file.&lt;/p&gt;&lt;/div&gt;</description><category>check</category><category>emacs</category><category>en</category><category>flyspell</category><category>spell</category><guid>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</guid><pubDate>Sun, 17 May 2020 06:20:55 GMT</pubDate></item><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
 &lt;li&gt;Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and turn off mic to reduce the noise&lt;/li&gt;
 &lt;li&gt;Run &lt;code&gt;alsamixer&lt;/code&gt; to double check pulse setup&lt;/li&gt;
 &lt;li&gt;Make sure correct device is selected in &lt;a href="https://www.audacityteam.org/"&gt;audacity&lt;/a&gt;&lt;/li&gt;

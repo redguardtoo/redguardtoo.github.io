@@ -185,14 +185,18 @@ I also need respect the predicate embedded in the major mode in my own generic p
 </p>
 
 <p>
-Above algorithms are implemented in <a href="https://github.com/redguardtoo/wucuo">wucuo</a>. Here is its usage,
+Above algorithms are implemented in <a href="https://github.com/redguardtoo/wucuo">wucuo</a>.
+</p>
+
+<p>
+Usage,
 </p>
 
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun prog-mode-hook-setup ()
-  ;; (setq wucuo-flyspell-start-mode "lite")
-  ;; (setq wucuo-flyspell-start-mode "ultra")
+  ;; (setq wucuo-flyspell-start-mode "normal")
+  ;; (setq wucuo-flyspell-start-mode "fast") ; default value
   (wucuo-start t))
 (add-hook 'prog-mode-hook 'prog-mode-hook-setup)
 </code></pre>
@@ -200,15 +204,11 @@ Above algorithms are implemented in <a href="https://github.com/redguardtoo/wucu
 </div>
 
 <p>
-If <code>wucuo-flyspell-start-mode</code> is "full" (default value), <code>flyspell-mode</code> is enabled. In this case, wucuo is only the advanced version of <code>flyspell-prog-mode</code>,
+If <code>wucuo-flyspell-start-mode</code> is "normal", <code>flyspell-buffer</code> is used, current buffer is checked when user saves current file.
 </p>
 
 <p>
-If <code>wucuo-flyspell-start-mode</code> is "lite", <code>flyspell-buffer</code> is used, checking is done when user saves current buffer.
-</p>
-
-<p>
-If <code>wucuo-flyspell-start-mode</code> is "ultra", <code>flyspell-region</code> is used, checking is done when user saves current buffer.</p>
+If <code>wucuo-flyspell-start-mode</code> is "fast", <code>flyspell-region</code> is used, visible region is checked when user saves current file.</p>
 </div>
         </div>
         
