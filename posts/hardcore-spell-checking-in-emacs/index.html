@@ -194,21 +194,19 @@ Usage,
 
 <div class="org-src-container">
 
-<pre><code class="lang-lisp">(defun prog-mode-hook-setup ()
-  ;; (setq wucuo-flyspell-start-mode "normal")
-  ;; (setq wucuo-flyspell-start-mode "fast") ; default value
-  (wucuo-start t))
-(add-hook 'prog-mode-hook 'prog-mode-hook-setup)
+<pre><code class="lang-lisp">(add-hook 'prog-mode-hook 'wucuo-start)
+(add-hook 'text-mode-hook 'wucuo-start)
 </code></pre>
 
 </div>
 
 <p>
-If <code>wucuo-flyspell-start-mode</code> is "normal", <code>flyspell-buffer</code> is used, current buffer is checked when user saves current file.
+If <code>wucuo-flyspell-start-mode</code> is "fast" (default value), <code>flyspell-region</code> is used, visible region is checked when user saves current file.
 </p>
 
 <p>
-If <code>wucuo-flyspell-start-mode</code> is "fast", <code>flyspell-region</code> is used, visible region is checked when user saves current file.</p>
+If <code>wucuo-flyspell-start-mode</code> is "normal", <code>flyspell-buffer</code> is used, current buffer is checked when user saves current file.
+</p>
 </div>
         </div>
         
