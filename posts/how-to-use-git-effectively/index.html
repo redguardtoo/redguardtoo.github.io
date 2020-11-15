@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>How to use git effectively | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/how-to-use-git-effectively/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="How to use git effectively">
+<meta property="og:url" content="http://blog.binchen.org/posts/how-to-use-git-effectively/">
+<meta property="og:description" content="To take the full power of git, you need forget GUI and use CLI only. A little knowledge of script language like Bash/Perl/Python may be helpful.
+
+
+
+Here is an example how I use git.
+
+
+
+Problem
+
+
+I'm w">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-10-11T12:38:00Z">
+<meta property="article:tag" content="bash">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="linux">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">How to use git effectively</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2013-10-11T12:38:00+00:00">2013-10-11 12:38</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/bash/" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/git/" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <div>
+<p>
+To take the full power of git, you need forget GUI and use CLI only. A little knowledge of script language like Bash/Perl/Python may be helpful.
+</p>
+
+<p>
+Here is an example how I use git.
+</p>
+
+<div id="outline-container-orgbfb6889" class="outline-2">
+<h3 id="orgbfb6889">Problem</h3>
+<div class="outline-text-2" id="text-orgbfb6889">
+<p>
+I'm working for a big enterprise project which uses git as version control software.  My daily routine is find what files I changed. So I often use git commands with "–stat" parameters.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">git show --stat
+git diff --cached --stat
+git log --stat
+git diff --stat
+</code></pre>
+
+</div>
+
+<p>
+Since I use CLI git in bash shell only. I set alias for these commands in bash. For example, I need only type <code>gds</code> in bash instead of <code>git diff --stat</code>.
+</p>
+
+<p>
+Git commands with "–stat" option usually only display relative paths, so I write some bash function which enable me select that relative path interactively (without using mouse, of course), convert that path to absolute path, and copy that absolute path into clipboard.
+</p>
+
+<p>
+Getting full path into clipboard is useful because in big projects I need do lots of communication with managers and colleagues. For example, I need list files I changed in our bug tracking system (JIRA) and also email them using Outlook. If you still don't understand why it's hard in big project, let me give you some hint. Big project is usually a big shit. If you edit file A, you will find another 10 files distributed in different location with <b>same file name</b> and <b>similar code</b>. Those files are not your business.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga02af98" class="outline-2">
+<h3 id="orga02af98">Set up</h3>
+<div class="outline-text-2" id="text-orga02af98">
+<p>
+Now you understand the problem. Here comes the solution.
+</p>
+
+<p>
+Step 1, You need install percol by <code>sudo pip install percol</code>. Percol will provide some interactive UI to help you select the line in shell.
+</p>
+
+<p>
+Step 2, install xclip under Linux to support paste text into X clipboard. BTW, you did install some clipboard manager under Linux, didn't you?
+</p>
+
+<p>
+Step 3, insert below code into your ~/.bash:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># search the file and pop up dialog, then put the full path in clipboard
+
+function pclip() {
+    if [ $OS_NAME == CYGWIN ]; then
+        putclip $@;
+    elif [ $OS_NAME == Darwin ]; then
+        pbcopy $@;
+    elif [ -x /usr/bin/xclip ]; then
+        xclip -selection c $@;
+    else
+        echo "xclip is not installed!"
+    fi
+}
+
+function glsf () {
+    local str=`git --no-pager log --oneline --decorate --stat $* |percol`
+    if [[ $str =~ ^[[:space:]]*([a-z0-9A-Z_.\/-]*).*$ ]]; then
+        echo -n ${BASH_REMATCH[1]} |pclip;
+        echo ${BASH_REMATCH[1]}
+    fi
+}
+
+function ff()
+{
+    # @see http://stackoverflow.com/questions/13373249/extract-substring-using-regexp-in-plain-bash
+    local fullpath=$*
+    local filename=${fullpath##*/}
+    local filter=${fullpath##*./}
+    #  only the filename without path is needed
+    # filename should be reasonable
+    local cli=`find $PWD -type f -iname '*'${filename}'*'|grep ${filter}|percol`
+    echo ${cli}
+    echo -n ${cli} |pclip;
+}
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge103657" class="outline-2">
+<h3 id="orge103657">Usage</h3>
+<div class="outline-text-2" id="text-orge103657">
+<div class="org-src-container">
+
+<pre><code class="lang-sh">glsf
+ff line-from-clipboard
+# now I can paste the full path into firefox, outlook ...
+</code></pre>
+
+</div>
+
+<p>
+Here is the screen cast:
+<img src="https://dl.dropboxusercontent.com/u/858862/screencast/git-find-full-path.gif" alt="git-find-full-path.gif"></p>
+</div>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../san-wen-yu-dun-dou-fu-zuo-fa/" rel="prev" title="三文鱼炖豆腐做法">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../suan-miao-chao-niu-rou-zuo-fa/" rel="next" title="蒜苗炒牛肉做法">Next post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/how-to-use-git-effectively/",
+        disqus_title="How to use git effectively",
+        disqus_identifier="cache/posts/how-to-use-git-effectively.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+        
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about package)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/package.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 12 Sep 2020 03:02:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>No worries when elpa is down</title><link>http://blog.binchen.org/posts/no-worries-when-elpa-is-down/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about package)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/package.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>No worries when elpa is down</title><link>http://blog.binchen.org/posts/no-worries-when-elpa-is-down/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 I use one liner shell command to clone Emacs Lisp Package Archive (ELPA):
 &lt;/p&gt;
 
@@ -43,9 +43,9 @@ The techniques are compatible with &lt;a href="https://github.com/jwiegley/use-p
 Mid-level Lisp knowledge is required to read this article.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org9901d70" class="outline-2"&gt;
-&lt;h3 id="org9901d70"&gt;Do NOT use package.el for certain packages&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9901d70"&gt;
+&lt;div id="outline-container-orgdb4529c" class="outline-2"&gt;
+&lt;h3 id="orgdb4529c"&gt;Do NOT use package.el for certain packages&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdb4529c"&gt;
 &lt;p&gt;
 Create the directory &lt;code&gt;~/.emacs.d/site-lisp&lt;/code&gt;. Then insert below code into &lt;code&gt;~/.emacs&lt;/code&gt;,
 &lt;/p&gt;
@@ -70,9 +70,9 @@ You can place a package's source code at sub-directory of &lt;code&gt;~/.emacs.d
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf68090d" class="outline-2"&gt;
-&lt;h3 id="orgf68090d"&gt;Create your own package repository&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf68090d"&gt;
+&lt;div id="outline-container-org5b6a5a2" class="outline-2"&gt;
+&lt;h3 id="org5b6a5a2"&gt;Create your own package repository&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5b6a5a2"&gt;
 &lt;p&gt;
 Step 1, Place two files "archive-contents" and "hello-1.0.0.el" in any directory. Say &lt;code&gt;~/.emacs.d/localelpa&lt;/code&gt;. 
 &lt;/p&gt;
@@ -123,7 +123,7 @@ Here is a real world example how I apply this technique. I use &lt;code&gt;rainb
 &lt;/p&gt;
 
 &lt;p&gt;
-I also create a &lt;a href="https://github.com/redguardtoo/elpa-mirror"&gt;elpa-mirror&lt;/a&gt; which creates a local repository from the installed packages. This local repository could be converted to remote repository using &lt;a href="http://www.google.com.au/aclk?sa=l&amp;amp;ai=CzC-wxBR1V4TDLY-Q8AXB6JZYzpSQtgfG2tG-uAGEsbgLCAAQAWCl-JGAkAGgAY-k7twDyAEBqgQiT9A1G2VwLIfGToKkVCdOvyWNgzhcfW06fVwewFDtt2ESpYAHvuz4NZAHA6gHpr4b2AcB&amp;amp;sig=AOD64_0dA0XCyoO-dl0N6XK3n7knfXL5hA&amp;amp;clui=0&amp;amp;ved=0ahUKEwj-sJmh5M_NAhVEoZQKHVclCJ8Q0QwIEg&amp;amp;adurl=https://www.dropbox.com/business/landing-t61fl?_tk=sem_b_goog&amp;amp;_camp=sem-b-goog-au-nz-eng-top-exact&amp;amp;_kw=dropbox%7Ce&amp;amp;_ad=49525704222%7C1t1%7Cc"&gt;Dropbox&lt;/a&gt; and &lt;a href="https://github.com/"&gt;Github&lt;/a&gt; easily.
+I also create a &lt;a href="https://github.com/redguardtoo/elpa-mirror"&gt;elpa-mirror&lt;/a&gt; which creates a local repository from the installed packages. This local repository could be converted to remote repository using &lt;a href="http://www.google.com.au/aclk?sa=l&amp;amp;ai=CzC-wxBR1V4TDLY-Q8AXB6JZYzpSQtgfG2tG-uAGEsbgLCAAQAWCl-JGAkAGgAY-k7twDyAEBqgQiT9A1G2VwLIfGToKkVCdOvyWNgzhcfW06fVwewFDtt2ESpYAHvuz4NZAHA6gHpr4b2AcB&amp;amp;sig=AOD64_0dA0XCyoO-dl0N6XK3n7knfXL5hA&amp;amp;clui=0&amp;amp;ved=0ahUKEwj-sJmh5M_NAhVEoZQKHVclCJ8Q0QwIEg&amp;amp;adurl=https://www.dropbox.com/business/landing-t61fl%3F_tk%3Dsem_b_goog%26_camp%3Dsem-b-goog-au-nz-eng-top-exact%26_kw%3Ddropbox%7Ce%26_ad%3D49525704222%7C1t1%7Cc"&gt;Dropbox&lt;/a&gt; and &lt;a href="https://github.com/"&gt;Github&lt;/a&gt; easily.
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -132,9 +132,9 @@ Orphan package issue is also resolved by &lt;code&gt;elpa-mirror&lt;/code&gt;. Y
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8c66d93" class="outline-2"&gt;
-&lt;h3 id="org8c66d93"&gt;&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html"&gt;Advice&lt;/a&gt; &lt;code&gt;package--add-to-archive-contents&lt;/code&gt; to filter packages&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8c66d93"&gt;
+&lt;div id="outline-container-org818e900" class="outline-2"&gt;
+&lt;h3 id="org818e900"&gt;&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html"&gt;Advice&lt;/a&gt; &lt;code&gt;package--add-to-archive-contents&lt;/code&gt; to filter packages&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org818e900"&gt;
 &lt;p&gt;
 Insert below code into ~/.emacs,
 &lt;/p&gt;
@@ -198,9 +198,9 @@ This solution is copied from Steve Purcell's setup with a little modification.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcc4bb3f" class="outline-2"&gt;
-&lt;h3 id="orgcc4bb3f"&gt;Summary&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgcc4bb3f"&gt;
+&lt;div id="outline-container-orgba8405f" class="outline-2"&gt;
+&lt;h3 id="orgba8405f"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgba8405f"&gt;
 &lt;p&gt;
 You can combine above techniques to &lt;b&gt;solve any package issue&lt;/b&gt;.
 &lt;/p&gt;

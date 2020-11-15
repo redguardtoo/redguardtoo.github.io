@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about pdf)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/pdf.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 12 Sep 2020 03:03:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Convert TEX to PDF</title><link>http://blog.binchen.org/posts/convert-tex-to-pdf/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about pdf)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/pdf.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Convert TEX to PDF</title><link>http://blog.binchen.org/posts/convert-tex-to-pdf/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 Install &lt;a href="http://www.tug.org/texlive/"&gt;TexLive&lt;/a&gt; in your OS.
 &lt;/p&gt;
 
@@ -25,4 +25,30 @@ Convert now!
 &lt;pre&gt;&lt;code class="lang-sh"&gt;pdf2latex cv.tex
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;&lt;/div&gt;</description><category>cpan</category><category>en</category><category>latex</category><category>pdf</category><category>perl</category><guid>http://blog.binchen.org/posts/convert-tex-to-pdf/</guid><pubDate>Tue, 17 Jul 2012 23:22:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>cpan</category><category>en</category><category>latex</category><category>pdf</category><category>perl</category><guid>http://blog.binchen.org/posts/convert-tex-to-pdf/</guid><pubDate>Tue, 17 Jul 2012 23:22:00 GMT</pubDate></item><item><title>How to convert org to PDF</title><link>http://blog.binchen.org/posts/how-to-convert-org-to-pdf/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Install &lt;a href="http://www.tug.org/texlive/"&gt;TexLive&lt;/a&gt;. The &lt;code&gt;org-mode&lt;/code&gt; has some handy function to locate the TexLive. Press &lt;code&gt;C-c C-e p&lt;/code&gt; to convert.
+&lt;/p&gt;
+
+&lt;p&gt;
+At Cygwin and Linux, installing TexLive could be installed by their package system.
+&lt;/p&gt;
+
+&lt;p&gt;
+At macOS, I use the &lt;a href="http://www.tug.org/texlive/acquire-netinstall.html"&gt;TexLive source package&lt;/a&gt; (install-tl-unx.tar.gz). After installation, environment varaibles need be set.
+&lt;/p&gt;
+
+&lt;p&gt;
+Bash shell requires setup in &lt;code&gt;~/.bashrc&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;if [[ `uname -s` == *Darwin* ]]; then
+   #tex live on OS X
+   export PATH=/usr/local/texlive/2011/bin/universal-darwin:$PATH
+   export MANPATH=/usr/local/texlive/2011/texmf/doc/man:$MANPAH
+   export INFOPATH=/usr/local/texlive/2011/texmf/doc/info:$INFOPATH
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>latex</category><category>pdf</category><category>perl</category><guid>http://blog.binchen.org/posts/how-to-convert-org-to-pdf/</guid><pubDate>Sun, 08 Jul 2012 15:27:00 GMT</pubDate></item></channel></rss>

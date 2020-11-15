@@ -23,142 +23,6 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/shi-mian-yu-du-tang-shao-fa/">虱面鱼肚汤烧法</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-06-30T17:38:41+00:00">2013-06-30 17:38</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/shi-mian-yu-du-tang-shao-fa/#disqus_thread" data-disqus-identifier="cache/posts/shi-mian-yu-du-tang-shao-fa.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p></p>
-<p>台湾很有名的小吃,烧法见<a href="http://blog.iset.com.tw/chef/?p=5952">型男大主厨</a>. </p> <p> 要点: </p>
-<ul>
-<li>先煎生姜是为了快速逼出姜的香味,同一个厨师在另一个节目中又建议姜丝最后放,因为姜放在水中煮就无味了. </li> <li>如最后放生姜,姜丝要很细. </li> <li>鱼肉一面,煎鱼皮沾锅. </li> <li>放下鱼肉煮5分钟即可,否则鱼肉容易老. </li> <li>豆腐当场切片下锅,这样容易入味 </li> <li>柴鱼粉是因为快速烧法,如果先熬鱼骨汤则不需要. </li> </ul>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/install-google-talk-plugin-64bit-on-gentoo-linux/">install google talk plugin (64bit) on gentoo Linux</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-06-24T20:42:00+00:00">2013-06-24 20:42</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/install-google-talk-plugin-64bit-on-gentoo-linux/#disqus_thread" data-disqus-identifier="cache/posts/install-google-talk-plugin-64bit-on-gentoo-linux.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/google/" rel="tag">google</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/talk/" rel="tag">talk</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p></p>
-<pre class="src src-sh">firefox <span style="color: #8abeb7;">'http://www.google.com/chat/video/thankyou.html'</span>
-emerge -v deb2targz &amp;&amp;
-<p>deb2targz google-talkplugin_current_amd64.deb &amp;&amp;</p>
-<p>mkdir googletalk &amp;&amp; <span style="color: #b294bb;">cd</span> googletalk</p>
-<p>tar xvf ../google-talkplugin_current_i386.tar.gz &amp;&amp;</p>
-<p>sudo cp -Rfv {etc,opt} /</p>
-<p>sudo cp -Rfv usr/lib/* /usr/lib64/</p>
-<p></p></pre>   <p> Here is the content of google talk: </p>   <pre class="src src-sh">./etc/cron.daily:
-<p>google-talkplugin</p>
-<p>./opt/google:</p>
-<p>chrome</p>
-<p>talkplugin</p>
-<p>./opt/google/chrome:</p>
-<p>pepper</p>
-<p>./opt/google/chrome/pepper:</p>
-<p>libppo1d.so</p>
-<p>./opt/google/talkplugin:</p>
-<p>./usr/lib:</p>
-<p>firefox</p>
-<p>iceape</p>
-<p>iceweasel</p>
-<p>midbrowser</p>
-<p>mozilla</p>
-<p>xulrunner</p>
-<p>xulrunner-addons</p>
-<p>./usr/lib/firefox:</p>
-<p>plugins</p>
-<p>./usr/lib/firefox/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/iceape:</p>
-<p>plugins</p>
-<p>./usr/lib/iceape/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/iceweasel:</p>
-<p>plugins</p>
-<p>./usr/lib/iceweasel/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/midbrowser:</p>
-<p>plugins</p>
-<p>./usr/lib/midbrowser/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/mozilla:</p>
-<p>plugins</p>
-<p>./usr/lib/mozilla/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/xulrunner:</p>
-<p>plugins</p>
-<p>./usr/lib/xulrunner/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/xulrunner-addons:</p>
-<p>plugins</p>
-<p>./usr/lib/xulrunner-addons/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/share:</p>
-<p>doc</p>
-<p>./usr/share/doc:</p>
-<p>google-talkplugin</p>
-<p>./usr/share/doc/google-talkplugin:</p>
-<p>changelog.Debian.gz</p>
-<p></p></pre>  </div>
-            </div>
-        </div>
-        <div class="post">
             <h1 class="title"><a href="posts/set-up-nfs-server-on-archlinux/">set up nfs server on ArchLinux</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -262,16 +126,16 @@ emerge -v deb2targz &amp;&amp;
             <div class="body">
                 <div>
 <p>
-You can jump to <a href="posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#org74c17b2">No description for this link</a> section at the end of this article.
+You can jump to <a href="posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#orgf0baad7">No description for this link</a> section at the end of this article.
 </p>
 
 <p>
 I use git as an example of version control software. But you can use any other version control software instead.
 </p>
 
-<div id="outline-container-org5459377" class="outline-2">
-<h3 id="org5459377">The reasons to use vimdiff to do the merge?</h3>
-<div class="outline-text-2" id="text-org5459377">
+<div id="outline-container-org557b290" class="outline-2">
+<h3 id="org557b290">The reasons to use vimdiff to do the merge?</h3>
+<div class="outline-text-2" id="text-org557b290">
 <ul class="org-ul">
 <li>It's free (vim)</li>
 <li>It works on any OS</li>
@@ -281,13 +145,13 @@ I use git as an example of version control software. But you can use any other v
 </div>
 </div>
 
-<div id="outline-container-org8af7d1e" class="outline-2">
-<h3 id="org8af7d1e">Setup</h3>
-<div class="outline-text-2" id="text-org8af7d1e">
+<div id="outline-container-org6383008" class="outline-2">
+<h3 id="org6383008">Setup</h3>
+<div class="outline-text-2" id="text-org6383008">
 </div>
-<div id="outline-container-orga2d6068" class="outline-3">
-<h4 id="orga2d6068">Setup vimdiff (OPTIONAL)</h4>
-<div class="outline-text-3" id="text-orga2d6068">
+<div id="outline-container-orgf727216" class="outline-3">
+<h4 id="orgf727216">Setup vimdiff (OPTIONAL)</h4>
+<div class="outline-text-3" id="text-orgf727216">
 <p>
 The vimdiff as a merge tool will display several buffers to show YOURS/THEIRS/ORIGINAL code.
 </p>
@@ -321,9 +185,9 @@ map &lt;silent&gt; &lt;leader&gt;4 :diffget 4&lt;CR&gt;
 </div>
 </div>
 
-<div id="outline-container-orgd164ad4" class="outline-3">
-<h4 id="orgd164ad4">Setup git</h4>
-<div class="outline-text-3" id="text-orgd164ad4">
+<div id="outline-container-orgd4a9749" class="outline-3">
+<h4 id="orgd4a9749">Setup git</h4>
+<div class="outline-text-3" id="text-orgd4a9749">
 <p>
 Run below commands in shell,
 </p>
@@ -338,13 +202,13 @@ git config --global mergetool.prompt false
 </div>
 </div>
 
-<div id="outline-container-orgd8ff6e8" class="outline-2">
-<h3 id="orgd8ff6e8">Usage</h3>
-<div class="outline-text-2" id="text-orgd8ff6e8">
+<div id="outline-container-orgce6631e" class="outline-2">
+<h3 id="orgce6631e">Usage</h3>
+<div class="outline-text-2" id="text-orgce6631e">
 </div>
-<div id="outline-container-org6523168" class="outline-3">
-<h4 id="org6523168">Create a "hello world" project</h4>
-<div class="outline-text-3" id="text-org6523168">
+<div id="outline-container-orgd1264b5" class="outline-3">
+<h4 id="orgd1264b5">Create a "hello world" project</h4>
+<div class="outline-text-3" id="text-orgd1264b5">
 <p>
 I setup a "hello world" project at <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a> for your practice.
 </p>
@@ -377,9 +241,9 @@ git merge chen # now some conflicts created because Bob has already edited and m
 </div>
 </div>
 
-<div id="outline-container-org0fa4c08" class="outline-3">
-<h4 id="org0fa4c08">Resolve merge conflict</h4>
-<div class="outline-text-3" id="text-org0fa4c08">
+<div id="outline-container-org3615203" class="outline-3">
+<h4 id="org3615203">Resolve merge conflict</h4>
+<div class="outline-text-3" id="text-org3615203">
 <p>
 Now start merge tool,
 </p>
@@ -469,9 +333,9 @@ When you have resolved all the conflicts, follow the hint of git to commit your 
 </div>
 </div>
 
-<div id="outline-container-orgea1e76f" class="outline-2">
-<h3 id="orgea1e76f">Tips</h3>
-<div class="outline-text-2" id="text-orgea1e76f">
+<div id="outline-container-org455af51" class="outline-2">
+<h3 id="org455af51">Tips</h3>
+<div class="outline-text-2" id="text-org455af51">
 <ul class="org-ul">
 <li>fugitive.vim (<a href="https://github.com/tpope/vim-fugitive">https://github.com/tpope/vim-fugitive</a>) can do this too. Actually it can do much more git stuff than merge. I cannot write this article without reading its code</li>
 <li>You can use Emacs to do the similar job (<a href="http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool">http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool</a>). For me, Emacs start up time is too much for this task. Some people use <code>emacsclient</code> which has other overhead I don't like</li>
@@ -490,9 +354,9 @@ map [[ [n
 </div>
 </div>
 
-<div id="outline-container-orgf4aa484" class="outline-2">
-<h3 id="orgf4aa484"><a id="org74c17b2"></a></h3>
-<div class="outline-text-2" id="text-orgf4aa484">
+<div id="outline-container-org07f3581" class="outline-2">
+<h3 id="org07f3581"><a id="orgf0baad7"></a></h3>
+<div class="outline-text-2" id="text-org07f3581">
 <p>
 You can use command line like "git mergetool -t vimdiff" to start vimdiff from git.
 </p>
@@ -522,16 +386,16 @@ Then you can press hot key ",2" ",3" ",4" in vimdiff to pull change from top thr
 </div>
 </div>
 
-<div id="outline-container-org4c6d3a7" class="outline-2">
-<h3 id="org4c6d3a7">subversion/mercurial</h3>
-<div class="outline-text-2" id="text-org4c6d3a7">
+<div id="outline-container-orgf77ca35" class="outline-2">
+<h3 id="orgf77ca35">subversion/mercurial</h3>
+<div class="outline-text-2" id="text-orgf77ca35">
 <p>
 Until now I'm focusing on how to tweak the vimdiff UI because the git has already setup the <a href="https://github.com/git/git/blob/master/mergetools/vimdiff">basic vimdiff layout for us</a>. So we just follow the Git layout in other VCS.
 </p>
 </div>
-<div id="outline-container-orgd781b7b" class="outline-3">
-<h4 id="orgd781b7b">subversion</h4>
-<div class="outline-text-3" id="text-orgd781b7b">
+<div id="outline-container-orgf2452fe" class="outline-3">
+<h4 id="orgf2452fe">subversion</h4>
+<div class="outline-text-3" id="text-orgf2452fe">
 <p>
 Insert below code into ~/.subversion/config:
 </p>
@@ -581,9 +445,9 @@ vimdiff -f -d -c 'wincmd J' "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
 </div>
 </div>
 
-<div id="outline-container-orgfafa6e7" class="outline-2">
-<h3 id="orgfafa6e7">mercurial</h3>
-<div class="outline-text-2" id="text-orgfafa6e7">
+<div id="outline-container-orgf4d9b33" class="outline-2">
+<h3 id="orgf4d9b33">mercurial</h3>
+<div class="outline-text-2" id="text-orgf4d9b33">
 <p>
 Insert below code into <code>~/.hgrc</code>:
 </p>
@@ -907,6 +771,187 @@ Here is my setup:
            });
 </p></pre>   <p> This is a kind of radical example. I'm only demonstrating the power of new style. I'm not suggesting you should convert any logic statement into function call. New style is not a silver bullet. It's only a useful if used properly in right timing. </p>
 </div> </div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit/">The most efficient way to `git add` files in dired-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-14T23:16:00+00:00">2013-05-14 23:16</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit/#disqus_thread" data-disqus-identifier="cache/posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/dired/" rel="tag">dired</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Add following code into your .emacs, then use "/" to execute <code>git command</code> on your marked files in dired-mode: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">diredext-exec-git-command-in-shell</span> (command <span style="color: #e78c45;">&amp;optional</span> arg file-list)
+  <span style="color: #c397d8;">"Run a shell command <code>git COMMAND</code>' on the marked files.</span>
+<span style="color: #c397d8;">if no files marked, always operate on current line in dired-mode</span>
+<p><span style="color: #c397d8;">"</span>
+  (interactive
+   (<span style="color: #b9ca4a;">let</span> ((files (dired-get-marked-files t current-prefix-arg)))
+     (list
+      <span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">Want to give feedback whether this file or marked files are used:</span>
+      (dired-read-shell-command <span style="color: #70c0b1;">"git command on %s: "</span> current-prefix-arg files)
+      current-prefix-arg
+      files)))
+  (<span style="color: #b9ca4a;">unless</span> (string-match <span style="color: #70c0b1;">"[<em>?][ \t]</em>\'"</span> command)
+    (setq command (concat command <span style="color: #70c0b1;">" *"</span>)))
+  (setq command (concat <span style="color: #70c0b1;">"git "</span> command))
+  (dired-do-shell-command command arg file-list)
+  (message command))</p>
+<p>(<span style="color: #b9ca4a;">eval-after-load</span> 'dired '(define-key dired-mode-map <span style="color: #70c0b1;">"/"</span> 'diredext-exec-git-command-in-shell))</p>
+<p></p></pre>   <p> For example, say you set the alias "a" for git command "add" in your $HOME/.gitconfig. </p> <p> In order to <code>git add</code> files, you marked files in dired-mode and press "/", then press "a". The command <code>git a(dd)</code> will be executed. </p> <p> The reason to use git in dired-mode is simple. I'm working for some big enterprise application. You know the enterprise guys have the tendency to create lots of small modules/files for one feature. So I need do lots of <code>cp files somewhere</code> and <code>git add files</code> things these days. </p> <p> Thanks all the <a href="https://plus.google.com/110954683162859211810/posts/4CmwuDxVCA1">Emacs geeks on the Google+</a> who enlighten me. </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux/">How to split album into different flac and tag them under Gentoo Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-05-12T22:32:00+00:00">2013-05-12 22:32</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux/#disqus_thread" data-disqus-identifier="cache/posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cue/" rel="tag">cue</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/flac/" rel="tag">flac</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<div id="outline-container-orgd2bc038" class="outline-2">
+<h3 id="orgd2bc038">Install CLI tools</h3>
+<div class="outline-text-2" id="text-orgd2bc038">
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># mac to support ape
+sudo USE="alac flac mac shorten sox wavpack" emerge media-sound/shntool
+sudo emerge cuetools
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org86754dc" class="outline-2">
+<h3 id="org86754dc">Download script</h3>
+<div class="outline-text-2" id="text-org86754dc">
+<p>
+See <a href="https://bbs.archlinux.org/viewtopic.php?id=58766">https://bbs.archlinux.org/viewtopic.php?id=58766</a> for the source of bash script.
+</p>
+
+<p>
+Here is the full content of the bash script:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/bash
+# split image file (flac, ape, wav, etc.) according to cue-file
+if [ -f "$1" ]; then
+    i=0
+    for cuefile in *.cue; do
+        i=$(($i + 1))
+    done
+    if [ $i -eq 1 ]; then
+        # precies 1 cuesheet gevonden
+        if grep -q "INDEX 01 00:00:00" *.cue ; then
+            nice shntool split -t "%n %t" -f *.cue "$1"
+        else
+            echo "The first track has a pre-gap. Shntool will cut that off and put it in a seperate file."
+            echo "You don't want that. Please modify the cuesheet from:"
+            grep -m1 "INDEX 00" *.cue
+            grep -m1 "INDEX 01" *.cue
+            echo "to:"
+            echo "    INDEX 01 00:00:00"
+            exit 1
+        fi
+    elif [ $i -eq 0 ]; then
+        echo "No cuesheet found in the current directory."
+        exit 1
+    elif [ $i -gt 1 ]; then
+        echo "$i cuesheets found in the current directory. Please remove the superfluous cuesheets."
+        exit 1
+    fi
+else
+    echo "Split image file (flac, ape, wav, etc.) according to cue-file."
+    echo "Output files are in FLAC."
+    echo "Usage: `basename $0` &lt;image-file&gt;"
+    exit 1
+fi
+
+echo
+album=`grep -m 1 TITLE *.cue | cut -d\" -f2`
+artist=`grep -m 1 PERFORMER *.cue | cut -d\" -f2`
+
+for file in [0-9]*.wav; do
+    echo "Encoding $file"
+
+    if [[ ${file:0:1} == 0 ]] ; then
+        tracknr=${file:1:1}
+    else
+        tracknr=${file:0:2}
+    fi
+    title=`echo ${file:2} | sed -e "s/.wav$//"`
+
+    nice flac -s -T "artist=$artist" -T "album=$album" -T "title=$title" \
+    -T "tracknumber=$tracknr" "$file" &amp;&amp; rm "$file"
+done
+</code></pre>
+
+</div>
+
+<p>
+Put the script somewhere and name it to <code>cue2flac</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge94a9bf" class="outline-2">
+<h3 id="orge94a9bf">Start conversion</h3>
+<div class="outline-text-2" id="text-orge94a9bf">
+<div class="org-src-container">
+
+<pre><code class="lang-sh"># convert the ape to corresponding wav file, for example, "a.ape" is converted to "a.ape.wav"
+find . -name '*.ape'|xargs -I {} ffmpeg -i {} {}.wav
+# split wav and convert it to flac, make sure the *.cue exists in current directory
+cue2flac a.ape.wav
+# do the cleaning (OPTIONAL)
+rm *.ape *.wav
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
             </div>
         </div>
     

@@ -77,9 +77,9 @@ The techniques are compatible with <a href="https://github.com/jwiegley/use-pack
 Mid-level Lisp knowledge is required to read this article.
 </p>
 
-<div id="outline-container-org9901d70" class="outline-2">
-<h3 id="org9901d70">Do NOT use package.el for certain packages</h3>
-<div class="outline-text-2" id="text-org9901d70">
+<div id="outline-container-orgdb4529c" class="outline-2">
+<h3 id="orgdb4529c">Do NOT use package.el for certain packages</h3>
+<div class="outline-text-2" id="text-orgdb4529c">
 <p>
 Create the directory <code>~/.emacs.d/site-lisp</code>. Then insert below code into <code>~/.emacs</code>,
 </p>
@@ -104,9 +104,9 @@ You can place a package's source code at sub-directory of <code>~/.emacs.d/site-
 </div>
 </div>
 
-<div id="outline-container-orgf68090d" class="outline-2">
-<h3 id="orgf68090d">Create your own package repository</h3>
-<div class="outline-text-2" id="text-orgf68090d">
+<div id="outline-container-org5b6a5a2" class="outline-2">
+<h3 id="org5b6a5a2">Create your own package repository</h3>
+<div class="outline-text-2" id="text-org5b6a5a2">
 <p>
 Step 1, Place two files "archive-contents" and "hello-1.0.0.el" in any directory. Say <code>~/.emacs.d/localelpa</code>. 
 </p>
@@ -157,7 +157,7 @@ Here is a real world example how I apply this technique. I use <code>rainbow-mod
 </p>
 
 <p>
-I also create a <a href="https://github.com/redguardtoo/elpa-mirror">elpa-mirror</a> which creates a local repository from the installed packages. This local repository could be converted to remote repository using <a href="http://www.google.com.au/aclk?sa=l&amp;ai=CzC-wxBR1V4TDLY-Q8AXB6JZYzpSQtgfG2tG-uAGEsbgLCAAQAWCl-JGAkAGgAY-k7twDyAEBqgQiT9A1G2VwLIfGToKkVCdOvyWNgzhcfW06fVwewFDtt2ESpYAHvuz4NZAHA6gHpr4b2AcB&amp;sig=AOD64_0dA0XCyoO-dl0N6XK3n7knfXL5hA&amp;clui=0&amp;ved=0ahUKEwj-sJmh5M_NAhVEoZQKHVclCJ8Q0QwIEg&amp;adurl=https://www.dropbox.com/business/landing-t61fl?_tk=sem_b_goog&amp;_camp=sem-b-goog-au-nz-eng-top-exact&amp;_kw=dropbox%7Ce&amp;_ad=49525704222%7C1t1%7Cc">Dropbox</a> and <a href="https://github.com/">Github</a> easily.
+I also create a <a href="https://github.com/redguardtoo/elpa-mirror">elpa-mirror</a> which creates a local repository from the installed packages. This local repository could be converted to remote repository using <a href="http://www.google.com.au/aclk?sa=l&amp;ai=CzC-wxBR1V4TDLY-Q8AXB6JZYzpSQtgfG2tG-uAGEsbgLCAAQAWCl-JGAkAGgAY-k7twDyAEBqgQiT9A1G2VwLIfGToKkVCdOvyWNgzhcfW06fVwewFDtt2ESpYAHvuz4NZAHA6gHpr4b2AcB&amp;sig=AOD64_0dA0XCyoO-dl0N6XK3n7knfXL5hA&amp;clui=0&amp;ved=0ahUKEwj-sJmh5M_NAhVEoZQKHVclCJ8Q0QwIEg&amp;adurl=https://www.dropbox.com/business/landing-t61fl%3F_tk%3Dsem_b_goog%26_camp%3Dsem-b-goog-au-nz-eng-top-exact%26_kw%3Ddropbox%7Ce%26_ad%3D49525704222%7C1t1%7Cc">Dropbox</a> and <a href="https://github.com/">Github</a> easily.
 </p>
 
 <p>
@@ -166,10 +166,10 @@ Orphan package issue is also resolved by <code>elpa-mirror</code>. You can delet
 </div>
 </div>
 
-<div id="outline-container-org8c66d93" class="outline-2">
-<h3 id="org8c66d93">
+<div id="outline-container-org818e900" class="outline-2">
+<h3 id="org818e900">
 <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">Advice</a> <code>package--add-to-archive-contents</code> to filter packages</h3>
-<div class="outline-text-2" id="text-org8c66d93">
+<div class="outline-text-2" id="text-org818e900">
 <p>
 Insert below code into ~/.emacs,
 </p>
@@ -233,9 +233,9 @@ This solution is copied from Steve Purcell's setup with a little modification.
 </div>
 </div>
 
-<div id="outline-container-orgcc4bb3f" class="outline-2">
-<h3 id="orgcc4bb3f">Summary</h3>
-<div class="outline-text-2" id="text-orgcc4bb3f">
+<div id="outline-container-orgba8405f" class="outline-2">
+<h3 id="orgba8405f">Summary</h3>
+<div class="outline-text-2" id="text-orgba8405f">
 <p>
 You can combine above techniques to <b>solve any package issue</b>.
 </p>

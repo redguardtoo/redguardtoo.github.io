@@ -23,273 +23,6 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/">Emacs中的自动完成(Auto Completion)完全指南</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2012-08-21T14:50:00+00:00">2012-08-21 14:50</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/#disqus_thread" data-disqus-identifier="cache/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/completion/" rel="tag">completion</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/intellisense/" rel="tag">intellisense</a></li>
-           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-作者: 陈斌(redguardtoo)
-</p>
-
-<p>
-更新时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-04-05 Wed&gt;</span></span>
-</p>
-
-<p>
-原创时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-08-21 Tue&gt;</span></span>
-</p>
-
-<p>
-Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者不带文件名后缀都可以).
-</p>
-
-<p>
-我不是来赞美Emacs的强大的,我是来吐槽的.自动完成框架太多,功能重叠,让人困扰.
-</p>
-
-<p>
-所以本文目的有两个:
-</p>
-
-<ul class="org-ul">
-<li>说明哪些框架流行</li>
-<li>如何使用框架</li>
-</ul>
-<div id="outline-container-orgcb53df2" class="outline-2">
-<h3 id="orgcb53df2">概述</h3>
-<div class="outline-text-2" id="text-orgcb53df2">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-left">
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<thead><tr>
-<th scope="col" class="org-left">函数/插件名</th>
-<th scope="col" class="org-left">快捷键</th>
-<th scope="col" class="org-left">使用频率</th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="org-left">company-mode (结合clang)</td>
-<td class="org-left">不需要 (也可启用TAB)</td>
-<td class="org-left">高</td>
-</tr>
-<tr>
-<td class="org-left">hippie-expand</td>
-<td class="org-left">M-/</td>
-<td class="org-left">高</td>
-</tr>
-<tr>
-<td class="org-left">evil-mode</td>
-<td class="org-left">C-n/C-p(完成词),C-x C-n/p(完成行)</td>
-<td class="org-left">高</td>
-</tr>
-<tr>
-<td class="org-left">auto-complete (结合clang)</td>
-<td class="org-left">TAB</td>
-<td class="org-left">低</td>
-</tr>
-<tr>
-<td class="org-left">complete-symbol</td>
-<td class="org-left">C-M-i</td>
-<td class="org-left">低</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
-<div id="outline-container-org49029fa" class="outline-2">
-<h3 id="org49029fa">auto-complete结合clang</h3>
-<div class="outline-text-2" id="text-org49029fa">
-<p>
-<a href="http://emacswiki.org/emacs/AutoComplete">auto-complete</a>是第三方开发的插件,提供了自动完成需要的支持(例如在命令行环境下对下拉菜单的模拟).
-</p>
-
-<p>
-而<a href="http://clang.llvm.org">clang</a>是苹果公司C/C++/Objective-C编译器,对C++语法的解析很好.
-</p>
-
-<p>
-显然,这种l案只适用于 <code>Clang</code> 支持的语言.
-</p>
-
-<p>
-需要通过<a href="http://emacswiki.org/wiki/ELPA">elpa(Emacs的AppStore)</a>安装第三方插件 <code>auto-complete</code> 和<a href="https://github.com/brianjcj/auto-complete-clang">auto-complete-clang</a>.
-</p>
-
-<p>
-具体配置请参考我的<a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-auto-complete.el">init-auto-complete.el</a>.
-</p>
-
-<p>
-已被company-mode取代,不推荐.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org05657ce" class="outline-2">
-<h3 id="org05657ce">company-mode</h3>
-<div class="outline-text-2" id="text-org05657ce">
-<p>
-<a href="https://github.com/company-mode/company-mode">company-mode</a>和auto-complete功能类似，唯一的区别是clang以及其他语言支持已内置，所以不需要安装其他elisp插件或者额外配置.目前我已用company-mode代替了auto-complete.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org22c9aa2" class="outline-2">
-<h3 id="org22c9aa2">hippie-expand</h3>
-<div class="outline-text-2" id="text-org22c9aa2">
-<p>
-<a href="http://emacswiki.org/emacs/HippieExpand">hippie-expand</a>是Emacs自带的自动完成框架.
-</p>
-
-<p>
-其默认的一些特色功能(例如,完成词/文件名/行的功能,或在 <code>minibuffer</code> 中使用)可作为 <code>company-mode</code> 补充.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org35f991b" class="outline-2">
-<h3 id="org35f991b">complete-symbol</h3>
-<div class="outline-text-2" id="text-org35f991b">
-<p>
-Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,它默认仅仅调用了后台的ctags而已.
-</p>
-
-<p>
-<code>hippie-expand</code> 经过调教也可用 <code>Ctags</code>,且默认特色功能比 <code>complete-symbol</code> 多,所以我没兴趣配置第三个自动完成框架了.
-</p>
-
-<p>
-通过阅读Emacs24的ChangeLog,我发现 <code>complete-symbol</code> 经过配置后可以用 <code>semantic</code> 作为语法解析后端(Emacs23.4也支持,不明白为什么把该特性放在Emacs24的ChangeLog介绍).
-</p>
-
-<p>
-<a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Semantic.html">semantic</a>是lisp写的语法解析器,Emacs自带,智能程度介于ctags和clang之间,解析速度比较慢,如果机器配置较差会很卡.
-</p>
-
-<p>
-我不喜欢这个语法解析器,过去在 <code>Semantic</code> 尚是<a href="http://cedet.sourceforge.net">Cedet</a>的一个组件时,我折腾过 <code>Cedet</code>,当时感觉速度慢,配置繁琐,不稳定.
-</p>
-
-<p>
-<code>Semantic</code> 支持多种语言,如C++/Java.
-</p>
-
-<p>
-配置请参考我的<a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-semantic.el">init-semantic.el</a>(注意,我不用 <code>Semantic</code>,所以相应代码被注释了.你可取消注释).
-</p>
-
-<p>
-已被 <code>company-mode</code> 取代,不推荐.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org67d6aa2" class="outline-2">
-<h3 id="org67d6aa2">evil-mode</h3>
-<div class="outline-text-2" id="text-org67d6aa2">
-<p>
-<a href="http://emacswiki.org/emacs/Evil">Evil-mode</a>把Emacs模拟成了Vim,是我最喜欢的第三方插件,其自动完成很简单,就是根据当前文件内容自动完成词或行.
-</p>
-
-<p>
-值得推荐是因为我也是重度Vim用户,Vim的快捷键已成为我本能了.
-</p>
-
-<p>
-无需配置,启动 <code>evil-mode</code> 即可,参见我的<a href="https://github.com/redguardtoo/emacs.d/blob/master/init-evil.el">init-evil.el</a>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgfd7e53d" class="outline-2">
-<h3 id="orgfd7e53d">其他</h3>
-<div class="outline-text-2" id="text-orgfd7e53d">
-<p>
-我的一个想法. 类似于Evil的完成行.但是可以扫瞄指定目录中所有的文件,列出相似的行.
-</p>
-
-<p>
-优点在于:
-</p>
-<ul class="org-ul">
-<li>匹配可以更加宽容一点</li>
-<li>使用目前最快的grep工具如<a href="https://github.com/BurntSushi/ripgrep">ripgrep</a>扫瞄文本</li>
-</ul>
-<p>
-实现见<a href="https://github.com/redguardtoo/emacs.d/blob/24dd0d7/lisp/init-ivy.el">init-ivy</a>中的=counsel-complete-line-by-grep=.
-</p>
-
-<p>
-试用好几个月了,非常好用.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orge16e3a2" class="outline-2">
-<h3 id="orge16e3a2">小结</h3>
-<div class="outline-text-2" id="text-orge16e3a2">
-<p>
-自动完成包括前端用户界面和后端语法解析引擎两个部分.
-</p>
-
-<p>
-作为前端的用户界面, <code>company-mode</code> 和 <code>auto-complete</code> 相当成熟.
-</p>
-
-<p>
-后端 <code>Clang</code> 最优秀.
-</p>
-
-<p>
-<code>Ctags</code> 谈不上语法解析,只是正则表达式罢了,但是因此才能通吃所有语言.
-</p>
-
-<p>
-<code>Semantic</code> 支持的语言比 <code>Clang</code> 多一点,性能和稳定性比较差.
-</p>
-
-<p>
-作为一个C++程序员,我过去用 <code>auto-complete</code> 加上 <code>Clang</code>,现在用 <code>company-mode</code> 加 <code>Clang</code>.
-</p>
-
-<p>
-脚本语言(Ruby/Python/Javascript)用 <a href="https://en.wikipedia.org/wiki/Ctags">Ctags</a> 加 <a href="https://github.com/company-mode/company-mode">company-mode</a> 加 <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a>.
-</p>
-
-<p>
-基于框架自己发明新技术会更好用.</p>
-</div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
             <h1 class="title"><a href="posts/my-git-alias-in-bashrc/">My git alias in .bashrc</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -716,6 +449,64 @@ Updated: The simpler solution is to install gcc4 at cygwin.</p>
             </div>
         </div>
         <div class="post">
+            <h1 class="title"><a href="posts/how-to-convert-org-to-pdf/">How to convert org to PDF</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-07-08T15:27:00+00:00">2012-07-08 15:27</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-convert-org-to-pdf/#disqus_thread" data-disqus-identifier="cache/posts/how-to-convert-org-to-pdf.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/latex/" rel="tag">latex</a></li>
+           <li><a class="tag p-category" href="categories/pdf/" rel="tag">pdf</a></li>
+           <li><a class="tag p-category" href="categories/perl/" rel="tag">perl</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Install <a href="http://www.tug.org/texlive/">TexLive</a>. The <code>org-mode</code> has some handy function to locate the TexLive. Press <code>C-c C-e p</code> to convert.
+</p>
+
+<p>
+At Cygwin and Linux, installing TexLive could be installed by their package system.
+</p>
+
+<p>
+At macOS, I use the <a href="http://www.tug.org/texlive/acquire-netinstall.html">TexLive source package</a> (install-tl-unx.tar.gz). After installation, environment varaibles need be set.
+</p>
+
+<p>
+Bash shell requires setup in <code>~/.bashrc</code>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">if [[ `uname -s` == *Darwin* ]]; then
+   #tex live on OS X
+   export PATH=/usr/local/texlive/2011/bin/universal-darwin:$PATH
+   export MANPATH=/usr/local/texlive/2011/texmf/doc/man:$MANPAH
+   export INFOPATH=/usr/local/texlive/2011/texmf/doc/info:$INFOPATH
+fi
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/note-on-emacs-chat-between-john-wiegley-and-sacha-chua/">Notes on Emacs chat between John Wiegley and Sacha Chua</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -802,9 +593,9 @@ I only record key points,
 I will only talk about how to set up yasnippet 0.7.0 or higher version.
 </p>
 
-<div id="outline-container-org0c1e5c9" class="outline-2">
-<h3 id="org0c1e5c9">If you follow `normal install` way, setup is simple</h3>
-<div class="outline-text-2" id="text-org0c1e5c9">
+<div id="outline-container-orgd0456b5" class="outline-2">
+<h3 id="orgd0456b5">If you follow `normal install` way, setup is simple</h3>
+<div class="outline-text-2" id="text-orgd0456b5">
 <p>
 See its <a href="http://capitaomorte.github.com/yasnippet/">official documentation</a>.
 </p>
@@ -825,9 +616,9 @@ Install the yasnippet into somewhere and add following code into your .emacs:
 </div>
 </div>
 
-<div id="outline-container-orge8bd0d5" class="outline-2">
-<h3 id="orge8bd0d5">If you use elpa package system, setup is even simpler</h3>
-<div class="outline-text-2" id="text-orge8bd0d5">
+<div id="outline-container-org57ac7c1" class="outline-2">
+<h3 id="org57ac7c1">If you use elpa package system, setup is even simpler</h3>
+<div class="outline-text-2" id="text-org57ac7c1">
 <p>
 After installation, you only need two lines in .emacs.
 </p>
@@ -849,16 +640,16 @@ So you only put your own snippets in "~/.emacs.d/snippets" and done. No need to 
 </div>
 </div>
 
-<div id="outline-container-org71d5288" class="outline-2">
-<h3 id="org71d5288">The real world setup is NOT simple</h3>
-<div class="outline-text-2" id="text-org71d5288">
+<div id="outline-container-org5229ef0" class="outline-2">
+<h3 id="org5229ef0">The real world setup is NOT simple</h3>
+<div class="outline-text-2" id="text-org5229ef0">
 <p>
 I will explain the reasons at first and give my complete yasnippet configuration code at the end of the this post.
 </p>
 </div>
-<div id="outline-container-orge5168e4" class="outline-3">
-<h4 id="orge5168e4">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
-<div class="outline-text-3" id="text-orge5168e4">
+<div id="outline-container-org2b554b8" class="outline-3">
+<h4 id="org2b554b8">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
+<div class="outline-text-3" id="text-org2b554b8">
 <p>
 One issue is I need a user-friendly dropdown window popped up when the key I input has several candidates. For example, when I type "inc" in C code. There are two candidates `#include "…"' and `#include &lt;…&gt;' available. A handy dropdown popup will help me to choose one of them as efficient as possible.
 </p>
@@ -873,18 +664,18 @@ The bad news is for some strange reason yasnippet won't load that dropdown-list 
 </div>
 </div>
 
-<div id="outline-container-orgeda8ecd" class="outline-3">
-<h4 id="orgeda8ecd">`yas/dropdown-prompt' is not perfect</h4>
-<div class="outline-text-3" id="text-orgeda8ecd">
+<div id="outline-container-orgddcddd4" class="outline-3">
+<h4 id="orgddcddd4">`yas/dropdown-prompt' is not perfect</h4>
+<div class="outline-text-3" id="text-orgddcddd4">
 <p>
 I cannot scroll down the dropdown window when there are more candidates it can display. That's especially annoying when calling `yas/insert-snippet'. In this case, we need use `yas/completing-prompt' instead. I will show the fix at the end of this article.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org39a30b9" class="outline-3">
-<h4 id="org39a30b9">Yasnippet conflicts with other plugins</h4>
-<div class="outline-text-3" id="text-org39a30b9">
+<div id="outline-container-orgd9aeb23" class="outline-3">
+<h4 id="orgd9aeb23">Yasnippet conflicts with other plugins</h4>
+<div class="outline-text-3" id="text-orgd9aeb23">
 <p>
 I use <a href="http://cx4a.org/software/auto-complete/">Auto Complete Mode</a> (version 20120327 in elpa).  There are two issues when using it with yasnippet.
 </p>
@@ -908,9 +699,9 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
 </div>
 </div>
 
-<div id="outline-container-org3b2ca9f" class="outline-2">
-<h3 id="org3b2ca9f">My final yasnippet setup</h3>
-<div class="outline-text-2" id="text-org3b2ca9f">
+<div id="outline-container-org2b3ae17" class="outline-2">
+<h3 id="org2b3ae17">My final yasnippet setup</h3>
+<div class="outline-text-2" id="text-org2b3ae17">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'yasnippet)

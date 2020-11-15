@@ -23,15 +23,15 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/toggle-http-proxy-in-emacs-w3m/">Toggle http proxy in emacs-w3m</a></h1>
+            <h1 class="title"><a href="posts/yong-org2blog-emacs-fa-biao-bo-ke/">用org2blog+emacs发表博客</a></h1>
             <div class="meta">
                 <div class="authordate">
-                    <time class="timeago" datetime="2013-01-04T17:50:00+00:00">2013-01-04 17:50</time>
+                    <time class="timeago" datetime="2012-12-26T09:16:27+00:00">2012-12-26 09:16</time>
 </div>
                 <div class="stats">
                     
         
-    <a href="posts/toggle-http-proxy-in-emacs-w3m/#disqus_thread" data-disqus-identifier="cache/posts/toggle-http-proxy-in-emacs-w3m.html">Comments</a>
+    <a href="posts/yong-org2blog-emacs-fa-biao-bo-ke/#disqus_thread" data-disqus-identifier="cache/posts/yong-org2blog-emacs-fa-biao-bo-ke.html">Comments</a>
 
 
                 </div>
@@ -39,11 +39,10 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="categories/elisp/" rel="tag">elisp</a></li>
+           <li><a class="tag p-category" href="categories/blog/" rel="tag">blog</a></li>
            <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/http/" rel="tag">http</a></li>
-           <li><a class="tag p-category" href="categories/proxy/" rel="tag">proxy</a></li>
+           <li><a class="tag p-category" href="categories/org2blog/" rel="tag">org2blog</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
@@ -51,459 +50,32 @@
             <div class="body">
                 <div>
 <p>
-<a href="http://www.emacswiki.org/emacs/emacs-w3m">emacs-w3m</a> is a browser which handles all my basic web surfing needs.
+我有兴趣开始写博,完全是因为我开始爱上emacs.
 </p>
 
 <p>
-For some reason, I need switch my http proxy frequently.
+<a href="http://blog.nethazard.net/post-to-wordpress-blogs-with-emacs-org-mode">有人</a>说emacs的插件<a href="https://github.com/punchagan/org2blog">org2blog</a>使的写博客非常高效，我就想试试.
 </p>
 
 <p>
-The solution is to set/unset the environment variable "http_proxy" in elisp code. Restarting the w3m session after change the environment variable is not needed at all.
+我(计划)把所有的文章都放在一个org文件里(BTW,我爱死<a href="http://orgmode.org">org-mode</a>了,它本来是做计划管理和日志的,但事实上是无所不能),然后 <code>M-x org2blog/wp-post-subtree</code> 发表.
 </p>
 
 <p>
-Here is my code:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun toggle-env-http-proxy ()
-  "set/unset the environment variable http_proxy which w3m uses"
-  (interactive)
-  (let ((proxy "http://127.0.0.1:8000"))
-    (if (string= (getenv "http_proxy") proxy)
-        ;; clear the proxy
-        (progn
-          (setenv "http_proxy" "")
-          (message "env http_proxy is empty now"))
-      ;; set the proxy
-      (setenv "http_proxy" proxy)
-      (message "env http_proxy is %s now" proxy))))
-</code></pre>
-
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-popfile-at-linux/">Use POPFile at Linux</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2012-12-28T09:18:54+00:00">2012-12-28 09:18</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/use-popfile-at-linux/#disqus_thread" data-disqus-identifier="cache/posts/use-popfile-at-linux.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/email/" rel="tag">email</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/filter/" rel="tag">filter</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/popfile/" rel="tag">popfile</a></li>
-           <li><a class="tag p-category" href="categories/spam/" rel="tag">spam</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-12-28 Fri&gt;</span></span>
+要正常使用org2blog,必需安装最新的org-mode(我的版本为7.5, <code>M-x org-version</code> 检查当前版本,警告,<a href="https://github.com/punchagan/org2blog/issues/46">7.5不可靠</a>,应升级到最新版本,我用从git服务器取得"d6aba4db"版本).
 </p>
 
 <p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-03-12 Sun&gt;</span></span>
+emacs(版本23.3.1)自带的org-mode太老,和最新的org2blog(<span class="timestamp-wrapper"><span class="timestamp">&lt;2011-04-12 Tue&gt;</span></span>的版本)不兼容.
 </p>
 
 <p>
-<a href="http://getpopfile.org">POPFile</a> automatically sorts emails.
-</p>
-
-<div id="outline-container-orgf1e5a4e" class="outline-2">
-<h3 id="orgf1e5a4e">Install POPFile</h3>
-<div class="outline-text-2" id="text-orgf1e5a4e">
-<p>
-<a href="http://getpopfile.org/docs/download">Download and extract cross-platform version</a> to <code>~/bin/popfile/</code>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org0086468" class="outline-2">
-<h3 id="org0086468">Install third party packages</h3>
-<div class="outline-text-2" id="text-org0086468">
-<p>
-Run:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::Socket::SSL Net::IDN::Encode Mozilla::CA Encode:IMAPUTF7
-</code></pre>
-
-</div>
-
-<p>
-When being asked by cpan, say you prefer installing local lib.
+org2blog安装步骤在上文的链接里都有,也可以参看<a href="http://objectcommando.com/blog/2011/01/25/blogging-with-org2blog/">Blogging with org2blog</a>.
 </p>
 
 <p>
-My cpan configuration <code>~/.cpan/CPAN/MyConfig.pm</code>,
+org-mode安装步骤见<a href="http://orgmode.org/guide/Installation.html#Installation">官方文档</a>.
 </p>
-<div class="org-src-container">
-
-<pre><code class="lang-perl">$CPAN::Config = {
-  'applypatch' =&gt; q[],
-  'auto_commit' =&gt; q[0],
-  'build_cache' =&gt; q[100],
-  'build_dir' =&gt; q[/home/cb/.cpan/build],
-  'build_dir_reuse' =&gt; q[0],
-  'build_requires_install_policy' =&gt; q[yes],
-  'bzip2' =&gt; q[/bin/bzip2],
-  'cache_metadata' =&gt; q[1],
-  'check_sigs' =&gt; q[0],
-  'colorize_output' =&gt; q[0],
-  'commandnumber_in_prompt' =&gt; q[1],
-  'connect_to_internet_ok' =&gt; q[1],
-  'cpan_home' =&gt; q[/home/cb/.cpan],
-  'ftp_passive' =&gt; q[1],
-  'ftp_proxy' =&gt; q[],
-  'getcwd' =&gt; q[cwd],
-  'gpg' =&gt; q[/usr/bin/gpg],
-  'gzip' =&gt; q[/bin/gzip],
-  'halt_on_failure' =&gt; q[0],
-  'histfile' =&gt; q[/home/cb/.cpan/histfile],
-  'histsize' =&gt; q[100],
-  'http_proxy' =&gt; q[],
-  'inactivity_timeout' =&gt; q[0],
-  'index_expire' =&gt; q[90],
-  'inhibit_startup_message' =&gt; q[0],
-  'keep_source_where' =&gt; q[/home/cb/.cpan/sources],
-  'load_module_verbosity' =&gt; q[none],
-  'make' =&gt; q[/usr/bin/make],
-  'make_arg' =&gt; q[],
-  'make_install_make_command' =&gt; q[/usr/bin/make],
-  'mbuild_arg' =&gt; q[--install-dirs site],
-  'mbuild_install_arg' =&gt; q[./Build],
-  'mbuild_install_build_command' =&gt; q[./Build],
-  'mbuildpl_arg' =&gt; q[--installdirs site],
-  'no_proxy' =&gt; q[],
-  'pager' =&gt; q[/usr/bin/less],
-  'patch' =&gt; q[/usr/bin/patch],
-  'perl5lib_verbosity' =&gt; q[none],
-  'prefer_external_tar' =&gt; q[1],
-  'prefer_installer' =&gt; q[MB],
-  'prefs_dir' =&gt; q[/home/cb/.cpan/prefs],
-  'prerequisites_policy' =&gt; q[follow],
-  'recommends_policy' =&gt; q[1],
-  'scan_cache' =&gt; q[atstart],
-  'shell' =&gt; q[/bin/bash],
-  'show_unparsable_versions' =&gt; q[0],
-  'show_upload_date' =&gt; q[0],
-  'show_zero_versions' =&gt; q[0],
-  'suggests_policy' =&gt; q[0],
-  'tar' =&gt; q[/bin/tar],
-  'tar_verbosity' =&gt; q[none],
-  'term_is_latin' =&gt; q[1],
-  'term_ornaments' =&gt; q[1],
-  'test_report' =&gt; q[0],
-  'trust_test_report_history' =&gt; q[0],
-  'unzip' =&gt; q[/usr/bin/unzip],
-  'urllist' =&gt; [q[http://mirror.optusnet.com.au/CPAN/]],
-  'use_prompt_default' =&gt; q[0],
-  'use_sqlite' =&gt; q[0],
-  'version_timeout' =&gt; q[15],
-  'wget' =&gt; q[/usr/bin/wget],
-  'yaml_load_code' =&gt; q[0],
-  'yaml_module' =&gt; q[YAML],
-};
-__END__
-</code></pre>
-
-</div>
-
-<p>
-<code>cpan</code> will append setup into <code>~/.bashrc</code>,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
-</code></pre>
-
-</div>
-
-<p>
-Double check installed packages:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">perl -MDBI -e 'print $MIME::DBI::VERSION'
-</code></pre>
-
-</div>
-
-<p>
-If there is any error:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">perl -V
-rm -rf ~/perl5/*
-cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::Socket::SSL Net::IDN::Encode MOZILLA::CA
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-org9d9396d" class="outline-2">
-<h3 id="org9d9396d">Setup</h3>
-<div class="outline-text-2" id="text-org9d9396d">
-<p>
-I only use IMAP. The purpose of tweak POP3 port is only to make the program executable without root permission.
-</p>
-
-<p>
-See <a href="http://getpopfile.org/docs/howtos:mayneedroot">http://getpopfile.org/docs/howtos:mayneedroot</a> for details.
-</p>
-
-<p>
-Run the below command to fix the root issue.
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">sed -i 's/pop3_port \+110/pop3_port 1110/g' ~/bin/popfile/popfile.cfg
-</code></pre>
-
-</div>
-
-
-<p>
-Davmail is a gateway to convert Outlook/Exchange service to IMAP/POP3). It's required if and only if you use Microsoft's Exchange/Outlook.
-</p>
-
-<p>
-If you don't use Davmail and fetch mails directly, you'd better set <code>imap_expunge 1</code> to fix <a href="http://getpopfile.org/discussion/1/550/2144">Microsoft Office 365 issue</a>.
-</p>
-
-<p>
-Please disable ssl if running local Davmail Server only. Or else, ssl should be enabled.
-</p>
-
-<p>
-My popfile setup,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-ini">bayes_bad_sqlite_version 4.0.0
-bayes_corpus corpus
-bayes_database popfile.db
-bayes_dbauth 
-bayes_dbconnect dbi:SQLite:dbname=$dbname
-bayes_dbuser 
-bayes_hostname 192-168-1-3.tpgi.com.au
-bayes_localhostname 
-bayes_nihongo_parser kakasi
-bayes_sqlite_journal_mode delete
-bayes_sqlite_tweaks 4294967295
-bayes_subject_mod_left [
-bayes_subject_mod_pos 1
-bayes_subject_mod_right ]
-bayes_unclassified_weight 100
-bayes_xpl_angle 0
-config_pidcheck_interval 5
-config_piddir ./
-GLOBAL_debug 1
-GLOBAL_last_update_check 1407715200
-GLOBAL_message_cutoff 100000
-GLOBAL_msgdir messages/
-GLOBAL_ssl_verify_peer_certs 0
-GLOBAL_timeout 60
-GLOBAL_update_check 1
-history_archive 0
-history_archive_classes 0
-history_archive_dir archive
-history_history_days 2
-html_cache_templates 0
-html_column_characters 0
-html_columns +inserted,+from,+to,-cc,+subject,-date,-size,+bucket
-html_date_format 
-html_language English
-html_last_reset Sat Dec  1 11:06:48 2012
-html_local 0
-html_page_size 20
-html_password b6b3637136ad630eba43aa5ee7106780
-html_port 8888
-html_search_filter_highlight 0
-html_send_stats 1
-html_session_dividers 1
-html_show_bucket_help 1
-html_show_training_help 0
-html_skin simplyblue
-html_strict_templates 0
-html_test_language 0
-html_wordtable_format 
-imap_bucket_folder_mappings job--&gt;job--&gt;geek--&gt;geek--&gt;business--&gt;business--&gt;ad--&gt;ad--&gt;unclassified--&gt;INBOX--&gt;work--&gt;work--&gt;
-imap_enabled 1
-imap_expunge 1
-imap_hostname localhost
-imap_login binc1
-imap_password password1
-imap_port 1143
-imap_training_mode 0
-imap_uidnexts work--&gt;749--&gt;job--&gt;5914--&gt;INBOX--&gt;20736--&gt;geek--&gt;5009--&gt;ad--&gt;1296--&gt;business--&gt;15--&gt;
-imap_uidvalidities job--&gt;98--&gt;work--&gt;107--&gt;ad--&gt;100--&gt;business--&gt;106--&gt;geek--&gt;99--&gt;INBOX--&gt;2--&gt;
-imap_update_interval 1000
-imap_use_ssl 0
-imap_watched_folders INBOX--&gt;INBOX--&gt;
-logger_format default
-logger_level 0
-logger_logdir ./
-nntp_enabled 0
-nntp_force_fork 1
-nntp_headtoo 0
-nntp_local 1
-nntp_port 119
-nntp_separator :
-nntp_socks_port 1080
-nntp_socks_server 
-nntp_welcome_string NNTP POPFile (v1.1.3) server ready
-pop3_enabled 0
-pop3_force_fork 1
-pop3_local 1
-pop3_port 1110
-pop3_secure_port 110
-pop3_secure_server 
-pop3_separator :
-pop3_socks_port 1080
-pop3_socks_server 
-pop3_toptoo 0
-pop3_welcome_string POP3 POPFile (v1.1.3) server ready
-smtp_chain_port 25
-smtp_chain_server 
-smtp_enabled 0
-smtp_force_fork 1
-smtp_local 1
-smtp_port 25
-smtp_socks_port 1080
-smtp_socks_server 
-smtp_welcome_string SMTP POPFile (v1.1.3) welcome
-xmlrpc_enabled 0
-xmlrpc_local 1
-xmlrpc_port 8081
-</code></pre>
-
-</div>
-
-<p>
-The only remaining issue is user name. If it contains "\", you should replace it with "\\" when inputting in Popfile!
-</p>
-</div>
-</div>
-
-<div id="outline-container-org7721e8b" class="outline-2">
-<h3 id="org7721e8b">Run the program</h3>
-<div class="outline-text-2" id="text-org7721e8b">
-<p>
-See <a href="http://getpopfile.org/docs/howtos:runlocation">http://getpopfile.org/docs/howtos:runlocation</a> for details.
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">cd ~/bin/popfile;perl popfile.pl
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-org01aea0d" class="outline-2">
-<h3 id="org01aea0d">Start the POPFile automatically when bash login</h3>
-<div class="outline-text-2" id="text-org01aea0d">
-<p>
-Insert below code in ~/.bashrc:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">OS_NAME=`uname -s`
-if [ $OS_NAME == Linux ]; then
-   # start popfile
-   if [ -f $HOME/bin/popfile/popfile.pl ]; then
-      # @see http://getpopfile.org/docs/howtos:runlocation
-      pop_pid=`ps -ef | grep perl | grep popfile.pl | gawk '{print $2}'`
-      if [ "${pop_pid}" = "" ] ; then
-         cd $HOME/bin/popfile
-         perl popfile.pl &gt;&gt; /dev/null 2&gt;&amp;1 &amp;
-      fi
-      cd $HOME
-   fi
-fi
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-org447f91a" class="outline-2">
-<h3 id="org447f91a">Start the POPFile systemd service as a user (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-org447f91a">
-<p>
-My user name is cb. Put popfile.service in <i>usr/lib/systemd/system</i>. Then run `systemctl enable popfile` to install service. Run `systemctl start popfile` to start the service. My Linux distribution is ArchLinux.
-</p>
-
-<p>
-here is content of popfile.service.
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-ini">[Unit]
-Description=POPFile (Automatic Email Classification) Service
-
-[Service]
-WorkingDirectory=/home/cb/bin/popfile
-ExecStart=/usr/bin/perl popfile.pl
-User=cb
-
-[Install]
-WantedBy=multi-user.target
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgdfb9ac0" class="outline-2">
-<h3 id="orgdfb9ac0">Backup</h3>
-<div class="outline-text-2" id="text-orgdfb9ac0">
-<p>
-Please backup popfile.cfg and popfile.db.
-</p>
-
-<p>
-See <a href="http://getpopfile.org/docs/howtos:backup">http://getpopfile.org/docs/howtos:backup</a> for details.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgbedc6d1" class="outline-2">
-<h3 id="orgbedc6d1">Summary</h3>
-<div class="outline-text-2" id="text-orgbedc6d1">
-<ul class="org-ul">
-<li>Portable</li>
-<li>No root privilege needed</li>
-<li>No X windows needed. I can manage mails in remote shell</li>
-</ul>
-</div>
-</div>
 </div>
             </div>
         </div>
@@ -603,7 +175,7 @@ IntelliSense is a different story. For programming languages like Javascript, ct
 </p>
 
 <p>
-I found one missing piece from EmacsWiki is the tip on how to <b>manage tags file</b> easily when the TAGS is built from some code of third party libraries (<a href="http://http//en.wikipedia.org/wiki/Qt_(framework)">QT</a>, <a href="http://www.wxwidgets.org">wxWidgets</a>, <a href="http://www.gtk.org">GTK</a>, <a href="http://www.boost.org">Boost</a>, just name a few).
+I found one missing piece from EmacsWiki is the tip on how to <b>manage tags file</b> easily when the TAGS is built from some code of third party libraries (<a href="http://http//en.wikipedia.org/wiki/Qt_%28framework%29">QT</a>, <a href="http://www.wxwidgets.org">wxWidgets</a>, <a href="http://www.gtk.org">GTK</a>, <a href="http://www.boost.org">Boost</a>, just name a few).
 </p>
 
 <p>
@@ -623,18 +195,18 @@ The purpose to load tags files is to look up API easily. For example, I use C++ 
 The reason to do the unload thing is to avoid function name conflict from some tags files. EmacsWiki has a section "Choosing Among Multiple Tags for the Same Name" to solve this problem. But unloading is more convenient. In theory, it would be annoying if I need repeat load and unload the same tags files. In reality, it seldom happens because if I need work on Javascript (so I unload C++ related TAGS), I will usually keep working on Javascript until the end of the day.
 </p>
 
-<div id="outline-container-orge69d0f5" class="outline-2">
-<h3 id="orge69d0f5">Produce tags files for all the environments</h3>
-<div class="outline-text-2" id="text-orge69d0f5">
+<div id="outline-container-org8e48d1f" class="outline-2">
+<h3 id="org8e48d1f">Produce tags files for all the environments</h3>
+<div class="outline-text-2" id="text-org8e48d1f">
 <p>
 For example, I produce tags files of Library A for Mac and Linux. I put tags file from Mac at directory "/home/cb/tags/Library_A/mac" and file from Linux at <code>/home/cb/tags/Library_A/linux</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd4322bf" class="outline-2">
-<h3 id="orgd4322bf">Use git and github to manage the tags files</h3>
-<div class="outline-text-2" id="text-orgd4322bf">
+<div id="outline-container-orgc8a8ed3" class="outline-2">
+<h3 id="orgc8a8ed3">Use git and github to manage the tags files</h3>
+<div class="outline-text-2" id="text-orgc8a8ed3">
 <p>
 So I can have copies of the tags files at github server and my local computers. That's also a part of my strategy to setup the development environment. My projects on different computers usually use same external library.
 </p>
@@ -645,9 +217,9 @@ EmacsWiki discusses how to update your tags file frequently because your own cod
 </div>
 </div>
 
-<div id="outline-container-org3d43f15" class="outline-2">
-<h3 id="org3d43f15">Write emacs lisp code to load/unload these tags files</h3>
-<div class="outline-text-2" id="text-org3d43f15">
+<div id="outline-container-org27507d2" class="outline-2">
+<h3 id="org27507d2">Write emacs lisp code to load/unload these tags files</h3>
+<div class="outline-text-2" id="text-org27507d2">
 <p>
 Here is the code. In this example, if I need load tags file for <a href="http://www.wxwidgets.org">wxWidgets</a>, I call the function "add-wx-tags". If I need unload the tags file, I press "Ctrl-u" and call the same function "add-wx-tags". Since I use <a href="http://www.emacswiki.org/Smex">Smex</a>, calling function doesn't mean pressing many keys.
 </p>
@@ -1413,6 +985,273 @@ if __name__=="__main__":
 # vim: set expandtab tabstop=4 shiftwidth=4:
 </code></pre>
 
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/">Emacs中的自动完成(Auto Completion)完全指南</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-08-21T14:50:00+00:00">2012-08-21 14:50</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/#disqus_thread" data-disqus-identifier="cache/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/completion/" rel="tag">completion</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/intellisense/" rel="tag">intellisense</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+作者: 陈斌(redguardtoo)
+</p>
+
+<p>
+更新时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-04-05 Wed&gt;</span></span>
+</p>
+
+<p>
+原创时间: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-08-21 Tue&gt;</span></span>
+</p>
+
+<p>
+Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者不带文件名后缀都可以).
+</p>
+
+<p>
+我不是来赞美Emacs的强大的,我是来吐槽的.自动完成框架太多,功能重叠,让人困扰.
+</p>
+
+<p>
+所以本文目的有两个:
+</p>
+
+<ul class="org-ul">
+<li>说明哪些框架流行</li>
+<li>如何使用框架</li>
+</ul>
+<div id="outline-container-orgfd41e90" class="outline-2">
+<h3 id="orgfd41e90">概述</h3>
+<div class="outline-text-2" id="text-orgfd41e90">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">函数/插件名</th>
+<th scope="col" class="org-left">快捷键</th>
+<th scope="col" class="org-left">使用频率</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">company-mode (结合clang)</td>
+<td class="org-left">不需要 (也可启用TAB)</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">hippie-expand</td>
+<td class="org-left">M-/</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">evil-mode</td>
+<td class="org-left">C-n/C-p(完成词),C-x C-n/p(完成行)</td>
+<td class="org-left">高</td>
+</tr>
+<tr>
+<td class="org-left">auto-complete (结合clang)</td>
+<td class="org-left">TAB</td>
+<td class="org-left">低</td>
+</tr>
+<tr>
+<td class="org-left">complete-symbol</td>
+<td class="org-left">C-M-i</td>
+<td class="org-left">低</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org3c045f1" class="outline-2">
+<h3 id="org3c045f1">auto-complete结合clang</h3>
+<div class="outline-text-2" id="text-org3c045f1">
+<p>
+<a href="http://emacswiki.org/emacs/AutoComplete">auto-complete</a>是第三方开发的插件,提供了自动完成需要的支持(例如在命令行环境下对下拉菜单的模拟).
+</p>
+
+<p>
+而<a href="http://clang.llvm.org">clang</a>是苹果公司C/C++/Objective-C编译器,对C++语法的解析很好.
+</p>
+
+<p>
+显然,这种l案只适用于 <code>Clang</code> 支持的语言.
+</p>
+
+<p>
+需要通过<a href="http://emacswiki.org/wiki/ELPA">elpa(Emacs的AppStore)</a>安装第三方插件 <code>auto-complete</code> 和<a href="https://github.com/brianjcj/auto-complete-clang">auto-complete-clang</a>.
+</p>
+
+<p>
+具体配置请参考我的<a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-auto-complete.el">init-auto-complete.el</a>.
+</p>
+
+<p>
+已被company-mode取代,不推荐.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9d80166" class="outline-2">
+<h3 id="org9d80166">company-mode</h3>
+<div class="outline-text-2" id="text-org9d80166">
+<p>
+<a href="https://github.com/company-mode/company-mode">company-mode</a>和auto-complete功能类似，唯一的区别是clang以及其他语言支持已内置，所以不需要安装其他elisp插件或者额外配置.目前我已用company-mode代替了auto-complete.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6e3d7bf" class="outline-2">
+<h3 id="org6e3d7bf">hippie-expand</h3>
+<div class="outline-text-2" id="text-org6e3d7bf">
+<p>
+<a href="http://emacswiki.org/emacs/HippieExpand">hippie-expand</a>是Emacs自带的自动完成框架.
+</p>
+
+<p>
+其默认的一些特色功能(例如,完成词/文件名/行的功能,或在 <code>minibuffer</code> 中使用)可作为 <code>company-mode</code> 补充.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org253ce90" class="outline-2">
+<h3 id="org253ce90">complete-symbol</h3>
+<div class="outline-text-2" id="text-org253ce90">
+<p>
+Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,它默认仅仅调用了后台的ctags而已.
+</p>
+
+<p>
+<code>hippie-expand</code> 经过调教也可用 <code>Ctags</code>,且默认特色功能比 <code>complete-symbol</code> 多,所以我没兴趣配置第三个自动完成框架了.
+</p>
+
+<p>
+通过阅读Emacs24的ChangeLog,我发现 <code>complete-symbol</code> 经过配置后可以用 <code>semantic</code> 作为语法解析后端(Emacs23.4也支持,不明白为什么把该特性放在Emacs24的ChangeLog介绍).
+</p>
+
+<p>
+<a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Semantic.html">semantic</a>是lisp写的语法解析器,Emacs自带,智能程度介于ctags和clang之间,解析速度比较慢,如果机器配置较差会很卡.
+</p>
+
+<p>
+我不喜欢这个语法解析器,过去在 <code>Semantic</code> 尚是<a href="http://cedet.sourceforge.net">Cedet</a>的一个组件时,我折腾过 <code>Cedet</code>,当时感觉速度慢,配置繁琐,不稳定.
+</p>
+
+<p>
+<code>Semantic</code> 支持多种语言,如C++/Java.
+</p>
+
+<p>
+配置请参考我的<a href="https://github.com/redguardtoo/emacs.d/blob/903aeb10c316c0f43b35bc0dc6101eea3f729da7/init-semantic.el">init-semantic.el</a>(注意,我不用 <code>Semantic</code>,所以相应代码被注释了.你可取消注释).
+</p>
+
+<p>
+已被 <code>company-mode</code> 取代,不推荐.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7a327c7" class="outline-2">
+<h3 id="org7a327c7">evil-mode</h3>
+<div class="outline-text-2" id="text-org7a327c7">
+<p>
+<a href="http://emacswiki.org/emacs/Evil">Evil-mode</a>把Emacs模拟成了Vim,是我最喜欢的第三方插件,其自动完成很简单,就是根据当前文件内容自动完成词或行.
+</p>
+
+<p>
+值得推荐是因为我也是重度Vim用户,Vim的快捷键已成为我本能了.
+</p>
+
+<p>
+无需配置,启动 <code>evil-mode</code> 即可,参见我的<a href="https://github.com/redguardtoo/emacs.d/blob/master/init-evil.el">init-evil.el</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4aa8109" class="outline-2">
+<h3 id="org4aa8109">其他</h3>
+<div class="outline-text-2" id="text-org4aa8109">
+<p>
+我的一个想法. 类似于Evil的完成行.但是可以扫瞄指定目录中所有的文件,列出相似的行.
+</p>
+
+<p>
+优点在于:
+</p>
+<ul class="org-ul">
+<li>匹配可以更加宽容一点</li>
+<li>使用目前最快的grep工具如<a href="https://github.com/BurntSushi/ripgrep">ripgrep</a>扫瞄文本</li>
+</ul>
+<p>
+实现见<a href="https://github.com/redguardtoo/emacs.d/blob/24dd0d7/lisp/init-ivy.el">init-ivy</a>中的=counsel-complete-line-by-grep=.
+</p>
+
+<p>
+试用好几个月了,非常好用.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7e5b68c" class="outline-2">
+<h3 id="org7e5b68c">小结</h3>
+<div class="outline-text-2" id="text-org7e5b68c">
+<p>
+自动完成包括前端用户界面和后端语法解析引擎两个部分.
+</p>
+
+<p>
+作为前端的用户界面, <code>company-mode</code> 和 <code>auto-complete</code> 相当成熟.
+</p>
+
+<p>
+后端 <code>Clang</code> 最优秀.
+</p>
+
+<p>
+<code>Ctags</code> 谈不上语法解析,只是正则表达式罢了,但是因此才能通吃所有语言.
+</p>
+
+<p>
+<code>Semantic</code> 支持的语言比 <code>Clang</code> 多一点,性能和稳定性比较差.
+</p>
+
+<p>
+作为一个C++程序员,我过去用 <code>auto-complete</code> 加上 <code>Clang</code>,现在用 <code>company-mode</code> 加 <code>Clang</code>.
+</p>
+
+<p>
+脚本语言(Ruby/Python/Javascript)用 <a href="https://en.wikipedia.org/wiki/Ctags">Ctags</a> 加 <a href="https://github.com/company-mode/company-mode">company-mode</a> 加 <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a>.
+</p>
+
+<p>
+基于框架自己发明新技术会更好用.</p>
+</div>
 </div>
 </div>
             </div>

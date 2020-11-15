@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about gentoo)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/gentoo.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 12 Sep 2020 03:02:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>notes on upgrading Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-on-upgrading-gentoo-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;pre class="prettyprint "&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about gentoo)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/gentoo.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:02 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Memo on upgrading ArchLinux</title><link>http://blog.binchen.org/posts/memo-on-upgrading-archlinux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Run &lt;code&gt;pacman -Syu&lt;/code&gt; to upgrade all packages.
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Archlinux replaces grub with grub2&lt;/li&gt;
+&lt;li&gt;I cannot install grub2, blocklists stuff&lt;/li&gt;
+&lt;li&gt;Downgrade to grub-obsolee&lt;/li&gt;
+&lt;li&gt;Then grub&lt;/li&gt;
+&lt;li&gt;Setup (hd0) to install MBR&lt;/li&gt;
+&lt;li&gt;Restart netbook (make sure the boot priority is right)&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>linux</category><category>upgrade</category><guid>http://blog.binchen.org/posts/memo-on-upgrading-archlinux/</guid><pubDate>Sun, 03 Nov 2013 23:29:00 GMT</pubDate></item><item><title>notes on upgrading Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-on-upgrading-gentoo-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;pre class="prettyprint "&gt;
 &lt;p&gt;sudo emerge --update --deep --with-bdeps=y --newuse world
 &lt;/p&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;I get notified that some newer version package is required, so I have to manually install those package and re-run the &lt;code&gt;emerge world&lt;/code&gt; &lt;/li&gt; &lt;li&gt;Some package is gone (libreoffice-bin, for example). &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; Here is command to manually install package: &lt;/p&gt;   
@@ -22,9 +33,9 @@ sudo emerge wxpython iproute2 x11vnc tightvnc
 sudo ebuild /usr/portage/net-misc/gitso/gitso-0.6.ebuild unpack compile install qmerge clean
 &lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;&lt;p&gt; There are many howtos on gitso on internet. Google it. &lt;/p&gt;&lt;/div&gt;</description><category>desktop</category><category>en</category><category>gentoo</category><category>linux</category><category>remote</category><category>vnc</category><guid>http://blog.binchen.org/posts/install-gitso-v0-6-on-gentoo-linux/</guid><pubDate>Thu, 29 Aug 2013 22:43:14 GMT</pubDate></item><item><title>Notes to install Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-to-install-gentoo-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orga502432" class="outline-2"&gt;
-&lt;h3 id="orga502432"&gt;Intel integrated video card&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga502432"&gt;
+&lt;p&gt;&lt;/p&gt;&lt;p&gt; There are many howtos on gitso on internet. Google it. &lt;/p&gt;&lt;/div&gt;</description><category>desktop</category><category>en</category><category>gentoo</category><category>linux</category><category>remote</category><category>vnc</category><guid>http://blog.binchen.org/posts/install-gitso-v0-6-on-gentoo-linux/</guid><pubDate>Thu, 29 Aug 2013 22:43:14 GMT</pubDate></item><item><title>Notes to install Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-to-install-gentoo-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org9ff0239" class="outline-2"&gt;
+&lt;h3 id="org9ff0239"&gt;Intel integrated video card&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9ff0239"&gt;
 &lt;p&gt;
 Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&amp;gt; Graphic =&amp;gt; Intel) is critical:
 &lt;/p&gt;
@@ -37,9 +48,9 @@ Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&amp;gt; Graphic =&a
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga575eeb" class="outline-2"&gt;
-&lt;h3 id="orga575eeb"&gt;Grub2&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga575eeb"&gt;
+&lt;div id="outline-container-orgce92691" class="outline-2"&gt;
+&lt;h3 id="orgce92691"&gt;Grub2&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgce92691"&gt;
 &lt;p&gt;
 Let grub2 create the cfg for me automatically,
 &lt;/p&gt;
@@ -52,13 +63,13 @@ Let grub2 create the cfg for me automatically,
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org928e3d3" class="outline-2"&gt;
-&lt;h3 id="org928e3d3"&gt;Network&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org928e3d3"&gt;
+&lt;div id="outline-container-org0bce283" class="outline-2"&gt;
+&lt;h3 id="org0bce283"&gt;Network&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0bce283"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org149bfc1" class="outline-3"&gt;
-&lt;h4 id="org149bfc1"&gt;Ethernet&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org149bfc1"&gt;
+&lt;div id="outline-container-org13b37f9" class="outline-3"&gt;
+&lt;h4 id="org13b37f9"&gt;Ethernet&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org13b37f9"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -73,9 +84,9 @@ rc-update add net.eth0 default
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9a1c8ab" class="outline-3"&gt;
-&lt;h4 id="org9a1c8ab"&gt;Wireless (wifi)&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org9a1c8ab"&gt;
+&lt;div id="outline-container-org9b17090" class="outline-3"&gt;
+&lt;h4 id="org9b17090"&gt;Wireless (wifi)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org9b17090"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -148,18 +159,18 @@ Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf6cd20f" class="outline-2"&gt;
-&lt;h3 id="orgf6cd20f"&gt;Clock Synchronization&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf6cd20f"&gt;
+&lt;div id="outline-container-orgaee077f" class="outline-2"&gt;
+&lt;h3 id="orgaee077f"&gt;Clock Synchronization&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgaee077f"&gt;
 &lt;p&gt;
 &lt;a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate"&gt;htpdate&lt;/a&gt; is great because it only use HTTP protocol, don't forget add server in its config file.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6e20b54" class="outline-2"&gt;
-&lt;h3 id="org6e20b54"&gt;Sound&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org6e20b54"&gt;
+&lt;div id="outline-container-orgbe6a586" class="outline-2"&gt;
+&lt;h3 id="orgbe6a586"&gt;Sound&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgbe6a586"&gt;
 &lt;p&gt;
 Nothing to tell. There may be some issue, but I forgot.&lt;/p&gt;
 &lt;/div&gt;

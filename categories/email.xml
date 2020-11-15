@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about email)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/email.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 12 Sep 2020 03:02:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>dianyou 0.0.3 is out</title><link>http://blog.binchen.org/posts/dianyou-0-0-3-is-out/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about email)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/email.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>dianyou 0.0.3 is out</title><link>http://blog.binchen.org/posts/dianyou-0-0-3-is-out/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 I created &lt;a href="https://github.com/redguardtoo/dianyou"&gt;dianyou&lt;/a&gt; (电邮) to solve improve my Gnus work flow.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org9bcfe17" class="outline-2"&gt;
-&lt;h3 id="org9bcfe17"&gt;Search mails&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9bcfe17"&gt;
+&lt;div id="outline-container-orgba3e2fc" class="outline-2"&gt;
+&lt;h3 id="orgba3e2fc"&gt;Search mails&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgba3e2fc"&gt;
 &lt;p&gt;
 Most Gnus users use &lt;code&gt;gnus-group-make-nnir-group&lt;/code&gt; to search mails. But it's not usable in "Summary Buffer". Its &lt;a href="https://tools.ietf.org/html/rfc3501#section-6.4.4"&gt;IMAP SEARCH Command&lt;/a&gt; is hard to use.
 &lt;/p&gt;
@@ -16,27 +16,27 @@ It could be replaced by &lt;code&gt;dianyou-group-make-nnir-group&lt;/code&gt; w
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb336618" class="outline-2"&gt;
-&lt;h3 id="orgb336618"&gt;Auto complete email address&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb336618"&gt;
+&lt;div id="outline-container-org4ba9034" class="outline-2"&gt;
+&lt;h3 id="org4ba9034"&gt;Auto complete email address&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4ba9034"&gt;
 &lt;p&gt;
 I'm too lazy to set up my contacts. It would be better that Gnus could &lt;b&gt;automatically&lt;/b&gt; collect email addresses from all received mails. So I created the command &lt;code&gt;dianyou-insert-email-address-from-received-mails&lt;/code&gt;. The inserted email address is also inserted into the global variable &lt;code&gt;dianyou-email-address-history&lt;/code&gt; which could be persisted by &lt;a href="https://github.com/jwiegley/session"&gt;session&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3a52a6f" class="outline-2"&gt;
-&lt;h3 id="org3a52a6f"&gt;Switch Gnus buffer&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3a52a6f"&gt;
+&lt;div id="outline-container-org8cc6779" class="outline-2"&gt;
+&lt;h3 id="org8cc6779"&gt;Switch Gnus buffer&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org8cc6779"&gt;
 &lt;p&gt;
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use &lt;code&gt;dianyou-switch-gnus-buffer&lt;/code&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgde764e8" class="outline-2"&gt;
-&lt;h3 id="orgde764e8"&gt;Paste image from clipboard&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgde764e8"&gt;
+&lt;div id="outline-container-org73212b4" class="outline-2"&gt;
+&lt;h3 id="org73212b4"&gt;Paste image from clipboard&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org73212b4"&gt;
 &lt;p&gt;
 Use &lt;code&gt;dianyou-paste-image-from-clipboard&lt;/code&gt;. CLI program &lt;a href="https://github.com/astrand/xclip"&gt;xclip&lt;/a&gt; should be installed at first.&lt;/p&gt;
 &lt;/div&gt;
@@ -204,9 +204,9 @@ All you need is "M-x message-copy-select-forwarded-email-tags" to copy the tags 
 &lt;p&gt;
 UPDATE:
 This is only a case study. My complete guide on Gnus is at &lt;a href="http://blog.binchen.org/posts/notes-on-using-gnus.html"&gt;http://blog.binchen.org/posts/notes-on-using-gnus.html&lt;/a&gt;.
-&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://blog.binchen.org/posts/why-gnus-is-better-than-gmail/</guid><pubDate>Wed, 30 Apr 2014 12:46:31 GMT</pubDate></item><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org611a8ca" class="outline-2"&gt;
-&lt;h3 id="org611a8ca"&gt;Setup git-send-email&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org611a8ca"&gt;
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://blog.binchen.org/posts/why-gnus-is-better-than-gmail/</guid><pubDate>Wed, 30 Apr 2014 12:46:31 GMT</pubDate></item><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orgdaa506d" class="outline-2"&gt;
+&lt;h3 id="orgdaa506d"&gt;Setup git-send-email&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdaa506d"&gt;
 &lt;p&gt;
 On Debian run &lt;code&gt;sudo apt-get install git-email&lt;/code&gt; to install git command line tools.
 &lt;/p&gt;
@@ -231,9 +231,9 @@ Modify &lt;code&gt;~/.gitconfig&lt;/code&gt; to use Gmail SMTP:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9f0afca" class="outline-2"&gt;
-&lt;h3 id="org9f0afca"&gt;Send the latest commit&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9f0afca"&gt;
+&lt;div id="outline-container-org40665ca" class="outline-2"&gt;
+&lt;h3 id="org40665ca"&gt;Send the latest commit&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org40665ca"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;# send one commit
@@ -244,9 +244,9 @@ git send-email -1 --annotate
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcc6a420" class="outline-2"&gt;
-&lt;h3 id="orgcc6a420"&gt;Apply patch&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgcc6a420"&gt;
+&lt;div id="outline-container-org82631be" class="outline-2"&gt;
+&lt;h3 id="org82631be"&gt;Apply patch&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org82631be"&gt;
 &lt;p&gt;
 Select one mail. Run command "M-x gnus-summary-save-article-email" whose short key is "O m" in summary buffer.
 &lt;/p&gt;
@@ -263,9 +263,9 @@ Emacs will ask for directory to save that patch. Say I save it as &lt;code&gt;~/
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org06b0599" class="outline-2"&gt;
-&lt;h3 id="org06b0599"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org06b0599"&gt;
+&lt;div id="outline-container-orgae510bd" class="outline-2"&gt;
+&lt;h3 id="orgae510bd"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgae510bd"&gt;
 &lt;p&gt;
 Use &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/gnus-article-treat-patch/gnus-article-treat-patch.el"&gt;gnus-article-treat-patch.el&lt;/a&gt;.
 &lt;/p&gt;
@@ -303,16 +303,16 @@ Second part uses &lt;a href="https://www.mozilla.org/en-US/thunderbird/"&gt;thun
 Third part uses Emacs and Gnus to replace thunderbird. It's optional.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org107976a" class="outline-2"&gt;
-&lt;h3 id="org107976a"&gt;DavMail as mail gateway&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org107976a"&gt;
+&lt;div id="outline-container-org182833c" class="outline-2"&gt;
+&lt;h3 id="org182833c"&gt;DavMail as mail gateway&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org182833c"&gt;
 &lt;pre class="example"&gt;
 Ever wanted to get rid of Outlook ? DavMail is a POP/IMAP/SMTP/Caldav/Carddav/LDAP exchange gateway allowing users to use any mail/calendar client (e.g. Thunderbird with Lightning or Apple iCal) with an Exchange server.
 &lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orge60e443" class="outline-3"&gt;
-&lt;h4 id="orge60e443"&gt;Install&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orge60e443"&gt;
+&lt;div id="outline-container-orgfd1a32d" class="outline-3"&gt;
+&lt;h4 id="orgfd1a32d"&gt;Install&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgfd1a32d"&gt;
 &lt;p&gt;
 &lt;a href="http://davmail.sourceforge.net/download.html"&gt;Download the installer&lt;/a&gt; at Debian/Ubuntu/Mint:
 &lt;/p&gt;
@@ -330,9 +330,9 @@ Installation is easy. DavMail by itself is a portable java application. Since it
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfe44cc0" class="outline-3"&gt;
-&lt;h4 id="orgfe44cc0"&gt;Configuration&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgfe44cc0"&gt;
+&lt;div id="outline-container-org8910e71" class="outline-3"&gt;
+&lt;h4 id="org8910e71"&gt;Configuration&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org8910e71"&gt;
 &lt;p&gt;
 Now start DavMail. 
 &lt;/p&gt;
@@ -368,9 +368,9 @@ BTW, &lt;a href="https://outlook.office365.com/"&gt;https://outlook.office365.co
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc8d85cb" class="outline-2"&gt;
-&lt;h3 id="orgc8d85cb"&gt;Thunderbird&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc8d85cb"&gt;
+&lt;div id="outline-container-org7a70be0" class="outline-2"&gt;
+&lt;h3 id="org7a70be0"&gt;Thunderbird&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7a70be0"&gt;
 &lt;p&gt;
 Create a new account, and &lt;b&gt;manually&lt;/b&gt; configure the server. The server name is "127.0.0.1", the port number is already on your paper. The minimum setup needs IMAP port to  receive mail and SMTP port to send email.
 &lt;/p&gt;
@@ -385,9 +385,9 @@ The only issue is the "Username". You can log in Outlook Web UI, click "Options 
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9114435" class="outline-2"&gt;
-&lt;h3 id="org9114435"&gt;Emacs Gnus&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9114435"&gt;
+&lt;div id="outline-container-orgc0f0437" class="outline-2"&gt;
+&lt;h3 id="orgc0f0437"&gt;Emacs Gnus&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc0f0437"&gt;
 &lt;p&gt;
 Gnus cannot access IMAP service of DavMail. There is &lt;a href="http://permalink.gmane.org/gmane.emacs.gnus.general/83301"&gt;some bug&lt;/a&gt;.
 &lt;/p&gt;
@@ -437,9 +437,9 @@ CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-11-13 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgf666db9" class="outline-2"&gt;
-&lt;h3 id="orgf666db9"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf666db9"&gt;
+&lt;div id="outline-container-orgd75ab5f" class="outline-2"&gt;
+&lt;h3 id="orgd75ab5f"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd75ab5f"&gt;
 &lt;p&gt;
 As a freelancer, I need reply agent's email frequently.
 &lt;/p&gt;
@@ -455,16 +455,16 @@ So I have several issues to resolve:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6a542c6" class="outline-2"&gt;
-&lt;h3 id="org6a542c6"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org6a542c6"&gt;
+&lt;div id="outline-container-org88c4c11" class="outline-2"&gt;
+&lt;h3 id="org88c4c11"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org88c4c11"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/capitaomorte/yasnippet"&gt;Yasnippet&lt;/a&gt; is the best solution for email templates because you can embed Lisp code in the template.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org39f99cc" class="outline-3"&gt;
-&lt;h4 id="org39f99cc"&gt;Templates&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org39f99cc"&gt;
+&lt;div id="outline-container-org76029d8" class="outline-3"&gt;
+&lt;h4 id="org76029d8"&gt;Templates&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org76029d8"&gt;
 &lt;p&gt;
 I publicize my .emacs.d at &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;github&lt;/a&gt;. But email templates are my private stuff. So I place them in different location.
 &lt;/p&gt;
@@ -523,9 +523,9 @@ It will automatically fetch the first name of agent,
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5c37a7a" class="outline-3"&gt;
-&lt;h4 id="org5c37a7a"&gt;Emacs setup&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org5c37a7a"&gt;
+&lt;div id="outline-container-org67b671f" class="outline-3"&gt;
+&lt;h4 id="org67b671f"&gt;Emacs setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org67b671f"&gt;
 &lt;p&gt;
 Add following code into .emacs to make yasnippet load the emacs templates:
 &lt;/p&gt;
@@ -554,18 +554,18 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;a href="http://getpopfile.org"&gt;POPFile&lt;/a&gt; automatically sorts emails.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgf1e5a4e" class="outline-2"&gt;
-&lt;h3 id="orgf1e5a4e"&gt;Install POPFile&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf1e5a4e"&gt;
+&lt;div id="outline-container-orgab34cd4" class="outline-2"&gt;
+&lt;h3 id="orgab34cd4"&gt;Install POPFile&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgab34cd4"&gt;
 &lt;p&gt;
 &lt;a href="http://getpopfile.org/docs/download"&gt;Download and extract cross-platform version&lt;/a&gt; to &lt;code&gt;~/bin/popfile/&lt;/code&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0086468" class="outline-2"&gt;
-&lt;h3 id="org0086468"&gt;Install third party packages&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0086468"&gt;
+&lt;div id="outline-container-org6ae7f79" class="outline-2"&gt;
+&lt;h3 id="org6ae7f79"&gt;Install third party packages&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6ae7f79"&gt;
 &lt;p&gt;
 Run:
 &lt;/p&gt;
@@ -693,9 +693,9 @@ cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::So
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9d9396d" class="outline-2"&gt;
-&lt;h3 id="org9d9396d"&gt;Setup&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9d9396d"&gt;
+&lt;div id="outline-container-orgeed8674" class="outline-2"&gt;
+&lt;h3 id="orgeed8674"&gt;Setup&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgeed8674"&gt;
 &lt;p&gt;
 I only use IMAP. The purpose of tweak POP3 port is only to make the program executable without root permission.
 &lt;/p&gt;
@@ -838,9 +838,9 @@ The only remaining issue is user name. If it contains "\", you should replace it
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7721e8b" class="outline-2"&gt;
-&lt;h3 id="org7721e8b"&gt;Run the program&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7721e8b"&gt;
+&lt;div id="outline-container-org07a368a" class="outline-2"&gt;
+&lt;h3 id="org07a368a"&gt;Run the program&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org07a368a"&gt;
 &lt;p&gt;
 See &lt;a href="http://getpopfile.org/docs/howtos:runlocation"&gt;http://getpopfile.org/docs/howtos:runlocation&lt;/a&gt; for details.
 &lt;/p&gt;
@@ -853,9 +853,9 @@ See &lt;a href="http://getpopfile.org/docs/howtos:runlocation"&gt;http://getpopf
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org01aea0d" class="outline-2"&gt;
-&lt;h3 id="org01aea0d"&gt;Start the POPFile automatically when bash login&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org01aea0d"&gt;
+&lt;div id="outline-container-orged5b959" class="outline-2"&gt;
+&lt;h3 id="orged5b959"&gt;Start the POPFile automatically when bash login&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orged5b959"&gt;
 &lt;p&gt;
 Insert below code in ~/.bashrc:
 &lt;/p&gt;
@@ -880,9 +880,9 @@ fi
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org447f91a" class="outline-2"&gt;
-&lt;h3 id="org447f91a"&gt;Start the POPFile systemd service as a user (OPTIONAL)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org447f91a"&gt;
+&lt;div id="outline-container-org19f33bf" class="outline-2"&gt;
+&lt;h3 id="org19f33bf"&gt;Start the POPFile systemd service as a user (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org19f33bf"&gt;
 &lt;p&gt;
 My user name is cb. Put popfile.service in &lt;i&gt;usr/lib/systemd/system&lt;/i&gt;. Then run `systemctl enable popfile` to install service. Run `systemctl start popfile` to start the service. My Linux distribution is ArchLinux.
 &lt;/p&gt;
@@ -908,9 +908,9 @@ WantedBy=multi-user.target
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdfb9ac0" class="outline-2"&gt;
-&lt;h3 id="orgdfb9ac0"&gt;Backup&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgdfb9ac0"&gt;
+&lt;div id="outline-container-org8ed0483" class="outline-2"&gt;
+&lt;h3 id="org8ed0483"&gt;Backup&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org8ed0483"&gt;
 &lt;p&gt;
 Please backup popfile.cfg and popfile.db.
 &lt;/p&gt;
@@ -921,9 +921,9 @@ See &lt;a href="http://getpopfile.org/docs/howtos:backup"&gt;http://getpopfile.o
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbedc6d1" class="outline-2"&gt;
-&lt;h3 id="orgbedc6d1"&gt;Summary&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgbedc6d1"&gt;
+&lt;div id="outline-container-orgdb9c46f" class="outline-2"&gt;
+&lt;h3 id="orgdb9c46f"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdb9c46f"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Portable&lt;/li&gt;
 &lt;li&gt;No root privilege needed&lt;/li&gt;

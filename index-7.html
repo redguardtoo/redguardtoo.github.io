@@ -23,251 +23,6 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/start-wxwidgets-programming-on-linux/">Start wxWidgets programming on Linux/OSX</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-02-26T09:17:00+00:00">2013-02-26 09:17</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/start-wxwidgets-programming-on-linux/#disqus_thread" data-disqus-identifier="cache/posts/start-wxwidgets-programming-on-linux.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/wxwidgets/" rel="tag">wxwidgets</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-wxWidgets 3.0.0
-</p>
-
-<p>
-WARNING: before building, please make sure remove everything in build directory, <b>including hidden directory</b>!
-</p>
-
-<div id="outline-container-org1a0821a" class="outline-2">
-<h3 id="org1a0821a">Install webkit by using Linux distribution's package manager</h3>
-<div class="outline-text-2" id="text-org1a0821a">
-<p>
-I need use wxWebView which dependent on webkit on Linux. The issue here is that webkit on Linux is using GTK.
-</p>
-
-<p>
-Make sure the webkit and wxWidgets are using same version of GTK.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orge7a336a" class="outline-2">
-<h3 id="orge7a336a">build the source</h3>
-<div class="outline-text-2" id="text-orge7a336a">
-<p>
-Please note I don't use libtiff. I think libpng and libjpeg is enough.
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">mkdir -p ${WXWIN}/build-release;cd ${WXWIN}/build-release;../configure --disable-shared --without-libtiff;make
-mkdir -p ${WXWIN}/build-debug;cd ${WXWIN}/build-debug;../configure --disable-shared --enable-debug --without-libtiff;make
-</code></pre>
-
-</div>
-
-<p>
-On OSX, I need extra <code>--with-osx_cocoa</code> parameter for configure.
-</p>
-
-<p>
-On Linux, build will be fine following above steps. But for building application, I need <code>sudo apt-get install libgtk2.0-dev</code> on Debian/Ubuntu/Mint.
-</p>
-</div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/notes-to-install-gentoo-linux/">Notes to install Gentoo Linux</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-02-25T02:22:00+00:00">2013-02-25 02:22</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/notes-to-install-gentoo-linux/#disqus_thread" data-disqus-identifier="cache/posts/notes-to-install-gentoo-linux.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/gentoo/" rel="tag">gentoo</a></li>
-           <li><a class="tag p-category" href="categories/install/" rel="tag">install</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<div id="outline-container-orga502432" class="outline-2">
-<h3 id="orga502432">Intel integrated video card</h3>
-<div class="outline-text-2" id="text-orga502432">
-<p>
-Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">sudo genkernel --menuconfig all
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-orga575eeb" class="outline-2">
-<h3 id="orga575eeb">Grub2</h3>
-<div class="outline-text-2" id="text-orga575eeb">
-<p>
-Let grub2 create the cfg for me automatically,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">grub2-mkconfig -o /boot/grub/grub.cfg
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-org928e3d3" class="outline-2">
-<h3 id="org928e3d3">Network</h3>
-<div class="outline-text-2" id="text-org928e3d3">
-</div>
-<div id="outline-container-org149bfc1" class="outline-3">
-<h4 id="org149bfc1">Ethernet</h4>
-<div class="outline-text-3" id="text-org149bfc1">
-<div class="org-src-container">
-
-<pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
-# @see https://wiki.gentoo.org/wiki/Netifrc
-ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
-echo 'config_eth0="dhcp"' &gt;&gt; /etc/conf.d/net
-/etc/init.d/net.eth0 start
-rc-update add net.eth0 default
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-org9a1c8ab" class="outline-3">
-<h4 id="org9a1c8ab">Wireless (wifi)</h4>
-<div class="outline-text-3" id="text-org9a1c8ab">
-<div class="org-src-container">
-
-<pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
-# @see https://wiki.gentoo.org/wiki/Netifrc
-# I need setup /etc/wpa_supplicant/wpa_supplicant.conf at first
-ln -s /etc/init.d/net.lo /etc/init.d/net.ra0
-echo 'config_ra0="dhcp"' &gt;&gt; /etc/conf.d/net
-/etc/init.d/net.ra0 start
-rc-update add net.ra0 default
-</code></pre>
-
-</div>
-
-<p>
-Content of /etc/wpa_supplicant/wpa_supplicant.conf:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-ini">#let wpa_supplicant take care of scanning and AP selection
-ap_scan=1
-
-#simple case: WPA-PSK, PPSK as an simple passphrase
-network={
-  ssid="myssid"
-  psk="mypassword"
-  # the higher priority the sooner we matched
-  priority=5
-}
-</code></pre>
-
-</div>
-
-<p>
-For kernel 3.17.*+, by default wpa_supplicant use <code>nl80211</code> driver instead of <code>wext</code>.
-</p>
-
-<p>
-We need for it use <code>wext</code> instead. To double check <code>wext</code> does work,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">sudo wpa_supplicant -dd -B -i ra0 -Dwext -c /etc/wpa_supplicant/wpa_supplicant.conf
-</code></pre>
-
-</div>
-
-<p>
-But OpenRC script does not have <code>-Dwext</code>,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh"># as root
-cd /lib;grep -rsn --exclude-dir=/home "Starting wpa_supplicant on" *
-# netifrc/net/wpa_supplicant.sh:85: ebegin "Starting wpa_supplicant on ${IF
-# VAR}"
-</code></pre>
-
-</div>
-
-<p>
-Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">opts="-Dwext ${opts} -c ${cfgfile}"
-</code></pre>
-
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgf6cd20f" class="outline-2">
-<h3 id="orgf6cd20f">Clock Synchronization</h3>
-<div class="outline-text-2" id="text-orgf6cd20f">
-<p>
-<a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate">htpdate</a> is great because it only use HTTP protocol, don't forget add server in its config file.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org6e20b54" class="outline-2">
-<h3 id="org6e20b54">Sound</h3>
-<div class="outline-text-2" id="text-org6e20b54">
-<p>
-Nothing to tell. There may be some issue, but I forgot.</p>
-</div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
             <h1 class="title"><a href="posts/find-files-provided-by-the-installed-package/">Find files provided by the installed package</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -353,9 +108,9 @@ Here is my summary of that article:
 I also use other packages which is more efficient.
 </p>
 
-<div id="outline-container-org76be974" class="outline-2">
-<h3 id="org76be974">window-numbering.el</h3>
-<div class="outline-text-2" id="text-org76be974">
+<div id="outline-container-org925ad6d" class="outline-2">
+<h3 id="org925ad6d">window-numbering.el</h3>
+<div class="outline-text-2" id="text-org925ad6d">
 <p>
 <a href="https://github.com/nschum/window-numbering.el">window-numbering.el</a> is <b>great</b>. It uses hot key <code>M-number</code> to switch window (for example, <code>M-3</code> to select window with number 3). So I can press only <b>one</b> key to switch window. Besides, it has some extra features like <code>M-0</code> to jump to the minibuffer.
 </p>
@@ -375,18 +130,18 @@ Here is my configuration for <code>window-numbering.el</code>:
 </div>
 </div>
 
-<div id="outline-container-orgeb700fd" class="outline-2">
-<h3 id="orgeb700fd">Evil</h3>
-<div class="outline-text-2" id="text-orgeb700fd">
+<div id="outline-container-org2ec4ce0" class="outline-2">
+<h3 id="org2ec4ce0">Evil</h3>
+<div class="outline-text-2" id="text-org2ec4ce0">
 <p>
 <a href="http://emacswiki.org/emacs/Evil">Evil</a> is a vim-emulation. It use vim's keybindings <code>C-w h/j/k/l</code> to move. Please note <code>C-w h</code> is more efficient than <code>C-x o</code>. It's because <code>w</code> key is more close than <code>x</code> key and <code>h/j/k/l</code> is easy to press.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org7210d00" class="outline-2">
-<h3 id="org7210d00">buffer-move.el</h3>
-<div class="outline-text-2" id="text-org7210d00">
+<div id="outline-container-org1d0f415" class="outline-2">
+<h3 id="org1d0f415">buffer-move.el</h3>
+<div class="outline-text-2" id="text-org1d0f415">
 <p>
 <a href="http://www.emacswiki.org/cgi-bin/wiki/buffer-move.el">buffer-move.el</a> moves the buffer instead of focus between windows. It can be installed through <a href="http://melpa.milkbox.net/">MELPA</a>.
 </p>
@@ -406,9 +161,9 @@ Here is my configuration:
 </div>
 </div>
 
-<div id="outline-container-orgbde004a" class="outline-2">
-<h3 id="orgbde004a">Optimization</h3>
-<div class="outline-text-2" id="text-orgbde004a">
+<div id="outline-container-org511392d" class="outline-2">
+<h3 id="org511392d">Optimization</h3>
+<div class="outline-text-2" id="text-org511392d">
 <p>
 I use <a href="https://github.com/dacap/keyfreq">keyfreq</a> to record all my key pressing for <b>more than six months</b>.
 </p>
@@ -701,6 +456,491 @@ sed -i.bak <span style="color: #70c0b1;">'/["" ""/d'</span> ~/.bbdb
   )</p>
 <p>(add-hook 'prog-mode-hook '( lambda () (local-set-key (kbd <span style="color: #70c0b1;">"C-c ; s"</span>) 'w3mext-hacker-search)) )</p>
 <p></p></pre>  </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/toggle-http-proxy-in-emacs-w3m/">Toggle http proxy in emacs-w3m</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-01-04T17:50:00+00:00">2013-01-04 17:50</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/toggle-http-proxy-in-emacs-w3m/#disqus_thread" data-disqus-identifier="cache/posts/toggle-http-proxy-in-emacs-w3m.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/elisp/" rel="tag">elisp</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/http/" rel="tag">http</a></li>
+           <li><a class="tag p-category" href="categories/proxy/" rel="tag">proxy</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+<a href="http://www.emacswiki.org/emacs/emacs-w3m">emacs-w3m</a> is a browser which handles all my basic web surfing needs.
+</p>
+
+<p>
+For some reason, I need switch my http proxy frequently.
+</p>
+
+<p>
+The solution is to set/unset the environment variable "http_proxy" in elisp code. Restarting the w3m session after change the environment variable is not needed at all.
+</p>
+
+<p>
+Here is my code:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun toggle-env-http-proxy ()
+  "set/unset the environment variable http_proxy which w3m uses"
+  (interactive)
+  (let ((proxy "http://127.0.0.1:8000"))
+    (if (string= (getenv "http_proxy") proxy)
+        ;; clear the proxy
+        (progn
+          (setenv "http_proxy" "")
+          (message "env http_proxy is empty now"))
+      ;; set the proxy
+      (setenv "http_proxy" proxy)
+      (message "env http_proxy is %s now" proxy))))
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-popfile-at-linux/">Use POPFile at Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2012-12-28T09:18:54+00:00">2012-12-28 09:18</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-popfile-at-linux/#disqus_thread" data-disqus-identifier="cache/posts/use-popfile-at-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/email/" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/filter/" rel="tag">filter</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/popfile/" rel="tag">popfile</a></li>
+           <li><a class="tag p-category" href="categories/spam/" rel="tag">spam</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-12-28 Fri&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-03-12 Sun&gt;</span></span>
+</p>
+
+<p>
+<a href="http://getpopfile.org">POPFile</a> automatically sorts emails.
+</p>
+
+<div id="outline-container-orgab34cd4" class="outline-2">
+<h3 id="orgab34cd4">Install POPFile</h3>
+<div class="outline-text-2" id="text-orgab34cd4">
+<p>
+<a href="http://getpopfile.org/docs/download">Download and extract cross-platform version</a> to <code>~/bin/popfile/</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6ae7f79" class="outline-2">
+<h3 id="org6ae7f79">Install third party packages</h3>
+<div class="outline-text-2" id="text-org6ae7f79">
+<p>
+Run:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::Socket::SSL Net::IDN::Encode Mozilla::CA Encode:IMAPUTF7
+</code></pre>
+
+</div>
+
+<p>
+When being asked by cpan, say you prefer installing local lib.
+</p>
+
+<p>
+My cpan configuration <code>~/.cpan/CPAN/MyConfig.pm</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-perl">$CPAN::Config = {
+  'applypatch' =&gt; q[],
+  'auto_commit' =&gt; q[0],
+  'build_cache' =&gt; q[100],
+  'build_dir' =&gt; q[/home/cb/.cpan/build],
+  'build_dir_reuse' =&gt; q[0],
+  'build_requires_install_policy' =&gt; q[yes],
+  'bzip2' =&gt; q[/bin/bzip2],
+  'cache_metadata' =&gt; q[1],
+  'check_sigs' =&gt; q[0],
+  'colorize_output' =&gt; q[0],
+  'commandnumber_in_prompt' =&gt; q[1],
+  'connect_to_internet_ok' =&gt; q[1],
+  'cpan_home' =&gt; q[/home/cb/.cpan],
+  'ftp_passive' =&gt; q[1],
+  'ftp_proxy' =&gt; q[],
+  'getcwd' =&gt; q[cwd],
+  'gpg' =&gt; q[/usr/bin/gpg],
+  'gzip' =&gt; q[/bin/gzip],
+  'halt_on_failure' =&gt; q[0],
+  'histfile' =&gt; q[/home/cb/.cpan/histfile],
+  'histsize' =&gt; q[100],
+  'http_proxy' =&gt; q[],
+  'inactivity_timeout' =&gt; q[0],
+  'index_expire' =&gt; q[90],
+  'inhibit_startup_message' =&gt; q[0],
+  'keep_source_where' =&gt; q[/home/cb/.cpan/sources],
+  'load_module_verbosity' =&gt; q[none],
+  'make' =&gt; q[/usr/bin/make],
+  'make_arg' =&gt; q[],
+  'make_install_make_command' =&gt; q[/usr/bin/make],
+  'mbuild_arg' =&gt; q[--install-dirs site],
+  'mbuild_install_arg' =&gt; q[./Build],
+  'mbuild_install_build_command' =&gt; q[./Build],
+  'mbuildpl_arg' =&gt; q[--installdirs site],
+  'no_proxy' =&gt; q[],
+  'pager' =&gt; q[/usr/bin/less],
+  'patch' =&gt; q[/usr/bin/patch],
+  'perl5lib_verbosity' =&gt; q[none],
+  'prefer_external_tar' =&gt; q[1],
+  'prefer_installer' =&gt; q[MB],
+  'prefs_dir' =&gt; q[/home/cb/.cpan/prefs],
+  'prerequisites_policy' =&gt; q[follow],
+  'recommends_policy' =&gt; q[1],
+  'scan_cache' =&gt; q[atstart],
+  'shell' =&gt; q[/bin/bash],
+  'show_unparsable_versions' =&gt; q[0],
+  'show_upload_date' =&gt; q[0],
+  'show_zero_versions' =&gt; q[0],
+  'suggests_policy' =&gt; q[0],
+  'tar' =&gt; q[/bin/tar],
+  'tar_verbosity' =&gt; q[none],
+  'term_is_latin' =&gt; q[1],
+  'term_ornaments' =&gt; q[1],
+  'test_report' =&gt; q[0],
+  'trust_test_report_history' =&gt; q[0],
+  'unzip' =&gt; q[/usr/bin/unzip],
+  'urllist' =&gt; [q[http://mirror.optusnet.com.au/CPAN/]],
+  'use_prompt_default' =&gt; q[0],
+  'use_sqlite' =&gt; q[0],
+  'version_timeout' =&gt; q[15],
+  'wget' =&gt; q[/usr/bin/wget],
+  'yaml_load_code' =&gt; q[0],
+  'yaml_module' =&gt; q[YAML],
+};
+__END__
+</code></pre>
+
+</div>
+
+<p>
+<code>cpan</code> will append setup into <code>~/.bashrc</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
+</code></pre>
+
+</div>
+
+<p>
+Double check installed packages:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">perl -MDBI -e 'print $MIME::DBI::VERSION'
+</code></pre>
+
+</div>
+
+<p>
+If there is any error:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">perl -V
+rm -rf ~/perl5/*
+cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::Socket::SSL Net::IDN::Encode MOZILLA::CA
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeed8674" class="outline-2">
+<h3 id="orgeed8674">Setup</h3>
+<div class="outline-text-2" id="text-orgeed8674">
+<p>
+I only use IMAP. The purpose of tweak POP3 port is only to make the program executable without root permission.
+</p>
+
+<p>
+See <a href="http://getpopfile.org/docs/howtos:mayneedroot">http://getpopfile.org/docs/howtos:mayneedroot</a> for details.
+</p>
+
+<p>
+Run the below command to fix the root issue.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sed -i 's/pop3_port \+110/pop3_port 1110/g' ~/bin/popfile/popfile.cfg
+</code></pre>
+
+</div>
+
+
+<p>
+Davmail is a gateway to convert Outlook/Exchange service to IMAP/POP3). It's required if and only if you use Microsoft's Exchange/Outlook.
+</p>
+
+<p>
+If you don't use Davmail and fetch mails directly, you'd better set <code>imap_expunge 1</code> to fix <a href="http://getpopfile.org/discussion/1/550/2144">Microsoft Office 365 issue</a>.
+</p>
+
+<p>
+Please disable ssl if running local Davmail Server only. Or else, ssl should be enabled.
+</p>
+
+<p>
+My popfile setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">bayes_bad_sqlite_version 4.0.0
+bayes_corpus corpus
+bayes_database popfile.db
+bayes_dbauth 
+bayes_dbconnect dbi:SQLite:dbname=$dbname
+bayes_dbuser 
+bayes_hostname 192-168-1-3.tpgi.com.au
+bayes_localhostname 
+bayes_nihongo_parser kakasi
+bayes_sqlite_journal_mode delete
+bayes_sqlite_tweaks 4294967295
+bayes_subject_mod_left [
+bayes_subject_mod_pos 1
+bayes_subject_mod_right ]
+bayes_unclassified_weight 100
+bayes_xpl_angle 0
+config_pidcheck_interval 5
+config_piddir ./
+GLOBAL_debug 1
+GLOBAL_last_update_check 1407715200
+GLOBAL_message_cutoff 100000
+GLOBAL_msgdir messages/
+GLOBAL_ssl_verify_peer_certs 0
+GLOBAL_timeout 60
+GLOBAL_update_check 1
+history_archive 0
+history_archive_classes 0
+history_archive_dir archive
+history_history_days 2
+html_cache_templates 0
+html_column_characters 0
+html_columns +inserted,+from,+to,-cc,+subject,-date,-size,+bucket
+html_date_format 
+html_language English
+html_last_reset Sat Dec  1 11:06:48 2012
+html_local 0
+html_page_size 20
+html_password b6b3637136ad630eba43aa5ee7106780
+html_port 8888
+html_search_filter_highlight 0
+html_send_stats 1
+html_session_dividers 1
+html_show_bucket_help 1
+html_show_training_help 0
+html_skin simplyblue
+html_strict_templates 0
+html_test_language 0
+html_wordtable_format 
+imap_bucket_folder_mappings job--&gt;job--&gt;geek--&gt;geek--&gt;business--&gt;business--&gt;ad--&gt;ad--&gt;unclassified--&gt;INBOX--&gt;work--&gt;work--&gt;
+imap_enabled 1
+imap_expunge 1
+imap_hostname localhost
+imap_login binc1
+imap_password password1
+imap_port 1143
+imap_training_mode 0
+imap_uidnexts work--&gt;749--&gt;job--&gt;5914--&gt;INBOX--&gt;20736--&gt;geek--&gt;5009--&gt;ad--&gt;1296--&gt;business--&gt;15--&gt;
+imap_uidvalidities job--&gt;98--&gt;work--&gt;107--&gt;ad--&gt;100--&gt;business--&gt;106--&gt;geek--&gt;99--&gt;INBOX--&gt;2--&gt;
+imap_update_interval 1000
+imap_use_ssl 0
+imap_watched_folders INBOX--&gt;INBOX--&gt;
+logger_format default
+logger_level 0
+logger_logdir ./
+nntp_enabled 0
+nntp_force_fork 1
+nntp_headtoo 0
+nntp_local 1
+nntp_port 119
+nntp_separator :
+nntp_socks_port 1080
+nntp_socks_server 
+nntp_welcome_string NNTP POPFile (v1.1.3) server ready
+pop3_enabled 0
+pop3_force_fork 1
+pop3_local 1
+pop3_port 1110
+pop3_secure_port 110
+pop3_secure_server 
+pop3_separator :
+pop3_socks_port 1080
+pop3_socks_server 
+pop3_toptoo 0
+pop3_welcome_string POP3 POPFile (v1.1.3) server ready
+smtp_chain_port 25
+smtp_chain_server 
+smtp_enabled 0
+smtp_force_fork 1
+smtp_local 1
+smtp_port 25
+smtp_socks_port 1080
+smtp_socks_server 
+smtp_welcome_string SMTP POPFile (v1.1.3) welcome
+xmlrpc_enabled 0
+xmlrpc_local 1
+xmlrpc_port 8081
+</code></pre>
+
+</div>
+
+<p>
+The only remaining issue is user name. If it contains "\", you should replace it with "\\" when inputting in Popfile!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org07a368a" class="outline-2">
+<h3 id="org07a368a">Run the program</h3>
+<div class="outline-text-2" id="text-org07a368a">
+<p>
+See <a href="http://getpopfile.org/docs/howtos:runlocation">http://getpopfile.org/docs/howtos:runlocation</a> for details.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd ~/bin/popfile;perl popfile.pl
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged5b959" class="outline-2">
+<h3 id="orged5b959">Start the POPFile automatically when bash login</h3>
+<div class="outline-text-2" id="text-orged5b959">
+<p>
+Insert below code in ~/.bashrc:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">OS_NAME=`uname -s`
+if [ $OS_NAME == Linux ]; then
+   # start popfile
+   if [ -f $HOME/bin/popfile/popfile.pl ]; then
+      # @see http://getpopfile.org/docs/howtos:runlocation
+      pop_pid=`ps -ef | grep perl | grep popfile.pl | gawk '{print $2}'`
+      if [ "${pop_pid}" = "" ] ; then
+         cd $HOME/bin/popfile
+         perl popfile.pl &gt;&gt; /dev/null 2&gt;&amp;1 &amp;
+      fi
+      cd $HOME
+   fi
+fi
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org19f33bf" class="outline-2">
+<h3 id="org19f33bf">Start the POPFile systemd service as a user (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-org19f33bf">
+<p>
+My user name is cb. Put popfile.service in <i>usr/lib/systemd/system</i>. Then run `systemctl enable popfile` to install service. Run `systemctl start popfile` to start the service. My Linux distribution is ArchLinux.
+</p>
+
+<p>
+here is content of popfile.service.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[Unit]
+Description=POPFile (Automatic Email Classification) Service
+
+[Service]
+WorkingDirectory=/home/cb/bin/popfile
+ExecStart=/usr/bin/perl popfile.pl
+User=cb
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8ed0483" class="outline-2">
+<h3 id="org8ed0483">Backup</h3>
+<div class="outline-text-2" id="text-org8ed0483">
+<p>
+Please backup popfile.cfg and popfile.db.
+</p>
+
+<p>
+See <a href="http://getpopfile.org/docs/howtos:backup">http://getpopfile.org/docs/howtos:backup</a> for details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdb9c46f" class="outline-2">
+<h3 id="orgdb9c46f">Summary</h3>
+<div class="outline-text-2" id="text-orgdb9c46f">
+<ul class="org-ul">
+<li>Portable</li>
+<li>No root privilege needed</li>
+<li>No X windows needed. I can manage mails in remote shell</li>
+</ul>
+</div>
+</div>
+</div>
             </div>
         </div>
     

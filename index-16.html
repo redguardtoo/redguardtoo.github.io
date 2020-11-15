@@ -23,609 +23,6 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-embed-button-in-wxdataviewlistctrl/">How to embed button in wxDataViewListCtrl</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-04-13T15:39:28+00:00">2014-04-13 15:39</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/how-to-embed-button-in-wxdataviewlistctrl/#disqus_thread" data-disqus-identifier="cache/posts/how-to-embed-button-in-wxdataviewlistctrl.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/c/" rel="tag">c</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/wxwidgets/" rel="tag">wxwidgets</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-Before creating wxDataViewListCtrl, it's better to detect information about text size so that we can set the column width and height intelligently.
-</p>
-
-<p>
-Here is the code:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-c">void GuessRowSize(int* w, int* h) {
-    //@see http://sourceforge.net/apps/trac/codelite/browser/trunk/LiteEditor/new_build_tab.cpp?rev=5804
-
-// Determine the row height
-    wxBitmap tmpBmp(1, 1);
-    wxMemoryDC memDc;
-    memDc.SelectObject(tmpBmp);
-    wxFont f = wxSystemSettings::GetFont(wxSYS_ANSI_FIXED_FONT);
-    int xx, yy;
-    memDc.GetTextExtent(wxT("Tp"), &amp;xx, &amp;yy, NULL, NULL, &amp;f);
-
-    //enough height for ICON
-    *h=yy&lt;16? 16: yy;
-
-    memDc.GetTextExtent("Wp", &amp;xx, &amp;yy, NULL, NULL, &amp;f);
-    *w=xx/2;
-
-    return;
-}
-wxDataViewListCtrl* ctrl=new wxDataViewListCtrl(parent,-1);
-ctrl-&gt;Create(parent,id,wxDefaultPosition,wxDefaultSize);
-int w,h;
-GuessRowSize(&amp;w,&amp;h);
-//hard code width may not be good, may be can use w ,h
-AppendTextColumn(_T("Column 1"),wxDATAVIEW_CELL_INERT,200 /*width*/);
-//must be called after Create()
-ctrl-&gt;SetRowHeight(h+6);
-
-
-// well I need provide button render by myself
-class wxDataViewMyButtonRenderer: public wxDataViewCustomRenderer, public wxTimer
-{
-public:
-    wxDataViewMyButtonRenderer( const wxString &amp;varianttype = wxT("wxString"),
-                              int align = wxDVR_DEFAULT_ALIGNMENT );
-
-    virtual bool SetValue( const wxVariant &amp;value );
-    virtual bool GetValue( wxVariant &amp;value ) const;
-
-    virtual bool Render( wxRect, wxDC*, int);
-    virtual wxSize GetSize() const;
-    virtual void Notify();
-    void SetParent(GalleryListView*);
-    // Implementation only, don't use nor override
-    virtual bool ActivateCell(const wxRect&amp; rect,
-        wxDataViewModel *model,
-        const wxDataViewItem&amp; item,
-        unsigned int col,
-        const wxMouseEvent *mouseEvent);
-
-private:
-    wxString m_value;
-    bool m_button_clicked;
-    wxRect m_cell_rect;
-    GalleryListView* m_parent;
-
-protected:
-    DECLARE_DYNAMIC_CLASS_NO_COPY(wxDataViewMyButtonRenderer)
-};
-</code></pre>
-
-</div>
-
-<p>
-When user click one row, the ActivateCell is called, we can use some rect detect algorithm to find if the button rect is clicked.
-</p>
-
-<p>
-There is no mouse up event handler! So I have to hack, basically start a wxTimer when button clicked and draw the button up effect after about 1 second in Notify(). That's why I ask wxDataViewMyButtonRenderer to inherit from wxTimer.
-</p>
-
-<p>
-To draw the button up effect, I need ask the parent wxDataViewListCtrl to refresh itself, so that the button's Render() method has a chance to be called. That's why we need SetParent().
-</p>
-
-<p>
-Here is the part of implementation:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-c">bool
-wxDataViewMyButtonRenderer::ActivateCell(const wxRect&amp; rect,
-    wxDataViewModel *model,
-    const wxDataViewItem&amp; item,
-    unsigned int col,
-    const wxMouseEvent *mouseEvent)
-{
-    wxDataViewListStore* store=(wxDataViewListStore*) model;
-
-    if ( mouseEvent ) {
-        if ( !wxRect(GetSize()).Contains(mouseEvent-&gt;GetPosition()) ){
-            return false;
-        }
-        wxVariant item_value_pdf;
-        store-&gt;GetValueByRow(item_value_pdf , store-&gt;GetRow(item),0);
-        wxVariant item_value_created;
-        store-&gt;GetValueByRow(item_value_created , store-&gt;GetRow(item),1);
-
-        m_button_clicked=true;
-        m_cell_rect=rect;
-    } else {
-        wxLogDebug(_T("Sorry, I don't handle keyboard"));
-    }
-
-    return true;
-}
-
-bool
-wxDataViewMyButtonRenderer::Render( wxRect rect, wxDC *dc, int state )
-{
-    wxLogDebug(_T("Render called"));
-    // Ensure that the check boxes always have at least the minimal required
-    // size, otherwise DrawCheckBox() doesn't really work well. If this size is
-    // greater than the rect size, the checkbox will be truncated but this is a
-    // lesser evil.
-    wxSize size = rect.GetSize();
-    size.IncTo(GetSize());
-    rect.SetSize(size);
-
-    // draw button
-    if(m_button_clicked==true &amp;&amp; rect.Intersects(m_cell_rect)){
-        //draw the button when clicked
-        dc-&gt;SetBrush(wxBrush(wxColour(65, 150, 65), wxBRUSHSTYLE_SOLID));
-        dc-&gt;SetPen( *wxBLACK_PEN );
-        dc-&gt;DrawRectangle(rect);
-
-        // draw button push down effect. since we cannot detect mouse up event, we use
-        // timer to draw it
-        const int time_to_button_up=350;
-        StartOnce(time_to_button_up);
-    } else {
-        // draw normal button
-        dc-&gt;SetBrush(wxBrush(wxColour(84, 174, 84), wxBRUSHSTYLE_SOLID));
-        dc-&gt;SetPen( *wxBLACK_PEN );
-        dc-&gt;DrawRectangle(rect);
-
-        //draw inner white border
-        rect.Deflate(1);
-        dc-&gt;SetPen( *wxWHITE_PEN );
-        dc-&gt;DrawRectangle(rect);
-    }
-
-    dc-&gt;SetTextForeground(*wxWHITE);
-    dc-&gt;DrawLabel(m_value,wxRect(dc-&gt;GetTextExtent(m_value)).CentreIn(rect));
-
-    return true;
-}
-</code></pre>
-
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/popup-function-your-cursor-is-in/">popup function where your cursor is in</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-04-08T22:59:00+00:00">2014-04-08 22:59</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/popup-function-your-cursor-is-in/#disqus_thread" data-disqus-identifier="cache/posts/popup-function-your-cursor-is-in.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-<a href="http://www.emacswiki.org/emacs/WhichFuncMode">Which Func Mode</a> will display the current function name in the mode line.
-</p>
-
-<p>
-But I can't use it.
-</p>
-
-<p>
-It's because I reduce my mode-line into minimum to make it work with my tiny netbook.
-</p>
-
-<p>
-<a href="http://emacsredux.com/blog/2014/04/05/which-function-mode/">Showing the function in header</a> is also not possible because it conflicts with my color theme.
-</p>
-
-<p>
-So I choose to display the function name in a popup.
-</p>
-
-<p>
-Insert below code into ~/.emacs,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(autoload 'which-function "which-func")
-(autoload 'popup-tip "popup")
-
-(defun copy-yank-str (msg)
-  (kill-new msg)
-  (with-temp-buffer
-    (insert msg)
-    (shell-command-on-region (point-min) (point-max)
-                             (cond
-                              ((eq system-type 'cygwin) "putclip")
-                              ((eq system-type 'darwin) "pbcopy")
-                              (t "xsel -ib")
-                              ))))
-
-(defun popup-which-function ()
-  (interactive)
-  (let ((msg (which-function)))
-    (popup-tip msg)
-    (copy-yank-str msg)
-    ))
-</code></pre>
-
-</div>
-
-<p>
-The extra bonus is "popup-which-function" will also insert the function name into clipboard and kill ring.
-</p>
-
-<p>
-The above code need package <a href="https://github.com/auto-complete/popup-el">"popup.el"</a> to be installed.
-</p>
-
-<p>
-Screen shot:
-<img src="wp-content/pop-which-func-nq8.png" alt="pop-which-func-nq8.png">
-#+image/pop-which-func-nq8.png <img src="http://blog.binchen.org/wp-content/uploads/2014/04/wpid-pop-which-func-nq8.png" alt="wpid-pop-which-func-nq8.png"></p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/paste-string-from-clipboard-into-minibuffer-in-emacs/">paste string from clipboard into minibuffer in Emacs</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-04-08T22:17:00+00:00">2014-04-08 22:17</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/paste-string-from-clipboard-into-minibuffer-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/paste-string-from-clipboard-into-minibuffer-in-emacs.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/bash/" rel="tag">bash</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-First, I find <code>M-Y</code> is easier to press when paste string into minibuffer than old "Shift+Insert". "Ctrl-V" is not supported in some terminals.
-</p>
-
-<p>
-Second, integrating some command line clipboard tool into Emacs is better than Emacs X clipboard. Command line tool works in any environment. For example, when you log into a remote server with ssh, your local computer could share clipboard with your Emacs in remote shell. Please note in this example, you need using X11 forward over ssh, usually it's already set up on server.
-</p>
-
-<p>
-Here is the code:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun paste-from-x-clipboard()
-  (interactive)
-  (shell-command
-   (cond
-    (*cygwin* "getclip")
-    (*is-a-mac* "pbpaste")
-    (t "xsel -ob"))
-   1))
-
-(defun my/paste-in-minibuffer ()
-  (local-set-key (kbd "M-y") 'paste-from-x-clipboard))
-
-(add-hook 'minibuffer-setup-hook 'my/paste-in-minibuffer)
-</code></pre>
-
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/upload-emacs-package-to-marmalade/">Upload emacs package to marmalade</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-03-28T07:26:01+00:00">2014-03-28 07:26</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/upload-emacs-package-to-marmalade/#disqus_thread" data-disqus-identifier="cache/posts/upload-emacs-package-to-marmalade.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/marmalade/" rel="tag">marmalade</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p></p>
-<p>Thanks to <a href="https://plus.google.com/+SebastianWiesner/posts">Sebastian Wiesner</a> for providing a python script to upload package to <a href="http://marmalade-repo.org/">http://marmalade-repo.org/</a>. </p>    
-<pre class="prettyprint ">
-
-sudo pip install requests keyring
-
-curl -L https://raw.githubusercontent.com/lunaryorn/dotfiles/master/emacs/bin/marmalade-upload &gt; ~/bin/marmalade-upload &amp;&amp; chmod +x ~/bin/marmalade-upload
-
-~/bin/marmalade-upload -h # see help
-</pre>
-
-<p></p>
-<p> Please note if the same version already exists on server, I need delete it before uploading. </p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-firefox-in-emacs-way-3/">Use firefox in Emacs way</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-03-23T20:03:00+00:00">2014-03-23 20:03</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/use-firefox-in-emacs-way-3/#disqus_thread" data-disqus-identifier="cache/posts/use-firefox-in-emacs-way-3.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/firefox/" rel="tag">firefox</a></li>
-           <li><a class="tag p-category" href="categories/keysnail/" rel="tag">keysnail</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-05-20 Tue&gt;</span></span>
-</p>
-
-<p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-03-23 Sun&gt;</span></span>
-</p>
-
-<p>
-I use <a href="https://github.com/mooz/keysnail/wiki">keysnail</a>. it's a firefox addon to convert firefox into Emacs.
-</p>
-
-<p>
-I install keysnail's own plugins "HoK" and "Tanything".
-</p>
-
-<p>
-Here are the use cases of keysnail.
-</p>
-
-<div id="outline-container-orgaff716a" class="outline-2">
-<h3 id="orgaff716a">Click &amp; Copy the links</h3>
-<div class="outline-text-2" id="text-orgaff716a">
-<p>
-Install the <a href="https://github.com/mooz/keysnail/wiki/plugin">HoK</a>.
-</p>
-
-<p>
-Insert below code into ~/.keysnail.js:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">hook.setHook("PluginLoaded", function () {
-    if (!plugins.hok) return;
-
-    /* HoK 1.3.9+ required */
-    plugins.hok.pOptions.selector = plugins.hok.pOptions.selector
-    /* feedly */
-    + ", *[data-uri]" + ", *[data-selector-toggle]" + ", *[data-page-action]" + ", *[data-app-action]"
-    /* google plus */
-    + ", *[guidedhelpid]"
-    /* twitter */
-    + ", *[data-item-count]";
-});
-
-key.setGlobalKey(["C-c","C-f"], function (aEvent, aArg) {
-        ext.exec("hok-start-foreground-mode", aArg);
-}, "Hok - Foreground hint mode", true);
-
-key.setGlobalKey(["C-c","C-b"], function (aEvent, aArg) {
-        ext.exec("hok-start-background-mode", aArg);
-}, "HoK - Background hint mode", true);
-
-key.setGlobalKey(["C-c","C-y"], function (aEvent, aArg) {
-        ext.exec("hok-yank-foreground-mode", aArg);
-}, "HoK - Background hint mode", true);
-
-key.setGlobalKey(["C-c","C-;"], function (aEvent, aArg) {
-        ext.exec("hok-start-extended-mode", aArg);
-}, "HoK - Extented hint mode", true);
-
-key.setGlobalKey(["C-c", "C-e"], function (aEvent, aArg) {
-        ext.exec("hok-start-continuous-mode", aArg);
-}, "Start continuous HaH", true);
-
-</code></pre>
-
-</div>
-
-<p>
-Now I can press "Ctrl-C Ctrl-F" to select the links to click.
-</p>
-
-<p>
-The links will be highlighted as below screen shot:
-<img src="wp-content/keysnail-hok-nq8.png" alt="keysnail-hok-nq8.png"></p>
-
-<p>
-I can press the highlighted hint to click the link.
-</p>
-
-<p>
-Copy the link into clipboard is also easy. I press "C-c C-y" and similar UI will be displayed. I press the hint above to finish the operation.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org7576a68" class="outline-2">
-<h3 id="org7576a68">Copy the text of link</h3>
-<div class="outline-text-2" id="text-org7576a68">
-<p>
-This is my most favorite tool. As a developer, I need copy text of links from bug tracking software and paste it into git commit message frequently.
-</p>
-
-<p>
-That's error prone because:
-</p>
-<ol class="org-ol">
-<li>The links are cluttered so it's hard to select the text of the link without actually clicking the link.</li>
-<li>The web UI of bug tracing system may use some CSS magic. Only part of the text of links are displayed. So it's impossible to select the text at all. For example, <a href="https://www.atlassian.com/software/jira">JIRA</a> will display file name of "Screenshot 03/05/2014-193024.png" as "Screenshot 03/05/2014…png".</li>
-</ol>
-<p>
-If you use keysnail+HOK, it's as simple as press hot key "C-c ; Y". That's it!
-</p>
-</div>
-</div>
-
-<div id="outline-container-org6d803bc" class="outline-2">
-<h3 id="org6d803bc">Switch tab</h3>
-<div class="outline-text-2" id="text-org6d803bc">
-<p>
-Install the <a href="https://github.com/mooz/keysnail/wiki/plugin">Tanything</a>.
-</p>
-
-<p>
-Insert below code into ~/.keysnail.js:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">key.setGlobalKey(["C-c", "C-a"], function (ev, arg) {
-  ext.exec("tanything", arg);
-}, "view all tabs", true);
-</code></pre>
-
-</div>
-
-<p>
-Press "Ctrl-C Ctrl-A", you got below UI:
-<img src="wp-content/keysnail-tanything-nq8.png" alt="keysnail-tanything-nq8.png"></p>
-
-<p>
-Tanything will locate the tab by finding match in web page's title or URL.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org0e49aea" class="outline-2">
-<h3 id="org0e49aea">My keysnail set up</h3>
-<div class="outline-text-2" id="text-org0e49aea">
-<p>
-You can download my ~/.keysnail.js from <a href="https://gist.githubusercontent.com/redguardtoo/003ac86d4c11b70b870a/raw/32356b071785248c0ff56d9c5896168263efefdd/.keysnail.js">HERE</a>.
-</p>
-
-<p>
-#+image/keysnail-hok-nq8.png <img src="http://blog.binchen.org/wp-content/uploads/2014/03/wpid-keysnail-hok-nq8.png" alt="wpid-keysnail-hok-nq8.png">
-#+image/keysnail-tanything-nq8.png <img src="http://blog.binchen.org/wp-content/uploads/2014/03/keysnail-tanything-nq8.png" alt="keysnail-tanything-nq8.png"></p>
-</div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/debug-emacs-lisp-code-the-hard-way/">Debug Emacs Lisp code the hard way</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-03-19T19:45:00+00:00">2014-03-19 19:45</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/debug-emacs-lisp-code-the-hard-way/#disqus_thread" data-disqus-identifier="cache/posts/debug-emacs-lisp-code-the-hard-way.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/debug/" rel="tag">debug</a></li>
-           <li><a class="tag p-category" href="categories/elisp/" rel="tag">elisp</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p></p>
-<p>I <a href="https://github.com/emacs-helm/helm/issues/448">met some issue</a> when using helm several days ago. </p> <p> With the help from Michael Heerdegen, I can locate the line error message is dumped. </p> <p> But the problem is I cannot get the backtrace at all. </p> <p> So I insert some <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Internals-of-Debugger.html">backtrace printing code</a> above that line and "M-x eval-buffer": </p>   
-<pre class="prettyprint ">
-
-(with-output-to-temp-buffer "backtrace-output"
-  (let ((var 1))
-    (save-excursion
-      (setq var (eval '(progn
-                         (1+ var)
-                         (list 'testing (backtrace))))))))
-</pre>
-
-<p></p>
-<p> It turns out that some third party package I installed changes the emacs variable "display-buffer-function". I guess that's why the backtrace is blocked. Because backtrace is usually dumped into a backtrace buffer. And backtrace buffer's is actually influenced by the variable. </p>
-</div>
-            </div>
-        </div>
-        <div class="post">
             <h1 class="title"><a href="posts/hack-wordpress-php-and-make-cdnjs-com-host-js/">Hack wordpress php and make cdnjs.com host js</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -979,6 +376,594 @@ Besides, I find the wordpress theme produced by <a href="http://automattic.com">
 <ol>
 <li>If i need insert this file's relative path, I press a hot key and another emacs plugin will correctly convert absolute path to relative one (relative to the file I'm editing in Emacs) and insert it into my editor. </li> </ol>
 </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">Demo</h4> <div class="outline-text-3" id="text-3">  <p>Here is screen cast. In this demo I grepped and open a ftl file and then search another js file in the same project. <img src="wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif" alt="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif"></p>
+</div> </div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/one-liner-to-download-and-extract-emacs-lisp-source-code/">One liner to download and install emacs lisp source code</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-02-18T11:56:00+00:00">2014-02-18 11:56</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/one-liner-to-download-and-extract-emacs-lisp-source-code/#disqus_thread" data-disqus-identifier="cache/posts/one-liner-to-download-and-extract-emacs-lisp-source-code.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Run the below command in shell, </p>   
+<pre class="prettyprint ">
+
+curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`.tar.gz | sudo tar --exclude=admin/* --exclude=etc/* --exclude=nt/* --exclude=doc/* --exclude=leim/* -C /usr/share/emacs/`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`/lisp/ --strip-components=2 --wildcards -zxv *.el
+</pre>
+
+<p></p>
+<p> For example, after installing the lisp code. You can <code>M-x find-function package-list-packages</code> in Emacs, you will jump to the definition of that command in "/usr/share/emacs/24.3/lisp/emacs-lisp/package.el" (I assume your emacs version is 24.3). </p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/add-current-directory-into-load-path-in-emacs/">Add current directory into load-path in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-02-17T13:24:23+00:00">2014-02-17 13:24</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/add-current-directory-into-load-path-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/add-current-directory-into-load-path-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/elisp/" rel="tag">elisp</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/programming/" rel="tag">programming</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>Useful when developing emacs plugin: </p>
+<pre class="prettyprint lang-lisp">
+(defun add-pwd-into-load-path ()
+  "add current directory into load-path, useful for elisp developers"
+  (interactive)
+  (let ((dir (expand-file-name default-directory)))
+    (if (not (memq dir load-path))
+        (add-to-list 'load-path dir)
+        )
+    (message "Directory added into load-path:%s" dir)
+    )
+  )
+</pre>
+
+<p></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/code-rush/">Code Rush</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-02-14T17:12:00+00:00">2014-02-14 17:12</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/code-rush/#disqus_thread" data-disqus-identifier="cache/posts/code-rush.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/engineering/" rel="tag">engineering</a></li>
+           <li><a class="tag p-category" href="categories/firefox/" rel="tag">firefox</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p>小结,代码库庞大,质量有问题,招了一些废物.M Toy:"我们不是要痛扁谁…". 1998年3月31日,Netscape公开其源代码. </p> <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption> <colgroup>
+<col class="left">
+<col class="left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="left">人名</th>
+<th scope="col" class="left">背景</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left"><a href="http://en.wikipedia.org/wiki/Jamie_Zawinski">Jamie Zawinski</a></td>
+<td class="left">黑客,擅长C/Perl/Lisp,不喜欢C++,XEmacs开发者,Netscape早期版本开发者)解释源代码的意义.注意键盘符合人体工程学.</td>
+</tr>
+<tr>
+<td class="left"><a href="http://en.wikipedia.org/wiki/Michael_Toy">Michael Toy</a></td>
+<td class="left">牢游戏Rogue的开发者,该游戏被PC World杂志2009年评为史上最伟大PC游戏第六,是Diablo的老祖宗,Netscape最早员工</td>
+</tr>
+<tr>
+<td class="left"><a href="http://en.wikipedia.org/wiki/Jim_Barksdale">Jim Barksdale</a></td>
+<td class="left">CEO</td>
+</tr>
+<tr>
+<td class="left"><a href="http://www.linkedin.com/pub/jim-roskind/0/20/195">Jim Roskind</a></td>
+<td class="left">Security Expert,开发大型软件,很麻烦.还说了一大堆屁话.</td>
+</tr>
+<tr>
+<td class="left">Scott Collins</td>
+<td class="left">值夜班,惨透了.</td>
+</tr>
+<tr>
+<td class="left"><a href="http://en.wikipedia.org/wiki/Brendan_Eich">Brendan Eich</a></td>
+<td class="left">javascript</td>
+</tr>
+<tr>
+<td class="left"><a href="http://www.linkedin.com/pub/jeff-weinstein/b/869/433">Jeff Weinstein</a></td>
+<td class="left">programmer at Netscape.并不是Netscape最优秀的员工.嘿嘿.</td>
+</tr>
+<tr>
+<td class="left">Tara Hernandez</td>
+<td class="left">QA</td>
+</tr>
+<tr>
+<td class="left"><a href="http://en.wikipedia.org/wiki/Blake_Ross">Blake Ross</a></td>
+<td class="left"><a href="http://www.insanely-great.com/news.php?id=3993">http://www.insanely-great.com/news.php?id=3993</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/">My answer to "What are some must-have emacs additions" on quora.com</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-02-13T19:44:00+00:00">2014-02-13 19:44</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#disqus_thread" data-disqus-identifier="cache/posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/addon/" rel="tag">addon</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/plugin/" rel="tag">plugin</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<div id="table-of-contents"> <h3>Table of Contents</h3> <div id="text-table-of-contents"> <ul>
+<li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-1">1. Warning</a></li> <li>
+<a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2">2. third party plugins</a> <ul>
+<li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-1">2.1. company-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-2">2.2. yasnippet</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-3">2.3. js2-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-4">2.4. evil-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-5">2.5. evil-leader</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-6">2.6. evil-matchit (written by me)</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-7">2.7. evil-nerd-commenter (written by me)</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-8">2.8. helm</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-9">2.9. web-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-10">2.10. windows-numbering.el</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-11">2.11. smex</a></li> </ul>
+</li> <li>
+<a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-3">3. plugins bundled with emacs 24</a> <ul>
+<li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-3-1">3.1. org-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-3-2">3.2. winner-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-3-3">3.3. gnus</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-3-4">3.4. ido</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-3-5">3.5. imenu</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-3-6">3.6. flymake</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-3-7">3.7. flyspell</a></li> </ul>
+</li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-4">4. The last and best plugin</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-5">5. Tip</a></li> </ul>
+</div> </div> <p> This is my answer for <a href="http://www.quora.com/Emacs/What-are-some-must-have-additions-to-your-emacs-file">What are some must-have additions to your .emacs file?</a> on quora.com. </p>  <p> Emacs 24 is already bundled with a package manager. So you can download and install the package without leaving Emacs. See <a href="http://www.emacswiki.org/emacs/ELPA">http://www.emacswiki.org/emacs/ELPA</a> for how to set up. </p>  <p> If you want to know more tips about specific plugin. Please search its name in <a href="http://www.emacswiki.org">Emacswiki</a>. </p>  <div id="outline-container-sec-1" class="outline-2"> <h3 id="sec-1">
+<span class="section-number-2">1</span> Warning</h3> <div class="outline-text-2" id="text-1"> <p> I'm a web programmer, so my focus could be different from other emacs users. </p> </div> </div> <div id="outline-container-sec-2" class="outline-2"> <h3 id="sec-2">
+<span class="section-number-2">2</span> third party plugins</h3> <div class="outline-text-2" id="text-2"> </div>
+<div id="outline-container-sec-2-1" class="outline-3"> <h4 id="sec-2-1">
+<span class="section-number-3">2.1</span> company-mode</h4> <div class="outline-text-3" id="text-2-1"> <p> auto completing code, it requires less key typing than another emacs plugin auto-complete. Besides, it's actively maintained  </p> </div> </div>  <div id="outline-container-sec-2-2" class="outline-3"> <h4 id="sec-2-2">
+<span class="section-number-3">2.2</span> yasnippet</h4> <div class="outline-text-3" id="text-2-2"> <p> insert template </p> </div> </div>  <div id="outline-container-sec-2-3" class="outline-3"> <h4 id="sec-2-3">
+<span class="section-number-3">2.3</span> js2-mode</h4> <div class="outline-text-3" id="text-2-3"> <p> javascript development, best of the best </p> </div> </div>  <div id="outline-container-sec-2-4" class="outline-3"> <h4 id="sec-2-4">
+<span class="section-number-3">2.4</span> evil-mode</h4> <div class="outline-text-3" id="text-2-4"> <p> vim simulator, I cannot live without it as a vi guy </p> </div> </div>  <div id="outline-container-sec-2-5" class="outline-3"> <h4 id="sec-2-5">
+<span class="section-number-3">2.5</span> evil-leader</h4> <div class="outline-text-3" id="text-2-5"> <p> evil's plugin, simple and powerful if you realize that ALL the hot keys (for example, I map "M-x" to ",mx") can be re-mapped with it </p> </div> </div>  <div id="outline-container-sec-2-6" class="outline-3"> <h4 id="sec-2-6">
+<span class="section-number-3">2.6</span> evil-matchit (written by me)</h4> <div class="outline-text-3" id="text-2-6"> <p> jump between tag pair, port of  vim matchit </p> </div> </div>  <div id="outline-container-sec-2-7" class="outline-3"> <h4 id="sec-2-7">
+<span class="section-number-3">2.7</span> evil-nerd-commenter (written by me)</h4> <div class="outline-text-3" id="text-2-7"> <p> (un)comment by lines,  port of nerd-comment </p> </div> </div>  <div id="outline-container-sec-2-8" class="outline-3"> <h4 id="sec-2-8">
+<span class="section-number-3">2.8</span> helm</h4> <div class="outline-text-3" id="text-2-8"> <p> hard to describe but powerful </p> </div> </div>  <div id="outline-container-sec-2-9" class="outline-3"> <h4 id="sec-2-9">
+<span class="section-number-3">2.9</span> web-mode</h4> <div class="outline-text-3" id="text-2-9"> <p> major-mode for all html templates </p> </div> </div>  <div id="outline-container-sec-2-10" class="outline-3"> <h4 id="sec-2-10">
+<span class="section-number-3">2.10</span> windows-numbering.el</h4> <div class="outline-text-3" id="text-2-10"> <p> sub-window navigation, best one. well, it occupies hotkey from M-1 to M-9, For normal emacs user this could be issue. but I'm evil guy;) </p> </div> </div>  <div id="outline-container-sec-2-11" class="outline-3"> <h4 id="sec-2-11">
+<span class="section-number-3">2.11</span> smex</h4> <div class="outline-text-3" id="text-2-11"> <p> you don't need remember hot key or command any more </p> </div> </div> </div> <div id="outline-container-sec-3" class="outline-2"> <h3 id="sec-3">
+<span class="section-number-2">3</span> plugins bundled with emacs 24</h3> <div class="outline-text-2" id="text-3"> </div>
+<div id="outline-container-sec-3-1" class="outline-3"> <h4 id="sec-3-1">
+<span class="section-number-3">3.1</span> org-mode</h4> <div class="outline-text-3" id="text-3-1"> <p> gtd tool, it changed my life, as git,vim,emacs did to me ages ago. </p> </div> </div>  <div id="outline-container-sec-3-2" class="outline-3"> <h4 id="sec-3-2">
+<span class="section-number-3">3.2</span> winner-mode</h4> <div class="outline-text-3" id="text-3-2"> <p> undo sub window-layout </p> </div> </div>  <div id="outline-container-sec-3-3" class="outline-3"> <h4 id="sec-3-3">
+<span class="section-number-3">3.3</span> gnus</h4> <div class="outline-text-3" id="text-3-3"> <p> hate and love it. the UI is too geek. but has some killer feature,  for example, forward email, send email quickly, attach file. but the point is I can use with other awesome plugins like yasnippet, company-mode,evil. </p> </div> </div>  <div id="outline-container-sec-3-4" class="outline-3"> <h4 id="sec-3-4">
+<span class="section-number-3">3.4</span> ido</h4> <div class="outline-text-3" id="text-3-4"> <p> similar to helm, my tip, you can tell helm when to use ido, when to use helm. </p> </div> </div>  <div id="outline-container-sec-3-5" class="outline-3"> <h4 id="sec-3-5">
+<span class="section-number-3">3.5</span> imenu</h4> <div class="outline-text-3" id="text-3-5"> <p> display list of function in current buffer, the point is it is programmable </p> </div> </div>  <div id="outline-container-sec-3-6" class="outline-3"> <h4 id="sec-3-6">
+<span class="section-number-3">3.6</span> flymake</h4> <div class="outline-text-3" id="text-3-6"> <p> real time syntax check </p> </div> </div>  <div id="outline-container-sec-3-7" class="outline-3"> <h4 id="sec-3-7">
+<span class="section-number-3">3.7</span> flyspell</h4> <div class="outline-text-3" id="text-3-7"> <p> best spell checker, if you know how to do programming for it </p> </div> </div> </div> <div id="outline-container-sec-4" class="outline-2"> <h3 id="sec-4">
+<span class="section-number-2">4</span> The last and best plugin</h3> <div class="outline-text-2" id="text-4"> <p> Lisp! </p> <ul class="org-ul">
+<li>simple </li> <li>no learning curve, </li> <li>it's syntax ensure that its plugin developer are experienced developers who knows at least three programming languages. </li> </ul>
+</div> </div> <div id="outline-container-sec-5" class="outline-2"> <h3 id="sec-5">
+<span class="section-number-2">5</span> Tip</h3> <div class="outline-text-2" id="text-5"> <p> If I find some awesome plugin, I will investigate the original author and make sure what other tools he/she uses or develops </p>  <p> For example, mooz maintains js2-mode, he also developed: </p> <dl class="org-dl">
+<dt> keysnail </dt>
+<dd>firefox is converted into Emacs, best one in similar tools (I tried 3 or 2 similar firefox/chrome addons before settled on keysnail) </dd> <dt> percol </dt>
+<dd>A genius utility for shell operation. Make me ten times faster when working in bash shell. Without it, I will quit my programming career immediately. </dd> </dl>
+</div> </div> </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2/">How to do HTML/Javascript REPL (Read–eval–print loop) with NO server set up</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-02-10T21:56:00+00:00">2014-02-10 21:56</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2/#disqus_thread" data-disqus-identifier="cache/posts/how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/frontend/" rel="tag">frontend</a></li>
+           <li><a class="tag p-category" href="categories/html/" rel="tag">html</a></li>
+           <li><a class="tag p-category" href="categories/javascript/" rel="tag">javascript</a></li>
+           <li><a class="tag p-category" href="categories/repl/" rel="tag">repl</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<div id="outline-container-org10e81b5" class="outline-2">
+<h3 id="org10e81b5">Problem</h3>
+<div class="outline-text-2" id="text-org10e81b5">
+<p>
+I love the REPL (Read–eval–print loop). Watch live update of web page when typing code is cool.
+</p>
+
+<p>
+But most solutions around the internet are not practical for me.
+</p>
+
+<p>
+In my world, I never has a chance to develop fancy 2D/3D games written in HTML5 canvas.
+</p>
+
+<p>
+Instead, I was <b>ALWAYS</b> assigned to maintain some enterprise CMS with complex business logic. For example, after refreshing the web page I need click lots of buttons before doing the job. Avoiding press "refresh page button" does not help much.
+</p>
+
+<p>
+Besides, I can't use the embedded server those solutions boasted because our web application has many dependencies. It needs a whole environment support team to set it up. There is no way I can persuade the team to use a different web server
+</p>
+
+<p>
+For me, a practical solution must be:
+</p>
+<ul class="org-ul">
+<li>easy to set up</li>
+<li>powerful. I can read/write any part of the web page in my text editor</li>
+<li>no learning curve. I don't want to learn any domain specific language or API. For example, if my web application uses jquery, I want <b>use and only use jquery API</b> to manipulate web page in my text editor. If it use backbone, then I use backbone. No more, no less.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbeb969b" class="outline-2">
+<h3 id="orgbeb969b">Solution</h3>
+<div class="outline-text-2" id="text-orgbeb969b">
+<p>
+The best solution is firefox addon <a href="https://github.com/bard/mozrepl/wiki">MozRepl</a>. You can install it <a href="https://addons.mozilla.org">https://addons.mozilla.org</a>. Click firefox menu "Tools =&gt; MozRepl =&gt; Start" to run it.
+<img src="wp-content/moz-repl-start-nq8.png" alt="moz-repl-start-nq8.png"></p>
+
+<p>
+So what is MozRepl, as its web site says, "MozRepl lets you program Firefox and other Mozilla-based applications <b>from the inside</b>." Basically it convert firefox into a socket server. Your text editor could talk to firefox and let firefox do anything you want. Since it only interact with the firefox, I don't need mess with the web server.
+</p>
+
+<p>
+Well, I hope I can end this article by claiming "after reading its <a href="https://github.com/bard/mozrepl/wiki/Tutorial">official tutorial</a>,I live happily with MozRepl ever after".
+</p>
+
+<p>
+The ugly truth is, MozRepl has some rough edges. That's the reason why I write this article. I will explain how to use MozRepl in next two sections.
+</p>
+
+<p>
+Section 1 is about how to use MozRepl, whatever text editor you use, you should read this section.
+</p>
+
+<p>
+Section 2 is on how to set up my text editor Emacs to interact with MozRepl. It's optional.
+</p>
+</div>
+
+<div id="outline-container-org5b43ebf" class="outline-3">
+<h4 id="org5b43ebf">Section 1, use MozRepl</h4>
+<div class="outline-text-3" id="text-org5b43ebf">
+<p>
+Here are key points:
+</p>
+<ul class="org-ul">
+<li>You need read above official tutorial at least once</li>
+
+<li>There is video demo on youtube. I suggest watching from <a href="http://www.youtube.com/watch?v=5RSnHN6S52c#t=137">2:18</a> because you possibly are more interested in manipulating web page than toy with firefox internals.</li>
+<li>web page is called "content" in MozRepl</li>
+<li>In order to execute your javascript code with exactly same syntax as your web application is running code "repl.enter(content);" at first line, as you can see in both video and text tutorial</li>
+<li>Use firefox 24.0+ and MozRepl 1.1.2+</li>
+<li>For some weird reason, MozRepl socket server needs some warm up after web page refreshed. So run the code like "console.log('hello');" in the first connection, close the connection, and run your other code in second connection.</li>
+<li>For code running in MozRepl, if one line will trigger some AJAX request, all the code just after that line <b>will not</b> be executed. Use javascript API "setTimeout' to work around this issue.</li>
+</ul>
+<p>
+Here is a complete example (note how I use setTimeout) written in javascript,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">$('#serviceId').val('0451235550');
+$('#serviceId').keyup();
+console.log('hi');
+setTimeout(function(){
+  console.log('world');
+  $('input[value="1"][name="isAccountHolder"]').click();
+  $('#accountNumber').val('01234567891234');
+  setTimeout(function(){
+    $('#registrationLoginEmailAddress').val('cb@cb.cb');
+    $('#registrationLoginEmailAddress2').val('cb@cb.cb');
+    $('#password').val('Password1');
+    $('#passwordConfirm').val('Password1');
+    $('#title').val('Mr');
+    $('#serviceFirstName').val('chen');
+    $('#serviceLastName').val('bin');
+    $('#registrationLoginDetailsContinueBtn').click();
+  },2000);
+  $('#serviceAccountContinueBtn').click();
+},3000);
+$('#confirmServiceBtn').click();
+</code></pre>
+
+</div>
+
+<p>
+As you can see from above, I can use jQuery API loaded in that web page without any problem. Of course, you can always use vanilla javascript instead.
+</p>
+
+<p>
+Please note the code is not part of my web application! It will be run only in MozRepl. You can telnet to the MozRepl socket server (127.0.0.1 with port 4424) and copy paste above code line by line.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbc61607" class="outline-3">
+<h4 id="orgbc61607">Section 2, set up text editor (Emacs)</h4>
+<div class="outline-text-3" id="text-orgbc61607">
+<p>
+My text editor is Emacs, so I use Emacs as an example.
+</p>
+
+<p>
+Step 1, install moz.el according to <a href="https://github.com/bard/mozrepl/wiki/Emacs-integration">official manual</a>.
+</p>
+
+<p>
+Step 2, Please insert below code into your ~/.emacs:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun moz-goto-content-and-run-cmd (cmd)
+  (comint-send-string (inferior-moz-process)
+                      (concat "repl.enter(content);"
+                              cmd
+                              "repl.back();")))
+
+(setq moz-repl-js-dir (expand-file-name "~/moz-repl-js-dir"))
+
+(defun moz--read-file (js-file)
+  (with-temp-buffer
+    (insert-file-contents js-file)
+    (buffer-string)))
+
+(defun moz--load-js-file (js-file)
+  (let (cmd )
+    (when (file-exists-p js-file)
+      ;; make moz API usable in any major-mode
+      (moz-minor-mode 1)
+      ;; flush mozrepl at first
+      (moz-goto-content-and-run-cmd "console.log('hello');")
+      ;; read the content of js-file
+      (setq cmd (moz--read-file js-file))
+      (moz-goto-content-and-run-cmd cmd))))
+
+(defun moz-load-js-file-and-send-it ()
+  "load js file from specific directory and send it to mozrepl"
+  (interactive)
+  (let ((js-file (read-file-name "js file:" moz-repl-js-dir)))
+    (moz--load-js-file js-file)
+    ))
+</code></pre>
+
+</div>
+
+<p>
+From now on, you only need "M-x moz-load-js-file-and-send-it" and select the js file you need MozRepl to run.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0a00ab1" class="outline-2">
+<h3 id="org0a00ab1">Tips</h3>
+<div class="outline-text-2" id="text-org0a00ab1">
+</div>
+<div id="outline-container-orga5deaf7" class="outline-3">
+<h4 id="orga5deaf7">Tip 1</h4>
+<div class="outline-text-3" id="text-orga5deaf7">
+<p>
+Well, this is a simple tip. Maybe you are already aware of this.
+</p>
+
+<p>
+You can write a all-in-one.js. In all-in-one.js, you can parse the URL to separate logic for different project.
+</p>
+
+<p>
+Here is javascript code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">var url=document.URL;
+if(/^.*mycompany\.com\.au.*my-account\/registration/.test(url)){
+   console.log("for regitration module");
+} else if (/^.*mycompany\.com\.au.*my-account\/my-profile/.test(url)) {
+   console.log("for profile module");
+}
+</code></pre>
+
+</div>
+
+<p>
+Since javascript is good at analyzing URL, you can also tweak the URL parameters. Anyway, the full power of javascript is at your hand.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0a1542b" class="outline-3">
+<h4 id="org0a1542b">Tip 2</h4>
+<div class="outline-text-3" id="text-org0a1542b">
+<p>
+Sometimes mozrepl will be unresponsive. You can test it by running "M-x moz-reload-browser" to refresh the page. If page is not refreshed, restart Firefox. Luckily this does not happen too often.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun moz-reload-browser ()
+  (interactive)
+  (comint-send-string (inferior-moz-process)
+                      "setTimeout(function(){content.document.location.reload(true);}, '500');"))
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb4bc3b0" class="outline-2">
+<h3 id="orgb4bc3b0">Demo</h3>
+<div class="outline-text-2" id="text-orgb4bc3b0">
+<p>
+Here is a demo how I use it in a real world web application development.
+</p>
+
+<p>
+The script to drive the firefox is written in simple javascript/jquery code, which I already show you.
+</p>
+
+
+<div class="figure">
+<p><img src="wp-content/mozrepl-in-action.gif" alt="mozrepl-in-action.gif"></p>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/notes-on-set-up-nfs-on-archlinux/">Notes on set up nfs on ArchLinux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-02-07T17:24:09+00:00">2014-02-07 17:24</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/notes-on-set-up-nfs-on-archlinux/#disqus_thread" data-disqus-identifier="cache/posts/notes-on-set-up-nfs-on-archlinux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/archlinux/" rel="tag">archlinux</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Key points</h4> <div class="outline-text-3" id="text-1">  <ul>
+<li>see <a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html">Redhat documenation</a>, best doc on exportfs </li> <li>
+<a href="http://superuser.com/questions/492989/understanding-subnet-mask">Understanding Subnet mask</a> and <a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask">essential Subnet mask</a> </li> <li>
+<code>sudo exportfs -r</code> to reload /etc/exports </li> <li>
+<code>sudo exportfs -v</code> to see current nfs exports </li> <li>content of /etc/exports: </li> </ul>
+<pre class="prettyprint ">
+
+/srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
+</pre>
+
+<p></p>
+<ul>
+<li>check <a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html">optimizatioin tips</a> </li> <li>
+<code>man 5 exports</code> for the documentation of /etc/exports </li> <li>
+<a href="https://www.serverstack.com/blog/2012/11/21/debugging-nfs-file-access-on-server-and-client-side/">Debugging NFS File Access on Server and Client Side</a> </li> </ul>
+<pre class="prettyprint ">
+
+# turn on the log
+
+sudo rpcdebug -m nfsd -s proc
+
+# turn off the log
+</pre>
+
+<p></p>
+<ul>
+<li>then <code>sudo tail -f /var/log/messages.log</code> </li> <li>Basically you need <code>sudo systemctl enable syslog-ng.service</code> to enable system log before you use rpcdebug </li> </ul>
+</div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Summary</h4> <div class="outline-text-3" id="text-2">  <p>On server side: </p>   
+<pre class="prettyprint ">
+
+sudo exportfs
+
+# got output like:
+
+# /srv/nfs4/z   192.168.0.0/16
+</pre>
+
+<p></p>
+<p> Then on client side: </p>   
+<pre class="prettyprint ">
+
+# 131072 is 128K
+
+sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
+</pre>
+
+<p></p>
 </div> </div> </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about ctags)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ctags.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 12 Sep 2020 03:02:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Effective code navigation for web development</title><link>http://blog.binchen.org/posts/effective-code-navigation-for-web-development/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about ctags)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ctags.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Effective code navigation for web development</title><link>http://blog.binchen.org/posts/effective-code-navigation-for-web-development/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2020-03-27 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -7,9 +7,9 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 I use &lt;a href="https://angularjs.org/"&gt;AngularJS&lt;/a&gt; as an example. The technique is actually generic and not limited to Angular Only.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org761a4ea" class="outline-2"&gt;
-&lt;h3 id="org761a4ea"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org761a4ea"&gt;
+&lt;div id="outline-container-orgc2e7fb6" class="outline-2"&gt;
+&lt;h3 id="orgc2e7fb6"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc2e7fb6"&gt;
 &lt;p&gt;
 In Angular application, a function is defined in a javascript file and called in a html file.
 &lt;/p&gt;
@@ -53,9 +53,9 @@ In this article, I focus on how I combine Emacs and Ctags. If you use other text
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga963cfb" class="outline-2"&gt;
-&lt;h3 id="orga963cfb"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga963cfb"&gt;
+&lt;div id="outline-container-org627fac9" class="outline-2"&gt;
+&lt;h3 id="org627fac9"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org627fac9"&gt;
 &lt;p&gt;
 Ctags is good at parsing files with &lt;b&gt;regular expression&lt;/b&gt;.
 &lt;/p&gt;
@@ -70,9 +70,9 @@ I use Ctags because:
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org91d2d79" class="outline-3"&gt;
-&lt;h4 id="org91d2d79"&gt;Old solution&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org91d2d79"&gt;
+&lt;div id="outline-container-org39fbd3e" class="outline-3"&gt;
+&lt;h4 id="org39fbd3e"&gt;Old solution&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org39fbd3e"&gt;
 &lt;p&gt;
 Here is my &lt;a href="https://gist.github.com/redguardtoo/b12ddae3b8010a276e9b#file-ctags"&gt;~/.ctags&lt;/a&gt;.
 &lt;/p&gt;
@@ -99,9 +99,9 @@ Please install the latest helm because I &lt;a href="https://github.com/emacs-he
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc986548" class="outline-3"&gt;
-&lt;h4 id="orgc986548"&gt;Latest solution (recommended)&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgc986548"&gt;
+&lt;div id="outline-container-org074f14c" class="outline-3"&gt;
+&lt;h4 id="org074f14c"&gt;Latest solution (recommended)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org074f14c"&gt;
 &lt;p&gt;
 I have developed some ctags packages on code completion and code navigation. No manual setup is needed. Everything just works out of box. My packages are very popular in the Emacs community right now,
 &lt;/p&gt;
@@ -206,7 +206,149 @@ UPDATE:
 &lt;li&gt;My tags file management strategy is described at &lt;a href="http://blog.binchen.org/posts/how-to-use-ctags-in-emacs-effectively-3.html"&gt;How to use ctags in Emacs effectively&lt;/a&gt;. It's effective to me. But it may be not generic enough to apply to others' use cases.&lt;/li&gt;
 
 &lt;li&gt;I do use &lt;a href="http://www.gnu.org/software/global/"&gt;Gnu Global&lt;/a&gt; for &lt;b&gt;C/C++/Java&lt;/b&gt; code. I use it exactly in the &lt;b&gt;same way&lt;/b&gt; as ctags. Please &lt;code&gt;man global&lt;/code&gt; for the details. Hint, all you need care is the environment variable &lt;b&gt;GTAGSLIBPATH&lt;/b&gt;.&lt;/li&gt;
-&lt;/ol&gt;&lt;/div&gt;</description><category>ctags</category><category>emacs</category><category>en</category><category>javascript</category><guid>http://blog.binchen.org/posts/tips-on-using-ctags-with-emacs/</guid><pubDate>Fri, 28 Nov 2014 05:13:11 GMT</pubDate></item><item><title>How to use ctags with Emacs effectively</title><link>http://blog.binchen.org/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;/ol&gt;&lt;/div&gt;</description><category>ctags</category><category>emacs</category><category>en</category><category>javascript</category><guid>http://blog.binchen.org/posts/tips-on-using-ctags-with-emacs/</guid><pubDate>Fri, 28 Nov 2014 05:13:11 GMT</pubDate></item><item><title>How to use ctags in Emacs effectively</title><link>http://blog.binchen.org/posts/how-to-use-ctags-in-emacs-effectively-3/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-03-11 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2020-05-26 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="http://ctags.sourceforge.net/"&gt;Exuberant Ctags&lt;/a&gt; is used for code completion and code navigation. It supports many programming languages.
+&lt;/p&gt;
+
+&lt;p&gt;
+Please read &lt;a href="http://www.emacswiki.org/emacs/BuildTags"&gt;EmacsWiki&lt;/a&gt; for basic usage.
+&lt;/p&gt;
+
+&lt;p&gt;
+Ctags creates an index file named "TAGS". The path of TAGS is stored in a Emacs variable &lt;code&gt;tags-table-list&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Example of &lt;code&gt;tags-table-list&lt;/code&gt;:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq tags-table-list '("~/wxWidgets-master/TAGS" "~/projs/Loris/src/desktop/TAGS"))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+When running &lt;code&gt;M-x find-tag&lt;/code&gt;, the tag files in &lt;code&gt;tags-table-list&lt;/code&gt; is read to find the definition of the symbol under cursor.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my strategy to manage TAGS &lt;b&gt;automatically&lt;/b&gt;:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;I hard coded path of TAGS in &lt;code&gt;.emacs&lt;/code&gt; because I don't change project path frequently&lt;/li&gt;
+&lt;li&gt;In major mode hook like &lt;code&gt;c++-mode-hook&lt;/code&gt; or &lt;code&gt;js2-mode-hook&lt;/code&gt; I check the path current file. If it matches project name, the file is part of the project&lt;/li&gt;
+&lt;li&gt;TAGS for the project is created&lt;/li&gt;
+&lt;li&gt;When saving the file, update TAGS by the value of &lt;code&gt;tags-table-list&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Code:
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-project-name-contains-substring (regex)
+  (let ((dir (if (buffer-file-name)
+                 (file-name-directory (buffer-file-name))
+               "")))
+    (string-match-p regex dir)))
+
+(defun my-create-tags-if-needed (SRC-DIR &amp;amp;optional FORCE)
+  "Return the full path of tags file."
+  (let ((dir (file-name-as-directory (file-truename SRC-DIR)) )
+       file)
+    (setq file (concat dir "TAGS"))
+    (when (or FORCE (not (file-exists-p file)))
+      (message "Creating TAGS in %s ..." dir)
+      (shell-command
+       (format "ctags -f %s -e -R %s" file dir)))
+    file))
+
+(defvar my-tags-updated-time nil)
+
+(defun my-update-tags ()
+  "Check the tags in tags-table-list and re-create it."
+  (interactive)
+  (dolist (tag tags-table-list)
+    (my-create-tags-if-needed (file-name-directory tag) t)))
+
+(defun my-auto-update-tags-when-save ()
+  (interactive)
+  (cond
+   ((not my-tags-updated-time)
+    (setq my-tags-updated-time (current-time)))
+   ((&amp;lt; (- (float-time (current-time)) (float-time my-tags-updated-time)) 300)
+    ;; &amp;lt; 300 seconds
+    ;; do nothing
+    )
+   (t
+    (setq my-tags-updated-time (current-time))
+    (my-update-tags)
+    (message "updated tags after %d seconds."
+             (- (float-time (current-time))
+                (float-time my-tags-updated-time))))))
+
+(defun my-setup-develop-environment ()
+    (when (my-project-name-contains-substring "Loris")
+      (cond
+       ((my-project-name-contains-substring "src/desktop")
+        ;; C++ project don't need html tags
+        (setq tags-table-list
+              (list (my-create-tags-if-needed
+                     (concat (file-name-as-directory (getenv "WXWIN")) "include"))
+                    (my-create-tags-if-needed "~/projs/Loris/loris/src/desktop"))))
+       ((my-project-name-contains-substring "src/html")
+        ;; html project donot need C++ tags
+        (setq tags-table-list (list (my-create-tags-if-needed "~/projs/Loris/loris/src/html")))))))
+
+(add-hook 'after-save-hook 'my-auto-update-tags-when-save)
+(add-hook 'js2-mode-hook 'my-setup-develop-environment)
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
+(add-hook 'c++-mode-hook 'my-setup-develop-environment)
+(add-hook 'c-mode-hook 'my-setup-develop-environment)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+UPDATE:
+Ctags is discussed at &lt;a href="https://plus.google.com/110954683162859211810/posts/NsdzvywuoX3"&gt;Google Plus&lt;/a&gt;. Kaushal Modi recommended three Emacs plugins:
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a href="https://github.com/jixiuf/ctags-update"&gt;ctags-update&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.emacswiki.org/emacs/etags-table.el"&gt;etags-table&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.emacswiki.org/emacs/etags-select.el"&gt;etags-select&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+I tried them. My code has same features as &lt;code&gt;ctags-update&lt;/code&gt; and &lt;code&gt;etags-table&lt;/code&gt;. I prefer my own code because it's simpler and controllable.
+&lt;/p&gt;
+
+&lt;p&gt;
+But I do like &lt;code&gt;etags-select&lt;/code&gt;, it provides better UI for finding tag and I will use it from now on.
+&lt;/p&gt;
+
+&lt;p&gt;
+UPDATE:
+I have developed my own ctags solution for Emacs,
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;counsel-etags&lt;/a&gt; for code navigation and imenu&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/redguardtoo/company-ctags"&gt;company-ctags&lt;/a&gt; for code completion&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>ctags</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/how-to-use-ctags-in-emacs-effectively-3/</guid><pubDate>Tue, 11 Mar 2014 21:52:00 GMT</pubDate></item><item><title>How to use ctags with Emacs effectively</title><link>http://blog.binchen.org/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 &lt;b&gt;UPDATE&lt;/b&gt; on &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2018-02-24 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;:
 I released &lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;counsel-etags&lt;/a&gt;, a complete solution for Ctags/Emacs.
 &lt;/p&gt;
@@ -237,7 +379,7 @@ IntelliSense is a different story. For programming languages like Javascript, ct
 &lt;/p&gt;
 
 &lt;p&gt;
-I found one missing piece from EmacsWiki is the tip on how to &lt;b&gt;manage tags file&lt;/b&gt; easily when the TAGS is built from some code of third party libraries (&lt;a href="http://http//en.wikipedia.org/wiki/Qt_(framework)"&gt;QT&lt;/a&gt;, &lt;a href="http://www.wxwidgets.org"&gt;wxWidgets&lt;/a&gt;, &lt;a href="http://www.gtk.org"&gt;GTK&lt;/a&gt;, &lt;a href="http://www.boost.org"&gt;Boost&lt;/a&gt;, just name a few).
+I found one missing piece from EmacsWiki is the tip on how to &lt;b&gt;manage tags file&lt;/b&gt; easily when the TAGS is built from some code of third party libraries (&lt;a href="http://http//en.wikipedia.org/wiki/Qt_%28framework%29"&gt;QT&lt;/a&gt;, &lt;a href="http://www.wxwidgets.org"&gt;wxWidgets&lt;/a&gt;, &lt;a href="http://www.gtk.org"&gt;GTK&lt;/a&gt;, &lt;a href="http://www.boost.org"&gt;Boost&lt;/a&gt;, just name a few).
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -258,18 +400,18 @@ The purpose to load tags files is to look up API easily. For example, I use C++ 
 The reason to do the unload thing is to avoid function name conflict from some tags files. EmacsWiki has a section "Choosing Among Multiple Tags for the Same Name" to solve this problem. But unloading is more convenient. In theory, it would be annoying if I need repeat load and unload the same tags files. In reality, it seldom happens because if I need work on Javascript (so I unload C++ related TAGS), I will usually keep working on Javascript until the end of the day.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orge69d0f5" class="outline-2"&gt;
-&lt;h3 id="orge69d0f5"&gt;Produce tags files for all the environments&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge69d0f5"&gt;
+&lt;div id="outline-container-org8e48d1f" class="outline-2"&gt;
+&lt;h3 id="org8e48d1f"&gt;Produce tags files for all the environments&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org8e48d1f"&gt;
 &lt;p&gt;
 For example, I produce tags files of Library A for Mac and Linux. I put tags file from Mac at directory "/home/cb/tags/Library_A/mac" and file from Linux at &lt;code&gt;/home/cb/tags/Library_A/linux&lt;/code&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd4322bf" class="outline-2"&gt;
-&lt;h3 id="orgd4322bf"&gt;Use git and github to manage the tags files&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgd4322bf"&gt;
+&lt;div id="outline-container-orgc8a8ed3" class="outline-2"&gt;
+&lt;h3 id="orgc8a8ed3"&gt;Use git and github to manage the tags files&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc8a8ed3"&gt;
 &lt;p&gt;
 So I can have copies of the tags files at github server and my local computers. That's also a part of my strategy to setup the development environment. My projects on different computers usually use same external library.
 &lt;/p&gt;
@@ -280,9 +422,9 @@ EmacsWiki discusses how to update your tags file frequently because your own cod
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3d43f15" class="outline-2"&gt;
-&lt;h3 id="org3d43f15"&gt;Write emacs lisp code to load/unload these tags files&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3d43f15"&gt;
+&lt;div id="outline-container-org27507d2" class="outline-2"&gt;
+&lt;h3 id="org27507d2"&gt;Write emacs lisp code to load/unload these tags files&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org27507d2"&gt;
 &lt;p&gt;
 Here is the code. In this example, if I need load tags file for &lt;a href="http://www.wxwidgets.org"&gt;wxWidgets&lt;/a&gt;, I call the function "add-wx-tags". If I need unload the tags file, I press "Ctrl-u" and call the same function "add-wx-tags". Since I use &lt;a href="http://www.emacswiki.org/Smex"&gt;Smex&lt;/a&gt;, calling function doesn't mean pressing many keys.
 &lt;/p&gt;
