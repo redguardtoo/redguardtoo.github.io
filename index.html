@@ -23,6 +23,57 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/linux-audio-input-configuration/">Linux audio input configuration</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2020-11-15T11:07:34+00:00">2020-11-15 11:07</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/linux-audio-input-configuration/#disqus_thread" data-disqus-identifier="cache/posts/linux-audio-input-configuration.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/alsa/" rel="tag">alsa</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/sound/" rel="tag">sound</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Run <code>sudo alsamixer</code>, press "F4" to chose audio input.
+</p>
+
+<p>
+Make sure the right "Rear Mic" and "Capture" are enabled,
+<img src="wp-content/linux-audio-input.png" alt="linux-audio-input.png"></p>
+
+<p>
+Run <code>alsamixer</code> and check "pulseaudio" configuration in the same way.
+</p>
+
+<p>
+Then test audio,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">arecord --duration=5 --format=dat test-mic.wav &amp;&amp; aplay test-mic.wav
+</code></pre>
+
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/hardcore-spell-checking-in-emacs/">Hardcore spell checking in Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -1201,57 +1252,6 @@ Demo on using Emacs to resolve merge conflicts,
 <p><img src="wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"></p>
 </div>
 </div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/counsel-etags-1-9-0-is-out/">counsel-etags 1.9.0 is out</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2019-10-27T12:38:05+00:00">2019-10-27 12:38</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/counsel-etags-1-9-0-is-out/#disqus_thread" data-disqus-identifier="cache/posts/counsel-etags-1-9-0-is-out.html">Comments</a>
-
-
-                </div>
-            
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-<a href="https://github.com/redguardtoo/counsel-etags">Counsel-etags</a> is fast, energy-saving, and powerful code navigation solution.
-</p>
-
-<p>
-This version can list tags in current buffer.
-</p>
-
-<p>
-You can simply run <code>M-x counsel-etags-list-tag-in-current-file</code>.
-</p>
-
-<p>
-Or set up imenu before <code>M-x imenu</code> or <code>M-x helm-imenu</code> or <code>M-x counsel-imenu</code>, 
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(setq imenu-create-index-function 'counsel-etags-imenu-default-create-index-function)
-</code></pre>
-
-</div>
-
-<p>
-screenshot:
-</p>
-
-<div class="figure">
-<p><img src="wp-content/counsel-etags-imenu.png" alt="counsel-etags-imenu.png"></p>
 </div>
 </div>
             </div>

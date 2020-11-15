@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:02 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 12:05:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linux audio input configuration</title><link>http://blog.binchen.org/posts/linux-audio-input-configuration/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Run &lt;code&gt;sudo alsamixer&lt;/code&gt;, press "F4" to chose audio input.
+&lt;/p&gt;
+
+&lt;p&gt;
+Make sure the right "Rear Mic" and "Capture" are enabled,
+&lt;img src="http://blog.binchen.org/wp-content/linux-audio-input.png" alt="linux-audio-input.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Run &lt;code&gt;alsamixer&lt;/code&gt; and check "pulseaudio" configuration in the same way.
+&lt;/p&gt;
+
+&lt;p&gt;
+Then test audio,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;arecord --duration=5 --format=dat test-mic.wav &amp;amp;&amp;amp; aplay test-mic.wav
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>alsa</category><category>linux</category><category>sound</category><guid>http://blog.binchen.org/posts/linux-audio-input-configuration/</guid><pubDate>Sun, 15 Nov 2020 11:07:34 GMT</pubDate></item><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;ul class="org-ul"&gt;
 &lt;li&gt;Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and turn off mic to reduce the noise&lt;/li&gt;
 &lt;li&gt;Run &lt;code&gt;alsamixer&lt;/code&gt; to double check pulse setup&lt;/li&gt;
 &lt;li&gt;Make sure correct device is selected in &lt;a href="https://www.audacityteam.org/"&gt;audacity&lt;/a&gt;&lt;/li&gt;
@@ -537,15 +559,4 @@ GRUB_CMDLINE_LINUX="libata.dma=1"
 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>grub</category><category>linux</category><guid>http://blog.binchen.org/posts/my-grub2-configuration/</guid><pubDate>Tue, 31 Dec 2013 19:09:00 GMT</pubDate></item><item><title>Memo on upgrading ArchLinux</title><link>http://blog.binchen.org/posts/memo-on-upgrading-archlinux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-Run &lt;code&gt;pacman -Syu&lt;/code&gt; to upgrade all packages.
-&lt;/p&gt;
-
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Archlinux replaces grub with grub2&lt;/li&gt;
-&lt;li&gt;I cannot install grub2, blocklists stuff&lt;/li&gt;
-&lt;li&gt;Downgrade to grub-obsolee&lt;/li&gt;
-&lt;li&gt;Then grub&lt;/li&gt;
-&lt;li&gt;Setup (hd0) to install MBR&lt;/li&gt;
-&lt;li&gt;Restart netbook (make sure the boot priority is right)&lt;/li&gt;
-&lt;/ul&gt;&lt;/div&gt;</description><category>en</category><category>gentoo</category><category>linux</category><category>upgrade</category><guid>http://blog.binchen.org/posts/memo-on-upgrading-archlinux/</guid><pubDate>Sun, 03 Nov 2013 23:29:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>grub</category><category>linux</category><guid>http://blog.binchen.org/posts/my-grub2-configuration/</guid><pubDate>Tue, 31 Dec 2013 19:09:00 GMT</pubDate></item></channel></rss>

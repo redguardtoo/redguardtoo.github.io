@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:02 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 12:05:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linux audio input configuration</title><link>http://blog.binchen.org/posts/linux-audio-input-configuration/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Run &lt;code&gt;sudo alsamixer&lt;/code&gt;, press "F4" to chose audio input.
+&lt;/p&gt;
+
+&lt;p&gt;
+Make sure the right "Rear Mic" and "Capture" are enabled,
+&lt;img src="http://blog.binchen.org/wp-content/linux-audio-input.png" alt="linux-audio-input.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Run &lt;code&gt;alsamixer&lt;/code&gt; and check "pulseaudio" configuration in the same way.
+&lt;/p&gt;
+
+&lt;p&gt;
+Then test audio,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;arecord --duration=5 --format=dat test-mic.wav &amp;amp;&amp;amp; aplay test-mic.wav
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>alsa</category><category>linux</category><category>sound</category><guid>http://blog.binchen.org/posts/linux-audio-input-configuration/</guid><pubDate>Sun, 15 Nov 2020 11:07:34 GMT</pubDate></item><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
@@ -920,34 +942,4 @@ Demo on using Emacs to resolve merge conflicts,
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git/</guid><pubDate>Wed, 13 Nov 2019 13:29:46 GMT</pubDate></item><item><title>counsel-etags 1.9.0 is out</title><link>http://blog.binchen.org/posts/counsel-etags-1-9-0-is-out/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-&lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;Counsel-etags&lt;/a&gt; is fast, energy-saving, and powerful code navigation solution.
-&lt;/p&gt;
-
-&lt;p&gt;
-This version can list tags in current buffer.
-&lt;/p&gt;
-
-&lt;p&gt;
-You can simply run &lt;code&gt;M-x counsel-etags-list-tag-in-current-file&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-Or set up imenu before &lt;code&gt;M-x imenu&lt;/code&gt; or &lt;code&gt;M-x helm-imenu&lt;/code&gt; or &lt;code&gt;M-x counsel-imenu&lt;/code&gt;, 
-&lt;/p&gt;
-
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq imenu-create-index-function 'counsel-etags-imenu-default-create-index-function)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-screenshot:
-&lt;/p&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/counsel-etags-imenu.png" alt="counsel-etags-imenu.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;</description><guid>http://blog.binchen.org/posts/counsel-etags-1-9-0-is-out/</guid><pubDate>Sun, 27 Oct 2019 12:38:05 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git/</guid><pubDate>Wed, 13 Nov 2019 13:29:46 GMT</pubDate></item></channel></rss>
