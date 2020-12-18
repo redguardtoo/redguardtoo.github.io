@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 12:06:07 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linux audio input configuration</title><link>http://blog.binchen.org/posts/linux-audio-input-configuration/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 18 Dec 2020 01:08:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linux audio input configuration</title><link>http://blog.binchen.org/posts/linux-audio-input-configuration/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and press "F4" to choose audio input.
 &lt;/p&gt;
 
@@ -253,9 +253,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgff705c3" class="outline-2"&gt;
-&lt;h3 id="orgff705c3"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgff705c3"&gt;
+&lt;div id="outline-container-org77da1e7" class="outline-2"&gt;
+&lt;h3 id="org77da1e7"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org77da1e7"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -289,10 +289,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgf8cadfe" class="outline-2"&gt;
-&lt;h3 id="orgf8cadfe"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf8cadfe"&gt;
+&lt;div id="outline-container-orgad3264c" class="outline-2"&gt;
+&lt;h3 id="orgad3264c"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgad3264c"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -736,7 +735,6 @@ Now let's talk the real world problem. And I will show you a perfect solution so
 &lt;p&gt;
 The problem is, I never use Emacs to resolve merge conflicts for two reasons:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;First, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;My Emacs configuration&lt;/a&gt; uses too many packages. It starts up slowly. As you can see from vimdiff demo, &lt;code&gt;git mergetool&lt;/code&gt; restarts the editor many times. So the editor should be lightweight.&lt;/li&gt;
 &lt;li&gt;Second, the UI of &lt;code&gt;ediff&lt;/code&gt; is not right. UI of Vimdiff is much better. All operations should be completed freely in any sub-window instead of ediff control panel only.&lt;/li&gt;
@@ -750,7 +748,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgcf7a4d4" class="outline-2"&gt;
+&lt;div id="outline-container-org30ccdf1" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -806,8 +804,7 @@ Native Emacs API is enough to save/load windows layout.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org787635f" class="outline-2"&gt;
+&lt;div id="outline-container-org5cd1374" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;

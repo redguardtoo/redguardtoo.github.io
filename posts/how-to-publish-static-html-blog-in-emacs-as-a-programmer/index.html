@@ -80,10 +80,9 @@ Basic Emacs lisp knowledges are required.
 <p>
 Please note I'm <b>NOT</b> targeted at specific static site generator like <a href="http://getnikola.com/blog/">Nikola</a> or <a href="http://jekyllrb.com/">Jekyll</a>.
 </p>
-
-<div id="outline-container-orgd971c57" class="outline-2">
-<h3 id="orgd971c57">Solution</h3>
-<div class="outline-text-2" id="text-orgd971c57">
+<div id="outline-container-orga6cb03f" class="outline-2">
+<h3 id="orga6cb03f">Solution</h3>
+<div class="outline-text-2" id="text-orga6cb03f">
 <p>
 Tested on <b>Linux and OSX</b>.
 </p>
@@ -139,9 +138,9 @@ You can write blog into org file, export and publicize it with command `M-x org2
 </div>
 </div>
 
-<div id="outline-container-org15894f9" class="outline-2">
-<h3 id="org15894f9">Why</h3>
-<div class="outline-text-2" id="text-org15894f9">
+<div id="outline-container-org405c445" class="outline-2">
+<h3 id="org405c445">Why</h3>
+<div class="outline-text-2" id="text-org405c445">
 <p>
 I used <a href="https://wordpress.org">Wordpress</a> and <a href="https://github.com/punchagan/org2blog">Org2blog</a> for a very long time. Then I turned to static blog generator because:
 </p>
@@ -156,13 +155,13 @@ Yes, only wordpress sucks. For Org2blog, I can only say good things. Actually, t
 </div>
 </div>
 
-<div id="outline-container-orgaf3bd51" class="outline-2">
-<h3 id="orgaf3bd51">Technical Details</h3>
-<div class="outline-text-2" id="text-orgaf3bd51">
+<div id="outline-container-org8d4debf" class="outline-2">
+<h3 id="org8d4debf">Technical Details</h3>
+<div class="outline-text-2" id="text-org8d4debf">
 </div>
-<div id="outline-container-orgc9fd58f" class="outline-3">
-<h4 id="orgc9fd58f">Generating HTML</h4>
-<div class="outline-text-3" id="text-orgc9fd58f">
+<div id="outline-container-orgd7795a5" class="outline-3">
+<h4 id="orgd7795a5">Generating HTML</h4>
+<div class="outline-text-3" id="text-orgd7795a5">
 <p>
 As I said, Nikola is my blog generator which converts my org file into HTML.
 </p>
@@ -250,9 +249,9 @@ BTW, the last straw that push me away the Wordpress is its wrapper of SyntaxHigh
 </div>
 </div>
 
-<div id="outline-container-org9158d38" class="outline-3">
-<h4 id="org9158d38">Create blog posts</h4>
-<div class="outline-text-3" id="text-org9158d38">
+<div id="outline-container-orgb185e15" class="outline-3">
+<h4 id="orgb185e15">Create blog posts</h4>
+<div class="outline-text-3" id="text-orgb185e15">
 <p>
 Emacs creates HTML files and meta files.  Things created by Emacs will be copied into Nikola's folder.
 </p>
@@ -291,9 +290,9 @@ Only the files in sub-folder "output" need be uploaded.
 </div>
 </div>
 
-<div id="outline-container-org2ad4f4c" class="outline-3">
-<h4 id="org2ad4f4c">Preprocess nikola output</h4>
-<div class="outline-text-3" id="text-org2ad4f4c">
+<div id="outline-container-org45a3880" class="outline-3">
+<h4 id="org45a3880">Preprocess nikola output</h4>
+<div class="outline-text-3" id="text-org45a3880">
 <p>
 It's all done by Emacs Lisp.
 </p>
@@ -313,9 +312,9 @@ As you can see, each line is a ftp upload command we need execute in shell.
 </p>
 </div>
 </div>
-<div id="outline-container-org98f1700" class="outline-3">
-<h4 id="org98f1700">FTP upload</h4>
-<div class="outline-text-3" id="text-org98f1700">
+<div id="outline-container-orged3ae56" class="outline-3">
+<h4 id="orged3ae56">FTP upload</h4>
+<div class="outline-text-3" id="text-orged3ae56">
 <p>
 Ncftp is my choice of FTP client. It's solid and efficient.
 </p>
@@ -334,10 +333,9 @@ BTW, you can `cat ~/.ncftp/spool/log` to check the FTP upload status.
 </div>
 </div>
 </div>
-
-<div id="outline-container-org72db4ce" class="outline-2">
-<h3 id="org72db4ce">Summary</h3>
-<div class="outline-text-2" id="text-org72db4ce">
+<div id="outline-container-org62ecd57" class="outline-2">
+<h3 id="org62ecd57">Summary</h3>
+<div class="outline-text-2" id="text-org62ecd57">
 <p>
 The workflow is simple.
 </p>

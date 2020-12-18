@@ -161,7 +161,6 @@ See <a href="http://emacswiki.org/emacs/EmacsTags">http://emacswiki.org/emacs/Em
 <p>
 According wiki page, people usually use ctags to do two things,
 </p>
-
 <ul class="org-ul">
 <li>Code navigation</li>
 <li>Auto-complete/IntelliSense</li>
@@ -181,7 +180,6 @@ I found one missing piece from EmacsWiki is the tip on how to <b>manage tags fil
 <p>
 My typical work flow is:
 </p>
-
 <ul class="org-ul">
 <li>Load the tags file for my own code.</li>
 <li>Load other tags files built from third party libraries related to my current task.</li>
@@ -194,19 +192,17 @@ The purpose to load tags files is to look up API easily. For example, I use C++ 
 <p>
 The reason to do the unload thing is to avoid function name conflict from some tags files. EmacsWiki has a section "Choosing Among Multiple Tags for the Same Name" to solve this problem. But unloading is more convenient. In theory, it would be annoying if I need repeat load and unload the same tags files. In reality, it seldom happens because if I need work on Javascript (so I unload C++ related TAGS), I will usually keep working on Javascript until the end of the day.
 </p>
-
-<div id="outline-container-org8e48d1f" class="outline-2">
-<h3 id="org8e48d1f">Produce tags files for all the environments</h3>
-<div class="outline-text-2" id="text-org8e48d1f">
+<div id="outline-container-orgd65143f" class="outline-2">
+<h3 id="orgd65143f">Produce tags files for all the environments</h3>
+<div class="outline-text-2" id="text-orgd65143f">
 <p>
 For example, I produce tags files of Library A for Mac and Linux. I put tags file from Mac at directory "/home/cb/tags/Library_A/mac" and file from Linux at <code>/home/cb/tags/Library_A/linux</code>.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc8a8ed3" class="outline-2">
-<h3 id="orgc8a8ed3">Use git and github to manage the tags files</h3>
-<div class="outline-text-2" id="text-orgc8a8ed3">
+<div id="outline-container-org303018d" class="outline-2">
+<h3 id="org303018d">Use git and github to manage the tags files</h3>
+<div class="outline-text-2" id="text-org303018d">
 <p>
 So I can have copies of the tags files at github server and my local computers. That's also a part of my strategy to setup the development environment. My projects on different computers usually use same external library.
 </p>
@@ -216,10 +212,9 @@ EmacsWiki discusses how to update your tags file frequently because your own cod
 </p>
 </div>
 </div>
-
-<div id="outline-container-org27507d2" class="outline-2">
-<h3 id="org27507d2">Write emacs lisp code to load/unload these tags files</h3>
-<div class="outline-text-2" id="text-org27507d2">
+<div id="outline-container-orgde8e66a" class="outline-2">
+<h3 id="orgde8e66a">Write emacs lisp code to load/unload these tags files</h3>
+<div class="outline-text-2" id="text-orgde8e66a">
 <p>
 Here is the code. In this example, if I need load tags file for <a href="http://www.wxwidgets.org">wxWidgets</a>, I call the function "add-wx-tags". If I need unload the tags file, I press "Ctrl-u" and call the same function "add-wx-tags". Since I use <a href="http://www.emacswiki.org/Smex">Smex</a>, calling function doesn't mean pressing many keys.
 </p>
@@ -1039,14 +1034,13 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 <p>
 所以本文目的有两个:
 </p>
-
 <ul class="org-ul">
 <li>说明哪些框架流行</li>
 <li>如何使用框架</li>
 </ul>
-<div id="outline-container-orgfd41e90" class="outline-2">
-<h3 id="orgfd41e90">概述</h3>
-<div class="outline-text-2" id="text-orgfd41e90">
+<div id="outline-container-orgfc4f875" class="outline-2">
+<h3 id="orgfc4f875">概述</h3>
+<div class="outline-text-2" id="text-orgfc4f875">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -1088,10 +1082,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 </table>
 </div>
 </div>
-
-<div id="outline-container-org3c045f1" class="outline-2">
-<h3 id="org3c045f1">auto-complete结合clang</h3>
-<div class="outline-text-2" id="text-org3c045f1">
+<div id="outline-container-orga82bc1b" class="outline-2">
+<h3 id="orga82bc1b">auto-complete结合clang</h3>
+<div class="outline-text-2" id="text-orga82bc1b">
 <p>
 <a href="http://emacswiki.org/emacs/AutoComplete">auto-complete</a>是第三方开发的插件,提供了自动完成需要的支持(例如在命令行环境下对下拉菜单的模拟).
 </p>
@@ -1117,19 +1110,17 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 </p>
 </div>
 </div>
-
-<div id="outline-container-org9d80166" class="outline-2">
-<h3 id="org9d80166">company-mode</h3>
-<div class="outline-text-2" id="text-org9d80166">
+<div id="outline-container-org0952a4e" class="outline-2">
+<h3 id="org0952a4e">company-mode</h3>
+<div class="outline-text-2" id="text-org0952a4e">
 <p>
 <a href="https://github.com/company-mode/company-mode">company-mode</a>和auto-complete功能类似，唯一的区别是clang以及其他语言支持已内置，所以不需要安装其他elisp插件或者额外配置.目前我已用company-mode代替了auto-complete.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org6e3d7bf" class="outline-2">
-<h3 id="org6e3d7bf">hippie-expand</h3>
-<div class="outline-text-2" id="text-org6e3d7bf">
+<div id="outline-container-org97895b3" class="outline-2">
+<h3 id="org97895b3">hippie-expand</h3>
+<div class="outline-text-2" id="text-org97895b3">
 <p>
 <a href="http://emacswiki.org/emacs/HippieExpand">hippie-expand</a>是Emacs自带的自动完成框架.
 </p>
@@ -1139,10 +1130,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 </p>
 </div>
 </div>
-
-<div id="outline-container-org253ce90" class="outline-2">
-<h3 id="org253ce90">complete-symbol</h3>
-<div class="outline-text-2" id="text-org253ce90">
+<div id="outline-container-org521750b" class="outline-2">
+<h3 id="org521750b">complete-symbol</h3>
+<div class="outline-text-2" id="text-org521750b">
 <p>
 Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,它默认仅仅调用了后台的ctags而已.
 </p>
@@ -1176,10 +1166,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7a327c7" class="outline-2">
-<h3 id="org7a327c7">evil-mode</h3>
-<div class="outline-text-2" id="text-org7a327c7">
+<div id="outline-container-org7986885" class="outline-2">
+<h3 id="org7986885">evil-mode</h3>
+<div class="outline-text-2" id="text-org7986885">
 <p>
 <a href="http://emacswiki.org/emacs/Evil">Evil-mode</a>把Emacs模拟成了Vim,是我最喜欢的第三方插件,其自动完成很简单,就是根据当前文件内容自动完成词或行.
 </p>
@@ -1193,10 +1182,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4aa8109" class="outline-2">
-<h3 id="org4aa8109">其他</h3>
-<div class="outline-text-2" id="text-org4aa8109">
+<div id="outline-container-org34df81a" class="outline-2">
+<h3 id="org34df81a">其他</h3>
+<div class="outline-text-2" id="text-org34df81a">
 <p>
 我的一个想法. 类似于Evil的完成行.但是可以扫瞄指定目录中所有的文件,列出相似的行.
 </p>
@@ -1217,10 +1205,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7e5b68c" class="outline-2">
-<h3 id="org7e5b68c">小结</h3>
-<div class="outline-text-2" id="text-org7e5b68c">
+<div id="outline-container-org23b1de5" class="outline-2">
+<h3 id="org23b1de5">小结</h3>
+<div class="outline-text-2" id="text-org23b1de5">
 <p>
 自动完成包括前端用户界面和后端语法解析引擎两个部分.
 </p>

@@ -23,6 +23,42 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/one-liner-to-load-m3u-into-mpd/">One liner to load m3u into mpd</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-09-23T20:01:37+00:00">2013-09-23 20:01</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/one-liner-to-load-m3u-into-mpd/#disqus_thread" data-disqus-identifier="cache/posts/one-liner-to-load-m3u-into-mpd.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/mpd/" rel="tag">mpd</a></li>
+           <li><a class="tag p-category" href="categories/music/" rel="tag">music</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p></p>
+<p></p>
+<pre class="prettyprint ">
+<p>mpc clear;ln -s ~/Music/all.m3u ~/.mpd/playlists/all.m3u;mpc load all;mpc update;mpc shuffle;mpc play;
+</p></pre>
+<p></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/toggle-full-view-of-window-in-emacs/">Toggle full view of window in Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -131,9 +167,9 @@
             </div>
             <div class="body">
                 <div>
-<div id="outline-container-orgdaa506d" class="outline-2">
-<h3 id="orgdaa506d">Setup git-send-email</h3>
-<div class="outline-text-2" id="text-orgdaa506d">
+<div id="outline-container-org504650d" class="outline-2">
+<h3 id="org504650d">Setup git-send-email</h3>
+<div class="outline-text-2" id="text-org504650d">
 <p>
 On Debian run <code>sudo apt-get install git-email</code> to install git command line tools.
 </p>
@@ -157,10 +193,9 @@ Modify <code>~/.gitconfig</code> to use Gmail SMTP:
 </div>
 </div>
 </div>
-
-<div id="outline-container-org40665ca" class="outline-2">
-<h3 id="org40665ca">Send the latest commit</h3>
-<div class="outline-text-2" id="text-org40665ca">
+<div id="outline-container-org942d2c3" class="outline-2">
+<h3 id="org942d2c3">Send the latest commit</h3>
+<div class="outline-text-2" id="text-org942d2c3">
 <div class="org-src-container">
 
 <pre><code class="lang-sh"># send one commit
@@ -171,9 +206,9 @@ git send-email -1 --annotate
 </div>
 </div>
 
-<div id="outline-container-org82631be" class="outline-2">
-<h3 id="org82631be">Apply patch</h3>
-<div class="outline-text-2" id="text-org82631be">
+<div id="outline-container-org0154fb9" class="outline-2">
+<h3 id="org0154fb9">Apply patch</h3>
+<div class="outline-text-2" id="text-org0154fb9">
 <p>
 Select one mail. Run command "M-x gnus-summary-save-article-email" whose short key is "O m" in summary buffer.
 </p>
@@ -189,10 +224,9 @@ Emacs will ask for directory to save that patch. Say I save it as <code>~/News/p
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgae510bd" class="outline-2">
-<h3 id="orgae510bd">Syntax highlight patch embedded in mail (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-orgae510bd">
+<div id="outline-container-orged20917" class="outline-2">
+<h3 id="orged20917">Syntax highlight patch embedded in mail (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-orged20917">
 <p>
 Use <a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/gnus-article-treat-patch/gnus-article-treat-patch.el">gnus-article-treat-patch.el</a>.
 </p>
@@ -479,71 +513,6 @@ Here is the setup:
 </code></pre>
 
 </div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/how-to-use-expand-region-el-in-emacs-efficiently/">How to use expand-region.el in Emacs efficiently</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-08-26T23:16:00+00:00">2013-08-26 23:16</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/how-to-use-expand-region-el-in-emacs-efficiently/#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-expand-region-el-in-emacs-efficiently.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/expand/" rel="tag">expand</a></li>
-           <li><a class="tag p-category" href="categories/region/" rel="tag">region</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p><a href="https://github.com/magnars/expand-region.el">expand-region.el</a> is very useful. I use it to select a code segment and keep press its expand key until the selected region expand to the desired region.
-</p>
-
-<p>
-The only issue is its recommended hotkey for "er/expand-region" is "C-=". A little bit hard to press.
-</p>
-
-<p>
-After marking a region by pressing "C-=", I press "=" to expand the region and "-" to contract.
-</p>
-
-<p>
-As you may have noticed, I need move the right hand to press "=" or "-" so it's not quick enough.
-</p>
-
-<p>
-The solution is simple, press ",xx" to select the initial region. Keep press "x" to expand. "z" to contract region because "x" "z" is close to left hand fingers.
-</p>
-
-<p>
-<a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> and <a href="https://github.com/cofi/evil-leader">evil-leader</a> is required to implement this.
-</p>
-
-<p>
-Here is the setup:
-</p>
-
-<pre class="prettyprint lang-lisp">
-(require 'evil)
-(require 'evil-leader)
-(evil-mode 1) ;; enable evil-mode
-
-(eval-after-load "evil" '(setq expand-region-contract-fast-key "z"))
-(evil-leader/set-key "xx" 'er/expand-region)
-</pre>
 </div>
             </div>
         </div>

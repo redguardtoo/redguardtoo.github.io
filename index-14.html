@@ -23,6 +23,48 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/memo-on-upgrading-archlinux/">Memo on upgrading ArchLinux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-11-03T23:29:00+00:00">2013-11-03 23:29</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/memo-on-upgrading-archlinux/#disqus_thread" data-disqus-identifier="cache/posts/memo-on-upgrading-archlinux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/gentoo/" rel="tag">gentoo</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/upgrade/" rel="tag">upgrade</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Run <code>pacman -Syu</code> to upgrade all packages.
+</p>
+
+<ul class="org-ul">
+<li>Archlinux replaces grub with grub2</li>
+<li>I cannot install grub2, blocklists stuff</li>
+<li>Downgrade to grub-obsolee</li>
+<li>Then grub</li>
+<li>Setup (hd0) to install MBR</li>
+<li>Restart netbook (make sure the boot priority is right)</li>
+</ul>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/notes-on-upgrading-gentoo-linux/">notes on upgrading Gentoo Linux</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -105,9 +147,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-10-23 
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 Tue&gt;</span></span>
 </p>
 
-<div id="outline-container-org1a5fbb0" class="outline-2">
-<h3 id="org1a5fbb0">Tools</h3>
-<div class="outline-text-2" id="text-org1a5fbb0">
+<div id="outline-container-org0110f68" class="outline-2">
+<h3 id="org0110f68">Tools</h3>
+<div class="outline-text-2" id="text-org0110f68">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -144,14 +186,13 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 
 </table>
 </div>
 </div>
-
-<div id="outline-container-org37e5a34" class="outline-2">
-<h3 id="org37e5a34">Work flow</h3>
-<div class="outline-text-2" id="text-org37e5a34">
+<div id="outline-container-org18d68ab" class="outline-2">
+<h3 id="org18d68ab">Work flow</h3>
+<div class="outline-text-2" id="text-org18d68ab">
 </div>
-<div id="outline-container-org1989a75" class="outline-3">
-<h4 id="org1989a75">Use scrot to screenshot and put its path into clipboard</h4>
-<div class="outline-text-3" id="text-org1989a75">
+<div id="outline-container-org5cf9db8" class="outline-3">
+<h4 id="org5cf9db8">Use scrot to screenshot and put its path into clipboard</h4>
+<div class="outline-text-3" id="text-org5cf9db8">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">scrot '%H%M%S-%d_$wx$h.png' -e 'mkdir -p ~/screenshot;mv $f ~/screenshot/;echo ~/screenshot/$f|tr -d \"\\n\"|xsel -ib;'
@@ -161,9 +202,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 
 </div>
 </div>
 
-<div id="outline-container-orgf686cc3" class="outline-3">
-<h4 id="orgf686cc3">Create org file and insert path of screen shot</h4>
-<div class="outline-text-3" id="text-orgf686cc3">
+<div id="outline-container-orgc8c08bc" class="outline-3">
+<h4 id="orgc8c08bc">Create org file and insert path of screen shot</h4>
+<div class="outline-text-3" id="text-orgc8c08bc">
 <p>
 Actually I use below elisp command to do the insertion for me.
 </p>
@@ -196,9 +237,9 @@ The full path into relative path and insert it as a local file link in org-mode"
 </div>
 </div>
 </div>
-<div id="outline-container-org0664236" class="outline-3">
-<h4 id="org0664236">Convert org file into Microsoft Word format</h4>
-<div class="outline-text-3" id="text-org0664236">
+<div id="outline-container-orge67a2cb" class="outline-3">
+<h4 id="orge67a2cb">Convert org file into Microsoft Word format</h4>
+<div class="outline-text-3" id="text-orge67a2cb">
 <p>
 I'm sure this method works even on Windows. But I don't have Windows PC to validate my belief. Libreoffice is required.
 </p>
@@ -240,9 +281,9 @@ Emacs will find the binary "soffice" from libreoffice to do the conversion.
 </div>
 </div>
 
-<div id="outline-container-org6474d53" class="outline-3">
-<h4 id="org6474d53">Tips</h4>
-<div class="outline-text-3" id="text-org6474d53">
+<div id="outline-container-org179386a" class="outline-3">
+<h4 id="org179386a">Tips</h4>
+<div class="outline-text-3" id="text-org179386a">
 <p>
 If you need page break in exported document, insert below snippet into the org file:
 </p>
@@ -357,9 +398,9 @@ To take the full power of git, you need forget GUI and use CLI only. A little kn
 Here is an example how I use git.
 </p>
 
-<div id="outline-container-orgbfb6889" class="outline-2">
-<h3 id="orgbfb6889">Problem</h3>
-<div class="outline-text-2" id="text-orgbfb6889">
+<div id="outline-container-org3e4d577" class="outline-2">
+<h3 id="org3e4d577">Problem</h3>
+<div class="outline-text-2" id="text-org3e4d577">
 <p>
 I'm working for a big enterprise project which uses git as version control software.  My daily routine is find what files I changed. So I often use git commands with "–stat" parameters.
 </p>
@@ -388,9 +429,9 @@ Getting full path into clipboard is useful because in big projects I need do lot
 </div>
 </div>
 
-<div id="outline-container-orga02af98" class="outline-2">
-<h3 id="orga02af98">Set up</h3>
-<div class="outline-text-2" id="text-orga02af98">
+<div id="outline-container-orgc0a7021" class="outline-2">
+<h3 id="orgc0a7021">Set up</h3>
+<div class="outline-text-2" id="text-orgc0a7021">
 <p>
 Now you understand the problem. Here comes the solution.
 </p>
@@ -448,9 +489,9 @@ function ff()
 </div>
 </div>
 
-<div id="outline-container-orge103657" class="outline-2">
-<h3 id="orge103657">Usage</h3>
-<div class="outline-text-2" id="text-orge103657">
+<div id="outline-container-org820552f" class="outline-2">
+<h3 id="org820552f">Usage</h3>
+<div class="outline-text-2" id="text-org820552f">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">glsf
@@ -644,42 +685,6 @@ Here is the screen cast:
                 <div>
 <p></p>
 <p>At <a href="https://www.youtube.com/watch?feature=player_detailpage&amp;v=lsYdK0C2RvQ#t=308">4:57</a> it becomes interesting. </p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/one-liner-to-load-m3u-into-mpd/">One liner to load m3u into mpd</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-09-23T20:01:37+00:00">2013-09-23 20:01</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/one-liner-to-load-m3u-into-mpd/#disqus_thread" data-disqus-identifier="cache/posts/one-liner-to-load-m3u-into-mpd.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/mpd/" rel="tag">mpd</a></li>
-           <li><a class="tag p-category" href="categories/music/" rel="tag">music</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p></p>
-<p></p>
-<pre class="prettyprint ">
-<p>mpc clear;ln -s ~/Music/all.m3u ~/.mpd/playlists/all.m3u;mpc load all;mpc update;mpc shuffle;mpc play;
-</p></pre>
-<p></p>
 </div>
             </div>
         </div>

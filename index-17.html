@@ -23,6 +23,89 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/what-s-aop-in-java/">What's AOP in Java</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-05-03T06:21:31+00:00">2014-05-03 06:21</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/what-s-aop-in-java/#disqus_thread" data-disqus-identifier="cache/posts/what-s-aop-in-java.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/java/" rel="tag">java</a></li>
+           <li><a class="tag p-category" href="categories/lisp/" rel="tag">lisp</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Yesterday in a interview I was asked what's AOP and how to use it. The two interviewers
+</p>
+
+<p>
+I was wordless then so I came back to read the documentation.
+</p>
+
+<p>
+It turns out AOP is simple. It's like emacs lisp's defadvice but less powerful. I've been using this since day one on different languages.
+</p>
+
+<p>
+Please read <a href="http://developers.slashdot.org/story/05/04/24/0343224/aspect-oriented-programming-considered-harmful">slashdot discussion</a> about AOP.
+</p>
+
+<p>
+Here is the comment from MarkusQ,
+</p>
+
+<pre class="example">
+ by MarkusQ (450076) on Sunday April 24, 2005 @11:01PM (#12333504) Journal
+
+Exactly.
+
+When I implemented this sort of thing for a project in Ruby a few years back, I just grabbed all the CLOS nomenclature because I was familiar with it. I didn't even realize I was using "AOP with funny names" until someone reading the code mentioned it. When he asked why I didn't use the "standard" terminology, I lent him a copy of "Object Oriented Programing in Common Lisp" (c) 1988, and asked why the AOP people had to invent new words for everything.
+
+I have yet to get an answer.
+
+--MarkusQ
+</pre>
+
+<p>
+So it's just some enterprise guy inventing new buzz words (<a href="http://en.wikipedia.org/wiki/Cross-cutting_concern">cross-cutting concern</a>, for example) on some old idea.
+</p>
+
+<p>
+Now as guy who got seven years academical training on system design (Bachelor and Master degree in system controlling major from <a href="http://en.wikipedia.org/wiki/Shanghai_Jiao_Tong_University">best engineering school in China</a>), I will give you some precious advice on how to use this thing (AOP in java, API hook in C, defadvice in Emacs lisp or whatever the buzz word is):
+</p>
+
+<p>
+<b>DO NOT USE IT IN ANY REAL SYSTEM OR APPLICATION!</b>
+</p>
+
+<p>
+Here are the reasons:
+</p>
+
+<ul class="org-ul">
+<li>The code change an external API's behavior</li>
+<li>The code's location is not close to the API's</li>
+<li>The system being corrupt quickly with those AOP things</li>
+</ul>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/why-gnus-is-better-than-gmail/">Why Gnus is better than Gmail</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -171,9 +254,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-06-28 
 If you are only interested in web page optimization, start from the second section of the article.
 </p>
 
-<div id="outline-container-orgb8abe05" class="outline-2">
-<h3 id="orgb8abe05">Migrate from WordPress to Nikola</h3>
-<div class="outline-text-2" id="text-orgb8abe05">
+<div id="outline-container-org2e4a0ea" class="outline-2">
+<h3 id="org2e4a0ea">Migrate from WordPress to Nikola</h3>
+<div class="outline-text-2" id="text-org2e4a0ea">
 <div class="org-src-container">
 
 <pre><code class="lang-sh"># you might need need `sudo apt-get install python-gdbm` on Debian
@@ -292,10 +375,9 @@ You can use javascript to re-direct the URL, so your old article links are still
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgfa3e6af" class="outline-2">
-<h3 id="orgfa3e6af">Optimization</h3>
-<div class="outline-text-2" id="text-orgfa3e6af">
+<div id="outline-container-org8a9b787" class="outline-2">
+<h3 id="org8a9b787">Optimization</h3>
+<div class="outline-text-2" id="text-org8a9b787">
 <p>
 I developed <a href="https://github.com/redguardtoo/org2nikola">org2nikola</a> to convert Org subtree into Nikola page. 
 </p>
@@ -382,9 +464,9 @@ Topics covered in official manual (<code>flyspell-mode-predicate</code>, for exa
 But you can see my <b>complete</b> configuration <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelling.el">HERE</a>.
 </p>
 
-<div id="outline-container-org6c778ba" class="outline-2">
-<h3 id="org6c778ba">Suggestion for non-programmers</h3>
-<div class="outline-text-2" id="text-org6c778ba">
+<div id="outline-container-org0407751" class="outline-2">
+<h3 id="org0407751">Suggestion for non-programmers</h3>
+<div class="outline-text-2" id="text-org0407751">
 <p>
 Emacs finds the right dictionary by querying your locale.
 </p>
@@ -444,9 +526,9 @@ Run <code>man aspell</code> or <code>man hunspell</code> in shell if you have mo
 </div>
 </div>
 
-<div id="outline-container-orgfbb22dd" class="outline-2">
-<h3 id="orgfbb22dd">Suggestion for programmers</h3>
-<div class="outline-text-2" id="text-orgfbb22dd">
+<div id="outline-container-org54f3826" class="outline-2">
+<h3 id="org54f3826">Suggestion for programmers</h3>
+<div class="outline-text-2" id="text-org54f3826">
 <p>
 I strongly recommend aspell instead of hunspell (Though hunspell is fine).
 </p>
@@ -547,14 +629,13 @@ See <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelli
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgbbc47bb" class="outline-2">
-<h3 id="orgbbc47bb">Why</h3>
-<div class="outline-text-2" id="text-orgbbc47bb">
+<div id="outline-container-org45e94b3" class="outline-2">
+<h3 id="org45e94b3">Why</h3>
+<div class="outline-text-2" id="text-org45e94b3">
 </div>
-<div id="outline-container-org87ac712" class="outline-3">
-<h4 id="org87ac712">Aspell</h4>
-<div class="outline-text-3" id="text-org87ac712">
+<div id="outline-container-orge608e21" class="outline-3">
+<h4 id="orge608e21">Aspell</h4>
+<div class="outline-text-3" id="text-orge608e21">
 <p>
 aspell is recommended because its option <code>--run-together</code>. That option could check the <b>camel case word</b>. Variable name often uses camel case naming convention these days. Read my <a href="http://blog.binchen.org/?p=950">Effective spell check in Emacs</a> for advanced tips.
 </p>
@@ -588,9 +669,9 @@ There is another variable <code>ispell-cmd-args</code>. It is actually some <b>e
 </p>
 </div>
 </div>
-<div id="outline-container-org38ae113" class="outline-3">
-<h4 id="org38ae113">Hunspell</h4>
-<div class="outline-text-3" id="text-org38ae113">
+<div id="outline-container-org9892504" class="outline-3">
+<h4 id="org9892504">Hunspell</h4>
+<div class="outline-text-3" id="text-org9892504">
 <p>
 I cannot find hunspell option to check camel case words. Please enlighten me if you know the option.
 </p>
@@ -631,14 +712,13 @@ You can pass the extra arguments to the hunspell by tweaking <code>ispell-local-
 </div>
 </div>
 </div>
-
-<div id="outline-container-org1f58fe7" class="outline-2">
-<h3 id="org1f58fe7">FAQ</h3>
-<div class="outline-text-2" id="text-org1f58fe7">
+<div id="outline-container-orgac7bb4a" class="outline-2">
+<h3 id="orgac7bb4a">FAQ</h3>
+<div class="outline-text-2" id="text-orgac7bb4a">
 </div>
-<div id="outline-container-org1fe5b41" class="outline-3">
-<h4 id="org1fe5b41">How to setup Hunspell</h4>
-<div class="outline-text-3" id="text-org1fe5b41">
+<div id="outline-container-orgd36ab16" class="outline-3">
+<h4 id="orgd36ab16">How to setup Hunspell</h4>
+<div class="outline-text-3" id="text-orgd36ab16">
 <p>
 The easiest way is to set up environment variable <code>DICPATH</code>,
 </p>
@@ -1087,9 +1167,9 @@ I install keysnail's own plugins "HoK" and "Tanything".
 Here are the use cases of keysnail.
 </p>
 
-<div id="outline-container-org655ae60" class="outline-2">
-<h3 id="org655ae60">Click &amp; Copy the links</h3>
-<div class="outline-text-2" id="text-org655ae60">
+<div id="outline-container-orge604b4d" class="outline-2">
+<h3 id="orge604b4d">Click &amp; Copy the links</h3>
+<div class="outline-text-2" id="text-orge604b4d">
 <p>
 Install the <a href="https://github.com/mooz/keysnail/wiki/plugin">HoK</a>.
 </p>
@@ -1154,9 +1234,9 @@ Copy the link into clipboard is also easy. I press "C-c C-y" and similar UI will
 </div>
 </div>
 
-<div id="outline-container-org7fbc502" class="outline-2">
-<h3 id="org7fbc502">Copy the text of link</h3>
-<div class="outline-text-2" id="text-org7fbc502">
+<div id="outline-container-orga0d8388" class="outline-2">
+<h3 id="orga0d8388">Copy the text of link</h3>
+<div class="outline-text-2" id="text-orga0d8388">
 <p>
 This is my most favorite tool. As a developer, I need copy text of links from bug tracking software and paste it into git commit message frequently.
 </p>
@@ -1174,9 +1254,9 @@ If you use keysnail+HOK, it's as simple as press hot key "C-c ; Y". That's it!
 </div>
 </div>
 
-<div id="outline-container-org189f836" class="outline-2">
-<h3 id="org189f836">Switch tab</h3>
-<div class="outline-text-2" id="text-org189f836">
+<div id="outline-container-org6eea390" class="outline-2">
+<h3 id="org6eea390">Switch tab</h3>
+<div class="outline-text-2" id="text-org6eea390">
 <p>
 Install the <a href="https://github.com/mooz/keysnail/wiki/plugin">Tanything</a>.
 </p>
@@ -1203,9 +1283,9 @@ Tanything will locate the tab by finding match in web page's title or URL.
 </div>
 </div>
 
-<div id="outline-container-org7229409" class="outline-2">
-<h3 id="org7229409">My keysnail set up</h3>
-<div class="outline-text-2" id="text-org7229409">
+<div id="outline-container-org776f299" class="outline-2">
+<h3 id="org776f299">My keysnail set up</h3>
+<div class="outline-text-2" id="text-org776f299">
 <p>
 You can download my ~/.keysnail.js from <a href="https://gist.githubusercontent.com/redguardtoo/003ac86d4c11b70b870a/raw/32356b071785248c0ff56d9c5896168263efefdd/.keysnail.js">HERE</a>.
 </p>
@@ -1259,179 +1339,6 @@ You can download my ~/.keysnail.js from <a href="https://gist.githubusercontent.
 
 <p></p>
 <p> It turns out that some third party package I installed changes the emacs variable "display-buffer-function". I guess that's why the backtrace is blocked. Because backtrace is usually dumped into a backtrace buffer. And backtrace buffer's is actually influenced by the variable. </p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/how-to-use-ctags-in-emacs-effectively-3/">How to use ctags in Emacs effectively</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-03-11T21:52:00+00:00">2014-03-11 21:52</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/how-to-use-ctags-in-emacs-effectively-3/#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-ctags-in-emacs-effectively-3.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/ctags/" rel="tag">ctags</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-03-11 Tue&gt;</span></span>
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-05-26 Tue&gt;</span></span>
-</p>
-
-<p>
-<a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> is used for code completion and code navigation. It supports many programming languages.
-</p>
-
-<p>
-Please read <a href="http://www.emacswiki.org/emacs/BuildTags">EmacsWiki</a> for basic usage.
-</p>
-
-<p>
-Ctags creates an index file named "TAGS". The path of TAGS is stored in a Emacs variable <code>tags-table-list</code>.
-</p>
-
-<p>
-Example of <code>tags-table-list</code>:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(setq tags-table-list '("~/wxWidgets-master/TAGS" "~/projs/Loris/src/desktop/TAGS"))
-</code></pre>
-
-</div>
-
-<p>
-When running <code>M-x find-tag</code>, the tag files in <code>tags-table-list</code> is read to find the definition of the symbol under cursor.
-</p>
-
-<p>
-Here is my strategy to manage TAGS <b>automatically</b>:
-</p>
-
-<ul class="org-ul">
-<li>I hard coded path of TAGS in <code>.emacs</code> because I don't change project path frequently</li>
-<li>In major mode hook like <code>c++-mode-hook</code> or <code>js2-mode-hook</code> I check the path current file. If it matches project name, the file is part of the project</li>
-<li>TAGS for the project is created</li>
-<li>When saving the file, update TAGS by the value of <code>tags-table-list</code>
-</li>
-</ul>
-<p>
-Code:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun my-project-name-contains-substring (regex)
-  (let ((dir (if (buffer-file-name)
-                 (file-name-directory (buffer-file-name))
-               "")))
-    (string-match-p regex dir)))
-
-(defun my-create-tags-if-needed (SRC-DIR &amp;optional FORCE)
-  "Return the full path of tags file."
-  (let ((dir (file-name-as-directory (file-truename SRC-DIR)) )
-       file)
-    (setq file (concat dir "TAGS"))
-    (when (or FORCE (not (file-exists-p file)))
-      (message "Creating TAGS in %s ..." dir)
-      (shell-command
-       (format "ctags -f %s -e -R %s" file dir)))
-    file))
-
-(defvar my-tags-updated-time nil)
-
-(defun my-update-tags ()
-  "Check the tags in tags-table-list and re-create it."
-  (interactive)
-  (dolist (tag tags-table-list)
-    (my-create-tags-if-needed (file-name-directory tag) t)))
-
-(defun my-auto-update-tags-when-save ()
-  (interactive)
-  (cond
-   ((not my-tags-updated-time)
-    (setq my-tags-updated-time (current-time)))
-   ((&lt; (- (float-time (current-time)) (float-time my-tags-updated-time)) 300)
-    ;; &lt; 300 seconds
-    ;; do nothing
-    )
-   (t
-    (setq my-tags-updated-time (current-time))
-    (my-update-tags)
-    (message "updated tags after %d seconds."
-             (- (float-time (current-time))
-                (float-time my-tags-updated-time))))))
-
-(defun my-setup-develop-environment ()
-    (when (my-project-name-contains-substring "Loris")
-      (cond
-       ((my-project-name-contains-substring "src/desktop")
-        ;; C++ project don't need html tags
-        (setq tags-table-list
-              (list (my-create-tags-if-needed
-                     (concat (file-name-as-directory (getenv "WXWIN")) "include"))
-                    (my-create-tags-if-needed "~/projs/Loris/loris/src/desktop"))))
-       ((my-project-name-contains-substring "src/html")
-        ;; html project donot need C++ tags
-        (setq tags-table-list (list (my-create-tags-if-needed "~/projs/Loris/loris/src/html")))))))
-
-(add-hook 'after-save-hook 'my-auto-update-tags-when-save)
-(add-hook 'js2-mode-hook 'my-setup-develop-environment)
-(add-hook 'web-mode-hook 'my-setup-develop-environment)
-(add-hook 'c++-mode-hook 'my-setup-develop-environment)
-(add-hook 'c-mode-hook 'my-setup-develop-environment)
-</code></pre>
-
-</div>
-
-<p>
-UPDATE:
-Ctags is discussed at <a href="https://plus.google.com/110954683162859211810/posts/NsdzvywuoX3">Google Plus</a>. Kaushal Modi recommended three Emacs plugins:
-</p>
-
-<ul class="org-ul">
-<li><a href="https://github.com/jixiuf/ctags-update">ctags-update</a></li>
-<li><a href="https://www.emacswiki.org/emacs/etags-table.el">etags-table</a></li>
-<li><a href="https://www.emacswiki.org/emacs/etags-select.el">etags-select</a></li>
-</ul>
-<p>
-I tried them. My code has same features as <code>ctags-update</code> and <code>etags-table</code>. I prefer my own code because it's simpler and controllable.
-</p>
-
-<p>
-But I do like <code>etags-select</code>, it provides better UI for finding tag and I will use it from now on.
-</p>
-
-<p>
-UPDATE:
-I have developed my own ctags solution for Emacs,
-</p>
-
-<ul class="org-ul">
-<li>
-<a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation and imenu</li>
-<li>
-<a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> for code completion</li>
-</ul>
 </div>
             </div>
         </div>

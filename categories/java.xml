@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about java)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/java.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C/C++/Java code indentation in Emacs</title><link>http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org0bfd9e8" class="outline-2"&gt;
-&lt;h3 id="org0bfd9e8"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0bfd9e8"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about java)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/java.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 18 Dec 2020 01:08:45 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C/C++/Java code indentation in Emacs</title><link>http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org7ed93a1" class="outline-2"&gt;
+&lt;h3 id="org7ed93a1"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7ed93a1"&gt;
 &lt;p&gt;
 There are two styles when insert curly braces in C like languages.
 &lt;/p&gt;
@@ -45,9 +45,9 @@ In "Style 2", when I press ENTER key after ")" at first line, I expect the new l
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfa5d6b7" class="outline-2"&gt;
-&lt;h3 id="orgfa5d6b7"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgfa5d6b7"&gt;
+&lt;div id="outline-container-org52ace80" class="outline-2"&gt;
+&lt;h3 id="org52ace80"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org52ace80"&gt;
 &lt;p&gt;
 Insert below code into ~/.emacs:
 &lt;/p&gt;
@@ -77,9 +77,9 @@ That's it.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org32d6d99" class="outline-2"&gt;
-&lt;h3 id="org32d6d99"&gt;Explanation&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org32d6d99"&gt;
+&lt;div id="outline-container-orge94f911" class="outline-2"&gt;
+&lt;h3 id="orge94f911"&gt;Explanation&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge94f911"&gt;
 &lt;p&gt;
 When you press the ENTER key, the function &lt;b&gt;c-indent-line&lt;/b&gt; will be called.
 &lt;/p&gt;
@@ -114,9 +114,9 @@ And the context &lt;b&gt;func-decl-cont&lt;/b&gt; corresponds to:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org81e7de6" class="outline-2"&gt;
-&lt;h3 id="org81e7de6"&gt;Technical details&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org81e7de6"&gt;
+&lt;div id="outline-container-orgb556f99" class="outline-2"&gt;
+&lt;h3 id="orgb556f99"&gt;Technical details&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb556f99"&gt;
 &lt;p&gt;
 When you press ENTER key, the new line will be inserted. Then the function &lt;b&gt;indent-according-to-mode&lt;/b&gt; will always be called
 &lt;/p&gt;

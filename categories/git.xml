@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:02 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 18 Dec 2020 01:08:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 My workflow in Git is,
 &lt;/p&gt;
 
@@ -80,9 +80,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgff705c3" class="outline-2"&gt;
-&lt;h3 id="orgff705c3"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgff705c3"&gt;
+&lt;div id="outline-container-org77da1e7" class="outline-2"&gt;
+&lt;h3 id="org77da1e7"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org77da1e7"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -116,10 +116,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgf8cadfe" class="outline-2"&gt;
-&lt;h3 id="orgf8cadfe"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf8cadfe"&gt;
+&lt;div id="outline-container-orgad3264c" class="outline-2"&gt;
+&lt;h3 id="orgad3264c"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgad3264c"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -266,7 +265,6 @@ Now let's talk the real world problem. And I will show you a perfect solution so
 &lt;p&gt;
 The problem is, I never use Emacs to resolve merge conflicts for two reasons:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;First, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;My Emacs configuration&lt;/a&gt; uses too many packages. It starts up slowly. As you can see from vimdiff demo, &lt;code&gt;git mergetool&lt;/code&gt; restarts the editor many times. So the editor should be lightweight.&lt;/li&gt;
 &lt;li&gt;Second, the UI of &lt;code&gt;ediff&lt;/code&gt; is not right. UI of Vimdiff is much better. All operations should be completed freely in any sub-window instead of ediff control panel only.&lt;/li&gt;
@@ -280,7 +278,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgcf7a4d4" class="outline-2"&gt;
+&lt;div id="outline-container-org30ccdf1" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -336,8 +334,7 @@ Native Emacs API is enough to save/load windows layout.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org787635f" class="outline-2"&gt;
+&lt;div id="outline-container-org5cd1374" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;
@@ -669,18 +666,18 @@ I also recommend reading &lt;a href="https://bitbucket.org/lyro/evil/issue/511/l
 I use keyboard only in order to maximize my productivity.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org50dbe27" class="outline-2"&gt;
-&lt;h3 id="org50dbe27"&gt;Preparation&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org50dbe27"&gt;
+&lt;div id="outline-container-org2088839" class="outline-2"&gt;
+&lt;h3 id="org2088839"&gt;Preparation&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2088839"&gt;
 &lt;p&gt;
 Install Firefox addon &lt;a href="https://github.com/mooz/keysnail/wiki"&gt;Keysnail&lt;/a&gt; and its plugin &lt;a href="https://github.com/mooz/keysnail/wiki/plugin"&gt;HOK&lt;/a&gt;. From now on, all the web browsing is done ONLY in keyboard.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3c599f4" class="outline-2"&gt;
-&lt;h3 id="org3c599f4"&gt;Step 1&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3c599f4"&gt;
+&lt;div id="outline-container-org22397e6" class="outline-2"&gt;
+&lt;h3 id="org22397e6"&gt;Step 1&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org22397e6"&gt;
 &lt;p&gt;
 Open pull request page at github.com, click the link "command line".
 &lt;/p&gt;
@@ -705,9 +702,9 @@ I have installed a Greasemonkey user script &lt;a href="https://github.com/redgu
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9304a42" class="outline-2"&gt;
-&lt;h3 id="org9304a42"&gt;Step 2&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9304a42"&gt;
+&lt;div id="outline-container-org9132bc5" class="outline-2"&gt;
+&lt;h3 id="org9132bc5"&gt;Step 2&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9132bc5"&gt;
 &lt;p&gt;
 I open the code file with Emacs.
 &lt;/p&gt;
@@ -730,9 +727,9 @@ In short, I can &lt;b&gt;review the latest commit and change the code in one ste
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2345a36" class="outline-2"&gt;
-&lt;h3 id="org2345a36"&gt;Done&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org2345a36"&gt;
+&lt;div id="outline-container-org17b029c" class="outline-2"&gt;
+&lt;h3 id="org17b029c"&gt;Done&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org17b029c"&gt;
 &lt;p&gt;
 After review and code change, the remaining book-keeping things (git-commit/git-merge/git-push) are easy.
 &lt;/p&gt;

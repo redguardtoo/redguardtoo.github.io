@@ -23,6 +23,78 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/find-the-buffer-named-by-pinyin/">Find the buffer with Chinese name</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2017-02-26T04:27:42+00:00">2017-02-26 04:27</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/find-the-buffer-named-by-pinyin/#disqus_thread" data-disqus-identifier="cache/posts/find-the-buffer-named-by-pinyin.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/chinese/" rel="tag">chinese</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+We can find the buffer with Chinese name efficiently by using the first character of <a href="https://en.wikipedia.org/wiki/Pinyin">pinyin</a>.
+</p>
+
+<p>
+Here is the code (<a href="https://github.com/abo-abo/swiper">ivy</a> and <a href="https://github.com/cute-jumper/pinyinlib.el">pinyinlib</a> is required):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun ivy-switch-buffer-matcher-pinyin (regexp candidates)
+  (unless (featurep 'pinyinlib) (require 'pinyinlib))
+  (let* ((pys (split-string regexp "[ \t]+"))
+         (regexp (format ".*%s.*"
+                         (mapconcat 'pinyinlib-build-regexp-string pys ".*"))))
+    (ivy--switch-buffer-matcher regexp candidates)))
+
+(defun ivy-switch-buffer-by-pinyin ()
+  "Switch to another buffer."
+  (interactive)
+  (unless (featurep 'ivy) (require 'ivy))
+  (let ((this-command 'ivy-switch-buffer))
+    (ivy-read "Switch to buffer: " 'internal-complete-buffer
+              :matcher #'ivy-switch-buffer-matcher-pinyin
+              :preselect (buffer-name (other-buffer (current-buffer)))
+              :action #'ivy--switch-buffer-action
+              :keymap ivy-switch-buffer-map
+              :caller 'ivy-switch-buffer)))
+</code></pre>
+
+</div>
+
+<p>
+You can <code>M-x ivy-switch-buffer-by-pinyin</code> to switch buffer.
+</p>
+
+<p>
+The algorithm of pinyinlib is simple. We build a big lookup table to convert the a plain English string into a regular expression containing Chinese characters.
+</p>
+
+<p>
+You can apply the <b>same algorithm to other non-English languages</b>.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/use-perforce-inside-emacs/">Use Perforce inside Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -67,9 +139,9 @@ Perforce is a proprietary VCS. It's less powerful than <a href="https://git-scm.
 For example, <code>git log -p file-path</code> displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like <code>p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}</code> can't do it. I have to use Emacs Lisp to clean the output of <code>p4</code>.
 </p>
 
-<div id="outline-container-org3e7b745" class="outline-2">
-<h3 id="org3e7b745">Perforce workflow</h3>
-<div class="outline-text-2" id="text-org3e7b745">
+<div id="outline-container-org1297e6a" class="outline-2">
+<h3 id="org1297e6a">Perforce workflow</h3>
+<div class="outline-text-2" id="text-org1297e6a">
 <ul class="org-ul">
 <li>
 <code>p4 set</code> to <a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html">set up</a>
@@ -90,9 +162,9 @@ For example, <code>git log -p file-path</code> displays the detailed history of 
 </div>
 </div>
 
-<div id="outline-container-org43bda4b" class="outline-2">
-<h3 id="org43bda4b">My solution</h3>
-<div class="outline-text-2" id="text-org43bda4b">
+<div id="outline-container-org336267b" class="outline-2">
+<h3 id="org336267b">My solution</h3>
+<div class="outline-text-2" id="text-org336267b">
 <p>
 Perforce Cygwin portable is not recommended.
 </p>
@@ -105,9 +177,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed <code>p4</code> that URL, the operation is always successful.
 </p>
 </div>
-<div id="outline-container-org6a017b0" class="outline-3">
-<h4 id="org6a017b0">Emacs</h4>
-<div class="outline-text-3" id="text-org6a017b0">
+<div id="outline-container-org3f16998" class="outline-3">
+<h4 id="org3f16998">Emacs</h4>
+<div class="outline-text-3" id="text-org3f16998">
 <p>
 I developed <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a> which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need <code>p4 login</code> at first.)
 </p>
@@ -269,9 +341,9 @@ You can also check my <a href="https://github.com/redguardtoo/emacs.d/blob/maste
 </p>
 </div>
 </div>
-<div id="outline-container-org48c2da3" class="outline-3">
-<h4 id="org48c2da3">Bash Shell</h4>
-<div class="outline-text-3" id="text-org48c2da3">
+<div id="outline-container-org8ee3e4e" class="outline-3">
+<h4 id="org8ee3e4e">Bash Shell</h4>
+<div class="outline-text-3" id="text-org8ee3e4e">
 <p>
 Other operations are finished in Bash Shell,
 </p>
@@ -507,9 +579,9 @@ Screenshot:
             </div>
             <div class="body">
                 <div>
-<div id="outline-container-org0d1aeb0" class="outline-2">
-<h3 id="org0d1aeb0">原料</h3>
-<div class="outline-text-2" id="text-org0d1aeb0">
+<div id="outline-container-orgaaf104d" class="outline-2">
+<h3 id="orgaaf104d">原料</h3>
+<div class="outline-text-2" id="text-orgaaf104d">
 <ul class="org-ul">
 <li>韭菜一斤(8把)</li>
 <li>虾仁适量</li>
@@ -519,10 +591,9 @@ Screenshot:
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org8e4fb99" class="outline-2">
-<h3 id="org8e4fb99">流程</h3>
-<div class="outline-text-2" id="text-org8e4fb99">
+<div id="outline-container-org4da9f95" class="outline-2">
+<h3 id="org4da9f95">流程</h3>
+<div class="outline-text-2" id="text-org4da9f95">
 <ul class="org-ul">
 <li>韭菜切碎</li>
 <li>虾仁切成小块</li>
@@ -661,7 +732,6 @@ This solution works on Linux/macOS/Cygwin (should work at Windows too, but I don
 <p>
 Setup is minimum. Only GNU Global and two Emacs plugins are required:
 </p>
-
 <ul class="org-ul">
 <li>
 <code>company-gtags.el</code> from <a href="https://github.com/company-mode/company-mode">company</a> for code completion</li>
@@ -671,10 +741,9 @@ Setup is minimum. Only GNU Global and two Emacs plugins are required:
 <p>
 Here is the step to step guide.
 </p>
-
-<div id="outline-container-org1a06958" class="outline-2">
-<h3 id="org1a06958">Step 1, create sample projects for experiment</h3>
-<div class="outline-text-2" id="text-org1a06958">
+<div id="outline-container-org2ab34d0" class="outline-2">
+<h3 id="org2ab34d0">Step 1, create sample projects for experiment</h3>
+<div class="outline-text-2" id="text-org2ab34d0">
 <p>
 I have two projects <code>~/proj1</code> and <code>~/proj2</code>.
 </p>
@@ -724,10 +793,9 @@ int main(int argc, char *argv[]) {
 </div>
 </div>
 </div>
-
-<div id="outline-container-org77bf7d7" class="outline-2">
-<h3 id="org77bf7d7">Step 2, scan C++ code and setup Emacs</h3>
-<div class="outline-text-2" id="text-org77bf7d7">
+<div id="outline-container-org9b6a29b" class="outline-2">
+<h3 id="org9b6a29b">Step 2, scan C++ code and setup Emacs</h3>
+<div class="outline-text-2" id="text-org9b6a29b">
 <p>
 Run below command in shell to scan code,
 </p>
@@ -772,10 +840,9 @@ After installing Emacs plugins and setup (minimum setup from their website is en
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgf52de33" class="outline-2">
-<h3 id="orgf52de33">Usage</h3>
-<div class="outline-text-2" id="text-orgf52de33">
+<div id="outline-container-org8b0cd98" class="outline-2">
+<h3 id="org8b0cd98">Usage</h3>
+<div class="outline-text-2" id="text-org8b0cd98">
 <p>
 Use the Emacs plugins as usual.
 </p>
@@ -795,9 +862,9 @@ Screenshot,
 </div>
 </div>
 
-<div id="outline-container-orgb0f9bda" class="outline-2">
-<h3 id="orgb0f9bda">Tip</h3>
-<div class="outline-text-2" id="text-orgb0f9bda">
+<div id="outline-container-org11b148d" class="outline-2">
+<h3 id="org11b148d">Tip</h3>
+<div class="outline-text-2" id="text-org11b148d">
 <p>
 GNU Global could use ctags (Either <a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> or <a href="https://ctags.io/">Universal Ctags</a>) as backend to create tags file.
 </p>
@@ -811,10 +878,9 @@ If you prefer ctags, you could use it directly. Then you can use <a href="https:
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7a4de53" class="outline-2">
-<h3 id="org7a4de53">Technical Details (Optional)</h3>
-<div class="outline-text-2" id="text-org7a4de53">
+<div id="outline-container-org244b650" class="outline-2">
+<h3 id="org244b650">Technical Details (Optional)</h3>
+<div class="outline-text-2" id="text-org244b650">
 <p>
 Check <a href="https://www.gnu.org/software/global/manual/global.html">GNU Global manual</a> to understand environment variables <code>GTAGSLIBPATH</code> and <code>MAKEOBJDIRPREFIX</code>.
 </p>
@@ -929,9 +995,9 @@ In essence, a major mode is just a collection of APIs. We could use its APIs wit
 Here are two examples.
 </p>
 
-<div id="outline-container-orgf71d3d5" class="outline-2">
-<h3 id="orgf71d3d5">Validate JSON</h3>
-<div class="outline-text-2" id="text-orgf71d3d5">
+<div id="outline-container-orgec51dfa" class="outline-2">
+<h3 id="orgec51dfa">Validate JSON</h3>
+<div class="outline-text-2" id="text-orgec51dfa">
 <p>
 <code>M-x my-validate-json-or-js-expression</code> to validate the buffer.
 </p>
@@ -977,9 +1043,9 @@ If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
 </div>
 </div>
 
-<div id="outline-container-orgc5fde20" class="outline-2">
-<h3 id="orgc5fde20">Print JSON path</h3>
-<div class="outline-text-2" id="text-orgc5fde20">
+<div id="outline-container-org405fe58" class="outline-2">
+<h3 id="org405fe58">Print JSON path</h3>
+<div class="outline-text-2" id="text-org405fe58">
 <p>
 For example, you got JSON string  <code>{"a": {"b": 3}}</code>. If you place cursor over <code>3</code> and <code>M-x my-print-json-path</code>, you got output <code>a.b</code>.
 </p>
@@ -1011,10 +1077,9 @@ If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it.
 </div>
 </div>
 </div>
-
-<div id="outline-container-orga82e41c" class="outline-2">
-<h3 id="orga82e41c">Summary</h3>
-<div class="outline-text-2" id="text-orga82e41c">
+<div id="outline-container-org94d66ab" class="outline-2">
+<h3 id="org94d66ab">Summary</h3>
+<div class="outline-text-2" id="text-org94d66ab">
 <p>
 As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
 </p>
@@ -1171,73 +1236,6 @@ Screenshot:
 <div class="figure">
 <p><img src="wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"></p>
 </div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/turn-off-linum-mode-when-file-is-too-big/">Turn off linum-mode when file is too big</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2016-07-14T13:21:02+00:00">2016-07-14 13:21</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/turn-off-linum-mode-when-file-is-too-big/#disqus_thread" data-disqus-identifier="cache/posts/turn-off-linum-mode-when-file-is-too-big.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linum/" rel="tag">linum</a></li>
-           <li><a class="tag p-category" href="categories/mode/" rel="tag">mode</a></li>
-           <li><a class="tag p-category" href="categories/wc/" rel="tag">wc</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-07-14 Thu&gt;</span></span>
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-08-07 Sun&gt;</span></span>
-</p>
-
-<p>
-It's well known that linum-mode slows Emacs when the file contains thousands of lines.
-</p>
-
-<p>
-Here is the fix,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun buffer-too-big-p ()
-  (or (&gt; (buffer-size) (* 5000 80))
-      (&gt; (line-number-at-pos (point-max)) 5000)))
-(add-hook 'prog-mode-hook
-          (lambda ()
-            ;; turn off `linum-mode' when there are more than 5000 lines
-            (if (buffer-too-big-p) (linum-mode -1))))
-</code></pre>
-
-</div>
-
-<p>
-Though <a href="https://elpa.gnu.org/packages/nlinum.html">nlinum-mode</a> has performance, I still stick to linum-mode because <a href="https://github.com/syohex/emacs-git-gutter">git-gutter</a> only supports linum-mode.
-</p>
-
-<p>
-You can check <a href="https://github.com/syohex/emacs-git-gutter/issues/124">the interesting discussion</a> about git-gutter/linum-mode/nlinum-mode. Syohei Yoshida made git-gutter 95% functional when linum-mode off.
-</p>
 </div>
             </div>
         </div>

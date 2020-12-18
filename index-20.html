@@ -23,6 +23,161 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/use-js2-mode-to-print-json-path/">Use js2-mode to print json path</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-10-29T14:18:10+00:00">2015-10-29 14:18</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-js2-mode-to-print-json-path/#disqus_thread" data-disqus-identifier="cache/posts/use-js2-mode-to-print-json-path.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/javascript/" rel="tag">javascript</a></li>
+           <li><a class="tag p-category" href="categories/js2/" rel="tag">js2</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-10-29 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-22 Sun&gt;</span></span>
+</p>
+
+<p>
+These days most web applications are based on RESTful.
+</p>
+
+<p>
+So javascript developers have to deal with JSON frequently.
+</p>
+
+<p>
+When working on JSON, the most boring and error prone task is to get the full path of specific field.
+</p>
+
+<p>
+For example, given the JSON response like:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-javascript">{
+  key1: {
+    subkey1: {
+      arr1: [{ key3: 'hello'}]
+    }
+  }
+}
+</code></pre>
+
+</div>
+
+<p>
+The developer need figure out the full path of "key3" which is "<code>key1.subkey1.arr1[0].key3</code>".
+</p>
+
+<p>
+My solution is to take advantage of AST created by <a href="https://github.com/mooz/js2-mode">js2-mode</a>.
+</p>
+
+<p>
+<b>Step 1</b>, insert below code into ~/.emacs,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; {{ print json path, will be removed when latest STABLE js2-mode released
+(defun js2-get-element-index-from-array-node (elem array-node &amp;optional hardcoded-array-index)
+  "Get index of ELEM from ARRAY-NODE or 0 and return it as string."
+  (let ((idx 0) elems (rlt hardcoded-array-index))
+    (setq elems (js2-array-node-elems array-node))
+    (if (and elem (not hardcoded-array-index))
+        (setq rlt (catch 'nth-elt
+                    (dolist (x elems)
+                      ;; We know the ELEM does belong to ARRAY-NODE,
+                      (if (eq elem x) (throw 'nth-elt idx))
+                      (setq idx (1+ idx)))
+                    0)))
+    (format "[%s]" rlt)))
+
+(defun js2-print-json-path (&amp;optional hardcoded-array-index)
+  "Print the path to the JSON value under point, and save it in the kill ring.
+If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
+  (interactive "P")
+  (let (previous-node current-node
+        key-name
+        rlt)
+
+    ;; The `js2-node-at-point' starts scanning from AST root node.
+    ;; So there is no way to optimize it.
+    (setq current-node (js2-node-at-point))
+
+    (while (not (js2-ast-root-p current-node))
+      (cond
+       ;; JSON property node
+       ((js2-object-prop-node-p current-node)
+        (setq key-name (js2-prop-node-name (js2-object-prop-node-left current-node)))
+        (if rlt (setq rlt (concat "." key-name rlt))
+          (setq rlt (concat "." key-name))))
+
+       ;; Array node
+       ((or (js2-array-node-p current-node))
+        (setq rlt (concat (js2-get-element-index-from-array-node previous-node
+                                                                 current-node
+                                                                 hardcoded-array-index)
+                          rlt)))
+
+       ;; Other nodes are ignored
+       (t))
+
+      ;; current node is archived
+      (setq previous-node current-node)
+      ;; Get parent node and continue the loop
+      (setq current-node (js2-node-parent current-node)))
+
+    (cond
+     (rlt
+      ;; Clean the final result
+      (setq rlt (replace-regexp-in-string "^\\." "" rlt))
+      (kill-new rlt)
+      (message "%s =&gt; kill-ring" rlt))
+     (t
+      (message "No JSON path found!")))
+
+    rlt))
+</code></pre>
+
+</div>
+
+<p>
+<b>Step 2</b>, move the cursor over the key/value of the field and `M-x js2-print-json-path`.
+</p>
+
+<p>
+My code is <a href="https://github.com/mooz/js2-mode/commit/49555849abf9e5f03766056f10e6ac89ddc487b4">merged into js2-mode</a>. You need only install latest js2-mode.
+</p>
+
+<p>
+(apply #'derived-mode-p '(org-mode web-mode))
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/evil-text-object-to-select-nearby-file-path/">Evil text object to select nearby file path</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -226,9 +381,9 @@ Insert below code into ~/.emacs:
 <a href="https://www.youtube.com/watch?v=Aclyh2c_BEs">https://www.youtube.com/watch?v=Aclyh2c_BEs</a>
 </p>
 
-<div id="outline-container-orgc3b148d" class="outline-2">
-<h3 id="orgc3b148d">备料</h3>
-<div class="outline-text-2" id="text-orgc3b148d">
+<div id="outline-container-org0415d68" class="outline-2">
+<h3 id="org0415d68">备料</h3>
+<div class="outline-text-2" id="text-org0415d68">
 <ul class="org-ul">
 <li>两人份冷水</li>
 <li>米少许(半茶勺)</li>
@@ -247,9 +402,9 @@ Insert below code into ~/.emacs:
 </div>
 </div>
 
-<div id="outline-container-org13ad8d6" class="outline-2">
-<h3 id="org13ad8d6">步骤</h3>
-<div class="outline-text-2" id="text-org13ad8d6">
+<div id="outline-container-org45c50d7" class="outline-2">
+<h3 id="org45c50d7">步骤</h3>
+<div class="outline-text-2" id="text-org45c50d7">
 <ul class="org-ul">
 <li>鸡胸脯肉切成小块,盐过一下三四分钟,洗净刀和板</li>
 <li>烧开水</li>
@@ -264,9 +419,9 @@ Insert below code into ~/.emacs:
 </div>
 </div>
 
-<div id="outline-container-orgb5391a5" class="outline-2">
-<h3 id="orgb5391a5">上菜</h3>
-<div class="outline-text-2" id="text-orgb5391a5">
+<div id="outline-container-orga630945" class="outline-2">
+<h3 id="orga630945">上菜</h3>
+<div class="outline-text-2" id="text-orga630945">
 <ul class="org-ul">
 <li>准备大碗,放入薄荷,葱,适量柠檬汁,倒汤</li>
 <li>柬埔寨神秘香菜(可选)</li>
@@ -736,10 +891,9 @@ I will explain how to resolve code merge conflicts with plain vim. The only thir
 <p>
 The reason to use vim is that I can't use vimdiff as a merge tool for certain VCS (CVS, Subversion, Perforce, …).
 </p>
-
-<div id="outline-container-orgfbea05b" class="outline-2">
-<h3 id="orgfbea05b">Problem</h3>
-<div class="outline-text-2" id="text-orgfbea05b">
+<div id="outline-container-orgdb4679b" class="outline-2">
+<h3 id="orgdb4679b">Problem</h3>
+<div class="outline-text-2" id="text-orgdb4679b">
 <p>
 A typical file in conflict is like:
 </p>
@@ -768,9 +922,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </div>
 </div>
 
-<div id="outline-container-orgc9c8ab0" class="outline-2">
-<h3 id="orgc9c8ab0">Basic knowledge of Vim</h3>
-<div class="outline-text-2" id="text-orgc9c8ab0">
+<div id="outline-container-orgea80d3f" class="outline-2">
+<h3 id="orgea80d3f">Basic knowledge of Vim</h3>
+<div class="outline-text-2" id="text-orgea80d3f">
 <ul class="org-ul">
 <li>"]n" move the focus to the next marker and "[n" to the previous marker.</li>
 <li>"dd" delete current line</li>
@@ -779,9 +933,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </div>
 </div>
 
-<div id="outline-container-orge12404b" class="outline-2">
-<h3 id="orge12404b">Solution</h3>
-<div class="outline-text-2" id="text-orge12404b">
+<div id="outline-container-orga17a130" class="outline-2">
+<h3 id="orga17a130">Solution</h3>
+<div class="outline-text-2" id="text-orga17a130">
 <p>
 Our workflow is actually simple:
 </p>
@@ -848,9 +1002,9 @@ UPDATE: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-06-22 W
 This question has been asked so many times, so I answered it here once for all.
 </p>
 
-<div id="outline-container-org6eeb176" class="outline-2">
-<h3 id="org6eeb176">Solution</h3>
-<div class="outline-text-2" id="text-org6eeb176">
+<div id="outline-container-org463ff38" class="outline-2">
+<h3 id="org463ff38">Solution</h3>
+<div class="outline-text-2" id="text-org463ff38">
 <p>
 Insert below code into ~/.emacs:
 </p>
@@ -922,9 +1076,9 @@ For <b>any new programming language</b> not covered in this post, there are two 
 </div>
 </div>
 
-<div id="outline-container-orgdc483d3" class="outline-2">
-<h3 id="orgdc483d3">Tips (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-orgdc483d3">
+<div id="outline-container-orgcc3672a" class="outline-2">
+<h3 id="orgcc3672a">Tips (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-orgcc3672a">
 <ul class="org-ul">
 <li>Please note the first paramter of `string-match-p` is actually <b>regular expression</b>. So you can write regular expression like "\\(/proj1\\|work.org\\)"</li>
 
@@ -994,9 +1148,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 
 I use <a href="https://angularjs.org/">AngularJS</a> as an example. The technique is actually generic and not limited to Angular Only.
 </p>
 
-<div id="outline-container-orgc2e7fb6" class="outline-2">
-<h3 id="orgc2e7fb6">Problem</h3>
-<div class="outline-text-2" id="text-orgc2e7fb6">
+<div id="outline-container-org6c1b133" class="outline-2">
+<h3 id="org6c1b133">Problem</h3>
+<div class="outline-text-2" id="text-org6c1b133">
 <p>
 In Angular application, a function is defined in a javascript file and called in a html file.
 </p>
@@ -1039,10 +1193,9 @@ In this article, I focus on how I combine Emacs and Ctags. If you use other text
 </p>
 </div>
 </div>
-
-<div id="outline-container-org627fac9" class="outline-2">
-<h3 id="org627fac9">Solution</h3>
-<div class="outline-text-2" id="text-org627fac9">
+<div id="outline-container-org3475abe" class="outline-2">
+<h3 id="org3475abe">Solution</h3>
+<div class="outline-text-2" id="text-org3475abe">
 <p>
 Ctags is good at parsing files with <b>regular expression</b>.
 </p>
@@ -1057,9 +1210,9 @@ I use Ctags because:
 </ul>
 </div>
 
-<div id="outline-container-org39fbd3e" class="outline-3">
-<h4 id="org39fbd3e">Old solution</h4>
-<div class="outline-text-3" id="text-org39fbd3e">
+<div id="outline-container-orgeab6921" class="outline-3">
+<h4 id="orgeab6921">Old solution</h4>
+<div class="outline-text-3" id="text-orgeab6921">
 <p>
 Here is my <a href="https://gist.github.com/redguardtoo/b12ddae3b8010a276e9b#file-ctags">~/.ctags</a>.
 </p>
@@ -1086,9 +1239,9 @@ Please install the latest helm because I <a href="https://github.com/emacs-helm/
 </div>
 </div>
 
-<div id="outline-container-org074f14c" class="outline-3">
-<h4 id="org074f14c">Latest solution (recommended)</h4>
-<div class="outline-text-3" id="text-org074f14c">
+<div id="outline-container-org2a2e5e6" class="outline-3">
+<h4 id="org2a2e5e6">Latest solution (recommended)</h4>
+<div class="outline-text-3" id="text-org2a2e5e6">
 <p>
 I have developed some ctags packages on code completion and code navigation. No manual setup is needed. Everything just works out of box. My packages are very popular in the Emacs community right now,
 </p>
@@ -1121,108 +1274,6 @@ Usage is simple,
 <li>Done. The tags file is automatically created and updated from time time</li>
 </ul>
 </div>
-</div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/autocomplete-with-a-dictionary-with-hippie-expand/">Autocomplete with a dictionary and hippie-expand</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-03-30T03:53:40+00:00">2015-03-30 03:53</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/autocomplete-with-a-dictionary-with-hippie-expand/#disqus_thread" data-disqus-identifier="cache/posts/autocomplete-with-a-dictionary-with-hippie-expand.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/autocomplete/" rel="tag">autocomplete</a></li>
-           <li><a class="tag p-category" href="categories/dictionary/" rel="tag">dictionary</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-I use <a href="http://company-mode.github.io/">company-mode</a> most of the time. Sometimes I use <a href="http://emacswiki.org/emacs/HippieExpand">Hippie Expand</a> to autocomplete the English words from a dictionary.
-</p>
-
-<p>
-I surely can do this in company-mode too. But I prefer hippie-expand because I choose to make company-mode focus on programming stuff and hippie-expand on writing.
-</p>
-
-<div id="outline-container-org3f14643" class="outline-2">
-<h3 id="org3f14643">Solution</h3>
-<div class="outline-text-2" id="text-org3f14643">
-<p>
-This solution works <b>in any environment</b>.
-</p>
-
-<ul class="org-ul">
-<li>Step1 (OPTIONAL), download <a href="https://github.com/redguardtoo/emacs.d/raw/master/misc/english-words.txt">english-words.txt</a> and place it under "~/.emacs.d/misc/".</li>
-
-<li>Step 2, Copy below setup into ~/.emacs and use key binding "M-/" to complete the word:</li>
-</ul>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(global-set-key (kbd "M-/") 'hippie-expand)
-
-;; The actual expansion function
-(defun try-expand-by-dict (old)
-  ;; old is true if we have already attempted an expansion
-  (unless (bound-and-true-p ispell-minor-mode)
-    (ispell-minor-mode 1))
-
-  ;; english-words.txt is the fallback dicitonary
-  (if (not ispell-alternate-dictionary)
-      (setq ispell-alternate-dictionary (file-truename "~/.emacs.d/misc/english-words.txt")))
-  (let ((lookup-func (if (fboundp 'ispell-lookup-words)
-                       'ispell-lookup-words
-                       'lookup-words)))
-    (unless old
-      (he-init-string (he-lisp-symbol-beg) (point))
-      (if (not (he-string-member he-search-string he-tried-table))
-        (setq he-tried-table (cons he-search-string he-tried-table)))
-      (setq he-expand-list
-            (and (not (equal he-search-string ""))
-                 (funcall lookup-func (concat (buffer-substring-no-properties (he-lisp-symbol-beg) (point)) "*")))))
-    (if (null he-expand-list)
-      (if old (he-reset-string))
-      (he-substitute-string (car he-expand-list))
-      (setq he-expand-list (cdr he-expand-list))
-      t)
-    ))
-
-(setq hippie-expand-try-functions-list
-      '(;; try-expand-dabbrev
-        ;; try-expand-dabbrev-all-buffers
-        try-expand-by-dict))
-</code></pre>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-org80e1af2" class="outline-2">
-<h3 id="org80e1af2">Technical details</h3>
-<div class="outline-text-2" id="text-org80e1af2">
-<ul class="org-ul">
-<li>based on <a href="https://github.com/syohex/emacs-ac-ispell">ac-ispell</a>
-</li>
-<li>lazy load of ispell-mode to speed Emacs startup</li>
-<li>add a fallback dictionary "english-words.txt" so autocompletion never fails</li>
-<li>`ispell-lookup-words` or `lookup-words` simply does grep thing, so english-words.txt is just a plain text file.</li>
-</ul>
 </div>
 </div>
 </div>

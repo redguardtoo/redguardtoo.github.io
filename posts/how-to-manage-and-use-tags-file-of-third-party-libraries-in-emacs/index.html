@@ -82,7 +82,6 @@ See <a href="http://emacswiki.org/emacs/EmacsTags">http://emacswiki.org/emacs/Em
 <p>
 According wiki page, people usually use ctags to do two things,
 </p>
-
 <ul class="org-ul">
 <li>Code navigation</li>
 <li>Auto-complete/IntelliSense</li>
@@ -102,7 +101,6 @@ I found one missing piece from EmacsWiki is the tip on how to <b>manage tags fil
 <p>
 My typical work flow is:
 </p>
-
 <ul class="org-ul">
 <li>Load the tags file for my own code.</li>
 <li>Load other tags files built from third party libraries related to my current task.</li>
@@ -115,19 +113,17 @@ The purpose to load tags files is to look up API easily. For example, I use C++ 
 <p>
 The reason to do the unload thing is to avoid function name conflict from some tags files. EmacsWiki has a section "Choosing Among Multiple Tags for the Same Name" to solve this problem. But unloading is more convenient. In theory, it would be annoying if I need repeat load and unload the same tags files. In reality, it seldom happens because if I need work on Javascript (so I unload C++ related TAGS), I will usually keep working on Javascript until the end of the day.
 </p>
-
-<div id="outline-container-org8e48d1f" class="outline-2">
-<h3 id="org8e48d1f">Produce tags files for all the environments</h3>
-<div class="outline-text-2" id="text-org8e48d1f">
+<div id="outline-container-orgd65143f" class="outline-2">
+<h3 id="orgd65143f">Produce tags files for all the environments</h3>
+<div class="outline-text-2" id="text-orgd65143f">
 <p>
 For example, I produce tags files of Library A for Mac and Linux. I put tags file from Mac at directory "/home/cb/tags/Library_A/mac" and file from Linux at <code>/home/cb/tags/Library_A/linux</code>.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc8a8ed3" class="outline-2">
-<h3 id="orgc8a8ed3">Use git and github to manage the tags files</h3>
-<div class="outline-text-2" id="text-orgc8a8ed3">
+<div id="outline-container-org303018d" class="outline-2">
+<h3 id="org303018d">Use git and github to manage the tags files</h3>
+<div class="outline-text-2" id="text-org303018d">
 <p>
 So I can have copies of the tags files at github server and my local computers. That's also a part of my strategy to setup the development environment. My projects on different computers usually use same external library.
 </p>
@@ -137,10 +133,9 @@ EmacsWiki discusses how to update your tags file frequently because your own cod
 </p>
 </div>
 </div>
-
-<div id="outline-container-org27507d2" class="outline-2">
-<h3 id="org27507d2">Write emacs lisp code to load/unload these tags files</h3>
-<div class="outline-text-2" id="text-org27507d2">
+<div id="outline-container-orgde8e66a" class="outline-2">
+<h3 id="orgde8e66a">Write emacs lisp code to load/unload these tags files</h3>
+<div class="outline-text-2" id="text-orgde8e66a">
 <p>
 Here is the code. In this example, if I need load tags file for <a href="http://www.wxwidgets.org">wxWidgets</a>, I call the function "add-wx-tags". If I need unload the tags file, I press "Ctrl-u" and call the same function "add-wx-tags". Since I use <a href="http://www.emacswiki.org/Smex">Smex</a>, calling function doesn't mean pressing many keys.
 </p>

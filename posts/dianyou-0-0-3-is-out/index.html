@@ -14,11 +14,10 @@
 <meta property="og:description" content="I created dianyou (电邮) to solve improve my Gnus work flow.
 
 
-
 Search mails
 
 
-Most Gnus users use gnus-group-make-nnir-group to search mails. But it's not usable in &quot;Summary Buffer&quot;. Its IMAP SEARCH Co">
+Most Gnus users use gnus-group-make-nnir-group to search mails. But it's not usable in &quot;Summary Buffer&quot;. Its IMAP SEARCH Com">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2019-06-04T12:54:48Z">
 <meta property="article:tag" content="emacs">
@@ -69,10 +68,9 @@ Most Gnus users use gnus-group-make-nnir-group to search mails. But it's not usa
 <p>
 I created <a href="https://github.com/redguardtoo/dianyou">dianyou</a> (电邮) to solve improve my Gnus work flow.
 </p>
-
-<div id="outline-container-orgba3e2fc" class="outline-2">
-<h3 id="orgba3e2fc">Search mails</h3>
-<div class="outline-text-2" id="text-orgba3e2fc">
+<div id="outline-container-org91048c5" class="outline-2">
+<h3 id="org91048c5">Search mails</h3>
+<div class="outline-text-2" id="text-org91048c5">
 <p>
 Most Gnus users use <code>gnus-group-make-nnir-group</code> to search mails. But it's not usable in "Summary Buffer". Its <a href="https://tools.ietf.org/html/rfc3501#section-6.4.4">IMAP SEARCH Command</a> is hard to use.
 </p>
@@ -82,28 +80,27 @@ It could be replaced by <code>dianyou-group-make-nnir-group</code> which support
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4ba9034" class="outline-2">
-<h3 id="org4ba9034">Auto complete email address</h3>
-<div class="outline-text-2" id="text-org4ba9034">
+<div id="outline-container-org1f76413" class="outline-2">
+<h3 id="org1f76413">Auto complete email address</h3>
+<div class="outline-text-2" id="text-org1f76413">
 <p>
 I'm too lazy to set up my contacts. It would be better that Gnus could <b>automatically</b> collect email addresses from all received mails. So I created the command <code>dianyou-insert-email-address-from-received-mails</code>. The inserted email address is also inserted into the global variable <code>dianyou-email-address-history</code> which could be persisted by <a href="https://github.com/jwiegley/session">session</a>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org8cc6779" class="outline-2">
-<h3 id="org8cc6779">Switch Gnus buffer</h3>
-<div class="outline-text-2" id="text-org8cc6779">
+<div id="outline-container-orgabb55b4" class="outline-2">
+<h3 id="orgabb55b4">Switch Gnus buffer</h3>
+<div class="outline-text-2" id="text-orgabb55b4">
 <p>
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use <code>dianyou-switch-gnus-buffer</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org73212b4" class="outline-2">
-<h3 id="org73212b4">Paste image from clipboard</h3>
-<div class="outline-text-2" id="text-org73212b4">
+<div id="outline-container-org9d807e4" class="outline-2">
+<h3 id="org9d807e4">Paste image from clipboard</h3>
+<div class="outline-text-2" id="text-org9d807e4">
 <p>
 Use <code>dianyou-paste-image-from-clipboard</code>. CLI program <a href="https://github.com/astrand/xclip">xclip</a> should be installed at first.</p>
 </div>

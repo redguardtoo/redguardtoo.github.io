@@ -423,9 +423,9 @@ My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-
 I did some research and found a perfect solution. It's even faster than Vim.
 </p>
 
-<div id="outline-container-orgff705c3" class="outline-2">
-<h3 id="orgff705c3">Initial solution</h3>
-<div class="outline-text-2" id="text-orgff705c3">
+<div id="outline-container-org77da1e7" class="outline-2">
+<h3 id="org77da1e7">Initial solution</h3>
+<div class="outline-text-2" id="text-org77da1e7">
 <p>
 Please note emacsclient is only use for resolving conflicts.
 </p>
@@ -459,10 +459,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgf8cadfe" class="outline-2">
-<h3 id="orgf8cadfe">My real world solution</h3>
-<div class="outline-text-2" id="text-orgf8cadfe">
+<div id="outline-container-orgad3264c" class="outline-2">
+<h3 id="orgad3264c">My real world solution</h3>
+<div class="outline-text-2" id="text-orgad3264c">
 <p>
 It's similar to initial solution. But some scripts are created for automation.
 </p>
@@ -1049,7 +1048,6 @@ Now let's talk the real world problem. And I will show you a perfect solution so
 <p>
 The problem is, I never use Emacs to resolve merge conflicts for two reasons:
 </p>
-
 <ul class="org-ul">
 <li>First, <a href="https://github.com/redguardtoo/emacs.d">My Emacs configuration</a> uses too many packages. It starts up slowly. As you can see from vimdiff demo, <code>git mergetool</code> restarts the editor many times. So the editor should be lightweight.</li>
 <li>Second, the UI of <code>ediff</code> is not right. UI of Vimdiff is much better. All operations should be completed freely in any sub-window instead of ediff control panel only.</li>
@@ -1062,7 +1060,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 </p>
 
-<div id="outline-container-orgcf7a4d4" class="outline-2">
+<div id="outline-container-org30ccdf1" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -1118,8 +1116,7 @@ Native Emacs API is enough to save/load windows layout.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org787635f" class="outline-2">
+<div id="outline-container-org5cd1374" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 <p>

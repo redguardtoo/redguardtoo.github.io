@@ -14,7 +14,6 @@
 <meta property="og:description" content="`man rtorrent` for the keybindings:
 
 
-
 `Enter` to input magnet from piratebay manually
 `C-s` to start download
 `C-d` to delete
@@ -24,12 +23,11 @@
 For ArchLinux only:
 
 
-
 Prepare directory
 
 
 
-mkdir -p ~/bt/{session,fin">
+mkdir -p ~/bt/{session,finis">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2013-03-09T15:08:00Z">
 <meta property="article:tag" content="archlinux">
@@ -78,7 +76,6 @@ mkdir -p ~/bt/{session,fin">
 <p>
 `man rtorrent` for the keybindings:
 </p>
-
 <ul class="org-ul">
 <li>`Enter` to input magnet from piratebay manually</li>
 <li>`C-s` to start download</li>
@@ -87,10 +84,9 @@ mkdir -p ~/bt/{session,fin">
 <p>
 For <a href="http://www.archlinux.org">ArchLinux</a> only:
 </p>
-
-<div id="outline-container-orge721b8f" class="outline-2">
-<h3 id="orge721b8f">Prepare directory</h3>
-<div class="outline-text-2" id="text-orge721b8f">
+<div id="outline-container-org18cb54b" class="outline-2">
+<h3 id="org18cb54b">Prepare directory</h3>
+<div class="outline-text-2" id="text-org18cb54b">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">mkdir -p ~/bt/{session,finished,torrent}
@@ -100,9 +96,9 @@ For <a href="http://www.archlinux.org">ArchLinux</a> only:
 </div>
 </div>
 
-<div id="outline-container-org5622038" class="outline-2">
-<h3 id="org5622038">Install</h3>
-<div class="outline-text-2" id="text-org5622038">
+<div id="outline-container-orgc679477" class="outline-2">
+<h3 id="orgc679477">Install</h3>
+<div class="outline-text-2" id="text-orgc679477">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">sudo pacman -S cronie
@@ -114,9 +110,9 @@ sudo systemctl start cronie
 </div>
 </div>
 
-<div id="outline-container-org0bc6091" class="outline-2">
-<h3 id="org0bc6091">Add cron task to start and stop rtorrent service</h3>
-<div class="outline-text-2" id="text-org0bc6091">
+<div id="outline-container-org82444b3" class="outline-2">
+<h3 id="org82444b3">Add cron task to start and stop rtorrent service</h3>
+<div class="outline-text-2" id="text-org82444b3">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">crontab -e #add cron task as current user

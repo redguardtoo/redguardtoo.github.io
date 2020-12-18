@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about c)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 15 Nov 2020 11:08:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs as C++ IDE, easy way</title><link>http://blog.binchen.org/posts/emacs-as-c-ide-easy-way/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about c)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 18 Dec 2020 01:08:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs as C++ IDE, easy way</title><link>http://blog.binchen.org/posts/emacs-as-c-ide-easy-way/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-08-25 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -14,7 +14,6 @@ This solution works on Linux/macOS/Cygwin (should work at Windows too, but I don
 &lt;p&gt;
 Setup is minimum. Only GNU Global and two Emacs plugins are required:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;company-gtags.el&lt;/code&gt; from &lt;a href="https://github.com/company-mode/company-mode"&gt;company&lt;/a&gt; for code completion&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/syohex/emacs-helm-gtags"&gt;emacs-helm-gtags&lt;/a&gt; &lt;b&gt;or&lt;/b&gt; &lt;a href="https://github.com/syohex/emacs-counsel-gtags"&gt;emacs-counsel-gtags&lt;/a&gt; (recommended) for code navigation&lt;/li&gt;
@@ -23,10 +22,9 @@ Setup is minimum. Only GNU Global and two Emacs plugins are required:
 &lt;p&gt;
 Here is the step to step guide.
 &lt;/p&gt;
-
-&lt;div id="outline-container-org1a06958" class="outline-2"&gt;
-&lt;h3 id="org1a06958"&gt;Step 1, create sample projects for experiment&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org1a06958"&gt;
+&lt;div id="outline-container-org2ab34d0" class="outline-2"&gt;
+&lt;h3 id="org2ab34d0"&gt;Step 1, create sample projects for experiment&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2ab34d0"&gt;
 &lt;p&gt;
 I have two projects &lt;code&gt;~/proj1&lt;/code&gt; and &lt;code&gt;~/proj2&lt;/code&gt;.
 &lt;/p&gt;
@@ -76,10 +74,9 @@ int main(int argc, char *argv[]) {
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org77bf7d7" class="outline-2"&gt;
-&lt;h3 id="org77bf7d7"&gt;Step 2, scan C++ code and setup Emacs&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org77bf7d7"&gt;
+&lt;div id="outline-container-org9b6a29b" class="outline-2"&gt;
+&lt;h3 id="org9b6a29b"&gt;Step 2, scan C++ code and setup Emacs&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9b6a29b"&gt;
 &lt;p&gt;
 Run below command in shell to scan code,
 &lt;/p&gt;
@@ -124,10 +121,9 @@ After installing Emacs plugins and setup (minimum setup from their website is en
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgf52de33" class="outline-2"&gt;
-&lt;h3 id="orgf52de33"&gt;Usage&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf52de33"&gt;
+&lt;div id="outline-container-org8b0cd98" class="outline-2"&gt;
+&lt;h3 id="org8b0cd98"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org8b0cd98"&gt;
 &lt;p&gt;
 Use the Emacs plugins as usual.
 &lt;/p&gt;
@@ -148,9 +144,9 @@ Screenshot,
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb0f9bda" class="outline-2"&gt;
-&lt;h3 id="orgb0f9bda"&gt;Tip&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb0f9bda"&gt;
+&lt;div id="outline-container-org11b148d" class="outline-2"&gt;
+&lt;h3 id="org11b148d"&gt;Tip&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org11b148d"&gt;
 &lt;p&gt;
 GNU Global could use ctags (Either &lt;a href="http://ctags.sourceforge.net/"&gt;Exuberant Ctags&lt;/a&gt; or &lt;a href="https://ctags.io/"&gt;Universal Ctags&lt;/a&gt;) as backend to create tags file.
 &lt;/p&gt;
@@ -164,17 +160,16 @@ If you prefer ctags, you could use it directly. Then you can use &lt;a href="htt
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org7a4de53" class="outline-2"&gt;
-&lt;h3 id="org7a4de53"&gt;Technical Details (Optional)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7a4de53"&gt;
+&lt;div id="outline-container-org244b650" class="outline-2"&gt;
+&lt;h3 id="org244b650"&gt;Technical Details (Optional)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org244b650"&gt;
 &lt;p&gt;
 Check &lt;a href="https://www.gnu.org/software/global/manual/global.html"&gt;GNU Global manual&lt;/a&gt; to understand environment variables &lt;code&gt;GTAGSLIBPATH&lt;/code&gt; and &lt;code&gt;MAKEOBJDIRPREFIX&lt;/code&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>c</category><category>emacs</category><category>en</category><category>global</category><category>gtags</category><category>ide</category><guid>http://blog.binchen.org/posts/emacs-as-c-ide-easy-way/</guid><pubDate>Thu, 25 Aug 2016 14:20:28 GMT</pubDate></item><item><title>C/C++/Java code indentation in Emacs</title><link>http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org0bfd9e8" class="outline-2"&gt;
-&lt;h3 id="org0bfd9e8"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0bfd9e8"&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>c</category><category>emacs</category><category>en</category><category>global</category><category>gtags</category><category>ide</category><guid>http://blog.binchen.org/posts/emacs-as-c-ide-easy-way/</guid><pubDate>Thu, 25 Aug 2016 14:20:28 GMT</pubDate></item><item><title>C/C++/Java code indentation in Emacs</title><link>http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org7ed93a1" class="outline-2"&gt;
+&lt;h3 id="org7ed93a1"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7ed93a1"&gt;
 &lt;p&gt;
 There are two styles when insert curly braces in C like languages.
 &lt;/p&gt;
@@ -218,9 +213,9 @@ In "Style 2", when I press ENTER key after ")" at first line, I expect the new l
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfa5d6b7" class="outline-2"&gt;
-&lt;h3 id="orgfa5d6b7"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgfa5d6b7"&gt;
+&lt;div id="outline-container-org52ace80" class="outline-2"&gt;
+&lt;h3 id="org52ace80"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org52ace80"&gt;
 &lt;p&gt;
 Insert below code into ~/.emacs:
 &lt;/p&gt;
@@ -250,9 +245,9 @@ That's it.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org32d6d99" class="outline-2"&gt;
-&lt;h3 id="org32d6d99"&gt;Explanation&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org32d6d99"&gt;
+&lt;div id="outline-container-orge94f911" class="outline-2"&gt;
+&lt;h3 id="orge94f911"&gt;Explanation&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge94f911"&gt;
 &lt;p&gt;
 When you press the ENTER key, the function &lt;b&gt;c-indent-line&lt;/b&gt; will be called.
 &lt;/p&gt;
@@ -287,9 +282,9 @@ And the context &lt;b&gt;func-decl-cont&lt;/b&gt; corresponds to:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org81e7de6" class="outline-2"&gt;
-&lt;h3 id="org81e7de6"&gt;Technical details&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org81e7de6"&gt;
+&lt;div id="outline-container-orgb556f99" class="outline-2"&gt;
+&lt;h3 id="orgb556f99"&gt;Technical details&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb556f99"&gt;
 &lt;p&gt;
 When you press ENTER key, the new line will be inserted. Then the function &lt;b&gt;indent-according-to-mode&lt;/b&gt; will always be called
 &lt;/p&gt;
