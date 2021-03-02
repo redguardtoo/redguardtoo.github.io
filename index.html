@@ -71,9 +71,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 </p>
 
-<div id="outline-container-org27938ce" class="outline-2">
-<h3 id="org27938ce">Magit UI solution</h3>
-<div class="outline-text-2" id="text-org27938ce">
+<div id="outline-container-org9532a88" class="outline-2">
+<h3 id="org9532a88">Magit UI solution</h3>
+<div class="outline-text-2" id="text-org9532a88">
 <p>
 One solution is to use <a href="https://magit.vc/">Magit</a> to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 </p>
@@ -124,12 +124,15 @@ Screenshot of step 1 in Emacs,
 <p>
 Screenshot of step 2 (final step) in Emacs (I was reminded of untracked files "bye.js" and "tree.js" at the bottom of UI),
 <img src="wp-content/magit-commit-step2.png" alt="magit-commit-step2.png"></p>
-</div>
-</div>
 
-<div id="outline-container-orgb885e1c" class="outline-2">
-<h3 id="orgb885e1c">CLI solution but still using Magit</h3>
-<div class="outline-text-2" id="text-orgb885e1c">
+<p>
+BTW, my actual code in my <code>.emacs.d</code> is <a href="https://github.com/redguardtoo/emacs.d/commit/c62b2b9434ac8e01ed6bd6ee927e66f62df68194">a bit different</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org1a03cd3" class="outline-2">
+<h3 id="org1a03cd3">CLI solution but still using Magit</h3>
+<div class="outline-text-2" id="text-org1a03cd3">
 <p>
 Another solution is still doing the git thing in shell but use the Magit plus Emacs "-batch" option.
 </p>
