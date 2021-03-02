@@ -89,9 +89,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-06-28 
 If you are only interested in web page optimization, start from the second section of the article.
 </p>
 
-<div id="outline-container-org525b70d" class="outline-2">
-<h3 id="org525b70d">Migrate from WordPress to Nikola</h3>
-<div class="outline-text-2" id="text-org525b70d">
+<div id="outline-container-org7dc95b0" class="outline-2">
+<h3 id="org7dc95b0">Migrate from WordPress to Nikola</h3>
+<div class="outline-text-2" id="text-org7dc95b0">
 <div class="org-src-container">
 
 <pre><code class="lang-sh"># you might need need `sudo apt-get install python-gdbm` on Debian
@@ -108,12 +108,11 @@ export PATH=$PATH:$HOME/.local/bin
 python ~/bin/get-pip.py --user # ~/.local/bin/pip
 
 # install dependencies (requests is required by zen theme)
-# sudo pip install markdown webassets phpserialize nikola requests
 # "sudo pip install" could screw up my python setup on Gentoo Linux
 # @see https://forums.gentoo.org/viewtopic-t-1006044-view-next.html?sid=931f7be2c16ac99fd85eb2940c0bf82b
 # so install the python packages in my HOME directory might be better
 # @see http://stackoverflow.com/questions/2915471/install-a-python-package-into-a-different-directory-using-pip
-pip install --user markdown webassets phpserialize nikola requests
+pip install --user lxml markdown webassets phpserialize nikola requests
 
 # create root directory of nikola
 mkdir -p ~/.config/nikola;cd ~/.config/nikola
@@ -210,9 +209,9 @@ You can use javascript to re-direct the URL, so your old article links are still
 </p>
 </div>
 </div>
-<div id="outline-container-orgc4c19de" class="outline-2">
-<h3 id="orgc4c19de">Optimization</h3>
-<div class="outline-text-2" id="text-orgc4c19de">
+<div id="outline-container-orgfb26960" class="outline-2">
+<h3 id="orgfb26960">Optimization</h3>
+<div class="outline-text-2" id="text-orgfb26960">
 <p>
 I developed <a href="https://github.com/redguardtoo/org2nikola">org2nikola</a> to convert Org subtree into Nikola page. 
 </p>

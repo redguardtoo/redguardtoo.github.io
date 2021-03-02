@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about blog)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/blog.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 02 Mar 2021 13:09:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Demo blog post created by nikola&amp;org2nikola</title><link>http://blog.binchen.org/posts/demo-blog-post-created-by-nikolaorg2nikola/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about blog)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/blog.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 02 Mar 2021 13:42:17 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Demo blog post created by nikola&amp;org2nikola</title><link>http://blog.binchen.org/posts/demo-blog-post-created-by-nikolaorg2nikola/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 python code:
 &lt;/p&gt;
 
@@ -86,9 +86,9 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 If you are only interested in web page optimization, start from the second section of the article.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org525b70d" class="outline-2"&gt;
-&lt;h3 id="org525b70d"&gt;Migrate from WordPress to Nikola&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org525b70d"&gt;
+&lt;div id="outline-container-org7dc95b0" class="outline-2"&gt;
+&lt;h3 id="org7dc95b0"&gt;Migrate from WordPress to Nikola&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7dc95b0"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;# you might need need `sudo apt-get install python-gdbm` on Debian
@@ -105,12 +105,11 @@ export PATH=$PATH:$HOME/.local/bin
 python ~/bin/get-pip.py --user # ~/.local/bin/pip
 
 # install dependencies (requests is required by zen theme)
-# sudo pip install markdown webassets phpserialize nikola requests
 # "sudo pip install" could screw up my python setup on Gentoo Linux
 # @see https://forums.gentoo.org/viewtopic-t-1006044-view-next.html?sid=931f7be2c16ac99fd85eb2940c0bf82b
 # so install the python packages in my HOME directory might be better
 # @see http://stackoverflow.com/questions/2915471/install-a-python-package-into-a-different-directory-using-pip
-pip install --user markdown webassets phpserialize nikola requests
+pip install --user lxml markdown webassets phpserialize nikola requests
 
 # create root directory of nikola
 mkdir -p ~/.config/nikola;cd ~/.config/nikola
@@ -207,9 +206,9 @@ You can use javascript to re-direct the URL, so your old article links are still
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc4c19de" class="outline-2"&gt;
-&lt;h3 id="orgc4c19de"&gt;Optimization&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc4c19de"&gt;
+&lt;div id="outline-container-orgfb26960" class="outline-2"&gt;
+&lt;h3 id="orgfb26960"&gt;Optimization&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfb26960"&gt;
 &lt;p&gt;
 I developed &lt;a href="https://github.com/redguardtoo/org2nikola"&gt;org2nikola&lt;/a&gt; to convert Org subtree into Nikola page. 
 &lt;/p&gt;
