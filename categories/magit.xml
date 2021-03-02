@@ -1,5 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about magit)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/magit.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 12 Sep 2020 03:02:57 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about magit)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/magit.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 02 Mar 2021 13:12:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I prefer using git cli because it's more light weight.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my bash alias of &lt;code&gt;git commit&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;alias gc="git commit -m"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The problem of my "cli-only" workflow is it can't detect my mistakes automatically.
+&lt;/p&gt;
+
+&lt;p&gt;
+I often forget to add new code file into git. So my final commit might miss files.
+&lt;/p&gt;
+
+&lt;p&gt;
+One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
+&lt;/p&gt;
+
+&lt;p&gt;
+My set up in Emacs,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-lines-from-command-output (command)
+  "Return lines of COMMAND output."
+  (let* ((output (string-trim (shell-command-to-string command)))
+         (cands (nonempty-lines output)))
+    (delq nil (delete-dups cands))))
+
+(defun my-hint-untracked-files ()
+  "If untracked files and commited files share same extension, warn users."
+  (let* ((exts (mapcar 'file-name-extension (my-lines-from-command-output "git diff-tree --no-commit-id --name-only -r HEAD")))
+         (untracked-files (my-lines-from-command-output "git --no-pager ls-files --others --exclude-standard"))
+         (lookup-ext (make-hash-table :test #'equal))
+         rlt)
+    ;; file extensions of files in HEAD commit
+    (dolist (ext exts)
+      (puthash ext t lookup-ext))
+    ;; If untracked file has same file extension as committed files
+    ;; maybe they should be staged too?
+    (dolist (file untracked-files)
+      (when (gethash (file-name-extension file) lookup-ext)
+        (push (file-name-nondirectory file) rlt)))
+    (when rlt
+      (message "Stage files? %s" (mapconcat 'identity rlt " ")))))
+
+(with-eval-after-load 'magit
+  (defun my-git-check-status ()
+    "Check git repo status."
+    ;; use timer here to wait magit cool down
+    (run-with-idle-timer 1 nil #'my-hint-untracked-files))
+  (add-hook 'magit-post-commit-hook #'my-git-check-status)
+  (add-hook 'git-commit-post-finish-hook #'my-git-check-status))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot of step 1 in Emacs,
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step1.png" alt="magit-commit-step1.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot of step 2 (final step) in Emacs, see the untracked files are echoed at bottom,
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step2.png" alt="magit-commit-step2.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Another solution is still doing the git thing in shell but use the Magit plus Emacs "-batch" option.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my bash setup,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;function gc {
+    # check my emacs.d exist
+    if [ -f "$HOME/.emacs.d/README.org" ] &amp;amp;&amp;amp; [ "$PWD" != "$HOME/.emacs.d" ]; then
+        # magit hook does not work
+        emacs -batch -Q -l "$HOME/.emacs.d/init.el" --eval "(magit-commit-create '(\"-m\" \"$@\"))" --eval "(my-hint-untracked-files)"
+    else
+        git commit -m "$@"
+    fi
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot in shell,
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"&gt;&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</guid><pubDate>Tue, 02 Mar 2021 13:06:58 GMT</pubDate></item><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 My workflow in Git is,
 &lt;/p&gt;
 

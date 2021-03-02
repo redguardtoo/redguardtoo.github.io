@@ -198,9 +198,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-05-01 
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-13 Fri&gt;</span></span>
 </p>
 
-<div id="outline-container-org699430c" class="outline-2">
-<h3 id="org699430c">Problem</h3>
-<div class="outline-text-2" id="text-org699430c">
+<div id="outline-container-orgfb15e26" class="outline-2">
+<h3 id="orgfb15e26">Problem</h3>
+<div class="outline-text-2" id="text-orgfb15e26">
 <p>
 As a freelancer, I need reply agent's email frequently.
 </p>
@@ -216,16 +216,16 @@ So I have several issues to resolve:
 </div>
 </div>
 
-<div id="outline-container-org915da68" class="outline-2">
-<h3 id="org915da68">Solution</h3>
-<div class="outline-text-2" id="text-org915da68">
+<div id="outline-container-org93cf6da" class="outline-2">
+<h3 id="org93cf6da">Solution</h3>
+<div class="outline-text-2" id="text-org93cf6da">
 <p>
 <a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a> is the best solution for email templates because you can embed Lisp code in the template.
 </p>
 </div>
-<div id="outline-container-org7215be9" class="outline-3">
-<h4 id="org7215be9">Templates</h4>
-<div class="outline-text-3" id="text-org7215be9">
+<div id="outline-container-orgf0879cc" class="outline-3">
+<h4 id="orgf0879cc">Templates</h4>
+<div class="outline-text-3" id="text-orgf0879cc">
 <p>
 I publicize my .emacs.d at <a href="https://github.com/redguardtoo/emacs.d">github</a>. But email templates are my private stuff. So I place them in different location.
 </p>
@@ -284,9 +284,9 @@ It will automatically fetch the first name of agent,
 </div>
 </div>
 </div>
-<div id="outline-container-org8b79f52" class="outline-3">
-<h4 id="org8b79f52">Emacs setup</h4>
-<div class="outline-text-3" id="text-org8b79f52">
+<div id="outline-container-org4c62c25" class="outline-3">
+<h4 id="org4c62c25">Emacs setup</h4>
+<div class="outline-text-3" id="text-org4c62c25">
 <p>
 Add following code into .emacs to make yasnippet load the emacs templates:
 </p>
@@ -533,9 +533,9 @@ Current position is preserved."
 <p>
 For <a href="http://www.archlinux.org">ArchLinux</a> only:
 </p>
-<div id="outline-container-org18cb54b" class="outline-2">
-<h3 id="org18cb54b">Prepare directory</h3>
-<div class="outline-text-2" id="text-org18cb54b">
+<div id="outline-container-orgd615736" class="outline-2">
+<h3 id="orgd615736">Prepare directory</h3>
+<div class="outline-text-2" id="text-orgd615736">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">mkdir -p ~/bt/{session,finished,torrent}
@@ -545,9 +545,9 @@ For <a href="http://www.archlinux.org">ArchLinux</a> only:
 </div>
 </div>
 
-<div id="outline-container-orgc679477" class="outline-2">
-<h3 id="orgc679477">Install</h3>
-<div class="outline-text-2" id="text-orgc679477">
+<div id="outline-container-org596403d" class="outline-2">
+<h3 id="org596403d">Install</h3>
+<div class="outline-text-2" id="text-org596403d">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">sudo pacman -S cronie
@@ -559,9 +559,9 @@ sudo systemctl start cronie
 </div>
 </div>
 
-<div id="outline-container-org82444b3" class="outline-2">
-<h3 id="org82444b3">Add cron task to start and stop rtorrent service</h3>
-<div class="outline-text-2" id="text-org82444b3">
+<div id="outline-container-orgad51d4e" class="outline-2">
+<h3 id="orgad51d4e">Add cron task to start and stop rtorrent service</h3>
+<div class="outline-text-2" id="text-orgad51d4e">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">crontab -e #add cron task as current user
@@ -623,9 +623,9 @@ wxWidgets 3.0.0
 <p>
 WARNING: before building, please make sure remove everything in build directory, <b>including hidden directory</b>!
 </p>
-<div id="outline-container-orgdd0454c" class="outline-2">
-<h3 id="orgdd0454c">Install webkit by using Linux distribution's package manager</h3>
-<div class="outline-text-2" id="text-orgdd0454c">
+<div id="outline-container-org51edda5" class="outline-2">
+<h3 id="org51edda5">Install webkit by using Linux distribution's package manager</h3>
+<div class="outline-text-2" id="text-org51edda5">
 <p>
 I need use wxWebView which dependent on webkit on Linux. The issue here is that webkit on Linux is using GTK.
 </p>
@@ -635,9 +635,9 @@ Make sure the webkit and wxWidgets are using same version of GTK.
 </p>
 </div>
 </div>
-<div id="outline-container-orgaa465b4" class="outline-2">
-<h3 id="orgaa465b4">build the source</h3>
-<div class="outline-text-2" id="text-orgaa465b4">
+<div id="outline-container-org3f7570f" class="outline-2">
+<h3 id="org3f7570f">build the source</h3>
+<div class="outline-text-2" id="text-org3f7570f">
 <p>
 Please note I don't use libtiff. I think libpng and libjpeg is enough.
 </p>
@@ -688,9 +688,9 @@ On Linux, build will be fine following above steps. But for building application
             </div>
             <div class="body">
                 <div>
-<div id="outline-container-org30332f0" class="outline-2">
-<h3 id="org30332f0">Intel integrated video card</h3>
-<div class="outline-text-2" id="text-org30332f0">
+<div id="outline-container-org40d54a0" class="outline-2">
+<h3 id="org40d54a0">Intel integrated video card</h3>
+<div class="outline-text-2" id="text-org40d54a0">
 <p>
 Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
 </p>
@@ -702,9 +702,9 @@ Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; I
 </div>
 </div>
 </div>
-<div id="outline-container-orge5fc31b" class="outline-2">
-<h3 id="orge5fc31b">Grub2</h3>
-<div class="outline-text-2" id="text-orge5fc31b">
+<div id="outline-container-org8ef56dc" class="outline-2">
+<h3 id="org8ef56dc">Grub2</h3>
+<div class="outline-text-2" id="text-org8ef56dc">
 <p>
 Let grub2 create the cfg for me automatically,
 </p>
@@ -716,13 +716,13 @@ Let grub2 create the cfg for me automatically,
 </div>
 </div>
 </div>
-<div id="outline-container-org7fa8d3d" class="outline-2">
-<h3 id="org7fa8d3d">Network</h3>
-<div class="outline-text-2" id="text-org7fa8d3d">
+<div id="outline-container-org6338994" class="outline-2">
+<h3 id="org6338994">Network</h3>
+<div class="outline-text-2" id="text-org6338994">
 </div>
-<div id="outline-container-org0447926" class="outline-3">
-<h4 id="org0447926">Ethernet</h4>
-<div class="outline-text-3" id="text-org0447926">
+<div id="outline-container-orgc09324f" class="outline-3">
+<h4 id="orgc09324f">Ethernet</h4>
+<div class="outline-text-3" id="text-orgc09324f">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -737,9 +737,9 @@ rc-update add net.eth0 default
 </div>
 </div>
 
-<div id="outline-container-org75d6c98" class="outline-3">
-<h4 id="org75d6c98">Wireless (wifi)</h4>
-<div class="outline-text-3" id="text-org75d6c98">
+<div id="outline-container-orga1219a3" class="outline-3">
+<h4 id="orga1219a3">Wireless (wifi)</h4>
+<div class="outline-text-3" id="text-orga1219a3">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -811,17 +811,17 @@ Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
 </div>
 </div>
 </div>
-<div id="outline-container-org5d05142" class="outline-2">
-<h3 id="org5d05142">Clock Synchronization</h3>
-<div class="outline-text-2" id="text-org5d05142">
+<div id="outline-container-org0e49d69" class="outline-2">
+<h3 id="org0e49d69">Clock Synchronization</h3>
+<div class="outline-text-2" id="text-org0e49d69">
 <p>
 <a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate">htpdate</a> is great because it only use HTTP protocol, don't forget add server in its config file.
 </p>
 </div>
 </div>
-<div id="outline-container-orgad709ac" class="outline-2">
-<h3 id="orgad709ac">Sound</h3>
-<div class="outline-text-2" id="text-orgad709ac">
+<div id="outline-container-org4fa033a" class="outline-2">
+<h3 id="org4fa033a">Sound</h3>
+<div class="outline-text-2" id="text-org4fa033a">
 <p>
 Nothing to tell. There may be some issue, but I forgot.</p>
 </div>
@@ -837,7 +837,7 @@ Nothing to tell. There may be some issue, but I forgot.</p>
             <li class="next">
                 <a href="index-7.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2021         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

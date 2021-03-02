@@ -1,5 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 18 Dec 2020 01:08:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 02 Mar 2021 13:12:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I prefer using git cli because it's more light weight.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my bash alias of &lt;code&gt;git commit&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;alias gc="git commit -m"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The problem of my "cli-only" workflow is it can't detect my mistakes automatically.
+&lt;/p&gt;
+
+&lt;p&gt;
+I often forget to add new code file into git. So my final commit might miss files.
+&lt;/p&gt;
+
+&lt;p&gt;
+One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
+&lt;/p&gt;
+
+&lt;p&gt;
+My set up in Emacs,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-lines-from-command-output (command)
+  "Return lines of COMMAND output."
+  (let* ((output (string-trim (shell-command-to-string command)))
+         (cands (nonempty-lines output)))
+    (delq nil (delete-dups cands))))
+
+(defun my-hint-untracked-files ()
+  "If untracked files and commited files share same extension, warn users."
+  (let* ((exts (mapcar 'file-name-extension (my-lines-from-command-output "git diff-tree --no-commit-id --name-only -r HEAD")))
+         (untracked-files (my-lines-from-command-output "git --no-pager ls-files --others --exclude-standard"))
+         (lookup-ext (make-hash-table :test #'equal))
+         rlt)
+    ;; file extensions of files in HEAD commit
+    (dolist (ext exts)
+      (puthash ext t lookup-ext))
+    ;; If untracked file has same file extension as committed files
+    ;; maybe they should be staged too?
+    (dolist (file untracked-files)
+      (when (gethash (file-name-extension file) lookup-ext)
+        (push (file-name-nondirectory file) rlt)))
+    (when rlt
+      (message "Stage files? %s" (mapconcat 'identity rlt " ")))))
+
+(with-eval-after-load 'magit
+  (defun my-git-check-status ()
+    "Check git repo status."
+    ;; use timer here to wait magit cool down
+    (run-with-idle-timer 1 nil #'my-hint-untracked-files))
+  (add-hook 'magit-post-commit-hook #'my-git-check-status)
+  (add-hook 'git-commit-post-finish-hook #'my-git-check-status))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot of step 1 in Emacs,
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step1.png" alt="magit-commit-step1.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot of step 2 (final step) in Emacs, see the untracked files are echoed at bottom,
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step2.png" alt="magit-commit-step2.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Another solution is still doing the git thing in shell but use the Magit plus Emacs "-batch" option.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my bash setup,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;function gc {
+    # check my emacs.d exist
+    if [ -f "$HOME/.emacs.d/README.org" ] &amp;amp;&amp;amp; [ "$PWD" != "$HOME/.emacs.d" ]; then
+        # magit hook does not work
+        emacs -batch -Q -l "$HOME/.emacs.d/init.el" --eval "(magit-commit-create '(\"-m\" \"$@\"))" --eval "(my-hint-untracked-files)"
+    else
+        git commit -m "$@"
+    fi
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot in shell,
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"&gt;&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</guid><pubDate>Tue, 02 Mar 2021 13:06:58 GMT</pubDate></item><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
@@ -231,9 +330,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org77da1e7" class="outline-2"&gt;
-&lt;h3 id="org77da1e7"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org77da1e7"&gt;
+&lt;div id="outline-container-orge3339ba" class="outline-2"&gt;
+&lt;h3 id="orge3339ba"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge3339ba"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -267,9 +366,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgad3264c" class="outline-2"&gt;
-&lt;h3 id="orgad3264c"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgad3264c"&gt;
+&lt;div id="outline-container-org75a1758" class="outline-2"&gt;
+&lt;h3 id="org75a1758"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org75a1758"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -726,7 +825,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org30ccdf1" class="outline-2"&gt;
+&lt;div id="outline-container-orgb9b515e" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -782,7 +881,7 @@ Native Emacs API is enough to save/load windows layout.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5cd1374" class="outline-2"&gt;
+&lt;div id="outline-container-orga7c45e6" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;
@@ -917,34 +1016,4 @@ Demo on using Emacs to resolve merge conflicts,
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git/</guid><pubDate>Wed, 13 Nov 2019 13:29:46 GMT</pubDate></item><item><title>Aspell 0.60.8 will have direct support for camelCase words</title><link>http://blog.binchen.org/posts/aspell-0-60-8-will-have-direct-support-for-camelcase-words/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-&lt;a href="https://github.com/redguardtoo/emacs.d/issues/796"&gt;Kevin Atkinso&lt;/a&gt; told me this good news.
-&lt;/p&gt;
-
-&lt;p&gt;
-Currently I'm using &lt;a href="https://github.com/redguardtoo/wucuo"&gt;Emacs Lisp&lt;/a&gt; to check camel case words.
-&lt;/p&gt;
-
-&lt;p&gt;
-The new option &lt;code&gt;--camel-case&lt;/code&gt; from aspell will definitely speed up the whole process.
-&lt;/p&gt;
-
-&lt;p&gt;
-Minimum Emacs setup,
-&lt;/p&gt;
-
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq ispell-program-name "aspell")
-(setq-default ispell-extra-args '("--sug-mode=ultra"
-                                  "--lang=en_US"))
-;; Make sure new aspell is installed
-(when (string-match-p "--camel-case"
-                      (shell-command-to-string (concat ispell-program-name " --help")))
-  (push "--camel-case" ispell-extra-args))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Optionally, you could read &lt;a href="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html"&gt;What's the best spell check setup in emacs&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>aspell</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/aspell-0-60-8-will-have-direct-support-for-camelcase-words/</guid><pubDate>Sun, 01 Sep 2019 13:13:35 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git/</guid><pubDate>Wed, 13 Nov 2019 13:29:46 GMT</pubDate></item></channel></rss>

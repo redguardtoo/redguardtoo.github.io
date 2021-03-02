@@ -1,5 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 18 Dec 2020 01:08:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 02 Mar 2021 13:12:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I prefer using git cli because it's more light weight.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my bash alias of &lt;code&gt;git commit&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;alias gc="git commit -m"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+The problem of my "cli-only" workflow is it can't detect my mistakes automatically.
+&lt;/p&gt;
+
+&lt;p&gt;
+I often forget to add new code file into git. So my final commit might miss files.
+&lt;/p&gt;
+
+&lt;p&gt;
+One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
+&lt;/p&gt;
+
+&lt;p&gt;
+My set up in Emacs,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-lines-from-command-output (command)
+  "Return lines of COMMAND output."
+  (let* ((output (string-trim (shell-command-to-string command)))
+         (cands (nonempty-lines output)))
+    (delq nil (delete-dups cands))))
+
+(defun my-hint-untracked-files ()
+  "If untracked files and commited files share same extension, warn users."
+  (let* ((exts (mapcar 'file-name-extension (my-lines-from-command-output "git diff-tree --no-commit-id --name-only -r HEAD")))
+         (untracked-files (my-lines-from-command-output "git --no-pager ls-files --others --exclude-standard"))
+         (lookup-ext (make-hash-table :test #'equal))
+         rlt)
+    ;; file extensions of files in HEAD commit
+    (dolist (ext exts)
+      (puthash ext t lookup-ext))
+    ;; If untracked file has same file extension as committed files
+    ;; maybe they should be staged too?
+    (dolist (file untracked-files)
+      (when (gethash (file-name-extension file) lookup-ext)
+        (push (file-name-nondirectory file) rlt)))
+    (when rlt
+      (message "Stage files? %s" (mapconcat 'identity rlt " ")))))
+
+(with-eval-after-load 'magit
+  (defun my-git-check-status ()
+    "Check git repo status."
+    ;; use timer here to wait magit cool down
+    (run-with-idle-timer 1 nil #'my-hint-untracked-files))
+  (add-hook 'magit-post-commit-hook #'my-git-check-status)
+  (add-hook 'git-commit-post-finish-hook #'my-git-check-status))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot of step 1 in Emacs,
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step1.png" alt="magit-commit-step1.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot of step 2 (final step) in Emacs, see the untracked files are echoed at bottom,
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step2.png" alt="magit-commit-step2.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+Another solution is still doing the git thing in shell but use the Magit plus Emacs "-batch" option.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my bash setup,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;function gc {
+    # check my emacs.d exist
+    if [ -f "$HOME/.emacs.d/README.org" ] &amp;amp;&amp;amp; [ "$PWD" != "$HOME/.emacs.d" ]; then
+        # magit hook does not work
+        emacs -batch -Q -l "$HOME/.emacs.d/init.el" --eval "(magit-commit-create '(\"-m\" \"$@\"))" --eval "(my-hint-untracked-files)"
+    else
+        git commit -m "$@"
+    fi
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot in shell,
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"&gt;&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</guid><pubDate>Tue, 02 Mar 2021 13:06:58 GMT</pubDate></item><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
@@ -221,9 +320,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org77da1e7" class="outline-2"&gt;
-&lt;h3 id="org77da1e7"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org77da1e7"&gt;
+&lt;div id="outline-container-orge3339ba" class="outline-2"&gt;
+&lt;h3 id="orge3339ba"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge3339ba"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -257,9 +356,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgad3264c" class="outline-2"&gt;
-&lt;h3 id="orgad3264c"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgad3264c"&gt;
+&lt;div id="outline-container-org75a1758" class="outline-2"&gt;
+&lt;h3 id="org75a1758"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org75a1758"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -716,7 +815,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org30ccdf1" class="outline-2"&gt;
+&lt;div id="outline-container-orgb9b515e" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -772,7 +871,7 @@ Native Emacs API is enough to save/load windows layout.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5cd1374" class="outline-2"&gt;
+&lt;div id="outline-container-orga7c45e6" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;
@@ -937,125 +1036,4 @@ Minimum Emacs setup,
 &lt;/div&gt;
 
 &lt;p&gt;
-Optionally, you could read &lt;a href="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html"&gt;What's the best spell check setup in emacs&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>aspell</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/aspell-0-60-8-will-have-direct-support-for-camelcase-words/</guid><pubDate>Sun, 01 Sep 2019 13:13:35 GMT</pubDate></item><item><title>Javascript code navigation in counsel-etags</title><link>http://blog.binchen.org/posts/javascript-code-navigation-in-counsel-etags/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-Javascript code navigation is supported by &lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;counsel-etags&lt;/a&gt; out of box.
-&lt;/p&gt;
-
-&lt;p&gt;
-It supports new javascript syntax like arrow function because &lt;code&gt;counsel-etags&lt;/code&gt; is only frontend.
-&lt;/p&gt;
-
-&lt;p&gt;
-It reads tags file created by backend CLI program &lt;a href="https://github.com/universal-ctags/ctags"&gt;Ctags&lt;/a&gt;. Ctags uses regular expression to extract tag name from source code.
-&lt;/p&gt;
-
-&lt;p&gt;
-But there are some syntax which regular expression could not help.
-&lt;/p&gt;
-
-&lt;p&gt;
-For example, json object path can't be extracted by regular expression.
-&lt;/p&gt;
-
-&lt;p&gt;
-Given an object &lt;code&gt;a&lt;/code&gt; in file A,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-javascript"&gt;var a = {
-  b: {
-    c: 3,
-  }
-};
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-File B has code &lt;code&gt;let v1 = a.b.c;&lt;/code&gt;, how can we jump to the definition of the field &lt;code&gt;c&lt;/code&gt; from json path &lt;code&gt;a.b.c&lt;/code&gt;?
-&lt;/p&gt;
-
-&lt;p&gt;
-The solution is to use Lisp to parse code in file A and generate extra navigation data which could be appended to tags file generated by Ctags.
-&lt;/p&gt;
-
-&lt;p&gt;
-The algorithm is simple,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Traverse all the field of object &lt;code&gt;a&lt;/code&gt; in file A. Use API &lt;code&gt;js2-print-json-path&lt;/code&gt; from &lt;code&gt;js2-mode&lt;/code&gt; to get json path of current field.&lt;/li&gt;
-&lt;li&gt;The json path could be regarded as tags name. We've already got file name and line number. So there is enough information to create navigation data for tags file. Here is &lt;a href="https://en.wikipedia.org/wiki/Ctags"&gt;tags file format&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-Necessary utilities are already provided by &lt;code&gt;counsel-etags v1.8.7&lt;/code&gt;,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;After tags files is generated by Ctags, the hook &lt;code&gt;counsel-etags-after-update-tags-hook&lt;/code&gt; is executed. Users can append tags file in this hook&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;(counsel-etags-tag-line code-snippet tag-name line-number byte-offset)&lt;/code&gt; return a line which could be appended into tags file&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-My current project uses a technology called &lt;a href="https://www.styled-components.com/docs/basics"&gt;styled-components&lt;/a&gt; which has an advanced feature &lt;a href="https://www.styled-components.com/docs/advanced#theming"&gt;theming&lt;/a&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
-&lt;/p&gt;
-&lt;div id="outline-container-orga641302" class="outline-2"&gt;
-&lt;h3 id="orga641302"&gt;Screencast&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga641302"&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgf335a5b" class="outline-2"&gt;
-&lt;h3 id="orgf335a5b"&gt;Code&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf335a5b"&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'counsel-etags)
-
-(defun my-manual-update-tag-file (code-file tags-file)
-  (let* ((dir (file-name-directory tags-file))
-         (path (concat dir code-file))
-         curline
-         jp
-         tagstr)
-    (unless (featurep 'js2-mode) (require 'js2-mode))
-    (with-temp-buffer
-      (insert-file-contents path)
-      (js2-init-scanner)
-      (js2-do-parse)
-      (goto-char (point-min))
-      ;; find all js object property names
-      (while (re-search-forward "\"?[a-z][a-zA-Z0-9]*\"?:" (point-max) t)
-        (when (setq jp (js2-print-json-path))
-          (setq curline (string-trim (buffer-substring-no-properties (line-beginning-position)
-                                                                     (line-end-position))))
-          (setq tagstr (concat tagstr
-                               (counsel-etags-tag-line curline
-                                                       jp
-                                                       (count-lines 1 (point))
-                                                       (point)))))
-        ;; move focus to next search
-        (goto-char (line-end-position))))
-    (when tagstr
-      (with-temp-buffer
-        (insert-file-contents tags-file)
-        (goto-char (line-end-position))
-        (insert (format "\n\014\n%s,%d\n%s" code-file 0 tagstr))
-        (write-region (point-min) (point-max) tags-file nil :silent)))))
-
-(defun counsel-etags-after-update-tags-hook-setup (tags-file)
-    (my-manual-update-tag-file "frontend/theming/themes/darkTheme.js" tags-file)
-    (my-manual-update-tag-file "frontend/theming/themes/lightTheme.js" tags-file))
-(add-hook 'counsel-etags-after-update-tags-hook 'counsel-etags-after-update-tags-hook-setup)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>etags</category><category>javascript</category><guid>http://blog.binchen.org/posts/javascript-code-navigation-in-counsel-etags/</guid><pubDate>Mon, 22 Jul 2019 12:07:16 GMT</pubDate></item></channel></rss>
+Optionally, you could read &lt;a href="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html"&gt;What's the best spell check setup in emacs&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>aspell</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/aspell-0-60-8-will-have-direct-support-for-camelcase-words/</guid><pubDate>Sun, 01 Sep 2019 13:13:35 GMT</pubDate></item></channel></rss>

@@ -23,6 +23,285 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/emacs-is-the-best-merge-tool-for-git/">Emacs is the best merge tool for Git</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2019-11-13T13:29:46+00:00">2019-11-13 13:29</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/emacs-is-the-best-merge-tool-for-git/#disqus_thread" data-disqus-identifier="cache/posts/emacs-is-the-best-merge-tool-for-git.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/mergetool/" rel="tag">mergetool</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-11-13 Wed&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-04-10 Fri&gt; </span></span> if you use my solution, you can <a href="http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool.html">replace emacs with emacsclient</a>. So it's even <b>faster than Vim</b>.
+</p>
+
+<p>
+I used to regard vimdiff as the best merge tool for Git because it's simply fast.
+</p>
+
+<p>
+Here is the demo how I use vimdiff to resolve conflicts from <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a>.
+</p>
+
+<div class="figure">
+<p><img src="wp-content/vimdiff-as-git-merge-tool.gif" alt="vimdiff-as-git-merge-tool.gif"></p>
+</div>
+
+<p>
+Please note in the screencast I use Git built in command <a href="https://git-scm.com/docs/git-mergetool">mergetool</a>. It will <b>automatically</b> open conflicted file one by one using vim. In other software, the developer need <b>manually</b> select and open the conflicted file. 
+</p>
+
+<p>
+The only issue is Vim is not as powerful as Emacs.
+</p>
+
+<p>
+Resolving conflicts is NOT only picking up a diff hunk from remote/local buffer. I often need place my hunk into merged buffer first, then I go to remote buffer and copy some snippet into merged buffer. So there are lots of sub-window operations.
+</p>
+
+<p>
+In Emacs, I use <a href="https://github.com/abo-abo/ace-window">Ace-window</a> and <a href="https://github.com/deb0ch/emacs-winum">Winum</a> to move focus between sub-windows.  I also use API <code>window-configuration-to-register</code> and <code>jump-to-register</code> to save/load windows layout. Besides, <a href="https://www.gnu.org/software/emacs/manual/html_mono/ediff.html">Ediff</a> is a beast to handle diff and patch.
+</p>
+
+<p>
+So I give one example to prove why Emacs should be a better merge tool <b>in theory</b>. If you are good at both Vim and Emacs, you know it's the truth.
+</p>
+
+<p>
+Now let's talk the real world problem. And I will show you a perfect solution soon.
+</p>
+
+<p>
+The problem is, I never use Emacs to resolve merge conflicts for two reasons:
+</p>
+<ul class="org-ul">
+<li>First, <a href="https://github.com/redguardtoo/emacs.d">My Emacs configuration</a> uses too many packages. It starts up slowly. As you can see from vimdiff demo, <code>git mergetool</code> restarts the editor many times. So the editor should be lightweight.</li>
+<li>Second, the UI of <code>ediff</code> is not right. UI of Vimdiff is much better. All operations should be completed freely in any sub-window instead of ediff control panel only.</li>
+</ul>
+<p>
+Luckily, Emacs gives me the full freedom to solve the problem. The final result is beyond my expectation.
+</p>
+
+<p>
+Here is the complete solution.
+</p>
+
+<div id="outline-container-orgb9b515e" class="outline-2">
+
+<div class="outline-text-2" id="text-1">
+<p>
+This technique is only useful for <code>git mergetool</code> because git will open and close the text editor Emacs many times.
+</p>
+
+<p>
+Insert below code into <code>~/.gitconfig</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[mergetool.ediff]
+# use git mergetool ediff to resolve conflicts
+cmd = emacs -nw -Q --eval \"(setq startup-now t)\" -l \"~/.emacs.d/init.el\" --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \\\"$BASE\\\") (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\") (ediff-merge-files \\\"$LOCAL\\\" \\\"$REMOTE\\\" nil \\\"$MERGED\\\")))\"
+</code></pre>
+
+</div>
+
+<p>
+In above code, option <code>-Q</code> equals <code>-q --no-site-file --no-splash</code>. Actually, only <code>-q</code> is critical. <code>-q</code> means "Do not load an init file". A global emacs lisp flag <code>startup-now</code> is defined before loading <code>~/.emacs.d/init.el</code>.
+</p>
+
+<p>
+Then in <code>~/.emacs.d/init.el</code>, I need only add one line,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(when (not (boundp 'startup-now))
+  ;; heavy weight configuration happens here
+  )
+</code></pre>
+
+</div>
+
+<p>
+When <code>startup-now</code> is defined, all the heavyweight configuration should be off. Considering in this scenario, we are using Emacs only as merge tool, 99% configuration could be turned off. For example, set up for any programming language is not required. Flyspell and flycheck should be off. Yasnippet is also useless. 
+</p>
+
+<p>
+I only need focus on essential operations related to text/file/window.
+</p>
+
+<p>
+<a href="https://github.com/emacs-evil/evil">Evil</a> should be used. At the beginning of this article, I said "I love vimdiff because it's fast". It's impossible to be more efficient without Evil.
+</p>
+
+<p>
+Any patch/diff utilities should be included too. <a href="https://github.com/abo-abo/swiper">counsel/swiper/ivy</a> is also must have because I can use <code>counsel-git</code> to find file and <code>counsel-git-grep</code> to grep text.
+</p>
+
+<p>
+Native Emacs API is enough to save/load windows layout.
+</p>
+</div>
+</div>
+<div id="outline-container-orga7c45e6" class="outline-2">
+
+<div class="outline-text-2" id="text-2">
+<p>
+Packages dependent on ediff (<a href="https://magit.vc/">Magit</a>?) could also benefit from optimization of ediff.
+</p>
+
+<p>
+The optimization is simple. Do everything in merged buffer.
+</p>
+
+<p>
+First I move focus into merged buffer when Emacs starts up,
+</p>
+
+<p>
+This set up happens in <code>ediff-startup-hook</code>, 
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun ediff-startup-hook-setup ()
+  ;; hide control panel if it's current buffer
+  (when (string-match-p (setq my-ediff-panel-name (buffer-name))
+                        "\*Ediff Control Panel.*\*")
+    ;; move to the first difference
+    (ediff-next-difference)
+    ;; move to the merged buffer window
+    (winum-select-window-by-number 3)
+    ;; save the windows layout
+    (window-configuration-to-register ?a)))
+
+(add-hook 'ediff-startup-hook 'ediff-startup-hook-setup)
+</code></pre>
+
+</div>
+<p>
+Please note I use <code>winum-select-window-by-number</code> from <code>winum</code> move focus to merged buffer. You can use any other third party package or native API <code>select-window</code> instead.
+</p>
+
+<p>
+Saving initial windows layout into register <code>a</code> is achieved by <code>(window-configuration-to-register ?a)</code> in <code>ediff-startup-hook</code>. <code>(jump-to-register ?a)</code> restores the saved layout.
+</p>
+
+<p>
+Then we need make sure ediff commands can be used out of ediff's panel. Currently ediff command can only be triggered inside of its panel.
+</p>
+
+<p>
+The trick is "move focus into ediff panel temporarily to execute its commands, then move focus back to original window".
+</p>
+
+<p>
+So I designed a macro <code>my-ediff-command</code> to do this,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defmacro my-ediff-command (cmd &amp;optional no-arg)
+  `(lambda (&amp;optional arg)
+     (interactive "P")
+     (let* ((w (get-buffer-window)))
+       ;; go to panel window
+       (select-window (get-buffer-window my-ediff-panel-name))
+       ;; execute ediff command, ignore any error
+       (condition-case e
+           (if ,no-arg (funcall ,cmd) (funcall ,cmd arg))
+         (error
+          (message "%s" (error-message-string e))))
+       ;; back to original window
+       (select-window w))))
+</code></pre>
+
+</div>
+
+<p>
+Usage is simple,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(global-set-key (kbd "C-c C-y") (my-ediff-command 'ediff-next-difference))
+</code></pre>
+
+</div>
+
+<p>
+Here is the list of essential ediff commands,
+</p>
+<ul class="org-ul">
+<li>ediff-next-difference</li>
+<li>ediff-previous-difference</li>
+<li>ediff-restore-diff-in-merge-buffer</li>
+<li>ediff-revert-buffers-then-recompute-diffs</li>
+<li>ediff-copy-A-to-C</li>
+<li>ediff-copy-A-to-C</li>
+<li>ediff-copy-both-to-C</li>
+</ul>
+<p>
+You can use <a href="https://github.com/abo-abo/hydra">Hyra</a> or <a href="https://github.com/noctuid/general.el">General.el</a> to assign key bindings.
+</p>
+
+<p>
+The definition of <code>ediff-copy-both-to-C</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; @see https://stackoverflow.com/a/29757750/245363
+(defun ediff-copy-both-to-C (&amp;optional arg)
+  "Copy code from both A and B to C."
+  (interactive)
+  (ediff-copy-diff ediff-current-difference nil 'C nil
+                   (concat
+                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+</code></pre>
+
+</div>
+
+<p>
+Here is <a href="https://gist.github.com/redguardtoo/d4ecd51f785bd117a6a0">my ~/.gitconfig</a> and <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-ediff.el">my ediff set up</a> in real world.
+</p>
+
+<p>
+Please note the techniques introduced here <b>can be used with other VCS (subversion, perforce …)</b>.
+</p>
+
+<p>
+Demo on using Emacs to resolve merge conflicts,
+</p>
+
+
+<div class="figure">
+<p><img src="wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"></p>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/counsel-etags-1-9-0-is-out/">counsel-etags 1.9.0 is out</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -224,18 +503,18 @@ My current project uses a technology called <a href="https://www.styled-componen
 <p>
 It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
 </p>
-<div id="outline-container-orga641302" class="outline-2">
-<h3 id="orga641302">Screencast</h3>
-<div class="outline-text-2" id="text-orga641302">
+<div id="outline-container-org63bdaa5" class="outline-2">
+<h3 id="org63bdaa5">Screencast</h3>
+<div class="outline-text-2" id="text-org63bdaa5">
 
 <div class="figure">
 <p><img src="wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf335a5b" class="outline-2">
-<h3 id="orgf335a5b">Code</h3>
-<div class="outline-text-2" id="text-orgf335a5b">
+<div id="outline-container-org054b366" class="outline-2">
+<h3 id="org054b366">Code</h3>
+<div class="outline-text-2" id="text-org054b366">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'counsel-etags)
@@ -313,9 +592,9 @@ It could dynamically change web application's appearance and is a critical techn
 <p>
 I created <a href="https://github.com/redguardtoo/dianyou">dianyou</a> (电邮) to solve improve my Gnus work flow.
 </p>
-<div id="outline-container-org91048c5" class="outline-2">
-<h3 id="org91048c5">Search mails</h3>
-<div class="outline-text-2" id="text-org91048c5">
+<div id="outline-container-org59f0a3d" class="outline-2">
+<h3 id="org59f0a3d">Search mails</h3>
+<div class="outline-text-2" id="text-org59f0a3d">
 <p>
 Most Gnus users use <code>gnus-group-make-nnir-group</code> to search mails. But it's not usable in "Summary Buffer". Its <a href="https://tools.ietf.org/html/rfc3501#section-6.4.4">IMAP SEARCH Command</a> is hard to use.
 </p>
@@ -325,27 +604,27 @@ It could be replaced by <code>dianyou-group-make-nnir-group</code> which support
 </p>
 </div>
 </div>
-<div id="outline-container-org1f76413" class="outline-2">
-<h3 id="org1f76413">Auto complete email address</h3>
-<div class="outline-text-2" id="text-org1f76413">
+<div id="outline-container-org4e53d1e" class="outline-2">
+<h3 id="org4e53d1e">Auto complete email address</h3>
+<div class="outline-text-2" id="text-org4e53d1e">
 <p>
 I'm too lazy to set up my contacts. It would be better that Gnus could <b>automatically</b> collect email addresses from all received mails. So I created the command <code>dianyou-insert-email-address-from-received-mails</code>. The inserted email address is also inserted into the global variable <code>dianyou-email-address-history</code> which could be persisted by <a href="https://github.com/jwiegley/session">session</a>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgabb55b4" class="outline-2">
-<h3 id="orgabb55b4">Switch Gnus buffer</h3>
-<div class="outline-text-2" id="text-orgabb55b4">
+<div id="outline-container-org6de152e" class="outline-2">
+<h3 id="org6de152e">Switch Gnus buffer</h3>
+<div class="outline-text-2" id="text-org6de152e">
 <p>
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use <code>dianyou-switch-gnus-buffer</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org9d807e4" class="outline-2">
-<h3 id="org9d807e4">Paste image from clipboard</h3>
-<div class="outline-text-2" id="text-org9d807e4">
+<div id="outline-container-org317126b" class="outline-2">
+<h3 id="org317126b">Paste image from clipboard</h3>
+<div class="outline-text-2" id="text-org317126b">
 <p>
 Use <code>dianyou-paste-image-from-clipboard</code>. CLI program <a href="https://github.com/astrand/xclip">xclip</a> should be installed at first.</p>
 </div>
@@ -923,7 +1202,7 @@ Now you can use <a href="https://github.com/redguardtoo/wucuo">wucuo</a>. It's a
             <li class="next">
                 <a href="index-24.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2021         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

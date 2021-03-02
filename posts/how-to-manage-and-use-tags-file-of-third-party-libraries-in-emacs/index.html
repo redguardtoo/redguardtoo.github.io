@@ -113,17 +113,17 @@ The purpose to load tags files is to look up API easily. For example, I use C++ 
 <p>
 The reason to do the unload thing is to avoid function name conflict from some tags files. EmacsWiki has a section "Choosing Among Multiple Tags for the Same Name" to solve this problem. But unloading is more convenient. In theory, it would be annoying if I need repeat load and unload the same tags files. In reality, it seldom happens because if I need work on Javascript (so I unload C++ related TAGS), I will usually keep working on Javascript until the end of the day.
 </p>
-<div id="outline-container-orgd65143f" class="outline-2">
-<h3 id="orgd65143f">Produce tags files for all the environments</h3>
-<div class="outline-text-2" id="text-orgd65143f">
+<div id="outline-container-org2d5be91" class="outline-2">
+<h3 id="org2d5be91">Produce tags files for all the environments</h3>
+<div class="outline-text-2" id="text-org2d5be91">
 <p>
 For example, I produce tags files of Library A for Mac and Linux. I put tags file from Mac at directory "/home/cb/tags/Library_A/mac" and file from Linux at <code>/home/cb/tags/Library_A/linux</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org303018d" class="outline-2">
-<h3 id="org303018d">Use git and github to manage the tags files</h3>
-<div class="outline-text-2" id="text-org303018d">
+<div id="outline-container-orgbfece81" class="outline-2">
+<h3 id="orgbfece81">Use git and github to manage the tags files</h3>
+<div class="outline-text-2" id="text-orgbfece81">
 <p>
 So I can have copies of the tags files at github server and my local computers. That's also a part of my strategy to setup the development environment. My projects on different computers usually use same external library.
 </p>
@@ -133,9 +133,9 @@ EmacsWiki discusses how to update your tags file frequently because your own cod
 </p>
 </div>
 </div>
-<div id="outline-container-orgde8e66a" class="outline-2">
-<h3 id="orgde8e66a">Write emacs lisp code to load/unload these tags files</h3>
-<div class="outline-text-2" id="text-orgde8e66a">
+<div id="outline-container-orgbc3b686" class="outline-2">
+<h3 id="orgbc3b686">Write emacs lisp code to load/unload these tags files</h3>
+<div class="outline-text-2" id="text-orgbc3b686">
 <p>
 Here is the code. In this example, if I need load tags file for <a href="http://www.wxwidgets.org">wxWidgets</a>, I call the function "add-wx-tags". If I need unload the tags file, I press "Ctrl-u" and call the same function "add-wx-tags". Since I use <a href="http://www.emacswiki.org/Smex">Smex</a>, calling function doesn't mean pressing many keys.
 </p>
@@ -213,7 +213,7 @@ See <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Select-Tag
     </div>
 
         
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2020         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2021         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>
