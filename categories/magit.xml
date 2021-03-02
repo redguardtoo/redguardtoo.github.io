@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about magit)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/magit.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 02 Mar 2021 13:12:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about magit)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/magit.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 02 Mar 2021 13:15:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 I prefer using git cli because it's more light weight.
 &lt;/p&gt;
 
@@ -21,6 +21,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 &lt;/p&gt;
 
+&lt;div id="outline-container-org204dc12" class="outline-2"&gt;
+&lt;h3 id="org204dc12"&gt;Magit UI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org204dc12"&gt;
 &lt;p&gt;
 One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 &lt;/p&gt;
@@ -73,7 +76,12 @@ Screenshot of step 1 in Emacs,
 Screenshot of step 2 (final step) in Emacs, see the untracked files are echoed at bottom,
 &lt;img src="http://blog.binchen.org/wp-content/magit-commit-step2.png" alt="magit-commit-step2.png"&gt;
 &lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 
+&lt;div id="outline-container-org3887817" class="outline-2"&gt;
+&lt;h3 id="org3887817"&gt;CLI solution but still using Magit&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3887817"&gt;
 &lt;p&gt;
 Another solution is still doing the git thing in shell but use the Magit plus Emacs "-batch" option.
 &lt;/p&gt;
@@ -98,7 +106,9 @@ Here is my bash setup,
 
 &lt;p&gt;
 Screenshot in shell,
-&lt;img src="http://blog.binchen.org/wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"&gt;&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</guid><pubDate>Tue, 02 Mar 2021 13:06:58 GMT</pubDate></item><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;img src="http://blog.binchen.org/wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"&gt;
+&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</guid><pubDate>Tue, 02 Mar 2021 13:06:58 GMT</pubDate></item><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 My workflow in Git is,
 &lt;/p&gt;
 
