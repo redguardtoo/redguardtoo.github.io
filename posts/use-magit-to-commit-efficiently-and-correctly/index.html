@@ -95,9 +95,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 </p>
 
-<div id="outline-container-org9532a88" class="outline-2">
-<h3 id="org9532a88">Magit UI solution</h3>
-<div class="outline-text-2" id="text-org9532a88">
+<div id="outline-container-org6a7fc5e" class="outline-2">
+<h3 id="org6a7fc5e">Magit UI solution</h3>
+<div class="outline-text-2" id="text-org6a7fc5e">
 <p>
 One solution is to use <a href="https://magit.vc/">Magit</a> to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 </p>
@@ -154,11 +154,11 @@ BTW, my actual code in my <code>.emacs.d</code> is <a href="https://github.com/r
 </p>
 </div>
 </div>
-<div id="outline-container-org1a03cd3" class="outline-2">
-<h3 id="org1a03cd3">CLI solution but still using Magit</h3>
-<div class="outline-text-2" id="text-org1a03cd3">
+<div id="outline-container-org94d90b8" class="outline-2">
+<h3 id="org94d90b8">CLI solution</h3>
+<div class="outline-text-2" id="text-org94d90b8">
 <p>
-Another solution is still doing the git thing in shell but use the Magit plus Emacs "-batch" option.
+Another solution is doing the git thing in shell plus Emacs "-batch" option.
 </p>
 
 <p>
@@ -170,7 +170,7 @@ Here is my bash setup,
     # check my emacs.d exist
     if [ -f "$HOME/.emacs.d/README.org" ] &amp;&amp; [ "$PWD" != "$HOME/.emacs.d" ]; then
         # magit hook does not work
-        emacs -batch -Q -l "$HOME/.emacs.d/init.el" --eval "(magit-commit-create '(\"-m\" \"$@\"))" --eval "(my-hint-untracked-files)"
+        git commit -m "$@" &amp;&amp; emacs -batch -Q -l "$HOME/.emacs.d/init.el" --eval "(my-hint-untracked-files)"
     else
         git commit -m "$@"
     fi
@@ -178,6 +178,10 @@ Here is my bash setup,
 </code></pre>
 
 </div>
+
+<p>
+Please note running <code>magit-commit-create</code> in cli won't work. It's because <code>magit-run-git-async</code> in called and it might lock the git after the cli execution.
+</p>
 
 <p>
 Screenshot in shell,
