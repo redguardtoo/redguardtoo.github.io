@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 13 Apr 2021 09:31:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 05 May 2021 11:37:34 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Org link and pdf-tools</title><link>http://blog.binchen.org/posts/org-link-and-pdf-tools/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+By default, &lt;a href="https://orgmode.org/manual/External-Links.html"&gt;Org pdf link&lt;/a&gt; uses &lt;code&gt;doc-view.el&lt;/code&gt; to open pdf. So if you move focus over a link like "&lt;a href="http://blog.binchen.org/home/cb/blog/papers/last.pdf"&gt;papers/last.pdf::NNN&lt;/a&gt;" in a org file and run &lt;code&gt;M-x org-open-at-point&lt;/code&gt;, API &lt;code&gt;doc-view-goto-page&lt;/code&gt; is called.
+&lt;/p&gt;
+
+&lt;p&gt;
+These days &lt;a href="https://github.com/politza/pdf-tools"&gt;pdf-tools&lt;/a&gt; is very popular.
+If pdf-tools is installed and enabled, API call of &lt;code&gt;doc-view-goto-page&lt;/code&gt; will fail.
+&lt;/p&gt;
+
+&lt;p&gt;
+Below code fixes this problem. It will automatically call correct API with or without pdf-tools.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-org-docview-open-hack (orig-func &amp;amp;rest args)
+  (let* ((link (car args)) path page)
+    (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
+    (setq path (match-string 1 link))
+    (setq page (and (match-beginning 2)
+                    (string-to-number (match-string 2 link))))
+    (org-open-file path 1)
+    (when page
+      (cond
+       ((eq major-mode 'pdf-view-mode)
+        (pdf-view-goto-page page))
+       (t
+        (doc-view-goto-page page))))))
+(advice-add 'org-docview-open :around #'my-org-docview-open-hack)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>pdf</category><guid>http://blog.binchen.org/posts/org-link-and-pdf-tools/</guid><pubDate>Wed, 05 May 2021 11:34:28 GMT</pubDate></item><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 I prefer using git cli because it's more light weight.
 &lt;/p&gt;
 
@@ -782,256 +813,4 @@ Screenshots,
 &lt;div class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"&gt;
 &lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>blame</category><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/effective-git-blame-in-emacs/</guid><pubDate>Wed, 20 Nov 2019 13:42:54 GMT</pubDate></item><item><title>Emacs is the best merge tool for Git</title><link>http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2019-11-13 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2020-04-10 Fri&amp;gt; &lt;/span&gt;&lt;/span&gt; if you use my solution, you can &lt;a href="http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool.html"&gt;replace emacs with emacsclient&lt;/a&gt;. So it's even &lt;b&gt;faster than Vim&lt;/b&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-I used to regard vimdiff as the best merge tool for Git because it's simply fast.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is the demo how I use vimdiff to resolve conflicts from &lt;a href="https://github.com/redguardtoo/test-git-mergetool"&gt;https://github.com/redguardtoo/test-git-mergetool&lt;/a&gt;.
-&lt;/p&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vimdiff-as-git-merge-tool.gif" alt="vimdiff-as-git-merge-tool.gif"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-Please note in the screencast I use Git built in command &lt;a href="https://git-scm.com/docs/git-mergetool"&gt;mergetool&lt;/a&gt;. It will &lt;b&gt;automatically&lt;/b&gt; open conflicted file one by one using vim. In other software, the developer need &lt;b&gt;manually&lt;/b&gt; select and open the conflicted file. 
-&lt;/p&gt;
-
-&lt;p&gt;
-The only issue is Vim is not as powerful as Emacs.
-&lt;/p&gt;
-
-&lt;p&gt;
-Resolving conflicts is NOT only picking up a diff hunk from remote/local buffer. I often need place my hunk into merged buffer first, then I go to remote buffer and copy some snippet into merged buffer. So there are lots of sub-window operations.
-&lt;/p&gt;
-
-&lt;p&gt;
-In Emacs, I use &lt;a href="https://github.com/abo-abo/ace-window"&gt;Ace-window&lt;/a&gt; and &lt;a href="https://github.com/deb0ch/emacs-winum"&gt;Winum&lt;/a&gt; to move focus between sub-windows.  I also use API &lt;code&gt;window-configuration-to-register&lt;/code&gt; and &lt;code&gt;jump-to-register&lt;/code&gt; to save/load windows layout. Besides, &lt;a href="https://www.gnu.org/software/emacs/manual/html_mono/ediff.html"&gt;Ediff&lt;/a&gt; is a beast to handle diff and patch.
-&lt;/p&gt;
-
-&lt;p&gt;
-So I give one example to prove why Emacs should be a better merge tool &lt;b&gt;in theory&lt;/b&gt;. If you are good at both Vim and Emacs, you know it's the truth.
-&lt;/p&gt;
-
-&lt;p&gt;
-Now let's talk the real world problem. And I will show you a perfect solution soon.
-&lt;/p&gt;
-
-&lt;p&gt;
-The problem is, I never use Emacs to resolve merge conflicts for two reasons:
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;First, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;My Emacs configuration&lt;/a&gt; uses too many packages. It starts up slowly. As you can see from vimdiff demo, &lt;code&gt;git mergetool&lt;/code&gt; restarts the editor many times. So the editor should be lightweight.&lt;/li&gt;
-&lt;li&gt;Second, the UI of &lt;code&gt;ediff&lt;/code&gt; is not right. UI of Vimdiff is much better. All operations should be completed freely in any sub-window instead of ediff control panel only.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-Luckily, Emacs gives me the full freedom to solve the problem. The final result is beyond my expectation.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is the complete solution.
-&lt;/p&gt;
-
-&lt;div id="outline-container-orgbff2026" class="outline-2"&gt;
-
-&lt;div class="outline-text-2" id="text-1"&gt;
-&lt;p&gt;
-This technique is only useful for &lt;code&gt;git mergetool&lt;/code&gt; because git will open and close the text editor Emacs many times.
-&lt;/p&gt;
-
-&lt;p&gt;
-Insert below code into &lt;code&gt;~/.gitconfig&lt;/code&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[mergetool.ediff]
-# use git mergetool ediff to resolve conflicts
-cmd = emacs -nw -Q --eval \"(setq startup-now t)\" -l \"~/.emacs.d/init.el\" --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \\\"$BASE\\\") (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\") (ediff-merge-files \\\"$LOCAL\\\" \\\"$REMOTE\\\" nil \\\"$MERGED\\\")))\"
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-In above code, option &lt;code&gt;-Q&lt;/code&gt; equals &lt;code&gt;-q --no-site-file --no-splash&lt;/code&gt;. Actually, only &lt;code&gt;-q&lt;/code&gt; is critical. &lt;code&gt;-q&lt;/code&gt; means "Do not load an init file". A global emacs lisp flag &lt;code&gt;startup-now&lt;/code&gt; is defined before loading &lt;code&gt;~/.emacs.d/init.el&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-Then in &lt;code&gt;~/.emacs.d/init.el&lt;/code&gt;, I need only add one line,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(when (not (boundp 'startup-now))
-  ;; heavy weight configuration happens here
-  )
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-When &lt;code&gt;startup-now&lt;/code&gt; is defined, all the heavyweight configuration should be off. Considering in this scenario, we are using Emacs only as merge tool, 99% configuration could be turned off. For example, set up for any programming language is not required. Flyspell and flycheck should be off. Yasnippet is also useless. 
-&lt;/p&gt;
-
-&lt;p&gt;
-I only need focus on essential operations related to text/file/window.
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;a href="https://github.com/emacs-evil/evil"&gt;Evil&lt;/a&gt; should be used. At the beginning of this article, I said "I love vimdiff because it's fast". It's impossible to be more efficient without Evil.
-&lt;/p&gt;
-
-&lt;p&gt;
-Any patch/diff utilities should be included too. &lt;a href="https://github.com/abo-abo/swiper"&gt;counsel/swiper/ivy&lt;/a&gt; is also must have because I can use &lt;code&gt;counsel-git&lt;/code&gt; to find file and &lt;code&gt;counsel-git-grep&lt;/code&gt; to grep text.
-&lt;/p&gt;
-
-&lt;p&gt;
-Native Emacs API is enough to save/load windows layout.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org17e1307" class="outline-2"&gt;
-
-&lt;div class="outline-text-2" id="text-2"&gt;
-&lt;p&gt;
-Packages dependent on ediff (&lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt;?) could also benefit from optimization of ediff.
-&lt;/p&gt;
-
-&lt;p&gt;
-The optimization is simple. Do everything in merged buffer.
-&lt;/p&gt;
-
-&lt;p&gt;
-First I move focus into merged buffer when Emacs starts up,
-&lt;/p&gt;
-
-&lt;p&gt;
-This set up happens in &lt;code&gt;ediff-startup-hook&lt;/code&gt;, 
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun ediff-startup-hook-setup ()
-  ;; hide control panel if it's current buffer
-  (when (string-match-p (setq my-ediff-panel-name (buffer-name))
-                        "\*Ediff Control Panel.*\*")
-    ;; move to the first difference
-    (ediff-next-difference)
-    ;; move to the merged buffer window
-    (winum-select-window-by-number 3)
-    ;; save the windows layout
-    (window-configuration-to-register ?a)))
-
-(add-hook 'ediff-startup-hook 'ediff-startup-hook-setup)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;p&gt;
-Please note I use &lt;code&gt;winum-select-window-by-number&lt;/code&gt; from &lt;code&gt;winum&lt;/code&gt; move focus to merged buffer. You can use any other third party package or native API &lt;code&gt;select-window&lt;/code&gt; instead.
-&lt;/p&gt;
-
-&lt;p&gt;
-Saving initial windows layout into register &lt;code&gt;a&lt;/code&gt; is achieved by &lt;code&gt;(window-configuration-to-register ?a)&lt;/code&gt; in &lt;code&gt;ediff-startup-hook&lt;/code&gt;. &lt;code&gt;(jump-to-register ?a)&lt;/code&gt; restores the saved layout.
-&lt;/p&gt;
-
-&lt;p&gt;
-Then we need make sure ediff commands can be used out of ediff's panel. Currently ediff command can only be triggered inside of its panel.
-&lt;/p&gt;
-
-&lt;p&gt;
-The trick is "move focus into ediff panel temporarily to execute its commands, then move focus back to original window".
-&lt;/p&gt;
-
-&lt;p&gt;
-So I designed a macro &lt;code&gt;my-ediff-command&lt;/code&gt; to do this,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defmacro my-ediff-command (cmd &amp;amp;optional no-arg)
-  `(lambda (&amp;amp;optional arg)
-     (interactive "P")
-     (let* ((w (get-buffer-window)))
-       ;; go to panel window
-       (select-window (get-buffer-window my-ediff-panel-name))
-       ;; execute ediff command, ignore any error
-       (condition-case e
-           (if ,no-arg (funcall ,cmd) (funcall ,cmd arg))
-         (error
-          (message "%s" (error-message-string e))))
-       ;; back to original window
-       (select-window w))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Usage is simple,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(global-set-key (kbd "C-c C-y") (my-ediff-command 'ediff-next-difference))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Here is the list of essential ediff commands,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;ediff-next-difference&lt;/li&gt;
-&lt;li&gt;ediff-previous-difference&lt;/li&gt;
-&lt;li&gt;ediff-restore-diff-in-merge-buffer&lt;/li&gt;
-&lt;li&gt;ediff-revert-buffers-then-recompute-diffs&lt;/li&gt;
-&lt;li&gt;ediff-copy-A-to-C&lt;/li&gt;
-&lt;li&gt;ediff-copy-A-to-C&lt;/li&gt;
-&lt;li&gt;ediff-copy-both-to-C&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-You can use &lt;a href="https://github.com/abo-abo/hydra"&gt;Hyra&lt;/a&gt; or &lt;a href="https://github.com/noctuid/general.el"&gt;General.el&lt;/a&gt; to assign key bindings.
-&lt;/p&gt;
-
-&lt;p&gt;
-The definition of &lt;code&gt;ediff-copy-both-to-C&lt;/code&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; @see https://stackoverflow.com/a/29757750/245363
-(defun ediff-copy-both-to-C (&amp;amp;optional arg)
-  "Copy code from both A and B to C."
-  (interactive)
-  (ediff-copy-diff ediff-current-difference nil 'C nil
-                   (concat
-                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
-                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Here is &lt;a href="https://gist.github.com/redguardtoo/d4ecd51f785bd117a6a0"&gt;my ~/.gitconfig&lt;/a&gt; and &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-ediff.el"&gt;my ediff set up&lt;/a&gt; in real world.
-&lt;/p&gt;
-
-&lt;p&gt;
-Please note the techniques introduced here &lt;b&gt;can be used with other VCS (subversion, perforce …)&lt;/b&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-Demo on using Emacs to resolve merge conflicts,
-&lt;/p&gt;
-
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git/</guid><pubDate>Wed, 13 Nov 2019 13:29:46 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>blame</category><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/effective-git-blame-in-emacs/</guid><pubDate>Wed, 20 Nov 2019 13:42:54 GMT</pubDate></item></channel></rss>

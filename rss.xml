@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 13 Apr 2021 09:31:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 05 May 2021 11:37:34 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Org link and pdf-tools</title><link>http://blog.binchen.org/posts/org-link-and-pdf-tools/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+By default, &lt;a href="https://orgmode.org/manual/External-Links.html"&gt;Org pdf link&lt;/a&gt; uses &lt;code&gt;doc-view.el&lt;/code&gt; to open pdf. So if you move focus over a link like "&lt;a href="http://blog.binchen.org/home/cb/blog/papers/last.pdf"&gt;papers/last.pdf::NNN&lt;/a&gt;" in a org file and run &lt;code&gt;M-x org-open-at-point&lt;/code&gt;, API &lt;code&gt;doc-view-goto-page&lt;/code&gt; is called.
+&lt;/p&gt;
+
+&lt;p&gt;
+These days &lt;a href="https://github.com/politza/pdf-tools"&gt;pdf-tools&lt;/a&gt; is very popular.
+If pdf-tools is installed and enabled, API call of &lt;code&gt;doc-view-goto-page&lt;/code&gt; will fail.
+&lt;/p&gt;
+
+&lt;p&gt;
+Below code fixes this problem. It will automatically call correct API with or without pdf-tools.
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-org-docview-open-hack (orig-func &amp;amp;rest args)
+  (let* ((link (car args)) path page)
+    (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
+    (setq path (match-string 1 link))
+    (setq page (and (match-beginning 2)
+                    (string-to-number (match-string 2 link))))
+    (org-open-file path 1)
+    (when page
+      (cond
+       ((eq major-mode 'pdf-view-mode)
+        (pdf-view-goto-page page))
+       (t
+        (doc-view-goto-page page))))))
+(advice-add 'org-docview-open :around #'my-org-docview-open-hack)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>pdf</category><guid>http://blog.binchen.org/posts/org-link-and-pdf-tools/</guid><pubDate>Wed, 05 May 2021 11:34:28 GMT</pubDate></item><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 I prefer using git cli because it's more light weight.
 &lt;/p&gt;
 
@@ -771,37 +802,4 @@ I tested in &lt;code&gt;magit-blame-mode&lt;/code&gt; and found no issue.
 &lt;/p&gt;
 
 &lt;p&gt;
-I'm sure &lt;code&gt;vc-msg&lt;/code&gt; should work in other major modes or minor modes. There are also two callback functions &lt;code&gt;vc-msg-get-current-file-function&lt;/code&gt; and &lt;code&gt;vc-msg-get-line-num-function&lt;/code&gt; which users can customize.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/yin-and-yang-in-emacs/</guid><pubDate>Mon, 25 Nov 2019 08:09:33 GMT</pubDate></item><item><title>Effective "git blame" in Emacs</title><link>http://blog.binchen.org/posts/effective-git-blame-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-I published Emacs package &lt;a href="https://github.com/redguardtoo/vc-msg"&gt;vc-msg&lt;/a&gt;. It uses &lt;code&gt;git-blame&lt;/code&gt; to show commit information of current line.
-&lt;/p&gt;
-
-&lt;p&gt;
-In the new version, it can display the correct commit information of current line.
-&lt;/p&gt;
-
-&lt;p&gt;
-For example, the line 6 at &lt;a href="https://github.com/redguardtoo/test-git-blame/blob/master/hello.js"&gt;https://github.com/redguardtoo/test-git-blame/blob/master/hello.js&lt;/a&gt; is changed by three commits.
-&lt;/p&gt;
-
-&lt;p&gt;
-Select the partial of line 6 and run &lt;code&gt;vc-msg-show&lt;/code&gt;, the correct commit is displayed.
-&lt;/p&gt;
-
-&lt;p&gt;
-Screenshots,
-&lt;/p&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-good.png" alt="vc-msg-good.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>blame</category><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/effective-git-blame-in-emacs/</guid><pubDate>Wed, 20 Nov 2019 13:42:54 GMT</pubDate></item></channel></rss>
+I'm sure &lt;code&gt;vc-msg&lt;/code&gt; should work in other major modes or minor modes. There are also two callback functions &lt;code&gt;vc-msg-get-current-file-function&lt;/code&gt; and &lt;code&gt;vc-msg-get-line-num-function&lt;/code&gt; which users can customize.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/yin-and-yang-in-emacs/</guid><pubDate>Mon, 25 Nov 2019 08:09:33 GMT</pubDate></item></channel></rss>
