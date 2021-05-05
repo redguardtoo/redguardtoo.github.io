@@ -76,9 +76,9 @@ Let grub2 create the cfg for">
         </div>
         <div class="body">
             <div>
-<div id="outline-container-org40d54a0" class="outline-2">
-<h3 id="org40d54a0">Intel integrated video card</h3>
-<div class="outline-text-2" id="text-org40d54a0">
+<div id="outline-container-orgcb50a74" class="outline-2">
+<h3 id="orgcb50a74">Intel integrated video card</h3>
+<div class="outline-text-2" id="text-orgcb50a74">
 <p>
 Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
 </p>
@@ -90,9 +90,9 @@ Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; I
 </div>
 </div>
 </div>
-<div id="outline-container-org8ef56dc" class="outline-2">
-<h3 id="org8ef56dc">Grub2</h3>
-<div class="outline-text-2" id="text-org8ef56dc">
+<div id="outline-container-orgea028a0" class="outline-2">
+<h3 id="orgea028a0">Grub2</h3>
+<div class="outline-text-2" id="text-orgea028a0">
 <p>
 Let grub2 create the cfg for me automatically,
 </p>
@@ -104,13 +104,13 @@ Let grub2 create the cfg for me automatically,
 </div>
 </div>
 </div>
-<div id="outline-container-org6338994" class="outline-2">
-<h3 id="org6338994">Network</h3>
-<div class="outline-text-2" id="text-org6338994">
+<div id="outline-container-org93c5537" class="outline-2">
+<h3 id="org93c5537">Network</h3>
+<div class="outline-text-2" id="text-org93c5537">
 </div>
-<div id="outline-container-orgc09324f" class="outline-3">
-<h4 id="orgc09324f">Ethernet</h4>
-<div class="outline-text-3" id="text-orgc09324f">
+<div id="outline-container-orgc2f4165" class="outline-3">
+<h4 id="orgc2f4165">Ethernet</h4>
+<div class="outline-text-3" id="text-orgc2f4165">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -125,9 +125,9 @@ rc-update add net.eth0 default
 </div>
 </div>
 
-<div id="outline-container-orga1219a3" class="outline-3">
-<h4 id="orga1219a3">Wireless (wifi)</h4>
-<div class="outline-text-3" id="text-orga1219a3">
+<div id="outline-container-org0a64dd6" class="outline-3">
+<h4 id="org0a64dd6">Wireless (wifi)</h4>
+<div class="outline-text-3" id="text-org0a64dd6">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -199,17 +199,17 @@ Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
 </div>
 </div>
 </div>
-<div id="outline-container-org0e49d69" class="outline-2">
-<h3 id="org0e49d69">Clock Synchronization</h3>
-<div class="outline-text-2" id="text-org0e49d69">
+<div id="outline-container-orgb1de6ab" class="outline-2">
+<h3 id="orgb1de6ab">Clock Synchronization</h3>
+<div class="outline-text-2" id="text-orgb1de6ab">
 <p>
 <a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate">htpdate</a> is great because it only use HTTP protocol, don't forget add server in its config file.
 </p>
 </div>
 </div>
-<div id="outline-container-org4fa033a" class="outline-2">
-<h3 id="org4fa033a">Sound</h3>
-<div class="outline-text-2" id="text-org4fa033a">
+<div id="outline-container-orgcb0115c" class="outline-2">
+<h3 id="orgcb0115c">Sound</h3>
+<div class="outline-text-2" id="text-orgcb0115c">
 <p>
 Nothing to tell. There may be some issue, but I forgot.</p>
 </div>

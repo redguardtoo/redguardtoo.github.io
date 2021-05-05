@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about perforce)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/perforce.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 02 Mar 2021 13:09:29 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://blog.binchen.org/posts/use-perforce-inside-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about perforce)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/perforce.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 13 Apr 2021 09:31:30 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://blog.binchen.org/posts/use-perforce-inside-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-12-05 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -15,9 +15,9 @@ Perforce is a proprietary VCS. It's less powerful than &lt;a href="https://git-s
 For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like &lt;code&gt;p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}&lt;/code&gt; can't do it. I have to use Emacs Lisp to clean the output of &lt;code&gt;p4&lt;/code&gt;.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org0f2afd1" class="outline-2"&gt;
-&lt;h3 id="org0f2afd1"&gt;Perforce workflow&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0f2afd1"&gt;
+&lt;div id="outline-container-org17936f7" class="outline-2"&gt;
+&lt;h3 id="org17936f7"&gt;Perforce workflow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org17936f7"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;p4 set&lt;/code&gt; to &lt;a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html"&gt;set up&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;p4 login&lt;/code&gt; to login&lt;/li&gt;
@@ -31,9 +31,9 @@ For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8adb8cb" class="outline-2"&gt;
-&lt;h3 id="org8adb8cb"&gt;My solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8adb8cb"&gt;
+&lt;div id="outline-container-org6f9e40e" class="outline-2"&gt;
+&lt;h3 id="org6f9e40e"&gt;My solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6f9e40e"&gt;
 &lt;p&gt;
 Perforce Cygwin portable is not recommended.
 &lt;/p&gt;
@@ -46,9 +46,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed &lt;code&gt;p4&lt;/code&gt; that URL, the operation is always successful.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf81f79d" class="outline-3"&gt;
-&lt;h4 id="orgf81f79d"&gt;Emacs&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgf81f79d"&gt;
+&lt;div id="outline-container-org79aa2dd" class="outline-3"&gt;
+&lt;h4 id="org79aa2dd"&gt;Emacs&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org79aa2dd"&gt;
 &lt;p&gt;
 I developed &lt;a href="https://github.com/redguardtoo/vc-msg"&gt;vc-msg&lt;/a&gt; which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need &lt;code&gt;p4 login&lt;/code&gt; at first.)
 &lt;/p&gt;
@@ -210,9 +210,9 @@ You can also check my &lt;a href="https://github.com/redguardtoo/emacs.d/blob/ma
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3c245b3" class="outline-3"&gt;
-&lt;h4 id="org3c245b3"&gt;Bash Shell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org3c245b3"&gt;
+&lt;div id="outline-container-org479f620" class="outline-3"&gt;
+&lt;h4 id="org479f620"&gt;Bash Shell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org479f620"&gt;
 &lt;p&gt;
 Other operations are finished in Bash Shell,
 &lt;/p&gt;
@@ -344,9 +344,9 @@ function p4ml(){
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>p4</category><category>perforce</category><category>vcs</category><guid>http://blog.binchen.org/posts/use-perforce-inside-emacs/</guid><pubDate>Mon, 05 Dec 2016 11:51:47 GMT</pubDate></item><item><title>Perforce Tip: how to apply my default change to the release branch</title><link>http://blog.binchen.org/posts/perforce-tip-how-to-apply-my-default-change-to-the-release-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org896aec7" class="outline-2"&gt;
-&lt;h3 id="org896aec7"&gt;Reasons I need this hack&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org896aec7"&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>p4</category><category>perforce</category><category>vcs</category><guid>http://blog.binchen.org/posts/use-perforce-inside-emacs/</guid><pubDate>Mon, 05 Dec 2016 11:51:47 GMT</pubDate></item><item><title>Perforce Tip: how to apply my default change to the release branch</title><link>http://blog.binchen.org/posts/perforce-tip-how-to-apply-my-default-change-to-the-release-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org73b0ddf" class="outline-2"&gt;
+&lt;h3 id="org73b0ddf"&gt;Reasons I need this hack&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org73b0ddf"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Our current project uses mix platforms (WIN64/Linux64), so the file path contains backward slash &lt;code&gt;\&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;My p4 CLI program is from Windows installer because Cygwin version has the slash issue.&lt;/li&gt;
@@ -354,9 +354,9 @@ function p4ml(){
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orge65145b" class="outline-2"&gt;
-&lt;h3 id="orge65145b"&gt;How to?&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge65145b"&gt;
+&lt;div id="outline-container-org8692f8d" class="outline-2"&gt;
+&lt;h3 id="org8692f8d"&gt;How to?&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org8692f8d"&gt;
 &lt;p&gt;
 Create the patch,
 &lt;/p&gt;

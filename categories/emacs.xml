@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 12 Mar 2021 10:38:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 13 Apr 2021 09:31:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 I prefer using git cli because it's more light weight.
 &lt;/p&gt;
 
@@ -21,9 +21,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org6a7fc5e" class="outline-2"&gt;
-&lt;h3 id="org6a7fc5e"&gt;Magit UI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org6a7fc5e"&gt;
+&lt;div id="outline-container-orgf76b7da" class="outline-2"&gt;
+&lt;h3 id="orgf76b7da"&gt;Magit UI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf76b7da"&gt;
 &lt;p&gt;
 One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 &lt;/p&gt;
@@ -82,9 +82,9 @@ BTW, my actual code in my &lt;code&gt;.emacs.d&lt;/code&gt; is &lt;a href="https
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org94d90b8" class="outline-2"&gt;
-&lt;h3 id="org94d90b8"&gt;CLI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org94d90b8"&gt;
+&lt;div id="outline-container-org95cfab4" class="outline-2"&gt;
+&lt;h3 id="org95cfab4"&gt;CLI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org95cfab4"&gt;
 &lt;p&gt;
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 &lt;/p&gt;
@@ -338,9 +338,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orge3339ba" class="outline-2"&gt;
-&lt;h3 id="orge3339ba"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge3339ba"&gt;
+&lt;div id="outline-container-org826675b" class="outline-2"&gt;
+&lt;h3 id="org826675b"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org826675b"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -374,9 +374,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org75a1758" class="outline-2"&gt;
-&lt;h3 id="org75a1758"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org75a1758"&gt;
+&lt;div id="outline-container-org2607b70" class="outline-2"&gt;
+&lt;h3 id="org2607b70"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2607b70"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -833,7 +833,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb9b515e" class="outline-2"&gt;
+&lt;div id="outline-container-orgbff2026" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -889,7 +889,7 @@ Native Emacs API is enough to save/load windows layout.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga7c45e6" class="outline-2"&gt;
+&lt;div id="outline-container-org17e1307" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;
