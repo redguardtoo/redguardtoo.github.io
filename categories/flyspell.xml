@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about flyspell)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/flyspell.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 14 Sep 2020 14:36:52 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about flyspell)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/flyspell.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
 &lt;p&gt;
-You could read my article &lt;a href="https://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html"&gt;What's the best spell check setup in emacs&lt;/a&gt; for basic knowledge.
+You could read my article &lt;a href="https://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs"&gt;What's the best spell check setup in emacs&lt;/a&gt; for basic knowledge.
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -30,7 +30,6 @@ For example, you can run &lt;code&gt;(get major-mode 'flyspell-mode-predicate)&l
 &lt;p&gt;
 The predicate is a simple function without parameter. Here is my predicate for &lt;code&gt;web-mode&lt;/code&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-web-mode-flyspell-verify ()
@@ -51,7 +50,6 @@ The predicate is a simple function without parameter. Here is my predicate for &
 &lt;p&gt;
 If you read code of &lt;a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L435"&gt;flyspell-prog-mode&lt;/a&gt;, you will find it set &lt;code&gt;flyspell-generic-check-word-predicate&lt;/code&gt; to its own predicate &lt;code&gt;flyspell-generic-progmode-verify&lt;/code&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar flyspell-prog-text-faces
@@ -99,7 +97,6 @@ I only spell check when user saving current buffer. The interval between spell c
 &lt;p&gt;
 Checking the whole buffer is still slow. Instead, we can check the text region in current window by calling &lt;code&gt;flyspell-region&lt;/code&gt; instead. The api &lt;code&gt;window-total-height&lt;/code&gt; returns the height of current Windows. So I can use below code to get the region to check,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(let* (beg end (orig-pos (point)))
@@ -125,7 +122,6 @@ Above algorithms are implemented in &lt;a href="https://github.com/redguardtoo/w
 &lt;p&gt;
 Usage,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'prog-mode-hook 'wucuo-start)

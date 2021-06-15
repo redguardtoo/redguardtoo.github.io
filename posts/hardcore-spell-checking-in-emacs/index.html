@@ -70,7 +70,7 @@ This article is not introduction of Emacs spell checking basics. It requires dee
 </p>
 
 <p>
-You could read my article <a href="https://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html">What's the best spell check setup in emacs</a> for basic knowledge.
+You could read my article <a href="https://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs">What's the best spell check setup in emacs</a> for basic knowledge.
 </p>
 
 <p>
@@ -96,7 +96,6 @@ For example, you can run <code>(get major-mode 'flyspell-mode-predicate)</code> 
 <p>
 The predicate is a simple function without parameter. Here is my predicate for <code>web-mode</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun my-web-mode-flyspell-verify ()
@@ -117,7 +116,6 @@ The predicate is a simple function without parameter. Here is my predicate for <
 <p>
 If you read code of <a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L435">flyspell-prog-mode</a>, you will find it set <code>flyspell-generic-check-word-predicate</code> to its own predicate <code>flyspell-generic-progmode-verify</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defvar flyspell-prog-text-faces
@@ -165,7 +163,6 @@ I only spell check when user saving current buffer. The interval between spell c
 <p>
 Checking the whole buffer is still slow. Instead, we can check the text region in current window by calling <code>flyspell-region</code> instead. The api <code>window-total-height</code> returns the height of current Windows. So I can use below code to get the region to check,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(let* (beg end (orig-pos (point)))
@@ -191,7 +188,6 @@ Above algorithms are implemented in <a href="https://github.com/redguardtoo/wucu
 <p>
 Usage,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(add-hook 'prog-mode-hook 'wucuo-start)

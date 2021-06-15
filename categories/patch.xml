@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about patch)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/patch.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 13:29:57 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-orgedaa85f" class="outline-2"&gt;
-&lt;h3 id="orgedaa85f"&gt;Setup git-send-email&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgedaa85f"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about patch)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/patch.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org2b9a380" class="outline-2"&gt;
+&lt;h3 id="org2b9a380"&gt;Setup git-send-email&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2b9a380"&gt;
 &lt;p&gt;
 On Debian run &lt;code&gt;sudo apt-get install git-email&lt;/code&gt; to install git command line tools.
 &lt;/p&gt;
@@ -25,9 +25,9 @@ Modify &lt;code&gt;~/.gitconfig&lt;/code&gt; to use Gmail SMTP:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org89ecf98" class="outline-2"&gt;
-&lt;h3 id="org89ecf98"&gt;Send the latest commit&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org89ecf98"&gt;
+&lt;div id="outline-container-org35c6569" class="outline-2"&gt;
+&lt;h3 id="org35c6569"&gt;Send the latest commit&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org35c6569"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;# send one commit
@@ -38,9 +38,9 @@ git send-email -1 --annotate
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org391073c" class="outline-2"&gt;
-&lt;h3 id="org391073c"&gt;Apply patch&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org391073c"&gt;
+&lt;div id="outline-container-org94327af" class="outline-2"&gt;
+&lt;h3 id="org94327af"&gt;Apply patch&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org94327af"&gt;
 &lt;p&gt;
 Select one mail. Run command "M-x gnus-summary-save-article-email" whose short key is "O m" in summary buffer.
 &lt;/p&gt;
@@ -56,9 +56,9 @@ Emacs will ask for directory to save that patch. Say I save it as &lt;code&gt;~/
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org44fbe45" class="outline-2"&gt;
-&lt;h3 id="org44fbe45"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org44fbe45"&gt;
+&lt;div id="outline-container-orgdc7417e" class="outline-2"&gt;
+&lt;h3 id="orgdc7417e"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdc7417e"&gt;
 &lt;p&gt;
 Use &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/gnus-article-treat-patch/gnus-article-treat-patch.el"&gt;gnus-article-treat-patch.el&lt;/a&gt;.
 &lt;/p&gt;

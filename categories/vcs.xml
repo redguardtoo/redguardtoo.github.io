@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about vcs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vcs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 13:29:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://blog.binchen.org/posts/use-perforce-inside-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about vcs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vcs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://blog.binchen.org/posts/use-perforce-inside-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-12-05 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -15,9 +15,9 @@ Perforce is a proprietary VCS. It's less powerful than &lt;a href="https://git-s
 For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like &lt;code&gt;p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}&lt;/code&gt; can't do it. I have to use Emacs Lisp to clean the output of &lt;code&gt;p4&lt;/code&gt;.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgaa878a4" class="outline-2"&gt;
-&lt;h3 id="orgaa878a4"&gt;Perforce workflow&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgaa878a4"&gt;
+&lt;div id="outline-container-orgd0b2e6e" class="outline-2"&gt;
+&lt;h3 id="orgd0b2e6e"&gt;Perforce workflow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd0b2e6e"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;p4 set&lt;/code&gt; to &lt;a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html"&gt;set up&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;p4 login&lt;/code&gt; to login&lt;/li&gt;
@@ -31,9 +31,9 @@ For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org10d6a6d" class="outline-2"&gt;
-&lt;h3 id="org10d6a6d"&gt;My solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org10d6a6d"&gt;
+&lt;div id="outline-container-orgc5c5264" class="outline-2"&gt;
+&lt;h3 id="orgc5c5264"&gt;My solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc5c5264"&gt;
 &lt;p&gt;
 Perforce Cygwin portable is not recommended.
 &lt;/p&gt;
@@ -46,9 +46,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed &lt;code&gt;p4&lt;/code&gt; that URL, the operation is always successful.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org30ac9ce" class="outline-3"&gt;
-&lt;h4 id="org30ac9ce"&gt;Emacs&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org30ac9ce"&gt;
+&lt;div id="outline-container-orgf7761f4" class="outline-3"&gt;
+&lt;h4 id="orgf7761f4"&gt;Emacs&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf7761f4"&gt;
 &lt;p&gt;
 I developed &lt;a href="https://github.com/redguardtoo/vc-msg"&gt;vc-msg&lt;/a&gt; which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need &lt;code&gt;p4 login&lt;/code&gt; at first.)
 &lt;/p&gt;
@@ -210,9 +210,9 @@ You can also check my &lt;a href="https://github.com/redguardtoo/emacs.d/blob/ma
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org77b3804" class="outline-3"&gt;
-&lt;h4 id="org77b3804"&gt;Bash Shell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org77b3804"&gt;
+&lt;div id="outline-container-org864fe05" class="outline-3"&gt;
+&lt;h4 id="org864fe05"&gt;Bash Shell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org864fe05"&gt;
 &lt;p&gt;
 Other operations are finished in Bash Shell,
 &lt;/p&gt;

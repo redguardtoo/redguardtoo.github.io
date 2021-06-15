@@ -132,9 +132,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 </p>
 
-<div id="outline-container-orgb732967" class="outline-2">
-<h3 id="orgb732967">Magit UI solution</h3>
-<div class="outline-text-2" id="text-orgb732967">
+<div id="outline-container-orge7dabb9" class="outline-2">
+<h3 id="orge7dabb9">Magit UI solution</h3>
+<div class="outline-text-2" id="text-orge7dabb9">
 <p>
 One solution is to use <a href="https://magit.vc/">Magit</a> to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 </p>
@@ -191,9 +191,9 @@ BTW, my actual code in my <code>.emacs.d</code> is <a href="https://github.com/r
 </p>
 </div>
 </div>
-<div id="outline-container-org081d92a" class="outline-2">
-<h3 id="org081d92a">CLI solution</h3>
-<div class="outline-text-2" id="text-org081d92a">
+<div id="outline-container-org9e16fe5" class="outline-2">
+<h3 id="org9e16fe5">CLI solution</h3>
+<div class="outline-text-2" id="text-org9e16fe5">
 <p>
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 </p>
@@ -312,7 +312,7 @@ This article is not introduction of Emacs spell checking basics. It requires dee
 </p>
 
 <p>
-You could read my article <a href="https://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html">What's the best spell check setup in emacs</a> for basic knowledge.
+You could read my article <a href="https://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs">What's the best spell check setup in emacs</a> for basic knowledge.
 </p>
 
 <p>
@@ -338,7 +338,6 @@ For example, you can run <code>(get major-mode 'flyspell-mode-predicate)</code> 
 <p>
 The predicate is a simple function without parameter. Here is my predicate for <code>web-mode</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun my-web-mode-flyspell-verify ()
@@ -359,7 +358,6 @@ The predicate is a simple function without parameter. Here is my predicate for <
 <p>
 If you read code of <a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L435">flyspell-prog-mode</a>, you will find it set <code>flyspell-generic-check-word-predicate</code> to its own predicate <code>flyspell-generic-progmode-verify</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defvar flyspell-prog-text-faces
@@ -407,7 +405,6 @@ I only spell check when user saving current buffer. The interval between spell c
 <p>
 Checking the whole buffer is still slow. Instead, we can check the text region in current window by calling <code>flyspell-region</code> instead. The api <code>window-total-height</code> returns the height of current Windows. So I can use below code to get the region to check,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(let* (beg end (orig-pos (point)))
@@ -433,7 +430,6 @@ Above algorithms are implemented in <a href="https://github.com/redguardtoo/wucu
 <p>
 Usage,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(add-hook 'prog-mode-hook 'wucuo-start)
@@ -629,9 +625,9 @@ My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-
 I did some research and found a perfect solution. It's even faster than Vim.
 </p>
 
-<div id="outline-container-orga4654a6" class="outline-2">
-<h3 id="orga4654a6">Initial solution</h3>
-<div class="outline-text-2" id="text-orga4654a6">
+<div id="outline-container-org7a7abc8" class="outline-2">
+<h3 id="org7a7abc8">Initial solution</h3>
+<div class="outline-text-2" id="text-org7a7abc8">
 <p>
 Please note emacsclient is only use for resolving conflicts.
 </p>
@@ -665,9 +661,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 </div>
 </div>
 </div>
-<div id="outline-container-org58766c0" class="outline-2">
-<h3 id="org58766c0">My real world solution</h3>
-<div class="outline-text-2" id="text-org58766c0">
+<div id="outline-container-orgeef85dc" class="outline-2">
+<h3 id="orgeef85dc">My real world solution</h3>
+<div class="outline-text-2" id="text-orgeef85dc">
 <p>
 It's similar to initial solution. But some scripts are created for automation.
 </p>
