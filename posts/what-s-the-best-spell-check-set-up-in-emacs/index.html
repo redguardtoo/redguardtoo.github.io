@@ -11,7 +11,7 @@
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="What's the best spell check setup in emacs">
 <meta property="og:url" content="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/">
-<meta property="og:description" content="UPDATED: &lt;2020-09-12 Sat&gt;
+<meta property="og:description" content="UPDATED: &lt;2021-06-15 Tue&gt;
 
 
 
@@ -19,11 +19,11 @@ CREATED: &lt;2014-04-26 Sat&gt;
 
 
 
-I will show the minimum set up and explain details.
+I will show the minimum setup and explain details.
 
 
 
-Topics covered in official manual (flyspell-mode-predicate, for example) are NOT discus">
+Topics covered in official manual (flyspell-mode-predicate, for example) are NOT discuss">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2014-04-21T08:25:20Z">
 <meta property="article:tag" content="aspell">
@@ -78,7 +78,7 @@ Topics covered in official manual (flyspell-mode-predicate, for example) are NOT
         <div class="body">
             <div>
 <p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-09-12 Sat&gt;</span></span>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2021-06-15 Tue&gt;</span></span>
 </p>
 
 <p>
@@ -86,22 +86,22 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-04-26 
 </p>
 
 <p>
-I will show the minimum set up and explain details.
+I will show the minimum setup and explain details.
 </p>
 
 <p>
-Topics covered in official manual (<code>flyspell-mode-predicate</code>, for example) are NOT discussed here.
+Topics covered in official manual (<code>flyspell-mode-predicate</code>, for example) are NOT discussed.
 </p>
 
 <p>
 But you can see my <b>complete</b> configuration <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelling.el">HERE</a>.
 </p>
 
-<div id="outline-container-orge184fce" class="outline-2">
-<h3 id="orge184fce">Suggestion for non-programmers</h3>
-<div class="outline-text-2" id="text-orge184fce">
+<div id="outline-container-org90862d0" class="outline-2">
+<h3 id="org90862d0">Suggestion for non-programmers</h3>
+<div class="outline-text-2" id="text-org90862d0">
 <p>
-Emacs finds the right dictionary by querying your locale.
+Emacs finds the right dictionary by querying the locale.
 </p>
 
 <p>
@@ -109,7 +109,7 @@ You can run the command <code>locale</code> in the shell to get current locale.
 </p>
 
 <p>
-If you want to force Emacs use the dictionary "en_US", insert below code into your <code>~/.emacs</code>:
+If you want to force Emacs to use the dictionary "en_US", insert below code into <code>~/.emacs</code>:
 </p>
 <div class="org-src-container">
 
@@ -143,7 +143,7 @@ That's it!
 </p>
 
 <p>
-Some people prefer hunspell to aspell because <b>hunspell gives better suggestions for typo fix</b>. We can run both in shell to demonstrate that,
+Some people prefer hunspell because <b>hunspell gives better suggestions for typo fix</b>. We can run both programs to demonstrate,
 </p>
 <div class="org-src-container">
 
@@ -159,17 +159,16 @@ Run <code>man aspell</code> or <code>man hunspell</code> in shell if you have mo
 </div>
 </div>
 
-<div id="outline-container-orgb905a85" class="outline-2">
-<h3 id="orgb905a85">Suggestion for programmers</h3>
-<div class="outline-text-2" id="text-orgb905a85">
+<div id="outline-container-orga3496e7" class="outline-2">
+<h3 id="orga3496e7">Suggestion for programmers</h3>
+<div class="outline-text-2" id="text-orga3496e7">
 <p>
-I strongly recommend aspell instead of hunspell (Though hunspell is fine).
+I recommend aspell instead of hunspell (Though hunspell is fine).
 </p>
 
 <p>
 Please insert below code into your <code>~/.emacs</code>:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; if (aspell installed) { use aspell}
@@ -200,6 +199,7 @@ Please insert below code into your <code>~/.emacs</code>:
          ;; some extra check to speed up the whole process.
          (t
           (setq args (append args '("--run-together" "--run-together-limit=16")))))))
+
      ((string-match "hunspell$" ispell-program-name)
       ;; Force the English dictionary for hunspell
       (setq args "-d en_US")))
@@ -254,7 +254,7 @@ When fixing a typo, avoid pass camel case option to cli program."
 </div>
 
 <p>
-There is only one minor issue in this setup. If a camel case word contains correct two character sub-word. Aspell will regard the word as typo. So aspell might produce some noise (Future aspell has new option <code>--camel-case</code> which solves this problem completely).
+There is one minor issue in this setup. If a camel case word contains correct two character sub-word. Aspell will regard the word as typo. So aspell might produce some noise (aspell 0.60.8 has new option <code>--camel-case</code> which solves this problem completely).
 </p>
 
 <p>
@@ -262,28 +262,28 @@ See <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelli
 </p>
 </div>
 </div>
-<div id="outline-container-org39f346d" class="outline-2">
-<h3 id="org39f346d">Why</h3>
-<div class="outline-text-2" id="text-org39f346d">
+<div id="outline-container-orgcf35733" class="outline-2">
+<h3 id="orgcf35733">Why</h3>
+<div class="outline-text-2" id="text-orgcf35733">
 </div>
-<div id="outline-container-org4ef4f01" class="outline-3">
-<h4 id="org4ef4f01">Aspell</h4>
-<div class="outline-text-3" id="text-org4ef4f01">
+<div id="outline-container-orgf189a5b" class="outline-3">
+<h4 id="orgf189a5b">Aspell</h4>
+<div class="outline-text-3" id="text-orgf189a5b">
 <p>
-aspell is recommended because its option <code>--run-together</code>. That option could check the <b>camel case word</b>. Variable name often uses camel case naming convention these days. Read my <a href="http://blog.binchen.org/?p=950">Effective spell check in Emacs</a> for advanced tips.
+aspell is recommended because its option <code>--run-together</code> (since aspell 0.60.8, option <code>--camel-case</code> replaces <code>=run-together</code>). That option could check the <b>camel case word</b>. Variable name often uses camel case naming convention these days. Read my <a href="http://blog.binchen.org/?p=950">Effective spell check in Emacs</a> for advanced tips.
 </p>
 
 <p>
-If Emacs starts an aspell process with "–run-together" option, that process is not closed so it can be re-used by other commands.
+If Emacs starts an aspell process with <code>--run-together</code> option, that process is not closed so it can be re-used by other commands.
 </p>
 
 <p>
-This behavior will be a problem if you want Emacs/aspell correct the typo by running the command "ispell-word" because an aspell process with "–run-together" will produce too much noise.
+This behavior will be a problem if you want Emacs/aspell correct the typo by running the command <code>ispell-word</code> because an aspell process with "–run-together" will produce too much noise.
 </p>
 
 <p>
 For example, for a typo "helle" Emacs will give you extra candidates. It's hard to find the desired word "hello":
-<img src="../../wp-content/aspell-camelcase-suggest-nq8.png" alt="aspell-camelcase-suggest-nq8.png"></p>
+<img src="image/aspell-camelcase-suggest-nq8.png" alt="aspell-camelcase-suggest-nq8.png"></p>
 
 <p>
 The better solution is before running "M-x ispell-word", we'd better restart the aspell process without the argument "–run-together".
@@ -291,10 +291,10 @@ The better solution is before running "M-x ispell-word", we'd better restart the
 
 <p>
 Here is the screen shot after we applying this fix:
-<img src="../../wp-content/aspell-normal-suggest-nq8.png" alt="aspell-normal-suggest-nq8.png"></p>
+<img src="image/aspell-normal-suggest-nq8.png" alt="aspell-normal-suggest-nq8.png"></p>
 
 <p>
-As I mentioned, the global variable <code>ispell-extra-args</code> contains arguments Emacs will always append to a spell checker process (aspell or hunspell). That's the <b>only variable</b> you need care about.
+As I mentioned, the global variable <code>ispell-extra-args</code> contains arguments Emacs will always append to a spell checker process (aspell). That's the <b>only variable</b> you need care about.
 </p>
 
 <p>
@@ -302,19 +302,19 @@ There is another variable <code>ispell-cmd-args</code>. It is actually some <b>e
 </p>
 </div>
 </div>
-<div id="outline-container-orgf5de733" class="outline-3">
-<h4 id="orgf5de733">Hunspell</h4>
-<div class="outline-text-3" id="text-orgf5de733">
+<div id="outline-container-orgc80fac3" class="outline-3">
+<h4 id="orgc80fac3">Hunspell</h4>
+<div class="outline-text-3" id="text-orgc80fac3">
 <p>
-I cannot find hunspell option to check camel case words. Please enlighten me if you know the option.
+I cannot find hunspell option to check camel case words.
 </p>
 
 <p>
-Hunspell has some design flaw. It always checks the environment variable LC_ALL, LC_MESSAGES and LANG <b>at first</b> to find the default dictionary unless you give it the dictionary in the command line. If it cannot find the default dictionary, the spell checker process won't start. Aspell does not have this issue, if it cannot find the zh_CN dictionary, it will fall back into English dictionary.
+Hunspell always checks the environment variable LC_ALL, LC_MESSAGES and LANG <b>at first</b> to find the default dictionary unless you give it the dictionary in the command line. If it cannot find the default dictionary, the spell checker process won't start. Aspell does not have this issue. For example, if aspell cannot find the zh_CN dictionary, it will fall back into English dictionary.
 </p>
 
 <p>
-Specify the <code>ispell-extra-args</code> <b>won NOT stop hunspell to search for the default dictionary</b> at the beginning because <code>ispell-extra-args</code> is NOT used by hunspell.
+Specify the <code>ispell-extra-args</code> <b>will NOT stop hunspell to search for the default dictionary</b> at the beginning because <code>ispell-extra-args</code> is NOT used by hunspell.
 </p>
 
 <p>
@@ -335,6 +335,10 @@ Finally, I figured out,
 (setq ispell-local-dictionary "en_US") ; "en_US" is key to lookup in `ispell-local-dictionary-alist`
 (setq ispell-local-dictionary-alist
       '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+;; new variable `ispell-hunspell-dictionary-alist' is defined in Emacs
+;; If it's nil, Emacs tries to automatically set up the dictionaries.
+(when (boundp 'ispell-hunspell-dictionary-alist)
+  (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist))
 </code></pre>
 
 </div>
@@ -345,15 +349,19 @@ You can pass the extra arguments to the hunspell by tweaking <code>ispell-local-
 </div>
 </div>
 </div>
-<div id="outline-container-orga7645aa" class="outline-2">
-<h3 id="orga7645aa">FAQ</h3>
-<div class="outline-text-2" id="text-orga7645aa">
+<div id="outline-container-org4475754" class="outline-2">
+<h3 id="org4475754">FAQ</h3>
+<div class="outline-text-2" id="text-org4475754">
 </div>
-<div id="outline-container-org70274dc" class="outline-3">
-<h4 id="org70274dc">How to setup Hunspell</h4>
-<div class="outline-text-3" id="text-org70274dc">
+<div id="outline-container-orged4afc3" class="outline-3">
+<h4 id="orged4afc3">How to setup Hunspell</h4>
+<div class="outline-text-3" id="text-orged4afc3">
 <p>
-The easiest way is to set up environment variable <code>DICPATH</code>,
+The easiest way is to set up environment variable <code>DICPATH</code>.
+</p>
+
+<p>
+For example, on macOS (LibreOffice is installed first),
 </p>
 <div class="org-src-container">
 

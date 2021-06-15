@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about check)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/check.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 13 Apr 2021 09:31:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about check)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/check.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 13:29:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
@@ -141,7 +141,7 @@ If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "fast" (default value),
 &lt;p&gt;
 If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "normal", &lt;code&gt;flyspell-buffer&lt;/code&gt; is used, current buffer is checked when user saves current file.
 &lt;/p&gt;&lt;/div&gt;</description><category>check</category><category>emacs</category><category>en</category><category>flyspell</category><category>spell</category><guid>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</guid><pubDate>Sun, 17 May 2020 06:20:55 GMT</pubDate></item><item><title>What's the best spell check setup in emacs</title><link>http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2020-09-12 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
+UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2021-06-15 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -149,22 +149,22 @@ CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;/p&gt;
 
 &lt;p&gt;
-I will show the minimum set up and explain details.
+I will show the minimum setup and explain details.
 &lt;/p&gt;
 
 &lt;p&gt;
-Topics covered in official manual (&lt;code&gt;flyspell-mode-predicate&lt;/code&gt;, for example) are NOT discussed here.
+Topics covered in official manual (&lt;code&gt;flyspell-mode-predicate&lt;/code&gt;, for example) are NOT discussed.
 &lt;/p&gt;
 
 &lt;p&gt;
 But you can see my &lt;b&gt;complete&lt;/b&gt; configuration &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelling.el"&gt;HERE&lt;/a&gt;.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orge184fce" class="outline-2"&gt;
-&lt;h3 id="orge184fce"&gt;Suggestion for non-programmers&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge184fce"&gt;
+&lt;div id="outline-container-org90862d0" class="outline-2"&gt;
+&lt;h3 id="org90862d0"&gt;Suggestion for non-programmers&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org90862d0"&gt;
 &lt;p&gt;
-Emacs finds the right dictionary by querying your locale.
+Emacs finds the right dictionary by querying the locale.
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -172,7 +172,7 @@ You can run the command &lt;code&gt;locale&lt;/code&gt; in the shell to get curr
 &lt;/p&gt;
 
 &lt;p&gt;
-If you want to force Emacs use the dictionary "en_US", insert below code into your &lt;code&gt;~/.emacs&lt;/code&gt;:
+If you want to force Emacs to use the dictionary "en_US", insert below code into &lt;code&gt;~/.emacs&lt;/code&gt;:
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
 
@@ -206,7 +206,7 @@ That's it!
 &lt;/p&gt;
 
 &lt;p&gt;
-Some people prefer hunspell to aspell because &lt;b&gt;hunspell gives better suggestions for typo fix&lt;/b&gt;. We can run both in shell to demonstrate that,
+Some people prefer hunspell because &lt;b&gt;hunspell gives better suggestions for typo fix&lt;/b&gt;. We can run both programs to demonstrate,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
 
@@ -222,17 +222,16 @@ Run &lt;code&gt;man aspell&lt;/code&gt; or &lt;code&gt;man hunspell&lt;/code&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb905a85" class="outline-2"&gt;
-&lt;h3 id="orgb905a85"&gt;Suggestion for programmers&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb905a85"&gt;
+&lt;div id="outline-container-orga3496e7" class="outline-2"&gt;
+&lt;h3 id="orga3496e7"&gt;Suggestion for programmers&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga3496e7"&gt;
 &lt;p&gt;
-I strongly recommend aspell instead of hunspell (Though hunspell is fine).
+I recommend aspell instead of hunspell (Though hunspell is fine).
 &lt;/p&gt;
 
 &lt;p&gt;
 Please insert below code into your &lt;code&gt;~/.emacs&lt;/code&gt;:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;;; if (aspell installed) { use aspell}
@@ -263,6 +262,7 @@ Please insert below code into your &lt;code&gt;~/.emacs&lt;/code&gt;:
          ;; some extra check to speed up the whole process.
          (t
           (setq args (append args '("--run-together" "--run-together-limit=16")))))))
+
      ((string-match "hunspell$" ispell-program-name)
       ;; Force the English dictionary for hunspell
       (setq args "-d en_US")))
@@ -317,7 +317,7 @@ When fixing a typo, avoid pass camel case option to cli program."
 &lt;/div&gt;
 
 &lt;p&gt;
-There is only one minor issue in this setup. If a camel case word contains correct two character sub-word. Aspell will regard the word as typo. So aspell might produce some noise (Future aspell has new option &lt;code&gt;--camel-case&lt;/code&gt; which solves this problem completely).
+There is one minor issue in this setup. If a camel case word contains correct two character sub-word. Aspell will regard the word as typo. So aspell might produce some noise (aspell 0.60.8 has new option &lt;code&gt;--camel-case&lt;/code&gt; which solves this problem completely).
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -325,28 +325,28 @@ See &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spe
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org39f346d" class="outline-2"&gt;
-&lt;h3 id="org39f346d"&gt;Why&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org39f346d"&gt;
+&lt;div id="outline-container-orgcf35733" class="outline-2"&gt;
+&lt;h3 id="orgcf35733"&gt;Why&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgcf35733"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4ef4f01" class="outline-3"&gt;
-&lt;h4 id="org4ef4f01"&gt;Aspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org4ef4f01"&gt;
+&lt;div id="outline-container-orgf189a5b" class="outline-3"&gt;
+&lt;h4 id="orgf189a5b"&gt;Aspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf189a5b"&gt;
 &lt;p&gt;
-aspell is recommended because its option &lt;code&gt;--run-together&lt;/code&gt;. That option could check the &lt;b&gt;camel case word&lt;/b&gt;. Variable name often uses camel case naming convention these days. Read my &lt;a href="http://blog.binchen.org/?p=950"&gt;Effective spell check in Emacs&lt;/a&gt; for advanced tips.
+aspell is recommended because its option &lt;code&gt;--run-together&lt;/code&gt; (since aspell 0.60.8, option &lt;code&gt;--camel-case&lt;/code&gt; replaces &lt;code&gt;=run-together&lt;/code&gt;). That option could check the &lt;b&gt;camel case word&lt;/b&gt;. Variable name often uses camel case naming convention these days. Read my &lt;a href="http://blog.binchen.org/?p=950"&gt;Effective spell check in Emacs&lt;/a&gt; for advanced tips.
 &lt;/p&gt;
 
 &lt;p&gt;
-If Emacs starts an aspell process with "–run-together" option, that process is not closed so it can be re-used by other commands.
+If Emacs starts an aspell process with &lt;code&gt;--run-together&lt;/code&gt; option, that process is not closed so it can be re-used by other commands.
 &lt;/p&gt;
 
 &lt;p&gt;
-This behavior will be a problem if you want Emacs/aspell correct the typo by running the command "ispell-word" because an aspell process with "–run-together" will produce too much noise.
+This behavior will be a problem if you want Emacs/aspell correct the typo by running the command &lt;code&gt;ispell-word&lt;/code&gt; because an aspell process with "–run-together" will produce too much noise.
 &lt;/p&gt;
 
 &lt;p&gt;
 For example, for a typo "helle" Emacs will give you extra candidates. It's hard to find the desired word "hello":
-&lt;img src="http://blog.binchen.org/wp-content/aspell-camelcase-suggest-nq8.png" alt="aspell-camelcase-suggest-nq8.png"&gt;
+&lt;img src="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/image/aspell-camelcase-suggest-nq8.png" alt="aspell-camelcase-suggest-nq8.png"&gt;
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -355,11 +355,11 @@ The better solution is before running "M-x ispell-word", we'd better restart the
 
 &lt;p&gt;
 Here is the screen shot after we applying this fix:
-&lt;img src="http://blog.binchen.org/wp-content/aspell-normal-suggest-nq8.png" alt="aspell-normal-suggest-nq8.png"&gt;
+&lt;img src="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/image/aspell-normal-suggest-nq8.png" alt="aspell-normal-suggest-nq8.png"&gt;
 &lt;/p&gt;
 
 &lt;p&gt;
-As I mentioned, the global variable &lt;code&gt;ispell-extra-args&lt;/code&gt; contains arguments Emacs will always append to a spell checker process (aspell or hunspell). That's the &lt;b&gt;only variable&lt;/b&gt; you need care about.
+As I mentioned, the global variable &lt;code&gt;ispell-extra-args&lt;/code&gt; contains arguments Emacs will always append to a spell checker process (aspell). That's the &lt;b&gt;only variable&lt;/b&gt; you need care about.
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -367,19 +367,19 @@ There is another variable &lt;code&gt;ispell-cmd-args&lt;/code&gt;. It is actual
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf5de733" class="outline-3"&gt;
-&lt;h4 id="orgf5de733"&gt;Hunspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgf5de733"&gt;
+&lt;div id="outline-container-orgc80fac3" class="outline-3"&gt;
+&lt;h4 id="orgc80fac3"&gt;Hunspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgc80fac3"&gt;
 &lt;p&gt;
-I cannot find hunspell option to check camel case words. Please enlighten me if you know the option.
+I cannot find hunspell option to check camel case words.
 &lt;/p&gt;
 
 &lt;p&gt;
-Hunspell has some design flaw. It always checks the environment variable LC_ALL, LC_MESSAGES and LANG &lt;b&gt;at first&lt;/b&gt; to find the default dictionary unless you give it the dictionary in the command line. If it cannot find the default dictionary, the spell checker process won't start. Aspell does not have this issue, if it cannot find the zh_CN dictionary, it will fall back into English dictionary.
+Hunspell always checks the environment variable LC_ALL, LC_MESSAGES and LANG &lt;b&gt;at first&lt;/b&gt; to find the default dictionary unless you give it the dictionary in the command line. If it cannot find the default dictionary, the spell checker process won't start. Aspell does not have this issue. For example, if aspell cannot find the zh_CN dictionary, it will fall back into English dictionary.
 &lt;/p&gt;
 
 &lt;p&gt;
-Specify the &lt;code&gt;ispell-extra-args&lt;/code&gt; &lt;b&gt;won NOT stop hunspell to search for the default dictionary&lt;/b&gt; at the beginning because &lt;code&gt;ispell-extra-args&lt;/code&gt; is NOT used by hunspell.
+Specify the &lt;code&gt;ispell-extra-args&lt;/code&gt; &lt;b&gt;will NOT stop hunspell to search for the default dictionary&lt;/b&gt; at the beginning because &lt;code&gt;ispell-extra-args&lt;/code&gt; is NOT used by hunspell.
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -400,6 +400,10 @@ Finally, I figured out,
 (setq ispell-local-dictionary "en_US") ; "en_US" is key to lookup in `ispell-local-dictionary-alist`
 (setq ispell-local-dictionary-alist
       '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+;; new variable `ispell-hunspell-dictionary-alist' is defined in Emacs
+;; If it's nil, Emacs tries to automatically set up the dictionaries.
+(when (boundp 'ispell-hunspell-dictionary-alist)
+  (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist))
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -410,15 +414,19 @@ You can pass the extra arguments to the hunspell by tweaking &lt;code&gt;ispell-
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga7645aa" class="outline-2"&gt;
-&lt;h3 id="orga7645aa"&gt;FAQ&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga7645aa"&gt;
+&lt;div id="outline-container-org4475754" class="outline-2"&gt;
+&lt;h3 id="org4475754"&gt;FAQ&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4475754"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org70274dc" class="outline-3"&gt;
-&lt;h4 id="org70274dc"&gt;How to setup Hunspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org70274dc"&gt;
+&lt;div id="outline-container-orged4afc3" class="outline-3"&gt;
+&lt;h4 id="orged4afc3"&gt;How to setup Hunspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orged4afc3"&gt;
 &lt;p&gt;
-The easiest way is to set up environment variable &lt;code&gt;DICPATH&lt;/code&gt;,
+The easiest way is to set up environment variable &lt;code&gt;DICPATH&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, on macOS (LibreOffice is installed first),
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
 

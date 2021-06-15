@@ -83,9 +83,9 @@ The solutin is based on the ideas of top geeks. I only did the implementation.
 Mendel Cooper provided the original design in <a href="http://www.tldp.org/LDP/abs/html/index.html">Advanced Bash-Scripting Guide</a>. Masafumi Oyamada (AKA mooz) added the missing piece by creating <a href="https://github.com/mooz/percol">percol</a>.
 </p>
 
-<div id="outline-container-orgb488036" class="outline-2">
-<h3 id="orgb488036">Problem</h3>
-<div class="outline-text-2" id="text-orgb488036">
+<div id="outline-container-org222a1fa" class="outline-2">
+<h3 id="org222a1fa">Problem</h3>
+<div class="outline-text-2" id="text-org222a1fa">
 <p>
 How to find full path of a file by fuzz search?
 </p>
@@ -96,22 +96,22 @@ The path should be shared easily to other application like Emacs.
 </div>
 </div>
 
-<div id="outline-container-org2b9753e" class="outline-2">
-<h3 id="org2b9753e">Installation</h3>
-<div class="outline-text-2" id="text-org2b9753e">
+<div id="outline-container-org69d62c6" class="outline-2">
+<h3 id="org69d62c6">Installation</h3>
+<div class="outline-text-2" id="text-org69d62c6">
 </div>
-<div id="outline-container-org068d973" class="outline-3">
-<h4 id="org068d973">Step 1, Install percol</h4>
-<div class="outline-text-3" id="text-org068d973">
+<div id="outline-container-org0435e55" class="outline-3">
+<h4 id="org0435e55">Step 1, Install percol</h4>
+<div class="outline-text-3" id="text-org0435e55">
 <p>
 <a href="https://github.com/mooz/percol/archive/master.zip">Download the package</a> and extract it. Place the sub-directory named "percol/" into the directory "~/bin". Rename the program "percol" in sub-directory "bin" into "percol.py". Put the percol.py also into "~/bin".
 </p>
 </div>
 </div>
 
-<div id="outline-container-org3578383" class="outline-3">
-<h4 id="org3578383">Step 2, Insert below code into ~/.bashrc:</h4>
-<div class="outline-text-3" id="text-org3578383">
+<div id="outline-container-org9c9b478" class="outline-3">
+<h4 id="org9c9b478">Step 2, Insert below code into ~/.bashrc:</h4>
+<div class="outline-text-3" id="text-org9c9b478">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">[ $(uname -s | grep -c CYGWIN) -eq 1 ] &amp;&amp; OS_NAME="CYGWIN" || OS_NAME=`uname -s`
@@ -172,9 +172,9 @@ function cf()
 </div>
 </div>
 </div>
-<div id="outline-container-org2a4103f" class="outline-2">
-<h3 id="org2a4103f">Usage</h3>
-<div class="outline-text-2" id="text-org2a4103f">
+<div id="outline-container-org56065f6" class="outline-2">
+<h3 id="org56065f6">Usage</h3>
+<div class="outline-text-2" id="text-org56065f6">
 <p>
 Type "ff partials-of-file-path" in shell. A filter window popups. You can filter and scroll down/up to select one file. The full path will be copied into system clipboard automatically (under Linux, either xsel or xclip are required for clipboard access).
 </p>
@@ -212,17 +212,17 @@ In Emacs community, people try to embed a file explorer into Emacs (Sr speedbar,
 </p>
 </div>
 </div>
-<div id="outline-container-orgb06d737" class="outline-2">
-<h3 id="orgb06d737">Advanced usage</h3>
-<div class="outline-text-2" id="text-orgb06d737">
+<div id="outline-container-org3e0bad7" class="outline-2">
+<h3 id="org3e0bad7">Advanced usage</h3>
+<div class="outline-text-2" id="text-org3e0bad7">
 <p>
 More examples follow.
 </p>
 </div>
 
-<div id="outline-container-org8231656" class="outline-3">
-<h4 id="org8231656">Search the bash history.</h4>
-<div class="outline-text-3" id="text-org8231656">
+<div id="outline-container-orgb1eaf5b" class="outline-3">
+<h4 id="orgb1eaf5b">Search the bash history.</h4>
+<div class="outline-text-3" id="text-orgb1eaf5b">
 <p>
 Code to insert ~/.bashrc:
 </p>
@@ -250,9 +250,9 @@ Screenshot:
 </div>
 </div>
 
-<div id="outline-container-orgb58f503" class="outline-3">
-<h4 id="orgb58f503">Select a file in git commit</h4>
-<div class="outline-text-3" id="text-orgb58f503">
+<div id="outline-container-org6249509" class="outline-3">
+<h4 id="org6249509">Select a file in git commit</h4>
+<div class="outline-text-3" id="text-org6249509">
 <p>
 Code to insert ~/.bashrc:
 </p>
@@ -276,9 +276,9 @@ Screenshot:
 </div>
 </div>
 
-<div id="outline-container-org21978b7" class="outline-2">
-<h3 id="org21978b7">Summary</h3>
-<div class="outline-text-2" id="text-org21978b7">
+<div id="outline-container-org386ab7a" class="outline-2">
+<h3 id="org386ab7a">Summary</h3>
+<div class="outline-text-2" id="text-org386ab7a">
 <p>
 The key idea is that I have full freedom to get job done in any way. Emacs is nothing more than a tool to help me achieve more power and more freedom. For example, I find mooz's percol because I like his Emacs plugin <a href="https://github.com/mooz/js2-mode">js2-mode</a> and I want to check his other works. 
 </p>

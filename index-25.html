@@ -169,7 +169,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 </p>
 
-<div id="outline-container-orgbff2026" class="outline-2">
+<div id="outline-container-org08be169" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -225,7 +225,7 @@ Native Emacs API is enough to save/load windows layout.
 </p>
 </div>
 </div>
-<div id="outline-container-org17e1307" class="outline-2">
+<div id="outline-container-orge9628c8" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 <p>
@@ -564,18 +564,18 @@ My current project uses a technology called <a href="https://www.styled-componen
 <p>
 It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
 </p>
-<div id="outline-container-org813f090" class="outline-2">
-<h3 id="org813f090">Screencast</h3>
-<div class="outline-text-2" id="text-org813f090">
+<div id="outline-container-org0b379ac" class="outline-2">
+<h3 id="org0b379ac">Screencast</h3>
+<div class="outline-text-2" id="text-org0b379ac">
 
 <div class="figure">
 <p><img src="wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-org71d72a1" class="outline-2">
-<h3 id="org71d72a1">Code</h3>
-<div class="outline-text-2" id="text-org71d72a1">
+<div id="outline-container-orgb08e827" class="outline-2">
+<h3 id="orgb08e827">Code</h3>
+<div class="outline-text-2" id="text-orgb08e827">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'counsel-etags)
@@ -653,9 +653,9 @@ It could dynamically change web application's appearance and is a critical techn
 <p>
 I created <a href="https://github.com/redguardtoo/dianyou">dianyou</a> (电邮) to solve improve my Gnus work flow.
 </p>
-<div id="outline-container-org44c148e" class="outline-2">
-<h3 id="org44c148e">Search mails</h3>
-<div class="outline-text-2" id="text-org44c148e">
+<div id="outline-container-org2828f50" class="outline-2">
+<h3 id="org2828f50">Search mails</h3>
+<div class="outline-text-2" id="text-org2828f50">
 <p>
 Most Gnus users use <code>gnus-group-make-nnir-group</code> to search mails. But it's not usable in "Summary Buffer". Its <a href="https://tools.ietf.org/html/rfc3501#section-6.4.4">IMAP SEARCH Command</a> is hard to use.
 </p>
@@ -665,27 +665,27 @@ It could be replaced by <code>dianyou-group-make-nnir-group</code> which support
 </p>
 </div>
 </div>
-<div id="outline-container-orga6a4cec" class="outline-2">
-<h3 id="orga6a4cec">Auto complete email address</h3>
-<div class="outline-text-2" id="text-orga6a4cec">
+<div id="outline-container-orgb9f6f3e" class="outline-2">
+<h3 id="orgb9f6f3e">Auto complete email address</h3>
+<div class="outline-text-2" id="text-orgb9f6f3e">
 <p>
 I'm too lazy to set up my contacts. It would be better that Gnus could <b>automatically</b> collect email addresses from all received mails. So I created the command <code>dianyou-insert-email-address-from-received-mails</code>. The inserted email address is also inserted into the global variable <code>dianyou-email-address-history</code> which could be persisted by <a href="https://github.com/jwiegley/session">session</a>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org6d11497" class="outline-2">
-<h3 id="org6d11497">Switch Gnus buffer</h3>
-<div class="outline-text-2" id="text-org6d11497">
+<div id="outline-container-org0a977d9" class="outline-2">
+<h3 id="org0a977d9">Switch Gnus buffer</h3>
+<div class="outline-text-2" id="text-org0a977d9">
 <p>
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use <code>dianyou-switch-gnus-buffer</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd02c64b" class="outline-2">
-<h3 id="orgd02c64b">Paste image from clipboard</h3>
-<div class="outline-text-2" id="text-orgd02c64b">
+<div id="outline-container-org9c99fb1" class="outline-2">
+<h3 id="org9c99fb1">Paste image from clipboard</h3>
+<div class="outline-text-2" id="text-org9c99fb1">
 <p>
 Use <code>dianyou-paste-image-from-clipboard</code>. CLI program <a href="https://github.com/astrand/xclip">xclip</a> should be installed at first.</p>
 </div>
