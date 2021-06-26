@@ -111,7 +111,6 @@ var urlMap={
 669:a('hei-mu-er-chao-dan-de-zuo-fa'),
 266:a('hotkeys-for-moving-windows-in-emacs'),
 268:a('yi-nian-cheng-wei-emacs-gao-shou-xiang-shen-yi-yang-shi-yong-bian-ji-qi'),
-666:a('666'),
 173:a('emacs-gdbgud-hotkeys'),
 175:a('gitorious-is-useless'),
 303:a('the-most-elegant-wordpress-theme-for-geeks'),
