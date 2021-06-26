@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Org link and pdf-tools</title><link>http://blog.binchen.org/posts/org-link-and-pdf-tools/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 26 Jun 2021 04:55:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+"/etc/default/vmtouch" on Debian Testing,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;# Change to yes to enable running vmtouch as a daemon
+ENABLE_VMTOUCH=yes
+
+# User and group to run as
+VMTOUCH_USER_GROUP=cb:cb
+
+# Whitespace separated list of files and directories for vmtouch to operate on
+VMTOUCH_FILES="/home/cb/.emacs.d/lisp /home/cb/.emacs.d/elpa /home/cb/.emacs.d/site-lisp /home/cb/.mozilla/firefox/linux.default/*.sqlite /home/cb/.mozilla/firefox/linux.default/*.json"
+
+# Options to pass to vmtouch itself. See vmtouch(8).
+VMTOUCH_OPTIONS="-q -t"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;p&gt;
+Run &lt;code&gt;sudo systemctl restart vmtouch&lt;/code&gt; to restart the service.
+&lt;/p&gt;
+
+&lt;p&gt;
+"&lt;i&gt;home/cb&lt;/i&gt;.emacs.d" is not touched because the package &lt;a href="https://github.com/jorgenschaefer/elpy"&gt;elpy&lt;/a&gt; will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>systemd</category><category>vmtouch</category><guid>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</guid><pubDate>Sat, 26 Jun 2021 04:46:41 GMT</pubDate></item><item><title>Org link and pdf-tools</title><link>http://blog.binchen.org/posts/org-link-and-pdf-tools/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 By default, &lt;a href="https://orgmode.org/manual/External-Links.html"&gt;Org pdf link&lt;/a&gt; uses &lt;code&gt;doc-view.el&lt;/code&gt; to open pdf. So if you move focus over the link &lt;code&gt;docview:papers/last.pdf::NNN&lt;/code&gt; in a org file and run &lt;code&gt;M-x org-open-at-point&lt;/code&gt;, API &lt;code&gt;doc-view-goto-page&lt;/code&gt; is called.
 &lt;/p&gt;
 
@@ -739,63 +764,4 @@ I have done &lt;a href="https://github.com/emacs-lsp/lsp-mode/pull/1498"&gt;some
 &lt;/div&gt;
 
 &lt;p&gt;
-The language server I used &lt;a href="https://github.com/sourcegraph/javascript-typescript-langserver/issues/394"&gt;can read jsconfig.json&lt;/a&gt; in project root. I can specify the directories to exclude in it.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/how-to-speed-up-lsp-mode/</guid><pubDate>Mon, 09 Mar 2020 12:10:32 GMT</pubDate></item><item><title>Yin and Yang in Emacs</title><link>http://blog.binchen.org/posts/yin-and-yang-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-As a Chinese, I studied &lt;a href="https://en.wikipedia.org/wiki/Tao_Te_Ching"&gt;Tao Te Ching&lt;/a&gt; since childhood. So I believe Tao (the way) exist in Emacs. Tao is basically Yin and Yang who lives in harmony in Emacs.
-&lt;/p&gt;
-
-&lt;p&gt;
-I can't say Yin is good and Yang is evil, or vice versa. All I can do is to find the way to make Yin and Yang co-exist. 
-&lt;/p&gt;
-
-&lt;p&gt;
-For example, a few days ago I published &lt;a href="https://www.reddit.com/r/emacs/comments/dz2a80/effective_git_blame_in_emacs/"&gt;Effective "git blame" in Emacs&lt;/a&gt; which introduced my package &lt;a href="https://github.com/redguardtoo/vc-msg"&gt;vc-msg&lt;/a&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-It became one of my most popular reddit post because its unique feature &lt;b&gt;partial line blame&lt;/b&gt;,
-&lt;/p&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-good.png" alt="vc-msg-good.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-I noticed some comments compared my package with &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt;. Those comments were very educational and I did learn a few useful tricks.
-&lt;/p&gt;
-
-&lt;p&gt;
-My point is, &lt;code&gt;vc-msg&lt;/code&gt; and &lt;code&gt;Magit&lt;/code&gt; could collaborate without any problem, like Yin and Yang lives harmony. If you find any conflict between &lt;code&gt;vc-msg&lt;/code&gt; and &lt;code&gt;Magit&lt;/code&gt;, just let me know. I will fix it.
-&lt;/p&gt;
-
-&lt;p&gt;
-I totally understand there are many Magit lovers in Emacs community. So I make &lt;code&gt;vs-msg v1.0.2&lt;/code&gt; to support Magit. You can use &lt;code&gt;partial line blame&lt;/code&gt; in &lt;code&gt;vc-msg&lt;/code&gt; but calling Magit command to open the commit.  
-&lt;/p&gt;
-
-&lt;p&gt;
-It's only one line setup,
-&lt;/p&gt;
-
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq vc-msg-git-show-commit-function 'magit-show-commit)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-and-magit.png" alt="vc-msg-and-magit.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-I tested in &lt;code&gt;magit-blame-mode&lt;/code&gt; and found no issue.
-&lt;/p&gt;
-
-&lt;p&gt;
-I'm sure &lt;code&gt;vc-msg&lt;/code&gt; should work in other major modes or minor modes. There are also two callback functions &lt;code&gt;vc-msg-get-current-file-function&lt;/code&gt; and &lt;code&gt;vc-msg-get-line-num-function&lt;/code&gt; which users can customize.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/yin-and-yang-in-emacs/</guid><pubDate>Mon, 25 Nov 2019 08:09:33 GMT</pubDate></item></channel></rss>
+The language server I used &lt;a href="https://github.com/sourcegraph/javascript-typescript-langserver/issues/394"&gt;can read jsconfig.json&lt;/a&gt; in project root. I can specify the directories to exclude in it.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/how-to-speed-up-lsp-mode/</guid><pubDate>Mon, 09 Mar 2020 12:10:32 GMT</pubDate></item></channel></rss>

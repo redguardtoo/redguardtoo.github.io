@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Org link and pdf-tools</title><link>http://blog.binchen.org/posts/org-link-and-pdf-tools/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 26 Jun 2021 04:55:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+"/etc/default/vmtouch" on Debian Testing,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;# Change to yes to enable running vmtouch as a daemon
+ENABLE_VMTOUCH=yes
+
+# User and group to run as
+VMTOUCH_USER_GROUP=cb:cb
+
+# Whitespace separated list of files and directories for vmtouch to operate on
+VMTOUCH_FILES="/home/cb/.emacs.d/lisp /home/cb/.emacs.d/elpa /home/cb/.emacs.d/site-lisp /home/cb/.mozilla/firefox/linux.default/*.sqlite /home/cb/.mozilla/firefox/linux.default/*.json"
+
+# Options to pass to vmtouch itself. See vmtouch(8).
+VMTOUCH_OPTIONS="-q -t"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;p&gt;
+Run &lt;code&gt;sudo systemctl restart vmtouch&lt;/code&gt; to restart the service.
+&lt;/p&gt;
+
+&lt;p&gt;
+"&lt;i&gt;home/cb&lt;/i&gt;.emacs.d" is not touched because the package &lt;a href="https://github.com/jorgenschaefer/elpy"&gt;elpy&lt;/a&gt; will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>systemd</category><category>vmtouch</category><guid>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</guid><pubDate>Sat, 26 Jun 2021 04:46:41 GMT</pubDate></item><item><title>Org link and pdf-tools</title><link>http://blog.binchen.org/posts/org-link-and-pdf-tools/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 By default, &lt;a href="https://orgmode.org/manual/External-Links.html"&gt;Org pdf link&lt;/a&gt; uses &lt;code&gt;doc-view.el&lt;/code&gt; to open pdf. So if you move focus over the link &lt;code&gt;docview:papers/last.pdf::NNN&lt;/code&gt; in a org file and run &lt;code&gt;M-x org-open-at-point&lt;/code&gt;, API &lt;code&gt;doc-view-goto-page&lt;/code&gt; is called.
 &lt;/p&gt;
 
@@ -776,37 +801,4 @@ I tested in &lt;code&gt;magit-blame-mode&lt;/code&gt; and found no issue.
 &lt;/p&gt;
 
 &lt;p&gt;
-I'm sure &lt;code&gt;vc-msg&lt;/code&gt; should work in other major modes or minor modes. There are also two callback functions &lt;code&gt;vc-msg-get-current-file-function&lt;/code&gt; and &lt;code&gt;vc-msg-get-line-num-function&lt;/code&gt; which users can customize.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/yin-and-yang-in-emacs/</guid><pubDate>Mon, 25 Nov 2019 08:09:33 GMT</pubDate></item><item><title>Effective "git blame" in Emacs</title><link>http://blog.binchen.org/posts/effective-git-blame-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-I published Emacs package &lt;a href="https://github.com/redguardtoo/vc-msg"&gt;vc-msg&lt;/a&gt;. It uses &lt;code&gt;git-blame&lt;/code&gt; to show commit information of current line.
-&lt;/p&gt;
-
-&lt;p&gt;
-In the new version, it can display the correct commit information of current line.
-&lt;/p&gt;
-
-&lt;p&gt;
-For example, the line 6 at &lt;a href="https://github.com/redguardtoo/test-git-blame/blob/master/hello.js"&gt;https://github.com/redguardtoo/test-git-blame/blob/master/hello.js&lt;/a&gt; is changed by three commits.
-&lt;/p&gt;
-
-&lt;p&gt;
-Select the partial of line 6 and run &lt;code&gt;vc-msg-show&lt;/code&gt;, the correct commit is displayed.
-&lt;/p&gt;
-
-&lt;p&gt;
-Screenshots,
-&lt;/p&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-good.png" alt="vc-msg-good.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>blame</category><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/effective-git-blame-in-emacs/</guid><pubDate>Wed, 20 Nov 2019 13:42:54 GMT</pubDate></item></channel></rss>
+I'm sure &lt;code&gt;vc-msg&lt;/code&gt; should work in other major modes or minor modes. There are also two callback functions &lt;code&gt;vc-msg-get-current-file-function&lt;/code&gt; and &lt;code&gt;vc-msg-get-line-num-function&lt;/code&gt; which users can customize.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/yin-and-yang-in-emacs/</guid><pubDate>Mon, 25 Nov 2019 08:09:33 GMT</pubDate></item></channel></rss>

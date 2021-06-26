@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about systemd)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/systemd.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Why some systemd service on ArchLinux does not work</title><link>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org54c2cc8" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about systemd)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/systemd.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 26 Jun 2021 04:55:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+"/etc/default/vmtouch" on Debian Testing,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;# Change to yes to enable running vmtouch as a daemon
+ENABLE_VMTOUCH=yes
+
+# User and group to run as
+VMTOUCH_USER_GROUP=cb:cb
+
+# Whitespace separated list of files and directories for vmtouch to operate on
+VMTOUCH_FILES="/home/cb/.emacs.d/lisp /home/cb/.emacs.d/elpa /home/cb/.emacs.d/site-lisp /home/cb/.mozilla/firefox/linux.default/*.sqlite /home/cb/.mozilla/firefox/linux.default/*.json"
+
+# Options to pass to vmtouch itself. See vmtouch(8).
+VMTOUCH_OPTIONS="-q -t"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;p&gt;
+Run &lt;code&gt;sudo systemctl restart vmtouch&lt;/code&gt; to restart the service.
+&lt;/p&gt;
+
+&lt;p&gt;
+"&lt;i&gt;home/cb&lt;/i&gt;.emacs.d" is not touched because the package &lt;a href="https://github.com/jorgenschaefer/elpy"&gt;elpy&lt;/a&gt; will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>systemd</category><category>vmtouch</category><guid>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</guid><pubDate>Sat, 26 Jun 2021 04:46:41 GMT</pubDate></item><item><title>Why some systemd service on ArchLinux does not work</title><link>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org54c2cc8" class="outline-2"&gt;
 &lt;h3 id="org54c2cc8"&gt;List failed services&lt;/h3&gt;
 &lt;div class="outline-text-2" id="text-org54c2cc8"&gt;
 &lt;div class="org-src-container"&gt;

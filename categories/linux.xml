@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linux audio input configuration</title><link>http://blog.binchen.org/posts/linux-audio-input-configuration/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 26 Jun 2021 04:55:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+"/etc/default/vmtouch" on Debian Testing,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;# Change to yes to enable running vmtouch as a daemon
+ENABLE_VMTOUCH=yes
+
+# User and group to run as
+VMTOUCH_USER_GROUP=cb:cb
+
+# Whitespace separated list of files and directories for vmtouch to operate on
+VMTOUCH_FILES="/home/cb/.emacs.d/lisp /home/cb/.emacs.d/elpa /home/cb/.emacs.d/site-lisp /home/cb/.mozilla/firefox/linux.default/*.sqlite /home/cb/.mozilla/firefox/linux.default/*.json"
+
+# Options to pass to vmtouch itself. See vmtouch(8).
+VMTOUCH_OPTIONS="-q -t"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;p&gt;
+Run &lt;code&gt;sudo systemctl restart vmtouch&lt;/code&gt; to restart the service.
+&lt;/p&gt;
+
+&lt;p&gt;
+"&lt;i&gt;home/cb&lt;/i&gt;.emacs.d" is not touched because the package &lt;a href="https://github.com/jorgenschaefer/elpy"&gt;elpy&lt;/a&gt; will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>systemd</category><category>vmtouch</category><guid>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</guid><pubDate>Sat, 26 Jun 2021 04:46:41 GMT</pubDate></item><item><title>Linux audio input configuration</title><link>http://blog.binchen.org/posts/linux-audio-input-configuration/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and press "F4" to choose audio input.
 &lt;/p&gt;
 
@@ -479,81 +504,4 @@ sudo ls -1 /etc/{rc,init}.d/|grep local
 # then read the file either rc.local or local
 &lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>init</category><category>linux</category><guid>http://blog.binchen.org/posts/how-to-execute-user-program-for-system-v-init-script/</guid><pubDate>Sat, 18 Jan 2014 09:37:10 GMT</pubDate></item><item><title>My grub2 configuration</title><link>http://blog.binchen.org/posts/my-grub2-configuration/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-Content of &lt;code&gt;/etc/grub.d/11_windows&lt;/code&gt;,
-&lt;/p&gt;
-
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;#!/bin/sh -e
-echo "#        Adding Windows GRUB 2 menu"
-cat &amp;lt;&amp;lt; EOF
-menuentry "Windows XP" {
-savedefault
-insmod chain
-insmod ntfs
-set root=(hd0,1)
-chainloader +1
-}
-EOF
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-/etc/default/grub
-&lt;/p&gt;
-
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;# Copyright 1999-2013 Gentoo Foundation
-# Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-boot/grub/files/grub.default-2,v 1.4 2013/09/21 18:10:55 floppym Exp $
-#
-# To populate all changes in this file you need to regenerate your
-# grub configuration file afterwards:
-#     'grub2-mkconfig -o /boot/grub/grub.cfg'
-#
-# See the grub info page for documentation on possible variables and
-# their associated values. 
-
-GRUB_DISTRIBUTOR="Gentoo"
-
-GRUB_DEFAULT=saved
-GRUB_SAVEDEFAULT=true
-GRUB_HIDDEN_TIMEOUT=0
-GRUB_HIDDEN_TIMEOUT_QUIET=true
-GRUB_TIMEOUT=10
-
-# Append parameters to the linux kernel command line
-GRUB_CMDLINE_LINUX="libata.dma=1"
-
-# Append parameters to the linux kernel command line for non-recovery entries
-#GRUB_CMDLINE_LINUX_DEFAULT=""
-
-# Uncomment to disable graphical terminal (grub-pc only)
-#GRUB_TERMINAL=console
-
-# The resolution used on graphical terminal.
-# Note that you can use only modes which your graphic card supports via VBE.
-# You can see them in real GRUB with the command `vbeinfo'.
-#GRUB_GFXMODE=640x480
-
-# Path to theme spec txt file.
-# The starfield is by default provided with use truetype.
-# NOTE: when enabling custom theme, ensure you have required font/etc.
-#GRUB_THEME="/boot/grub/themes/starfield/theme.txt"
-
-# Background image used on graphical terminal.
-# Can be in various bitmap formats.
-#GRUB_BACKGROUND="/boot/grub/mybackground.png"
-
-# Uncomment if you don't want GRUB to pass "root=UUID=xxx" parameter to kernel
-#GRUB_DISABLE_LINUX_UUID=true
-
-# Uncomment to disable generation of recovery mode menu entries
-#GRUB_DISABLE_RECOVERY=true
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;&lt;/div&gt;</description><category>en</category><category>grub</category><category>linux</category><guid>http://blog.binchen.org/posts/my-grub2-configuration/</guid><pubDate>Tue, 31 Dec 2013 19:09:00 GMT</pubDate></item></channel></rss>
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>init</category><category>linux</category><guid>http://blog.binchen.org/posts/how-to-execute-user-program-for-system-v-init-script/</guid><pubDate>Sat, 18 Jan 2014 09:37:10 GMT</pubDate></item></channel></rss>

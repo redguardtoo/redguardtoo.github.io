@@ -3,23 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>Org link and pdf-tools | Chen's blog</title>
+<title>Set up vmtouch systemd service | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/org-link-and-pdf-tools/">
+<link rel="canonical" href="http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
-<meta property="og:title" content="Org link and pdf-tools">
-<meta property="og:url" content="http://blog.binchen.org/posts/org-link-and-pdf-tools/">
-<meta property="og:description" content="By default, Org pdf link uses doc-view.el to open pdf. So if you move focus over the link docview:papers/last.pdf::NNN in a org file and run M-x org-open-at-point, API doc-view-goto-page is called.
+<meta property="og:title" content="Set up vmtouch systemd service">
+<meta property="og:url" content="http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/">
+<meta property="og:description" content='"/etc/default/vmtouch" on Debian Testing,
 
 
-">
+
+# Change to yes to enable running vmtouch as a daemon
+ENABLE_VMTOUCH=yes
+
+# User and group to run as
+VMTOUCH_USER_GROUP=cb:cb
+
+# Whitespace separated list '>
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2021-05-05T11:34:28Z">
+<meta property="article:published_time" content="2021-06-26T04:46:41Z">
 <meta property="article:tag" content="emacs">
 <meta property="article:tag" content="en">
-<meta property="article:tag" content="pdf">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="systemd">
+<meta property="article:tag" content="vmtouch">
 </head>
 <body>
     <section class="social"><ul>
@@ -35,11 +44,11 @@
             
     <div class="post">
     
-    <h1 class="p-name entry-title" itemprop="headline name">Org link and pdf-tools</h1>
+    <h1 class="p-name entry-title" itemprop="headline name">Set up vmtouch systemd service</h1>
 
         <div class="meta">
             <div class="authordate">
-                <time class="timeago" datetime="2021-05-05T11:34:28+00:00">2021-05-05 11:34</time>
+                <time class="timeago" datetime="2021-06-26T04:46:41+00:00">2021-06-26 04:46</time>
             
 
             
@@ -53,7 +62,9 @@
         Tags : 
            <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
            <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="../../categories/pdf/" rel="tag">pdf</a></li>
+           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="../../categories/systemd/" rel="tag">systemd</a></li>
+           <li><a class="tag p-category" href="../../categories/vmtouch/" rel="tag">vmtouch</a></li>
         </ul>
 </div>
 
@@ -61,54 +72,45 @@
         <div class="body">
             <div>
 <p>
-By default, <a href="https://orgmode.org/manual/External-Links.html">Org pdf link</a> uses <code>doc-view.el</code> to open pdf. So if you move focus over the link <code>docview:papers/last.pdf::NNN</code> in a org file and run <code>M-x org-open-at-point</code>, API <code>doc-view-goto-page</code> is called.
+"/etc/default/vmtouch" on Debian Testing,
 </p>
-
-<p>
-These days <a href="https://github.com/politza/pdf-tools">pdf-tools</a> is very popular.
-If pdf-tools is installed and enabled, API call of <code>doc-view-goto-page</code> will fail.
-</p>
-
-<p>
-Below code fixes this problem. It will automatically call correct API with or without pdf-tools.
-</p>
-
 <div class="org-src-container">
 
-<pre><code class="lang-lisp">(defun my-org-docview-open-hack (orig-func &amp;rest args)
-  (let* ((link (car args)) path page)
-    (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
-    (setq path (match-string 1 link))
-    (setq page (and (match-beginning 2)
-                    (string-to-number (match-string 2 link))))
-    (org-open-file path 1)
-    (when page
-      (cond
-       ((eq major-mode 'pdf-view-mode)
-        (pdf-view-goto-page page))
-       (t
-        (doc-view-goto-page page))))))
-(advice-add 'org-docview-open :around #'my-org-docview-open-hack)
+<pre><code class="lang-ini"># Change to yes to enable running vmtouch as a daemon
+ENABLE_VMTOUCH=yes
+
+# User and group to run as
+VMTOUCH_USER_GROUP=cb:cb
+
+# Whitespace separated list of files and directories for vmtouch to operate on
+VMTOUCH_FILES="/home/cb/.emacs.d/lisp /home/cb/.emacs.d/elpa /home/cb/.emacs.d/site-lisp /home/cb/.mozilla/firefox/linux.default/*.sqlite /home/cb/.mozilla/firefox/linux.default/*.json"
+
+# Options to pass to vmtouch itself. See vmtouch(8).
+VMTOUCH_OPTIONS="-q -t"
 </code></pre>
 
 </div>
+<p>
+Run <code>sudo systemctl restart vmtouch</code> to restart the service.
+</p>
+
+<p>
+"<i>home/cb</i>.emacs.d" is not touched because the package <a href="https://github.com/jorgenschaefer/elpy">elpy</a> will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
+</p>
 </div>
         </div>
         
         <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../use-magit-to-commit-efficiently-and-correctly/" rel="prev" title="Use Magit to commit efficiently and correctly">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="../set-up-vmtouch-systemd-service/" rel="next" title="Set up vmtouch systemd service">Next post</a>
+                <a href="../org-link-and-pdf-tools/" rel="prev" title="Org link and pdf-tools">Previous post</a>
             </li>
         </ul>
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/org-link-and-pdf-tools/",
-        disqus_title="Org link and pdf-tools",
-        disqus_identifier="cache/posts/org-link-and-pdf-tools.html",
+            disqus_url="http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/",
+        disqus_title="Set up vmtouch systemd service",
+        disqus_identifier="cache/posts/set-up-vmtouch-systemd-service.html",
         disqus_config = function () {
             this.language = "en";
         };
