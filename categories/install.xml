@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about install)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/install.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Notes to install Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-to-install-gentoo-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org82638c5" class="outline-2"&gt;
-&lt;h3 id="org82638c5"&gt;Intel integrated video card&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org82638c5"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about install)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/install.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 13 Oct 2021 08:15:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Notes to install Gentoo Linux</title><link>http://blog.binchen.org/posts/notes-to-install-gentoo-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org0bb4c44" class="outline-2"&gt;
+&lt;h3 id="org0bb4c44"&gt;Intel integrated video card&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0bb4c44"&gt;
 &lt;p&gt;
 Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&amp;gt; Graphic =&amp;gt; Intel) is critical:
 &lt;/p&gt;
@@ -13,9 +13,9 @@ Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&amp;gt; Graphic =&a
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5ac9b1a" class="outline-2"&gt;
-&lt;h3 id="org5ac9b1a"&gt;Grub2&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5ac9b1a"&gt;
+&lt;div id="outline-container-org39e7138" class="outline-2"&gt;
+&lt;h3 id="org39e7138"&gt;Grub2&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org39e7138"&gt;
 &lt;p&gt;
 Let grub2 create the cfg for me automatically,
 &lt;/p&gt;
@@ -27,13 +27,13 @@ Let grub2 create the cfg for me automatically,
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org0462a66" class="outline-2"&gt;
-&lt;h3 id="org0462a66"&gt;Network&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0462a66"&gt;
+&lt;div id="outline-container-org74c1edd" class="outline-2"&gt;
+&lt;h3 id="org74c1edd"&gt;Network&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org74c1edd"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7269d05" class="outline-3"&gt;
-&lt;h4 id="org7269d05"&gt;Ethernet&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org7269d05"&gt;
+&lt;div id="outline-container-orgd42e36e" class="outline-3"&gt;
+&lt;h4 id="orgd42e36e"&gt;Ethernet&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgd42e36e"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -48,9 +48,9 @@ rc-update add net.eth0 default
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf0b8540" class="outline-3"&gt;
-&lt;h4 id="orgf0b8540"&gt;Wireless (wifi)&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgf0b8540"&gt;
+&lt;div id="outline-container-org06f8630" class="outline-3"&gt;
+&lt;h4 id="org06f8630"&gt;Wireless (wifi)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org06f8630"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -122,17 +122,17 @@ Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc29ffec" class="outline-2"&gt;
-&lt;h3 id="orgc29ffec"&gt;Clock Synchronization&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc29ffec"&gt;
+&lt;div id="outline-container-org3c5979b" class="outline-2"&gt;
+&lt;h3 id="org3c5979b"&gt;Clock Synchronization&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3c5979b"&gt;
 &lt;p&gt;
 &lt;a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate"&gt;htpdate&lt;/a&gt; is great because it only use HTTP protocol, don't forget add server in its config file.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2d5df0a" class="outline-2"&gt;
-&lt;h3 id="org2d5df0a"&gt;Sound&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org2d5df0a"&gt;
+&lt;div id="outline-container-orgd7ac5fc" class="outline-2"&gt;
+&lt;h3 id="orgd7ac5fc"&gt;Sound&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd7ac5fc"&gt;
 &lt;p&gt;
 Nothing to tell. There may be some issue, but I forgot.&lt;/p&gt;
 &lt;/div&gt;

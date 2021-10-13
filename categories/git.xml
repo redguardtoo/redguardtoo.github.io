@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 13 Oct 2021 08:15:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 I prefer using git cli because it's more light weight.
 &lt;/p&gt;
 
@@ -21,9 +21,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orge7dabb9" class="outline-2"&gt;
-&lt;h3 id="orge7dabb9"&gt;Magit UI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge7dabb9"&gt;
+&lt;div id="outline-container-orgb49333a" class="outline-2"&gt;
+&lt;h3 id="orgb49333a"&gt;Magit UI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb49333a"&gt;
 &lt;p&gt;
 One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 &lt;/p&gt;
@@ -82,9 +82,9 @@ BTW, my actual code in my &lt;code&gt;.emacs.d&lt;/code&gt; is &lt;a href="https
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org9e16fe5" class="outline-2"&gt;
-&lt;h3 id="org9e16fe5"&gt;CLI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9e16fe5"&gt;
+&lt;div id="outline-container-org7c2daee" class="outline-2"&gt;
+&lt;h3 id="org7c2daee"&gt;CLI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7c2daee"&gt;
 &lt;p&gt;
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 &lt;/p&gt;
@@ -197,9 +197,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org7a7abc8" class="outline-2"&gt;
-&lt;h3 id="org7a7abc8"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7a7abc8"&gt;
+&lt;div id="outline-container-org559cf0f" class="outline-2"&gt;
+&lt;h3 id="org559cf0f"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org559cf0f"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -233,9 +233,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgeef85dc" class="outline-2"&gt;
-&lt;h3 id="orgeef85dc"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgeef85dc"&gt;
+&lt;div id="outline-container-org8bf4369" class="outline-2"&gt;
+&lt;h3 id="org8bf4369"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org8bf4369"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -395,7 +395,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgc69c15d" class="outline-2"&gt;
+&lt;div id="outline-container-orgbbcb5b8" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -451,7 +451,7 @@ Native Emacs API is enough to save/load windows layout.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7563d6b" class="outline-2"&gt;
+&lt;div id="outline-container-org838a6b1" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;
@@ -783,18 +783,18 @@ I also recommend reading &lt;a href="https://bitbucket.org/lyro/evil/issue/511/l
 I use keyboard only in order to maximize my productivity.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org7c18e82" class="outline-2"&gt;
-&lt;h3 id="org7c18e82"&gt;Preparation&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7c18e82"&gt;
+&lt;div id="outline-container-org1fdc24f" class="outline-2"&gt;
+&lt;h3 id="org1fdc24f"&gt;Preparation&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1fdc24f"&gt;
 &lt;p&gt;
 Install Firefox addon &lt;a href="https://github.com/mooz/keysnail/wiki"&gt;Keysnail&lt;/a&gt; and its plugin &lt;a href="https://github.com/mooz/keysnail/wiki/plugin"&gt;HOK&lt;/a&gt;. From now on, all the web browsing is done ONLY in keyboard.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge567cd8" class="outline-2"&gt;
-&lt;h3 id="orge567cd8"&gt;Step 1&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge567cd8"&gt;
+&lt;div id="outline-container-org924e293" class="outline-2"&gt;
+&lt;h3 id="org924e293"&gt;Step 1&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org924e293"&gt;
 &lt;p&gt;
 Open pull request page at github.com, click the link "command line".
 &lt;/p&gt;
@@ -819,9 +819,9 @@ I have installed a Greasemonkey user script &lt;a href="https://github.com/redgu
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcf8e6a5" class="outline-2"&gt;
-&lt;h3 id="orgcf8e6a5"&gt;Step 2&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgcf8e6a5"&gt;
+&lt;div id="outline-container-orgb5cd71a" class="outline-2"&gt;
+&lt;h3 id="orgb5cd71a"&gt;Step 2&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb5cd71a"&gt;
 &lt;p&gt;
 I open the code file with Emacs.
 &lt;/p&gt;
@@ -844,9 +844,9 @@ In short, I can &lt;b&gt;review the latest commit and change the code in one ste
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org29a3af3" class="outline-2"&gt;
-&lt;h3 id="org29a3af3"&gt;Done&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org29a3af3"&gt;
+&lt;div id="outline-container-org53318d2" class="outline-2"&gt;
+&lt;h3 id="org53318d2"&gt;Done&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org53318d2"&gt;
 &lt;p&gt;
 After review and code change, the remaining book-keeping things (git-commit/git-merge/git-push) are easy.
 &lt;/p&gt;

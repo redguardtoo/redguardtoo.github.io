@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about archlinux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/archlinux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 15 Jun 2021 14:00:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Notes on set up nfs on ArchLinux</title><link>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Key points&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ul&gt; &lt;li&gt;see &lt;a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html"&gt;Redhat documenation&lt;/a&gt;, best doc on exportfs &lt;/li&gt; &lt;li&gt;&lt;a href="http://superuser.com/questions/492989/understanding-subnet-mask"&gt;Understanding Subnet mask&lt;/a&gt; and &lt;a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask"&gt;essential Subnet mask&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -r&lt;/code&gt; to reload /etc/exports &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -v&lt;/code&gt; to see current nfs exports &lt;/li&gt; &lt;li&gt;content of /etc/exports: &lt;/li&gt; &lt;/ul&gt;     
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about archlinux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/archlinux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 13 Oct 2021 08:15:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Notes on set up nfs on ArchLinux</title><link>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Key points&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ul&gt; &lt;li&gt;see &lt;a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html"&gt;Redhat documenation&lt;/a&gt;, best doc on exportfs &lt;/li&gt; &lt;li&gt;&lt;a href="http://superuser.com/questions/492989/understanding-subnet-mask"&gt;Understanding Subnet mask&lt;/a&gt; and &lt;a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask"&gt;essential Subnet mask&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -r&lt;/code&gt; to reload /etc/exports &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -v&lt;/code&gt; to see current nfs exports &lt;/li&gt; &lt;li&gt;content of /etc/exports: &lt;/li&gt; &lt;/ul&gt;     
 &lt;pre class="prettyprint "&gt;
 
 /srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
@@ -33,9 +33,9 @@ sudo exportfs
 sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
 &lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>archlinux</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux/</guid><pubDate>Fri, 07 Feb 2014 17:24:09 GMT</pubDate></item><item><title>Why some systemd service on ArchLinux does not work</title><link>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org54c2cc8" class="outline-2"&gt;
-&lt;h3 id="org54c2cc8"&gt;List failed services&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org54c2cc8"&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>archlinux</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux/</guid><pubDate>Fri, 07 Feb 2014 17:24:09 GMT</pubDate></item><item><title>Why some systemd service on ArchLinux does not work</title><link>http://blog.binchen.org/posts/why-some-systemd-service-on-archlinux-does-not-work/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;div id="outline-container-org2af42fc" class="outline-2"&gt;
+&lt;h3 id="org2af42fc"&gt;List failed services&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2af42fc"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl --failed
@@ -48,9 +48,9 @@ I can also use `sudo journalctl -b` to get the log message when booting all the 
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf829a5f" class="outline-2"&gt;
-&lt;h3 id="orgf829a5f"&gt;Find the root cause of failed service&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf829a5f"&gt;
+&lt;div id="outline-container-org64f907f" class="outline-2"&gt;
+&lt;h3 id="org64f907f"&gt;Find the root cause of failed service&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org64f907f"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;sudo systemctl status service-name
@@ -59,9 +59,9 @@ I can also use `sudo journalctl -b` to get the log message when booting all the 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3ea8e0f" class="outline-2"&gt;
-&lt;h3 id="org3ea8e0f"&gt;Why my /usr/lib/systemd/system/network-wifi.service does not work&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3ea8e0f"&gt;
+&lt;div id="outline-container-orge1a115b" class="outline-2"&gt;
+&lt;h3 id="orge1a115b"&gt;Why my /usr/lib/systemd/system/network-wifi.service does not work&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge1a115b"&gt;
 &lt;p&gt;
 Here is the content of my wifi service
 &lt;/p&gt;
@@ -106,9 +106,9 @@ Solutin is simple:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga921639" class="outline-2"&gt;
-&lt;h3 id="orga921639"&gt;How to start a service as specific user (mpd, for example)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga921639"&gt;
+&lt;div id="outline-container-orge264c6f" class="outline-2"&gt;
+&lt;h3 id="orge264c6f"&gt;How to start a service as specific user (mpd, for example)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge264c6f"&gt;
 &lt;p&gt;
 This is the content of /usr/lib/systemd/system/mpd.service: 
 &lt;/p&gt;
@@ -140,9 +140,9 @@ WantedBy=multi-user.target
 &lt;p&gt;
 For &lt;a href="http://www.archlinux.org"&gt;ArchLinux&lt;/a&gt; only:
 &lt;/p&gt;
-&lt;div id="outline-container-org7f2a1b3" class="outline-2"&gt;
-&lt;h3 id="org7f2a1b3"&gt;Prepare directory&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7f2a1b3"&gt;
+&lt;div id="outline-container-org3244abe" class="outline-2"&gt;
+&lt;h3 id="org3244abe"&gt;Prepare directory&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3244abe"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;mkdir -p ~/bt/{session,finished,torrent}
@@ -152,9 +152,9 @@ For &lt;a href="http://www.archlinux.org"&gt;ArchLinux&lt;/a&gt; only:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org96ae41b" class="outline-2"&gt;
-&lt;h3 id="org96ae41b"&gt;Install&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org96ae41b"&gt;
+&lt;div id="outline-container-orgfe6325c" class="outline-2"&gt;
+&lt;h3 id="orgfe6325c"&gt;Install&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfe6325c"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;sudo pacman -S cronie
@@ -166,9 +166,9 @@ sudo systemctl start cronie
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0798ca3" class="outline-2"&gt;
-&lt;h3 id="org0798ca3"&gt;Add cron task to start and stop rtorrent service&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0798ca3"&gt;
+&lt;div id="outline-container-org6de3103" class="outline-2"&gt;
+&lt;h3 id="org6de3103"&gt;Add cron task to start and stop rtorrent service&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6de3103"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;crontab -e #add cron task as current user

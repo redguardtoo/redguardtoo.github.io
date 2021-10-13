@@ -23,6 +23,178 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/how-to-speed-up-lsp-mode/">How to speed up lsp-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2020-03-09T12:10:32+00:00">2020-03-09 12:10</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/how-to-speed-up-lsp-mode/#disqus_thread" data-disqus-identifier="cache/posts/how-to-speed-up-lsp-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+Here is my setup,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(with-eval-after-load 'lsp-mode
+  ;; enable log only for debug
+  (setq lsp-log-io nil)
+
+  ;; use `evil-matchit' instead
+  (setq lsp-enable-folding nil)
+
+  ;; no real time syntax check
+  (setq lsp-diagnostic-package :none)
+
+  ;; handle yasnippet by myself
+  (setq lsp-enable-snippet nil)
+
+  ;; use `company-ctags' only.
+  ;; Please note `company-lsp' is automatically enabled if installed
+  (setq lsp-enable-completion-at-point nil)
+
+  ;; turn off for better performance
+  (setq lsp-enable-symbol-highlighting nil)
+
+  ;; use ffip instead
+  (setq lsp-enable-links nil)
+
+  ;; auto restart lsp
+  (setq lsp-restart 'auto-restart)
+
+  ;; @see https://github.com/emacs-lsp/lsp-mode/pull/1498 and code related to auto configure.
+  ;; Require clients could be slow.
+  ;; I only load `lsp-clients' because it includes the js client which I'm interested
+  (setq lsp-client-packages '(lsp-clients))
+
+  ;; don't scan 3rd party javascript libraries
+  (push "[/\\\\][^/\\\\]*\\.\\(json\\|html\\|jade\\)$" lsp-file-watch-ignored) ; json
+
+  ;; don't ping LSP lanaguage server too frequently
+  (defvar lsp-on-touch-time 0)
+  (defadvice lsp-on-change (around lsp-on-change-hack activate)
+    ;; don't run `lsp-on-change' too frequently
+    (when (&gt; (- (float-time (current-time))
+                lsp-on-touch-time) 30) ;; 30 seconds
+      (setq lsp-on-touch-time (float-time (current-time)))
+      ad-do-it)))
+
+(defun my-connect-lsp (&amp;optional no-reconnect)
+  "Connect lsp server.  If NO-RECONNECT is t, don't shutdown existing lsp connection."
+  (interactive "P")
+  (when (and (not no-reconnect)
+             (fboundp 'lsp-disconnect))
+    (lsp-disconnect))
+  (when (and buffer-file-name
+             (not (member (file-name-extension buffer-file-name)
+                          '("json"))))
+    (unless (and (boundp 'lsp-mode) lsp-mode)
+      (if (derived-mode-p 'js2-mode) (setq-local lsp-enable-imenu nil))
+      (lsp-deferred))))
+</code></pre>
+
+</div>
+
+<p>
+To enable <code>lsp</code> for the major mode <code>XXX-mode</code> needs only one line,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(add-hook 'XXX-mode-hook #'my-connect-lsp)
+</code></pre>
+
+</div>
+
+<p>
+You also need install three packages,
+</p>
+
+<ul class="org-ul">
+<li>
+<a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation</li>
+<li>
+<a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> for code completion</li>
+<li>
+<a href="https://github.com/technomancy/find-file-in-project">find-file-in-project</a> (ffip) for searching file in project</li>
+</ul>
+<p>
+Explanation,
+</p>
+
+<p>
+Ctags is used to generate tags file for <code>company-ctags</code> and <code>counsel-etags</code>. GNU Find is required for <code>find-file-in-project</code>.
+</p>
+
+<p>
+These three packages are faster and can replace the corresponding functionalities in <code>lsp-mode</code>.
+</p>
+
+<p>
+I don't need any lint tools from <code>lsp-mode</code> because the lint tool is already included in our build script. I can see the syntax error from terminal.
+</p>
+
+<p>
+I <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">advice</a> the <code>lsp-on-change</code> in order to notify the language server less frequently.
+</p>
+
+<p>
+<code>js2-mode</code>  has its own javascript parser extract imenu items. So I don't need javascript language server's parser to send back imenu items.
+</p>
+
+<p>
+By default <code>lsp-client-packages</code> contains many clients, but I only code in javascript which is included in <code>lsp-clients</code>.
+</p>
+
+<p>
+Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679631b8361b9b26fd3d663bb6ba/lsp-mode.el#L7156">quoted from lsp-mode</a>,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;;;###autoload
+(defun lsp (&amp;optional arg)
+  ;; ...
+  (when (and lsp-auto-configure)
+    (seq-do (lambda (package) (require package nil t))
+            lsp-client-packages))
+  ;; ...
+)
+</code></pre>
+
+</div>
+
+<p>
+I have done <a href="https://github.com/emacs-lsp/lsp-mode/pull/1498">some profiling</a> by insert <code>(profiler-report-cpu)</code> at the end of <code>lsp</code> (the bottlenecks is highlighted).
+</p>
+
+<div class="figure">
+<p><img src="wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"></p>
+</div>
+
+<p>
+The language server I used <a href="https://github.com/sourcegraph/javascript-typescript-langserver/issues/394">can read jsconfig.json</a> in project root. I can specify the directories to exclude in it.</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/yin-and-yang-in-emacs/">Yin and Yang in Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">
