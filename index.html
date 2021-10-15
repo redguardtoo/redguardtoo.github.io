@@ -23,6 +23,57 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/suan-tai-chao-dan/">蒜苔炒蛋</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2021-10-15T12:24:19+00:00">2021-10-15 12:24</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/suan-tai-chao-dan/#disqus_thread" data-disqus-identifier="cache/posts/suan-tai-chao-dan.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="categories/egg/" rel="tag">egg</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+视频教程见<a href="https://www.youtube.com/watch?v=9N8A1AvrxJ0">老東北美食: 只要多做一步，蒜苔又嫩又入味</a>
+</p>
+
+<p>
+要点,
+</p>
+<ul class="org-ul">
+<li>蒜苔老的头掐掉, 开水焯一下后放入冷水,从中间撕成两半,切成四公分的段.</li>
+<li>滚刀切葱段备用</li>
+<li>炒蛋核桃块大小, 三分盐</li>
+<li>油热后加葱和少许海鲜酱油.炒几下后加入蒜苔加盐花椒油翻炒</li>
+<li>加蛋翻炒几下,略勾芡</li>
+</ul>
+<p>
+注:
+没有花椒油,所以我在油温较高时和葱段一起加入少许花椒粒,利用油温爆出花椒香味.
+</p>
+
+<div class="figure">
+<p><img src="wp-content/suantai-egg.jpg" alt="suantai-egg.jpg"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/ma-po-dou-fu/">麻婆豆腐</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -835,131 +886,6 @@ Step 4, run <code>git mergetool -t emacsclient</code> to resolve conflicts.
 My <a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d">init-ediff.el</a> in <a href="https://github.com/redguardtoo/emacs.d">emacs.d</a>.
 </p>
 </div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/">Thoughts on "Native shell completion in Emacs"</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2020-04-09T10:40:23+00:00">2020-04-09 10:40</time>
-</div>
-                <div class="stats">
-                    
-        
-    <a href="posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/#disqus_thread" data-disqus-identifier="cache/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/autocomplete/" rel="tag">autocomplete</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/shell/" rel="tag">shell</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div>
-<p>
-<a href="https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/">Native shell completion in Emacs</a> by Troy Hinckley is must read for completion in <code>shell-mode</code>.
-</p>
-
-<p>
-One problem is my <code>~/.bashrc</code> executes <code>/etc/bash_completion</code>,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-sh">if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
-</code></pre>
-
-</div>
-
-<p>
-Unfortunately <code>/etc/bash_completion</code> makes <code>complete -p</code> output some lines the Emacs function <code>bash-completion-tokenize</code> can't analyze.
-</p>
-
-<p>
-Here is output of <code>complete -p</code> at my PC,
-</p>
-
-<pre class="example">
-...
-complete -F _known_hosts mtr
-complete -o default -o nospace -W 'homepc
-192.168.1.104
-github.com
-gitlab.com' scp
-complete -o default -f -X '!*.dvi' dvipdf
-...
-</pre>
-
-<p>
-The line <code>gitlab.com' scp</code> will crash <code>bash-completion-tokenize</code>. Obviously, one line 
-<code>complete -o default -o nospace -W 'homepc 192.168.1.104 github.com gitlab.com' scp</code>  is wrongly split into multiple lines by <code>complete -p</code>.
-</p>
-
-<p>
-In <code>shell-mode</code>, completion functions might call <code>bash-completion-tokenize</code>. If <code>bash-completion-tokenize</code> crashes, the completion in <code>shell-mode</code> won't work.
-</p>
-
-<p>
-Besides, if <code>company-mode</code> provides auto-completion UI, it's better to place the backend <code>company-files</code> before <code>company-native-complete</code>. It's because the backend <code>company-files</code> displays the full file path in candidates. So users can complete the whole path in one shot.
-</p>
-
-<p>
-My setup code for the packages Troy Hinckley suggested,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">;; Enable auto-completion in `shell'.
-(with-eval-after-load 'shell
-  (native-complete-setup-bash))
-
-;; `bash-completion-tokenize' can handle garbage output of "complete -p"
-(defadvice bash-completion-tokenize (around bash-completion-tokenize-hack activate)
-  (let* ((args (ad-get-args 0))
-         (beg (nth 0 args))
-         (end (nth 1 args)))
-    ;; original code extracts tokens from output of "complete -p" line by line
-    (cond
-     ((not (string-match-p "^complete " (buffer-substring beg end)))
-      ;; filter out some wierd lines
-      (setq ad-return-value nil))
-     (t
-      ad-do-it))))
-
-(defun shell-mode-hook-setup ()
-  "Set up `shell-mode'."
-  ;; hook `completion-at-point', optional
-  (add-hook 'completion-at-point-functions #'native-complete-at-point nil t)
-  (setq-local company-backends '((company-files company-native-complete)))
-  ;; `company-native-complete' is better than `completion-at-point'
-  (local-set-key (kbd "TAB") 'company-complete))
-(add-hook 'shell-mode-hook 'shell-mode-hook-setup)
-</code></pre>
-
-</div>
-
-<p>
-Screenshot,
-</p>
-
-<div class="figure">
-<p><img src="wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"></p>
-</div>
-
-<div class="figure">
-<p><img src="wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"></p>
 </div>
 </div>
             </div>
