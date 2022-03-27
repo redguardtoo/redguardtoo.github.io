@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about teamviewer)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/teamviewer.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 27 Mar 2022 02:19:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Start teamviewer on i3wm</title><link>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+See &lt;a href="https://community.teamviewer.com/English/discussion/17737/debian-linux-program-does-not-start"&gt;yveslec's analysis&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+So the solution is just one liner in shell.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;ssh -X 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is my shell script "~/bin/sshx-teamviewer.sh" with a bit optimization,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
+# Run "cat ~/.ssh/id_rsa.pubkey &amp;gt;&amp;gt; ~/.ssh/authorized_keys" to
+# avoid inputting ssh login password
+ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>i3</category><category>linux</category><category>teamviewer</category><guid>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</guid><pubDate>Sun, 27 Mar 2022 02:16:17 GMT</pubDate></item></channel></rss>

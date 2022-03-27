@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 13 Oct 2021 08:15:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 27 Mar 2022 02:19:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Start teamviewer on i3wm</title><link>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+See &lt;a href="https://community.teamviewer.com/English/discussion/17737/debian-linux-program-does-not-start"&gt;yveslec's analysis&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+So the solution is just one liner in shell.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;ssh -X 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is my shell script "~/bin/sshx-teamviewer.sh" with a bit optimization,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
+# Run "cat ~/.ssh/id_rsa.pubkey &amp;gt;&amp;gt; ~/.ssh/authorized_keys" to
+# avoid inputting ssh login password
+ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;&lt;/div&gt;</description><category>i3</category><category>linux</category><category>teamviewer</category><guid>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</guid><pubDate>Sun, 27 Mar 2022 02:16:17 GMT</pubDate></item><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 "/etc/default/vmtouch" on Debian Testing,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
@@ -496,12 +521,4 @@ Insert below code into &lt;code&gt;.emacs&lt;/code&gt;,
 
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>spell</category><guid>http://blog.binchen.org/posts/effective-spell-check-in-emacs/</guid><pubDate>Tue, 21 Jan 2014 12:00:00 GMT</pubDate></item><item><title>How to execute user program for System V init script</title><link>http://blog.binchen.org/posts/how-to-execute-user-program-for-system-v-init-script/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Memo for my self. &lt;/p&gt;   
-&lt;pre class="prettyprint "&gt;
-
-sudo ls -1 /etc/{rc,init}.d/|grep local
-
-# then read the file either rc.local or local
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>en</category><category>init</category><category>linux</category><guid>http://blog.binchen.org/posts/how-to-execute-user-program-for-system-v-init-script/</guid><pubDate>Sat, 18 Jan 2014 09:37:10 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>spell</category><guid>http://blog.binchen.org/posts/effective-spell-check-in-emacs/</guid><pubDate>Tue, 21 Jan 2014 12:00:00 GMT</pubDate></item></channel></rss>

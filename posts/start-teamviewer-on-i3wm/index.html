@@ -3,36 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>蒜苔炒蛋 | Chen's blog</title>
+<title>Start teamviewer on i3wm | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/suan-tai-chao-dan/">
+<link rel="canonical" href="http://blog.binchen.org/posts/start-teamviewer-on-i3wm/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
-<meta property="og:title" content="蒜苔炒蛋">
-<meta property="og:url" content="http://blog.binchen.org/posts/suan-tai-chao-dan/">
-<meta property="og:description" content="视频教程见老東北美食: 只要多做一步，蒜苔又嫩又入味
+<meta property="og:title" content="Start teamviewer on i3wm">
+<meta property="og:url" content="http://blog.binchen.org/posts/start-teamviewer-on-i3wm/">
+<meta property="og:description" content="See yveslec's analysis.
 
 
 
-要点,
-
-
-蒜苔老的头掐掉, 开水焯一下后放入冷水,从中间撕成两半,切成四公分的段.
-滚刀切葱段备用
-炒蛋核桃块大小, 三分盐
-油热后加葱和少许海鲜酱油.炒几下后加入蒜苔加盐花椒油翻炒
-加蛋翻炒几下,略勾芡
+So the solution is just one liner in shell.
 
 
 
-注:
-没有花椒油,所以我在油温较高时和葱段一起加入少许花椒粒,利用油温爆出花椒香味.">
+ssh -X 127.0.0.1 &quot;DISPLAY=:0.0 teamviewer&quot;
+
+
+
+
+
+Here is my shell script &quot;~/bin/sshx-teamviewer.sh&quot; with a bit optimization,
+
+
+">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2021-10-15T12:24:19Z">
-<meta property="article:tag" content="cuisine">
-<meta property="article:tag" content="egg">
-<meta property="article:tag" content="zh">
+<meta property="article:published_time" content="2022-03-27T02:16:17Z">
+<meta property="article:tag" content="i3">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="teamviewer">
 </head>
 <body>
     <section class="social"><ul>
@@ -48,11 +49,11 @@
             
     <div class="post">
     
-    <h1 class="p-name entry-title" itemprop="headline name">蒜苔炒蛋</h1>
+    <h1 class="p-name entry-title" itemprop="headline name">Start teamviewer on i3wm</h1>
 
         <div class="meta">
             <div class="authordate">
-                <time class="timeago" datetime="2021-10-15T12:24:19+00:00">2021-10-15 12:24</time>
+                <time class="timeago" datetime="2022-03-27T02:16:17+00:00">2022-03-27 02:16</time>
             
 
             
@@ -64,9 +65,9 @@
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="../../categories/cuisine/" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="../../categories/egg/" rel="tag">egg</a></li>
-           <li><a class="tag p-category" href="../../categories/zh/" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="../../categories/i3/" rel="tag">i3</a></li>
+           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="../../categories/teamviewer/" rel="tag">teamviewer</a></li>
         </ul>
 </div>
 
@@ -74,44 +75,45 @@
         <div class="body">
             <div>
 <p>
-视频教程见<a href="https://www.youtube.com/watch?v=9N8A1AvrxJ0">老東北美食: 只要多做一步，蒜苔又嫩又入味</a>
+See <a href="https://community.teamviewer.com/English/discussion/17737/debian-linux-program-does-not-start">yveslec's analysis</a>.
 </p>
 
 <p>
-要点,
+So the solution is just one liner in shell.
 </p>
-<ul class="org-ul">
-<li>蒜苔老的头掐掉, 开水焯一下后放入冷水,从中间撕成两半,切成四公分的段.</li>
-<li>滚刀切葱段备用</li>
-<li>炒蛋核桃块大小, 三分盐</li>
-<li>油热后加葱和少许海鲜酱油.炒几下后加入蒜苔加盐花椒油翻炒</li>
-<li>加蛋翻炒几下,略勾芡</li>
-</ul>
-<p>
-注:
-没有花椒油,所以我在油温较高时和葱段一起加入少许花椒粒,利用油温爆出花椒香味.
-</p>
+<div class="org-src-container">
 
-<div class="figure">
-<p><img src="image/suantai-egg.jpg" alt="suantai-egg.jpg"></p>
+<pre><code class="lang-sh">ssh -X 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+</code></pre>
+
+</div>
+
+<p>
+Here is my shell script "~/bin/sshx-teamviewer.sh" with a bit optimization,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/sh
+# Run "cat ~/.ssh/id_rsa.pubkey &gt;&gt; ~/.ssh/authorized_keys" to
+# avoid inputting ssh login password
+ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+</code></pre>
+
 </div>
 </div>
         </div>
         
         <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../ma-po-dou-fu/" rel="prev" title="麻婆豆腐">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="../start-teamviewer-on-i3wm/" rel="next" title="Start teamviewer on i3wm">Next post</a>
+                <a href="../suan-tai-chao-dan/" rel="prev" title="蒜苔炒蛋">Previous post</a>
             </li>
         </ul>
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/suan-tai-chao-dan/",
-        disqus_title="\u849c\u82d4\u7092\u86cb",
-        disqus_identifier="cache/posts/suan-tai-chao-dan.html",
+            disqus_url="http://blog.binchen.org/posts/start-teamviewer-on-i3wm/",
+        disqus_title="Start teamviewer on i3wm",
+        disqus_identifier="cache/posts/start-teamviewer-on-i3wm.html",
         disqus_config = function () {
             this.language = "en";
         };

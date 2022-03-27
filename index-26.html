@@ -23,6 +23,153 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/make-emacs-faster-than-vim-in-git-mergetool/">Make Emacs faster than Vim in "git mergetool"</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2020-04-10T09:33:40+00:00">2020-04-10 09:33</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/make-emacs-faster-than-vim-in-git-mergetool/#disqus_thread" data-disqus-identifier="cache/posts/make-emacs-faster-than-vim-in-git-mergetool.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/mergetool/" rel="tag">mergetool</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html">Emacs is the best merge tool for Git</a> explains how to combine <a href="https://git-scm.com/docs/git-mergetool/2.20.0">git mergetool</a> with <a href="https://www.gnu.org/software/emacs/manual/html_node/ediff/">ediff-mode</a> in Emacs.
+</p>
+
+<p>
+<a href="https://disqus.com/by/harrisonmccullough/">Harrison McCullough</a> suggested the work flow can be faster if emacs is replaced with emacsclient.
+</p>
+
+<p>
+I did some research and found a perfect solution. It's even faster than Vim.
+</p>
+
+<div id="outline-container-org559cf0f" class="outline-2">
+<h3 id="org559cf0f">Initial solution</h3>
+<div class="outline-text-2" id="text-org559cf0f">
+<p>
+Please note emacsclient is only use for resolving conflicts.
+</p>
+
+<p>
+Step 1, start emacs server by running <code>emacs -Q --daemon --eval "(setq startup-now t)" -l "/home/my-username/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))"</code> in shell.
+</p>
+
+<p>
+Step 2, insert below code into <code>~/.emacs.d/init.el</code> (see the comment why this advice is required):
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defadvice server-save-buffers-kill-terminal (after server-save-buffers-kill-terminal-after-hack activate)
+  ;; kill all buffers, so new ediff panel is re-created and `ediff-startup-hook-setup' is called again
+  ;; besides, remove the buffers whose binding files are alredy merged in `buffer-list'
+  (mapc 'kill-buffer (buffer-list)))
+</code></pre>
+
+</div>
+
+<p>
+Step 3, insert below code into <code>~/.gitconfig</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[mergetool.ediff]
+cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \\\"$BASE\\\") (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\") (ediff-merge-files \\\"$LOCAL\\\" \\\"$REMOTE\\\" nil \\\"$MERGED\\\")))\"
+</code></pre>
+
+</div>
+</div>
+</div>
+<div id="outline-container-org8bf4369" class="outline-2">
+<h3 id="org8bf4369">My real world solution</h3>
+<div class="outline-text-2" id="text-org8bf4369">
+<p>
+It's similar to initial solution. But some scripts are created for automation.
+</p>
+
+<p>
+Step 1, read <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html">Using Emacs as a Server</a> in the manual and create <code>~/.config/systemd/user/emacs.service</code> for <a href="https://en.wikipedia.org/wiki/Systemd">Systemd</a>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=forking
+ExecStart=emacs -Q --daemon --eval "(setq startup-now t)" -l "/home/my-username/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))" 
+ExecStop=emacsclient --eval "(kill-emacs)"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+</code></pre>
+
+</div>
+
+<p>
+Step 2, set up in <code>~/.gitconfig</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[mergetool.emacs]
+    cmd = ediff.sh "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+[mergetool.emacsclient]
+    cmd = MYEMACSCLIENT=emacsclient ediff.sh "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+</code></pre>
+
+</div>
+
+<p>
+Step 3, create <code>ediff.sh</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/sh
+[ -z "$MYEMACSCLIENT" ] &amp;&amp; MYEMACSCLIENT="emacs"
+# emacsclient won't work in git mergetool
+# $1=$LOCAL $2=$REMOTE $3=$BASE $4=$MERGED
+if [ "$MYEMACSCLIENT" = "emacs" ]; then
+    $MYEMACSCLIENT -nw -Q --eval "(setq startup-now t)" -l "$HOME/.emacs.d/init.el" --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
+else
+    $MYEMACSCLIENT -nw --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
+fi
+</code></pre>
+
+</div>
+
+<p>
+Step 4, run <code>git mergetool -t emacsclient</code> to resolve conflicts.
+</p>
+
+<p>
+My <a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d">init-ediff.el</a> in <a href="https://github.com/redguardtoo/emacs.d">emacs.d</a>.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/">Thoughts on "Native shell completion in Emacs"</a></h1>
             <div class="meta">
                 <div class="authordate">
