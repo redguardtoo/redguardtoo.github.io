@@ -56,7 +56,7 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 </p>
 
-<div id="outline-container-org4abd536" class="outline-2">
+<div id="outline-container-orgb42a44d" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -71,7 +71,7 @@ Here are the steps,
 </ul>
 <div class="org-src-container">
 
-<pre><code class="lang-sh">cd ~/Downloads/emacs-28.1 &amp;&amp; mkdir -p ~/myemacs/28.1 &amp;&amp; rm -rf ~/myemacs/28.1/* &amp;&amp; ./configure CFLAGS=-no-pie --prefix=~/myemacs/28.1 --without-x --without-sound  --with-modules &amp;&amp; make &amp;&amp; make install
+<pre><code class="lang-sh">cd ~/Downloads/emacs-28.1 &amp;&amp; mkdir -p ~/myemacs/28.1 &amp;&amp; rm -rf ~/myemacs/28.1/* &amp;&amp; ./configure CFLAGS=-no-pie --prefix=~/myemacs/28.1 --without-x --without-sound  --with-modules --with-native-compilation --without-compress-install &amp;&amp; make &amp;&amp; make install
 </code></pre>
 
 </div>
@@ -108,12 +108,12 @@ WantedBy=default.target
 </div>
 </div>
 
-<div id="outline-container-org05b6dc5" class="outline-2">
+<div id="outline-container-org618c820" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org74117bf" class="outline-3">
-<h4 id="org74117bf">
+<div id="outline-container-org63fcf41" class="outline-3">
+<h4 id="org63fcf41">
 <span class="section-number-3">2.1</span> disable "idle loader" in server mode</h4>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -141,8 +141,8 @@ Here is the code,
 </div>
 </div>
 
-<div id="outline-container-org33736ea" class="outline-3">
-<h4 id="org33736ea">
+<div id="outline-container-org1d99add" class="outline-3">
+<h4 id="org1d99add">
 <span class="section-number-3">2.2</span> Shell script to install Emacs</h4>
 <div class="outline-text-3" id="text-2-2">
 <p>
