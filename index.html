@@ -56,14 +56,14 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 </p>
 
-<div id="outline-container-org69bf576" class="outline-2">
+<div id="outline-container-orgeb6dbdf" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
 Here are the steps,
 </p>
 <ul class="org-ul">
-<li>Compare <a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD">PKGBUILD of emacs-nox 27</a> and <a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD">PKGBUILD of emacs-nativecomp 28</a> to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux site to collect information)</li>
+<li>Compare <a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD">PKGBUILD of emacs-nox 27</a> and <a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD">PKGBUILD of emacs-nativecomp 28</a> to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux's website to collect information)</li>
 <li>The only missing third party package is `libgccjit`. Run `sudo apt install libgccjit-12-dev` to install it</li>
 <li>Download Emacs 28.1 source code, run `cd ~/Downloads/emacs-28.1 &amp;&amp; mkdir -p ~/myemacs/28.1 &amp;&amp; rm -rf ~/myemacs/28.1/* &amp;&amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;&amp; make &amp;&amp; make install`, Please note it's installed inside "~/myemacs/28.1"</li>
 <li>After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (Please noteI watched a few youtube videos while waiting the compilation to finish)</li>
@@ -97,12 +97,12 @@ Run `emacsclient` to use Emacs 28.1.
 </div>
 </div>
 
-<div id="outline-container-org3ca7974" class="outline-2">
+<div id="outline-container-org3f50c78" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgec28c5c" class="outline-3">
-<h4 id="orgec28c5c">
+<div id="outline-container-org93a29dd" class="outline-3">
+<h4 id="org93a29dd">
 <span class="section-number-3">2.1</span> disable "idle loader" in server mode</h4>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -130,7 +130,7 @@ Here is the code,
 </div>
 </div>
 </div>
-<div id="outline-container-orgeff19a0" class="outline-2">
+<div id="outline-container-org6581b6d" class="outline-2">
 
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
