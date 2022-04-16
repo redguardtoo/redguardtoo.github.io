@@ -69,7 +69,7 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 </p>
 
-<div id="outline-container-org7011bd4" class="outline-2">
+<div id="outline-container-org88c97fb" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -77,9 +77,13 @@ Here are the steps,
 </p>
 <ul class="org-ul">
 <li>Compare <a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD">PKGBUILD of emacs-nox 27</a> and <a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD">PKGBUILD of emacs-nativecomp 28</a> to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux's website to collect information)</li>
+
 <li>The only missing third party package is `libgccjit`. Run `sudo apt install libgccjit-12-dev` to install it</li>
+
 <li>Download Emacs 28.1 source code, run `cd ~/Downloads/emacs-28.1 &amp;&amp; mkdir -p ~/myemacs/28.1 &amp;&amp; rm -rf ~/myemacs/28.1/* &amp;&amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;&amp; make &amp;&amp; make install`, Please note it's installed inside "~/myemacs/28.1"</li>
-<li>After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (Please noteI watched a few youtube videos while waiting the compilation to finish)</li>
+
+<li>After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (Please note I watched a few youtube videos while waiting the compilation to finish)</li>
+
 <li>Create "~/.config/systemd/user/emacs.service" with below content ("/home/cb" is my HOME directory),</li>
 </ul>
 <div class="org-src-container">
@@ -100,22 +104,21 @@ WantedBy=default.target
 </code></pre>
 
 </div>
+
 <ul class="org-ul">
 <li>Run `systemctl –user restart emacs.service` in shell</li>
-<li>Done!</li>
+
+<li>Done! Run `emacsclient` to enjoy Emacs 28.1.</li>
 </ul>
-<p>
-Run `emacsclient` to use Emacs 28.1.
-</p>
 </div>
 </div>
 
-<div id="outline-container-org35b72c2" class="outline-2">
+<div id="outline-container-org1e7d3be" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org6152297" class="outline-3">
-<h4 id="org6152297">
+<div id="outline-container-org7938cd9" class="outline-3">
+<h4 id="org7938cd9">
 <span class="section-number-3">2.1</span> disable "idle loader" in server mode</h4>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -143,8 +146,8 @@ Here is the code,
 </div>
 </div>
 
-<div id="outline-container-org970d1ee" class="outline-3">
-<h4 id="org970d1ee">
+<div id="outline-container-orgee23639" class="outline-3">
+<h4 id="orgee23639">
 <span class="section-number-3">2.2</span> Shell script to install Emacs</h4>
 <div class="outline-text-3" id="text-2-2">
 <p>
