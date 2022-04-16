@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 16 Apr 2022 04:09:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 16 Apr 2022 04:12:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 and gradually migrate from Emacs 27 to Emacs 28.
 &lt;/p&gt;
 
@@ -7,7 +7,7 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org5f8cff7" class="outline-2"&gt;
+&lt;div id="outline-container-org69bf576" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -15,8 +15,8 @@ Here are the steps,
 &lt;/p&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Compare &lt;a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nox 27&lt;/a&gt; and &lt;a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nativecomp 28&lt;/a&gt; to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux site to collect information)&lt;/li&gt;
-&lt;li&gt;As I can see, the only third party package I need install is `libgccjit`. On debian, run `sudo apt install libgccjit-12-dev`&lt;/li&gt;
-&lt;li&gt;Down Emacs 28.1 source code, and run `cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install`, Please note it's installed inside "~/myemacs/28.1"&lt;/li&gt;
+&lt;li&gt;The only missing third party package is `libgccjit`. Run `sudo apt install libgccjit-12-dev` to install it&lt;/li&gt;
+&lt;li&gt;Download Emacs 28.1 source code, run `cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install`, Please note it's installed inside "~/myemacs/28.1"&lt;/li&gt;
 &lt;li&gt;After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (Please noteI watched a few youtube videos while waiting the compilation to finish)&lt;/li&gt;
 &lt;li&gt;Create "~/.config/systemd/user/emacs.service" with below content ("/home/cb" is my HOME directory),&lt;/li&gt;
 &lt;/ul&gt;
@@ -49,12 +49,12 @@ Run `emacsclient` to use Emacs 28.1.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc561a4b" class="outline-2"&gt;
+&lt;div id="outline-container-org3ca7974" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2560ac3" class="outline-3"&gt;
-&lt;h4 id="org2560ac3"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
+&lt;div id="outline-container-orgec28c5c" class="outline-3"&gt;
+&lt;h4 id="orgec28c5c"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-1"&gt;
 &lt;p&gt;
 I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
@@ -81,7 +81,7 @@ Here is the code,
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3a0bd93" class="outline-2"&gt;
+&lt;div id="outline-container-orgeff19a0" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-3"&gt;
 &lt;div class="org-src-container"&gt;
@@ -115,127 +115,7 @@ fi
 
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</guid><pubDate>Sat, 16 Apr 2022 04:07:37 GMT</pubDate></item><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-I'm a happy Emacs 27 user on Debian Linux. It's my major tool for work so I can't uninstall it immediately.
-&lt;/p&gt;
-
-&lt;p&gt;
-My plan is to use both Emacs 28.1 and Emacs 27 on the same machine and gradually migrate from Emacs 27 to Emacs 28.
-&lt;/p&gt;
-
-&lt;p&gt;
-So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode. 
-&lt;/p&gt;
-
-&lt;div id="outline-container-orga41920d" class="outline-2"&gt;
-
-&lt;div class="outline-text-2" id="text-1"&gt;
-&lt;p&gt;
-Here are the steps,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Compare &lt;a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nox 27&lt;/a&gt; and &lt;a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nativecomp 28&lt;/a&gt; to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux site to collect information)&lt;/li&gt;
-&lt;li&gt;As I can see, the only third party package I need install is `libgccjit`. On debian, run `sudo apt install libgccjit-12-dev`&lt;/li&gt;
-&lt;li&gt;Down Emacs 28.1 source code, and run `cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install`, Please note it's installed inside "~/myemacs/28.1"&lt;/li&gt;
-&lt;li&gt;After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (Please noteI watched a few youtube videos while waiting the compilation to finish)&lt;/li&gt;
-&lt;li&gt;Create "~/.config/systemd/user/emacs.service" with below content ("/home/cb" is my HOME directory),&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
-Description=Emacs text editor
-Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
-
-[Service]
-Type=forking
-ExecStart=/home/cb/myemacs/28.1/bin/emacs -Q --daemon -l "/home/cb/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))"
-ExecStop=emacsclient --eval "(kill-emacs)"
-Environment=SSH_AUTH_SOCK=%t/keyring/ssh
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Run `systemctl –user restart emacs.service` in shell&lt;/li&gt;
-&lt;li&gt;Done!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-Run `emacsclient` to use Emacs 28.1.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org031a5eb" class="outline-2"&gt;
-
-&lt;div class="outline-text-2" id="text-2"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgd1a0b2a" class="outline-3"&gt;
-&lt;h4 id="orgd1a0b2a"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-2-1"&gt;
-&lt;p&gt;
-I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is the code,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar my-disable-idle-timer (daemonp)
-  "If not nil, Function passed to `my-run-with-idle-timer' is run immediately.")
-
-(defun my-run-with-idle-timer (seconds func)
-  "After SECONDS, run function FUNC once."
-  (cond
-   (my-disable-idle-timer
-    (funcall func))
-   (t
-    (run-with-idle-timer seconds nil func))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgdd50cd0" class="outline-2"&gt;
-
-&lt;div class="outline-text-2" id="text-3"&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
-[ -z "$EMACS_VERSION" ] &amp;amp;&amp;amp; echo "Usage: EMACS_VERSION=25.1 install-emacs.sh or EMACS_VERSION=snapshot install-emacs.sh" &amp;amp;&amp;amp; exit 1
-[ -z "$EMACS_URL" ] &amp;amp;&amp;amp; EMACS_URL="http://mirror.aarnet.edu.au/pub/gnu/emacs/"
-# I've assign 12G memory to /tmp as ramdisk
-[ -z "$EMACS_TMP" ] &amp;amp;&amp;amp; EMACS_TMP="/tmp"
-
-if [ "$EMACS_VERSION" != "snapshot" ]; then
-    echo "curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz"
-    curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz | tar xvz -C $EMACS_TMP
-fi
-
-# @see http://wiki.gentoo.org/wiki/Project:Emacs/GNU_Emacs_developer_guide
-# @see http://packages.gentoo.org/package/app-editors/emacs for info on Gentoo Linux
-# --without-gtk and --without-gtk3 is optional
-echo "Installing Emacs ..."
-if [ "$EMACS_VERSION" = "snapshot" ]; then
-    cd $HOME/projs/emacs &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/snapshot &amp;amp;&amp;amp; rm -rf $HOME/myemacs/snapshot/* &amp;amp;&amp;amp; ./autogen.sh &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/snapshot --without-x --without-dbus --without-sound --with-gnutls=no &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
-    echo "Emacs snapshot was installed!"
-elif [ "$EMACS_VERSION" = "28.1" ]; then
-    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;amp;&amp;amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound --with-modules --with-native-compilation --without-compress-install &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
-else
-    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;amp;&amp;amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound  --with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
-    rm -rf $EMACS_TMP/emacs-$EMACS_VERSION
-    echo "Emacs $EMACS_VERSION was installed!"
-fi
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</guid><pubDate>Sun, 27 Mar 2022 02:16:17 GMT</pubDate></item><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</guid><pubDate>Sat, 16 Apr 2022 04:07:37 GMT</pubDate></item><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 "/etc/default/vmtouch" on Debian Testing,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
@@ -313,9 +193,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb49333a" class="outline-2"&gt;
-&lt;h3 id="orgb49333a"&gt;Magit UI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb49333a"&gt;
+&lt;div id="outline-container-org50d2af1" class="outline-2"&gt;
+&lt;h3 id="org50d2af1"&gt;Magit UI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org50d2af1"&gt;
 &lt;p&gt;
 One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 &lt;/p&gt;
@@ -374,9 +254,9 @@ BTW, my actual code in my &lt;code&gt;.emacs.d&lt;/code&gt; is &lt;a href="https
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7c2daee" class="outline-2"&gt;
-&lt;h3 id="org7c2daee"&gt;CLI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7c2daee"&gt;
+&lt;div id="outline-container-org26c2be1" class="outline-2"&gt;
+&lt;h3 id="org26c2be1"&gt;CLI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org26c2be1"&gt;
 &lt;p&gt;
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 &lt;/p&gt;
@@ -636,9 +516,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org559cf0f" class="outline-2"&gt;
-&lt;h3 id="org559cf0f"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org559cf0f"&gt;
+&lt;div id="outline-container-org888a1fd" class="outline-2"&gt;
+&lt;h3 id="org888a1fd"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org888a1fd"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -672,9 +552,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8bf4369" class="outline-2"&gt;
-&lt;h3 id="org8bf4369"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8bf4369"&gt;
+&lt;div id="outline-container-orgea30c6d" class="outline-2"&gt;
+&lt;h3 id="orgea30c6d"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgea30c6d"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -836,4 +716,146 @@ Screenshot,
 &lt;div class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"&gt;
 &lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>autocomplete</category><category>emacs</category><category>en</category><category>shell</category><guid>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</guid><pubDate>Thu, 09 Apr 2020 10:40:23 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;</description><category>autocomplete</category><category>emacs</category><category>en</category><category>shell</category><guid>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</guid><pubDate>Thu, 09 Apr 2020 10:40:23 GMT</pubDate></item><item><title>How to speed up lsp-mode</title><link>http://blog.binchen.org/posts/how-to-speed-up-lsp-mode/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+Here is my setup,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'lsp-mode
+  ;; enable log only for debug
+  (setq lsp-log-io nil)
+
+  ;; use `evil-matchit' instead
+  (setq lsp-enable-folding nil)
+
+  ;; no real time syntax check
+  (setq lsp-diagnostic-package :none)
+
+  ;; handle yasnippet by myself
+  (setq lsp-enable-snippet nil)
+
+  ;; use `company-ctags' only.
+  ;; Please note `company-lsp' is automatically enabled if installed
+  (setq lsp-enable-completion-at-point nil)
+
+  ;; turn off for better performance
+  (setq lsp-enable-symbol-highlighting nil)
+
+  ;; use ffip instead
+  (setq lsp-enable-links nil)
+
+  ;; auto restart lsp
+  (setq lsp-restart 'auto-restart)
+
+  ;; @see https://github.com/emacs-lsp/lsp-mode/pull/1498 and code related to auto configure.
+  ;; Require clients could be slow.
+  ;; I only load `lsp-clients' because it includes the js client which I'm interested
+  (setq lsp-client-packages '(lsp-clients))
+
+  ;; don't scan 3rd party javascript libraries
+  (push "[/\\\\][^/\\\\]*\\.\\(json\\|html\\|jade\\)$" lsp-file-watch-ignored) ; json
+
+  ;; don't ping LSP lanaguage server too frequently
+  (defvar lsp-on-touch-time 0)
+  (defadvice lsp-on-change (around lsp-on-change-hack activate)
+    ;; don't run `lsp-on-change' too frequently
+    (when (&amp;gt; (- (float-time (current-time))
+                lsp-on-touch-time) 30) ;; 30 seconds
+      (setq lsp-on-touch-time (float-time (current-time)))
+      ad-do-it)))
+
+(defun my-connect-lsp (&amp;amp;optional no-reconnect)
+  "Connect lsp server.  If NO-RECONNECT is t, don't shutdown existing lsp connection."
+  (interactive "P")
+  (when (and (not no-reconnect)
+             (fboundp 'lsp-disconnect))
+    (lsp-disconnect))
+  (when (and buffer-file-name
+             (not (member (file-name-extension buffer-file-name)
+                          '("json"))))
+    (unless (and (boundp 'lsp-mode) lsp-mode)
+      (if (derived-mode-p 'js2-mode) (setq-local lsp-enable-imenu nil))
+      (lsp-deferred))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+To enable &lt;code&gt;lsp&lt;/code&gt; for the major mode &lt;code&gt;XXX-mode&lt;/code&gt; needs only one line,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'XXX-mode-hook #'my-connect-lsp)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You also need install three packages,
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;counsel-etags&lt;/a&gt; for code navigation&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/redguardtoo/company-ctags"&gt;company-ctags&lt;/a&gt; for code completion&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/technomancy/find-file-in-project"&gt;find-file-in-project&lt;/a&gt; (ffip) for searching file in project&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Explanation,
+&lt;/p&gt;
+
+&lt;p&gt;
+Ctags is used to generate tags file for &lt;code&gt;company-ctags&lt;/code&gt; and &lt;code&gt;counsel-etags&lt;/code&gt;. GNU Find is required for &lt;code&gt;find-file-in-project&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+These three packages are faster and can replace the corresponding functionalities in &lt;code&gt;lsp-mode&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I don't need any lint tools from &lt;code&gt;lsp-mode&lt;/code&gt; because the lint tool is already included in our build script. I can see the syntax error from terminal.
+&lt;/p&gt;
+
+&lt;p&gt;
+I &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html"&gt;advice&lt;/a&gt; the &lt;code&gt;lsp-on-change&lt;/code&gt; in order to notify the language server less frequently.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;js2-mode&lt;/code&gt;  has its own javascript parser extract imenu items. So I don't need javascript language server's parser to send back imenu items.
+&lt;/p&gt;
+
+&lt;p&gt;
+By default &lt;code&gt;lsp-client-packages&lt;/code&gt; contains many clients, but I only code in javascript which is included in &lt;code&gt;lsp-clients&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is code &lt;a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679631b8361b9b26fd3d663bb6ba/lsp-mode.el#L7156"&gt;quoted from lsp-mode&lt;/a&gt;,
+&lt;/p&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;;;###autoload
+(defun lsp (&amp;amp;optional arg)
+  ;; ...
+  (when (and lsp-auto-configure)
+    (seq-do (lambda (package) (require package nil t))
+            lsp-client-packages))
+  ;; ...
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I have done &lt;a href="https://github.com/emacs-lsp/lsp-mode/pull/1498"&gt;some profiling&lt;/a&gt; by insert &lt;code&gt;(profiler-report-cpu)&lt;/code&gt; at the end of &lt;code&gt;lsp&lt;/code&gt; (the bottlenecks is highlighted).
+&lt;/p&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+The language server I used &lt;a href="https://github.com/sourcegraph/javascript-typescript-langserver/issues/394"&gt;can read jsconfig.json&lt;/a&gt; in project root. I can specify the directories to exclude in it.&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/how-to-speed-up-lsp-mode/</guid><pubDate>Mon, 09 Mar 2020 12:10:32 GMT</pubDate></item></channel></rss>

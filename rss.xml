@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 16 Apr 2022 04:09:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 16 Apr 2022 04:12:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 and gradually migrate from Emacs 27 to Emacs 28.
 &lt;/p&gt;
 
@@ -7,7 +7,7 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org5f8cff7" class="outline-2"&gt;
+&lt;div id="outline-container-org69bf576" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -15,8 +15,8 @@ Here are the steps,
 &lt;/p&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Compare &lt;a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nox 27&lt;/a&gt; and &lt;a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nativecomp 28&lt;/a&gt; to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux site to collect information)&lt;/li&gt;
-&lt;li&gt;As I can see, the only third party package I need install is `libgccjit`. On debian, run `sudo apt install libgccjit-12-dev`&lt;/li&gt;
-&lt;li&gt;Down Emacs 28.1 source code, and run `cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install`, Please note it's installed inside "~/myemacs/28.1"&lt;/li&gt;
+&lt;li&gt;The only missing third party package is `libgccjit`. Run `sudo apt install libgccjit-12-dev` to install it&lt;/li&gt;
+&lt;li&gt;Download Emacs 28.1 source code, run `cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install`, Please note it's installed inside "~/myemacs/28.1"&lt;/li&gt;
 &lt;li&gt;After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (Please noteI watched a few youtube videos while waiting the compilation to finish)&lt;/li&gt;
 &lt;li&gt;Create "~/.config/systemd/user/emacs.service" with below content ("/home/cb" is my HOME directory),&lt;/li&gt;
 &lt;/ul&gt;
@@ -49,12 +49,12 @@ Run `emacsclient` to use Emacs 28.1.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc561a4b" class="outline-2"&gt;
+&lt;div id="outline-container-org3ca7974" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2560ac3" class="outline-3"&gt;
-&lt;h4 id="org2560ac3"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
+&lt;div id="outline-container-orgec28c5c" class="outline-3"&gt;
+&lt;h4 id="orgec28c5c"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-1"&gt;
 &lt;p&gt;
 I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
@@ -81,7 +81,7 @@ Here is the code,
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3a0bd93" class="outline-2"&gt;
+&lt;div id="outline-container-orgeff19a0" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-3"&gt;
 &lt;div class="org-src-container"&gt;
@@ -115,127 +115,32 @@ fi
 
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</guid><pubDate>Sat, 16 Apr 2022 04:07:37 GMT</pubDate></item><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-I'm a happy Emacs 27 user on Debian Linux. It's my major tool for work so I can't uninstall it immediately.
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</guid><pubDate>Sat, 16 Apr 2022 04:07:37 GMT</pubDate></item><item><title>Start teamviewer on i3wm</title><link>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+See &lt;a href="https://community.teamviewer.com/English/discussion/17737/debian-linux-program-does-not-start"&gt;yveslec's analysis&lt;/a&gt;.
 &lt;/p&gt;
 
 &lt;p&gt;
-My plan is to use both Emacs 28.1 and Emacs 27 on the same machine and gradually migrate from Emacs 27 to Emacs 28.
-&lt;/p&gt;
-
-&lt;p&gt;
-So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode. 
-&lt;/p&gt;
-
-&lt;div id="outline-container-orga41920d" class="outline-2"&gt;
-
-&lt;div class="outline-text-2" id="text-1"&gt;
-&lt;p&gt;
-Here are the steps,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Compare &lt;a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nox 27&lt;/a&gt; and &lt;a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nativecomp 28&lt;/a&gt; to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux site to collect information)&lt;/li&gt;
-&lt;li&gt;As I can see, the only third party package I need install is `libgccjit`. On debian, run `sudo apt install libgccjit-12-dev`&lt;/li&gt;
-&lt;li&gt;Down Emacs 28.1 source code, and run `cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install`, Please note it's installed inside "~/myemacs/28.1"&lt;/li&gt;
-&lt;li&gt;After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (Please noteI watched a few youtube videos while waiting the compilation to finish)&lt;/li&gt;
-&lt;li&gt;Create "~/.config/systemd/user/emacs.service" with below content ("/home/cb" is my HOME directory),&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
-Description=Emacs text editor
-Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
-
-[Service]
-Type=forking
-ExecStart=/home/cb/myemacs/28.1/bin/emacs -Q --daemon -l "/home/cb/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))"
-ExecStop=emacsclient --eval "(kill-emacs)"
-Environment=SSH_AUTH_SOCK=%t/keyring/ssh
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Run `systemctl –user restart emacs.service` in shell&lt;/li&gt;
-&lt;li&gt;Done!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-Run `emacsclient` to use Emacs 28.1.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org031a5eb" class="outline-2"&gt;
-
-&lt;div class="outline-text-2" id="text-2"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgd1a0b2a" class="outline-3"&gt;
-&lt;h4 id="orgd1a0b2a"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-2-1"&gt;
-&lt;p&gt;
-I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is the code,
+So the solution is just one liner in shell.
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
 
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar my-disable-idle-timer (daemonp)
-  "If not nil, Function passed to `my-run-with-idle-timer' is run immediately.")
-
-(defun my-run-with-idle-timer (seconds func)
-  "After SECONDS, run function FUNC once."
-  (cond
-   (my-disable-idle-timer
-    (funcall func))
-   (t
-    (run-with-idle-timer seconds nil func))))
+&lt;pre&gt;&lt;code class="lang-sh"&gt;ssh -X 127.0.0.1 "DISPLAY=:0.0 teamviewer"
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgdd50cd0" class="outline-2"&gt;
 
-&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;p&gt;
+Here is my shell script "~/bin/sshx-teamviewer.sh" with a bit optimization,
+&lt;/p&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
-[ -z "$EMACS_VERSION" ] &amp;amp;&amp;amp; echo "Usage: EMACS_VERSION=25.1 install-emacs.sh or EMACS_VERSION=snapshot install-emacs.sh" &amp;amp;&amp;amp; exit 1
-[ -z "$EMACS_URL" ] &amp;amp;&amp;amp; EMACS_URL="http://mirror.aarnet.edu.au/pub/gnu/emacs/"
-# I've assign 12G memory to /tmp as ramdisk
-[ -z "$EMACS_TMP" ] &amp;amp;&amp;amp; EMACS_TMP="/tmp"
-
-if [ "$EMACS_VERSION" != "snapshot" ]; then
-    echo "curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz"
-    curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz | tar xvz -C $EMACS_TMP
-fi
-
-# @see http://wiki.gentoo.org/wiki/Project:Emacs/GNU_Emacs_developer_guide
-# @see http://packages.gentoo.org/package/app-editors/emacs for info on Gentoo Linux
-# --without-gtk and --without-gtk3 is optional
-echo "Installing Emacs ..."
-if [ "$EMACS_VERSION" = "snapshot" ]; then
-    cd $HOME/projs/emacs &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/snapshot &amp;amp;&amp;amp; rm -rf $HOME/myemacs/snapshot/* &amp;amp;&amp;amp; ./autogen.sh &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/snapshot --without-x --without-dbus --without-sound --with-gnutls=no &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
-    echo "Emacs snapshot was installed!"
-elif [ "$EMACS_VERSION" = "28.1" ]; then
-    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;amp;&amp;amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound --with-modules --with-native-compilation --without-compress-install &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
-else
-    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;amp;&amp;amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound  --with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
-    rm -rf $EMACS_TMP/emacs-$EMACS_VERSION
-    echo "Emacs $EMACS_VERSION was installed!"
-fi
+# Run "cat ~/.ssh/id_rsa.pubkey &amp;gt;&amp;gt; ~/.ssh/authorized_keys" to
+# avoid inputting ssh login password
+ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</guid><pubDate>Sun, 27 Mar 2022 02:16:17 GMT</pubDate></item><item><title>蒜苔炒蛋</title><link>http://blog.binchen.org/posts/suan-tai-chao-dan/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>i3</category><category>linux</category><category>teamviewer</category><guid>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</guid><pubDate>Sun, 27 Mar 2022 02:16:17 GMT</pubDate></item><item><title>蒜苔炒蛋</title><link>http://blog.binchen.org/posts/suan-tai-chao-dan/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 视频教程见&lt;a href="https://www.youtube.com/watch?v=9N8A1AvrxJ0"&gt;老東北美食: 只要多做一步，蒜苔又嫩又入味&lt;/a&gt;
 &lt;/p&gt;
 
@@ -256,8 +161,8 @@ fi
 &lt;/p&gt;
 
 &lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/posts/suan-tai-chao-dan/image/suantai-egg.jpg" alt="suantai-egg.jpg"&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>cuisine</category><category>egg</category><category>zh</category><guid>http://blog.binchen.org/posts/suan-tai-chao-dan/</guid><pubDate>Fri, 15 Oct 2021 12:24:19 GMT</pubDate></item><item><title>麻婆豆腐</title><link>http://blog.binchen.org/posts/ma-po-dou-fu/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/suantai-egg.jpg" alt="suantai-egg.jpg"&gt;
+&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</description><category>cuisine</category><category>egg</category><category>zh</category><guid>http://blog.binchen.org/posts/suan-tai-chao-dan/</guid><pubDate>Fri, 15 Oct 2021 12:24:19 GMT</pubDate></item><item><title>麻婆豆腐</title><link>http://blog.binchen.org/posts/ma-po-dou-fu/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 视频教程见&lt;a href="https://www.youtube.com/watch?v=vm3jVXajBi8"&gt;大师的菜 麻婆豆腐&lt;/a&gt;.
 &lt;/p&gt;
 
@@ -277,7 +182,8 @@ fi
 
 &lt;div class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/mapotofu.jpg" alt="mapotofu.jpg"&gt;
-&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</description><category>cuisine</category><category>toufu</category><category>zh</category><guid>http://blog.binchen.org/posts/ma-po-dou-fu/</guid><pubDate>Wed, 13 Oct 2021 08:10:31 GMT</pubDate></item><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>cuisine</category><category>toufu</category><category>zh</category><guid>http://blog.binchen.org/posts/ma-po-dou-fu/</guid><pubDate>Wed, 13 Oct 2021 08:10:31 GMT</pubDate></item><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 "/etc/default/vmtouch" on Debian Testing,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
@@ -355,9 +261,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb49333a" class="outline-2"&gt;
-&lt;h3 id="orgb49333a"&gt;Magit UI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb49333a"&gt;
+&lt;div id="outline-container-org50d2af1" class="outline-2"&gt;
+&lt;h3 id="org50d2af1"&gt;Magit UI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org50d2af1"&gt;
 &lt;p&gt;
 One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 &lt;/p&gt;
@@ -416,9 +322,9 @@ BTW, my actual code in my &lt;code&gt;.emacs.d&lt;/code&gt; is &lt;a href="https
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7c2daee" class="outline-2"&gt;
-&lt;h3 id="org7c2daee"&gt;CLI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7c2daee"&gt;
+&lt;div id="outline-container-org26c2be1" class="outline-2"&gt;
+&lt;h3 id="org26c2be1"&gt;CLI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org26c2be1"&gt;
 &lt;p&gt;
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 &lt;/p&gt;

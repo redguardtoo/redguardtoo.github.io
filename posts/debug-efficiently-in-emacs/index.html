@@ -69,9 +69,9 @@ Please note:
 <li>I'm good at most debuggers. The point of this article is to deal with <b>more difficult issues</b> the debugger can not handle.</li>
 <li>My code quality is fine. It handles all the corner cases I've met. For example, single quote and double quotes will be escaped properly.</li>
 </ul>
-<div id="outline-container-org1eb63cf" class="outline-2">
-<h3 id="org1eb63cf">Problem</h3>
-<div class="outline-text-2" id="text-org1eb63cf">
+<div id="outline-container-org8160792" class="outline-2">
+<h3 id="org8160792">Problem</h3>
+<div class="outline-text-2" id="text-org8160792">
 <p>
 As a freelancer I am often required to debug legacy javascript code from some huge "enterprise"" applications.
 </p>
@@ -86,18 +86,18 @@ So my problem is how to insert logging code as quickly as possible.
 </div>
 </div>
 
-<div id="outline-container-org1b33a08" class="outline-2">
-<h3 id="org1b33a08">Solution</h3>
-<div class="outline-text-2" id="text-org1b33a08">
+<div id="outline-container-org90c46aa" class="outline-2">
+<h3 id="org90c46aa">Solution</h3>
+<div class="outline-text-2" id="text-org90c46aa">
 <p>
 My solution is <a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a>. Yasnippet allow me to insert executable Emacs Lisp code in its snippet. I will Sotake full advantage of that feature. 
 </p>
 </div>
 </div>
 
-<div id="outline-container-org07d974c" class="outline-2">
-<h3 id="org07d974c">Logging simple JS variable</h3>
-<div class="outline-text-2" id="text-org07d974c">
+<div id="outline-container-org0935e34" class="outline-2">
+<h3 id="org0935e34">Logging simple JS variable</h3>
+<div class="outline-text-2" id="text-org0935e34">
 <p>
 Given a variable name like "var1", I need insert javascript code as below:
 </p>
@@ -119,9 +119,9 @@ This snippet need you input variable name once.
 </div>
 </div>
 
-<div id="outline-container-org790cbf9" class="outline-2">
-<h3 id="org790cbf9">Logging complex JS variable</h3>
-<div class="outline-text-2" id="text-org790cbf9">
+<div id="outline-container-org57f57a2" class="outline-2">
+<h3 id="org57f57a2">Logging complex JS variable</h3>
+<div class="outline-text-2" id="text-org57f57a2">
 <p>
 In real world, the JS variable is often a string like "MyController.servicea.find('.class').attr1" which I hate to type.
 </p>
@@ -137,9 +137,9 @@ Snippet:
 </div>
 </div>
 
-<div id="outline-container-org21150f5" class="outline-2">
-<h3 id="org21150f5">Logging JS function name when it's called</h3>
-<div class="outline-text-2" id="text-org21150f5">
+<div id="outline-container-orgd56ebf6" class="outline-2">
+<h3 id="orgd56ebf6">Logging JS function name when it's called</h3>
+<div class="outline-text-2" id="text-orgd56ebf6">
 <p>
 In below example, I need insert  "console.log('hello is called');" in function "hello":
 </p>
@@ -172,9 +172,9 @@ The regular expressions could be used in <b>both</b> js-mode and js2-mode.
 </div>
 </div>
 
-<div id="outline-container-org815d093" class="outline-2">
-<h3 id="org815d093">Logging JS function name with its parameters</h3>
-<div class="outline-text-2" id="text-org815d093">
+<div id="outline-container-org7244b54" class="outline-2">
+<h3 id="org7244b54">Logging JS function name with its parameters</h3>
+<div class="outline-text-2" id="text-org7244b54">
 <p>
 JS example:
 </p>
@@ -203,9 +203,9 @@ BTW, since I use <a href="http://www.emacswiki.org/Evil">Evil</a>, copy the para
 </div>
 </div>
 
-<div id="outline-container-orgf712008" class="outline-2">
-<h3 id="orgf712008">Insert JS debugger statement</h3>
-<div class="outline-text-2" id="text-orgf712008">
+<div id="outline-container-org7afb7a2" class="outline-2">
+<h3 id="org7afb7a2">Insert JS debugger statement</h3>
+<div class="outline-text-2" id="text-org7afb7a2">
 <p>
 @cjk provided this tip. The debugger like Firebug will pause at the debugger statement. It saves me the time to locate JS file, to go to the specific line and set breakpoint after re-deploying the application.
 </p>
@@ -221,9 +221,9 @@ Snippets:
 </div>
 </div>
 
-<div id="outline-container-orgf6881b6" class="outline-2">
-<h3 id="orgf6881b6">Bonus</h3>
-<div class="outline-text-2" id="text-orgf6881b6">
+<div id="outline-container-orgee37bea" class="outline-2">
+<h3 id="orgee37bea">Bonus</h3>
+<div class="outline-text-2" id="text-orgee37bea">
 <p>
 Similar snippets for Emacs Lisp are defined <a href="https://github.com/redguardtoo/emacs.d/tree/master/snippets/emacs-lisp-mode">HERE</a>.
 </p>
