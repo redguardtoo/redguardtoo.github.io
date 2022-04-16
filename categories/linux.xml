@@ -1,30 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 27 Mar 2022 02:19:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Start teamviewer on i3wm</title><link>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-See &lt;a href="https://community.teamviewer.com/English/discussion/17737/debian-linux-program-does-not-start"&gt;yveslec's analysis&lt;/a&gt;.
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 16 Apr 2022 04:08:49 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 on the same machine and gradually migrate from Emacs 27 to Emacs 28.
 &lt;/p&gt;
 
 &lt;p&gt;
-So the solution is just one liner in shell.
+So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode. 
 &lt;/p&gt;
+
+&lt;div id="outline-container-org82a8980" class="outline-2"&gt;
+
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+Here are the steps,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Compare &lt;a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nox 27&lt;/a&gt; and &lt;a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nativecomp 28&lt;/a&gt; to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux site to collect information)&lt;/li&gt;
+&lt;li&gt;As I can see, the only third party package I need install is `libgccjit`. On debian, run `sudo apt install libgccjit-12-dev`&lt;/li&gt;
+&lt;li&gt;Down Emacs 28.1 source code, and run `cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install`, Please note it's installed inside "~/myemacs/28.1"&lt;/li&gt;
+&lt;li&gt;After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (Please noteI watched a few youtube videos while waiting the compilation to finish)&lt;/li&gt;
+&lt;li&gt;Create "~/.config/systemd/user/emacs.service" with below content ("/home/cb" is my HOME directory),&lt;/li&gt;
+&lt;/ul&gt;
 &lt;div class="org-src-container"&gt;
 
-&lt;pre&gt;&lt;code class="lang-sh"&gt;ssh -X 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=forking
+ExecStart=/home/cb/myemacs/28.1/bin/emacs -Q --daemon -l "/home/cb/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))"
+ExecStop=emacsclient --eval "(kill-emacs)"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Run `systemctl –user restart emacs.service` in shell&lt;/li&gt;
+&lt;li&gt;Done!&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;
-Here is my shell script "~/bin/sshx-teamviewer.sh" with a bit optimization,
+Run `emacsclient` to use Emacs 28.1.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4d6d04a" class="outline-2"&gt;
+
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org5c490d2" class="outline-3"&gt;
+&lt;h4 id="org5c490d2"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-2-1"&gt;
+&lt;p&gt;
+I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the code,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
 
-&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
-# Run "cat ~/.ssh/id_rsa.pubkey &amp;gt;&amp;gt; ~/.ssh/authorized_keys" to
-# avoid inputting ssh login password
-ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar my-disable-idle-timer (daemonp)
+  "If not nil, Function passed to `my-run-with-idle-timer' is run immediately.")
+
+(defun my-run-with-idle-timer (seconds func)
+  "After SECONDS, run function FUNC once."
+  (cond
+   (my-disable-idle-timer
+    (funcall func))
+   (t
+    (run-with-idle-timer seconds nil func))))
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;&lt;/div&gt;</description><category>i3</category><category>linux</category><category>teamviewer</category><guid>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</guid><pubDate>Sun, 27 Mar 2022 02:16:17 GMT</pubDate></item><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org4b65a62" class="outline-2"&gt;
+
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
+[ -z "$EMACS_VERSION" ] &amp;amp;&amp;amp; echo "Usage: EMACS_VERSION=25.1 install-emacs.sh or EMACS_VERSION=snapshot install-emacs.sh" &amp;amp;&amp;amp; exit 1
+[ -z "$EMACS_URL" ] &amp;amp;&amp;amp; EMACS_URL="http://mirror.aarnet.edu.au/pub/gnu/emacs/"
+# I've assign 12G memory to /tmp as ramdisk
+[ -z "$EMACS_TMP" ] &amp;amp;&amp;amp; EMACS_TMP="/tmp"
+
+if [ "$EMACS_VERSION" != "snapshot" ]; then
+    echo "curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz"
+    curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz | tar xvz -C $EMACS_TMP
+fi
+
+# @see http://wiki.gentoo.org/wiki/Project:Emacs/GNU_Emacs_developer_guide
+# @see http://packages.gentoo.org/package/app-editors/emacs for info on Gentoo Linux
+# --without-gtk and --without-gtk3 is optional
+echo "Installing Emacs ..."
+if [ "$EMACS_VERSION" = "snapshot" ]; then
+    cd $HOME/projs/emacs &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/snapshot &amp;amp;&amp;amp; rm -rf $HOME/myemacs/snapshot/* &amp;amp;&amp;amp; ./autogen.sh &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/snapshot --without-x --without-dbus --without-sound --with-gnutls=no &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+    echo "Emacs snapshot was installed!"
+elif [ "$EMACS_VERSION" = "28.1" ]; then
+    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;amp;&amp;amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound --with-modules --with-native-compilation --without-compress-install &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+else
+    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;amp;&amp;amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound  --with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+    rm -rf $EMACS_TMP/emacs-$EMACS_VERSION
+    echo "Emacs $EMACS_VERSION was installed!"
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</guid><pubDate>Sat, 16 Apr 2022 04:07:37 GMT</pubDate></item><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+I'm a happy Emacs 27 user on Debian Linux. It's my major tool for work so I can't uninstall it immediately.
+&lt;/p&gt;
+
+&lt;p&gt;
+My plan is to use both Emacs 28.1 and Emacs 27 on the same machine and gradually migrate from Emacs 27 to Emacs 28.
+&lt;/p&gt;
+
+&lt;p&gt;
+So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode. 
+&lt;/p&gt;
+
+&lt;div id="outline-container-orga41920d" class="outline-2"&gt;
+
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+Here are the steps,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Compare &lt;a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nox 27&lt;/a&gt; and &lt;a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nativecomp 28&lt;/a&gt; to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux site to collect information)&lt;/li&gt;
+&lt;li&gt;As I can see, the only third party package I need install is `libgccjit`. On debian, run `sudo apt install libgccjit-12-dev`&lt;/li&gt;
+&lt;li&gt;Down Emacs 28.1 source code, and run `cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install`, Please note it's installed inside "~/myemacs/28.1"&lt;/li&gt;
+&lt;li&gt;After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (Please noteI watched a few youtube videos while waiting the compilation to finish)&lt;/li&gt;
+&lt;li&gt;Create "~/.config/systemd/user/emacs.service" with below content ("/home/cb" is my HOME directory),&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=forking
+ExecStart=/home/cb/myemacs/28.1/bin/emacs -Q --daemon -l "/home/cb/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))"
+ExecStop=emacsclient --eval "(kill-emacs)"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Run `systemctl –user restart emacs.service` in shell&lt;/li&gt;
+&lt;li&gt;Done!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+Run `emacsclient` to use Emacs 28.1.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org031a5eb" class="outline-2"&gt;
+
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgd1a0b2a" class="outline-3"&gt;
+&lt;h4 id="orgd1a0b2a"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-2-1"&gt;
+&lt;p&gt;
+I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is the code,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar my-disable-idle-timer (daemonp)
+  "If not nil, Function passed to `my-run-with-idle-timer' is run immediately.")
+
+(defun my-run-with-idle-timer (seconds func)
+  "After SECONDS, run function FUNC once."
+  (cond
+   (my-disable-idle-timer
+    (funcall func))
+   (t
+    (run-with-idle-timer seconds nil func))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgdd50cd0" class="outline-2"&gt;
+
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
+[ -z "$EMACS_VERSION" ] &amp;amp;&amp;amp; echo "Usage: EMACS_VERSION=25.1 install-emacs.sh or EMACS_VERSION=snapshot install-emacs.sh" &amp;amp;&amp;amp; exit 1
+[ -z "$EMACS_URL" ] &amp;amp;&amp;amp; EMACS_URL="http://mirror.aarnet.edu.au/pub/gnu/emacs/"
+# I've assign 12G memory to /tmp as ramdisk
+[ -z "$EMACS_TMP" ] &amp;amp;&amp;amp; EMACS_TMP="/tmp"
+
+if [ "$EMACS_VERSION" != "snapshot" ]; then
+    echo "curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz"
+    curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz | tar xvz -C $EMACS_TMP
+fi
+
+# @see http://wiki.gentoo.org/wiki/Project:Emacs/GNU_Emacs_developer_guide
+# @see http://packages.gentoo.org/package/app-editors/emacs for info on Gentoo Linux
+# --without-gtk and --without-gtk3 is optional
+echo "Installing Emacs ..."
+if [ "$EMACS_VERSION" = "snapshot" ]; then
+    cd $HOME/projs/emacs &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/snapshot &amp;amp;&amp;amp; rm -rf $HOME/myemacs/snapshot/* &amp;amp;&amp;amp; ./autogen.sh &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/snapshot --without-x --without-dbus --without-sound --with-gnutls=no &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+    echo "Emacs snapshot was installed!"
+elif [ "$EMACS_VERSION" = "28.1" ]; then
+    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;amp;&amp;amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound --with-modules --with-native-compilation --without-compress-install &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+else
+    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;amp;&amp;amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;amp;&amp;amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound  --with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+    rm -rf $EMACS_TMP/emacs-$EMACS_VERSION
+    echo "Emacs $EMACS_VERSION was installed!"
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</guid><pubDate>Sun, 27 Mar 2022 02:16:17 GMT</pubDate></item><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 "/etc/default/vmtouch" on Debian Testing,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
@@ -319,206 +530,4 @@ sudo exportfs
 sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
 &lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>archlinux</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux/</guid><pubDate>Fri, 07 Feb 2014 17:24:09 GMT</pubDate></item><item><title>Effective spell check in Emacs</title><link>http://blog.binchen.org/posts/effective-spell-check-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
-CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-01-21 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-12-07 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-I use &lt;a href="http://www.emacswiki.org/emacs/FlySpell"&gt;Flyspell&lt;/a&gt; in web-mode as sample.  Other major modes also works.
-&lt;/p&gt;
-
-&lt;p&gt;
-At first, please  turn on &lt;code&gt;flyspell&lt;/code&gt; for all programming languages by inserting below code into &lt;code&gt;.emacs&lt;/code&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-There is also a &lt;a href="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs"&gt;short tutorial&lt;/a&gt; on:
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;How to setup flyspell&lt;/li&gt;
-&lt;li&gt;Difference between hunspell and aspell&lt;/li&gt;
-&lt;li&gt;How to setup hunspell&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div id="outline-container-orgacb0c5e" class="outline-2"&gt;
-&lt;h3 id="orgacb0c5e"&gt;Spell check in HTML&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgacb0c5e"&gt;
-&lt;p&gt;
-I will spell check,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Text between html tag like &lt;code&gt;&amp;lt;label&amp;gt;Please input email&amp;lt;/label&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Value of html input control like &lt;code&gt;&amp;lt;input type&lt;/code&gt;"text" value="Please input your name"&amp;gt;=&lt;/li&gt;
-&lt;li&gt;CSS class name like &lt;code&gt;&amp;lt;div class&lt;/code&gt;"btn btn-default" /&amp;gt;=&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-My setup:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; {{ flyspell setup for web-mode
-(defun web-mode-flyspell-verify ()
-  (let* ((f (get-text-property (- (point) 1) 'face))
-         rlt)
-    (cond
-     ;; Check the words with these font faces, possibly.
-     ;; this *blacklist* will be tweaked in next condition
-     ((not (memq f '(web-mode-html-attr-value-face
-                     web-mode-html-tag-face
-                     web-mode-html-attr-name-face
-                     web-mode-constant-face
-                     web-mode-doctype-face
-                     web-mode-keyword-face
-                     web-mode-comment-face ;; focus on get html label right
-                     web-mode-function-name-face
-                     web-mode-variable-name-face
-                     web-mode-css-property-name-face
-                     web-mode-css-selector-face
-                     web-mode-css-color-face
-                     web-mode-type-face
-                     web-mode-block-control-face)))
-      (setq rlt t))
-     ;; check attribute value under certain conditions
-     ((memq f '(web-mode-html-attr-value-face))
-      (save-excursion
-        (search-backward-regexp "=['\"]" (line-beginning-position) t)
-        (backward-char)
-        (setq rlt (string-match "^\\(value\\|class\\|ng[A-Za-z0-9-]*\\)$"
-                                (thing-at-point 'symbol)))))
-     ;; finalize the blacklist
-     (t
-      (setq rlt nil)))
-    rlt))
-(put 'web-mode 'flyspell-mode-predicate 'web-mode-flyspell-verify)
-;; }}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-I use &lt;a href="http://web-mode.org/"&gt;web-mode&lt;/a&gt; for HTML files. The technique applies on other modes (php-mode, html-mode ….) .
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org8b927ea" class="outline-2"&gt;
-&lt;h3 id="org8b927ea"&gt;Don't display doublon (double word) as error&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8b927ea"&gt;
-&lt;p&gt;
-Modern CSS frameworks like &lt;a href="http://getbootstrap.com/"&gt;Bootstrap&lt;/a&gt; make doublon unavoidable. For example, CSS class name &lt;code&gt;btn btn-default&lt;/code&gt; contains double word &lt;code&gt;btn&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-So we need stop displaying doublon as error in HTML,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar flyspell-check-doublon t
-  "Check doublon (double word) when calling `flyspell-highlight-incorrect-region'.")
- (make-variable-buffer-local 'flyspell-check-doublon)
-
-(defadvice flyspell-highlight-incorrect-region (around flyspell-highlight-incorrect-region-hack activate)
-  (if (or flyspell-check-doublon (not (eq 'doublon (ad-get-arg 2))))
-      ad-do-it))
-
-(defun web-mode-hook-setup ()
-  (flyspell-mode 1)
-  (setq flyspell-check-doublon nil))
-
-(add-hook 'web-mode-hook 'web-mode-hook-setup)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org3dffeaa" class="outline-2"&gt;
-&lt;h3 id="org3dffeaa"&gt;Spell check camel case strings&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3dffeaa"&gt;
-&lt;p&gt;
-We can check camel cased string/variable/function if and only if &lt;a href="http://aspell.net/"&gt;aspell&lt;/a&gt; is used.
-&lt;/p&gt;
-
-&lt;p&gt;
-Insert below code into &lt;code&gt;.emacs&lt;/code&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; if (aspell installed) { use aspell}
-;; else if (hunspell installed) { use hunspell }
-;; whatever spell checker I use, I always use English dictionary
-;; I prefer use aspell because:
-;; 1. aspell is older
-;; 2. looks Kevin Atkinson still get some road map for aspell:
-;; @see http://lists.gnu.org/archive/html/aspell-announce/2011-09/msg00000.html
-(setq ispell-program-name "aspell"
-      ;; force the English dictionary, support Camel Case spelling check (tested with aspell 0.6)
-      ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together")
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgee11dc4" class="outline-2"&gt;
-&lt;h3 id="orgee11dc4"&gt;Summary&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgee11dc4"&gt;
-&lt;p&gt;
-&lt;a href="http://www.emacswiki.org/emacs/FlySpell"&gt;EmacsWiki&lt;/a&gt; suggests &lt;code&gt;(flyspell-prog-mode)&lt;/code&gt; which only checks typo in comments.
-&lt;/p&gt;
-
-&lt;p&gt;
-But as I proved, Emacs gives you full freedom to design a &lt;b&gt;different&lt;/b&gt; solution.
-&lt;/p&gt;
-
-&lt;p&gt;
-Screen shot (typos are underscored):
-&lt;/p&gt;
-
-
-&lt;div class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/spell-check-html-in-emacs.png" alt="spell-check-html-in-emacs.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orga50bfac" class="outline-2"&gt;
-&lt;h3 id="orga50bfac"&gt;Javascript and ReactJS setup (OPTIONAL)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga50bfac"&gt;
-&lt;p&gt;
-If you fully understand my previous sections, you don't need read this section.
-&lt;/p&gt;
-
-&lt;p&gt;
-Insert below code into &lt;code&gt;.emacs&lt;/code&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun js-flyspell-verify ()
-  (let* ((f (get-text-property (- (point) 1) 'face)))
-    ;; *whitelist*
-    ;; only words with following font face will be checked
-    (memq f '(js2-function-call
-              js2-function-param
-              js2-object-property
-              font-lock-variable-name-face
-              font-lock-string-face
-              font-lock-function-name-face))))
-(put 'js2-mode 'flyspell-mode-predicate 'js-flyspell-verify)
-(put 'rjsx-mode 'flyspell-mode-predicate 'js-flyspell-verify)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>spell</category><guid>http://blog.binchen.org/posts/effective-spell-check-in-emacs/</guid><pubDate>Tue, 21 Jan 2014 12:00:00 GMT</pubDate></item></channel></rss>
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</description><category>archlinux</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux/</guid><pubDate>Fri, 07 Feb 2014 17:24:09 GMT</pubDate></item></channel></rss>

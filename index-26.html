@@ -23,6 +23,105 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/use-magit-api-to-rebase-to-closest-branch/">Use Magit API to rebase to closest branch</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2020-04-14T13:54:28+00:00">2020-04-14 13:54</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="posts/use-magit-api-to-rebase-to-closest-branch/#disqus_thread" data-disqus-identifier="cache/posts/use-magit-api-to-rebase-to-closest-branch.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/magit/" rel="tag">magit</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+My workflow in Git is,
+</p>
+
+<ul class="org-ul">
+<li>Create a new feature branch based on main branch</li>
+<li>Add some small commits into feature branch</li>
+<li>Rebase feature branch interactively</li>
+</ul>
+<p>
+The final rebase step happens a lot.
+</p>
+
+<p>
+So I could use Magit api <code>magit-rebase-interactive</code> to speed up it.
+</p>
+
+<p>
+The key is to analyze output of <code>git log --decorate --oneline</code> to find the main branch commit.
+</p>
+
+<p>
+Code,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-git-extract-based (target)
+  "Extract based version from TARGET."
+  (replace-regexp-in-string "^tag: +"
+                            ""
+                            (car (nreverse (split-string target ", +")))))
+
+(defun my-git-rebase-interactive (&amp;optional user-select-branch)
+  "Rebase interactively on the closest branch or tag in git log output.
+If USER-SELECT-BRANCH is not nil, rebase on the tag or branch selected by user."
+  (interactive "P")
+  (let* ((log-output (shell-command-to-string "git --no-pager log --decorate --oneline -n 1024"))
+         (lines (split-string log-output "\n"))
+         (targets (delq nil
+                        (mapcar (lambda (e)
+                                  (when (and (string-match "^[a-z0-9]+ (\\([^()]+\\)) " e)
+                                             (not (string-match "^[a-z0-9]+ (HEAD " e)))
+                                    (match-string 1 e))) lines)))
+         based)
+    (cond
+     ((or (not targets) (eq (length targets) 0))
+      (message "No tag or branch is found to base on."))
+     ((or (not user-select-branch)) (eq (length targets) 1)
+      ;; select the closest/only tag or branch
+      (setq based (my-git-extract-based (nth 0 targets))))
+     (t
+      ;; select the one tag or branch
+      (setq based (my-git-extract-based (completing-read "Select based: " targets)))))
+
+    ;; start git rebase
+    (when based
+      (magit-rebase-interactive based nil))))
+</code></pre>
+
+</div>
+
+<p>
+Screencast:
+</p>
+
+<div class="figure">
+<p><img src="wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/make-emacs-faster-than-vim-in-git-mergetool/">Make Emacs faster than Vim in "git mergetool"</a></h1>
             <div class="meta">
                 <div class="authordate">
