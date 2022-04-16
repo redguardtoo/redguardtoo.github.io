@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 16 Apr 2022 04:25:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 16 Apr 2022 04:29:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
 As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 and gradually migrate from Emacs 27 to Emacs 28.
 &lt;/p&gt;
 
@@ -7,7 +7,7 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orga45cef0" class="outline-2"&gt;
+&lt;div id="outline-container-org4abd536" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -16,10 +16,18 @@ Here are the steps,
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Compare &lt;a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nox 27&lt;/a&gt; and &lt;a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD"&gt;PKGBUILD of emacs-nativecomp 28&lt;/a&gt; to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux's website to collect information)&lt;/li&gt;
 
-&lt;li&gt;The only missing third party package is `libgccjit`. Run `sudo apt install libgccjit-12-dev` to install it&lt;/li&gt;
+&lt;li&gt;The only missing third party package is &lt;code&gt;libgccjit&lt;/code&gt;. Run &lt;code&gt;sudo apt install libgccjit-12-dev&lt;/code&gt; to install it&lt;/li&gt;
 
-&lt;li&gt;Download Emacs 28.1 source code, run `cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie –prefix=~/myemacs/28.1 –without-x –without-sound  –with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install`, Please note it's installed inside "~/myemacs/28.1"&lt;/li&gt;
+&lt;li&gt;Download Emacs 28.1 source code, run below command in shell,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
 
+&lt;pre&gt;&lt;code class="lang-sh"&gt;cd ~/Downloads/emacs-28.1 &amp;amp;&amp;amp; mkdir -p ~/myemacs/28.1 &amp;amp;&amp;amp; rm -rf ~/myemacs/28.1/* &amp;amp;&amp;amp; ./configure CFLAGS=-no-pie --prefix=~/myemacs/28.1 --without-x --without-sound  --with-modules &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
 &lt;li&gt;After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (I watched a few youtube videos until the compilation finished)&lt;/li&gt;
 
 &lt;li&gt;Create "~/.config/systemd/user/emacs.service" with below content ("/home/cb" is my HOME directory),&lt;/li&gt;
@@ -44,19 +52,19 @@ WantedBy=default.target
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;Run `systemctl –user restart emacs.service` in shell&lt;/li&gt;
+&lt;li&gt;Run &lt;code&gt;systemctl --user restart emacs.service&lt;/code&gt; in shell&lt;/li&gt;
 
-&lt;li&gt;Done! Run `emacsclient` to enjoy Emacs 28.1.&lt;/li&gt;
+&lt;li&gt;Done! Run &lt;code&gt;emacsclient&lt;/code&gt; to enjoy Emacs 28.1.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9a688c6" class="outline-2"&gt;
+&lt;div id="outline-container-org05b6dc5" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgce0cdad" class="outline-3"&gt;
-&lt;h4 id="orgce0cdad"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
+&lt;div id="outline-container-org74117bf" class="outline-3"&gt;
+&lt;h4 id="org74117bf"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-1"&gt;
 &lt;p&gt;
 I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
@@ -83,8 +91,8 @@ Here is the code,
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org506a0ec" class="outline-3"&gt;
-&lt;h4 id="org506a0ec"&gt;&lt;span class="section-number-3"&gt;2.2&lt;/span&gt; Shell script to install Emacs&lt;/h4&gt;
+&lt;div id="outline-container-org33736ea" class="outline-3"&gt;
+&lt;h4 id="org33736ea"&gt;&lt;span class="section-number-3"&gt;2.2&lt;/span&gt; Shell script to install Emacs&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-2"&gt;
 &lt;p&gt;
 You could Use below script "install-emacs.sh" to install Emacs,
