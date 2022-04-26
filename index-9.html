@@ -30,7 +30,7 @@
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/set-up-nfs-server-on-archlinux/#disqus_thread" data-disqus-identifier="cache/posts/set-up-nfs-server-on-archlinux.html">Comments</a>
 
 
@@ -46,8 +46,7 @@
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>The purpose of set up nfs server is to watch video stored on server through my android devices. </p>    <pre class="src src-sh">sudo pacman -S nfs-utils
 <span style="color: #969896; font-style: italic;"># </span><span style="color: #969896; font-style: italic;">donnot touch /etc/idmapd.conf</span>
 <p>mkdir -p /srv/nfs4/z</p>
@@ -59,7 +58,7 @@
 <p>sudo systemctl start rpc-idmapd</p>
 <p>sudo systemctl enable rpc-mountd</p>
 <p>sudo systemctl start rpc-mountd</p>
-<p></p></pre>  </div>
+<p></p></pre>
             </div>
         </div>
         <div class="post">
@@ -70,7 +69,7 @@
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/an-example-to-abuse-the-git-merge/#disqus_thread" data-disqus-identifier="cache/posts/an-example-to-abuse-the-git-merge.html">Comments</a>
 
 
@@ -88,13 +87,11 @@
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>WARNING, this is BAD practice. I'm showing you anti-pattern you'd better avoid. </p> <p> The work flow is simple at the beginning. There is only one master branch where several developers submit the code. </p> <p> Then come bad rules:  </p>
 <ul>
 <li>Rule 1, any feature should be done on new branch (this rule is actually good if without next three rules)  </li> <li>Rule 2, <code>git rebase</code> is forbidden and any minor branch created by developers should be publicized immediately.  </li> <li>Rule 3, keep using your same feature branch forever even it's behind master branch for a very long time.   </li> <li>Rule 4, <code>git merge</code> between feature and master branches frequently </li> </ul>
 <p> After three months developement, this is the result of <code>git log –graph –oneline</code>: <img src="wp-content/uploads/2013/06/git-merge-mess-nq82.png" alt="image/git-merge-mess-nq8.png"></p> <p> Can you see the "M" at the top right corner. It's "M" from "Merge". </p>
-</div>
             </div>
         </div>
         <div class="post">
@@ -105,7 +102,7 @@
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#disqus_thread" data-disqus-identifier="cache/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively.html">Comments</a>
 
 
@@ -124,8 +121,7 @@
 
             </div>
             <div class="body">
-                <div>
-<p>
+                <p>
 You can jump to <a href="posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#org85e6e19">No description for this link</a> section at the end of this article.
 </p>
 
@@ -459,7 +455,6 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
 </div>
 </div>
 </div>
-</div>
             </div>
         </div>
         <div class="post">
@@ -470,7 +465,7 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/open-readme-under-git-root-directory-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/open-readme-under-git-root-directory-in-emacs.html">Comments</a>
 
 
@@ -488,8 +483,7 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>I often need update my README files at the root directory of my project which is always managed by git. </p> <p> As a lazy guy, I' rather use some hotkey to open that README. </p> <p> So if you add below elisp code into your ~/ .emacs, you can use hot key <code>C-c C-f</code> to open the README: </p>    <pre class="src src-elisp">(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">open-readme-in-git-root-directory</span> ()
   (interactive)
   (<span style="color: #b5bd68;">let</span> (filename
@@ -508,7 +502,6 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
     ))
 (global-set-key (kbd <span style="color: #8abeb7;">"C-c C-f"</span>) 'open-readme-in-git-root-directory)
 <p></p></pre>  <p> ,,,, </p>
-</div>
             </div>
         </div>
         <div class="post">
@@ -519,7 +512,7 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/i-became-a-true-emacs-geek-when-i-publicized-my-emacs-d-at-github-com/#disqus_thread" data-disqus-identifier="cache/posts/i-became-a-true-emacs-geek-when-i-publicized-my-emacs-d-at-github-com.html">Comments</a>
 
 
@@ -537,14 +530,12 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>Me, for example. </p> <p> The first day I changed my .emacs.d: </p>   <pre class="example">master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "<code>git config user.name</code>"|tail -n1
 11fd85f 2011-08-31 eim (Chinese input method) (chen bin)
 <p></p></pre>   <p> How many times I modified my emacs.d since then: </p>   <pre class="example">master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "<code>git config user.name</code>"|wc -l
 <p>672</p>
 <p></p></pre>   <p> My emacs.d at github: <a href="https://github.com/redguardtoo/emacs.d">https://github.com/redguardtoo/emacs.d</a> </p>
-</div>
             </div>
         </div>
         <div class="post">
@@ -555,7 +546,7 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/the-reliable-way-to-access-system-clipboard-from-emacs/#disqus_thread" data-disqus-identifier="cache/posts/the-reliable-way-to-access-system-clipboard-from-emacs.html">Comments</a>
 
 
@@ -573,8 +564,7 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
 
             </div>
             <div class="body">
-                <div>
-<p>
+                <p>
 CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-05-31 Fri&gt;</span></span>
 </p>
 
@@ -625,7 +615,6 @@ Here is my setup:
 </code></pre>
 
 </div>
-</div>
             </div>
         </div>
         <div class="post">
@@ -636,7 +625,7 @@ Here is my setup:
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently/#disqus_thread" data-disqus-identifier="cache/posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently.html">Comments</a>
 
 
@@ -654,8 +643,7 @@ Here is my setup:
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>As we dicussed in <a href="https://plus.google.com/110954683162859211810/posts/TgnyDRqBWkb">Emacs community at Google+</a>. Although <a href="https://github.com/magnars/multiple-cursors.el">multiple-cursor</a> is good for this task, I cannot use it because it conflicts with my favourite <a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> (Vim simulation in Emacs). </p> <p> There is another emacs plugin called <a href="https://github.com/victorhge/iedit">iedit</a> which could do the similar job (I usually use its command called iedit-mode-toggle-on-function) </p> <p> Though iedit is good, there is still room for improvement. When using iedit-mode-toggle-on-function, we need press key twice to rename the variable name. Once to enable it, twice to disable it. </p> <p> Magnar Sveen pointed out in the G+ discussion that the key point we need plugins like multiple-cursor or iedit-mode is that we can see all the changes while doing the editing. </p> <p> This reminds me that evil-mode has a excellent regex string replacing mode which also show the changes when you are typing EACH character of new string. </p> <p> So by using evil-mode's default regex replacing command, I can implement similar feature even more efficiently then iedit-mode! </p> <p> Here is my elisp code: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">evilcvn-change-symbol-in-defun</span> ()
   <span style="color: #c397d8;">"mark the region in defun (definition of function) and use string replacing UI in evil-mode</span>
 <span style="color: #c397d8;">to replace the symbol under cursor"</span>
@@ -668,7 +656,6 @@ Here is my setup:
   )
 (global-set-key (kbd <span style="color: #70c0b1;">"C-c ; s"</span>) 'evilcvn-change-symbol-in-defun)
 <p></p></pre>   <p> Put you cursor above a symbol/variable and press hot key "Ctrl-c ; s", then the regex to replace that symbol is automatically created and inserted into mini-buffer. Now you only need type new string and watch. </p> <p> This is the screen shot (I renamed variable "count" into "cnt" in C++ function hello): <img src="wp-content/uploads/2013/05/wpid-evil-regex-replace-nq8.png" alt="image/evil-regex-replace-nq8.png"></p>
-</div>
             </div>
         </div>
         <div class="post">
@@ -679,7 +666,7 @@ Here is my setup:
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/how-to-write-javascripthtml-code-quickly/#disqus_thread" data-disqus-identifier="cache/posts/how-to-write-javascripthtml-code-quickly.html">Comments</a>
 
 
@@ -698,8 +685,7 @@ Here is my setup:
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">mixing code of javascript and html is a big problem</h4> <div class="outline-text-3" id="text-1">   <p> If we mix the javascript code into html file as below: </p>   <pre class="src src-html">&lt;<span style="color: #81a2be;">ul</span>&gt;
   &lt;% for(var key in service.get('Detail')){ %&gt;
     &lt;<span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span> if(key!='creditcard_number){ %&gt;
@@ -766,7 +752,7 @@ Here is my setup:
              console.log(<span style="color: #8abeb7;">'&lt;li&gt;NO&lt;/li&gt;'</span>);
            });
 </p></pre>   <p> This is a kind of radical example. I'm only demonstrating the power of new style. I'm not suggesting you should convert any logic statement into function call. New style is not a silver bullet. It's only a useful if used properly in right timing. </p>
-</div> </div> </div>
+</div> </div>
             </div>
         </div>
         <div class="post">
@@ -777,7 +763,7 @@ Here is my setup:
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit/#disqus_thread" data-disqus-identifier="cache/posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit.html">Comments</a>
 
 
@@ -795,8 +781,7 @@ Here is my setup:
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>Add following code into your .emacs, then use "/" to execute <code>git command</code> on your marked files in dired-mode: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">diredext-exec-git-command-in-shell</span> (command <span style="color: #e78c45;">&amp;optional</span> arg file-list)
   <span style="color: #c397d8;">"Run a shell command <code>git COMMAND</code>' on the marked files.</span>
 <span style="color: #c397d8;">if no files marked, always operate on current line in dired-mode</span>
@@ -815,7 +800,6 @@ Here is my setup:
   (message command))</p>
 <p>(<span style="color: #b9ca4a;">eval-after-load</span> 'dired '(define-key dired-mode-map <span style="color: #70c0b1;">"/"</span> 'diredext-exec-git-command-in-shell))</p>
 <p></p></pre>   <p> For example, say you set the alias "a" for git command "add" in your $HOME/.gitconfig. </p> <p> In order to <code>git add</code> files, you marked files in dired-mode and press "/", then press "a". The command <code>git a(dd)</code> will be executed. </p> <p> The reason to use git in dired-mode is simple. I'm working for some big enterprise application. You know the enterprise guys have the tendency to create lots of small modules/files for one feature. So I need do lots of <code>cp files somewhere</code> and <code>git add files</code> things these days. </p> <p> Thanks all the <a href="https://plus.google.com/110954683162859211810/posts/4CmwuDxVCA1">Emacs geeks on the Google+</a> who enlighten me. </p>
-</div>
             </div>
         </div>
         <div class="post">
@@ -826,7 +810,7 @@ Here is my setup:
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux/#disqus_thread" data-disqus-identifier="cache/posts/how-to-split-album-into-different-flac-and-tag-them-under-gentoo-linux.html">Comments</a>
 
 
@@ -843,8 +827,7 @@ Here is my setup:
 
             </div>
             <div class="body">
-                <div>
-<div id="outline-container-org8535246" class="outline-2">
+                <div id="outline-container-org8535246" class="outline-2">
 <h3 id="org8535246">Install CLI tools</h3>
 <div class="outline-text-2" id="text-org8535246">
 <div class="org-src-container">
@@ -942,7 +925,6 @@ cue2flac a.ape.wav
 rm *.ape *.wav
 </code></pre>
 
-</div>
 </div>
 </div>
 </div>

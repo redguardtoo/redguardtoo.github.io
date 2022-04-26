@@ -59,8 +59,7 @@ cd ~/Music;find . -name '.mp3' -o -name '.flac'|sed -e 's%^./%%g' &amp;gt; all.m
 
         </div>
         <div class="body">
-            <div>
-<p></p>
+            <p></p>
 <p> I put all my audio files in ~/Music. </p>  <p> The below script create a playlist in m3u format and ask mpd to load it: </p> <div class="org-src-container">
 <pre class="prettyprint ">cd ~/Music;find . -name '<em>.mp3' -o -name '</em>.flac'|sed -e 's%^./%%g' &amp;gt; all.m3u;mpd ~/.mpd/config;mpc clear;mpc load all.m3u;mpc update</pre>
 <p></p>
@@ -73,7 +72,7 @@ log_file "~/.mpd/mpd.log"
 pid_file "~/.mpd/mpd.pid"
 state_file "~/.mpd/mpdstate"</pre>
 <p></p>
-</div> </div>
+</div>
         </div>
         
         <ul class="pager hidden-print">
@@ -109,7 +108,7 @@ state_file "~/.mpd/mpdstate"</pre>
 
     </div>
 
-        
+    
        <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>

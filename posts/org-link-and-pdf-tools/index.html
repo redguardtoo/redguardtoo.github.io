@@ -59,8 +59,7 @@
 
         </div>
         <div class="body">
-            <div>
-<p>
+            <p>
 By default, <a href="https://orgmode.org/manual/External-Links.html">Org pdf link</a> uses <code>doc-view.el</code> to open pdf. So if you move focus over the link <code>docview:papers/last.pdf::NNN</code> in a org file and run <code>M-x org-open-at-point</code>, API <code>doc-view-goto-page</code> is called.
 </p>
 
@@ -91,7 +90,6 @@ Below code fixes this problem. It will automatically call correct API with or wi
 (advice-add 'org-docview-open :around #'my-org-docview-open-hack)
 </code></pre>
 
-</div>
 </div>
         </div>
         
@@ -128,7 +126,7 @@ Below code fixes this problem. It will automatically call correct API with or wi
 
     </div>
 
-        
+    
        <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>

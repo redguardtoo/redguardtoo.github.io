@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about buffer)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/buffer.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 16 Apr 2022 04:12:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Make Messages Buffer modifiable in Emacs 24.4</title><link>http://blog.binchen.org/posts/make-messages-buffer-modifiable-in-emacs-24-4/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about buffer)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/buffer.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Make Messages Buffer modifiable in Emacs 24.4</title><link>http://blog.binchen.org/posts/make-messages-buffer-modifiable-in-emacs-24-4/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defadvice switch-to-buffer (after switch-to-buffer-after-hack activate)
   (if (string= "*Messages*" (buffer-name))
       (read-only-mode -1)))
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>buffer</category><category>emacs</category><category>en</category><category>messages</category><guid>http://blog.binchen.org/posts/make-messages-buffer-modifiable-in-emacs-24-4/</guid><pubDate>Wed, 18 May 2016 00:42:32 GMT</pubDate></item><item><title>Moving focus and buffer between Emacs window</title><link>http://blog.binchen.org/posts/moving-focus-and-buffer-between-emacs-window/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div&gt;&lt;p&gt;
+&lt;/div&gt;</description><category>buffer</category><category>emacs</category><category>en</category><category>messages</category><guid>http://blog.binchen.org/posts/make-messages-buffer-modifiable-in-emacs-24-4/</guid><pubDate>Wed, 18 May 2016 00:42:32 GMT</pubDate></item><item><title>Moving focus and buffer between Emacs window</title><link>http://blog.binchen.org/posts/moving-focus-and-buffer-between-emacs-window/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Please read the excellent article &lt;a href="http://irreal.org/blog/?p=1562"&gt;Moving between Emacs windows&lt;/a&gt; for basic setup.
 &lt;/p&gt;
 
@@ -108,4 +108,4 @@ Here is the code:
 Check &lt;a href="https://github.com/redguardtoo/emacs.d/commit/8a51696"&gt;my setup at github&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>buffer</category><category>emacs</category><category>en</category><category>move</category><category>window</category><guid>http://blog.binchen.org/posts/moving-focus-and-buffer-between-emacs-window/</guid><pubDate>Sun, 03 Feb 2013 14:19:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>buffer</category><category>emacs</category><category>en</category><category>move</category><category>window</category><guid>http://blog.binchen.org/posts/moving-focus-and-buffer-between-emacs-window/</guid><pubDate>Sun, 03 Feb 2013 14:19:00 GMT</pubDate></item></channel></rss>

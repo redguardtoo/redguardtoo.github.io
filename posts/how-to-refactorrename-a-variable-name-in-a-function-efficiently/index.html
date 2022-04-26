@@ -58,8 +58,7 @@
 
         </div>
         <div class="body">
-            <div>
-<p></p>
+            <p></p>
 <p>As we dicussed in <a href="https://plus.google.com/110954683162859211810/posts/TgnyDRqBWkb">Emacs community at Google+</a>. Although <a href="https://github.com/magnars/multiple-cursors.el">multiple-cursor</a> is good for this task, I cannot use it because it conflicts with my favourite <a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> (Vim simulation in Emacs). </p> <p> There is another emacs plugin called <a href="https://github.com/victorhge/iedit">iedit</a> which could do the similar job (I usually use its command called iedit-mode-toggle-on-function) </p> <p> Though iedit is good, there is still room for improvement. When using iedit-mode-toggle-on-function, we need press key twice to rename the variable name. Once to enable it, twice to disable it. </p> <p> Magnar Sveen pointed out in the G+ discussion that the key point we need plugins like multiple-cursor or iedit-mode is that we can see all the changes while doing the editing. </p> <p> This reminds me that evil-mode has a excellent regex string replacing mode which also show the changes when you are typing EACH character of new string. </p> <p> So by using evil-mode's default regex replacing command, I can implement similar feature even more efficiently then iedit-mode! </p> <p> Here is my elisp code: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">evilcvn-change-symbol-in-defun</span> ()
   <span style="color: #c397d8;">"mark the region in defun (definition of function) and use string replacing UI in evil-mode</span>
 <span style="color: #c397d8;">to replace the symbol under cursor"</span>
@@ -72,7 +71,6 @@
   )
 (global-set-key (kbd <span style="color: #70c0b1;">"C-c ; s"</span>) 'evilcvn-change-symbol-in-defun)
 <p></p></pre>   <p> Put you cursor above a symbol/variable and press hot key "Ctrl-c ; s", then the regex to replace that symbol is automatically created and inserted into mini-buffer. Now you only need type new string and watch. </p> <p> This is the screen shot (I renamed variable "count" into "cnt" in C++ function hello): <img src="../../wp-content/uploads/2013/05/wpid-evil-regex-replace-nq8.png" alt="image/evil-regex-replace-nq8.png"></p>
-</div>
         </div>
         
         <ul class="pager hidden-print">
@@ -108,7 +106,7 @@
 
     </div>
 
-        
+    
        <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>

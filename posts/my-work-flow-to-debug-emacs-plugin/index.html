@@ -56,8 +56,7 @@
 
         </div>
         <div class="body">
-            <div>
-<p></p>
+            <p></p>
 <p>Author: Chen Bin &lt;chenbin.sh AT gmail DOT com&gt; Created: <span class="timestamp-wrapper"> <span class="timestamp">2013-03-30 Sat</span></span> </p> <p> This is my quick guide on how to start debugging elisp. It's written for developers who are already experienced on debugging program but too lazy to read the <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Edebug.html#Edebug">Edebug manual</a>. </p> <p> The most critical set up for the debugging is to set the hot key "C-h C-f" to the command "find-function" so you can jump the definition of the function easily. </p>   <pre class="src src-elisp">(global-set-key (kbd <span style="color: #70c0b1;">"C-h C-f"</span>) 'find-function)
 </pre>   <p> Here is my workflow. </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">start the debugging</h4> <div class="outline-text-3" id="text-1">  <ul>
 <li>Jump to the definition of the command (The hot key is "C-h C-f", as I mentioned before). </li> <li>Run "M-x edebug-defun" . This will set the breakpoint into the entry of the command. BTW, I run "M-x eval-defun" in the function body to undo "edebug-defun". </li> <li>Run the command to be debugged from Emacs </li> <li>Press "space" key (M-x edebug-step-mode) to debug the program step by step </li> <li>Watch the value of expression in the mini-buffer when you press "space" key </li> </ul>
@@ -69,7 +68,7 @@
 </div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">Set the variable</h4> <div class="outline-text-3" id="text-4">  <ul>
 <li>Press "M-:" key (M-x eval-expression) to evaluate the expression in the context of Edebug itself. </li> </ul>
 <p> I usually don't do this. It's not my debugging style. </p>
-</div> </div> </div>
+</div> </div>
         </div>
         
         <ul class="pager hidden-print">
@@ -105,7 +104,7 @@
 
     </div>
 
-        
+    
        <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>

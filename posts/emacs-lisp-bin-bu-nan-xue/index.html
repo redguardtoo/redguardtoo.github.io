@@ -60,8 +60,7 @@
 
         </div>
         <div class="body">
-            <div>
-<p></p>
+            <p></p>
 <p>作者:陈斌 (redguardtoo) </p> <p> 原创日期: <span class="timestamp-wrapper"> <span class="timestamp">2012-11-30 五</span></span> </p> <p> 本文的目的是把Lisp去神秘化. </p> <p> 我学的是Emacs Lisp(Emacs Lisp),开发环境也是Emacs.所以我举的例子都是只基于Elisp. </p> <p> 本文针对的读者是有相当经验的开发者,目的是尽可能简明扼要地突出重点. </p> <p> 我对于目前的主流开发语言都很熟悉,但是Lisp还只能算是入门水准,所以错过很多Lisp精彩之处是很可能的. </p> <p> 我所谓的重点,主要是指Lisp对于开发一个现实世界的产品有什么优点. </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">所有的函数和数据可以在系统运行时改变</h4> <div class="outline-text-3" id="text-1">  <p>其意义是,假设你一个系统上线了,你可以随时改变正在运行的代码,不需要重启系统. </p> <p> 我的理解是,一个函数实际上就是带有字符串Key(该key就是函数名)的数据,运行某个函数就是在系统运行时根据Key找到对应的数据(或者代码,在Lips中是一回事)运行之. </p> <p> 例如,我可以在hook中申明某个函数将被调用,而这个函数的定义可以还不存在.系统在<em>运行时</em>才会去寻找这个函数.解释一下,hook可以认为是事件触发机制,就是在系统运行的某个时刻调用用户自定义的函数) </p> <p> 优点是灵活性很高.缺点是Lisp写的东西快不了. </p>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">没有namespace,所有的函数默认都是可以全局访问的</h4> <div class="outline-text-3" id="text-2">  <p>正因为这两条,所以要多打字(每个函数都要手动输入名字前缀). </p> <p> 这点我完全可以接受,没有namespace就是多打点字而已.那些不了解历史或者没有用过C的初级程序员可能会大惊小怪.实际上没什么大不了的. </p> <p> 所有函数都可以访问在Emacs场景下有个巨大的优点,见下一条. </p>
 </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">defadivce可以改变系统中任意函数的行为.</h4> <div class="outline-text-3" id="text-3">  <p>defadvice可以重定义系统中的任意函数.原因如前文所说. </p>
@@ -70,7 +69,7 @@
 </pre>   <p> 所有的语法都是这样的前缀表达式(<a href="http://zh.wikipedia.org/wiki/%E6%B3%A2%E5%85%B0%E8%A1%A8%E7%A4%BA%E6%B3%95">Polish Notation</a>),很多人不习惯这样的语法,但是它有一些突出优点: </p> <ol>
 <li>这样的语法做语法解析特别容易,所以第三方支持工具很容易开发. 在大规模系统开发时,这点很有用.例如,分析大型项目的源代码时,你能唯一依靠的grep和正则表达式,ELisp简单严格的语法使得正则表达式很好写.  </li> <li>实际编程时少打很多运算符号,这对于有实战经验的程序员是巨大的优点.如果你和我说什么重要的是思想和设计模式,打字速度不重要,那么菜鸟请走开.  </li> <li>最重要的优点是,这种语法相当于一种过滤机制,能够接受这种语法的人通常都是头脑比较开放思维敏捷的人.说到底产品开发的决定性因素是人,所以这个能过滤人的优点是决定性的. </li> </ol>
 </div>  </div>  <div id="outline-container-6" class="outline-3"> <h4 id="sec-6">函数可内嵌文档,且该文档可被Emacs帮助系统调用</h4> <div class="outline-text-3" id="text-6">  <p>现在能做到这点的系统也没几家.从细节我们可以看出Emacs和Elisp的完美之处. </p>
-</div> </div> </div>
+</div> </div>
         </div>
         
         <ul class="pager hidden-print">
@@ -106,7 +105,7 @@
 
     </div>
 
-        
+    
        <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>

@@ -58,13 +58,11 @@
 
         </div>
         <div class="body">
-            <div>
-<p></p>
+            <p></p>
 <p>WARNING, this is BAD practice. I'm showing you anti-pattern you'd better avoid. </p> <p> The work flow is simple at the beginning. There is only one master branch where several developers submit the code. </p> <p> Then come bad rules:  </p>
 <ul>
 <li>Rule 1, any feature should be done on new branch (this rule is actually good if without next three rules)  </li> <li>Rule 2, <code>git rebase</code> is forbidden and any minor branch created by developers should be publicized immediately.  </li> <li>Rule 3, keep using your same feature branch forever even it's behind master branch for a very long time.   </li> <li>Rule 4, <code>git merge</code> between feature and master branches frequently </li> </ul>
 <p> After three months developement, this is the result of <code>git log –graph –oneline</code>: <img src="../../wp-content/uploads/2013/06/git-merge-mess-nq82.png" alt="image/git-merge-mess-nq8.png"></p> <p> Can you see the "M" at the top right corner. It's "M" from "Merge". </p>
-</div>
         </div>
         
         <ul class="pager hidden-print">
@@ -100,7 +98,7 @@
 
     </div>
 
-        
+    
        <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>

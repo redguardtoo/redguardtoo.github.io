@@ -60,8 +60,7 @@
 
         </div>
         <div class="body">
-            <div>
-<p></p>
+            <p></p>
 <p>Sometimes I just want to email my trivial patch to the original author and forget it. In this case "github fork" or "git format-patch" is too heavy weight for me. </p> <p> So here is the simplest workflow I can figure out: </p>
 <ul>
 <li>Step 1, command "M-x vc-dir" whose hotkey is "C-x v d" </li> <li>Step 2, command "M-x git-print-log" whose hotkey is "C-x v l" </li> <li>Step 3, Move focus to the specific commit and run command "M-x log-view-diff" whose hotkey is "d". </li> <li>Step 4, Yank the commit/diff </li> <li>Step 5, Compose new email (command "M-x compose-mail" whose hotkey is "C-x m") </li> <li>Step 6, Make sure the subject of email start with "[PATCH]". See <a href="http://linuxtv.org/wiki/index.php/Development:_How_to_submit_patches">this patch sumbit guide</a> for reasons. </li> <li>Step 7, Paste the content of commit/diff into email body. </li> <li>Step 8, Send the email by command "M-x message-send-and-exit" whose hotkey is "C-c C-c" </li> </ul>
@@ -69,7 +68,6 @@
 <ul>
 <li>Step 1 is usually necessary unless you only need the diff of current file. </li> <li>Step 2 and step 3 could be replaced with command "M-x vc-diff" or hotkey "C-x v =" if you want to email the diff of work directory. </li> </ul>
 </div>
-        </div>
         
         <ul class="pager hidden-print">
 <li class="previous">
@@ -104,7 +102,7 @@
 
     </div>
 
-        
+    
        <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>

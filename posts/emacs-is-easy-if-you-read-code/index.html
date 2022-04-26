@@ -11,11 +11,11 @@
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="Emacs is easy if you read code">
 <meta property="og:url" content="http://blog.binchen.org/posts/emacs-is-easy-if-you-read-code/">
-<meta property="og:description" content="If you regard a package as a collection of APIs and read its code, Emacs is easy to master.
+<meta property="og:description" content="In Emacs, a package can be regarded as a collection of APIs. Reading code of a package and using its APIs could improve your Emacs skills.
 
 
 
-For example, here is a useful tip on using counsel-ag and wgrep to edit multiple files I recently learned">
+For example, after reading using counsel-ag and wgrep to e">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-05-09T13:38:06Z">
 <meta property="article:tag" content="counsel">
@@ -62,19 +62,13 @@ For example, here is a useful tip on using counsel-ag and wgrep to edit multiple
 
         </div>
         <div class="body">
-            <div>
-<p>
-If you regard a package as a collection of APIs and read its code, Emacs is easy to master.
+            <p>
+In Emacs, a package can be regarded as a collection of APIs. Reading code of a package and using its APIs could improve your Emacs skills.
 </p>
 
 <p>
-For example, here is a useful tip on <a href="https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/">using counsel-ag and wgrep to edit multiple files</a> I recently learned.
+For example, after reading <a href="https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/">using counsel-ag and wgrep to edit multiple files</a>, I dig the code of <code>counsel-ag-occur</code> from <code>counsel.el</code> (v0.9.1),
 </p>
-
-<p>
-To <b>understand this black magic</b>, you only need know <code>counsel-ag-occur</code> from <code>counsel.el</code> (v0.9.1):
-</p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun counsel-ag-occur ()
@@ -109,18 +103,13 @@ To <b>understand this black magic</b>, you only need know <code>counsel-ag-occur
 <p>
 Inside <code>counsel-ag-occur</code>:
 </p>
-
 <ul class="org-ul">
 <li>The variable <code>regex</code> is the regular expression built from the filter string you input. Please note that <code>regex</code> is unquoted by <code>counsel-unquote-regex-parens</code> so it can be used in shell. If you use <code>regex</code> in Emacs Lisp, you don't need unquote it</li>
 <li>The variable <code>cands</code> is the candidate lines created by running <code>ag</code> with <code>regex</code> as parameters in shell</li>
 <li>Then a wgrep-friendly buffer is created</li>
 </ul>
 <p>
-After spending 5 minutes to understand the internals, you can <b>easily implement similar features</b>.
-</p>
-
-<p>
-Now let's <b>develop our own black magic</b> by enhancing the wgrep-friendly buffer.
+So five minutes code reading is enough to implement similar features.
 </p>
 
 <p>
@@ -128,9 +117,8 @@ My project uses Perforce as VCS. So <b>I need check out files and make them writ
 </p>
 
 <p>
-Read code of <code>wgrep.el</code> (v2.1.10),
+Code of <code>wgrep.el</code> (v2.1.10),
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun wgrep-prepare-context ()
@@ -143,15 +131,13 @@ Read code of <code>wgrep.el</code> (v2.1.10),
 </code></pre>
 
 </div>
-
 <p>
-<code>wgrep-results-parser</code> is actually alias of <code>wgrep-parse-command-results</code> whose code is too much to paste here. You can <code>M-x find-function wgrep-parse-command-results</code> to read its code.
+<code>wgrep-results-parser</code> is actually alias of <code>wgrep-parse-command-results</code> whose code is too much to paste here. Please run <code>M-x find-function wgrep-parse-command-results</code> to read its code.
 </p>
 
 <p>
 By combining <code>wgrep-prepare-context</code> and <code>wgrep-parse-command-results</code> I got my own <code>access-files-in-wgrep-buffer</code>:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun access-files-in-wgrep-buffer()
@@ -175,20 +161,19 @@ By combining <code>wgrep-prepare-context</code> and <code>wgrep-parse-command-re
 </div>
 
 <p>
-You can replace the line <code>(message "File relative path=%s" fn)</code> to <code>(shell-command (format "any-shell-cli %s" fn))</code> to <b>do anything on the files</b>.
+You can replace the line <code>(message "File relative path=%s" fn)</code> with <code>(shell-command (format "any-shell-cli %s" fn))</code> to <b>do anything on the files</b>.
 </p>
 
 <p>
-You can insert definition of <code>access-files-in-wgrep-buffer</code> into your <code>.emacs</code> and run <code>M-x access-files-in-wgrep-buffer</code> in wgrep buffer to have a test.
+Please insert <code>access-files-in-wgrep-buffer</code> into <code>~/.emacs.d/init.el</code> and run <code>M-x access-files-in-wgrep-buffer</code> in wgrep buffer to have a test.
 </p>
 
 <p>
 For example, I modified <code>access-files-in-wgrep-buffer</code> to <code>p4edit-in-grep-buffer</code> to checkout files under <a href="https://www.perforce.com/">Perforce</a> control,
 </p>
-
 <div class="org-src-container">
 
-<pre><code class="lang-emacs">(defun p4edit-in-wgrep-buffer()
+<pre><code class="lang-lisp">(defun p4edit-in-wgrep-buffer()
   "'p4 edit' files in wgrep buffer.
 Turn off `read-only-mode' of opened files."
   (interactive)
@@ -212,7 +197,6 @@ Turn off `read-only-mode' of opened files."
         (forward-line 1)))))
 </code></pre>
 
-</div>
 </div>
         </div>
         
@@ -249,7 +233,7 @@ Turn off `read-only-mode' of opened files."
 
     </div>
 
-        
+    
        <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>

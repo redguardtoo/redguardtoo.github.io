@@ -30,7 +30,7 @@
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/yong-org2blog-emacs-fa-biao-bo-ke/#disqus_thread" data-disqus-identifier="cache/posts/yong-org2blog-emacs-fa-biao-bo-ke.html">Comments</a>
 
 
@@ -48,8 +48,7 @@
 
             </div>
             <div class="body">
-                <div>
-<p>
+                <p>
 我有兴趣开始写博,完全是因为我开始爱上emacs.
 </p>
 
@@ -76,7 +75,6 @@ org2blog安装步骤在上文的链接里都有,也可以参看<a href="http://o
 <p>
 org-mode安装步骤见<a href="http://orgmode.org/guide/Installation.html#Installation">官方文档</a>.
 </p>
-</div>
             </div>
         </div>
         <div class="post">
@@ -87,7 +85,7 @@ org-mode安装步骤见<a href="http://orgmode.org/guide/Installation.html#Insta
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/emacs-lisp-bin-bu-nan-xue/#disqus_thread" data-disqus-identifier="cache/posts/emacs-lisp-bin-bu-nan-xue.html">Comments</a>
 
 
@@ -106,8 +104,7 @@ org-mode安装步骤见<a href="http://orgmode.org/guide/Installation.html#Insta
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>作者:陈斌 (redguardtoo) </p> <p> 原创日期: <span class="timestamp-wrapper"> <span class="timestamp">2012-11-30 五</span></span> </p> <p> 本文的目的是把Lisp去神秘化. </p> <p> 我学的是Emacs Lisp(Emacs Lisp),开发环境也是Emacs.所以我举的例子都是只基于Elisp. </p> <p> 本文针对的读者是有相当经验的开发者,目的是尽可能简明扼要地突出重点. </p> <p> 我对于目前的主流开发语言都很熟悉,但是Lisp还只能算是入门水准,所以错过很多Lisp精彩之处是很可能的. </p> <p> 我所谓的重点,主要是指Lisp对于开发一个现实世界的产品有什么优点. </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">所有的函数和数据可以在系统运行时改变</h4> <div class="outline-text-3" id="text-1">  <p>其意义是,假设你一个系统上线了,你可以随时改变正在运行的代码,不需要重启系统. </p> <p> 我的理解是,一个函数实际上就是带有字符串Key(该key就是函数名)的数据,运行某个函数就是在系统运行时根据Key找到对应的数据(或者代码,在Lips中是一回事)运行之. </p> <p> 例如,我可以在hook中申明某个函数将被调用,而这个函数的定义可以还不存在.系统在<em>运行时</em>才会去寻找这个函数.解释一下,hook可以认为是事件触发机制,就是在系统运行的某个时刻调用用户自定义的函数) </p> <p> 优点是灵活性很高.缺点是Lisp写的东西快不了. </p>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">没有namespace,所有的函数默认都是可以全局访问的</h4> <div class="outline-text-3" id="text-2">  <p>正因为这两条,所以要多打字(每个函数都要手动输入名字前缀). </p> <p> 这点我完全可以接受,没有namespace就是多打点字而已.那些不了解历史或者没有用过C的初级程序员可能会大惊小怪.实际上没什么大不了的. </p> <p> 所有函数都可以访问在Emacs场景下有个巨大的优点,见下一条. </p>
 </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">defadivce可以改变系统中任意函数的行为.</h4> <div class="outline-text-3" id="text-3">  <p>defadvice可以重定义系统中的任意函数.原因如前文所说. </p>
@@ -116,7 +113,7 @@ org-mode安装步骤见<a href="http://orgmode.org/guide/Installation.html#Insta
 </pre>   <p> 所有的语法都是这样的前缀表达式(<a href="http://zh.wikipedia.org/wiki/%E6%B3%A2%E5%85%B0%E8%A1%A8%E7%A4%BA%E6%B3%95">Polish Notation</a>),很多人不习惯这样的语法,但是它有一些突出优点: </p> <ol>
 <li>这样的语法做语法解析特别容易,所以第三方支持工具很容易开发. 在大规模系统开发时,这点很有用.例如,分析大型项目的源代码时,你能唯一依靠的grep和正则表达式,ELisp简单严格的语法使得正则表达式很好写.  </li> <li>实际编程时少打很多运算符号,这对于有实战经验的程序员是巨大的优点.如果你和我说什么重要的是思想和设计模式,打字速度不重要,那么菜鸟请走开.  </li> <li>最重要的优点是,这种语法相当于一种过滤机制,能够接受这种语法的人通常都是头脑比较开放思维敏捷的人.说到底产品开发的决定性因素是人,所以这个能过滤人的优点是决定性的. </li> </ol>
 </div>  </div>  <div id="outline-container-6" class="outline-3"> <h4 id="sec-6">函数可内嵌文档,且该文档可被Emacs帮助系统调用</h4> <div class="outline-text-3" id="text-6">  <p>现在能做到这点的系统也没几家.从细节我们可以看出Emacs和Elisp的完美之处. </p>
-</div> </div> </div>
+</div> </div>
             </div>
         </div>
         <div class="post">
@@ -127,7 +124,7 @@ org-mode安装步骤见<a href="http://orgmode.org/guide/Installation.html#Insta
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs.html">Comments</a>
 
 
@@ -144,8 +141,7 @@ org-mode安装步骤见<a href="http://orgmode.org/guide/Installation.html#Insta
 
             </div>
             <div class="body">
-                <div>
-<p>
+                <p>
 <b>UPDATE</b> on <span class="timestamp-wrapper"><span class="timestamp">&lt;2018-02-24 Sat&gt;</span></span>:
 I released <a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a>, a complete solution for Ctags/Emacs.
 </p>
@@ -255,7 +251,6 @@ See <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Select-Tag
 </p>
 </div>
 </div>
-</div>
             </div>
         </div>
         <div class="post">
@@ -266,7 +261,7 @@ See <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Select-Tag
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/my-personal-emacs-customization-customel/#disqus_thread" data-disqus-identifier="cache/posts/my-personal-emacs-customization-customel.html">Comments</a>
 
 
@@ -283,8 +278,7 @@ See <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Select-Tag
 
             </div>
             <div class="body">
-                <div>
-<p>
+                <p>
 custom.el is my personal emacs configuration. I use it with my publicized <a href="https://github.com/redguardtoo/emacs.d">Emacs configuration</a>.
 </p>
 
@@ -509,7 +503,6 @@ custom.el is my personal emacs configuration. I use it with my publicized <a hre
 </code></pre>
 
 </div>
-</div>
             </div>
         </div>
         <div class="post">
@@ -520,7 +513,7 @@ custom.el is my personal emacs configuration. I use it with my publicized <a hre
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/how-to-use-ftp-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-ftp-in-emacs.html">Comments</a>
 
 
@@ -540,10 +533,8 @@ custom.el is my personal emacs configuration. I use it with my publicized <a hre
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>Emacs's default <a href="http://www.emacswiki.org/AngeFtp">Ftp client</a> is a little outdated compared to other modern Ftp clients. </p> <p> What I want is a two panel file explorer with ftp client integrated (An excellent example is <a href="http://www.ghisler.com">Total Commander</a> on windows). </p> <p> In Emacs, I've got <a href="http://emacswiki.org/emacs/Sunrise_Commander">Sunrise Commander</a> which is close to Total Commander, but NO Ftp integration. </p> <p> I dig around the internet for a while and find that the perfect solution is mount the ftp server into my local file system with <a href="http://curlftpfs.sourceforge.net">CurlFtpFS</a>. </p> <p> The best part of this solution is CurlFtpFS supports both OS X and Linux. </p> <p> In order to install CurlFtpFS on OS X, you need use the package manager <a href="http://mxcl.github.com/homebrew/">Homebrew</a>. The only catch I met on OS X is that I need upgrade Fuse4X driver manually for some wired reason to avoid "incompatible with the kernel version" error. Upgrading is simple. Download dmg plus mouse click stuff only. See <a href="http://fuse4x.github.com/faq.html">FAQ</a> for details. </p> <p> For the usage of CurlFtpFS, see <a href="https://wiki.archlinux.org/index.php/Mount_FTP">HERE</a> for documentation. It's for Linux. But totally fine for OS X users. </p>
-</div>
             </div>
         </div>
         <div class="post">
@@ -554,7 +545,7 @@ custom.el is my personal emacs configuration. I use it with my publicized <a hre
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/notes-on-using-gnus/#disqus_thread" data-disqus-identifier="cache/posts/notes-on-using-gnus.html">Comments</a>
 
 
@@ -584,7 +575,7 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/the-latest-version-of-yasnippet-is-not-compatible-with-auto-complete-enemacsyasnippetauto-complete/#disqus_thread" data-disqus-identifier="cache/posts/the-latest-version-of-yasnippet-is-not-compatible-with-auto-complete-enemacsyasnippetauto-complete.html">Comments</a>
 
 
@@ -603,10 +594,8 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>Yes. The latest yasnippet (yasnippet-20120822.52) changed too many APIs and I cannot figure out how to work around it. Upgrading to the latest auto-complete (auto-complete-20120922.1815) won't solve the problem. </p> <p> See <a href="https://github.com/capitaomorte/yasnippet/issues/311">https://github.com/capitaomorte/yasnippet/issues/311</a> for the details. </p> <p> So here is the fix. You can use older version of yasnippet (yasnippet-20120718) and wait until the issue is fixed. </p> <p> Here is the link of older version, <a href="http://dl.dropbox.com/u/858862/yasnippet-20120718.tar.gz">http://dl.dropbox.com/u/858862/yasnippet-20120718.tar.gz</a>. </p>
-</div>
             </div>
         </div>
         <div class="post">
@@ -617,7 +606,7 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/why-facebook-app-for-android-pad-sucks/#disqus_thread" data-disqus-identifier="cache/posts/why-facebook-app-for-android-pad-sucks.html">Comments</a>
 
 
@@ -635,8 +624,7 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
 
             </div>
             <div class="body">
-                <div>
-<p></p>
+                <p></p>
 <p>I don't use facebook. I just record my roommates' complaining. </p> <p> Here are his points, </p>
 <dl>
 <dt>failed to take full advantage of big screen of android pad</dt>
@@ -644,7 +632,6 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
 <dd>Slow and hard to locate the exact item he wants. </dd> <dt>Performance may be not good enough</dt>
 <dd>Especially when viewing the images, it's not as fluent as other applications. </dd> </dl>
 </div>
-            </div>
         </div>
         <div class="post">
             <h1 class="title"><a href="posts/python-code-to-migrate-the-mysql-database-enmysqldatabasepython/">python code to migrate the MySQL database</a></h1>
@@ -654,7 +641,7 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/python-code-to-migrate-the-mysql-database-enmysqldatabasepython/#disqus_thread" data-disqus-identifier="cache/posts/python-code-to-migrate-the-mysql-database-enmysqldatabasepython.html">Comments</a>
 
 
@@ -672,8 +659,7 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
 
             </div>
             <div class="body">
-                <div>
-<p>
+                <p>
 The script reads configuration and requires python 2.4.
 </p>
 
@@ -981,7 +967,6 @@ if __name__=="__main__":
 </code></pre>
 
 </div>
-</div>
             </div>
         </div>
         <div class="post">
@@ -992,7 +977,7 @@ if __name__=="__main__":
 </div>
                 <div class="stats">
                     
-        
+    
     <a href="posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/#disqus_thread" data-disqus-identifier="cache/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan.html">Comments</a>
 
 
@@ -1010,8 +995,7 @@ if __name__=="__main__":
 
             </div>
             <div class="body">
-                <div>
-<p>
+                <p>
 作者: 陈斌(redguardtoo)
 </p>
 
@@ -1238,7 +1222,6 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 
 <p>
 基于框架自己发明新技术会更好用.</p>
-</div>
 </div>
 </div>
             </div>
