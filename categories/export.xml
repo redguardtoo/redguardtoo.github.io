@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about export)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/export.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Export org file embedded with code snippets</title><link>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about export)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/export.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Export org file embedded with code snippets</title><link>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-11-20 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -7,9 +7,9 @@ CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-06-06 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb0416ce" class="outline-2"&gt;
-&lt;h3 id="orgb0416ce"&gt;problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb0416ce"&gt;
+&lt;div id="outline-container-org22906d7" class="outline-2"&gt;
+&lt;h3 id="org22906d7"&gt;problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org22906d7"&gt;
 &lt;p&gt;
 I use &lt;a href="http://orgmode.org/"&gt;Org-mode&lt;/a&gt; to record all my notes.
 &lt;/p&gt;
@@ -31,13 +31,13 @@ My hooks are also dependent on third party tools. So if anyone else uses my setu
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgbd09d91" class="outline-2"&gt;
-&lt;h3 id="orgbd09d91"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgbd09d91"&gt;
+&lt;div id="outline-container-org3acb5b4" class="outline-2"&gt;
+&lt;h3 id="org3acb5b4"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3acb5b4"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org62a23fd" class="outline-3"&gt;
-&lt;h4 id="org62a23fd"&gt;Setup&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org62a23fd"&gt;
+&lt;div id="outline-container-org0adf27c" class="outline-3"&gt;
+&lt;h4 id="org0adf27c"&gt;Setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org0adf27c"&gt;
 &lt;p&gt;
 In order to solve the issue, I write a small function which will be called at the beginning of each major mode hook.
 &lt;/p&gt;
@@ -80,9 +80,9 @@ The function basically check whether the `(buffer-file-name)` is the temporary f
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6efaa93" class="outline-3"&gt;
-&lt;h4 id="org6efaa93"&gt;Usage&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org6efaa93"&gt;
+&lt;div id="outline-container-org93c545d" class="outline-3"&gt;
+&lt;h4 id="org93c545d"&gt;Usage&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org93c545d"&gt;
 &lt;p&gt;
 I use python-mode-hook setup as an example:
 &lt;/p&gt;
@@ -103,29 +103,29 @@ I use python-mode-hook setup as an example:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8bd3249" class="outline-2"&gt;
-&lt;h3 id="org8bd3249"&gt;Tips&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8bd3249"&gt;
+&lt;div id="outline-container-orgd4aea4b" class="outline-2"&gt;
+&lt;h3 id="orgd4aea4b"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd4aea4b"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org51bd11d" class="outline-3"&gt;
-&lt;h4 id="org51bd11d"&gt;Export shell code&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org51bd11d"&gt;
+&lt;div id="outline-container-orgc1c92cc" class="outline-3"&gt;
+&lt;h4 id="orgc1c92cc"&gt;Export shell code&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgc1c92cc"&gt;
 &lt;p&gt;
 Exporting shell code will fail if `sh-mode` is loaded. So I use "bash" instead. Since there is no "bash-mode", exporting will be fine.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org65f77ef" class="outline-3"&gt;
-&lt;h4 id="org65f77ef"&gt;Yasnippet setup&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org65f77ef"&gt;
+&lt;div id="outline-container-orgf1b54a1" class="outline-3"&gt;
+&lt;h4 id="orgf1b54a1"&gt;Yasnippet setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf1b54a1"&gt;
 &lt;p&gt;
 To avoid loading yasnippets when exporting, I have to &lt;a href="https://github.com/capitaomorte/yasnippet#use-yas-minor-mode-on-a-per-buffer-basis"&gt;"use yas-minor-mode on a per-buffer basis"&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgbb6400f" class="outline-3"&gt;
-&lt;h4 id="orgbb6400f"&gt;Manually turn off the major-mode hook&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgbb6400f"&gt;
+&lt;div id="outline-container-org7718c88" class="outline-3"&gt;
+&lt;h4 id="org7718c88"&gt;Manually turn off the major-mode hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org7718c88"&gt;
 &lt;p&gt;
 It's controlled by global flag `load-user-customized-major-mode-hook`, as you can see from the "Setup" section.
 &lt;/p&gt;
@@ -146,9 +146,9 @@ Say I want to turn off the major mode hooks when `M-x org-publish`, here is the 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org08bb86c" class="outline-3"&gt;
-&lt;h4 id="org08bb86c"&gt;after-save-hook&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org08bb86c"&gt;
+&lt;div id="outline-container-org08f5a89" class="outline-3"&gt;
+&lt;h4 id="org08f5a89"&gt;after-save-hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org08f5a89"&gt;
 &lt;p&gt;
 `after-save-hook` is the "Normal hook that is run after a buffer is saved to its file". You may also need tweak it up because it will be called when exporting org files
 &lt;/p&gt;

@@ -142,9 +142,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-01-30 
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2018-06-04 Mon&gt;</span></span>
 </p>
 
-<div id="outline-container-org3056dc9" class="outline-2">
-<h3 id="org3056dc9">Prepare</h3>
-<div class="outline-text-2" id="text-org3056dc9">
+<div id="outline-container-org8e8b396" class="outline-2">
+<h3 id="org8e8b396">Prepare</h3>
+<div class="outline-text-2" id="text-org8e8b396">
 <p>
 At Linux, <a href="http://www.vergenet.net/~conrad/software/xsel/">xsel</a> is required.
 </p>
@@ -162,9 +162,9 @@ At Windows 10 Linux Subsystem, no external tool is required.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbc0e4ad" class="outline-2">
-<h3 id="orgbc0e4ad">Solution</h3>
-<div class="outline-text-2" id="text-orgbc0e4ad">
+<div id="outline-container-orgcd8579b" class="outline-2">
+<h3 id="orgcd8579b">Solution</h3>
+<div class="outline-text-2" id="text-orgcd8579b">
 <p>
 This solution works reliably in <b>any environment</b>.
 </p>
@@ -246,13 +246,13 @@ My actual setup is more robust. See <a href="https://github.com/redguardtoo/emac
 </div>
 </div>
 
-<div id="outline-container-orga2bc286" class="outline-2">
-<h3 id="orga2bc286">Tips</h3>
-<div class="outline-text-2" id="text-orga2bc286">
+<div id="outline-container-orge6084c0" class="outline-2">
+<h3 id="orge6084c0">Tips</h3>
+<div class="outline-text-2" id="text-orge6084c0">
 </div>
-<div id="outline-container-org38e56fb" class="outline-3">
-<h4 id="org38e56fb">Clipboard manager</h4>
-<div class="outline-text-3" id="text-org38e56fb">
+<div id="outline-container-org52ee137" class="outline-3">
+<h4 id="org52ee137">Clipboard manager</h4>
+<div class="outline-text-3" id="text-org52ee137">
 <p>
 I suggest <a href="http://parcellite.sourceforge.net/">Parcellite</a> on Linux, <a href="http://ditto-cp.sourceforge.net/">Ditto</a> on Windows, <a href="https://github.com/TermiT/Flycut">Flycut</a> on macOS.
 </p>
@@ -291,9 +291,9 @@ trim_newline=false
 </div>
 </div>
 </div>
-<div id="outline-container-orgdaa3204" class="outline-3">
-<h4 id="orgdaa3204">Clipboard in ssh</h4>
-<div class="outline-text-3" id="text-orgdaa3204">
+<div id="outline-container-org498a943" class="outline-3">
+<h4 id="org498a943">Clipboard in ssh</h4>
+<div class="outline-text-3" id="text-org498a943">
 <p>
 Use <code>ssh -X -C username@some-server.whatever.domain</code>.
 </p>
@@ -592,8 +592,7 @@ BTW, for other systems, see <a href="http://wiki.wxwidgets.org/Compiling_wxWidge
                 <p>
 Below code will get error message if compiled by gcc 4.6+:
 </p>
-
-<pre class="example">
+<pre class="example" id="org9d5c5c9">
 "const A" as 'this' argument of "void A::a()' discards qualifiers [-fpermissive]
 </pre>
 
@@ -618,12 +617,10 @@ class MyClass:public B
 </code></pre>
 
 </div>
-
 <p>
 Since I cannot modify class A and B, I need add "-fpermission" to CXX_FLAG.
 Here is my <a href="http://www.cmake.org">cmake</a> code,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-cmake">if(CMAKE_COMPILER_IS_GNUCC)
@@ -683,14 +680,12 @@ But there is one problem. The variable <code>global-mode-string</code> is missin
 <p>
 Here is my fixed version.
 </p>
-
 <ul class="org-ul">
 <li>screenshot</li>
 </ul>
-<div class="figure">
+<div id="org4bf8414" class="figure">
 <p><img src="wp-content/2012-01-14-034733-800x480.png" alt="2012-01-14-034733-800x480.png"></p>
 </div>
-
 <ul class="org-ul">
 <li>Emacs Lisp code</li>
 </ul>
@@ -829,8 +824,7 @@ Use <code>j</code> or <code>k</code> to navigate.
 <p>
 Information:
 </p>
-
-<pre class="example">
+<pre class="example" id="org9a91726">
 Name           : ncdu
 Version        : 1.8-1
 URL            : http://dev.yorhel.nl/ncdu/

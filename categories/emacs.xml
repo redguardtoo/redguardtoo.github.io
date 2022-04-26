@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 and gradually migrate from Emacs 27 to Emacs 28.
 &lt;/p&gt;
 
@@ -7,7 +7,7 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb42a44d" class="outline-2"&gt;
+&lt;div id="outline-container-orgfa426d5" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -59,12 +59,12 @@ WantedBy=default.target
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org618c820" class="outline-2"&gt;
+&lt;div id="outline-container-orgfe6bc49" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org63fcf41" class="outline-3"&gt;
-&lt;h4 id="org63fcf41"&gt;&lt;span class="section-number-3"&gt;2.1&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
+&lt;div id="outline-container-orgace8678" class="outline-3"&gt;
+&lt;h4 id="orgace8678"&gt;&lt;span class="section-number-3"&gt;2.1.&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-1"&gt;
 &lt;p&gt;
 I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
@@ -91,8 +91,8 @@ Here is the code,
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1d99add" class="outline-3"&gt;
-&lt;h4 id="org1d99add"&gt;&lt;span class="section-number-3"&gt;2.2&lt;/span&gt; Shell script to install Emacs&lt;/h4&gt;
+&lt;div id="outline-container-orgdf21e45" class="outline-3"&gt;
+&lt;h4 id="orgdf21e45"&gt;&lt;span class="section-number-3"&gt;2.2.&lt;/span&gt; Shell script to install Emacs&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-2"&gt;
 &lt;p&gt;
 You could Use below script "install-emacs.sh" to install Emacs,
@@ -207,9 +207,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org50d2af1" class="outline-2"&gt;
-&lt;h3 id="org50d2af1"&gt;Magit UI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org50d2af1"&gt;
+&lt;div id="outline-container-orge72a5ec" class="outline-2"&gt;
+&lt;h3 id="orge72a5ec"&gt;Magit UI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge72a5ec"&gt;
 &lt;p&gt;
 One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 &lt;/p&gt;
@@ -268,9 +268,9 @@ BTW, my actual code in my &lt;code&gt;.emacs.d&lt;/code&gt; is &lt;a href="https
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org26c2be1" class="outline-2"&gt;
-&lt;h3 id="org26c2be1"&gt;CLI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org26c2be1"&gt;
+&lt;div id="outline-container-org68aec5d" class="outline-2"&gt;
+&lt;h3 id="org68aec5d"&gt;CLI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org68aec5d"&gt;
 &lt;p&gt;
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 &lt;/p&gt;
@@ -442,7 +442,6 @@ If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "normal", &lt;code&gt;f
 &lt;/p&gt;</description><category>check</category><category>emacs</category><category>en</category><category>flyspell</category><category>spell</category><guid>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</guid><pubDate>Sun, 17 May 2020 06:20:55 GMT</pubDate></item><item><title>Use Magit API to rebase to closest branch</title><link>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 My workflow in Git is,
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Create a new feature branch based on main branch&lt;/li&gt;
 &lt;li&gt;Add some small commits into feature branch&lt;/li&gt;
@@ -464,7 +463,6 @@ The key is to analyze output of &lt;code&gt;git log --decorate --oneline&lt;/cod
 &lt;p&gt;
 Code,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-git-extract-based (target)
@@ -506,7 +504,7 @@ If USER-SELECT-BRANCH is not nil, rebase on the tag or branch selected by user."
 Screencast:
 &lt;/p&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="org9abcaed" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"&gt;
 &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</guid><pubDate>Tue, 14 Apr 2020 13:54:28 GMT</pubDate></item><item><title>Make Emacs faster than Vim in "git mergetool"</title><link>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html"&gt;Emacs is the best merge tool for Git&lt;/a&gt; explains how to combine &lt;a href="https://git-scm.com/docs/git-mergetool/2.20.0"&gt;git mergetool&lt;/a&gt; with &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ediff/"&gt;ediff-mode&lt;/a&gt; in Emacs.
@@ -520,9 +518,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org888a1fd" class="outline-2"&gt;
-&lt;h3 id="org888a1fd"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org888a1fd"&gt;
+&lt;div id="outline-container-orgd27e1fa" class="outline-2"&gt;
+&lt;h3 id="orgd27e1fa"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd27e1fa"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -556,9 +554,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgea30c6d" class="outline-2"&gt;
-&lt;h3 id="orgea30c6d"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgea30c6d"&gt;
+&lt;div id="outline-container-orgf7f0d39" class="outline-2"&gt;
+&lt;h3 id="orgf7f0d39"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf7f0d39"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -631,7 +629,6 @@ My &lt;a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d"&gt;init-e
 &lt;p&gt;
 One problem is my &lt;code&gt;~/.bashrc&lt;/code&gt; executes &lt;code&gt;/etc/bash_completion&lt;/code&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;if [ -f /etc/bash_completion ]; then
@@ -648,8 +645,7 @@ Unfortunately &lt;code&gt;/etc/bash_completion&lt;/code&gt; makes &lt;code&gt;co
 &lt;p&gt;
 Here is output of &lt;code&gt;complete -p&lt;/code&gt; at my PC,
 &lt;/p&gt;
-
-&lt;pre class="example"&gt;
+&lt;pre class="example" id="org6a1ccd2"&gt;
 ...
 complete -F _known_hosts mtr
 complete -o default -o nospace -W 'homepc
@@ -676,7 +672,6 @@ Besides, if &lt;code&gt;company-mode&lt;/code&gt; provides auto-completion UI, i
 &lt;p&gt;
 My setup code for the packages Troy Hinckley suggested,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;;; Enable auto-completion in `shell'.
@@ -712,18 +707,17 @@ My setup code for the packages Troy Hinckley suggested,
 Screenshot,
 &lt;/p&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="orgbc3d7ef" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="orgb7325e4" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>autocomplete</category><category>emacs</category><category>en</category><category>shell</category><guid>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</guid><pubDate>Thu, 09 Apr 2020 10:40:23 GMT</pubDate></item><item><title>How to speed up lsp-mode</title><link>http://blog.binchen.org/posts/how-to-speed-up-lsp-mode/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Here is my setup,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'lsp-mode
@@ -788,7 +782,6 @@ Here is my setup,
 &lt;p&gt;
 To enable &lt;code&gt;lsp&lt;/code&gt; for the major mode &lt;code&gt;XXX-mode&lt;/code&gt; needs only one line,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'XXX-mode-hook #'my-connect-lsp)
@@ -799,7 +792,6 @@ To enable &lt;code&gt;lsp&lt;/code&gt; for the major mode &lt;code&gt;XXX-mode&l
 &lt;p&gt;
 You also need install three packages,
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;counsel-etags&lt;/a&gt; for code navigation&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/redguardtoo/company-ctags"&gt;company-ctags&lt;/a&gt; for code completion&lt;/li&gt;
@@ -837,7 +829,6 @@ By default &lt;code&gt;lsp-client-packages&lt;/code&gt; contains many clients, b
 &lt;p&gt;
 Here is code &lt;a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679631b8361b9b26fd3d663bb6ba/lsp-mode.el#L7156"&gt;quoted from lsp-mode&lt;/a&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;;;;###autoload
@@ -856,7 +847,7 @@ Here is code &lt;a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe
 I have done &lt;a href="https://github.com/emacs-lsp/lsp-mode/pull/1498"&gt;some profiling&lt;/a&gt; by insert &lt;code&gt;(profiler-report-cpu)&lt;/code&gt; at the end of &lt;code&gt;lsp&lt;/code&gt; (the bottlenecks is highlighted).
 &lt;/p&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="org24cfd16" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -878,12 +869,12 @@ For example, a few days ago I published &lt;a href="https://www.reddit.com/r/ema
 It became one of my most popular reddit post because its unique feature &lt;b&gt;partial line blame&lt;/b&gt;,
 &lt;/p&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="orgf7cdaaa" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-good.png" alt="vc-msg-good.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="org3083fed" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -903,7 +894,6 @@ I totally understand there are many Magit lovers in Emacs community. So I make &
 &lt;p&gt;
 It's only one line setup,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq vc-msg-git-show-commit-function 'magit-show-commit)
@@ -911,7 +901,7 @@ It's only one line setup,
 
 &lt;/div&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="org6ab93c3" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-and-magit.png" alt="vc-msg-and-magit.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;

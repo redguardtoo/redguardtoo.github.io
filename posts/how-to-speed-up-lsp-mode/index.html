@@ -15,7 +15,6 @@
 
 
 
-
 (with-eval-after-load 'lsp-mode
   ;; enable log only for debug
   (setq lsp-log-io nil)
@@ -23,7 +22,7 @@
   ;; use `evil-matchit' instead
   (setq lsp-enable-folding nil)
 
-  ;; no real time syntax ">
+  ;; no real time syntax c">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-03-09T12:10:32Z">
 <meta property="article:tag" content="emacs">
@@ -69,7 +68,6 @@
             <p>
 Here is my setup,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(with-eval-after-load 'lsp-mode
@@ -134,7 +132,6 @@ Here is my setup,
 <p>
 To enable <code>lsp</code> for the major mode <code>XXX-mode</code> needs only one line,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(add-hook 'XXX-mode-hook #'my-connect-lsp)
@@ -145,7 +142,6 @@ To enable <code>lsp</code> for the major mode <code>XXX-mode</code> needs only o
 <p>
 You also need install three packages,
 </p>
-
 <ul class="org-ul">
 <li>
 <a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation</li>
@@ -185,7 +181,6 @@ By default <code>lsp-client-packages</code> contains many clients, but I only co
 <p>
 Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679631b8361b9b26fd3d663bb6ba/lsp-mode.el#L7156">quoted from lsp-mode</a>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;;;###autoload
@@ -204,7 +199,7 @@ Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679
 I have done <a href="https://github.com/emacs-lsp/lsp-mode/pull/1498">some profiling</a> by insert <code>(profiler-report-cpu)</code> at the end of <code>lsp</code> (the bottlenecks is highlighted).
 </p>
 
-<div class="figure">
+<div id="org24cfd16" class="figure">
 <p><img src="../../wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"></p>
 </div>
 

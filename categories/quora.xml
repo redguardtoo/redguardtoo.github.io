@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about quora)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/quora.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>purify quora.com with vanilla javascript</title><link>http://blog.binchen.org/posts/purify-quora-com-with-vanilla-javascript/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about quora)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/quora.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>purify quora.com with vanilla javascript</title><link>http://blog.binchen.org/posts/purify-quora-com-with-vanilla-javascript/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 "Smart" &lt;a href="http://quora.com"&gt;http://quora.com&lt;/a&gt; always recommends the stories I hate to see.
 &lt;/p&gt;
 
@@ -10,7 +10,6 @@ So here is my way to toggle the stories display on Chrome and Firefox.
 &lt;p&gt;
 Step 1, create a new bookmark with below link,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-javascript"&gt;javascript:a=Array.from(document.getElementsByClassName("AnswerStoryToggleModal"));a.forEach(function(e){e.style.display=a[a.length-1].style.display==='none'?'block':'none';});
@@ -25,7 +24,6 @@ Step 2, DONE! You only need click the bookmark to hide or show the stories when 
 &lt;p&gt;
 Here is the original vanilla javascript,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-javascript"&gt;var a = Array.from(document.getElementsByClassName("AnswerStoryToggleModal"));
@@ -41,7 +39,7 @@ a.forEach(function (e) {
 Screenshot:
 &lt;/p&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="org4d4ef19" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/purify-quora-nq8.png" alt="purify-quora-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>en</category><category>javascript</category><category>quora</category><guid>http://blog.binchen.org/posts/purify-quora-com-with-vanilla-javascript/</guid><pubDate>Sun, 09 Oct 2016 12:15:14 GMT</pubDate></item></channel></rss>

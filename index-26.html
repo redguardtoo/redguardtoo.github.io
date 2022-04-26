@@ -51,7 +51,6 @@
                 <p>
 My workflow in Git is,
 </p>
-
 <ul class="org-ul">
 <li>Create a new feature branch based on main branch</li>
 <li>Add some small commits into feature branch</li>
@@ -72,7 +71,6 @@ The key is to analyze output of <code>git log --decorate --oneline</code> to fin
 <p>
 Code,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun my-git-extract-based (target)
@@ -114,7 +112,7 @@ If USER-SELECT-BRANCH is not nil, rebase on the tag or branch selected by user."
 Screencast:
 </p>
 
-<div class="figure">
+<div id="org9abcaed" class="figure">
 <p><img src="wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"></p>
 </div>
             </div>
@@ -157,9 +155,9 @@ My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-
 I did some research and found a perfect solution. It's even faster than Vim.
 </p>
 
-<div id="outline-container-org888a1fd" class="outline-2">
-<h3 id="org888a1fd">Initial solution</h3>
-<div class="outline-text-2" id="text-org888a1fd">
+<div id="outline-container-orgd27e1fa" class="outline-2">
+<h3 id="orgd27e1fa">Initial solution</h3>
+<div class="outline-text-2" id="text-orgd27e1fa">
 <p>
 Please note emacsclient is only use for resolving conflicts.
 </p>
@@ -193,9 +191,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 </div>
 </div>
 </div>
-<div id="outline-container-orgea30c6d" class="outline-2">
-<h3 id="orgea30c6d">My real world solution</h3>
-<div class="outline-text-2" id="text-orgea30c6d">
+<div id="outline-container-orgf7f0d39" class="outline-2">
+<h3 id="orgf7f0d39">My real world solution</h3>
+<div class="outline-text-2" id="text-orgf7f0d39">
 <p>
 It's similar to initial solution. But some scripts are created for automation.
 </p>
@@ -297,7 +295,6 @@ My <a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d">init-ediff.e
 <p>
 One problem is my <code>~/.bashrc</code> executes <code>/etc/bash_completion</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">if [ -f /etc/bash_completion ]; then
@@ -314,8 +311,7 @@ Unfortunately <code>/etc/bash_completion</code> makes <code>complete -p</code> o
 <p>
 Here is output of <code>complete -p</code> at my PC,
 </p>
-
-<pre class="example">
+<pre class="example" id="org6a1ccd2">
 ...
 complete -F _known_hosts mtr
 complete -o default -o nospace -W 'homepc
@@ -342,7 +338,6 @@ Besides, if <code>company-mode</code> provides auto-completion UI, it's better t
 <p>
 My setup code for the packages Troy Hinckley suggested,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; Enable auto-completion in `shell'.
@@ -378,11 +373,11 @@ My setup code for the packages Troy Hinckley suggested,
 Screenshot,
 </p>
 
-<div class="figure">
+<div id="orgbc3d7ef" class="figure">
 <p><img src="wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"></p>
 </div>
 
-<div class="figure">
+<div id="orgb7325e4" class="figure">
 <p><img src="wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"></p>
 </div>
             </div>
@@ -414,7 +409,6 @@ Screenshot,
                 <p>
 Here is my setup,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(with-eval-after-load 'lsp-mode
@@ -479,7 +473,6 @@ Here is my setup,
 <p>
 To enable <code>lsp</code> for the major mode <code>XXX-mode</code> needs only one line,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(add-hook 'XXX-mode-hook #'my-connect-lsp)
@@ -490,7 +483,6 @@ To enable <code>lsp</code> for the major mode <code>XXX-mode</code> needs only o
 <p>
 You also need install three packages,
 </p>
-
 <ul class="org-ul">
 <li>
 <a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation</li>
@@ -530,7 +522,6 @@ By default <code>lsp-client-packages</code> contains many clients, but I only co
 <p>
 Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679631b8361b9b26fd3d663bb6ba/lsp-mode.el#L7156">quoted from lsp-mode</a>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;;;###autoload
@@ -549,7 +540,7 @@ Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679
 I have done <a href="https://github.com/emacs-lsp/lsp-mode/pull/1498">some profiling</a> by insert <code>(profiler-report-cpu)</code> at the end of <code>lsp</code> (the bottlenecks is highlighted).
 </p>
 
-<div class="figure">
+<div id="org24cfd16" class="figure">
 <p><img src="wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"></p>
 </div>
 
@@ -597,11 +588,11 @@ For example, a few days ago I published <a href="https://www.reddit.com/r/emacs/
 It became one of my most popular reddit post because its unique feature <b>partial line blame</b>,
 </p>
 
-<div class="figure">
+<div id="orgf7cdaaa" class="figure">
 <p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
 </div>
 
-<div class="figure">
+<div id="org3083fed" class="figure">
 <p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
 </div>
 
@@ -620,7 +611,6 @@ I totally understand there are many Magit lovers in Emacs community. So I make <
 <p>
 It's only one line setup,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(setq vc-msg-git-show-commit-function 'magit-show-commit)
@@ -628,7 +618,7 @@ It's only one line setup,
 
 </div>
 
-<div class="figure">
+<div id="org6ab93c3" class="figure">
 <p><img src="wp-content/vc-msg-and-magit.png" alt="vc-msg-and-magit.png"></p>
 </div>
 

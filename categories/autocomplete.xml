@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about autocomplete)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/autocomplete.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Thoughts on "Native shell completion in Emacs"</title><link>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about autocomplete)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/autocomplete.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Thoughts on "Native shell completion in Emacs"</title><link>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 &lt;a href="https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/"&gt;Native shell completion in Emacs&lt;/a&gt; by Troy Hinckley is must read for completion in &lt;code&gt;shell-mode&lt;/code&gt;.
 &lt;/p&gt;
 
 &lt;p&gt;
 One problem is my &lt;code&gt;~/.bashrc&lt;/code&gt; executes &lt;code&gt;/etc/bash_completion&lt;/code&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;if [ -f /etc/bash_completion ]; then
@@ -23,8 +22,7 @@ Unfortunately &lt;code&gt;/etc/bash_completion&lt;/code&gt; makes &lt;code&gt;co
 &lt;p&gt;
 Here is output of &lt;code&gt;complete -p&lt;/code&gt; at my PC,
 &lt;/p&gt;
-
-&lt;pre class="example"&gt;
+&lt;pre class="example" id="org6a1ccd2"&gt;
 ...
 complete -F _known_hosts mtr
 complete -o default -o nospace -W 'homepc
@@ -51,7 +49,6 @@ Besides, if &lt;code&gt;company-mode&lt;/code&gt; provides auto-completion UI, i
 &lt;p&gt;
 My setup code for the packages Troy Hinckley suggested,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;;; Enable auto-completion in `shell'.
@@ -87,12 +84,12 @@ My setup code for the packages Troy Hinckley suggested,
 Screenshot,
 &lt;/p&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="orgbc3d7ef" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="orgb7325e4" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>autocomplete</category><category>emacs</category><category>en</category><category>shell</category><guid>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</guid><pubDate>Thu, 09 Apr 2020 10:40:23 GMT</pubDate></item><item><title>Autocomplete with a dictionary and hippie-expand</title><link>http://blog.binchen.org/posts/autocomplete-with-a-dictionary-with-hippie-expand/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
@@ -103,9 +100,9 @@ I use &lt;a href="http://company-mode.github.io/"&gt;company-mode&lt;/a&gt; most
 I surely can do this in company-mode too. But I prefer hippie-expand because I choose to make company-mode focus on programming stuff and hippie-expand on writing.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org06adcc5" class="outline-2"&gt;
-&lt;h3 id="org06adcc5"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org06adcc5"&gt;
+&lt;div id="outline-container-org190ce84" class="outline-2"&gt;
+&lt;h3 id="org190ce84"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org190ce84"&gt;
 &lt;p&gt;
 This solution works &lt;b&gt;in any environment&lt;/b&gt;.
 &lt;/p&gt;
@@ -154,9 +151,9 @@ This solution works &lt;b&gt;in any environment&lt;/b&gt;.
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org1480bd2" class="outline-2"&gt;
-&lt;h3 id="org1480bd2"&gt;Technical details&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org1480bd2"&gt;
+&lt;div id="outline-container-orgbd5418d" class="outline-2"&gt;
+&lt;h3 id="orgbd5418d"&gt;Technical details&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgbd5418d"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;based on &lt;a href="https://github.com/syohex/emacs-ac-ispell"&gt;ac-ispell&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;lazy load of ispell-mode to speed Emacs startup&lt;/li&gt;
@@ -167,9 +164,9 @@ This solution works &lt;b&gt;in any environment&lt;/b&gt;.
 &lt;/div&gt;</description><category>autocomplete</category><category>dictionary</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/autocomplete-with-a-dictionary-with-hippie-expand/</guid><pubDate>Mon, 30 Mar 2015 03:53:40 GMT</pubDate></item><item><title>How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode</title><link>http://blog.binchen.org/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I will only talk about how to set up yasnippet 0.7.0 or higher version.
 &lt;/p&gt;
-&lt;div id="outline-container-org9fce777" class="outline-2"&gt;
-&lt;h3 id="org9fce777"&gt;If you follow `normal install` way, setup is simple&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9fce777"&gt;
+&lt;div id="outline-container-org3750d42" class="outline-2"&gt;
+&lt;h3 id="org3750d42"&gt;If you follow `normal install` way, setup is simple&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3750d42"&gt;
 &lt;p&gt;
 See its &lt;a href="http://capitaomorte.github.com/yasnippet/"&gt;official documentation&lt;/a&gt;.
 &lt;/p&gt;
@@ -190,9 +187,9 @@ Install the yasnippet into somewhere and add following code into your .emacs:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org27577f2" class="outline-2"&gt;
-&lt;h3 id="org27577f2"&gt;If you use elpa package system, setup is even simpler&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org27577f2"&gt;
+&lt;div id="outline-container-org5884de8" class="outline-2"&gt;
+&lt;h3 id="org5884de8"&gt;If you use elpa package system, setup is even simpler&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5884de8"&gt;
 &lt;p&gt;
 After installation, you only need two lines in .emacs.
 &lt;/p&gt;
@@ -214,16 +211,16 @@ So you only put your own snippets in "~/.emacs.d/snippets" and done. No need to 
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0e306c8" class="outline-2"&gt;
-&lt;h3 id="org0e306c8"&gt;The real world setup is NOT simple&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0e306c8"&gt;
+&lt;div id="outline-container-orgfd133d8" class="outline-2"&gt;
+&lt;h3 id="orgfd133d8"&gt;The real world setup is NOT simple&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfd133d8"&gt;
 &lt;p&gt;
 I will explain the reasons at first and give my complete yasnippet configuration code at the end of the this post.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc1be5a9" class="outline-3"&gt;
-&lt;h4 id="orgc1be5a9"&gt;Two snippets may share the same key, so I need activate `yas/dropdown-prompt'&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgc1be5a9"&gt;
+&lt;div id="outline-container-org3a3cbcb" class="outline-3"&gt;
+&lt;h4 id="org3a3cbcb"&gt;Two snippets may share the same key, so I need activate `yas/dropdown-prompt'&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org3a3cbcb"&gt;
 &lt;p&gt;
 One issue is I need a user-friendly dropdown window popped up when the key I input has several candidates. For example, when I type "inc" in C code. There are two candidates `#include "…"' and `#include &amp;lt;…&amp;gt;' available. A handy dropdown popup will help me to choose one of them as efficient as possible.
 &lt;/p&gt;
@@ -238,18 +235,18 @@ The bad news is for some strange reason yasnippet won't load that dropdown-list 
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org86cc07f" class="outline-3"&gt;
-&lt;h4 id="org86cc07f"&gt;`yas/dropdown-prompt' is not perfect&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org86cc07f"&gt;
+&lt;div id="outline-container-org93e1d2a" class="outline-3"&gt;
+&lt;h4 id="org93e1d2a"&gt;`yas/dropdown-prompt' is not perfect&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org93e1d2a"&gt;
 &lt;p&gt;
 I cannot scroll down the dropdown window when there are more candidates it can display. That's especially annoying when calling `yas/insert-snippet'. In this case, we need use `yas/completing-prompt' instead. I will show the fix at the end of this article.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org22551cf" class="outline-3"&gt;
-&lt;h4 id="org22551cf"&gt;Yasnippet conflicts with other plugins&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org22551cf"&gt;
+&lt;div id="outline-container-orgcaeaf10" class="outline-3"&gt;
+&lt;h4 id="orgcaeaf10"&gt;Yasnippet conflicts with other plugins&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgcaeaf10"&gt;
 &lt;p&gt;
 I use &lt;a href="http://cx4a.org/software/auto-complete/"&gt;Auto Complete Mode&lt;/a&gt; (version 20120327 in elpa).  There are two issues when using it with yasnippet.
 &lt;/p&gt;
@@ -272,9 +269,9 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7981a00" class="outline-2"&gt;
-&lt;h3 id="org7981a00"&gt;My final yasnippet setup&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7981a00"&gt;
+&lt;div id="outline-container-orge38fdd7" class="outline-2"&gt;
+&lt;h3 id="orge38fdd7"&gt;My final yasnippet setup&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge38fdd7"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'yasnippet)

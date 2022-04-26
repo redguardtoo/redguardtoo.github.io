@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about html)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/html.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code completion for HTML/JS/CSS in Emacs</title><link>http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about html)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/html.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code completion for HTML/JS/CSS in Emacs</title><link>http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-11-27 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -30,7 +30,6 @@ Setup is easy.
 &lt;p&gt;
 Step 1, create TAGS:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;cd ~/myproj/ &amp;amp;&amp;amp; ctags -e -R .
@@ -57,7 +56,6 @@ You need upgrade web-mode to &lt;a href="https://github.com/fxbois/web-mode/pull
 &lt;p&gt;
 One issue is &lt;code&gt;company-mode&lt;/code&gt; disables code completion in string and comment by default. We need &lt;b&gt;disable this feature in web-mode temporarily&lt;/b&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'company
@@ -78,7 +76,7 @@ Tested on Emacs24, 25, 26.
 Screenshot:
 &lt;/p&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="org9a8b80f" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/company-etags-code-completion-nq8.png" alt="company-etags-code-completion-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>css</category><category>emacs</category><category>en</category><category>html</category><category>javascript</category><guid>http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs/</guid><pubDate>Fri, 27 Nov 2015 11:43:59 GMT</pubDate></item><item><title>How to validate HTML5 code with Flymake effectively</title><link>http://blog.binchen.org/posts/how-to-validate-html5-code-with-flymake-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
@@ -168,9 +166,9 @@ CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-06-06 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb0416ce" class="outline-2"&gt;
-&lt;h3 id="orgb0416ce"&gt;problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb0416ce"&gt;
+&lt;div id="outline-container-org22906d7" class="outline-2"&gt;
+&lt;h3 id="org22906d7"&gt;problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org22906d7"&gt;
 &lt;p&gt;
 I use &lt;a href="http://orgmode.org/"&gt;Org-mode&lt;/a&gt; to record all my notes.
 &lt;/p&gt;
@@ -192,13 +190,13 @@ My hooks are also dependent on third party tools. So if anyone else uses my setu
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgbd09d91" class="outline-2"&gt;
-&lt;h3 id="orgbd09d91"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgbd09d91"&gt;
+&lt;div id="outline-container-org3acb5b4" class="outline-2"&gt;
+&lt;h3 id="org3acb5b4"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3acb5b4"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org62a23fd" class="outline-3"&gt;
-&lt;h4 id="org62a23fd"&gt;Setup&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org62a23fd"&gt;
+&lt;div id="outline-container-org0adf27c" class="outline-3"&gt;
+&lt;h4 id="org0adf27c"&gt;Setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org0adf27c"&gt;
 &lt;p&gt;
 In order to solve the issue, I write a small function which will be called at the beginning of each major mode hook.
 &lt;/p&gt;
@@ -241,9 +239,9 @@ The function basically check whether the `(buffer-file-name)` is the temporary f
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6efaa93" class="outline-3"&gt;
-&lt;h4 id="org6efaa93"&gt;Usage&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org6efaa93"&gt;
+&lt;div id="outline-container-org93c545d" class="outline-3"&gt;
+&lt;h4 id="org93c545d"&gt;Usage&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org93c545d"&gt;
 &lt;p&gt;
 I use python-mode-hook setup as an example:
 &lt;/p&gt;
@@ -264,29 +262,29 @@ I use python-mode-hook setup as an example:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8bd3249" class="outline-2"&gt;
-&lt;h3 id="org8bd3249"&gt;Tips&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8bd3249"&gt;
+&lt;div id="outline-container-orgd4aea4b" class="outline-2"&gt;
+&lt;h3 id="orgd4aea4b"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd4aea4b"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org51bd11d" class="outline-3"&gt;
-&lt;h4 id="org51bd11d"&gt;Export shell code&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org51bd11d"&gt;
+&lt;div id="outline-container-orgc1c92cc" class="outline-3"&gt;
+&lt;h4 id="orgc1c92cc"&gt;Export shell code&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgc1c92cc"&gt;
 &lt;p&gt;
 Exporting shell code will fail if `sh-mode` is loaded. So I use "bash" instead. Since there is no "bash-mode", exporting will be fine.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org65f77ef" class="outline-3"&gt;
-&lt;h4 id="org65f77ef"&gt;Yasnippet setup&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org65f77ef"&gt;
+&lt;div id="outline-container-orgf1b54a1" class="outline-3"&gt;
+&lt;h4 id="orgf1b54a1"&gt;Yasnippet setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf1b54a1"&gt;
 &lt;p&gt;
 To avoid loading yasnippets when exporting, I have to &lt;a href="https://github.com/capitaomorte/yasnippet#use-yas-minor-mode-on-a-per-buffer-basis"&gt;"use yas-minor-mode on a per-buffer basis"&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgbb6400f" class="outline-3"&gt;
-&lt;h4 id="orgbb6400f"&gt;Manually turn off the major-mode hook&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgbb6400f"&gt;
+&lt;div id="outline-container-org7718c88" class="outline-3"&gt;
+&lt;h4 id="org7718c88"&gt;Manually turn off the major-mode hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org7718c88"&gt;
 &lt;p&gt;
 It's controlled by global flag `load-user-customized-major-mode-hook`, as you can see from the "Setup" section.
 &lt;/p&gt;
@@ -307,17 +305,17 @@ Say I want to turn off the major mode hooks when `M-x org-publish`, here is the 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org08bb86c" class="outline-3"&gt;
-&lt;h4 id="org08bb86c"&gt;after-save-hook&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org08bb86c"&gt;
+&lt;div id="outline-container-org08f5a89" class="outline-3"&gt;
+&lt;h4 id="org08f5a89"&gt;after-save-hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org08f5a89"&gt;
 &lt;p&gt;
 `after-save-hook` is the "Normal hook that is run after a buffer is saved to its file". You may also need tweak it up because it will be called when exporting org files
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>export</category><category>html</category><category>org</category><guid>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets/</guid><pubDate>Thu, 20 Nov 2014 12:22:17 GMT</pubDate></item><item><title>How to do HTML/Javascript REPL (Read–eval–print loop) with NO server set up</title><link>http://blog.binchen.org/posts/how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-orgbee3556" class="outline-2"&gt;
-&lt;h3 id="orgbee3556"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgbee3556"&gt;
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>export</category><category>html</category><category>org</category><guid>http://blog.binchen.org/posts/export-org-file-embedded-with-code-snippets/</guid><pubDate>Thu, 20 Nov 2014 12:22:17 GMT</pubDate></item><item><title>How to do HTML/Javascript REPL (Read–eval–print loop) with NO server set up</title><link>http://blog.binchen.org/posts/how-to-do-htmljavascript-repl-read-eval-print-loop-with-no-server-set-up-2/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-org2030d66" class="outline-2"&gt;
+&lt;h3 id="org2030d66"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2030d66"&gt;
 &lt;p&gt;
 I love the REPL (Read–eval–print loop). Watch live update of web page when typing code is cool.
 &lt;/p&gt;
@@ -348,9 +346,9 @@ For me, a practical solution must be:
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2d8cfc1" class="outline-2"&gt;
-&lt;h3 id="org2d8cfc1"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org2d8cfc1"&gt;
+&lt;div id="outline-container-orgd0f738a" class="outline-2"&gt;
+&lt;h3 id="orgd0f738a"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd0f738a"&gt;
 &lt;p&gt;
 The best solution is firefox addon &lt;a href="https://github.com/bard/mozrepl/wiki"&gt;MozRepl&lt;/a&gt;. You can install it &lt;a href="https://addons.mozilla.org"&gt;https://addons.mozilla.org&lt;/a&gt;. Click firefox menu "Tools =&amp;gt; MozRepl =&amp;gt; Start" to run it.
 &lt;img src="http://blog.binchen.org/wp-content/moz-repl-start-nq8.png" alt="moz-repl-start-nq8.png"&gt;
@@ -377,9 +375,9 @@ Section 2 is on how to set up my text editor Emacs to interact with MozRepl. It'
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb6ee314" class="outline-3"&gt;
-&lt;h4 id="orgb6ee314"&gt;Section 1, use MozRepl&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgb6ee314"&gt;
+&lt;div id="outline-container-org37d65de" class="outline-3"&gt;
+&lt;h4 id="org37d65de"&gt;Section 1, use MozRepl&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org37d65de"&gt;
 &lt;p&gt;
 Here are key points:
 &lt;/p&gt;
@@ -433,9 +431,9 @@ Please note the code is not part of my web application! It will be run only in M
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3b0821a" class="outline-3"&gt;
-&lt;h4 id="org3b0821a"&gt;Section 2, set up text editor (Emacs)&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org3b0821a"&gt;
+&lt;div id="outline-container-org5aeeeee" class="outline-3"&gt;
+&lt;h4 id="org5aeeeee"&gt;Section 2, set up text editor (Emacs)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org5aeeeee"&gt;
 &lt;p&gt;
 My text editor is Emacs, so I use Emacs as an example.
 &lt;/p&gt;
@@ -489,13 +487,13 @@ From now on, you only need "M-x moz-load-js-file-and-send-it" and select the js 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org97d9a14" class="outline-2"&gt;
-&lt;h3 id="org97d9a14"&gt;Tips&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org97d9a14"&gt;
+&lt;div id="outline-container-org5dba5f7" class="outline-2"&gt;
+&lt;h3 id="org5dba5f7"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5dba5f7"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5ff3cba" class="outline-3"&gt;
-&lt;h4 id="org5ff3cba"&gt;Tip 1&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org5ff3cba"&gt;
+&lt;div id="outline-container-orgecf6d34" class="outline-3"&gt;
+&lt;h4 id="orgecf6d34"&gt;Tip 1&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgecf6d34"&gt;
 &lt;p&gt;
 Well, this is a simple tip. Maybe you are already aware of this.
 &lt;/p&gt;
@@ -525,9 +523,9 @@ Since javascript is good at analyzing URL, you can also tweak the URL parameters
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org15209b2" class="outline-3"&gt;
-&lt;h4 id="org15209b2"&gt;Tip 2&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org15209b2"&gt;
+&lt;div id="outline-container-org38b0c12" class="outline-3"&gt;
+&lt;h4 id="org38b0c12"&gt;Tip 2&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org38b0c12"&gt;
 &lt;p&gt;
 Sometimes mozrepl will be unresponsive. You can test it by running "M-x moz-reload-browser" to refresh the page. If page is not refreshed, restart Firefox. Luckily this does not happen too often.
 &lt;/p&gt;
@@ -545,9 +543,9 @@ Sometimes mozrepl will be unresponsive. You can test it by running "M-x moz-relo
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgebb6e1f" class="outline-2"&gt;
-&lt;h3 id="orgebb6e1f"&gt;Demo&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgebb6e1f"&gt;
+&lt;div id="outline-container-org0be9d7f" class="outline-2"&gt;
+&lt;h3 id="org0be9d7f"&gt;Demo&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0be9d7f"&gt;
 &lt;p&gt;
 Here is a demo how I use it in a real world web application development.
 &lt;/p&gt;
@@ -557,7 +555,7 @@ The script to drive the firefox is written in simple javascript/jquery code, whi
 &lt;/p&gt;
 
 
-&lt;div class="figure"&gt;
+&lt;div id="orgac3be83" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/mozrepl-in-action.gif" alt="mozrepl-in-action.gif"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -569,9 +567,9 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;p&gt;
 Let's see an example in real life development.
 &lt;/p&gt;
-&lt;div id="outline-container-org7b87e57" class="outline-2"&gt;
-&lt;h3 id="org7b87e57"&gt;Note&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7b87e57"&gt;
+&lt;div id="outline-container-org0e38f47" class="outline-2"&gt;
+&lt;h3 id="org0e38f47"&gt;Note&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0e38f47"&gt;
 &lt;p&gt;
 For people who does not get the key points of this article, here are the points:
 &lt;/p&gt;
@@ -583,9 +581,9 @@ For people who does not get the key points of this article, here are the points:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb946c9f" class="outline-2"&gt;
-&lt;h3 id="orgb946c9f"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb946c9f"&gt;
+&lt;div id="outline-container-org485ac15" class="outline-2"&gt;
+&lt;h3 id="org485ac15"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org485ac15"&gt;
 &lt;p&gt;
 I'm maintaining a big javascript file with thousands of lines of legacy code.
 &lt;/p&gt;
@@ -640,9 +638,9 @@ Most editors like Sublime Text 3 cannot display the javascript functions with me
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc0505aa" class="outline-2"&gt;
-&lt;h3 id="orgc0505aa"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc0505aa"&gt;
+&lt;div id="outline-container-org9ac8290" class="outline-2"&gt;
+&lt;h3 id="org9ac8290"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9ac8290"&gt;
 &lt;p&gt;
 Emacs has a &lt;a href="http://www.emacswiki.org/emacs/Js2Mode"&gt;js2-mode&lt;/a&gt; which is basically a javascript interpreter written in lisp. It's created by &lt;a href="http://www.emacswiki.org/emacs/SteveYegge"&gt;Steve Yegge&lt;/a&gt; and now maintained by &lt;a href="https://github.com/mooz/js2-mode"&gt;mooz&lt;/a&gt;.
 &lt;/p&gt;
@@ -747,9 +745,9 @@ The screen shot after we applying the above patch:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org033b08c" class="outline-2"&gt;
-&lt;h3 id="org033b08c"&gt;Summary&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org033b08c"&gt;
+&lt;div id="outline-container-org1e9b32f" class="outline-2"&gt;
+&lt;h3 id="org1e9b32f"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1e9b32f"&gt;
 &lt;p&gt;
 That's an example of beauty of Emacs.
 &lt;/p&gt;
@@ -759,9 +757,9 @@ It gives you freedom and power. You can base your work on the top geeks like Ste
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd3bd1d0" class="outline-2"&gt;
-&lt;h3 id="orgd3bd1d0"&gt;Update&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgd3bd1d0"&gt;
+&lt;div id="outline-container-orgf498845" class="outline-2"&gt;
+&lt;h3 id="orgf498845"&gt;Update&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf498845"&gt;
 &lt;p&gt;
 My patch is incorporated into &lt;code&gt;js2-mode&lt;/code&gt; since version &lt;code&gt;20140114&lt;/code&gt;.
 &lt;/p&gt;
@@ -789,7 +787,7 @@ After installing &lt;code&gt;Helm&lt;/code&gt;, you can use command &lt;code&gt;
 &lt;/p&gt;
 
 
-&lt;div class="figure"&gt;
+&lt;div id="orgfc43c3c" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/helm-imenu-and-js2-mode-nq8.png" alt="helm-imenu-and-js2-mode-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;

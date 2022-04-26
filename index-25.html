@@ -68,15 +68,15 @@ Select the partial of line 6 and run <code>vc-msg-show</code>, the correct commi
 Screenshots,
 </p>
 
-<div class="figure">
+<div id="org97d3292" class="figure">
 <p><img src="wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"></p>
 </div>
 
-<div class="figure">
+<div id="orgfeb741e" class="figure">
 <p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
 </div>
 
-<div class="figure">
+<div id="org06a8191" class="figure">
 <p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
 </div>
             </div>
@@ -123,7 +123,7 @@ I used to regard vimdiff as the best merge tool for Git because it's simply fast
 Here is the demo how I use vimdiff to resolve conflicts from <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a>.
 </p>
 
-<div class="figure">
+<div id="org4475901" class="figure">
 <p><img src="wp-content/vimdiff-as-git-merge-tool.gif" alt="vimdiff-as-git-merge-tool.gif"></p>
 </div>
 
@@ -166,7 +166,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 </p>
 
-<div id="outline-container-org9da17a1" class="outline-2">
+<div id="outline-container-orgfa47bd5" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -222,7 +222,7 @@ Native Emacs API is enough to save/load windows layout.
 </p>
 </div>
 </div>
-<div id="outline-container-org9eb4c02" class="outline-2">
+<div id="outline-container-orgd9769a4" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 <p>
@@ -351,7 +351,7 @@ Demo on using Emacs to resolve merge conflicts,
 </p>
 
 
-<div class="figure">
+<div id="org9ca563c" class="figure">
 <p><img src="wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"></p>
 </div>
 </div>
@@ -390,7 +390,6 @@ You can simply run <code>M-x counsel-etags-list-tag-in-current-file</code>.
 <p>
 Or set up imenu before <code>M-x imenu</code> or <code>M-x helm-imenu</code> or <code>M-x counsel-imenu</code>, 
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(setq imenu-create-index-function 'counsel-etags-imenu-default-create-index-function)
@@ -402,7 +401,7 @@ Or set up imenu before <code>M-x imenu</code> or <code>M-x helm-imenu</code> or 
 screenshot:
 </p>
 
-<div class="figure">
+<div id="orge75cf54" class="figure">
 <p><img src="wp-content/counsel-etags-imenu.png" alt="counsel-etags-imenu.png"></p>
 </div>
             </div>
@@ -555,18 +554,18 @@ My current project uses a technology called <a href="https://www.styled-componen
 <p>
 It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
 </p>
-<div id="outline-container-orga04d3f9" class="outline-2">
-<h3 id="orga04d3f9">Screencast</h3>
-<div class="outline-text-2" id="text-orga04d3f9">
+<div id="outline-container-org9227c37" class="outline-2">
+<h3 id="org9227c37">Screencast</h3>
+<div class="outline-text-2" id="text-org9227c37">
 
-<div class="figure">
+<div id="org6b4d892" class="figure">
 <p><img src="wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb36f4c0" class="outline-2">
-<h3 id="orgb36f4c0">Code</h3>
-<div class="outline-text-2" id="text-orgb36f4c0">
+<div id="outline-container-org06cc6e3" class="outline-2">
+<h3 id="org06cc6e3">Code</h3>
+<div class="outline-text-2" id="text-org06cc6e3">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'counsel-etags)
@@ -642,9 +641,9 @@ It could dynamically change web application's appearance and is a critical techn
                 <p>
 I created <a href="https://github.com/redguardtoo/dianyou">dianyou</a> (电邮) to solve improve my Gnus work flow.
 </p>
-<div id="outline-container-org65d31e2" class="outline-2">
-<h3 id="org65d31e2">Search mails</h3>
-<div class="outline-text-2" id="text-org65d31e2">
+<div id="outline-container-org608741b" class="outline-2">
+<h3 id="org608741b">Search mails</h3>
+<div class="outline-text-2" id="text-org608741b">
 <p>
 Most Gnus users use <code>gnus-group-make-nnir-group</code> to search mails. But it's not usable in "Summary Buffer". Its <a href="https://tools.ietf.org/html/rfc3501#section-6.4.4">IMAP SEARCH Command</a> is hard to use.
 </p>
@@ -654,27 +653,27 @@ It could be replaced by <code>dianyou-group-make-nnir-group</code> which support
 </p>
 </div>
 </div>
-<div id="outline-container-orge4f40f5" class="outline-2">
-<h3 id="orge4f40f5">Auto complete email address</h3>
-<div class="outline-text-2" id="text-orge4f40f5">
+<div id="outline-container-org302ad10" class="outline-2">
+<h3 id="org302ad10">Auto complete email address</h3>
+<div class="outline-text-2" id="text-org302ad10">
 <p>
 I'm too lazy to set up my contacts. It would be better that Gnus could <b>automatically</b> collect email addresses from all received mails. So I created the command <code>dianyou-insert-email-address-from-received-mails</code>. The inserted email address is also inserted into the global variable <code>dianyou-email-address-history</code> which could be persisted by <a href="https://github.com/jwiegley/session">session</a>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org4ad2622" class="outline-2">
-<h3 id="org4ad2622">Switch Gnus buffer</h3>
-<div class="outline-text-2" id="text-org4ad2622">
+<div id="outline-container-org1ba8628" class="outline-2">
+<h3 id="org1ba8628">Switch Gnus buffer</h3>
+<div class="outline-text-2" id="text-org1ba8628">
 <p>
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use <code>dianyou-switch-gnus-buffer</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org27ae640" class="outline-2">
-<h3 id="org27ae640">Paste image from clipboard</h3>
-<div class="outline-text-2" id="text-org27ae640">
+<div id="outline-container-org46b863d" class="outline-2">
+<h3 id="org46b863d">Paste image from clipboard</h3>
+<div class="outline-text-2" id="text-org46b863d">
 <p>
 Use <code>dianyou-paste-image-from-clipboard</code>. CLI program <a href="https://github.com/astrand/xclip">xclip</a> should be installed at first.</p>
 </div>

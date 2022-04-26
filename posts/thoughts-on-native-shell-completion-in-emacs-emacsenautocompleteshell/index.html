@@ -19,9 +19,8 @@ One problem is my ~/.bashrc executes /etc/bash_completion,
 
 
 
-
 if [ -f /etc/bash_completion ]; then
-    ">
+    .">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2020-04-09T10:40:23Z">
 <meta property="article:tag" content="autocomplete">
@@ -75,7 +74,6 @@ if [ -f /etc/bash_completion ]; then
 <p>
 One problem is my <code>~/.bashrc</code> executes <code>/etc/bash_completion</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">if [ -f /etc/bash_completion ]; then
@@ -92,8 +90,7 @@ Unfortunately <code>/etc/bash_completion</code> makes <code>complete -p</code> o
 <p>
 Here is output of <code>complete -p</code> at my PC,
 </p>
-
-<pre class="example">
+<pre class="example" id="org6a1ccd2">
 ...
 complete -F _known_hosts mtr
 complete -o default -o nospace -W 'homepc
@@ -120,7 +117,6 @@ Besides, if <code>company-mode</code> provides auto-completion UI, it's better t
 <p>
 My setup code for the packages Troy Hinckley suggested,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; Enable auto-completion in `shell'.
@@ -156,11 +152,11 @@ My setup code for the packages Troy Hinckley suggested,
 Screenshot,
 </p>
 
-<div class="figure">
+<div id="orgbc3d7ef" class="figure">
 <p><img src="../../wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"></p>
 </div>
 
-<div class="figure">
+<div id="orgb7325e4" class="figure">
 <p><img src="../../wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"></p>
 </div>
         </div>

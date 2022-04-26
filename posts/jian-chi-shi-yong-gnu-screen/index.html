@@ -83,9 +83,9 @@ packer -S screen-git
 最新版的screen的一个重要特性就是已支持垂直分屏,其快捷键为=C-a |=.
 </p>
 
-<div id="outline-container-orge464d9d" class="outline-2">
-<h3 id="orge464d9d">要安装最新版的screen,在我的<a href="http://www.archlinux.org">Arch Linux</a>下很简单,</h3>
-<div class="outline-text-2" id="text-orge464d9d">
+<div id="outline-container-orgccebf63" class="outline-2">
+<h3 id="orgccebf63">要安装最新版的screen,在我的<a href="http://www.archlinux.org">Arch Linux</a>下很简单,</h3>
+<div class="outline-text-2" id="text-orgccebf63">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">packer -S screen-git
@@ -94,9 +94,9 @@ packer -S screen-git
 </div>
 </div>
 </div>
-<div id="outline-container-org9da760e" class="outline-2">
-<h3 id="org9da760e">在windows的cygwin下安装要多几步.</h3>
-<div class="outline-text-2" id="text-org9da760e">
+<div id="outline-container-orgbe6197f" class="outline-2">
+<h3 id="orgbe6197f">在windows的cygwin下安装要多几步.</h3>
+<div class="outline-text-2" id="text-orgbe6197f">
 <p>
 首先安装软件包libncurse-devel,然后去<a href="http://ftp.gnu.org/gnu/screen/">官方网站</a>下载最新源代码包(目前版本为4.0.3),解压缩,
 </p>
@@ -119,9 +119,9 @@ packer -S screen-git
 </div>
 </div>
 
-<div id="outline-container-org85d6212" class="outline-2">
-<h3 id="org85d6212">如用urxvt作为Terminal Simulator(比如我),直接启动screen会报错,</h3>
-<div class="outline-text-2" id="text-org85d6212">
+<div id="outline-container-org0e05ced" class="outline-2">
+<h3 id="org0e05ced">如用urxvt作为Terminal Simulator(比如我),直接启动screen会报错,</h3>
+<div class="outline-text-2" id="text-org0e05ced">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">$ screen
@@ -134,21 +134,21 @@ $TERM too long - sorry.
 原因为screen的开发者对于环境变量 <code>$TERM</code> 的最大长度做了不合理的假定.这里是<a href="https://bbs.archlinux.org/viewtopic.php?pid=885446">具体讨论</a>,解决办法很简单.
 在 <code>.Xdefaults</code> 中添加一行,
 </p>
-<pre class="example">
+<pre class="example" id="orgc3f1790">
 urxvt*termName: rxvt-256color
 </pre>
 <p>
 在 <code>.screenrc</code> 中添加一行,
 </p>
-<pre class="example">
+<pre class="example" id="org6bbcbd9">
 term rxvt-256color
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org6e23b3d" class="outline-2">
-<h3 id="org6e23b3d">使用screen前我将screen的Ctrl-a改为Ctrl-t</h3>
-<div class="outline-text-2" id="text-org6e23b3d">
+<div id="outline-container-org54ddf4c" class="outline-2">
+<h3 id="org54ddf4c">使用screen前我将screen的Ctrl-a改为Ctrl-t</h3>
+<div class="outline-text-2" id="text-org54ddf4c">
 <p>
 因为 <code>Ctrl-a</code> 在Bash和Emacs中都是常用快捷键,在 <code>.screenrc</code> 中添加一行,
 </p>

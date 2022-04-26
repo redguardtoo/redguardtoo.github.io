@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about javascript)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/javascript.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Javascript code navigation in counsel-etags</title><link>http://blog.binchen.org/posts/javascript-code-navigation-in-counsel-etags/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about javascript)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/javascript.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Javascript code navigation in counsel-etags</title><link>http://blog.binchen.org/posts/javascript-code-navigation-in-counsel-etags/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Javascript code navigation is supported by &lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;counsel-etags&lt;/a&gt; out of box.
 &lt;/p&gt;
 
@@ -64,19 +64,19 @@ My current project uses a technology called &lt;a href="https://www.styled-compo
 &lt;p&gt;
 It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
 &lt;/p&gt;
-&lt;div id="outline-container-orga04d3f9" class="outline-2"&gt;
-&lt;h3 id="orga04d3f9"&gt;Screencast&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga04d3f9"&gt;
+&lt;div id="outline-container-org9227c37" class="outline-2"&gt;
+&lt;h3 id="org9227c37"&gt;Screencast&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9227c37"&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="org6b4d892" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb36f4c0" class="outline-2"&gt;
-&lt;h3 id="orgb36f4c0"&gt;Code&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb36f4c0"&gt;
+&lt;div id="outline-container-org06cc6e3" class="outline-2"&gt;
+&lt;h3 id="org06cc6e3"&gt;Code&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org06cc6e3"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'counsel-etags)
@@ -131,7 +131,6 @@ So here is my way to toggle the stories display on Chrome and Firefox.
 &lt;p&gt;
 Step 1, create a new bookmark with below link,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-javascript"&gt;javascript:a=Array.from(document.getElementsByClassName("AnswerStoryToggleModal"));a.forEach(function(e){e.style.display=a[a.length-1].style.display==='none'?'block':'none';});
@@ -146,7 +145,6 @@ Step 2, DONE! You only need click the bookmark to hide or show the stories when 
 &lt;p&gt;
 Here is the original vanilla javascript,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-javascript"&gt;var a = Array.from(document.getElementsByClassName("AnswerStoryToggleModal"));
@@ -162,7 +160,7 @@ a.forEach(function (e) {
 Screenshot:
 &lt;/p&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="org4d4ef19" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/purify-quora-nq8.png" alt="purify-quora-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>en</category><category>javascript</category><category>quora</category><guid>http://blog.binchen.org/posts/purify-quora-com-with-vanilla-javascript/</guid><pubDate>Sun, 09 Oct 2016 12:15:14 GMT</pubDate></item><item><title>Code completion for HTML/JS/CSS in Emacs</title><link>http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
@@ -196,7 +194,6 @@ Setup is easy.
 &lt;p&gt;
 Step 1, create TAGS:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;cd ~/myproj/ &amp;amp;&amp;amp; ctags -e -R .
@@ -223,7 +220,6 @@ You need upgrade web-mode to &lt;a href="https://github.com/fxbois/web-mode/pull
 &lt;p&gt;
 One issue is &lt;code&gt;company-mode&lt;/code&gt; disables code completion in string and comment by default. We need &lt;b&gt;disable this feature in web-mode temporarily&lt;/b&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'company
@@ -244,7 +240,7 @@ Tested on Emacs24, 25, 26.
 Screenshot:
 &lt;/p&gt;
 
-&lt;div class="figure"&gt;
+&lt;div id="org9a8b80f" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/company-etags-code-completion-nq8.png" alt="company-etags-code-completion-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>css</category><category>emacs</category><category>en</category><category>html</category><category>javascript</category><guid>http://blog.binchen.org/posts/code-completion-for-htmljscss-in-emacs/</guid><pubDate>Fri, 27 Nov 2015 11:43:59 GMT</pubDate></item><item><title>Use js2-mode to print json path</title><link>http://blog.binchen.org/posts/use-js2-mode-to-print-json-path/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
@@ -379,9 +375,9 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 I use &lt;a href="https://angularjs.org/"&gt;AngularJS&lt;/a&gt; as an example. The technique is actually generic and not limited to Angular Only.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org3f6ec2d" class="outline-2"&gt;
-&lt;h3 id="org3f6ec2d"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3f6ec2d"&gt;
+&lt;div id="outline-container-org60dbdd5" class="outline-2"&gt;
+&lt;h3 id="org60dbdd5"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org60dbdd5"&gt;
 &lt;p&gt;
 In Angular application, a function is defined in a javascript file and called in a html file.
 &lt;/p&gt;
@@ -424,9 +420,9 @@ In this article, I focus on how I combine Emacs and Ctags. If you use other text
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org154d5df" class="outline-2"&gt;
-&lt;h3 id="org154d5df"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org154d5df"&gt;
+&lt;div id="outline-container-org577afbc" class="outline-2"&gt;
+&lt;h3 id="org577afbc"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org577afbc"&gt;
 &lt;p&gt;
 Ctags is good at parsing files with &lt;b&gt;regular expression&lt;/b&gt;.
 &lt;/p&gt;
@@ -441,9 +437,9 @@ I use Ctags because:
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org68bc44e" class="outline-3"&gt;
-&lt;h4 id="org68bc44e"&gt;Old solution&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org68bc44e"&gt;
+&lt;div id="outline-container-orgd31fdca" class="outline-3"&gt;
+&lt;h4 id="orgd31fdca"&gt;Old solution&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgd31fdca"&gt;
 &lt;p&gt;
 Here is my &lt;a href="https://gist.github.com/redguardtoo/b12ddae3b8010a276e9b#file-ctags"&gt;~/.ctags&lt;/a&gt;.
 &lt;/p&gt;
@@ -470,9 +466,9 @@ Please install the latest helm because I &lt;a href="https://github.com/emacs-he
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb122489" class="outline-3"&gt;
-&lt;h4 id="orgb122489"&gt;Latest solution (recommended)&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgb122489"&gt;
+&lt;div id="outline-container-orgfa3a93b" class="outline-3"&gt;
+&lt;h4 id="orgfa3a93b"&gt;Latest solution (recommended)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgfa3a93b"&gt;
 &lt;p&gt;
 I have developed some ctags packages on code completion and code navigation. No manual setup is needed. Everything just works out of box. My packages are very popular in the Emacs community right now,
 &lt;/p&gt;
@@ -586,9 +582,9 @@ Please note:
 &lt;li&gt;My code quality is fine. It handles all the corner cases I've met. For example, single quote and double quotes will be escaped properly.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div id="outline-container-org8160792" class="outline-2"&gt;
-&lt;h3 id="org8160792"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8160792"&gt;
+&lt;div id="outline-container-org507a31b" class="outline-2"&gt;
+&lt;h3 id="org507a31b"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org507a31b"&gt;
 &lt;p&gt;
 As a freelancer I am often required to debug legacy javascript code from some huge "enterprise"" applications.
 &lt;/p&gt;
@@ -603,18 +599,18 @@ So my problem is how to insert logging code as quickly as possible.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org90c46aa" class="outline-2"&gt;
-&lt;h3 id="org90c46aa"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org90c46aa"&gt;
+&lt;div id="outline-container-org4684b0e" class="outline-2"&gt;
+&lt;h3 id="org4684b0e"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4684b0e"&gt;
 &lt;p&gt;
 My solution is &lt;a href="https://github.com/capitaomorte/yasnippet"&gt;Yasnippet&lt;/a&gt;. Yasnippet allow me to insert executable Emacs Lisp code in its snippet. I will Sotake full advantage of that feature. 
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0935e34" class="outline-2"&gt;
-&lt;h3 id="org0935e34"&gt;Logging simple JS variable&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0935e34"&gt;
+&lt;div id="outline-container-org42c2b62" class="outline-2"&gt;
+&lt;h3 id="org42c2b62"&gt;Logging simple JS variable&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org42c2b62"&gt;
 &lt;p&gt;
 Given a variable name like "var1", I need insert javascript code as below:
 &lt;/p&gt;
@@ -636,9 +632,9 @@ This snippet need you input variable name once.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org57f57a2" class="outline-2"&gt;
-&lt;h3 id="org57f57a2"&gt;Logging complex JS variable&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org57f57a2"&gt;
+&lt;div id="outline-container-orgce327bd" class="outline-2"&gt;
+&lt;h3 id="orgce327bd"&gt;Logging complex JS variable&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgce327bd"&gt;
 &lt;p&gt;
 In real world, the JS variable is often a string like "MyController.servicea.find('.class').attr1" which I hate to type.
 &lt;/p&gt;
@@ -654,9 +650,9 @@ Snippet:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd56ebf6" class="outline-2"&gt;
-&lt;h3 id="orgd56ebf6"&gt;Logging JS function name when it's called&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgd56ebf6"&gt;
+&lt;div id="outline-container-orgdca5d1f" class="outline-2"&gt;
+&lt;h3 id="orgdca5d1f"&gt;Logging JS function name when it's called&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdca5d1f"&gt;
 &lt;p&gt;
 In below example, I need insert  "console.log('hello is called');" in function "hello":
 &lt;/p&gt;
@@ -689,9 +685,9 @@ The regular expressions could be used in &lt;b&gt;both&lt;/b&gt; js-mode and js2
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7244b54" class="outline-2"&gt;
-&lt;h3 id="org7244b54"&gt;Logging JS function name with its parameters&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7244b54"&gt;
+&lt;div id="outline-container-orgdc70b13" class="outline-2"&gt;
+&lt;h3 id="orgdc70b13"&gt;Logging JS function name with its parameters&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgdc70b13"&gt;
 &lt;p&gt;
 JS example:
 &lt;/p&gt;
@@ -720,9 +716,9 @@ BTW, since I use &lt;a href="http://www.emacswiki.org/Evil"&gt;Evil&lt;/a&gt;, c
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7afb7a2" class="outline-2"&gt;
-&lt;h3 id="org7afb7a2"&gt;Insert JS debugger statement&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7afb7a2"&gt;
+&lt;div id="outline-container-orgfdd762d" class="outline-2"&gt;
+&lt;h3 id="orgfdd762d"&gt;Insert JS debugger statement&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfdd762d"&gt;
 &lt;p&gt;
 @cjk provided this tip. The debugger like Firebug will pause at the debugger statement. It saves me the time to locate JS file, to go to the specific line and set breakpoint after re-deploying the application.
 &lt;/p&gt;
@@ -738,9 +734,9 @@ Snippets:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgee37bea" class="outline-2"&gt;
-&lt;h3 id="orgee37bea"&gt;Bonus&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgee37bea"&gt;
+&lt;div id="outline-container-org3f47796" class="outline-2"&gt;
+&lt;h3 id="org3f47796"&gt;Bonus&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3f47796"&gt;
 &lt;p&gt;
 Similar snippets for Emacs Lisp are defined &lt;a href="https://github.com/redguardtoo/emacs.d/tree/master/snippets/emacs-lisp-mode"&gt;HERE&lt;/a&gt;.
 &lt;/p&gt;
@@ -755,9 +751,9 @@ Screenshot:
 &lt;img src="https://cloud.githubusercontent.com/assets/184553/5156904/e86f11a6-733c-11e4-8312-a6c8ad2b17be.png" alt="e86f11a6-733c-11e4-8312-a6c8ad2b17be.png"&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-org1b92f45" class="outline-2"&gt;
-&lt;h3 id="org1b92f45"&gt;Environment&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org1b92f45"&gt;
+&lt;div id="outline-container-org2636441" class="outline-2"&gt;
+&lt;h3 id="org2636441"&gt;Environment&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2636441"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Bootstrap 2.3.2&lt;/li&gt;
 &lt;li&gt;font-awesome 3.2.1&lt;/li&gt;
@@ -770,9 +766,9 @@ I only use the grid layout from bootstrap and minimum API from jQuery.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgec366f9" class="outline-2"&gt;
-&lt;h3 id="orgec366f9"&gt;Notes&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgec366f9"&gt;
+&lt;div id="outline-container-org99ad95c" class="outline-2"&gt;
+&lt;h3 id="org99ad95c"&gt;Notes&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org99ad95c"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;IE7 does not support media query. So I abandon "mobile first" strategy, new strategy is "IE7 first".&lt;/li&gt;
 &lt;li&gt;IE7 does not support inline-block properly, I need below css code hack:&lt;/li&gt;
@@ -810,9 +806,9 @@ If you are impatient, jump to the "Quick Start" and paste my setup into your ~/.
 No extra setup needed! Then keep using your js2-mode happily, as if nothing happened. ;) 
 &lt;/p&gt;
 
-&lt;div id="outline-container-org694f0bf" class="outline-2"&gt;
-&lt;h3 id="org694f0bf"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org694f0bf"&gt;
+&lt;div id="outline-container-orge429a36" class="outline-2"&gt;
+&lt;h3 id="orge429a36"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge429a36"&gt;
 &lt;p&gt;
 In my previous article &lt;a href="http://blog.binchen.org/posts/why-emacs-is-better-editor.html"&gt;Why Emacs is better editor - a case study for javascript developer&lt;/a&gt;, I proved that Emacs is better than &lt;a href="http://www.sublimetext.com/"&gt;Sublime Text&lt;/a&gt;.
 &lt;/p&gt;
@@ -846,9 +842,9 @@ As you can see, using regular expression to extract the string "MyController" is
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfc7a21b" class="outline-2"&gt;
-&lt;h3 id="orgfc7a21b"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgfc7a21b"&gt;
+&lt;div id="outline-container-org3c684ca" class="outline-2"&gt;
+&lt;h3 id="org3c684ca"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3c684ca"&gt;
 &lt;p&gt;
 My latest &lt;a href="https://github.com/mooz/js2-mode/pull/169"&gt;contribution to js2-mode&lt;/a&gt; solves this problem perfectly. It &lt;b&gt;combines the powers of AST and regular expression&lt;/b&gt;.
 &lt;/p&gt;
@@ -931,9 +927,9 @@ Sublime users also argue that Sublime3 uses &lt;a href="https://www.python.org/"
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7ae3156" class="outline-2"&gt;
-&lt;h3 id="org7ae3156"&gt;Quick Start&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7ae3156"&gt;
+&lt;div id="outline-container-org55af529" class="outline-2"&gt;
+&lt;h3 id="org55af529"&gt;Quick Start&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org55af529"&gt;
 &lt;p&gt;
 I'm still discussing with the js2-mode maintainer Dmitry Gutov about the best way to merge my patch.
 &lt;/p&gt;
