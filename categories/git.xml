@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Apr 2022 12:05:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Integrate delta into git</title><link>http://blog.binchen.org/posts/integrate-delta-into-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;a href="https://github.com/dandavison/delta"&gt;Delta&lt;/a&gt; is a syntax-highlighting pager for git, diff, and grep output.
+&lt;/p&gt;
+
+&lt;p&gt;
+Set up is as simple as &lt;a href="https://github.com/dandavison/delta#get-started"&gt;copying its sample setup&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I wrote a shell script &lt;code&gt;my-pager&lt;/code&gt; which can use both &lt;code&gt;less&lt;/code&gt; and &lt;code&gt;delta&lt;/code&gt; as pager,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+# @see https://stackoverflow.com/questions/19408649/pipe-input-into-a-script
+if [ -x "$HOME/.cargo/bin/delta" ]; then
+    cat | $HOME/.cargo/bin/delta "$@"
+else
+    cat | less -F -X
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is my extra delta setup in &lt;code&gt;~/.gitconfig&lt;/code&gt; (Delta reads settings from &lt;code&gt;~/.gitconfig&lt;/code&gt;),
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[core]
+pager = ~/bin/my-pager
+[interactive]
+diffFilter = ~/bin/my-pager --color-only
+[merge]
+conflictstyle = diff3
+[diff]
+colorMoved = default
+[delta "default"]
+file-decoration-style= blue box
+hunk-header-decoration-style = purple ol
+[delta]
+features = default
+navigate = true  # use n and N to move between diff sections
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot,
+&lt;img src="http://blog.binchen.org/wp-content/git-delta.png" alt="git-delta.png"&gt;&lt;/p&gt;</description><category>delta</category><category>diff</category><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/integrate-delta-into-git/</guid><pubDate>Wed, 27 Apr 2022 12:03:37 GMT</pubDate></item><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I prefer using git cli because it's more light weight.
 &lt;/p&gt;
 
@@ -775,83 +824,4 @@ The solution is simple. Insert below code into ~/.emacs:
 &lt;/div&gt;
 
 &lt;p&gt;
-I also recommend reading &lt;a href="https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings"&gt;his in-depth discussion&lt;/a&gt; on &lt;b&gt;general handling of keybindings conflict&lt;/b&gt; between evil and other minor modes.&lt;/p&gt;</description><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/use-git-timemachine-with-evil/</guid><pubDate>Thu, 09 Apr 2015 23:47:41 GMT</pubDate></item><item><title>How to accept the github pull request efficiently</title><link>http://blog.binchen.org/posts/how-to-accept-the-github-pull-request-efficiently/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-I use keyboard only in order to maximize my productivity.
-&lt;/p&gt;
-
-&lt;div id="outline-container-orge1b581e" class="outline-2"&gt;
-&lt;h3 id="orge1b581e"&gt;Preparation&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge1b581e"&gt;
-&lt;p&gt;
-Install Firefox addon &lt;a href="https://github.com/mooz/keysnail/wiki"&gt;Keysnail&lt;/a&gt; and its plugin &lt;a href="https://github.com/mooz/keysnail/wiki/plugin"&gt;HOK&lt;/a&gt;. From now on, all the web browsing is done ONLY in keyboard.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org9e2e432" class="outline-2"&gt;
-&lt;h3 id="org9e2e432"&gt;Step 1&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9e2e432"&gt;
-&lt;p&gt;
-Open pull request page at github.com, click the link "command line".
-&lt;/p&gt;
-
-&lt;p&gt;
-In a real world project, I rarely accept a pull request without some modification. So I usually avoid pressing the big green button "merge pull request" on that page.
-&lt;/p&gt;
-
-&lt;p&gt;
-In the "command line" page, github is kind enough to list the command lines to "check out a new branch and test the changes" from the pull request. The command lines are like:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;git checkout -b her-master master
-git pull git@github.com:her/myproject.git master
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;p&gt;
-I have installed a Greasemonkey user script &lt;a href="https://github.com/redguardtoo/NinjaWebCoder"&gt;NinjaWebCoder&lt;/a&gt; in order to &lt;b&gt;use keyboard&lt;/b&gt; to copy those command lines from the browser into clipboard. Then I paste the command lines into terminal.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgb81f776" class="outline-2"&gt;
-&lt;h3 id="orgb81f776"&gt;Step 2&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb81f776"&gt;
-&lt;p&gt;
-I open the code file with Emacs.
-&lt;/p&gt;
-
-&lt;p&gt;
-There is an Emacs addon called &lt;a href="https://github.com/syohex/emacs-git-gutter"&gt;git-gutter&lt;/a&gt;. I use its command "git-gutter:next-hunk" to move the cursor to the next "diff hunk".
-&lt;/p&gt;
-
-&lt;p&gt;
-Let me explain what's the diff hunk. When you edit some code under git's control, you code has some difference with the HEAD version. Every difference corresponds to the pair of a file name and a line number. That file-name-line-number pair is defined as a "diff hunk".
-&lt;/p&gt;
-
-&lt;p&gt;
-Now comes &lt;b&gt;the most important part of this article&lt;/b&gt;. Since version 0.71, git-gutter added a new command "git-gutter:set-start-version". If I "git-gutter:set-start-revision" to the "HEAD^" version. I can jump to "diff hunk" of the difference between "HEAD" and "HEAD^".
-&lt;/p&gt;
-
-&lt;p&gt;
-In short, I can &lt;b&gt;review the latest commit and change the code in one step&lt;/b&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org5fe7a64" class="outline-2"&gt;
-&lt;h3 id="org5fe7a64"&gt;Done&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5fe7a64"&gt;
-&lt;p&gt;
-After review and code change, the remaining book-keeping things (git-commit/git-merge/git-push) are easy.
-&lt;/p&gt;
-
-&lt;p&gt;
-Every operation in previous steps is optimized with some shortcut. For example, in shell I use alias "g" instead of full command line "git status".
-&lt;/p&gt;
-
-&lt;p&gt;
-Please enlighten me if the work flow could be improved.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/how-to-accept-the-github-pull-request-efficiently/</guid><pubDate>Fri, 01 Aug 2014 13:52:18 GMT</pubDate></item></channel></rss>
+I also recommend reading &lt;a href="https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings"&gt;his in-depth discussion&lt;/a&gt; on &lt;b&gt;general handling of keybindings conflict&lt;/b&gt; between evil and other minor modes.&lt;/p&gt;</description><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/use-git-timemachine-with-evil/</guid><pubDate>Thu, 09 Apr 2015 23:47:41 GMT</pubDate></item></channel></rss>

@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Apr 2022 12:05:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Integrate delta into git</title><link>http://blog.binchen.org/posts/integrate-delta-into-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;a href="https://github.com/dandavison/delta"&gt;Delta&lt;/a&gt; is a syntax-highlighting pager for git, diff, and grep output.
+&lt;/p&gt;
+
+&lt;p&gt;
+Set up is as simple as &lt;a href="https://github.com/dandavison/delta#get-started"&gt;copying its sample setup&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I wrote a shell script &lt;code&gt;my-pager&lt;/code&gt; which can use both &lt;code&gt;less&lt;/code&gt; and &lt;code&gt;delta&lt;/code&gt; as pager,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+# @see https://stackoverflow.com/questions/19408649/pipe-input-into-a-script
+if [ -x "$HOME/.cargo/bin/delta" ]; then
+    cat | $HOME/.cargo/bin/delta "$@"
+else
+    cat | less -F -X
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is my extra delta setup in &lt;code&gt;~/.gitconfig&lt;/code&gt; (Delta reads settings from &lt;code&gt;~/.gitconfig&lt;/code&gt;),
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[core]
+pager = ~/bin/my-pager
+[interactive]
+diffFilter = ~/bin/my-pager --color-only
+[merge]
+conflictstyle = diff3
+[diff]
+colorMoved = default
+[delta "default"]
+file-decoration-style= blue box
+hunk-header-decoration-style = purple ol
+[delta]
+features = default
+navigate = true  # use n and N to move between diff sections
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot,
+&lt;img src="http://blog.binchen.org/wp-content/git-delta.png" alt="git-delta.png"&gt;&lt;/p&gt;</description><category>delta</category><category>diff</category><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/integrate-delta-into-git/</guid><pubDate>Wed, 27 Apr 2022 12:03:37 GMT</pubDate></item><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 and gradually migrate from Emacs 27 to Emacs 28.
 &lt;/p&gt;
 
@@ -529,14 +578,4 @@ If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "fast" (default value),
 
 &lt;p&gt;
 If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "normal", &lt;code&gt;flyspell-buffer&lt;/code&gt; is used, current buffer is checked when user saves current file.
-&lt;/p&gt;</description><category>check</category><category>emacs</category><category>en</category><category>flyspell</category><category>spell</category><guid>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</guid><pubDate>Sun, 17 May 2020 06:20:55 GMT</pubDate></item><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
-&lt;li&gt;Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and turn off mic to reduce the noise&lt;/li&gt;
-&lt;li&gt;Run &lt;code&gt;alsamixer&lt;/code&gt; to double check pulse setup&lt;/li&gt;
-&lt;li&gt;Make sure correct device is selected in &lt;a href="https://www.audacityteam.org/"&gt;audacity&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Restart &lt;code&gt;audacity&lt;/code&gt; and test&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-My &lt;code&gt;alsamixer&lt;/code&gt; setup,
-&lt;img src="http://blog.binchen.org/wp-content/alsamixer-nq8.png" alt="alsamixer-nq8.png"&gt;
-&lt;/p&gt;</description><category>audio</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/audio-recording-on-linux/</guid><pubDate>Thu, 07 May 2020 12:04:13 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;</description><category>check</category><category>emacs</category><category>en</category><category>flyspell</category><category>spell</category><guid>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</guid><pubDate>Sun, 17 May 2020 06:20:55 GMT</pubDate></item></channel></rss>

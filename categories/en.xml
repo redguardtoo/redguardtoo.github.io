@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Apr 2022 12:05:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Integrate delta into git</title><link>http://blog.binchen.org/posts/integrate-delta-into-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;a href="https://github.com/dandavison/delta"&gt;Delta&lt;/a&gt; is a syntax-highlighting pager for git, diff, and grep output.
+&lt;/p&gt;
+
+&lt;p&gt;
+Set up is as simple as &lt;a href="https://github.com/dandavison/delta#get-started"&gt;copying its sample setup&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I wrote a shell script &lt;code&gt;my-pager&lt;/code&gt; which can use both &lt;code&gt;less&lt;/code&gt; and &lt;code&gt;delta&lt;/code&gt; as pager,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+# @see https://stackoverflow.com/questions/19408649/pipe-input-into-a-script
+if [ -x "$HOME/.cargo/bin/delta" ]; then
+    cat | $HOME/.cargo/bin/delta "$@"
+else
+    cat | less -F -X
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is my extra delta setup in &lt;code&gt;~/.gitconfig&lt;/code&gt; (Delta reads settings from &lt;code&gt;~/.gitconfig&lt;/code&gt;),
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;[core]
+pager = ~/bin/my-pager
+[interactive]
+diffFilter = ~/bin/my-pager --color-only
+[merge]
+conflictstyle = diff3
+[diff]
+colorMoved = default
+[delta "default"]
+file-decoration-style= blue box
+hunk-header-decoration-style = purple ol
+[delta]
+features = default
+navigate = true  # use n and N to move between diff sections
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screenshot,
+&lt;img src="http://blog.binchen.org/wp-content/git-delta.png" alt="git-delta.png"&gt;&lt;/p&gt;</description><category>delta</category><category>diff</category><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/integrate-delta-into-git/</guid><pubDate>Wed, 27 Apr 2022 12:03:37 GMT</pubDate></item><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 and gradually migrate from Emacs 27 to Emacs 28.
 &lt;/p&gt;
 
@@ -725,142 +774,4 @@ Screenshot,
 &lt;div id="orgb7325e4" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"&gt;
 &lt;/p&gt;
-&lt;/div&gt;</description><category>autocomplete</category><category>emacs</category><category>en</category><category>shell</category><guid>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</guid><pubDate>Thu, 09 Apr 2020 10:40:23 GMT</pubDate></item><item><title>How to speed up lsp-mode</title><link>http://blog.binchen.org/posts/how-to-speed-up-lsp-mode/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-Here is my setup,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'lsp-mode
-  ;; enable log only for debug
-  (setq lsp-log-io nil)
-
-  ;; use `evil-matchit' instead
-  (setq lsp-enable-folding nil)
-
-  ;; no real time syntax check
-  (setq lsp-diagnostic-package :none)
-
-  ;; handle yasnippet by myself
-  (setq lsp-enable-snippet nil)
-
-  ;; use `company-ctags' only.
-  ;; Please note `company-lsp' is automatically enabled if installed
-  (setq lsp-enable-completion-at-point nil)
-
-  ;; turn off for better performance
-  (setq lsp-enable-symbol-highlighting nil)
-
-  ;; use ffip instead
-  (setq lsp-enable-links nil)
-
-  ;; auto restart lsp
-  (setq lsp-restart 'auto-restart)
-
-  ;; @see https://github.com/emacs-lsp/lsp-mode/pull/1498 and code related to auto configure.
-  ;; Require clients could be slow.
-  ;; I only load `lsp-clients' because it includes the js client which I'm interested
-  (setq lsp-client-packages '(lsp-clients))
-
-  ;; don't scan 3rd party javascript libraries
-  (push "[/\\\\][^/\\\\]*\\.\\(json\\|html\\|jade\\)$" lsp-file-watch-ignored) ; json
-
-  ;; don't ping LSP lanaguage server too frequently
-  (defvar lsp-on-touch-time 0)
-  (defadvice lsp-on-change (around lsp-on-change-hack activate)
-    ;; don't run `lsp-on-change' too frequently
-    (when (&amp;gt; (- (float-time (current-time))
-                lsp-on-touch-time) 30) ;; 30 seconds
-      (setq lsp-on-touch-time (float-time (current-time)))
-      ad-do-it)))
-
-(defun my-connect-lsp (&amp;amp;optional no-reconnect)
-  "Connect lsp server.  If NO-RECONNECT is t, don't shutdown existing lsp connection."
-  (interactive "P")
-  (when (and (not no-reconnect)
-             (fboundp 'lsp-disconnect))
-    (lsp-disconnect))
-  (when (and buffer-file-name
-             (not (member (file-name-extension buffer-file-name)
-                          '("json"))))
-    (unless (and (boundp 'lsp-mode) lsp-mode)
-      (if (derived-mode-p 'js2-mode) (setq-local lsp-enable-imenu nil))
-      (lsp-deferred))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-To enable &lt;code&gt;lsp&lt;/code&gt; for the major mode &lt;code&gt;XXX-mode&lt;/code&gt; needs only one line,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'XXX-mode-hook #'my-connect-lsp)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-You also need install three packages,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a href="https://github.com/redguardtoo/counsel-etags"&gt;counsel-etags&lt;/a&gt; for code navigation&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/redguardtoo/company-ctags"&gt;company-ctags&lt;/a&gt; for code completion&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/technomancy/find-file-in-project"&gt;find-file-in-project&lt;/a&gt; (ffip) for searching file in project&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-Explanation,
-&lt;/p&gt;
-
-&lt;p&gt;
-Ctags is used to generate tags file for &lt;code&gt;company-ctags&lt;/code&gt; and &lt;code&gt;counsel-etags&lt;/code&gt;. GNU Find is required for &lt;code&gt;find-file-in-project&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-These three packages are faster and can replace the corresponding functionalities in &lt;code&gt;lsp-mode&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-I don't need any lint tools from &lt;code&gt;lsp-mode&lt;/code&gt; because the lint tool is already included in our build script. I can see the syntax error from terminal.
-&lt;/p&gt;
-
-&lt;p&gt;
-I &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html"&gt;advice&lt;/a&gt; the &lt;code&gt;lsp-on-change&lt;/code&gt; in order to notify the language server less frequently.
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;code&gt;js2-mode&lt;/code&gt;  has its own javascript parser extract imenu items. So I don't need javascript language server's parser to send back imenu items.
-&lt;/p&gt;
-
-&lt;p&gt;
-By default &lt;code&gt;lsp-client-packages&lt;/code&gt; contains many clients, but I only code in javascript which is included in &lt;code&gt;lsp-clients&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is code &lt;a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679631b8361b9b26fd3d663bb6ba/lsp-mode.el#L7156"&gt;quoted from lsp-mode&lt;/a&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;;;;###autoload
-(defun lsp (&amp;amp;optional arg)
-  ;; ...
-  (when (and lsp-auto-configure)
-    (seq-do (lambda (package) (require package nil t))
-            lsp-client-packages))
-  ;; ...
-)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-I have done &lt;a href="https://github.com/emacs-lsp/lsp-mode/pull/1498"&gt;some profiling&lt;/a&gt; by insert &lt;code&gt;(profiler-report-cpu)&lt;/code&gt; at the end of &lt;code&gt;lsp&lt;/code&gt; (the bottlenecks is highlighted).
-&lt;/p&gt;
-
-&lt;div id="org24cfd16" class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-The language server I used &lt;a href="https://github.com/sourcegraph/javascript-typescript-langserver/issues/394"&gt;can read jsconfig.json&lt;/a&gt; in project root. I can specify the directories to exclude in it.&lt;/p&gt;</description><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/how-to-speed-up-lsp-mode/</guid><pubDate>Mon, 09 Mar 2020 12:10:32 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>autocomplete</category><category>emacs</category><category>en</category><category>shell</category><guid>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</guid><pubDate>Thu, 09 Apr 2020 10:40:23 GMT</pubDate></item></channel></rss>
