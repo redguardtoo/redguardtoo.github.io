@@ -1,5 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 27 Apr 2022 12:05:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Integrate delta into git</title><link>http://blog.binchen.org/posts/integrate-delta-into-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 16 May 2022 12:18:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Emacs server need be started first.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use &lt;code&gt;emacsclient&lt;/code&gt; to execute emms commands in the emacs server.
+&lt;/p&gt;
+
+&lt;p&gt;
+Key bindings setup in &lt;code&gt;~/.i3/config&lt;/code&gt; for &lt;a href="https://i3wm.org/"&gt;i3 window manager&lt;/a&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;# music player client (mpc, emms ...)
+bindsym XF86Search exec --no-startup-id ~/bin/music-player-client show
+bindsym XF86Tools exec --no-startup-id ~/bin/music-player-client random
+bindsym XF86AudioStop exec --no-startup-id ~/bin/music-player-client toggle
+bindsym XF86AudioPause exec --no-startup-id ~/bin/music-player-client toggle
+bindsym XF86AudioNext exec --no-startup-id ~/bin/music-player-client next
+bindsym XF86AudioPrev exec --no-startup-id ~/bin/music-player-client prev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Content of &lt;code&gt;~/bin/music-player-client&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+
+# use mpc&amp;amp;mpd or emacsclient&amp;amp;emms to play music
+
+if [ -z "$1" ]; then
+    echo "Usage: music-player-client pre|next|toggle|random|show"
+    exit 1
+fi
+
+# Please uninstall mpc&amp;amp;mpd if using emms
+if command -v mpc &amp;amp;&amp;gt; /dev/null; then
+    case $1 in
+        prev )
+            mpc prev
+            ;;
+        next )
+            mpc next
+            ;;
+        toggle )
+            mpc toggle
+            ;;
+    esac
+elif command -v emacsclient &amp;amp;&amp;gt; /dev/null; then
+    case $1 in
+        prev )
+            emacsclient --eval '(emms-previous)'
+            ;;
+        next )
+            emacsclient --eval '(emms-next)'
+            ;;
+        toggle )
+            emacsclient --eval '(emms-pause)'
+            ;;
+        random )
+            emacsclient --eval '(progn (emms-shuffle) (emms-next))'
+            ;;
+        show )
+            # program like dunst can show the notification
+            notify-send "$(emacsclient --eval '(file-name-base (emms-show))')"
+            ;;
+    esac
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I usually run &lt;code&gt;M-x emms-play-directory-tree&lt;/code&gt; to play music. My emms setup,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'emms
+  ;; minimum setup is more robust
+  (emms-minimalistic)
+  (setq emms-player-list '(emms-player-mplayer
+                           emms-player-vlc)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screen shot of running &lt;code&gt;~/bin/music-player-client show&lt;/code&gt;,
+&lt;img src="http://blog.binchen.org/wp-content/emms-notification.png" alt="emms-notification.png"&gt;&lt;/p&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</guid><pubDate>Mon, 16 May 2022 12:11:33 GMT</pubDate></item><item><title>Integrate delta into git</title><link>http://blog.binchen.org/posts/integrate-delta-into-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 &lt;a href="https://github.com/dandavison/delta"&gt;Delta&lt;/a&gt; is a syntax-highlighting pager for git, diff, and grep output.
 &lt;/p&gt;
 
@@ -681,97 +772,4 @@ Step 4, run &lt;code&gt;git mergetool -t emacsclient&lt;/code&gt; to resolve con
 My &lt;a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d"&gt;init-ediff.el&lt;/a&gt; in &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;emacs.d&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</guid><pubDate>Fri, 10 Apr 2020 09:33:40 GMT</pubDate></item><item><title>Thoughts on "Native shell completion in Emacs"</title><link>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-&lt;a href="https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/"&gt;Native shell completion in Emacs&lt;/a&gt; by Troy Hinckley is must read for completion in &lt;code&gt;shell-mode&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-One problem is my &lt;code&gt;~/.bashrc&lt;/code&gt; executes &lt;code&gt;/etc/bash_completion&lt;/code&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Unfortunately &lt;code&gt;/etc/bash_completion&lt;/code&gt; makes &lt;code&gt;complete -p&lt;/code&gt; output some lines the Emacs function &lt;code&gt;bash-completion-tokenize&lt;/code&gt; can't analyze.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is output of &lt;code&gt;complete -p&lt;/code&gt; at my PC,
-&lt;/p&gt;
-&lt;pre class="example" id="org6a1ccd2"&gt;
-...
-complete -F _known_hosts mtr
-complete -o default -o nospace -W 'homepc
-192.168.1.104
-github.com
-gitlab.com' scp
-complete -o default -f -X '!*.dvi' dvipdf
-...
-&lt;/pre&gt;
-
-&lt;p&gt;
-The line &lt;code&gt;gitlab.com' scp&lt;/code&gt; will crash &lt;code&gt;bash-completion-tokenize&lt;/code&gt;. Obviously, one line 
-&lt;code&gt;complete -o default -o nospace -W 'homepc 192.168.1.104 github.com gitlab.com' scp&lt;/code&gt;  is wrongly split into multiple lines by &lt;code&gt;complete -p&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-In &lt;code&gt;shell-mode&lt;/code&gt;, completion functions might call &lt;code&gt;bash-completion-tokenize&lt;/code&gt;. If &lt;code&gt;bash-completion-tokenize&lt;/code&gt; crashes, the completion in &lt;code&gt;shell-mode&lt;/code&gt; won't work.
-&lt;/p&gt;
-
-&lt;p&gt;
-Besides, if &lt;code&gt;company-mode&lt;/code&gt; provides auto-completion UI, it's better to place the backend &lt;code&gt;company-files&lt;/code&gt; before &lt;code&gt;company-native-complete&lt;/code&gt;. It's because the backend &lt;code&gt;company-files&lt;/code&gt; displays the full file path in candidates. So users can complete the whole path in one shot.
-&lt;/p&gt;
-
-&lt;p&gt;
-My setup code for the packages Troy Hinckley suggested,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; Enable auto-completion in `shell'.
-(with-eval-after-load 'shell
-  (native-complete-setup-bash))
-
-;; `bash-completion-tokenize' can handle garbage output of "complete -p"
-(defadvice bash-completion-tokenize (around bash-completion-tokenize-hack activate)
-  (let* ((args (ad-get-args 0))
-         (beg (nth 0 args))
-         (end (nth 1 args)))
-    ;; original code extracts tokens from output of "complete -p" line by line
-    (cond
-     ((not (string-match-p "^complete " (buffer-substring beg end)))
-      ;; filter out some wierd lines
-      (setq ad-return-value nil))
-     (t
-      ad-do-it))))
-
-(defun shell-mode-hook-setup ()
-  "Set up `shell-mode'."
-  ;; hook `completion-at-point', optional
-  (add-hook 'completion-at-point-functions #'native-complete-at-point nil t)
-  (setq-local company-backends '((company-files company-native-complete)))
-  ;; `company-native-complete' is better than `completion-at-point'
-  (local-set-key (kbd "TAB") 'company-complete))
-(add-hook 'shell-mode-hook 'shell-mode-hook-setup)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Screenshot,
-&lt;/p&gt;
-
-&lt;div id="orgbc3d7ef" class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="orgb7325e4" class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;</description><category>autocomplete</category><category>emacs</category><category>en</category><category>shell</category><guid>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</guid><pubDate>Thu, 09 Apr 2020 10:40:23 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</guid><pubDate>Fri, 10 Apr 2020 09:33:40 GMT</pubDate></item></channel></rss>

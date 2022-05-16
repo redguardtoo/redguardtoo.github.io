@@ -1,5 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 16 May 2022 12:18:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Emacs server need be started first.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use &lt;code&gt;emacsclient&lt;/code&gt; to execute emms commands in the emacs server.
+&lt;/p&gt;
+
+&lt;p&gt;
+Key bindings setup in &lt;code&gt;~/.i3/config&lt;/code&gt; for &lt;a href="https://i3wm.org/"&gt;i3 window manager&lt;/a&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;# music player client (mpc, emms ...)
+bindsym XF86Search exec --no-startup-id ~/bin/music-player-client show
+bindsym XF86Tools exec --no-startup-id ~/bin/music-player-client random
+bindsym XF86AudioStop exec --no-startup-id ~/bin/music-player-client toggle
+bindsym XF86AudioPause exec --no-startup-id ~/bin/music-player-client toggle
+bindsym XF86AudioNext exec --no-startup-id ~/bin/music-player-client next
+bindsym XF86AudioPrev exec --no-startup-id ~/bin/music-player-client prev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Content of &lt;code&gt;~/bin/music-player-client&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+
+# use mpc&amp;amp;mpd or emacsclient&amp;amp;emms to play music
+
+if [ -z "$1" ]; then
+    echo "Usage: music-player-client pre|next|toggle|random|show"
+    exit 1
+fi
+
+# Please uninstall mpc&amp;amp;mpd if using emms
+if command -v mpc &amp;amp;&amp;gt; /dev/null; then
+    case $1 in
+        prev )
+            mpc prev
+            ;;
+        next )
+            mpc next
+            ;;
+        toggle )
+            mpc toggle
+            ;;
+    esac
+elif command -v emacsclient &amp;amp;&amp;gt; /dev/null; then
+    case $1 in
+        prev )
+            emacsclient --eval '(emms-previous)'
+            ;;
+        next )
+            emacsclient --eval '(emms-next)'
+            ;;
+        toggle )
+            emacsclient --eval '(emms-pause)'
+            ;;
+        random )
+            emacsclient --eval '(progn (emms-shuffle) (emms-next))'
+            ;;
+        show )
+            # program like dunst can show the notification
+            notify-send "$(emacsclient --eval '(file-name-base (emms-show))')"
+            ;;
+    esac
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I usually run &lt;code&gt;M-x emms-play-directory-tree&lt;/code&gt; to play music. My emms setup,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'emms
+  ;; minimum setup is more robust
+  (emms-minimalistic)
+  (setq emms-player-list '(emms-player-mplayer
+                           emms-player-vlc)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screen shot of running &lt;code&gt;~/bin/music-player-client show&lt;/code&gt;,
+&lt;img src="http://blog.binchen.org/wp-content/emms-notification.png" alt="emms-notification.png"&gt;&lt;/p&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</guid><pubDate>Mon, 16 May 2022 12:11:33 GMT</pubDate></item><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 and gradually migrate from Emacs 27 to Emacs 28.
 &lt;/p&gt;
 
@@ -415,38 +506,4 @@ Emacs has enough APIs. Later I found another pure Lisp API "find-lisp-find-dired
 curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`.tar.gz | sudo tar --exclude=admin/* --exclude=etc/* --exclude=nt/* --exclude=doc/* --exclude=leim/* -C /usr/share/emacs/`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`/lisp/ --strip-components=2 --wildcards -zxv *.el
 &lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;&lt;p&gt; For example, after installing the lisp code. You can &lt;code&gt;M-x find-function package-list-packages&lt;/code&gt; in Emacs, you will jump to the definition of that command in "/usr/share/emacs/24.3/lisp/emacs-lisp/package.el" (I assume your emacs version is 24.3). &lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/one-liner-to-download-and-extract-emacs-lisp-source-code/</guid><pubDate>Tue, 18 Feb 2014 11:56:00 GMT</pubDate></item><item><title>Notes on set up nfs on ArchLinux</title><link>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Key points&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ul&gt; &lt;li&gt;see &lt;a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html"&gt;Redhat documenation&lt;/a&gt;, best doc on exportfs &lt;/li&gt; &lt;li&gt;&lt;a href="http://superuser.com/questions/492989/understanding-subnet-mask"&gt;Understanding Subnet mask&lt;/a&gt; and &lt;a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask"&gt;essential Subnet mask&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -r&lt;/code&gt; to reload /etc/exports &lt;/li&gt; &lt;li&gt;&lt;code&gt;sudo exportfs -v&lt;/code&gt; to see current nfs exports &lt;/li&gt; &lt;li&gt;content of /etc/exports: &lt;/li&gt; &lt;/ul&gt;     
-&lt;pre class="prettyprint "&gt;
-
-/srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;check &lt;a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html"&gt;optimizatioin tips&lt;/a&gt; &lt;/li&gt; &lt;li&gt;&lt;code&gt;man 5 exports&lt;/code&gt; for the documentation of /etc/exports &lt;/li&gt; &lt;li&gt;&lt;a href="https://www.serverstack.com/blog/2012/11/21/debugging-nfs-file-access-on-server-and-client-side/"&gt;Debugging NFS File Access on Server and Client Side&lt;/a&gt; &lt;/li&gt; &lt;/ul&gt;     
-&lt;pre class="prettyprint "&gt;
-
-# turn on the log
-
-sudo rpcdebug -m nfsd -s proc
-
-# turn off the log
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;then &lt;code&gt;sudo tail -f /var/log/messages.log&lt;/code&gt; &lt;/li&gt; &lt;li&gt;Basically you need &lt;code&gt;sudo systemctl enable syslog-ng.service&lt;/code&gt; to enable system log before you use rpcdebug &lt;/li&gt; &lt;/ul&gt;  &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Summary&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;p&gt;On server side: &lt;/p&gt;   
-&lt;pre class="prettyprint "&gt;
-
-sudo exportfs
-
-# got output like:
-
-# /srv/nfs4/z   192.168.0.0/16
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;&lt;p&gt; Then on client side: &lt;/p&gt;   
-&lt;pre class="prettyprint "&gt;
-
-# 131072 is 128K
-
-sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;&lt;/div&gt; &lt;/div&gt;</description><category>archlinux</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux/</guid><pubDate>Fri, 07 Feb 2014 17:24:09 GMT</pubDate></item></channel></rss>
+&lt;p&gt;&lt;/p&gt;&lt;p&gt; For example, after installing the lisp code. You can &lt;code&gt;M-x find-function package-list-packages&lt;/code&gt; in Emacs, you will jump to the definition of that command in "/usr/share/emacs/24.3/lisp/emacs-lisp/package.el" (I assume your emacs version is 24.3). &lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/one-liner-to-download-and-extract-emacs-lisp-source-code/</guid><pubDate>Tue, 18 Feb 2014 11:56:00 GMT</pubDate></item></channel></rss>

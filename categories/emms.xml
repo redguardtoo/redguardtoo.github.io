@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emms)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emms.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 16 May 2022 12:18:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Emacs server need be started first.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use &lt;code&gt;emacsclient&lt;/code&gt; to execute emms commands in the emacs server.
+&lt;/p&gt;
+
+&lt;p&gt;
+Key bindings setup in &lt;code&gt;~/.i3/config&lt;/code&gt; for &lt;a href="https://i3wm.org/"&gt;i3 window manager&lt;/a&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-ini"&gt;# music player client (mpc, emms ...)
+bindsym XF86Search exec --no-startup-id ~/bin/music-player-client show
+bindsym XF86Tools exec --no-startup-id ~/bin/music-player-client random
+bindsym XF86AudioStop exec --no-startup-id ~/bin/music-player-client toggle
+bindsym XF86AudioPause exec --no-startup-id ~/bin/music-player-client toggle
+bindsym XF86AudioNext exec --no-startup-id ~/bin/music-player-client next
+bindsym XF86AudioPrev exec --no-startup-id ~/bin/music-player-client prev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Content of &lt;code&gt;~/bin/music-player-client&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
+
+# use mpc&amp;amp;mpd or emacsclient&amp;amp;emms to play music
+
+if [ -z "$1" ]; then
+    echo "Usage: music-player-client pre|next|toggle|random|show"
+    exit 1
+fi
+
+# Please uninstall mpc&amp;amp;mpd if using emms
+if command -v mpc &amp;amp;&amp;gt; /dev/null; then
+    case $1 in
+        prev )
+            mpc prev
+            ;;
+        next )
+            mpc next
+            ;;
+        toggle )
+            mpc toggle
+            ;;
+    esac
+elif command -v emacsclient &amp;amp;&amp;gt; /dev/null; then
+    case $1 in
+        prev )
+            emacsclient --eval '(emms-previous)'
+            ;;
+        next )
+            emacsclient --eval '(emms-next)'
+            ;;
+        toggle )
+            emacsclient --eval '(emms-pause)'
+            ;;
+        random )
+            emacsclient --eval '(progn (emms-shuffle) (emms-next))'
+            ;;
+        show )
+            # program like dunst can show the notification
+            notify-send "$(emacsclient --eval '(file-name-base (emms-show))')"
+            ;;
+    esac
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+I usually run &lt;code&gt;M-x emms-play-directory-tree&lt;/code&gt; to play music. My emms setup,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'emms
+  ;; minimum setup is more robust
+  (emms-minimalistic)
+  (setq emms-player-list '(emms-player-mplayer
+                           emms-player-vlc)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Screen shot of running &lt;code&gt;~/bin/music-player-client show&lt;/code&gt;,
+&lt;img src="http://blog.binchen.org/wp-content/emms-notification.png" alt="emms-notification.png"&gt;&lt;/p&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</guid><pubDate>Mon, 16 May 2022 12:11:33 GMT</pubDate></item></channel></rss>
