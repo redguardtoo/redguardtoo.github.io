@@ -23,6 +23,173 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/hardcore-spell-checking-in-emacs/">Hardcore spell checking in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2020-05-17T06:20:55+00:00">2020-05-17 06:20</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/hardcore-spell-checking-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/hardcore-spell-checking-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/check/" rel="tag">check</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/flyspell/" rel="tag">flyspell</a></li>
+           <li><a class="tag p-category" href="categories/spell/" rel="tag">spell</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
+</p>
+
+<p>
+You could read my article <a href="https://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs">What's the best spell check setup in emacs</a> for basic knowledge.
+</p>
+
+<p>
+This article introduces <b>new techniques to make Fly Spell more powerful and faster</b>.
+</p>
+
+<p>
+The CLI programs aspell and hunspell can only parse plain text. They don't know any programming language syntax.
+</p>
+
+<p>
+Fly Spell feeds the output of CLI program into its own Lisp predicate named <code>flyspell-generic-check-word-predicate</code> whose default value is nil.
+</p>
+
+<p>
+When executing <code>(flyspell-mode 1)</code>, the <a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L655">per mode predicate is assigned</a> to <code>flyspell-generic-check-word-predicate</code>.
+</p>
+
+<p>
+For example, you can run <code>(get major-mode 'flyspell-mode-predicate)</code> to get predicate of current major mode, <code>(get 'web-mode 'flyspell-mode-predicate)</code> to get predicate of <code>web-mode</code>.
+</p>
+
+<p>
+The predicate is a simple function without parameter. Here is my predicate for <code>web-mode</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-web-mode-flyspell-verify ()
+  "Fly Spell predicate of `web-mode`."
+  (let* ((font-face-at-point (get-text-property (- (point) 1) 'face))
+         rlt)
+    ;; If rlt is t, the word at point is POSSIBLY a typo, continue checking.
+    (setq rlt t)
+    ;; if rlt is nil, the word at point is definitely NOT a typo.
+    ;; (setq rlt nil)
+    rlt))
+;; Attach my predicate to `web-mode`
+(put 'web-mode 'flyspell-mode-predicate 'my-web-mode-flyspell-verify)
+</code></pre>
+
+</div>
+
+<p>
+If you read code of <a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L435">flyspell-prog-mode</a>, you will find it set <code>flyspell-generic-check-word-predicate</code> to its own predicate <code>flyspell-generic-progmode-verify</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defvar flyspell-prog-text-faces
+  '(font-lock-string-face font-lock-comment-face font-lock-doc-face)
+  "Faces corresponding to text in programming-mode buffers.")
+
+(defun flyspell-generic-progmode-verify ()
+  "Used for `flyspell-generic-check-word-predicate' in programming modes."
+  (unless (eql (point) (point-min))
+    ;; (point) is next char after the word. Must check one char before.
+    (let ((f (get-text-property (1- (point)) 'face)))
+      (memq f flyspell-prog-text-faces))))
+</code></pre>
+
+</div>
+
+<p>
+As you can see, <code>flyspell-generic-progmode-verify</code> is very simple. If the word at point is not inside comment or string, the predicate returns nil which means the word is not a typo.
+</p>
+
+<p>
+So in theory I can write my own predicate by following <code>flyspell-generic-progmode-verify</code>.
+</p>
+
+<p>
+But in reality it's not as simple as it seems. The predicate is written in Lisp so it's slow. If it contains too much code, Fly Spell process might block other actions in Emacs. Emacs could be un-responsive when editing text.
+</p>
+
+<p>
+The solution is not to start Fly Spell process too frequently.
+</p>
+
+<p>
+The <code>flyspell-mode</code> starts checking when <a href="https://github.com/emacs-mirror/emacs/blob/c6fb86b40bebf597fccbe4eba58ceea83bd9700f/lisp/textmodes/flyspell.el#L158">text in current buffer is modified</a>.
+</p>
+
+<p>
+My solution is not to turn on <code>flyspell-mode</code>. Instead, I manage the spell checking by myself using APIs from flyspell.
+</p>
+
+<p>
+I only spell check when user saving current buffer. The interval between spell check should not be less than 5 minutes. Spell check is done by calling API <code>flyspell-buffer</code>
+</p>
+
+<p>
+Checking the whole buffer is still slow. Instead, we can check the text region in current window by calling <code>flyspell-region</code> instead. The api <code>window-total-height</code> returns the height of current Windows. So I can use below code to get the region to check,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(let* (beg end (orig-pos (point)))
+  (save-excursion
+    (forward-line (- (window-total-height)))
+    (setq beg (line-beginning-position))
+    (goto-char orig-pos)
+    (forward-line (window-total-height))
+    (setq end (line-end-position)))
+  (flyspell-region beg end))
+</code></pre>
+
+</div>
+
+<p>
+I also need respect the predicate embedded in the major mode in my own generic predicate. Since per mode predicate has already checked the font face, I should <a href="https://github.com/redguardtoo/wucuo/blob/49d2ae558068954eb8c4324b8ee7a6b2b0a00ef9/wucuo.el#L320">skip the font face check in generic predicate if per mode predicate exists</a>.
+</p>
+
+<p>
+Above algorithms are implemented in <a href="https://github.com/redguardtoo/wucuo">wucuo</a>.
+</p>
+
+<p>
+Usage,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(add-hook 'prog-mode-hook 'wucuo-start)
+(add-hook 'text-mode-hook 'wucuo-start)
+</code></pre>
+
+</div>
+
+<p>
+If <code>wucuo-flyspell-start-mode</code> is "fast" (default value), <code>flyspell-region</code> is used, visible region is checked when user saves current file.
+</p>
+
+<p>
+If <code>wucuo-flyspell-start-mode</code> is "normal", <code>flyspell-buffer</code> is used, current buffer is checked when user saves current file.
+</p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/audio-recording-on-linux/">Audio recording on Linux</a></h1>
             <div class="meta">
                 <div class="authordate">
