@@ -1,5 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 16 May 2022 12:18:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 24 May 2022 12:50:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
+&lt;/p&gt;
+
+&lt;p&gt;
+The syntax error could be tricky to detect. For example, the developer use Emacs 28+ only API to develop packages running on Emacs 26.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is howto.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 1&lt;/b&gt;,  create a file &lt;code&gt;my-byte-compile.el&lt;/code&gt; in the directory "tests/",
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'find-lisp)
+
+(let ((files (find-lisp-find-files-internal
+              "."
+              (lambda (file dir)
+                (and (not (file-directory-p (expand-file-name file dir)))
+                     (string-match "\\.el$" file)
+                     (not (string-match "\\.dir-locals\\.el" file))))
+              (lambda (dir parent)
+                (not (or (string= dir ".")
+                         (string= dir "..")
+                         (string= dir ".git")
+                         (string= dir ".svn")
+                         (string= dir "deps")
+                         (string= dir "tests")
+                         (file-symlink-p (expand-file-name dir parent))))))))
+  (dolist (file files)
+    (byte-compile-file file)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 2&lt;/b&gt;, insert below command line into the project's Makefile,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-makefile"&gt;compile:
+    emacs --batch -Q -L . -l my-package-main-entry.el 2&amp;gt;&amp;amp;1 | grep -E "([Ee]rror|[Ww]arning):" &amp;amp;&amp;amp; exit 1 || exit 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+DONE! Now Gitlab/Github could use command line &lt;code&gt;make compile&lt;/code&gt; in their CI pipeline.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot of &lt;a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d"&gt;a tricky bug of evil-matchit&lt;/a&gt; detected by this new workflow.
+&lt;/p&gt;
+
+&lt;div id="org1f1f24a" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+BTW, I also tried &lt;code&gt;elint&lt;/code&gt;, but it's not as reliable as &lt;code&gt;byte-compile&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Content of &lt;code&gt;my-elint.el&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'elint)
+
+(let ((elint-directory-skip-re "\\(\\.dir-locals\\|ldefs-boot\\|loaddefs\\)\\.el\\'"))
+  (elint-directory "."))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is link to the &lt;a href="https://github.com/redguardtoo/evil-matchit/blob/master/Makefile"&gt;Makefile from my real world project&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use below shell command line to test the project locally.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;EMACS=~/myemacs/26.3/bin/emacs make test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</guid><pubDate>Tue, 24 May 2022 12:47:12 GMT</pubDate></item><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Emacs server need be started first.
 &lt;/p&gt;
 
@@ -762,97 +854,4 @@ Step 4, run &lt;code&gt;git mergetool -t emacsclient&lt;/code&gt; to resolve con
 My &lt;a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d"&gt;init-ediff.el&lt;/a&gt; in &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;emacs.d&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</guid><pubDate>Fri, 10 Apr 2020 09:33:40 GMT</pubDate></item><item><title>Thoughts on "Native shell completion in Emacs"</title><link>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-&lt;a href="https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/"&gt;Native shell completion in Emacs&lt;/a&gt; by Troy Hinckley is must read for completion in &lt;code&gt;shell-mode&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-One problem is my &lt;code&gt;~/.bashrc&lt;/code&gt; executes &lt;code&gt;/etc/bash_completion&lt;/code&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Unfortunately &lt;code&gt;/etc/bash_completion&lt;/code&gt; makes &lt;code&gt;complete -p&lt;/code&gt; output some lines the Emacs function &lt;code&gt;bash-completion-tokenize&lt;/code&gt; can't analyze.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is output of &lt;code&gt;complete -p&lt;/code&gt; at my PC,
-&lt;/p&gt;
-&lt;pre class="example" id="org6a1ccd2"&gt;
-...
-complete -F _known_hosts mtr
-complete -o default -o nospace -W 'homepc
-192.168.1.104
-github.com
-gitlab.com' scp
-complete -o default -f -X '!*.dvi' dvipdf
-...
-&lt;/pre&gt;
-
-&lt;p&gt;
-The line &lt;code&gt;gitlab.com' scp&lt;/code&gt; will crash &lt;code&gt;bash-completion-tokenize&lt;/code&gt;. Obviously, one line 
-&lt;code&gt;complete -o default -o nospace -W 'homepc 192.168.1.104 github.com gitlab.com' scp&lt;/code&gt;  is wrongly split into multiple lines by &lt;code&gt;complete -p&lt;/code&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-In &lt;code&gt;shell-mode&lt;/code&gt;, completion functions might call &lt;code&gt;bash-completion-tokenize&lt;/code&gt;. If &lt;code&gt;bash-completion-tokenize&lt;/code&gt; crashes, the completion in &lt;code&gt;shell-mode&lt;/code&gt; won't work.
-&lt;/p&gt;
-
-&lt;p&gt;
-Besides, if &lt;code&gt;company-mode&lt;/code&gt; provides auto-completion UI, it's better to place the backend &lt;code&gt;company-files&lt;/code&gt; before &lt;code&gt;company-native-complete&lt;/code&gt;. It's because the backend &lt;code&gt;company-files&lt;/code&gt; displays the full file path in candidates. So users can complete the whole path in one shot.
-&lt;/p&gt;
-
-&lt;p&gt;
-My setup code for the packages Troy Hinckley suggested,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; Enable auto-completion in `shell'.
-(with-eval-after-load 'shell
-  (native-complete-setup-bash))
-
-;; `bash-completion-tokenize' can handle garbage output of "complete -p"
-(defadvice bash-completion-tokenize (around bash-completion-tokenize-hack activate)
-  (let* ((args (ad-get-args 0))
-         (beg (nth 0 args))
-         (end (nth 1 args)))
-    ;; original code extracts tokens from output of "complete -p" line by line
-    (cond
-     ((not (string-match-p "^complete " (buffer-substring beg end)))
-      ;; filter out some wierd lines
-      (setq ad-return-value nil))
-     (t
-      ad-do-it))))
-
-(defun shell-mode-hook-setup ()
-  "Set up `shell-mode'."
-  ;; hook `completion-at-point', optional
-  (add-hook 'completion-at-point-functions #'native-complete-at-point nil t)
-  (setq-local company-backends '((company-files company-native-complete)))
-  ;; `company-native-complete' is better than `completion-at-point'
-  (local-set-key (kbd "TAB") 'company-complete))
-(add-hook 'shell-mode-hook 'shell-mode-hook-setup)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Screenshot,
-&lt;/p&gt;
-
-&lt;div id="orgbc3d7ef" class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="orgb7325e4" class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;</description><category>autocomplete</category><category>emacs</category><category>en</category><category>shell</category><guid>http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/</guid><pubDate>Thu, 09 Apr 2020 10:40:23 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</guid><pubDate>Fri, 10 Apr 2020 09:33:40 GMT</pubDate></item></channel></rss>

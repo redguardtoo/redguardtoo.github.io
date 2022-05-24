@@ -1,5 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 16 May 2022 12:18:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 24 May 2022 12:50:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
+&lt;/p&gt;
+
+&lt;p&gt;
+The syntax error could be tricky to detect. For example, the developer use Emacs 28+ only API to develop packages running on Emacs 26.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is howto.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 1&lt;/b&gt;,  create a file &lt;code&gt;my-byte-compile.el&lt;/code&gt; in the directory "tests/",
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'find-lisp)
+
+(let ((files (find-lisp-find-files-internal
+              "."
+              (lambda (file dir)
+                (and (not (file-directory-p (expand-file-name file dir)))
+                     (string-match "\\.el$" file)
+                     (not (string-match "\\.dir-locals\\.el" file))))
+              (lambda (dir parent)
+                (not (or (string= dir ".")
+                         (string= dir "..")
+                         (string= dir ".git")
+                         (string= dir ".svn")
+                         (string= dir "deps")
+                         (string= dir "tests")
+                         (file-symlink-p (expand-file-name dir parent))))))))
+  (dolist (file files)
+    (byte-compile-file file)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 2&lt;/b&gt;, insert below command line into the project's Makefile,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-makefile"&gt;compile:
+    emacs --batch -Q -L . -l my-package-main-entry.el 2&amp;gt;&amp;amp;1 | grep -E "([Ee]rror|[Ww]arning):" &amp;amp;&amp;amp; exit 1 || exit 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+DONE! Now Gitlab/Github could use command line &lt;code&gt;make compile&lt;/code&gt; in their CI pipeline.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot of &lt;a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d"&gt;a tricky bug of evil-matchit&lt;/a&gt; detected by this new workflow.
+&lt;/p&gt;
+
+&lt;div id="org1f1f24a" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+BTW, I also tried &lt;code&gt;elint&lt;/code&gt;, but it's not as reliable as &lt;code&gt;byte-compile&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Content of &lt;code&gt;my-elint.el&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'elint)
+
+(let ((elint-directory-skip-re "\\(\\.dir-locals\\|ldefs-boot\\|loaddefs\\)\\.el\\'"))
+  (elint-directory "."))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is link to the &lt;a href="https://github.com/redguardtoo/evil-matchit/blob/master/Makefile"&gt;Makefile from my real world project&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use below shell command line to test the project locally.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;EMACS=~/myemacs/26.3/bin/emacs make test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</guid><pubDate>Tue, 24 May 2022 12:47:12 GMT</pubDate></item><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Emacs server need be started first.
 &lt;/p&gt;
 
@@ -500,10 +592,4 @@ I create a new Emacs plugin which lists file names containing Chinese characters
 Emacs has enough APIs. Later I found another pure Lisp API "find-lisp-find-dired". Problem solved.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>font</category><category>linux</category><category>terminal</category><category>terminator</category><guid>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system/</guid><pubDate>Sun, 01 Feb 2015 09:40:44 GMT</pubDate></item><item><title>My answer to "How do you use Emacs without a directory tree on the side of the editor?" on quora.com</title><link>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;This is &lt;a href="http://www.quora.com/Emacs/How-do-you-use-Emacs-without-a-directory-tree-on-the-side-of-the-editor"&gt;original link of the question&lt;/a&gt;. Please note I focus on programming for large projects. I need search/grep/modify files scattered in different places without documentation. &lt;/p&gt; &lt;p&gt; If your use case is different, a embedded file explorer may be a better choice &lt;/p&gt;  &lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Tools I use to replace a file explorer&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ol&gt; &lt;li&gt;ido-find-file (emacs), just type any characters, it will fuzz search matched file in parent/sibling/current/or-whatever directory.  &lt;/li&gt; &lt;li&gt;helm-find-file (emacs), this one use regular expression and has bigger window  &lt;/li&gt; &lt;li&gt;recentf and helm (emacs), I use regular expression open recent opened files.  &lt;/li&gt; &lt;li&gt;ctags, gtags or whatever tag tools (CLI tool), as mentioned by other people  &lt;/li&gt; &lt;li&gt;I also use lots of bash functions written by myself, those functions are trivial, but combined with a wonderful tool called percol, they become really powerful.  &lt;/li&gt; &lt;li&gt;I use some CLI clipboard tool so I can easily share the file path between terminal/emacs/firefox.  &lt;/li&gt; &lt;li&gt;there is also a emacs bundled feature called speedbar, which is similar to the file explorer, I used it once, but it does not fit in my ninja style ;) It's fine but the UI is almost same to those average text editors.  &lt;/li&gt; &lt;li&gt;I also write some elisp snippets, for example, convert absolute path to relative path; given one relative path, output one absolute path, etc …  &lt;/li&gt; &lt;li&gt;there is also some git based emacs plugin: you can search file under the project root directory.  &lt;/li&gt; &lt;li&gt;there is a CLI tool called fasd which can let you interactively select the file or folder you recently visited.  &lt;/li&gt; &lt;li&gt;many other tools, plug-ins, code snippets I can use … &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Use case&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;ol&gt; &lt;li&gt;I need search a big project for a certain library (it's a freemarker file I need include) whose full path I don't know, I just search the API's name by type: &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;"gef keyword *". gef is my bash function based on grep. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;matched files are displayed instantly (grep is much more quick than IDEs, BTW) in a interactive console filter (use percol), I type a regular expression to filter file name and press enter &lt;/li&gt; &lt;li&gt;the full path is in clipboard now, then I type ":e Shift-insert" to open that file. &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;This is the most difficult case, I usually strike less keys and not get out of Emacs. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;If i need insert this file's relative path, I press a hot key and another emacs plugin will correctly convert absolute path to relative one (relative to the file I'm editing in Emacs) and insert it into my editor. &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-3" class="outline-3"&gt; &lt;h4 id="sec-3"&gt;Demo&lt;/h4&gt; &lt;div class="outline-text-3" id="text-3"&gt;  &lt;p&gt;Here is screen cast. In this demo I grepped and open a ftl file and then search another js file in the same project. &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif" alt="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif"&gt; &lt;/p&gt;&lt;/div&gt; &lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</guid><pubDate>Wed, 19 Feb 2014 21:40:00 GMT</pubDate></item><item><title>One liner to download and install emacs lisp source code</title><link>http://blog.binchen.org/posts/one-liner-to-download-and-extract-emacs-lisp-source-code/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;Run the below command in shell, &lt;/p&gt;   
-&lt;pre class="prettyprint "&gt;
-
-curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`.tar.gz | sudo tar --exclude=admin/* --exclude=etc/* --exclude=nt/* --exclude=doc/* --exclude=leim/* -C /usr/share/emacs/`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`/lisp/ --strip-components=2 --wildcards -zxv *.el
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;&lt;p&gt; For example, after installing the lisp code. You can &lt;code&gt;M-x find-function package-list-packages&lt;/code&gt; in Emacs, you will jump to the definition of that command in "/usr/share/emacs/24.3/lisp/emacs-lisp/package.el" (I assume your emacs version is 24.3). &lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/one-liner-to-download-and-extract-emacs-lisp-source-code/</guid><pubDate>Tue, 18 Feb 2014 11:56:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>font</category><category>linux</category><category>terminal</category><category>terminator</category><guid>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system/</guid><pubDate>Sun, 01 Feb 2015 09:40:44 GMT</pubDate></item><item><title>My answer to "How do you use Emacs without a directory tree on the side of the editor?" on quora.com</title><link>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;This is &lt;a href="http://www.quora.com/Emacs/How-do-you-use-Emacs-without-a-directory-tree-on-the-side-of-the-editor"&gt;original link of the question&lt;/a&gt;. Please note I focus on programming for large projects. I need search/grep/modify files scattered in different places without documentation. &lt;/p&gt; &lt;p&gt; If your use case is different, a embedded file explorer may be a better choice &lt;/p&gt;  &lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Tools I use to replace a file explorer&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ol&gt; &lt;li&gt;ido-find-file (emacs), just type any characters, it will fuzz search matched file in parent/sibling/current/or-whatever directory.  &lt;/li&gt; &lt;li&gt;helm-find-file (emacs), this one use regular expression and has bigger window  &lt;/li&gt; &lt;li&gt;recentf and helm (emacs), I use regular expression open recent opened files.  &lt;/li&gt; &lt;li&gt;ctags, gtags or whatever tag tools (CLI tool), as mentioned by other people  &lt;/li&gt; &lt;li&gt;I also use lots of bash functions written by myself, those functions are trivial, but combined with a wonderful tool called percol, they become really powerful.  &lt;/li&gt; &lt;li&gt;I use some CLI clipboard tool so I can easily share the file path between terminal/emacs/firefox.  &lt;/li&gt; &lt;li&gt;there is also a emacs bundled feature called speedbar, which is similar to the file explorer, I used it once, but it does not fit in my ninja style ;) It's fine but the UI is almost same to those average text editors.  &lt;/li&gt; &lt;li&gt;I also write some elisp snippets, for example, convert absolute path to relative path; given one relative path, output one absolute path, etc …  &lt;/li&gt; &lt;li&gt;there is also some git based emacs plugin: you can search file under the project root directory.  &lt;/li&gt; &lt;li&gt;there is a CLI tool called fasd which can let you interactively select the file or folder you recently visited.  &lt;/li&gt; &lt;li&gt;many other tools, plug-ins, code snippets I can use … &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Use case&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;ol&gt; &lt;li&gt;I need search a big project for a certain library (it's a freemarker file I need include) whose full path I don't know, I just search the API's name by type: &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;"gef keyword *". gef is my bash function based on grep. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;matched files are displayed instantly (grep is much more quick than IDEs, BTW) in a interactive console filter (use percol), I type a regular expression to filter file name and press enter &lt;/li&gt; &lt;li&gt;the full path is in clipboard now, then I type ":e Shift-insert" to open that file. &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;This is the most difficult case, I usually strike less keys and not get out of Emacs. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;If i need insert this file's relative path, I press a hot key and another emacs plugin will correctly convert absolute path to relative one (relative to the file I'm editing in Emacs) and insert it into my editor. &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-3" class="outline-3"&gt; &lt;h4 id="sec-3"&gt;Demo&lt;/h4&gt; &lt;div class="outline-text-3" id="text-3"&gt;  &lt;p&gt;Here is screen cast. In this demo I grepped and open a ftl file and then search another js file in the same project. &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif" alt="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif"&gt; &lt;/p&gt;&lt;/div&gt; &lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</guid><pubDate>Wed, 19 Feb 2014 21:40:00 GMT</pubDate></item></channel></rss>

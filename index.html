@@ -23,6 +23,126 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/better-emacs-package-development-workflow/">Better Emacs package development workflow</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-05-24T12:47:12+00:00">2022-05-24 12:47</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/better-emacs-package-development-workflow/#disqus_thread" data-disqus-identifier="cache/posts/better-emacs-package-development-workflow.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/emms/" rel="tag">emms</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
+</p>
+
+<p>
+The syntax error could be tricky to detect. For example, the developer use Emacs 28+ only API to develop packages running on Emacs 26.
+</p>
+
+<p>
+Here is howto.
+</p>
+
+<p>
+<b>Step 1</b>,  create a file <code>my-byte-compile.el</code> in the directory "tests/",
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'find-lisp)
+
+(let ((files (find-lisp-find-files-internal
+              "."
+              (lambda (file dir)
+                (and (not (file-directory-p (expand-file-name file dir)))
+                     (string-match "\\.el$" file)
+                     (not (string-match "\\.dir-locals\\.el" file))))
+              (lambda (dir parent)
+                (not (or (string= dir ".")
+                         (string= dir "..")
+                         (string= dir ".git")
+                         (string= dir ".svn")
+                         (string= dir "deps")
+                         (string= dir "tests")
+                         (file-symlink-p (expand-file-name dir parent))))))))
+  (dolist (file files)
+    (byte-compile-file file)))
+</code></pre>
+
+</div>
+
+<p>
+<b>Step 2</b>, insert below command line into the project's Makefile,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-makefile">compile:
+    emacs --batch -Q -L . -l my-package-main-entry.el 2&gt;&amp;1 | grep -E "([Ee]rror|[Ww]arning):" &amp;&amp; exit 1 || exit 0
+</code></pre>
+
+</div>
+
+<p>
+DONE! Now Gitlab/Github could use command line <code>make compile</code> in their CI pipeline.
+</p>
+
+<p>
+Screenshot of <a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d">a tricky bug of evil-matchit</a> detected by this new workflow.
+</p>
+
+<div id="org1f1f24a" class="figure">
+<p><img src="wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"></p>
+</div>
+
+<p>
+BTW, I also tried <code>elint</code>, but it's not as reliable as <code>byte-compile</code>.
+</p>
+
+<p>
+Content of <code>my-elint.el</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'elint)
+
+(let ((elint-directory-skip-re "\\(\\.dir-locals\\|ldefs-boot\\|loaddefs\\)\\.el\\'"))
+  (elint-directory "."))
+</code></pre>
+
+</div>
+
+<p>
+Here is link to the <a href="https://github.com/redguardtoo/evil-matchit/blob/master/Makefile">Makefile from my real world project</a>.
+</p>
+
+<p>
+I use below shell command line to test the project locally.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">EMACS=~/myemacs/26.3/bin/emacs make test
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/">Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -784,55 +904,6 @@ Please note running <code>magit-commit-create</code> in cli won't work. It's bec
 Screenshot in shell,
 <img src="wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"></p>
 </div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/linux-audio-input-configuration/">Linux audio input configuration</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2020-11-15T11:07:34+00:00">2020-11-15 11:07</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/linux-audio-input-configuration/#disqus_thread" data-disqus-identifier="cache/posts/linux-audio-input-configuration.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/alsa/" rel="tag">alsa</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/sound/" rel="tag">sound</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-Run <code>sudo alsamixer</code> and press "F4" to choose audio input.
-</p>
-
-<p>
-Make sure the right "Rear Mic" and "Capture" are enabled,
-<img src="wp-content/linux-audio-input.png" alt="linux-audio-input.png"></p>
-
-<p>
-Run <code>alsamixer</code> and check "pulseaudio" configuration in the same way.
-</p>
-
-<p>
-Then test audio,
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-sh">arecord --duration=5 --format=dat test-mic.wav &amp;&amp; aplay test-mic.wav
-</code></pre>
-
 </div>
             </div>
         </div>

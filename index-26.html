@@ -23,6 +23,55 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/linux-audio-input-configuration/">Linux audio input configuration</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2020-11-15T11:07:34+00:00">2020-11-15 11:07</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/linux-audio-input-configuration/#disqus_thread" data-disqus-identifier="cache/posts/linux-audio-input-configuration.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/alsa/" rel="tag">alsa</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/sound/" rel="tag">sound</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Run <code>sudo alsamixer</code> and press "F4" to choose audio input.
+</p>
+
+<p>
+Make sure the right "Rear Mic" and "Capture" are enabled,
+<img src="wp-content/linux-audio-input.png" alt="linux-audio-input.png"></p>
+
+<p>
+Run <code>alsamixer</code> and check "pulseaudio" configuration in the same way.
+</p>
+
+<p>
+Then test audio,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-sh">arecord --duration=5 --format=dat test-mic.wav &amp;&amp; aplay test-mic.wav
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/hardcore-spell-checking-in-emacs/">Hardcore spell checking in Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">

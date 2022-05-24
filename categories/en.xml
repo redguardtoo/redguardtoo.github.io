@@ -1,5 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 16 May 2022 12:18:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 24 May 2022 12:50:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
+&lt;/p&gt;
+
+&lt;p&gt;
+The syntax error could be tricky to detect. For example, the developer use Emacs 28+ only API to develop packages running on Emacs 26.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is howto.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 1&lt;/b&gt;,  create a file &lt;code&gt;my-byte-compile.el&lt;/code&gt; in the directory "tests/",
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'find-lisp)
+
+(let ((files (find-lisp-find-files-internal
+              "."
+              (lambda (file dir)
+                (and (not (file-directory-p (expand-file-name file dir)))
+                     (string-match "\\.el$" file)
+                     (not (string-match "\\.dir-locals\\.el" file))))
+              (lambda (dir parent)
+                (not (or (string= dir ".")
+                         (string= dir "..")
+                         (string= dir ".git")
+                         (string= dir ".svn")
+                         (string= dir "deps")
+                         (string= dir "tests")
+                         (file-symlink-p (expand-file-name dir parent))))))))
+  (dolist (file files)
+    (byte-compile-file file)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;Step 2&lt;/b&gt;, insert below command line into the project's Makefile,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-makefile"&gt;compile:
+    emacs --batch -Q -L . -l my-package-main-entry.el 2&amp;gt;&amp;amp;1 | grep -E "([Ee]rror|[Ww]arning):" &amp;amp;&amp;amp; exit 1 || exit 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+DONE! Now Gitlab/Github could use command line &lt;code&gt;make compile&lt;/code&gt; in their CI pipeline.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot of &lt;a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d"&gt;a tricky bug of evil-matchit&lt;/a&gt; detected by this new workflow.
+&lt;/p&gt;
+
+&lt;div id="org1f1f24a" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+BTW, I also tried &lt;code&gt;elint&lt;/code&gt;, but it's not as reliable as &lt;code&gt;byte-compile&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Content of &lt;code&gt;my-elint.el&lt;/code&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'elint)
+
+(let ((elint-directory-skip-re "\\(\\.dir-locals\\|ldefs-boot\\|loaddefs\\)\\.el\\'"))
+  (elint-directory "."))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is link to the &lt;a href="https://github.com/redguardtoo/evil-matchit/blob/master/Makefile"&gt;Makefile from my real world project&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use below shell command line to test the project locally.
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;EMACS=~/myemacs/26.3/bin/emacs make test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</guid><pubDate>Tue, 24 May 2022 12:47:12 GMT</pubDate></item><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Emacs server need be started first.
 &lt;/p&gt;
 
@@ -656,120 +748,4 @@ Screencast:
 
 &lt;div id="org9abcaed" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"&gt;
-&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</guid><pubDate>Tue, 14 Apr 2020 13:54:28 GMT</pubDate></item><item><title>Make Emacs faster than Vim in "git mergetool"</title><link>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html"&gt;Emacs is the best merge tool for Git&lt;/a&gt; explains how to combine &lt;a href="https://git-scm.com/docs/git-mergetool/2.20.0"&gt;git mergetool&lt;/a&gt; with &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ediff/"&gt;ediff-mode&lt;/a&gt; in Emacs.
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;a href="https://disqus.com/by/harrisonmccullough/"&gt;Harrison McCullough&lt;/a&gt; suggested the work flow can be faster if emacs is replaced with emacsclient.
-&lt;/p&gt;
-
-&lt;p&gt;
-I did some research and found a perfect solution. It's even faster than Vim.
-&lt;/p&gt;
-
-&lt;div id="outline-container-orgd27e1fa" class="outline-2"&gt;
-&lt;h3 id="orgd27e1fa"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgd27e1fa"&gt;
-&lt;p&gt;
-Please note emacsclient is only use for resolving conflicts.
-&lt;/p&gt;
-
-&lt;p&gt;
-Step 1, start emacs server by running &lt;code&gt;emacs -Q --daemon --eval "(setq startup-now t)" -l "/home/my-username/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))"&lt;/code&gt; in shell.
-&lt;/p&gt;
-
-&lt;p&gt;
-Step 2, insert below code into &lt;code&gt;~/.emacs.d/init.el&lt;/code&gt; (see the comment why this advice is required):
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defadvice server-save-buffers-kill-terminal (after server-save-buffers-kill-terminal-after-hack activate)
-  ;; kill all buffers, so new ediff panel is re-created and `ediff-startup-hook-setup' is called again
-  ;; besides, remove the buffers whose binding files are alredy merged in `buffer-list'
-  (mapc 'kill-buffer (buffer-list)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Step 3, insert below code into &lt;code&gt;~/.gitconfig&lt;/code&gt;:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[mergetool.ediff]
-cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \\\"$BASE\\\") (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\") (ediff-merge-files \\\"$LOCAL\\\" \\\"$REMOTE\\\" nil \\\"$MERGED\\\")))\"
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgf7f0d39" class="outline-2"&gt;
-&lt;h3 id="orgf7f0d39"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf7f0d39"&gt;
-&lt;p&gt;
-It's similar to initial solution. But some scripts are created for automation.
-&lt;/p&gt;
-
-&lt;p&gt;
-Step 1, read &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html"&gt;Using Emacs as a Server&lt;/a&gt; in the manual and create &lt;code&gt;~/.config/systemd/user/emacs.service&lt;/code&gt; for &lt;a href="https://en.wikipedia.org/wiki/Systemd"&gt;Systemd&lt;/a&gt;:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
-Description=Emacs text editor
-Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
-
-[Service]
-Type=forking
-ExecStart=emacs -Q --daemon --eval "(setq startup-now t)" -l "/home/my-username/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))" 
-ExecStop=emacsclient --eval "(kill-emacs)"
-Environment=SSH_AUTH_SOCK=%t/keyring/ssh
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Step 2, set up in &lt;code&gt;~/.gitconfig&lt;/code&gt;:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[mergetool.emacs]
-    cmd = ediff.sh "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
-[mergetool.emacsclient]
-    cmd = MYEMACSCLIENT=emacsclient ediff.sh "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Step 3, create &lt;code&gt;ediff.sh&lt;/code&gt;:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
-[ -z "$MYEMACSCLIENT" ] &amp;amp;&amp;amp; MYEMACSCLIENT="emacs"
-# emacsclient won't work in git mergetool
-# $1=$LOCAL $2=$REMOTE $3=$BASE $4=$MERGED
-if [ "$MYEMACSCLIENT" = "emacs" ]; then
-    $MYEMACSCLIENT -nw -Q --eval "(setq startup-now t)" -l "$HOME/.emacs.d/init.el" --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
-else
-    $MYEMACSCLIENT -nw --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
-fi
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Step 4, run &lt;code&gt;git mergetool -t emacsclient&lt;/code&gt; to resolve conflicts.
-&lt;/p&gt;
-
-&lt;p&gt;
-My &lt;a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d"&gt;init-ediff.el&lt;/a&gt; in &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;emacs.d&lt;/a&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</guid><pubDate>Fri, 10 Apr 2020 09:33:40 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</guid><pubDate>Tue, 14 Apr 2020 13:54:28 GMT</pubDate></item></channel></rss>
