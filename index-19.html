@@ -56,9 +56,9 @@ I use <a href="http://company-mode.github.io/">company-mode</a> most of the time
 I surely can do this in company-mode too. But I prefer hippie-expand because I choose to make company-mode focus on programming stuff and hippie-expand on writing.
 </p>
 
-<div id="outline-container-org190ce84" class="outline-2">
-<h3 id="org190ce84">Solution</h3>
-<div class="outline-text-2" id="text-org190ce84">
+<div id="outline-container-org35a5743" class="outline-2">
+<h3 id="org35a5743">Solution</h3>
+<div class="outline-text-2" id="text-org35a5743">
 <p>
 This solution works <b>in any environment</b>.
 </p>
@@ -107,9 +107,9 @@ This solution works <b>in any environment</b>.
 </div>
 </div>
 </div>
-<div id="outline-container-orgbd5418d" class="outline-2">
-<h3 id="orgbd5418d">Technical details</h3>
-<div class="outline-text-2" id="text-orgbd5418d">
+<div id="outline-container-orge8c62e5" class="outline-2">
+<h3 id="orge8c62e5">Technical details</h3>
+<div class="outline-text-2" id="text-orge8c62e5">
 <ul class="org-ul">
 <li>based on <a href="https://github.com/syohex/emacs-ac-ispell">ac-ispell</a>
 </li>
@@ -729,9 +729,9 @@ Please note:
 <li>I'm good at most debuggers. The point of this article is to deal with <b>more difficult issues</b> the debugger can not handle.</li>
 <li>My code quality is fine. It handles all the corner cases I've met. For example, single quote and double quotes will be escaped properly.</li>
 </ul>
-<div id="outline-container-org507a31b" class="outline-2">
-<h3 id="org507a31b">Problem</h3>
-<div class="outline-text-2" id="text-org507a31b">
+<div id="outline-container-org0ce8ac1" class="outline-2">
+<h3 id="org0ce8ac1">Problem</h3>
+<div class="outline-text-2" id="text-org0ce8ac1">
 <p>
 As a freelancer I am often required to debug legacy javascript code from some huge "enterprise"" applications.
 </p>
@@ -746,18 +746,18 @@ So my problem is how to insert logging code as quickly as possible.
 </div>
 </div>
 
-<div id="outline-container-org4684b0e" class="outline-2">
-<h3 id="org4684b0e">Solution</h3>
-<div class="outline-text-2" id="text-org4684b0e">
+<div id="outline-container-org9674601" class="outline-2">
+<h3 id="org9674601">Solution</h3>
+<div class="outline-text-2" id="text-org9674601">
 <p>
 My solution is <a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a>. Yasnippet allow me to insert executable Emacs Lisp code in its snippet. I will Sotake full advantage of that feature. 
 </p>
 </div>
 </div>
 
-<div id="outline-container-org42c2b62" class="outline-2">
-<h3 id="org42c2b62">Logging simple JS variable</h3>
-<div class="outline-text-2" id="text-org42c2b62">
+<div id="outline-container-org301a16f" class="outline-2">
+<h3 id="org301a16f">Logging simple JS variable</h3>
+<div class="outline-text-2" id="text-org301a16f">
 <p>
 Given a variable name like "var1", I need insert javascript code as below:
 </p>
@@ -779,9 +779,9 @@ This snippet need you input variable name once.
 </div>
 </div>
 
-<div id="outline-container-orgce327bd" class="outline-2">
-<h3 id="orgce327bd">Logging complex JS variable</h3>
-<div class="outline-text-2" id="text-orgce327bd">
+<div id="outline-container-orgefd5069" class="outline-2">
+<h3 id="orgefd5069">Logging complex JS variable</h3>
+<div class="outline-text-2" id="text-orgefd5069">
 <p>
 In real world, the JS variable is often a string like "MyController.servicea.find('.class').attr1" which I hate to type.
 </p>
@@ -797,9 +797,9 @@ Snippet:
 </div>
 </div>
 
-<div id="outline-container-orgdca5d1f" class="outline-2">
-<h3 id="orgdca5d1f">Logging JS function name when it's called</h3>
-<div class="outline-text-2" id="text-orgdca5d1f">
+<div id="outline-container-org67745c6" class="outline-2">
+<h3 id="org67745c6">Logging JS function name when it's called</h3>
+<div class="outline-text-2" id="text-org67745c6">
 <p>
 In below example, I need insert  "console.log('hello is called');" in function "hello":
 </p>
@@ -832,9 +832,9 @@ The regular expressions could be used in <b>both</b> js-mode and js2-mode.
 </div>
 </div>
 
-<div id="outline-container-orgdc70b13" class="outline-2">
-<h3 id="orgdc70b13">Logging JS function name with its parameters</h3>
-<div class="outline-text-2" id="text-orgdc70b13">
+<div id="outline-container-org13d89f3" class="outline-2">
+<h3 id="org13d89f3">Logging JS function name with its parameters</h3>
+<div class="outline-text-2" id="text-org13d89f3">
 <p>
 JS example:
 </p>
@@ -863,9 +863,9 @@ BTW, since I use <a href="http://www.emacswiki.org/Evil">Evil</a>, copy the para
 </div>
 </div>
 
-<div id="outline-container-orgfdd762d" class="outline-2">
-<h3 id="orgfdd762d">Insert JS debugger statement</h3>
-<div class="outline-text-2" id="text-orgfdd762d">
+<div id="outline-container-org5667da1" class="outline-2">
+<h3 id="org5667da1">Insert JS debugger statement</h3>
+<div class="outline-text-2" id="text-org5667da1">
 <p>
 @cjk provided this tip. The debugger like Firebug will pause at the debugger statement. It saves me the time to locate JS file, to go to the specific line and set breakpoint after re-deploying the application.
 </p>
@@ -881,9 +881,9 @@ Snippets:
 </div>
 </div>
 
-<div id="outline-container-org3f47796" class="outline-2">
-<h3 id="org3f47796">Bonus</h3>
-<div class="outline-text-2" id="text-org3f47796">
+<div id="outline-container-orgc800c9c" class="outline-2">
+<h3 id="orgc800c9c">Bonus</h3>
+<div class="outline-text-2" id="text-orgc800c9c">
 <p>
 Similar snippets for Emacs Lisp are defined <a href="https://github.com/redguardtoo/emacs.d/tree/master/snippets/emacs-lisp-mode">HERE</a>.
 </p>
@@ -926,9 +926,9 @@ Live demo:
 Screenshot:
 <img src="https://cloud.githubusercontent.com/assets/184553/5156904/e86f11a6-733c-11e4-8312-a6c8ad2b17be.png" alt="e86f11a6-733c-11e4-8312-a6c8ad2b17be.png"></p>
 
-<div id="outline-container-org2636441" class="outline-2">
-<h3 id="org2636441">Environment</h3>
-<div class="outline-text-2" id="text-org2636441">
+<div id="outline-container-org03936e6" class="outline-2">
+<h3 id="org03936e6">Environment</h3>
+<div class="outline-text-2" id="text-org03936e6">
 <ul class="org-ul">
 <li>Bootstrap 2.3.2</li>
 <li>font-awesome 3.2.1</li>
@@ -940,9 +940,9 @@ I only use the grid layout from bootstrap and minimum API from jQuery.
 </div>
 </div>
 
-<div id="outline-container-org99ad95c" class="outline-2">
-<h3 id="org99ad95c">Notes</h3>
-<div class="outline-text-2" id="text-org99ad95c">
+<div id="outline-container-org069b569" class="outline-2">
+<h3 id="org069b569">Notes</h3>
+<div class="outline-text-2" id="text-org069b569">
 <ul class="org-ul">
 <li>IE7 does not support media query. So I abandon "mobile first" strategy, new strategy is "IE7 first".</li>
 <li>IE7 does not support inline-block properly, I need below css code hack:</li>

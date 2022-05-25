@@ -57,9 +57,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-11-20 
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-06-06 Sat&gt;</span></span>
 </p>
 
-<div id="outline-container-org22906d7" class="outline-2">
-<h3 id="org22906d7">problem</h3>
-<div class="outline-text-2" id="text-org22906d7">
+<div id="outline-container-org324590d" class="outline-2">
+<h3 id="org324590d">problem</h3>
+<div class="outline-text-2" id="text-org324590d">
 <p>
 I use <a href="http://orgmode.org/">Org-mode</a> to record all my notes.
 </p>
@@ -81,13 +81,13 @@ My hooks are also dependent on third party tools. So if anyone else uses my setu
 </p>
 </div>
 </div>
-<div id="outline-container-org3acb5b4" class="outline-2">
-<h3 id="org3acb5b4">Solution</h3>
-<div class="outline-text-2" id="text-org3acb5b4">
+<div id="outline-container-org0d977ad" class="outline-2">
+<h3 id="org0d977ad">Solution</h3>
+<div class="outline-text-2" id="text-org0d977ad">
 </div>
-<div id="outline-container-org0adf27c" class="outline-3">
-<h4 id="org0adf27c">Setup</h4>
-<div class="outline-text-3" id="text-org0adf27c">
+<div id="outline-container-org6dc4b0f" class="outline-3">
+<h4 id="org6dc4b0f">Setup</h4>
+<div class="outline-text-3" id="text-org6dc4b0f">
 <p>
 In order to solve the issue, I write a small function which will be called at the beginning of each major mode hook.
 </p>
@@ -130,9 +130,9 @@ The function basically check whether the `(buffer-file-name)` is the temporary f
 </div>
 </div>
 </div>
-<div id="outline-container-org93c545d" class="outline-3">
-<h4 id="org93c545d">Usage</h4>
-<div class="outline-text-3" id="text-org93c545d">
+<div id="outline-container-org56536e3" class="outline-3">
+<h4 id="org56536e3">Usage</h4>
+<div class="outline-text-3" id="text-org56536e3">
 <p>
 I use python-mode-hook setup as an example:
 </p>
@@ -153,29 +153,29 @@ I use python-mode-hook setup as an example:
 </div>
 </div>
 </div>
-<div id="outline-container-orgd4aea4b" class="outline-2">
-<h3 id="orgd4aea4b">Tips</h3>
-<div class="outline-text-2" id="text-orgd4aea4b">
+<div id="outline-container-org2fb5870" class="outline-2">
+<h3 id="org2fb5870">Tips</h3>
+<div class="outline-text-2" id="text-org2fb5870">
 </div>
-<div id="outline-container-orgc1c92cc" class="outline-3">
-<h4 id="orgc1c92cc">Export shell code</h4>
-<div class="outline-text-3" id="text-orgc1c92cc">
+<div id="outline-container-org0711953" class="outline-3">
+<h4 id="org0711953">Export shell code</h4>
+<div class="outline-text-3" id="text-org0711953">
 <p>
 Exporting shell code will fail if `sh-mode` is loaded. So I use "bash" instead. Since there is no "bash-mode", exporting will be fine.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf1b54a1" class="outline-3">
-<h4 id="orgf1b54a1">Yasnippet setup</h4>
-<div class="outline-text-3" id="text-orgf1b54a1">
+<div id="outline-container-org465e3f0" class="outline-3">
+<h4 id="org465e3f0">Yasnippet setup</h4>
+<div class="outline-text-3" id="text-org465e3f0">
 <p>
 To avoid loading yasnippets when exporting, I have to <a href="https://github.com/capitaomorte/yasnippet#use-yas-minor-mode-on-a-per-buffer-basis">"use yas-minor-mode on a per-buffer basis"</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org7718c88" class="outline-3">
-<h4 id="org7718c88">Manually turn off the major-mode hook</h4>
-<div class="outline-text-3" id="text-org7718c88">
+<div id="outline-container-org1ae9128" class="outline-3">
+<h4 id="org1ae9128">Manually turn off the major-mode hook</h4>
+<div class="outline-text-3" id="text-org1ae9128">
 <p>
 It's controlled by global flag `load-user-customized-major-mode-hook`, as you can see from the "Setup" section.
 </p>
@@ -196,9 +196,9 @@ Say I want to turn off the major mode hooks when `M-x org-publish`, here is the 
 </div>
 </div>
 </div>
-<div id="outline-container-org08f5a89" class="outline-3">
-<h4 id="org08f5a89">after-save-hook</h4>
-<div class="outline-text-3" id="text-org08f5a89">
+<div id="outline-container-orge7d7b87" class="outline-3">
+<h4 id="orge7d7b87">after-save-hook</h4>
+<div class="outline-text-3" id="text-orge7d7b87">
 <p>
 `after-save-hook` is the "Normal hook that is run after a buffer is saved to its file". You may also need tweak it up because it will be called when exporting org files
 </p>
@@ -247,9 +247,9 @@ Basic Emacs lisp knowledges are required.
 <p>
 Please note I'm <b>NOT</b> targeted at specific static site generator like <a href="http://getnikola.com/blog/">Nikola</a> or <a href="http://jekyllrb.com/">Jekyll</a>.
 </p>
-<div id="outline-container-org0b37bef" class="outline-2">
-<h3 id="org0b37bef">Solution</h3>
-<div class="outline-text-2" id="text-org0b37bef">
+<div id="outline-container-orgcd3f3ab" class="outline-2">
+<h3 id="orgcd3f3ab">Solution</h3>
+<div class="outline-text-2" id="text-orgcd3f3ab">
 <p>
 Tested on <b>Linux and OSX</b>.
 </p>
@@ -305,9 +305,9 @@ You can write blog into org file, export and publicize it with command `M-x org2
 </div>
 </div>
 
-<div id="outline-container-org6f149ad" class="outline-2">
-<h3 id="org6f149ad">Why</h3>
-<div class="outline-text-2" id="text-org6f149ad">
+<div id="outline-container-org9c505db" class="outline-2">
+<h3 id="org9c505db">Why</h3>
+<div class="outline-text-2" id="text-org9c505db">
 <p>
 I used <a href="https://wordpress.org">Wordpress</a> and <a href="https://github.com/punchagan/org2blog">Org2blog</a> for a very long time. Then I turned to static blog generator because:
 </p>
@@ -322,13 +322,13 @@ Yes, only wordpress sucks. For Org2blog, I can only say good things. Actually, t
 </div>
 </div>
 
-<div id="outline-container-org3b4a0aa" class="outline-2">
-<h3 id="org3b4a0aa">Technical Details</h3>
-<div class="outline-text-2" id="text-org3b4a0aa">
+<div id="outline-container-org549499a" class="outline-2">
+<h3 id="org549499a">Technical Details</h3>
+<div class="outline-text-2" id="text-org549499a">
 </div>
-<div id="outline-container-org2e091ea" class="outline-3">
-<h4 id="org2e091ea">Generating HTML</h4>
-<div class="outline-text-3" id="text-org2e091ea">
+<div id="outline-container-org035492b" class="outline-3">
+<h4 id="org035492b">Generating HTML</h4>
+<div class="outline-text-3" id="text-org035492b">
 <p>
 As I said, Nikola is my blog generator which converts my org file into HTML.
 </p>
@@ -416,9 +416,9 @@ BTW, the last straw that push me away the Wordpress is its wrapper of SyntaxHigh
 </div>
 </div>
 
-<div id="outline-container-orgbad8e5e" class="outline-3">
-<h4 id="orgbad8e5e">Create blog posts</h4>
-<div class="outline-text-3" id="text-orgbad8e5e">
+<div id="outline-container-org31f0ff3" class="outline-3">
+<h4 id="org31f0ff3">Create blog posts</h4>
+<div class="outline-text-3" id="text-org31f0ff3">
 <p>
 Emacs creates HTML files and meta files.  Things created by Emacs will be copied into Nikola's folder.
 </p>
@@ -434,7 +434,7 @@ The "nikola build" command will also dump the list of files to be uploaded into 
 <p>
 The build message dumped:
 </p>
-<pre class="example" id="org36bcec4">
+<pre class="example" id="orgd4f5229">
 Scanning posts....done!
 .  render_archive:output/2014/index.html
 .  render_sources:output/posts/jump-to-the-positions-before-and-after-m-x-imenu.wp
@@ -457,9 +457,9 @@ Only the files in sub-folder "output" need be uploaded.
 </div>
 </div>
 
-<div id="outline-container-org1dd495b" class="outline-3">
-<h4 id="org1dd495b">Preprocess nikola output</h4>
-<div class="outline-text-3" id="text-org1dd495b">
+<div id="outline-container-org25da60e" class="outline-3">
+<h4 id="org25da60e">Preprocess nikola output</h4>
+<div class="outline-text-3" id="text-org25da60e">
 <p>
 It's all done by Emacs Lisp.
 </p>
@@ -479,9 +479,9 @@ As you can see, each line is a ftp upload command we need execute in shell.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdd6ba29" class="outline-3">
-<h4 id="orgdd6ba29">FTP upload</h4>
-<div class="outline-text-3" id="text-orgdd6ba29">
+<div id="outline-container-orgc178431" class="outline-3">
+<h4 id="orgc178431">FTP upload</h4>
+<div class="outline-text-3" id="text-orgc178431">
 <p>
 Ncftp is my choice of FTP client. It's solid and efficient.
 </p>
@@ -500,9 +500,9 @@ BTW, you can `cat ~/.ncftp/spool/log` to check the FTP upload status.
 </div>
 </div>
 </div>
-<div id="outline-container-org5f6d83f" class="outline-2">
-<h3 id="org5f6d83f">Summary</h3>
-<div class="outline-text-2" id="text-org5f6d83f">
+<div id="outline-container-orgc3c09ae" class="outline-2">
+<h3 id="orgc3c09ae">Summary</h3>
+<div class="outline-text-2" id="text-orgc3c09ae">
 <p>
 The workflow is simple.
 </p>
@@ -550,9 +550,9 @@ Ncftp will upload HTML files. It's the best FTP client which could be easily int
 As a programmer, I use `M-x imenu` to jump to the callee when editing a code file. After a little code tweaking in the callee, I need jump back to caller as quickly as possible.
 </p>
 
-<div id="outline-container-orgbd8ae39" class="outline-2">
-<h3 id="orgbd8ae39">Solution</h3>
-<div class="outline-text-2" id="text-orgbd8ae39">
+<div id="outline-container-org54be148" class="outline-2">
+<h3 id="org54be148">Solution</h3>
+<div class="outline-text-2" id="text-org54be148">
 <p>
 Insert below code to ~/.emacs:
 </p>
@@ -587,9 +587,9 @@ Now you can use `M-x rimenu-jump` to jump.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbadf2d3" class="outline-2">
-<h3 id="orgbadf2d3">Technical details</h3>
-<div class="outline-text-2" id="text-orgbadf2d3">
+<div id="outline-container-org7c7e536" class="outline-2">
+<h3 id="org7c7e536">Technical details</h3>
+<div class="outline-text-2" id="text-org7c7e536">
 <p>
 Imenu will push the start point into mark-ring. After reaching the destination, it will call the imenu-after-jump-hook where I can store the end point. 
 </p>
@@ -638,9 +638,9 @@ If you are impatient, jump to the "Quick Start" and paste my setup into your ~/.
 No extra setup needed! Then keep using your js2-mode happily, as if nothing happened. ;) 
 </p>
 
-<div id="outline-container-orge429a36" class="outline-2">
-<h3 id="orge429a36">Problem</h3>
-<div class="outline-text-2" id="text-orge429a36">
+<div id="outline-container-orgad6a617" class="outline-2">
+<h3 id="orgad6a617">Problem</h3>
+<div class="outline-text-2" id="text-orgad6a617">
 <p>
 In my previous article <a href="http://blog.binchen.org/posts/why-emacs-is-better-editor.html">Why Emacs is better editor - a case study for javascript developer</a>, I proved that Emacs is better than <a href="http://www.sublimetext.com/">Sublime Text</a>.
 </p>
@@ -674,9 +674,9 @@ As you can see, using regular expression to extract the string "MyController" is
 </p>
 </div>
 </div>
-<div id="outline-container-org3c684ca" class="outline-2">
-<h3 id="org3c684ca">Solution</h3>
-<div class="outline-text-2" id="text-org3c684ca">
+<div id="outline-container-orgadda881" class="outline-2">
+<h3 id="orgadda881">Solution</h3>
+<div class="outline-text-2" id="text-orgadda881">
 <p>
 My latest <a href="https://github.com/mooz/js2-mode/pull/169">contribution to js2-mode</a> solves this problem perfectly. It <b>combines the powers of AST and regular expression</b>.
 </p>
@@ -757,9 +757,9 @@ Sublime users also argue that Sublime3 uses <a href="https://www.python.org/">Py
 </p>
 </div>
 </div>
-<div id="outline-container-org55af529" class="outline-2">
-<h3 id="org55af529">Quick Start</h3>
-<div class="outline-text-2" id="text-org55af529">
+<div id="outline-container-orgd5535cf" class="outline-2">
+<h3 id="orgd5535cf">Quick Start</h3>
+<div class="outline-text-2" id="text-orgd5535cf">
 <p>
 I'm still discussing with the js2-mode maintainer Dmitry Gutov about the best way to merge my patch.
 </p>
@@ -970,7 +970,7 @@ Basically I use <b>fewer</b> but more powerful plugins. I write Emacs lisp if th
 <ul class="org-ul">
 <li>Three years ago, column edit,</li>
 </ul>
-<pre class="example" id="orge23b692">
+<pre class="example" id="org16278f0">
 C-x r t yourstring RET (See "How to do select column then do editing in GNU Emacs ?"")
 </pre>
 
@@ -981,7 +981,7 @@ Now I use <a href="http://www.emacswiki.org/emacs/Evil">Evil</a>
 <ul class="org-ul">
 <li>Three years ago, save current position to register and jump to the position,</li>
 </ul>
-<pre class="example" id="orgbc12e47">
+<pre class="example" id="orgbddf18f">
 C-r SPC to save, C-j to jump (better-registers.el required) 
 </pre>
 
@@ -992,7 +992,7 @@ Now Evil.
 <ul class="org-ul">
 <li>Three years ago, save frame configuration to register,</li>
 </ul>
-<pre class="example" id="orgbe1c5f3">
+<pre class="example" id="org09135f4">
 C-r f (better-registers.el required) 
 </pre>
 
@@ -1003,7 +1003,7 @@ Now <a href="https://github.com/pashinin/workgroups2">workgroups2.</a>
 <ul class="org-ul">
 <li>Three year ago, (un)comment line,</li>
 </ul>
-<pre class="example" id="orgc895db2">
+<pre class="example" id="orgcaff231">
 M-; (qiang-comment-dwim-line required)
 </pre>
 
@@ -1014,7 +1014,7 @@ Now <a href="https://github.com/redguardtoo/evil-nerd-commenter">evil-nerd-comme
 <ul class="org-ul">
 <li>Three years ago for visiting the next/previous error message after compiling,</li>
 </ul>
-<pre class="example" id="orgd9ae4ad">
+<pre class="example" id="org9e5adf6">
 "M-g M-n" or "M-g M-p"
 </pre>
 
@@ -1025,7 +1025,7 @@ I'm still using it.
 <ul class="org-ul">
 <li>Three years ago, find-tag/pop-tag-mark</li>
 </ul>
-<pre class="example" id="orgebfd0e5">
+<pre class="example" id="org083b359">
 "M-." and "M-*"
 </pre>
 
@@ -1036,7 +1036,7 @@ Now Evil
 <ul class="org-ul">
 <li>Three years ago, grep current work directory only or all sub-directories</li>
 </ul>
-<pre class="example" id="orgc49dd3d">
+<pre class="example" id="org86cef47">
 M-x lgrep/rgrep
 </pre>
 
@@ -1047,7 +1047,7 @@ Now grep in shell plus <a href="https://github.com/mooz/percol">percol</a>
 <ul class="org-ul">
 <li>Three years ago, visit multiple tags table</li>
 </ul>
-<pre class="example" id="orgc39b0d3">
+<pre class="example" id="org1bd1278">
 M-x visit-tags-table
 </pre>
 
@@ -1058,7 +1058,7 @@ M-x visit-tags-table
 <ul class="org-ul">
 <li>Three years ago, set countdown timer</li>
 </ul>
-<pre class="example" id="org969ba05">
+<pre class="example" id="orgf718f48">
 M-x org-timer-set-timer, C-c C-x ;
 </pre>
 
@@ -1069,7 +1069,7 @@ Now I don't push myself with the timer thing.
 <ul class="org-ul">
 <li>Three years ago, mark subtree in org-mode</li>
 </ul>
-<pre class="example" id="org9c55373">
+<pre class="example" id="orgf0a1f90">
 M-x org-mark-subtree
 </pre>
 
@@ -1111,18 +1111,18 @@ Now I use <a href="https://github.com/redguardtoo/org2nikola">org2nikola</a>. Th
 I use keyboard only in order to maximize my productivity.
 </p>
 
-<div id="outline-container-orge1b581e" class="outline-2">
-<h3 id="orge1b581e">Preparation</h3>
-<div class="outline-text-2" id="text-orge1b581e">
+<div id="outline-container-orgffb5804" class="outline-2">
+<h3 id="orgffb5804">Preparation</h3>
+<div class="outline-text-2" id="text-orgffb5804">
 <p>
 Install Firefox addon <a href="https://github.com/mooz/keysnail/wiki">Keysnail</a> and its plugin <a href="https://github.com/mooz/keysnail/wiki/plugin">HOK</a>. From now on, all the web browsing is done ONLY in keyboard.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org9e2e432" class="outline-2">
-<h3 id="org9e2e432">Step 1</h3>
-<div class="outline-text-2" id="text-org9e2e432">
+<div id="outline-container-orgfc5b1d4" class="outline-2">
+<h3 id="orgfc5b1d4">Step 1</h3>
+<div class="outline-text-2" id="text-orgfc5b1d4">
 <p>
 Open pull request page at github.com, click the link "command line".
 </p>
@@ -1147,9 +1147,9 @@ I have installed a Greasemonkey user script <a href="https://github.com/redguard
 </div>
 </div>
 
-<div id="outline-container-orgb81f776" class="outline-2">
-<h3 id="orgb81f776">Step 2</h3>
-<div class="outline-text-2" id="text-orgb81f776">
+<div id="outline-container-org27cc005" class="outline-2">
+<h3 id="org27cc005">Step 2</h3>
+<div class="outline-text-2" id="text-org27cc005">
 <p>
 I open the code file with Emacs.
 </p>
@@ -1172,9 +1172,9 @@ In short, I can <b>review the latest commit and change the code in one step</b>.
 </div>
 </div>
 
-<div id="outline-container-org5fe7a64" class="outline-2">
-<h3 id="org5fe7a64">Done</h3>
-<div class="outline-text-2" id="text-org5fe7a64">
+<div id="outline-container-org2a5ac4f" class="outline-2">
+<h3 id="org2a5ac4f">Done</h3>
+<div class="outline-text-2" id="text-org2a5ac4f">
 <p>
 After review and code change, the remaining book-keeping things (git-commit/git-merge/git-push) are easy.
 </p>
@@ -1229,9 +1229,9 @@ The solutin is based on the ideas of top geeks. I only did the implementation.
 Mendel Cooper provided the original design in <a href="http://www.tldp.org/LDP/abs/html/index.html">Advanced Bash-Scripting Guide</a>. Masafumi Oyamada (AKA mooz) added the missing piece by creating <a href="https://github.com/mooz/percol">percol</a>.
 </p>
 
-<div id="outline-container-orgc5eba88" class="outline-2">
-<h3 id="orgc5eba88">Problem</h3>
-<div class="outline-text-2" id="text-orgc5eba88">
+<div id="outline-container-org281d9ee" class="outline-2">
+<h3 id="org281d9ee">Problem</h3>
+<div class="outline-text-2" id="text-org281d9ee">
 <p>
 How to find full path of a file by fuzz search?
 </p>
@@ -1242,22 +1242,22 @@ The path should be shared easily to other application like Emacs.
 </div>
 </div>
 
-<div id="outline-container-org5366c73" class="outline-2">
-<h3 id="org5366c73">Installation</h3>
-<div class="outline-text-2" id="text-org5366c73">
+<div id="outline-container-org6ec4210" class="outline-2">
+<h3 id="org6ec4210">Installation</h3>
+<div class="outline-text-2" id="text-org6ec4210">
 </div>
-<div id="outline-container-orgffc195b" class="outline-3">
-<h4 id="orgffc195b">Step 1, Install percol</h4>
-<div class="outline-text-3" id="text-orgffc195b">
+<div id="outline-container-org29f9ff3" class="outline-3">
+<h4 id="org29f9ff3">Step 1, Install percol</h4>
+<div class="outline-text-3" id="text-org29f9ff3">
 <p>
 <a href="https://github.com/mooz/percol/archive/master.zip">Download the package</a> and extract it. Place the sub-directory named "percol/" into the directory "~/bin". Rename the program "percol" in sub-directory "bin" into "percol.py". Put the percol.py also into "~/bin".
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1dd4f69" class="outline-3">
-<h4 id="org1dd4f69">Step 2, Insert below code into ~/.bashrc:</h4>
-<div class="outline-text-3" id="text-org1dd4f69">
+<div id="outline-container-orgfebb13c" class="outline-3">
+<h4 id="orgfebb13c">Step 2, Insert below code into ~/.bashrc:</h4>
+<div class="outline-text-3" id="text-orgfebb13c">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">[ $(uname -s | grep -c CYGWIN) -eq 1 ] &amp;&amp; OS_NAME="CYGWIN" || OS_NAME=`uname -s`
@@ -1318,9 +1318,9 @@ function cf()
 </div>
 </div>
 </div>
-<div id="outline-container-org6f20917" class="outline-2">
-<h3 id="org6f20917">Usage</h3>
-<div class="outline-text-2" id="text-org6f20917">
+<div id="outline-container-org390bbeb" class="outline-2">
+<h3 id="org390bbeb">Usage</h3>
+<div class="outline-text-2" id="text-org390bbeb">
 <p>
 Type "ff partials-of-file-path" in shell. A filter window popups. You can filter and scroll down/up to select one file. The full path will be copied into system clipboard automatically (under Linux, either xsel or xclip are required for clipboard access).
 </p>
@@ -1358,17 +1358,17 @@ In Emacs community, people try to embed a file explorer into Emacs (Sr speedbar,
 </p>
 </div>
 </div>
-<div id="outline-container-org3f86ebd" class="outline-2">
-<h3 id="org3f86ebd">Advanced usage</h3>
-<div class="outline-text-2" id="text-org3f86ebd">
+<div id="outline-container-org9f64726" class="outline-2">
+<h3 id="org9f64726">Advanced usage</h3>
+<div class="outline-text-2" id="text-org9f64726">
 <p>
 More examples follow.
 </p>
 </div>
 
-<div id="outline-container-orgc3bff83" class="outline-3">
-<h4 id="orgc3bff83">Search the bash history.</h4>
-<div class="outline-text-3" id="text-orgc3bff83">
+<div id="outline-container-org015f55f" class="outline-3">
+<h4 id="org015f55f">Search the bash history.</h4>
+<div class="outline-text-3" id="text-org015f55f">
 <p>
 Code to insert ~/.bashrc:
 </p>
@@ -1396,9 +1396,9 @@ Screenshot:
 </div>
 </div>
 
-<div id="outline-container-org34382b1" class="outline-3">
-<h4 id="org34382b1">Select a file in git commit</h4>
-<div class="outline-text-3" id="text-org34382b1">
+<div id="outline-container-org3e191ae" class="outline-3">
+<h4 id="org3e191ae">Select a file in git commit</h4>
+<div class="outline-text-3" id="text-org3e191ae">
 <p>
 Code to insert ~/.bashrc:
 </p>
@@ -1422,9 +1422,9 @@ Screenshot:
 </div>
 </div>
 
-<div id="outline-container-org32bbabb" class="outline-2">
-<h3 id="org32bbabb">Summary</h3>
-<div class="outline-text-2" id="text-org32bbabb">
+<div id="outline-container-org5924dee" class="outline-2">
+<h3 id="org5924dee">Summary</h3>
+<div class="outline-text-2" id="text-org5924dee">
 <p>
 The key idea is that I have full freedom to get job done in any way. Emacs is nothing more than a tool to help me achieve more power and more freedom. For example, I find mooz's percol because I like his Emacs plugin <a href="https://github.com/mooz/js2-mode">js2-mode</a> and I want to check his other works. 
 </p>
@@ -1634,9 +1634,9 @@ BTW, don't abuse this technique. Set <b>one environment variable</b> for the roo
 
             </div>
             <div class="body">
-                <div id="outline-container-org2de2e5c" class="outline-2">
-<h3 id="org2de2e5c">Problem</h3>
-<div class="outline-text-2" id="text-org2de2e5c">
+                <div id="outline-container-org35de733" class="outline-2">
+<h3 id="org35de733">Problem</h3>
+<div class="outline-text-2" id="text-org35de733">
 <p>
 There are two styles when insert curly braces in C like languages.
 </p>
@@ -1680,9 +1680,9 @@ In "Style 2", when I press ENTER key after ")" at first line, I expect the new l
 </div>
 </div>
 
-<div id="outline-container-org4573bf0" class="outline-2">
-<h3 id="org4573bf0">Solution</h3>
-<div class="outline-text-2" id="text-org4573bf0">
+<div id="outline-container-org702585c" class="outline-2">
+<h3 id="org702585c">Solution</h3>
+<div class="outline-text-2" id="text-org702585c">
 <p>
 Insert below code into ~/.emacs:
 </p>
@@ -1712,9 +1712,9 @@ That's it.
 </div>
 </div>
 
-<div id="outline-container-orgc8fca61" class="outline-2">
-<h3 id="orgc8fca61">Explanation</h3>
-<div class="outline-text-2" id="text-orgc8fca61">
+<div id="outline-container-org93abdb5" class="outline-2">
+<h3 id="org93abdb5">Explanation</h3>
+<div class="outline-text-2" id="text-org93abdb5">
 <p>
 When you press the ENTER key, the function <b>c-indent-line</b> will be called.
 </p>
@@ -1749,9 +1749,9 @@ And the context <b>func-decl-cont</b> corresponds to:
 </div>
 </div>
 
-<div id="outline-container-orge3db2de" class="outline-2">
-<h3 id="orge3db2de">Technical details</h3>
-<div class="outline-text-2" id="text-orge3db2de">
+<div id="outline-container-org3711815" class="outline-2">
+<h3 id="org3711815">Technical details</h3>
+<div class="outline-text-2" id="text-org3711815">
 <p>
 When you press ENTER key, the new line will be inserted. Then the function <b>indent-according-to-mode</b> will always be called
 </p>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about lisp)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/lisp.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 24 May 2022 12:51:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about lisp)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/lisp.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 25 May 2022 08:08:51 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
 &lt;/p&gt;
 
 &lt;p&gt;
-The syntax error could be tricky to detect. For example, developers might use Emacs 28+ only APIs to develop packages running on Emacs 26.
+Syntax errors could be a bit difficult to locate. For example, developers might use Emacs 28+ only APIs to develop packages running on Emacs 26.
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -44,7 +44,7 @@ Here is howto.
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-makefile"&gt;compile:
-    emacs --batch -Q -L . -l my-package-main-entry.el 2&amp;gt;&amp;amp;1 | grep -E "([Ee]rror|[Ww]arning):" &amp;amp;&amp;amp; exit 1 || exit 0
+    emacs --batch -Q -L . -l my-package-main-entry.el -l tests/my-byte-compile.el 2&amp;gt;&amp;amp;1 | grep -E "([Ee]rror|[Ww]arning):" &amp;amp;&amp;amp; exit 1 || exit 0
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -57,7 +57,7 @@ DONE! Now Gitlab/Github could use command line &lt;code&gt;make compile&lt;/code
 Screenshot of &lt;a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d"&gt;a tricky bug of evil-matchit&lt;/a&gt; detected by this new workflow.
 &lt;/p&gt;
 
-&lt;div id="orgf24e038" class="figure"&gt;
+&lt;div id="org98c0394" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -84,11 +84,12 @@ Here is link to the &lt;a href="https://github.com/redguardtoo/evil-matchit/blob
 &lt;/p&gt;
 
 &lt;p&gt;
-I use below shell command line to test the project locally.
+I use below command lines to compile and test the project locally.
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
 
-&lt;pre&gt;&lt;code class="lang-sh"&gt;EMACS=~/myemacs/26.3/bin/emacs make test
+&lt;pre&gt;&lt;code class="lang-sh"&gt;EMACS=~/myemacs/26.3/bin/emacs make compile # compile only
+EMACS=~/myemacs/26.3/bin/emacs make test # compile and run unit test 
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>lisp</category><guid>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</guid><pubDate>Tue, 24 May 2022 12:47:12 GMT</pubDate></item><item><title>What's AOP in Java</title><link>http://blog.binchen.org/posts/what-s-aop-in-java/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
@@ -110,7 +111,7 @@ Please read &lt;a href="http://developers.slashdot.org/story/05/04/24/0343224/as
 &lt;p&gt;
 Here is the comment from MarkusQ,
 &lt;/p&gt;
-&lt;pre class="example" id="org6e00b3c"&gt;
+&lt;pre class="example" id="org5fbb5aa"&gt;
  by MarkusQ (450076) on Sunday April 24, 2005 @11:01PM (#12333504) Journal
 
 Exactly.

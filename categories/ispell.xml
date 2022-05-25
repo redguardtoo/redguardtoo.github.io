@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about ispell)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ispell.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:10:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>What's the best spell check setup in emacs</title><link>http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about ispell)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ispell.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 25 May 2022 08:08:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>What's the best spell check setup in emacs</title><link>http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2021-06-15 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -19,9 +19,9 @@ Topics covered in official manual (&lt;code&gt;flyspell-mode-predicate&lt;/code&
 You can check my &lt;b&gt;complete&lt;/b&gt; configuration &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelling.el"&gt;HERE&lt;/a&gt;.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgb944b22" class="outline-2"&gt;
-&lt;h3 id="orgb944b22"&gt;Suggestion for non-programmers&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb944b22"&gt;
+&lt;div id="outline-container-org2d6fc82" class="outline-2"&gt;
+&lt;h3 id="org2d6fc82"&gt;Suggestion for non-programmers&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2d6fc82"&gt;
 &lt;p&gt;
 Emacs finds the right dictionary by querying the locale.
 &lt;/p&gt;
@@ -81,9 +81,9 @@ Run &lt;code&gt;man aspell&lt;/code&gt; or &lt;code&gt;man hunspell&lt;/code&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3aea145" class="outline-2"&gt;
-&lt;h3 id="org3aea145"&gt;Suggestion for programmers&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3aea145"&gt;
+&lt;div id="outline-container-org27b6778" class="outline-2"&gt;
+&lt;h3 id="org27b6778"&gt;Suggestion for programmers&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org27b6778"&gt;
 &lt;p&gt;
 I recommend aspell instead of hunspell (Though hunspell is fine).
 &lt;/p&gt;
@@ -184,13 +184,13 @@ See &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spe
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org9d80517" class="outline-2"&gt;
-&lt;h3 id="org9d80517"&gt;Why&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9d80517"&gt;
+&lt;div id="outline-container-org07025be" class="outline-2"&gt;
+&lt;h3 id="org07025be"&gt;Why&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org07025be"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org375685a" class="outline-3"&gt;
-&lt;h4 id="org375685a"&gt;Aspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org375685a"&gt;
+&lt;div id="outline-container-org885c0b2" class="outline-3"&gt;
+&lt;h4 id="org885c0b2"&gt;Aspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org885c0b2"&gt;
 &lt;p&gt;
 aspell is recommended because its option &lt;code&gt;--run-together&lt;/code&gt; (since aspell 0.60.8, option &lt;code&gt;--camel-case&lt;/code&gt; replaces &lt;code&gt;=run-together&lt;/code&gt;). That option could check the &lt;b&gt;camel case word&lt;/b&gt;. Variable name often uses camel case naming convention these days. Read my &lt;a href="http://blog.binchen.org/?p=950"&gt;Effective spell check in Emacs&lt;/a&gt; for advanced tips.
 &lt;/p&gt;
@@ -226,9 +226,9 @@ There is another variable &lt;code&gt;ispell-cmd-args&lt;/code&gt;. It is actual
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org25641ba" class="outline-3"&gt;
-&lt;h4 id="org25641ba"&gt;Hunspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org25641ba"&gt;
+&lt;div id="outline-container-orgb29034f" class="outline-3"&gt;
+&lt;h4 id="orgb29034f"&gt;Hunspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgb29034f"&gt;
 &lt;p&gt;
 I cannot find hunspell option to check camel case words.
 &lt;/p&gt;
@@ -273,13 +273,13 @@ You can pass the extra arguments to the hunspell by tweaking &lt;code&gt;ispell-
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4e25955" class="outline-2"&gt;
-&lt;h3 id="org4e25955"&gt;FAQ&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org4e25955"&gt;
+&lt;div id="outline-container-org4e8d56c" class="outline-2"&gt;
+&lt;h3 id="org4e8d56c"&gt;FAQ&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4e8d56c"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org9b5b4fb" class="outline-3"&gt;
-&lt;h4 id="org9b5b4fb"&gt;How to setup Hunspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org9b5b4fb"&gt;
+&lt;div id="outline-container-org183bbe2" class="outline-3"&gt;
+&lt;h4 id="org183bbe2"&gt;How to setup Hunspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org183bbe2"&gt;
 &lt;p&gt;
 The easiest way is to set up environment variable &lt;code&gt;DICPATH&lt;/code&gt;.
 &lt;/p&gt;

@@ -79,9 +79,9 @@ Basic Emacs lisp knowledges are required.
 <p>
 Please note I'm <b>NOT</b> targeted at specific static site generator like <a href="http://getnikola.com/blog/">Nikola</a> or <a href="http://jekyllrb.com/">Jekyll</a>.
 </p>
-<div id="outline-container-org0b37bef" class="outline-2">
-<h3 id="org0b37bef">Solution</h3>
-<div class="outline-text-2" id="text-org0b37bef">
+<div id="outline-container-orgcd3f3ab" class="outline-2">
+<h3 id="orgcd3f3ab">Solution</h3>
+<div class="outline-text-2" id="text-orgcd3f3ab">
 <p>
 Tested on <b>Linux and OSX</b>.
 </p>
@@ -137,9 +137,9 @@ You can write blog into org file, export and publicize it with command `M-x org2
 </div>
 </div>
 
-<div id="outline-container-org6f149ad" class="outline-2">
-<h3 id="org6f149ad">Why</h3>
-<div class="outline-text-2" id="text-org6f149ad">
+<div id="outline-container-org9c505db" class="outline-2">
+<h3 id="org9c505db">Why</h3>
+<div class="outline-text-2" id="text-org9c505db">
 <p>
 I used <a href="https://wordpress.org">Wordpress</a> and <a href="https://github.com/punchagan/org2blog">Org2blog</a> for a very long time. Then I turned to static blog generator because:
 </p>
@@ -154,13 +154,13 @@ Yes, only wordpress sucks. For Org2blog, I can only say good things. Actually, t
 </div>
 </div>
 
-<div id="outline-container-org3b4a0aa" class="outline-2">
-<h3 id="org3b4a0aa">Technical Details</h3>
-<div class="outline-text-2" id="text-org3b4a0aa">
+<div id="outline-container-org549499a" class="outline-2">
+<h3 id="org549499a">Technical Details</h3>
+<div class="outline-text-2" id="text-org549499a">
 </div>
-<div id="outline-container-org2e091ea" class="outline-3">
-<h4 id="org2e091ea">Generating HTML</h4>
-<div class="outline-text-3" id="text-org2e091ea">
+<div id="outline-container-org035492b" class="outline-3">
+<h4 id="org035492b">Generating HTML</h4>
+<div class="outline-text-3" id="text-org035492b">
 <p>
 As I said, Nikola is my blog generator which converts my org file into HTML.
 </p>
@@ -248,9 +248,9 @@ BTW, the last straw that push me away the Wordpress is its wrapper of SyntaxHigh
 </div>
 </div>
 
-<div id="outline-container-orgbad8e5e" class="outline-3">
-<h4 id="orgbad8e5e">Create blog posts</h4>
-<div class="outline-text-3" id="text-orgbad8e5e">
+<div id="outline-container-org31f0ff3" class="outline-3">
+<h4 id="org31f0ff3">Create blog posts</h4>
+<div class="outline-text-3" id="text-org31f0ff3">
 <p>
 Emacs creates HTML files and meta files.  Things created by Emacs will be copied into Nikola's folder.
 </p>
@@ -266,7 +266,7 @@ The "nikola build" command will also dump the list of files to be uploaded into 
 <p>
 The build message dumped:
 </p>
-<pre class="example" id="org36bcec4">
+<pre class="example" id="orgd4f5229">
 Scanning posts....done!
 .  render_archive:output/2014/index.html
 .  render_sources:output/posts/jump-to-the-positions-before-and-after-m-x-imenu.wp
@@ -289,9 +289,9 @@ Only the files in sub-folder "output" need be uploaded.
 </div>
 </div>
 
-<div id="outline-container-org1dd495b" class="outline-3">
-<h4 id="org1dd495b">Preprocess nikola output</h4>
-<div class="outline-text-3" id="text-org1dd495b">
+<div id="outline-container-org25da60e" class="outline-3">
+<h4 id="org25da60e">Preprocess nikola output</h4>
+<div class="outline-text-3" id="text-org25da60e">
 <p>
 It's all done by Emacs Lisp.
 </p>
@@ -311,9 +311,9 @@ As you can see, each line is a ftp upload command we need execute in shell.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdd6ba29" class="outline-3">
-<h4 id="orgdd6ba29">FTP upload</h4>
-<div class="outline-text-3" id="text-orgdd6ba29">
+<div id="outline-container-orgc178431" class="outline-3">
+<h4 id="orgc178431">FTP upload</h4>
+<div class="outline-text-3" id="text-orgc178431">
 <p>
 Ncftp is my choice of FTP client. It's solid and efficient.
 </p>
@@ -332,9 +332,9 @@ BTW, you can `cat ~/.ncftp/spool/log` to check the FTP upload status.
 </div>
 </div>
 </div>
-<div id="outline-container-org5f6d83f" class="outline-2">
-<h3 id="org5f6d83f">Summary</h3>
-<div class="outline-text-2" id="text-org5f6d83f">
+<div id="outline-container-orgc3c09ae" class="outline-2">
+<h3 id="orgc3c09ae">Summary</h3>
+<div class="outline-text-2" id="text-orgc3c09ae">
 <p>
 The workflow is simple.
 </p>
