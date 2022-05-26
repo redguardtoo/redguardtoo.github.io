@@ -86,14 +86,9 @@ Here is howto.
               (lambda (file dir)
                 (and (not (file-directory-p (expand-file-name file dir)))
                      (string-match "\\.el$" file)
-                     (not (string-match "\\.dir-locals\\.el" file))))
+                     (not (string-match "\\.dir-locals\\.el$" file))))
               (lambda (dir parent)
-                (not (or (string= dir ".")
-                         (string= dir "..")
-                         (string= dir ".git")
-                         (string= dir ".svn")
-                         (string= dir "deps")
-                         (string= dir "tests")
+                (not (or (member dir '("." ".." ".git" ".svn" "deps" "tests"))
                          (file-symlink-p (expand-file-name dir parent))))))))
   (dolist (file files)
     (byte-compile-file file)))
@@ -120,7 +115,7 @@ DONE! Now Gitlab/Github could use command line <code>make compile</code> in thei
 Screenshot of <a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d">a tricky bug of evil-matchit</a> detected by this new workflow.
 </p>
 
-<div id="org98c0394" class="figure">
+<div id="org92ee8be" class="figure">
 <p><img src="../../wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"></p>
 </div>
 
