@@ -1,5 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 31 May 2022 03:51:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 31 May 2022 05:44:42 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+In &lt;a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/"&gt;Better Emacs package development workflow&lt;/a&gt;, I proved that running Emacs compiler in CI can give huge boost to package quality.
+&lt;/p&gt;
+
+&lt;p&gt;
+The same workflow can apply to emacs distributions. But designing a CI workflow for the distribution is much more challenging.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;my .emacs.d&lt;/a&gt; uses about 300 packages. In CI pipeline, those packages are automatically downloaded and compiled. If compiling errors/warnings from those third party packages are not ignored, the CI will always fail.
+&lt;/p&gt;
+
+&lt;p&gt;
+There are also many other engineering issues. I struggled for &lt;b&gt;five hours&lt;/b&gt; and finally got satisfying solution. Now anyone can use my solution to &lt;b&gt;set up same CI pipeline in ten minutes&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;div id="orgd14fcc9" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+Makefile is in "~/.emacs.d", it's still simple,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-makefile"&gt;EMACS ?= emacs
+RM = @rm -rf
+EMACS_BATCH_OPTS = --batch -Q --debug-init
+
+install: clean
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el
+
+compile: install
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el -l tests/my-byte-compile.el 2&amp;gt;&amp;amp;1 | grep -Ev "init-(hydra|evil).el:.*Warning: docstring wider than 80 characters|an obsolete" | grep -E "[0-9]: ([Ee]rror|[Ww]arning):" &amp;amp;&amp;amp; exit 1 || exit 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can run &lt;code&gt;make compile &amp;amp;&amp;amp; echo good || echo bad&lt;/code&gt; in shell  to test the pipeline locally. Please note I use &lt;code&gt;grep -v things-to-ignore&lt;/code&gt; to ignore some warnings. The warnings are from anonymous functions created by third packages (hydra, general.el, …).  
+&lt;/p&gt;
+
+&lt;p&gt;
+The final missing piece is "~/.emacs.d/tests/my-byte-compile.el", 
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'find-lisp)
+(require 'scroll-bar)
+(require 'ivy)
+(require 'counsel)
+(require 'w3m)
+(require 'ibuffer)
+(require 'org)
+(require 'diff-mode)
+(require 'cliphist)
+(require 'eacl)
+(require 'tramp)
+(require 'dired)
+(require 'shellcop)
+(require 'counsel-etags)
+(require 'typewriter-mode)
+(require 'pomodoro)
+(require 'emms)
+(require 'emms-playlist-mode)
+(require 'gnus)
+(require 'gnus-sum)
+(require 'gnus-msg)
+(require 'gnus-topic)
+(require 'magit)
+(require 'magit-refs)
+(require 'gnus-art)
+(require 'git-link)
+(require 'ace-window)
+(require 'js2-mode)
+(require 'yasnippet)
+(require 'ediff)
+(require 'company)
+(require 'evil-nerd-commenter)
+(require 'git-timemachine)
+(require 'pyim)
+(require 'cal-china-x)
+(require 'wucuo)
+(require 'langtool)
+(require 'web-mode)
+(require 'bbdb)
+(require 'gmail2bbdb)
+(require 'org-mime)
+(require 'pdf-tools)
+(require 'recentf)
+(require 'bookmark)
+(require 'find-file-in-project)
+(require 'flymake)
+(require 'elec-pair)
+(require 'elpy)
+(require 'rjsx-mode)
+(require 'simple-httpd)
+(require 'vc)
+(require 'sdcv)
+(require 'wgrep)
+(require 'mybigword)
+(require 'yaml-mode)
+(require 'octave)
+(require 'undo-fu)
+(require 'wc-mode)
+(require 'exec-path-from-shell)
+(require 'dictionary)
+(require 'company-ispell)
+(require 'company-ctags)
+(require 'lsp-mode)
+
+(let ((files (find-lisp-find-files-internal
+              "."
+              (lambda (file dir)
+                (and (not (file-directory-p (expand-file-name file dir)))
+                     (string-match "\\.el$" file)
+                     (not (member file '(".dir-locals.el"
+                                         "package-quickstart.el"
+                                         "company-statistics-cache.el"
+                                         "custom-set-variables.el"
+                                         "early-init.el")))))
+              (lambda (dir parent)
+                (member dir '("lisp"))))))
+  (dolist (file files)
+    ;; (message "file=%s" file)
+    (byte-compile-file file)))
+
+(provide 'my-byte-compile)
+;;; my-byte-compile.el ends here
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As you can see,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;I need add lots of &lt;code&gt;require&lt;/code&gt; statement to make compiling succeed on Emacs 26, 27, 28&lt;/li&gt;
+&lt;li&gt;Some "*.el" files generated by Emacs and 3rd party packages need be ignored&lt;/li&gt;
+&lt;li&gt;My emacs setup code is only in "lisp" directory&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+That's it.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can visit &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;https://github.com/redguardtoo/emacs.d&lt;/a&gt; for a real world example. 
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, you can find &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-no-byte-compile.el"&gt;init-no-byte-compile.el&lt;/a&gt; where there are a few lines setup code the compiler will ignore. It's bad practice but sometimes there is no other way.
+&lt;/p&gt;
+
+&lt;p&gt;
+"init-no-byte-compile.el" is like,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; -*- coding: utf-8; lexical-binding: t; -*-
+
+;; blah blah
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>lisp</category><guid>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</guid><pubDate>Tue, 31 May 2022 05:33:30 GMT</pubDate></item><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
 &lt;/p&gt;
 
@@ -482,121 +651,4 @@ Below code fixes this problem. It will automatically call correct API with or wi
 (advice-add 'org-docview-open :around #'my-org-docview-open-hack)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>pdf</category><guid>http://blog.binchen.org/posts/org-link-and-pdf-tools/</guid><pubDate>Wed, 05 May 2021 11:34:28 GMT</pubDate></item><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-I prefer using git cli because it's more light weight.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is my bash alias of &lt;code&gt;git commit&lt;/code&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;alias gc="git commit -m"
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-The problem of my "cli-only" workflow is it can't detect my mistakes automatically.
-&lt;/p&gt;
-
-&lt;p&gt;
-I often forget to add new code file into git. So my final commit might miss files.
-&lt;/p&gt;
-
-&lt;div id="outline-container-orged989de" class="outline-2"&gt;
-&lt;h3 id="orged989de"&gt;Magit UI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orged989de"&gt;
-&lt;p&gt;
-One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
-&lt;/p&gt;
-
-&lt;p&gt;
-My set up in Emacs,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-lines-from-command-output (command)
-  "Return lines of COMMAND output."
-  (let* ((output (string-trim (shell-command-to-string command)))
-         (cands (nonempty-lines output)))
-    (delq nil (delete-dups cands))))
-
-(defun my-hint-untracked-files ()
-  "If untracked files and commited files share same extension, warn users."
-  (let* ((exts (mapcar 'file-name-extension (my-lines-from-command-output "git diff-tree --no-commit-id --name-only -r HEAD")))
-         (untracked-files (my-lines-from-command-output "git --no-pager ls-files --others --exclude-standard"))
-         (lookup-ext (make-hash-table :test #'equal))
-         rlt)
-    ;; file extensions of files in HEAD commit
-    (dolist (ext exts)
-      (puthash ext t lookup-ext))
-    ;; If untracked file has same file extension as committed files
-    ;; maybe they should be staged too?
-    (dolist (file untracked-files)
-      (when (gethash (file-name-extension file) lookup-ext)
-        (push (file-name-nondirectory file) rlt)))
-    (when rlt
-      (message "Stage files? %s" (mapconcat 'identity rlt " ")))))
-
-(with-eval-after-load 'magit
-  (defun my-git-check-status ()
-    "Check git repo status."
-    ;; use timer here to wait magit cool down
-    (run-with-idle-timer 1 nil #'my-hint-untracked-files))
-  (add-hook 'magit-post-commit-hook #'my-git-check-status)
-  (add-hook 'git-commit-post-finish-hook #'my-git-check-status))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Screenshot of step 1 in Emacs,
-&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step1.png" alt="magit-commit-step1.png"&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-Screenshot of step 2 (final step) in Emacs (I was reminded of untracked files "bye.js" and "tree.js" at the bottom of UI),
-&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step2.png" alt="magit-commit-step2.png"&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-BTW, my actual code in my &lt;code&gt;.emacs.d&lt;/code&gt; is &lt;a href="https://github.com/redguardtoo/emacs.d/commit/c62b2b9434ac8e01ed6bd6ee927e66f62df68194"&gt;a bit different&lt;/a&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orga99715a" class="outline-2"&gt;
-&lt;h3 id="orga99715a"&gt;CLI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga99715a"&gt;
-&lt;p&gt;
-Another solution is doing the git thing in shell plus Emacs "-batch" option.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is my bash setup,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;function gc {
-    # check my emacs.d exist
-    if [ -f "$HOME/.emacs.d/README.org" ] &amp;amp;&amp;amp; [ "$PWD" != "$HOME/.emacs.d" ]; then
-        # magit hook does not work
-        git commit -m "$@" &amp;amp;&amp;amp; emacs -batch -Q -l "$HOME/.emacs.d/init.el" --eval "(my-hint-untracked-files)"
-    else
-        git commit -m "$@"
-    fi
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Please note running &lt;code&gt;magit-commit-create&lt;/code&gt; in cli won't work. It's because &lt;code&gt;magit-run-git-async&lt;/code&gt; in called and it might lock the git after the cli execution.
-&lt;/p&gt;
-
-&lt;p&gt;
-Screenshot in shell,
-&lt;img src="http://blog.binchen.org/wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</guid><pubDate>Tue, 02 Mar 2021 13:06:58 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>pdf</category><guid>http://blog.binchen.org/posts/org-link-and-pdf-tools/</guid><pubDate>Wed, 05 May 2021 11:34:28 GMT</pubDate></item></channel></rss>

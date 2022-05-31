@@ -1,5 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 31 May 2022 03:51:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emacs)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 31 May 2022 05:44:41 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+In &lt;a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/"&gt;Better Emacs package development workflow&lt;/a&gt;, I proved that running Emacs compiler in CI can give huge boost to package quality.
+&lt;/p&gt;
+
+&lt;p&gt;
+The same workflow can apply to emacs distributions. But designing a CI workflow for the distribution is much more challenging.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;my .emacs.d&lt;/a&gt; uses about 300 packages. In CI pipeline, those packages are automatically downloaded and compiled. If compiling errors/warnings from those third party packages are not ignored, the CI will always fail.
+&lt;/p&gt;
+
+&lt;p&gt;
+There are also many other engineering issues. I struggled for &lt;b&gt;five hours&lt;/b&gt; and finally got satisfying solution. Now anyone can use my solution to &lt;b&gt;set up same CI pipeline in ten minutes&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;div id="orgd14fcc9" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+Makefile is in "~/.emacs.d", it's still simple,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-makefile"&gt;EMACS ?= emacs
+RM = @rm -rf
+EMACS_BATCH_OPTS = --batch -Q --debug-init
+
+install: clean
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el
+
+compile: install
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el -l tests/my-byte-compile.el 2&amp;gt;&amp;amp;1 | grep -Ev "init-(hydra|evil).el:.*Warning: docstring wider than 80 characters|an obsolete" | grep -E "[0-9]: ([Ee]rror|[Ww]arning):" &amp;amp;&amp;amp; exit 1 || exit 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can run &lt;code&gt;make compile &amp;amp;&amp;amp; echo good || echo bad&lt;/code&gt; in shell  to test the pipeline locally. Please note I use &lt;code&gt;grep -v things-to-ignore&lt;/code&gt; to ignore some warnings. The warnings are from anonymous functions created by third packages (hydra, general.el, …).  
+&lt;/p&gt;
+
+&lt;p&gt;
+The final missing piece is "~/.emacs.d/tests/my-byte-compile.el", 
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'find-lisp)
+(require 'scroll-bar)
+(require 'ivy)
+(require 'counsel)
+(require 'w3m)
+(require 'ibuffer)
+(require 'org)
+(require 'diff-mode)
+(require 'cliphist)
+(require 'eacl)
+(require 'tramp)
+(require 'dired)
+(require 'shellcop)
+(require 'counsel-etags)
+(require 'typewriter-mode)
+(require 'pomodoro)
+(require 'emms)
+(require 'emms-playlist-mode)
+(require 'gnus)
+(require 'gnus-sum)
+(require 'gnus-msg)
+(require 'gnus-topic)
+(require 'magit)
+(require 'magit-refs)
+(require 'gnus-art)
+(require 'git-link)
+(require 'ace-window)
+(require 'js2-mode)
+(require 'yasnippet)
+(require 'ediff)
+(require 'company)
+(require 'evil-nerd-commenter)
+(require 'git-timemachine)
+(require 'pyim)
+(require 'cal-china-x)
+(require 'wucuo)
+(require 'langtool)
+(require 'web-mode)
+(require 'bbdb)
+(require 'gmail2bbdb)
+(require 'org-mime)
+(require 'pdf-tools)
+(require 'recentf)
+(require 'bookmark)
+(require 'find-file-in-project)
+(require 'flymake)
+(require 'elec-pair)
+(require 'elpy)
+(require 'rjsx-mode)
+(require 'simple-httpd)
+(require 'vc)
+(require 'sdcv)
+(require 'wgrep)
+(require 'mybigword)
+(require 'yaml-mode)
+(require 'octave)
+(require 'undo-fu)
+(require 'wc-mode)
+(require 'exec-path-from-shell)
+(require 'dictionary)
+(require 'company-ispell)
+(require 'company-ctags)
+(require 'lsp-mode)
+
+(let ((files (find-lisp-find-files-internal
+              "."
+              (lambda (file dir)
+                (and (not (file-directory-p (expand-file-name file dir)))
+                     (string-match "\\.el$" file)
+                     (not (member file '(".dir-locals.el"
+                                         "package-quickstart.el"
+                                         "company-statistics-cache.el"
+                                         "custom-set-variables.el"
+                                         "early-init.el")))))
+              (lambda (dir parent)
+                (member dir '("lisp"))))))
+  (dolist (file files)
+    ;; (message "file=%s" file)
+    (byte-compile-file file)))
+
+(provide 'my-byte-compile)
+;;; my-byte-compile.el ends here
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As you can see,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;I need add lots of &lt;code&gt;require&lt;/code&gt; statement to make compiling succeed on Emacs 26, 27, 28&lt;/li&gt;
+&lt;li&gt;Some "*.el" files generated by Emacs and 3rd party packages need be ignored&lt;/li&gt;
+&lt;li&gt;My emacs setup code is only in "lisp" directory&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+That's it.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can visit &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;https://github.com/redguardtoo/emacs.d&lt;/a&gt; for a real world example. 
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, you can find &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-no-byte-compile.el"&gt;init-no-byte-compile.el&lt;/a&gt; where there are a few lines setup code the compiler will ignore. It's bad practice but sometimes there is no other way.
+&lt;/p&gt;
+
+&lt;p&gt;
+"init-no-byte-compile.el" is like,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; -*- coding: utf-8; lexical-binding: t; -*-
+
+;; blah blah
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>lisp</category><guid>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</guid><pubDate>Tue, 31 May 2022 05:33:30 GMT</pubDate></item><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
 &lt;/p&gt;
 
@@ -735,120 +904,4 @@ Screencast:
 
 &lt;div id="org66ea1ed" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"&gt;
-&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</guid><pubDate>Tue, 14 Apr 2020 13:54:28 GMT</pubDate></item><item><title>Make Emacs faster than Vim in "git mergetool"</title><link>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html"&gt;Emacs is the best merge tool for Git&lt;/a&gt; explains how to combine &lt;a href="https://git-scm.com/docs/git-mergetool/2.20.0"&gt;git mergetool&lt;/a&gt; with &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ediff/"&gt;ediff-mode&lt;/a&gt; in Emacs.
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;a href="https://disqus.com/by/harrisonmccullough/"&gt;Harrison McCullough&lt;/a&gt; suggested the work flow can be faster if emacs is replaced with emacsclient.
-&lt;/p&gt;
-
-&lt;p&gt;
-I did some research and found a perfect solution. It's even faster than Vim.
-&lt;/p&gt;
-
-&lt;div id="outline-container-org1030084" class="outline-2"&gt;
-&lt;h3 id="org1030084"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org1030084"&gt;
-&lt;p&gt;
-Please note emacsclient is only use for resolving conflicts.
-&lt;/p&gt;
-
-&lt;p&gt;
-Step 1, start emacs server by running &lt;code&gt;emacs -Q --daemon --eval "(setq startup-now t)" -l "/home/my-username/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))"&lt;/code&gt; in shell.
-&lt;/p&gt;
-
-&lt;p&gt;
-Step 2, insert below code into &lt;code&gt;~/.emacs.d/init.el&lt;/code&gt; (see the comment why this advice is required):
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defadvice server-save-buffers-kill-terminal (after server-save-buffers-kill-terminal-after-hack activate)
-  ;; kill all buffers, so new ediff panel is re-created and `ediff-startup-hook-setup' is called again
-  ;; besides, remove the buffers whose binding files are alredy merged in `buffer-list'
-  (mapc 'kill-buffer (buffer-list)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Step 3, insert below code into &lt;code&gt;~/.gitconfig&lt;/code&gt;:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[mergetool.ediff]
-cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \\\"$BASE\\\") (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\") (ediff-merge-files \\\"$LOCAL\\\" \\\"$REMOTE\\\" nil \\\"$MERGED\\\")))\"
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgc8c7fd2" class="outline-2"&gt;
-&lt;h3 id="orgc8c7fd2"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc8c7fd2"&gt;
-&lt;p&gt;
-It's similar to initial solution. But some scripts are created for automation.
-&lt;/p&gt;
-
-&lt;p&gt;
-Step 1, read &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html"&gt;Using Emacs as a Server&lt;/a&gt; in the manual and create &lt;code&gt;~/.config/systemd/user/emacs.service&lt;/code&gt; for &lt;a href="https://en.wikipedia.org/wiki/Systemd"&gt;Systemd&lt;/a&gt;:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[Unit]
-Description=Emacs text editor
-Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
-
-[Service]
-Type=forking
-ExecStart=emacs -Q --daemon --eval "(setq startup-now t)" -l "/home/my-username/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))" 
-ExecStop=emacsclient --eval "(kill-emacs)"
-Environment=SSH_AUTH_SOCK=%t/keyring/ssh
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Step 2, set up in &lt;code&gt;~/.gitconfig&lt;/code&gt;:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[mergetool.emacs]
-    cmd = ediff.sh "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
-[mergetool.emacsclient]
-    cmd = MYEMACSCLIENT=emacsclient ediff.sh "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Step 3, create &lt;code&gt;ediff.sh&lt;/code&gt;:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/sh
-[ -z "$MYEMACSCLIENT" ] &amp;amp;&amp;amp; MYEMACSCLIENT="emacs"
-# emacsclient won't work in git mergetool
-# $1=$LOCAL $2=$REMOTE $3=$BASE $4=$MERGED
-if [ "$MYEMACSCLIENT" = "emacs" ]; then
-    $MYEMACSCLIENT -nw -Q --eval "(setq startup-now t)" -l "$HOME/.emacs.d/init.el" --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
-else
-    $MYEMACSCLIENT -nw --eval "(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \"$3\") (ediff-merge-files-with-ancestor \"$1\" \"$2\" \"$3\" nil \"$4\") (ediff-merge-files \"$1\" \"$2\" nil \"$4\")))"
-fi
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Step 4, run &lt;code&gt;git mergetool -t emacsclient&lt;/code&gt; to resolve conflicts.
-&lt;/p&gt;
-
-&lt;p&gt;
-My &lt;a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d"&gt;init-ediff.el&lt;/a&gt; in &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;emacs.d&lt;/a&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>mergetool</category><guid>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</guid><pubDate>Fri, 10 Apr 2020 09:33:40 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</guid><pubDate>Tue, 14 Apr 2020 13:54:28 GMT</pubDate></item></channel></rss>

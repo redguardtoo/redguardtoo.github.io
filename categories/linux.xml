@@ -1,5 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 31 May 2022 03:51:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 31 May 2022 05:44:41 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+In &lt;a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/"&gt;Better Emacs package development workflow&lt;/a&gt;, I proved that running Emacs compiler in CI can give huge boost to package quality.
+&lt;/p&gt;
+
+&lt;p&gt;
+The same workflow can apply to emacs distributions. But designing a CI workflow for the distribution is much more challenging.
+&lt;/p&gt;
+
+&lt;p&gt;
+For example, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;my .emacs.d&lt;/a&gt; uses about 300 packages. In CI pipeline, those packages are automatically downloaded and compiled. If compiling errors/warnings from those third party packages are not ignored, the CI will always fail.
+&lt;/p&gt;
+
+&lt;p&gt;
+There are also many other engineering issues. I struggled for &lt;b&gt;five hours&lt;/b&gt; and finally got satisfying solution. Now anyone can use my solution to &lt;b&gt;set up same CI pipeline in ten minutes&lt;/b&gt;.
+&lt;/p&gt;
+
+&lt;div id="orgd14fcc9" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+Makefile is in "~/.emacs.d", it's still simple,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-makefile"&gt;EMACS ?= emacs
+RM = @rm -rf
+EMACS_BATCH_OPTS = --batch -Q --debug-init
+
+install: clean
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el
+
+compile: install
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el -l tests/my-byte-compile.el 2&amp;gt;&amp;amp;1 | grep -Ev "init-(hydra|evil).el:.*Warning: docstring wider than 80 characters|an obsolete" | grep -E "[0-9]: ([Ee]rror|[Ww]arning):" &amp;amp;&amp;amp; exit 1 || exit 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+You can run &lt;code&gt;make compile &amp;amp;&amp;amp; echo good || echo bad&lt;/code&gt; in shell  to test the pipeline locally. Please note I use &lt;code&gt;grep -v things-to-ignore&lt;/code&gt; to ignore some warnings. The warnings are from anonymous functions created by third packages (hydra, general.el, …).  
+&lt;/p&gt;
+
+&lt;p&gt;
+The final missing piece is "~/.emacs.d/tests/my-byte-compile.el", 
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'find-lisp)
+(require 'scroll-bar)
+(require 'ivy)
+(require 'counsel)
+(require 'w3m)
+(require 'ibuffer)
+(require 'org)
+(require 'diff-mode)
+(require 'cliphist)
+(require 'eacl)
+(require 'tramp)
+(require 'dired)
+(require 'shellcop)
+(require 'counsel-etags)
+(require 'typewriter-mode)
+(require 'pomodoro)
+(require 'emms)
+(require 'emms-playlist-mode)
+(require 'gnus)
+(require 'gnus-sum)
+(require 'gnus-msg)
+(require 'gnus-topic)
+(require 'magit)
+(require 'magit-refs)
+(require 'gnus-art)
+(require 'git-link)
+(require 'ace-window)
+(require 'js2-mode)
+(require 'yasnippet)
+(require 'ediff)
+(require 'company)
+(require 'evil-nerd-commenter)
+(require 'git-timemachine)
+(require 'pyim)
+(require 'cal-china-x)
+(require 'wucuo)
+(require 'langtool)
+(require 'web-mode)
+(require 'bbdb)
+(require 'gmail2bbdb)
+(require 'org-mime)
+(require 'pdf-tools)
+(require 'recentf)
+(require 'bookmark)
+(require 'find-file-in-project)
+(require 'flymake)
+(require 'elec-pair)
+(require 'elpy)
+(require 'rjsx-mode)
+(require 'simple-httpd)
+(require 'vc)
+(require 'sdcv)
+(require 'wgrep)
+(require 'mybigword)
+(require 'yaml-mode)
+(require 'octave)
+(require 'undo-fu)
+(require 'wc-mode)
+(require 'exec-path-from-shell)
+(require 'dictionary)
+(require 'company-ispell)
+(require 'company-ctags)
+(require 'lsp-mode)
+
+(let ((files (find-lisp-find-files-internal
+              "."
+              (lambda (file dir)
+                (and (not (file-directory-p (expand-file-name file dir)))
+                     (string-match "\\.el$" file)
+                     (not (member file '(".dir-locals.el"
+                                         "package-quickstart.el"
+                                         "company-statistics-cache.el"
+                                         "custom-set-variables.el"
+                                         "early-init.el")))))
+              (lambda (dir parent)
+                (member dir '("lisp"))))))
+  (dolist (file files)
+    ;; (message "file=%s" file)
+    (byte-compile-file file)))
+
+(provide 'my-byte-compile)
+;;; my-byte-compile.el ends here
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As you can see,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;I need add lots of &lt;code&gt;require&lt;/code&gt; statement to make compiling succeed on Emacs 26, 27, 28&lt;/li&gt;
+&lt;li&gt;Some "*.el" files generated by Emacs and 3rd party packages need be ignored&lt;/li&gt;
+&lt;li&gt;My emacs setup code is only in "lisp" directory&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+That's it.
+&lt;/p&gt;
+
+&lt;p&gt;
+You can visit &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;https://github.com/redguardtoo/emacs.d&lt;/a&gt; for a real world example. 
+&lt;/p&gt;
+
+&lt;p&gt;
+BTW, you can find &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-no-byte-compile.el"&gt;init-no-byte-compile.el&lt;/a&gt; where there are a few lines setup code the compiler will ignore. It's bad practice but sometimes there is no other way.
+&lt;/p&gt;
+
+&lt;p&gt;
+"init-no-byte-compile.el" is like,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; -*- coding: utf-8; lexical-binding: t; -*-
+
+;; blah blah
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>lisp</category><guid>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</guid><pubDate>Tue, 31 May 2022 05:33:30 GMT</pubDate></item><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
 &lt;/p&gt;
 
@@ -589,4 +758,4 @@ I create a new Emacs plugin which lists file names containing Chinese characters
 Emacs has enough APIs. Later I found another pure Lisp API "find-lisp-find-dired". Problem solved.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>font</category><category>linux</category><category>terminal</category><category>terminator</category><guid>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system/</guid><pubDate>Sun, 01 Feb 2015 09:40:44 GMT</pubDate></item><item><title>My answer to "How do you use Emacs without a directory tree on the side of the editor?" on quora.com</title><link>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;This is &lt;a href="http://www.quora.com/Emacs/How-do-you-use-Emacs-without-a-directory-tree-on-the-side-of-the-editor"&gt;original link of the question&lt;/a&gt;. Please note I focus on programming for large projects. I need search/grep/modify files scattered in different places without documentation. &lt;/p&gt; &lt;p&gt; If your use case is different, a embedded file explorer may be a better choice &lt;/p&gt;  &lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Tools I use to replace a file explorer&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ol&gt; &lt;li&gt;ido-find-file (emacs), just type any characters, it will fuzz search matched file in parent/sibling/current/or-whatever directory.  &lt;/li&gt; &lt;li&gt;helm-find-file (emacs), this one use regular expression and has bigger window  &lt;/li&gt; &lt;li&gt;recentf and helm (emacs), I use regular expression open recent opened files.  &lt;/li&gt; &lt;li&gt;ctags, gtags or whatever tag tools (CLI tool), as mentioned by other people  &lt;/li&gt; &lt;li&gt;I also use lots of bash functions written by myself, those functions are trivial, but combined with a wonderful tool called percol, they become really powerful.  &lt;/li&gt; &lt;li&gt;I use some CLI clipboard tool so I can easily share the file path between terminal/emacs/firefox.  &lt;/li&gt; &lt;li&gt;there is also a emacs bundled feature called speedbar, which is similar to the file explorer, I used it once, but it does not fit in my ninja style ;) It's fine but the UI is almost same to those average text editors.  &lt;/li&gt; &lt;li&gt;I also write some elisp snippets, for example, convert absolute path to relative path; given one relative path, output one absolute path, etc …  &lt;/li&gt; &lt;li&gt;there is also some git based emacs plugin: you can search file under the project root directory.  &lt;/li&gt; &lt;li&gt;there is a CLI tool called fasd which can let you interactively select the file or folder you recently visited.  &lt;/li&gt; &lt;li&gt;many other tools, plug-ins, code snippets I can use … &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Use case&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;ol&gt; &lt;li&gt;I need search a big project for a certain library (it's a freemarker file I need include) whose full path I don't know, I just search the API's name by type: &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;"gef keyword *". gef is my bash function based on grep. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;matched files are displayed instantly (grep is much more quick than IDEs, BTW) in a interactive console filter (use percol), I type a regular expression to filter file name and press enter &lt;/li&gt; &lt;li&gt;the full path is in clipboard now, then I type ":e Shift-insert" to open that file. &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;This is the most difficult case, I usually strike less keys and not get out of Emacs. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;If i need insert this file's relative path, I press a hot key and another emacs plugin will correctly convert absolute path to relative one (relative to the file I'm editing in Emacs) and insert it into my editor. &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-3" class="outline-3"&gt; &lt;h4 id="sec-3"&gt;Demo&lt;/h4&gt; &lt;div class="outline-text-3" id="text-3"&gt;  &lt;p&gt;Here is screen cast. In this demo I grepped and open a ftl file and then search another js file in the same project. &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif" alt="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif"&gt; &lt;/p&gt;&lt;/div&gt; &lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</guid><pubDate>Wed, 19 Feb 2014 21:40:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>font</category><category>linux</category><category>terminal</category><category>terminator</category><guid>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system/</guid><pubDate>Sun, 01 Feb 2015 09:40:44 GMT</pubDate></item></channel></rss>

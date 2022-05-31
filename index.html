@@ -23,6 +23,202 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/use-ci-to-improve-the-quality-of-emacs-distribution/">Use CI to improve the quality of emacs distribution</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-05-31T05:33:30+00:00">2022-05-31 05:33</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-ci-to-improve-the-quality-of-emacs-distribution/#disqus_thread" data-disqus-identifier="cache/posts/use-ci-to-improve-the-quality-of-emacs-distribution.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/lisp/" rel="tag">lisp</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+In <a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/">Better Emacs package development workflow</a>, I proved that running Emacs compiler in CI can give huge boost to package quality.
+</p>
+
+<p>
+The same workflow can apply to emacs distributions. But designing a CI workflow for the distribution is much more challenging.
+</p>
+
+<p>
+For example, <a href="https://github.com/redguardtoo/emacs.d">my .emacs.d</a> uses about 300 packages. In CI pipeline, those packages are automatically downloaded and compiled. If compiling errors/warnings from those third party packages are not ignored, the CI will always fail.
+</p>
+
+<p>
+There are also many other engineering issues. I struggled for <b>five hours</b> and finally got satisfying solution. Now anyone can use my solution to <b>set up same CI pipeline in ten minutes</b>.
+</p>
+
+<div id="orgd14fcc9" class="figure">
+<p><img src="wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"></p>
+</div>
+
+<p>
+Makefile is in "~/.emacs.d", it's still simple,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-makefile">EMACS ?= emacs
+RM = @rm -rf
+EMACS_BATCH_OPTS = --batch -Q --debug-init
+
+install: clean
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el
+
+compile: install
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el -l tests/my-byte-compile.el 2&gt;&amp;1 | grep -Ev "init-(hydra|evil).el:.*Warning: docstring wider than 80 characters|an obsolete" | grep -E "[0-9]: ([Ee]rror|[Ww]arning):" &amp;&amp; exit 1 || exit 0
+</code></pre>
+
+</div>
+
+<p>
+You can run <code>make compile &amp;&amp; echo good || echo bad</code> in shell  to test the pipeline locally. Please note I use <code>grep -v things-to-ignore</code> to ignore some warnings. The warnings are from anonymous functions created by third packages (hydra, general.el, …).  
+</p>
+
+<p>
+The final missing piece is "~/.emacs.d/tests/my-byte-compile.el", 
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'find-lisp)
+(require 'scroll-bar)
+(require 'ivy)
+(require 'counsel)
+(require 'w3m)
+(require 'ibuffer)
+(require 'org)
+(require 'diff-mode)
+(require 'cliphist)
+(require 'eacl)
+(require 'tramp)
+(require 'dired)
+(require 'shellcop)
+(require 'counsel-etags)
+(require 'typewriter-mode)
+(require 'pomodoro)
+(require 'emms)
+(require 'emms-playlist-mode)
+(require 'gnus)
+(require 'gnus-sum)
+(require 'gnus-msg)
+(require 'gnus-topic)
+(require 'magit)
+(require 'magit-refs)
+(require 'gnus-art)
+(require 'git-link)
+(require 'ace-window)
+(require 'js2-mode)
+(require 'yasnippet)
+(require 'ediff)
+(require 'company)
+(require 'evil-nerd-commenter)
+(require 'git-timemachine)
+(require 'pyim)
+(require 'cal-china-x)
+(require 'wucuo)
+(require 'langtool)
+(require 'web-mode)
+(require 'bbdb)
+(require 'gmail2bbdb)
+(require 'org-mime)
+(require 'pdf-tools)
+(require 'recentf)
+(require 'bookmark)
+(require 'find-file-in-project)
+(require 'flymake)
+(require 'elec-pair)
+(require 'elpy)
+(require 'rjsx-mode)
+(require 'simple-httpd)
+(require 'vc)
+(require 'sdcv)
+(require 'wgrep)
+(require 'mybigword)
+(require 'yaml-mode)
+(require 'octave)
+(require 'undo-fu)
+(require 'wc-mode)
+(require 'exec-path-from-shell)
+(require 'dictionary)
+(require 'company-ispell)
+(require 'company-ctags)
+(require 'lsp-mode)
+
+(let ((files (find-lisp-find-files-internal
+              "."
+              (lambda (file dir)
+                (and (not (file-directory-p (expand-file-name file dir)))
+                     (string-match "\\.el$" file)
+                     (not (member file '(".dir-locals.el"
+                                         "package-quickstart.el"
+                                         "company-statistics-cache.el"
+                                         "custom-set-variables.el"
+                                         "early-init.el")))))
+              (lambda (dir parent)
+                (member dir '("lisp"))))))
+  (dolist (file files)
+    ;; (message "file=%s" file)
+    (byte-compile-file file)))
+
+(provide 'my-byte-compile)
+;;; my-byte-compile.el ends here
+</code></pre>
+
+</div>
+
+<p>
+As you can see,
+</p>
+<ul class="org-ul">
+<li>I need add lots of <code>require</code> statement to make compiling succeed on Emacs 26, 27, 28</li>
+<li>Some "*.el" files generated by Emacs and 3rd party packages need be ignored</li>
+<li>My emacs setup code is only in "lisp" directory</li>
+</ul>
+<p>
+That's it.
+</p>
+
+<p>
+You can visit <a href="https://github.com/redguardtoo/emacs.d">https://github.com/redguardtoo/emacs.d</a> for a real world example. 
+</p>
+
+<p>
+BTW, you can find <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-no-byte-compile.el">init-no-byte-compile.el</a> where there are a few lines setup code the compiler will ignore. It's bad practice but sometimes there is no other way.
+</p>
+
+<p>
+"init-no-byte-compile.el" is like,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; -*- coding: utf-8; lexical-binding: t; -*-
+
+;; blah blah
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/better-emacs-package-development-workflow/">Better Emacs package development workflow</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -757,149 +953,6 @@ Below code fixes this problem. It will automatically call correct API with or wi
 (advice-add 'org-docview-open :around #'my-org-docview-open-hack)
 </code></pre>
 
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-magit-to-commit-efficiently-and-correctly/">Use Magit to commit efficiently and correctly</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2021-03-02T13:06:58+00:00">2021-03-02 13:06</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/use-magit-to-commit-efficiently-and-correctly/#disqus_thread" data-disqus-identifier="cache/posts/use-magit-to-commit-efficiently-and-correctly.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
-           <li><a class="tag p-category" href="categories/magit/" rel="tag">magit</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-I prefer using git cli because it's more light weight.
-</p>
-
-<p>
-Here is my bash alias of <code>git commit</code>,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">alias gc="git commit -m"
-</code></pre>
-
-</div>
-
-<p>
-The problem of my "cli-only" workflow is it can't detect my mistakes automatically.
-</p>
-
-<p>
-I often forget to add new code file into git. So my final commit might miss files.
-</p>
-
-<div id="outline-container-orged989de" class="outline-2">
-<h3 id="orged989de">Magit UI solution</h3>
-<div class="outline-text-2" id="text-orged989de">
-<p>
-One solution is to use <a href="https://magit.vc/">Magit</a> to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
-</p>
-
-<p>
-My set up in Emacs,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun my-lines-from-command-output (command)
-  "Return lines of COMMAND output."
-  (let* ((output (string-trim (shell-command-to-string command)))
-         (cands (nonempty-lines output)))
-    (delq nil (delete-dups cands))))
-
-(defun my-hint-untracked-files ()
-  "If untracked files and commited files share same extension, warn users."
-  (let* ((exts (mapcar 'file-name-extension (my-lines-from-command-output "git diff-tree --no-commit-id --name-only -r HEAD")))
-         (untracked-files (my-lines-from-command-output "git --no-pager ls-files --others --exclude-standard"))
-         (lookup-ext (make-hash-table :test #'equal))
-         rlt)
-    ;; file extensions of files in HEAD commit
-    (dolist (ext exts)
-      (puthash ext t lookup-ext))
-    ;; If untracked file has same file extension as committed files
-    ;; maybe they should be staged too?
-    (dolist (file untracked-files)
-      (when (gethash (file-name-extension file) lookup-ext)
-        (push (file-name-nondirectory file) rlt)))
-    (when rlt
-      (message "Stage files? %s" (mapconcat 'identity rlt " ")))))
-
-(with-eval-after-load 'magit
-  (defun my-git-check-status ()
-    "Check git repo status."
-    ;; use timer here to wait magit cool down
-    (run-with-idle-timer 1 nil #'my-hint-untracked-files))
-  (add-hook 'magit-post-commit-hook #'my-git-check-status)
-  (add-hook 'git-commit-post-finish-hook #'my-git-check-status))
-</code></pre>
-
-</div>
-
-<p>
-Screenshot of step 1 in Emacs,
-<img src="wp-content/magit-commit-step1.png" alt="magit-commit-step1.png"></p>
-
-<p>
-Screenshot of step 2 (final step) in Emacs (I was reminded of untracked files "bye.js" and "tree.js" at the bottom of UI),
-<img src="wp-content/magit-commit-step2.png" alt="magit-commit-step2.png"></p>
-
-<p>
-BTW, my actual code in my <code>.emacs.d</code> is <a href="https://github.com/redguardtoo/emacs.d/commit/c62b2b9434ac8e01ed6bd6ee927e66f62df68194">a bit different</a>.
-</p>
-</div>
-</div>
-<div id="outline-container-orga99715a" class="outline-2">
-<h3 id="orga99715a">CLI solution</h3>
-<div class="outline-text-2" id="text-orga99715a">
-<p>
-Another solution is doing the git thing in shell plus Emacs "-batch" option.
-</p>
-
-<p>
-Here is my bash setup,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">function gc {
-    # check my emacs.d exist
-    if [ -f "$HOME/.emacs.d/README.org" ] &amp;&amp; [ "$PWD" != "$HOME/.emacs.d" ]; then
-        # magit hook does not work
-        git commit -m "$@" &amp;&amp; emacs -batch -Q -l "$HOME/.emacs.d/init.el" --eval "(my-hint-untracked-files)"
-    else
-        git commit -m "$@"
-    fi
-}
-</code></pre>
-
-</div>
-
-<p>
-Please note running <code>magit-commit-create</code> in cli won't work. It's because <code>magit-run-git-async</code> in called and it might lock the git after the cli execution.
-</p>
-
-<p>
-Screenshot in shell,
-<img src="wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"></p>
-</div>
 </div>
             </div>
         </div>

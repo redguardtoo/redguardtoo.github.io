@@ -23,6 +23,149 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/use-magit-to-commit-efficiently-and-correctly/">Use Magit to commit efficiently and correctly</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2021-03-02T13:06:58+00:00">2021-03-02 13:06</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-magit-to-commit-efficiently-and-correctly/#disqus_thread" data-disqus-identifier="cache/posts/use-magit-to-commit-efficiently-and-correctly.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/magit/" rel="tag">magit</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+I prefer using git cli because it's more light weight.
+</p>
+
+<p>
+Here is my bash alias of <code>git commit</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">alias gc="git commit -m"
+</code></pre>
+
+</div>
+
+<p>
+The problem of my "cli-only" workflow is it can't detect my mistakes automatically.
+</p>
+
+<p>
+I often forget to add new code file into git. So my final commit might miss files.
+</p>
+
+<div id="outline-container-orged989de" class="outline-2">
+<h3 id="orged989de">Magit UI solution</h3>
+<div class="outline-text-2" id="text-orged989de">
+<p>
+One solution is to use <a href="https://magit.vc/">Magit</a> to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
+</p>
+
+<p>
+My set up in Emacs,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-lines-from-command-output (command)
+  "Return lines of COMMAND output."
+  (let* ((output (string-trim (shell-command-to-string command)))
+         (cands (nonempty-lines output)))
+    (delq nil (delete-dups cands))))
+
+(defun my-hint-untracked-files ()
+  "If untracked files and commited files share same extension, warn users."
+  (let* ((exts (mapcar 'file-name-extension (my-lines-from-command-output "git diff-tree --no-commit-id --name-only -r HEAD")))
+         (untracked-files (my-lines-from-command-output "git --no-pager ls-files --others --exclude-standard"))
+         (lookup-ext (make-hash-table :test #'equal))
+         rlt)
+    ;; file extensions of files in HEAD commit
+    (dolist (ext exts)
+      (puthash ext t lookup-ext))
+    ;; If untracked file has same file extension as committed files
+    ;; maybe they should be staged too?
+    (dolist (file untracked-files)
+      (when (gethash (file-name-extension file) lookup-ext)
+        (push (file-name-nondirectory file) rlt)))
+    (when rlt
+      (message "Stage files? %s" (mapconcat 'identity rlt " ")))))
+
+(with-eval-after-load 'magit
+  (defun my-git-check-status ()
+    "Check git repo status."
+    ;; use timer here to wait magit cool down
+    (run-with-idle-timer 1 nil #'my-hint-untracked-files))
+  (add-hook 'magit-post-commit-hook #'my-git-check-status)
+  (add-hook 'git-commit-post-finish-hook #'my-git-check-status))
+</code></pre>
+
+</div>
+
+<p>
+Screenshot of step 1 in Emacs,
+<img src="wp-content/magit-commit-step1.png" alt="magit-commit-step1.png"></p>
+
+<p>
+Screenshot of step 2 (final step) in Emacs (I was reminded of untracked files "bye.js" and "tree.js" at the bottom of UI),
+<img src="wp-content/magit-commit-step2.png" alt="magit-commit-step2.png"></p>
+
+<p>
+BTW, my actual code in my <code>.emacs.d</code> is <a href="https://github.com/redguardtoo/emacs.d/commit/c62b2b9434ac8e01ed6bd6ee927e66f62df68194">a bit different</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orga99715a" class="outline-2">
+<h3 id="orga99715a">CLI solution</h3>
+<div class="outline-text-2" id="text-orga99715a">
+<p>
+Another solution is doing the git thing in shell plus Emacs "-batch" option.
+</p>
+
+<p>
+Here is my bash setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">function gc {
+    # check my emacs.d exist
+    if [ -f "$HOME/.emacs.d/README.org" ] &amp;&amp; [ "$PWD" != "$HOME/.emacs.d" ]; then
+        # magit hook does not work
+        git commit -m "$@" &amp;&amp; emacs -batch -Q -l "$HOME/.emacs.d/init.el" --eval "(my-hint-untracked-files)"
+    else
+        git commit -m "$@"
+    fi
+}
+</code></pre>
+
+</div>
+
+<p>
+Please note running <code>magit-commit-create</code> in cli won't work. It's because <code>magit-run-git-async</code> in called and it might lock the git after the cli execution.
+</p>
+
+<p>
+Screenshot in shell,
+<img src="wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/linux-audio-input-configuration/">Linux audio input configuration</a></h1>
             <div class="meta">
                 <div class="authordate">
