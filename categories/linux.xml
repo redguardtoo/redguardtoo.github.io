@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Thu, 26 May 2022 11:09:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 31 May 2022 03:51:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
 &lt;/p&gt;
 
@@ -11,9 +11,9 @@ Syntax errors could be a bit difficult to locate. For example, developers might 
 Here is howto.
 &lt;/p&gt;
 
-&lt;p&gt;
-&lt;b&gt;Step 1&lt;/b&gt;,  create a file &lt;code&gt;my-byte-compile.el&lt;/code&gt; in the directory "tests/",
-&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Step 1,  create a file &lt;code&gt;my-byte-compile.el&lt;/code&gt; in the directory "tests/",&lt;/li&gt;
+&lt;/ul&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'find-lisp)
@@ -33,9 +33,9 @@ Here is howto.
 
 &lt;/div&gt;
 
-&lt;p&gt;
-&lt;b&gt;Step 2&lt;/b&gt;, insert below command line into the project's Makefile,
-&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Step 2, insert below command line into the project's Makefile,&lt;/li&gt;
+&lt;/ul&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-makefile"&gt;compile:
@@ -52,7 +52,7 @@ DONE! Now Gitlab/Github could use command line &lt;code&gt;make compile&lt;/code
 Screenshot of &lt;a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d"&gt;a tricky bug of evil-matchit&lt;/a&gt; detected by this new workflow.
 &lt;/p&gt;
 
-&lt;div id="org92ee8be" class="figure"&gt;
+&lt;div id="org268113a" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
