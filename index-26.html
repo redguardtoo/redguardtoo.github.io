@@ -23,6 +23,65 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/org-link-and-pdf-tools/">Org link and pdf-tools</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2021-05-05T11:34:28+00:00">2021-05-05 11:34</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/org-link-and-pdf-tools/#disqus_thread" data-disqus-identifier="cache/posts/org-link-and-pdf-tools.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/pdf/" rel="tag">pdf</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+By default, <a href="https://orgmode.org/manual/External-Links.html">Org pdf link</a> uses <code>doc-view.el</code> to open pdf. So if you move focus over the link <code>docview:papers/last.pdf::NNN</code> in a org file and run <code>M-x org-open-at-point</code>, API <code>doc-view-goto-page</code> is called.
+</p>
+
+<p>
+These days <a href="https://github.com/politza/pdf-tools">pdf-tools</a> is very popular.
+If pdf-tools is installed and enabled, API call of <code>doc-view-goto-page</code> will fail.
+</p>
+
+<p>
+Below code fixes this problem. It will automatically call correct API with or without pdf-tools.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-org-docview-open-hack (orig-func &amp;rest args)
+  (let* ((link (car args)) path page)
+    (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
+    (setq path (match-string 1 link))
+    (setq page (and (match-beginning 2)
+                    (string-to-number (match-string 2 link))))
+    (org-open-file path 1)
+    (when page
+      (cond
+       ((eq major-mode 'pdf-view-mode)
+        (pdf-view-goto-page page))
+       (t
+        (doc-view-goto-page page))))))
+(advice-add 'org-docview-open :around #'my-org-docview-open-hack)
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/use-magit-to-commit-efficiently-and-correctly/">Use Magit to commit efficiently and correctly</a></h1>
             <div class="meta">
                 <div class="authordate">

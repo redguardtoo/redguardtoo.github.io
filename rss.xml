@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 31 May 2022 05:44:42 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 06 Jun 2022 13:01:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>番茄鱼片汤</title><link>http://blog.binchen.org/posts/fan-jia-yu-pian-tang/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
+&lt;li&gt;巴沙鱼挤一下水分,切7毫米至1厘米厚片.&lt;/li&gt;
+&lt;li&gt;鱼片加盐鸡精料酒抓一下,加蛋清少量土豆粉搅拌(上浆后鱼片受热表面糊化,锁住鱼片水分)&lt;/li&gt;
+&lt;li&gt;番茄底部十字刀,开水烫一分钟,去皮,切块,块不要太小有口感&lt;/li&gt;
+&lt;li&gt;葱姜下锅炸出香味,很快(10秒)小火,以免葱变焦难看.&lt;/li&gt;
+&lt;li&gt;番茄出汁后加水,水滚后加半勺盐,味精,胡椒粉(可略多点,有辣味),12克(三勺)白醋,和西红柿综合变成果香醋&lt;/li&gt;
+&lt;li&gt;加鱼片盖锅焖一分钟,洒香菜和葱丝出锅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+视频: &lt;a href="https://www.bilibili.com/video/BV12M4y1V7CX/"&gt;龙利鱼腌制诀窍是什么？需要注意什么？老师傅详细讲解番茄鱼片&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+附录,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;我加入了豆腐,和少量冷冻绿色蔬菜,调个色,增加营养.&lt;/li&gt;
+&lt;/ul&gt;</description><guid>http://blog.binchen.org/posts/fan-jia-yu-pian-tang/</guid><pubDate>Mon, 06 Jun 2022 12:58:45 GMT</pubDate></item><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 In &lt;a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/"&gt;Better Emacs package development workflow&lt;/a&gt;, I proved that running Emacs compiler in CI can give huge boost to package quality.
 &lt;/p&gt;
 
@@ -620,35 +637,4 @@ Run &lt;code&gt;sudo systemctl restart vmtouch&lt;/code&gt; to restart the servi
 
 &lt;p&gt;
 "&lt;i&gt;home/cb&lt;/i&gt;.emacs.d" is not touched because the package &lt;a href="https://github.com/jorgenschaefer/elpy"&gt;elpy&lt;/a&gt; will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
-&lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>systemd</category><category>vmtouch</category><guid>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</guid><pubDate>Sat, 26 Jun 2021 04:46:41 GMT</pubDate></item><item><title>Org link and pdf-tools</title><link>http://blog.binchen.org/posts/org-link-and-pdf-tools/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-By default, &lt;a href="https://orgmode.org/manual/External-Links.html"&gt;Org pdf link&lt;/a&gt; uses &lt;code&gt;doc-view.el&lt;/code&gt; to open pdf. So if you move focus over the link &lt;code&gt;docview:papers/last.pdf::NNN&lt;/code&gt; in a org file and run &lt;code&gt;M-x org-open-at-point&lt;/code&gt;, API &lt;code&gt;doc-view-goto-page&lt;/code&gt; is called.
-&lt;/p&gt;
-
-&lt;p&gt;
-These days &lt;a href="https://github.com/politza/pdf-tools"&gt;pdf-tools&lt;/a&gt; is very popular.
-If pdf-tools is installed and enabled, API call of &lt;code&gt;doc-view-goto-page&lt;/code&gt; will fail.
-&lt;/p&gt;
-
-&lt;p&gt;
-Below code fixes this problem. It will automatically call correct API with or without pdf-tools.
-&lt;/p&gt;
-
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-org-docview-open-hack (orig-func &amp;amp;rest args)
-  (let* ((link (car args)) path page)
-    (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
-    (setq path (match-string 1 link))
-    (setq page (and (match-beginning 2)
-                    (string-to-number (match-string 2 link))))
-    (org-open-file path 1)
-    (when page
-      (cond
-       ((eq major-mode 'pdf-view-mode)
-        (pdf-view-goto-page page))
-       (t
-        (doc-view-goto-page page))))))
-(advice-add 'org-docview-open :around #'my-org-docview-open-hack)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>pdf</category><guid>http://blog.binchen.org/posts/org-link-and-pdf-tools/</guid><pubDate>Wed, 05 May 2021 11:34:28 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>systemd</category><category>vmtouch</category><guid>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</guid><pubDate>Sat, 26 Jun 2021 04:46:41 GMT</pubDate></item></channel></rss>

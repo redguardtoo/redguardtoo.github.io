@@ -23,6 +23,43 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/fan-jia-yu-pian-tang/">番茄鱼片汤</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-06-06T12:58:45+00:00">2022-06-06 12:58</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/fan-jia-yu-pian-tang/#disqus_thread" data-disqus-identifier="cache/posts/fan-jia-yu-pian-tang.html">Comments</a>
+
+
+                </div>
+            
+
+            </div>
+            <div class="body">
+                <ul class="org-ul">
+<li>巴沙鱼挤一下水分,切7毫米至1厘米厚片.</li>
+<li>鱼片加盐鸡精料酒抓一下,加蛋清少量土豆粉搅拌(上浆后鱼片受热表面糊化,锁住鱼片水分)</li>
+<li>番茄底部十字刀,开水烫一分钟,去皮,切块,块不要太小有口感</li>
+<li>葱姜下锅炸出香味,很快(10秒)小火,以免葱变焦难看.</li>
+<li>番茄出汁后加水,水滚后加半勺盐,味精,胡椒粉(可略多点,有辣味),12克(三勺)白醋,和西红柿综合变成果香醋</li>
+<li>加鱼片盖锅焖一分钟,洒香菜和葱丝出锅</li>
+</ul>
+<p>
+视频: <a href="https://www.bilibili.com/video/BV12M4y1V7CX/">龙利鱼腌制诀窍是什么？需要注意什么？老师傅详细讲解番茄鱼片</a>
+</p>
+
+<p>
+附录,
+</p>
+<ul class="org-ul">
+<li>我加入了豆腐,和少量冷冻绿色蔬菜,调个色,增加营养.</li>
+</ul>
+</div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/use-ci-to-improve-the-quality-of-emacs-distribution/">Use CI to improve the quality of emacs distribution</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -895,65 +932,6 @@ Run <code>sudo systemctl restart vmtouch</code> to restart the service.
 <p>
 "<i>home/cb</i>.emacs.d" is not touched because the package <a href="https://github.com/jorgenschaefer/elpy">elpy</a> will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
 </p>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/org-link-and-pdf-tools/">Org link and pdf-tools</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2021-05-05T11:34:28+00:00">2021-05-05 11:34</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/org-link-and-pdf-tools/#disqus_thread" data-disqus-identifier="cache/posts/org-link-and-pdf-tools.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/pdf/" rel="tag">pdf</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-By default, <a href="https://orgmode.org/manual/External-Links.html">Org pdf link</a> uses <code>doc-view.el</code> to open pdf. So if you move focus over the link <code>docview:papers/last.pdf::NNN</code> in a org file and run <code>M-x org-open-at-point</code>, API <code>doc-view-goto-page</code> is called.
-</p>
-
-<p>
-These days <a href="https://github.com/politza/pdf-tools">pdf-tools</a> is very popular.
-If pdf-tools is installed and enabled, API call of <code>doc-view-goto-page</code> will fail.
-</p>
-
-<p>
-Below code fixes this problem. It will automatically call correct API with or without pdf-tools.
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun my-org-docview-open-hack (orig-func &amp;rest args)
-  (let* ((link (car args)) path page)
-    (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
-    (setq path (match-string 1 link))
-    (setq page (and (match-beginning 2)
-                    (string-to-number (match-string 2 link))))
-    (org-open-file path 1)
-    (when page
-      (cond
-       ((eq major-mode 'pdf-view-mode)
-        (pdf-view-goto-page page))
-       (t
-        (doc-view-goto-page page))))))
-(advice-add 'org-docview-open :around #'my-org-docview-open-hack)
-</code></pre>
-
-</div>
             </div>
         </div>
     
