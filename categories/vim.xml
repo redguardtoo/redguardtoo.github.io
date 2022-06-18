@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about vim)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vim.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 25 May 2022 08:08:51 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Auto-complete word in Emacs mini-buffer when using Evil</title><link>http://blog.binchen.org/posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about vim)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vim.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Auto-complete word in Emacs mini-buffer when using Evil</title><link>http://blog.binchen.org/posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 When using &lt;a href="https://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt; I often input &lt;code&gt;%s/old-keyword/new-keyword/g&lt;/code&gt; in &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html"&gt;Minibuffer&lt;/a&gt;.
 &lt;/p&gt;
 
@@ -66,9 +66,9 @@ I will explain how to resolve code merge conflicts with plain vim. The only thir
 &lt;p&gt;
 The reason to use vim is that I can't use vimdiff as a merge tool for certain VCS (CVS, Subversion, Perforce, …).
 &lt;/p&gt;
-&lt;div id="outline-container-org5da1382" class="outline-2"&gt;
-&lt;h3 id="org5da1382"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5da1382"&gt;
+&lt;div id="outline-container-orgb09cf26" class="outline-2"&gt;
+&lt;h3 id="orgb09cf26"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb09cf26"&gt;
 &lt;p&gt;
 A typical file in conflict is like:
 &lt;/p&gt;
@@ -97,9 +97,9 @@ Resolving conflicts is the operation of picking up &lt;b&gt;either or both&lt;/b
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8198629" class="outline-2"&gt;
-&lt;h3 id="org8198629"&gt;Basic knowledge of Vim&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8198629"&gt;
+&lt;div id="outline-container-org5e63741" class="outline-2"&gt;
+&lt;h3 id="org5e63741"&gt;Basic knowledge of Vim&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5e63741"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;"]n" move the focus to the next marker and "[n" to the previous marker.&lt;/li&gt;
 &lt;li&gt;"dd" delete current line&lt;/li&gt;
@@ -108,9 +108,9 @@ Resolving conflicts is the operation of picking up &lt;b&gt;either or both&lt;/b
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgefdb2dc" class="outline-2"&gt;
-&lt;h3 id="orgefdb2dc"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgefdb2dc"&gt;
+&lt;div id="outline-container-orgfb48aee" class="outline-2"&gt;
+&lt;h3 id="orgfb48aee"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfb48aee"&gt;
 &lt;p&gt;
 Our workflow is actually simple:
 &lt;/p&gt;
@@ -136,16 +136,16 @@ map &amp;lt;leader&amp;gt;dg2 d]ndd]ndd
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><category>en</category><category>vim</category><guid>http://blog.binchen.org/posts/use-plain-vim-to-merge-conflicts/</guid><pubDate>Tue, 07 Apr 2015 07:19:37 GMT</pubDate></item><item><title>Use vimdiff to resolve git/subversion/mercurial merge conflicts effectively</title><link>http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-You can jump to &lt;a href="http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#org3014a56"&gt;No description for this link&lt;/a&gt; section at the end of this article.
+You can jump to &lt;a href="http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#org9e61bf8"&gt;No description for this link&lt;/a&gt; section at the end of this article.
 &lt;/p&gt;
 
 &lt;p&gt;
 I use git as an example of version control software. But you can use any other version control software instead.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org5b5df11" class="outline-2"&gt;
-&lt;h3 id="org5b5df11"&gt;The reasons to use vimdiff to do the merge?&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5b5df11"&gt;
+&lt;div id="outline-container-orgfff989e" class="outline-2"&gt;
+&lt;h3 id="orgfff989e"&gt;The reasons to use vimdiff to do the merge?&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfff989e"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;It's free (vim)&lt;/li&gt;
 &lt;li&gt;It works on any OS&lt;/li&gt;
@@ -154,13 +154,13 @@ I use git as an example of version control software. But you can use any other v
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org74e6af7" class="outline-2"&gt;
-&lt;h3 id="org74e6af7"&gt;Setup&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org74e6af7"&gt;
+&lt;div id="outline-container-org488bc5e" class="outline-2"&gt;
+&lt;h3 id="org488bc5e"&gt;Setup&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org488bc5e"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb1d4d35" class="outline-3"&gt;
-&lt;h4 id="orgb1d4d35"&gt;Setup vimdiff (OPTIONAL)&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgb1d4d35"&gt;
+&lt;div id="outline-container-orgb36c331" class="outline-3"&gt;
+&lt;h4 id="orgb36c331"&gt;Setup vimdiff (OPTIONAL)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgb36c331"&gt;
 &lt;p&gt;
 The vimdiff as a merge tool will display several buffers to show YOURS/THEIRS/ORIGINAL code.
 &lt;/p&gt;
@@ -194,9 +194,9 @@ map &amp;lt;silent&amp;gt; &amp;lt;leader&amp;gt;4 :diffget 4&amp;lt;CR&amp;gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcc47d97" class="outline-3"&gt;
-&lt;h4 id="orgcc47d97"&gt;Setup git&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgcc47d97"&gt;
+&lt;div id="outline-container-org897e10a" class="outline-3"&gt;
+&lt;h4 id="org897e10a"&gt;Setup git&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org897e10a"&gt;
 &lt;p&gt;
 Run below commands in shell,
 &lt;/p&gt;
@@ -210,13 +210,13 @@ git config --global mergetool.prompt false
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org0a3757e" class="outline-2"&gt;
-&lt;h3 id="org0a3757e"&gt;Usage&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0a3757e"&gt;
+&lt;div id="outline-container-org9cf50fa" class="outline-2"&gt;
+&lt;h3 id="org9cf50fa"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9cf50fa"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org203b712" class="outline-3"&gt;
-&lt;h4 id="org203b712"&gt;Create a "hello world" project&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org203b712"&gt;
+&lt;div id="outline-container-orgd17132f" class="outline-3"&gt;
+&lt;h4 id="orgd17132f"&gt;Create a "hello world" project&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgd17132f"&gt;
 &lt;p&gt;
 I setup a "hello world" project at &lt;a href="https://github.com/redguardtoo/test-git-mergetool"&gt;https://github.com/redguardtoo/test-git-mergetool&lt;/a&gt; for your practice.
 &lt;/p&gt;
@@ -249,9 +249,9 @@ git merge chen # now some conflicts created because Bob has already edited and m
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org180fc8f" class="outline-3"&gt;
-&lt;h4 id="org180fc8f"&gt;Resolve merge conflict&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org180fc8f"&gt;
+&lt;div id="outline-container-org31a8589" class="outline-3"&gt;
+&lt;h4 id="org31a8589"&gt;Resolve merge conflict&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org31a8589"&gt;
 &lt;p&gt;
 Now start merge tool,
 &lt;/p&gt;
@@ -351,9 +351,9 @@ When you have resolved all the conflicts, follow the hint of git to commit your 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org636515a" class="outline-2"&gt;
-&lt;h3 id="org636515a"&gt;Tips&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org636515a"&gt;
+&lt;div id="outline-container-orgd8fb36d" class="outline-2"&gt;
+&lt;h3 id="orgd8fb36d"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd8fb36d"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;fugitive.vim (&lt;a href="https://github.com/tpope/vim-fugitive"&gt;https://github.com/tpope/vim-fugitive&lt;/a&gt;) can do this too. Actually it can do much more git stuff than merge. I cannot write this article without reading its code&lt;/li&gt;
 &lt;li&gt;You can use Emacs to do the similar job (&lt;a href="http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool"&gt;http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool&lt;/a&gt;). For me, Emacs start up time is too much for this task. Some people use &lt;code&gt;emacsclient&lt;/code&gt; which has other overhead I don't like&lt;/li&gt;
@@ -372,9 +372,9 @@ map [[ [n
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4d270ed" class="outline-2"&gt;
-&lt;h3 id="org4d270ed"&gt;&lt;a id="org3014a56"&gt;&lt;/a&gt;&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org4d270ed"&gt;
+&lt;div id="outline-container-orgcde18ea" class="outline-2"&gt;
+&lt;h3 id="orgcde18ea"&gt;&lt;a id="org9e61bf8"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgcde18ea"&gt;
 &lt;p&gt;
 You can use command line like "git mergetool -t vimdiff" to start vimdiff from git.
 &lt;/p&gt;
@@ -405,16 +405,16 @@ Then you can press hot key ",2" ",3" ",4" in vimdiff to pull change from top thr
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9b8c045" class="outline-2"&gt;
-&lt;h3 id="org9b8c045"&gt;subversion/mercurial&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9b8c045"&gt;
+&lt;div id="outline-container-org1bef2f9" class="outline-2"&gt;
+&lt;h3 id="org1bef2f9"&gt;subversion/mercurial&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1bef2f9"&gt;
 &lt;p&gt;
 Until now I'm focusing on how to tweak the vimdiff UI because the git has already setup the &lt;a href="https://github.com/git/git/blob/master/mergetools/vimdiff"&gt;basic vimdiff layout for us&lt;/a&gt;. So we just follow the Git layout in other VCS.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgdeed255" class="outline-3"&gt;
-&lt;h4 id="orgdeed255"&gt;subversion&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgdeed255"&gt;
+&lt;div id="outline-container-org785e242" class="outline-3"&gt;
+&lt;h4 id="org785e242"&gt;subversion&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org785e242"&gt;
 &lt;p&gt;
 Insert below code into ~/.subversion/config:
 &lt;/p&gt;
@@ -463,9 +463,9 @@ vimdiff -f -d -c 'wincmd J' "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4051f15" class="outline-2"&gt;
-&lt;h3 id="org4051f15"&gt;mercurial&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org4051f15"&gt;
+&lt;div id="outline-container-org0e438ba" class="outline-2"&gt;
+&lt;h3 id="org0e438ba"&gt;mercurial&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0e438ba"&gt;
 &lt;p&gt;
 Insert below code into &lt;code&gt;~/.hgrc&lt;/code&gt;:
 &lt;/p&gt;
