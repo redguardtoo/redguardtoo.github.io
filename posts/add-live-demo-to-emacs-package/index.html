@@ -120,20 +120,6 @@ index 9005ca4..8f7a8ae 100644
 +   @mkdir -p deps;
 +   @if [ ! -f deps/ivy-0.13.4/ivy.el ]; then curl -L https://stable.melpa.org/packages/ivy-0.13.4.tar | tar x -C deps/; fi;
 +   @$(EMACS) $(EMACS_GENERIC_OPTS) --load ./tests/emacs-init.el
-diff --git a/README.org b/README.org
-index 191d4a7..ab0e913 100644
---- a/README.org
-+++ b/README.org
-@@ -20,7 +20,8 @@ Diff/patch files. Target files could be under any Version Control Software (VCS)
- *Screenshot:*
-
- [[https://raw.githubusercontent.com/redguardtoo/find-file-in-project/master/ffip-screenshot-nq8.png]]
--
-+* Try it
-+Run =make runemacs= in this project's root directory. The demo works out of box.
- * Install
- Place [[https://raw.githubusercontent.com/redguardtoo/find-file-in-project/master/find-file-in-project.el][find-file-in-project.el]] under [[https://www.emacswiki.org/emacs/LoadPath][Load Path]]. Then add =(require 'find-file-in-project)= to your configuration.
-
 diff --git a/tests/emacs-init.el b/tests/emacs-init.el
 new file mode 100644
 index 0000000..a4df068
