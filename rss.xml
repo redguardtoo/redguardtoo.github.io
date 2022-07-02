@@ -1,5 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:45 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>蒸茄盒</title><link>http://blog.binchen.org/posts/zheng-jia-he/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 02 Jul 2022 13:41:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Add live demo to emacs package</title><link>http://blog.binchen.org/posts/add-live-demo-to-emacs-package/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Emacs package developers sometimes need add live demo to her/his project.
+&lt;/p&gt;
+
+&lt;p&gt;
+The requirement came from the &lt;a href="https://github.com/tumashu/pyim/pull/446#issuecomment-1163886411"&gt;my discussion with pyim's developer&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+With all the linting and unit tests running for ages, he still need a quick way to test if the package actually works on Emacs 25 (and other Emacs versions). I totally agree with him because I got the similar issues from my own projects many times.
+&lt;/p&gt;
+
+&lt;p&gt;
+A live demo built into the project is very useful for developers and testers.
+&lt;/p&gt;
+
+&lt;p&gt;
+Besides, a live demo could help users. They try the new package with no hassle. They don't modify their own emacs configuration to try the new package.
+&lt;/p&gt;
+
+&lt;p&gt;
+So I figure out a simple solution. The best part is that even huge packages could use this solution with minimum change if their CI script is already set up.
+&lt;/p&gt;
+
+&lt;p&gt;
+In a package's CI script, Emacs is running in batch mode (with "–batch" option). What I suggest is add another Makefile task &lt;code&gt;runemacs&lt;/code&gt; which is very similar to the original CI task. But in this task, the "–batch" options is removed.
+&lt;/p&gt;
+
+&lt;p&gt;
+See &lt;a href="https://github.com/redguardtoo/find-file-in-project/commit/b258f96d9663d9bf6ff7de1ff6bbfb921b30ea77"&gt;the solution I added for find-file-in-project&lt;/a&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-diff"&gt;diff --git a/Makefile b/Makefile
+index 9005ca4..8f7a8ae 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,8 @@
+ SHELL = /bin/sh
+ EMACS ?= emacs
+ PROFILER =
+-EMACS_BATCH_OPTS=--batch -Q -l find-file-in-project.el
++EMACS_GENERIC_OPTS=-Q -L . -L deps/ivy-0.13.4
++EMACS_BATCH_OPTS:=--batch $(EMACS_GENERIC_OPTS)
+ RM = @rm -rf
+
+ .PHONY: test clean test compile
+@@ -18,3 +19,8 @@ compile: clean
+ # Run tests.
+ test: compile
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l tests/ffip-tests.el
++
++runemacs:
++   @mkdir -p deps;
++   @if [ ! -f deps/ivy-0.13.4/ivy.el ]; then curl -L https://stable.melpa.org/packages/ivy-0.13.4.tar | tar x -C deps/; fi;
++   @$(EMACS) $(EMACS_GENERIC_OPTS) --load ./tests/emacs-init.el
+diff --git a/README.org b/README.org
+index 191d4a7..ab0e913 100644
+--- a/README.org
++++ b/README.org
+@@ -20,7 +20,8 @@ Diff/patch files. Target files could be under any Version Control Software (VCS)
+ *Screenshot:*
+
+ [[https://raw.githubusercontent.com/redguardtoo/find-file-in-project/master/ffip-screenshot-nq8.png]]
+-
++* Try it
++Run =make runemacs= in this project's root directory. The demo works out of box.
+ * Install
+ Place [[https://raw.githubusercontent.com/redguardtoo/find-file-in-project/master/find-file-in-project.el][find-file-in-project.el]] under [[https://www.emacswiki.org/emacs/LoadPath][Load Path]]. Then add =(require 'find-file-in-project)= to your configuration.
+
+diff --git a/tests/emacs-init.el b/tests/emacs-init.el
+new file mode 100644
+index 0000000..a4df068
+--- /dev/null
++++ b/tests/emacs-init.el
+@@ -0,0 +1,17 @@
++(require 'find-file-in-project)
++(require 'ivy)
++(ivy-mode 1)
++(setq ffip-match-path-instead-of-filename t)
++(run-with-idle-timer
++ 1
++ nil
++ (lambda ()
++   (erase-buffer)
++   (goto-char (point-min))
++   (insert
++    ";; Setup of this demo,\n"
++    "(setq ffip-match-path-instead-of-filename t)\n\n\n"
++    ";; Run \"M-x find-file-in-project-by-selected\" and input search keyword \"el\" or \"tests\".\n\n\n"
++    ";; Move cursor above below paths and run \"M-x find-file-in-project-at-point\",\n\n"
++    ";;   tests/ffip-tests.el ; open file directly \n"
++    ";;   find-file-in-project.el:50 ; open file and jump to line 50\n")))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Similar solution is also used in &lt;a href="https://github.com/tumashu/pyim"&gt;pyim&lt;/a&gt;, it's one liner in shell to test it in Emacs 25,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;EMACS=/home/cb/what-ever-path/25.1/bin/emacs make runemacs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>lisp</category><guid>http://blog.binchen.org/posts/add-live-demo-to-emacs-package/</guid><pubDate>Sat, 02 Jul 2022 13:37:26 GMT</pubDate></item><item><title>蒸茄盒</title><link>http://blog.binchen.org/posts/zheng-jia-he/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
 &lt;li&gt;两个茄子选软且颜色深,去皮.抹盐再冲掉(为了避免表面变黑),切茄盒&lt;/li&gt;
 &lt;li&gt;葱姜末,料酒,肉米,全蛋,少许盐鸡精,花椒水三勺,二合一酱油20克,加淀粉适量(不用太多,2~3勺)锁住水分.搅拌制作成馅(口感类似午餐肉)&lt;/li&gt;
 &lt;li&gt;茄盒加入馅,摆盘后洒三分口盐(盐引出茄子的汁),大火蒸15分钟,洒红绿尖椒末,蒸一分钟&lt;/li&gt;
@@ -600,25 +705,4 @@ ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
 
 &lt;div id="org5d3cef0" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/suantai-egg.jpg" alt="suantai-egg.jpg"&gt;
-&lt;/p&gt;&lt;/div&gt;</description><category>egg</category><category>food</category><category>zh</category><guid>http://blog.binchen.org/posts/suan-tai-chao-dan/</guid><pubDate>Fri, 15 Oct 2021 12:24:19 GMT</pubDate></item><item><title>麻婆豆腐</title><link>http://blog.binchen.org/posts/ma-po-dou-fu/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-视频教程见&lt;a href="https://www.youtube.com/watch?v=vm3jVXajBi8"&gt;大师的菜 麻婆豆腐&lt;/a&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-要点,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;豆腐要嫩, 过开水去豆腥味, 加盐提味,一点酱油提色&lt;/li&gt;
-&lt;li&gt;牛肉末炒酥取出&lt;/li&gt;
-&lt;li&gt;加豆瓣酱,豆豉,辣椒面等.不能加姜,会压住其他味.炒到发香.加肉末,加高汤&lt;/li&gt;
-&lt;li&gt;汤最多到豆腐的50%&lt;/li&gt;
-&lt;li&gt;用炒勺的背面推豆腐保持豆腐完整&lt;/li&gt;
-&lt;li&gt;三次勾芡(第一次让味进入豆腐,第二次起到拉力作用,第三次彻底粘合,不要吐水出来)&lt;/li&gt;
-&lt;li&gt;最后用小火甚至微火,多烧一下才入味(要不断推豆腐,否则豆腐沾锅底)&lt;/li&gt;
-&lt;li&gt;起锅前加入蒜苗, 少许花椒粒烤热后磨成粉撒入&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div id="org75237d9" class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/mapotofu.jpg" alt="mapotofu.jpg"&gt;
-&lt;/p&gt;
-&lt;/div&gt;</description><category>food</category><category>toufu</category><category>zh</category><guid>http://blog.binchen.org/posts/ma-po-dou-fu/</guid><pubDate>Wed, 13 Oct 2021 08:10:31 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;&lt;/div&gt;</description><category>egg</category><category>food</category><category>zh</category><guid>http://blog.binchen.org/posts/suan-tai-chao-dan/</guid><pubDate>Fri, 15 Oct 2021 12:24:19 GMT</pubDate></item></channel></rss>

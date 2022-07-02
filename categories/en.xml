@@ -1,5 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:43 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 02 Jul 2022 13:41:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Add live demo to emacs package</title><link>http://blog.binchen.org/posts/add-live-demo-to-emacs-package/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Emacs package developers sometimes need add live demo to her/his project.
+&lt;/p&gt;
+
+&lt;p&gt;
+The requirement came from the &lt;a href="https://github.com/tumashu/pyim/pull/446#issuecomment-1163886411"&gt;my discussion with pyim's developer&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+With all the linting and unit tests running for ages, he still need a quick way to test if the package actually works on Emacs 25 (and other Emacs versions). I totally agree with him because I got the similar issues from my own projects many times.
+&lt;/p&gt;
+
+&lt;p&gt;
+A live demo built into the project is very useful for developers and testers.
+&lt;/p&gt;
+
+&lt;p&gt;
+Besides, a live demo could help users. They try the new package with no hassle. They don't modify their own emacs configuration to try the new package.
+&lt;/p&gt;
+
+&lt;p&gt;
+So I figure out a simple solution. The best part is that even huge packages could use this solution with minimum change if their CI script is already set up.
+&lt;/p&gt;
+
+&lt;p&gt;
+In a package's CI script, Emacs is running in batch mode (with "–batch" option). What I suggest is add another Makefile task &lt;code&gt;runemacs&lt;/code&gt; which is very similar to the original CI task. But in this task, the "–batch" options is removed.
+&lt;/p&gt;
+
+&lt;p&gt;
+See &lt;a href="https://github.com/redguardtoo/find-file-in-project/commit/b258f96d9663d9bf6ff7de1ff6bbfb921b30ea77"&gt;the solution I added for find-file-in-project&lt;/a&gt;,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-diff"&gt;diff --git a/Makefile b/Makefile
+index 9005ca4..8f7a8ae 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,8 @@
+ SHELL = /bin/sh
+ EMACS ?= emacs
+ PROFILER =
+-EMACS_BATCH_OPTS=--batch -Q -l find-file-in-project.el
++EMACS_GENERIC_OPTS=-Q -L . -L deps/ivy-0.13.4
++EMACS_BATCH_OPTS:=--batch $(EMACS_GENERIC_OPTS)
+ RM = @rm -rf
+
+ .PHONY: test clean test compile
+@@ -18,3 +19,8 @@ compile: clean
+ # Run tests.
+ test: compile
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l tests/ffip-tests.el
++
++runemacs:
++   @mkdir -p deps;
++   @if [ ! -f deps/ivy-0.13.4/ivy.el ]; then curl -L https://stable.melpa.org/packages/ivy-0.13.4.tar | tar x -C deps/; fi;
++   @$(EMACS) $(EMACS_GENERIC_OPTS) --load ./tests/emacs-init.el
+diff --git a/README.org b/README.org
+index 191d4a7..ab0e913 100644
+--- a/README.org
++++ b/README.org
+@@ -20,7 +20,8 @@ Diff/patch files. Target files could be under any Version Control Software (VCS)
+ *Screenshot:*
+
+ [[https://raw.githubusercontent.com/redguardtoo/find-file-in-project/master/ffip-screenshot-nq8.png]]
+-
++* Try it
++Run =make runemacs= in this project's root directory. The demo works out of box.
+ * Install
+ Place [[https://raw.githubusercontent.com/redguardtoo/find-file-in-project/master/find-file-in-project.el][find-file-in-project.el]] under [[https://www.emacswiki.org/emacs/LoadPath][Load Path]]. Then add =(require 'find-file-in-project)= to your configuration.
+
+diff --git a/tests/emacs-init.el b/tests/emacs-init.el
+new file mode 100644
+index 0000000..a4df068
+--- /dev/null
++++ b/tests/emacs-init.el
+@@ -0,0 +1,17 @@
++(require 'find-file-in-project)
++(require 'ivy)
++(ivy-mode 1)
++(setq ffip-match-path-instead-of-filename t)
++(run-with-idle-timer
++ 1
++ nil
++ (lambda ()
++   (erase-buffer)
++   (goto-char (point-min))
++   (insert
++    ";; Setup of this demo,\n"
++    "(setq ffip-match-path-instead-of-filename t)\n\n\n"
++    ";; Run \"M-x find-file-in-project-by-selected\" and input search keyword \"el\" or \"tests\".\n\n\n"
++    ";; Move cursor above below paths and run \"M-x find-file-in-project-at-point\",\n\n"
++    ";;   tests/ffip-tests.el ; open file directly \n"
++    ";;   find-file-in-project.el:50 ; open file and jump to line 50\n")))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Similar solution is also used in &lt;a href="https://github.com/tumashu/pyim"&gt;pyim&lt;/a&gt;, it's one liner in shell to test it in Emacs 25,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;EMACS=/home/cb/what-ever-path/25.1/bin/emacs make runemacs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>lisp</category><guid>http://blog.binchen.org/posts/add-live-demo-to-emacs-package/</guid><pubDate>Sat, 02 Jul 2022 13:37:26 GMT</pubDate></item><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 In &lt;a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/"&gt;Better Emacs package development workflow&lt;/a&gt;, I proved that running Emacs compiler in CI can give huge boost to package quality.
 &lt;/p&gt;
 
@@ -837,14 +942,4 @@ If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "fast" (default value),
 
 &lt;p&gt;
 If &lt;code&gt;wucuo-flyspell-start-mode&lt;/code&gt; is "normal", &lt;code&gt;flyspell-buffer&lt;/code&gt; is used, current buffer is checked when user saves current file.
-&lt;/p&gt;</description><category>check</category><category>emacs</category><category>en</category><category>flyspell</category><category>spell</category><guid>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</guid><pubDate>Sun, 17 May 2020 06:20:55 GMT</pubDate></item><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
-&lt;li&gt;Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and turn off mic to reduce the noise&lt;/li&gt;
-&lt;li&gt;Run &lt;code&gt;alsamixer&lt;/code&gt; to double check pulse setup&lt;/li&gt;
-&lt;li&gt;Make sure correct device is selected in &lt;a href="https://www.audacityteam.org/"&gt;audacity&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Restart &lt;code&gt;audacity&lt;/code&gt; and test&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-My &lt;code&gt;alsamixer&lt;/code&gt; setup,
-&lt;img src="http://blog.binchen.org/wp-content/alsamixer-nq8.png" alt="alsamixer-nq8.png"&gt;
-&lt;/p&gt;</description><category>audio</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/audio-recording-on-linux/</guid><pubDate>Thu, 07 May 2020 12:04:13 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;</description><category>check</category><category>emacs</category><category>en</category><category>flyspell</category><category>spell</category><guid>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</guid><pubDate>Sun, 17 May 2020 06:20:55 GMT</pubDate></item></channel></rss>

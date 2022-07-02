@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Add live demo to emacs package | Chen's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://blog.binchen.org/posts/add-live-demo-to-emacs-package/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
+<meta property="og:site_name" content="Chen's blog">
+<meta property="og:title" content="Add live demo to emacs package">
+<meta property="og:url" content="http://blog.binchen.org/posts/add-live-demo-to-emacs-package/">
+<meta property="og:description" content="Emacs package developers sometimes need add live demo to her/his project.
+
+
+
+The requirement came from the my discussion with pyim's developer.
+
+
+
+With all the linting and unit tests running for ages,">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-07-02T13:37:26Z">
+<meta property="article:tag" content="emacs">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="lisp">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="../../stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">Add live demo to emacs package</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2022-07-02T13:37:26+00:00">2022-07-02 13:37</time>
+            
+
+            
+          |  
+        <a href="index.wp" id="sourcelink">Source</a>
+
+            </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="../../categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/lisp/" rel="tag">lisp</a></li>
+        </ul>
+</div>
+
+        </div>
+        <div class="body">
+            <p>
+Emacs package developers sometimes need add live demo to her/his project.
+</p>
+
+<p>
+The requirement came from the <a href="https://github.com/tumashu/pyim/pull/446#issuecomment-1163886411">my discussion with pyim's developer</a>.
+</p>
+
+<p>
+With all the linting and unit tests running for ages, he still need a quick way to test if the package actually works on Emacs 25 (and other Emacs versions). I totally agree with him because I got the similar issues from my own projects many times.
+</p>
+
+<p>
+A live demo built into the project is very useful for developers and testers.
+</p>
+
+<p>
+Besides, a live demo could help users. They try the new package with no hassle. They don't modify their own emacs configuration to try the new package.
+</p>
+
+<p>
+So I figure out a simple solution. The best part is that even huge packages could use this solution with minimum change if their CI script is already set up.
+</p>
+
+<p>
+In a package's CI script, Emacs is running in batch mode (with "–batch" option). What I suggest is add another Makefile task <code>runemacs</code> which is very similar to the original CI task. But in this task, the "–batch" options is removed.
+</p>
+
+<p>
+See <a href="https://github.com/redguardtoo/find-file-in-project/commit/b258f96d9663d9bf6ff7de1ff6bbfb921b30ea77">the solution I added for find-file-in-project</a>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-diff">diff --git a/Makefile b/Makefile
+index 9005ca4..8f7a8ae 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,8 @@
+ SHELL = /bin/sh
+ EMACS ?= emacs
+ PROFILER =
+-EMACS_BATCH_OPTS=--batch -Q -l find-file-in-project.el
++EMACS_GENERIC_OPTS=-Q -L . -L deps/ivy-0.13.4
++EMACS_BATCH_OPTS:=--batch $(EMACS_GENERIC_OPTS)
+ RM = @rm -rf
+
+ .PHONY: test clean test compile
+@@ -18,3 +19,8 @@ compile: clean
+ # Run tests.
+ test: compile
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l tests/ffip-tests.el
++
++runemacs:
++   @mkdir -p deps;
++   @if [ ! -f deps/ivy-0.13.4/ivy.el ]; then curl -L https://stable.melpa.org/packages/ivy-0.13.4.tar | tar x -C deps/; fi;
++   @$(EMACS) $(EMACS_GENERIC_OPTS) --load ./tests/emacs-init.el
+diff --git a/README.org b/README.org
+index 191d4a7..ab0e913 100644
+--- a/README.org
++++ b/README.org
+@@ -20,7 +20,8 @@ Diff/patch files. Target files could be under any Version Control Software (VCS)
+ *Screenshot:*
+
+ [[https://raw.githubusercontent.com/redguardtoo/find-file-in-project/master/ffip-screenshot-nq8.png]]
+-
++* Try it
++Run =make runemacs= in this project's root directory. The demo works out of box.
+ * Install
+ Place [[https://raw.githubusercontent.com/redguardtoo/find-file-in-project/master/find-file-in-project.el][find-file-in-project.el]] under [[https://www.emacswiki.org/emacs/LoadPath][Load Path]]. Then add =(require 'find-file-in-project)= to your configuration.
+
+diff --git a/tests/emacs-init.el b/tests/emacs-init.el
+new file mode 100644
+index 0000000..a4df068
+--- /dev/null
++++ b/tests/emacs-init.el
+@@ -0,0 +1,17 @@
++(require 'find-file-in-project)
++(require 'ivy)
++(ivy-mode 1)
++(setq ffip-match-path-instead-of-filename t)
++(run-with-idle-timer
++ 1
++ nil
++ (lambda ()
++   (erase-buffer)
++   (goto-char (point-min))
++   (insert
++    ";; Setup of this demo,\n"
++    "(setq ffip-match-path-instead-of-filename t)\n\n\n"
++    ";; Run \"M-x find-file-in-project-by-selected\" and input search keyword \"el\" or \"tests\".\n\n\n"
++    ";; Move cursor above below paths and run \"M-x find-file-in-project-at-point\",\n\n"
++    ";;   tests/ffip-tests.el ; open file directly \n"
++    ";;   find-file-in-project.el:50 ; open file and jump to line 50\n")))
+</code></pre>
+
+</div>
+
+<p>
+Similar solution is also used in <a href="https://github.com/tumashu/pyim">pyim</a>, it's one liner in shell to test it in Emacs 25,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">EMACS=/home/cb/what-ever-path/25.1/bin/emacs make runemacs
+</code></pre>
+
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../zheng-jia-he/" rel="prev" title="蒸茄盒">Previous post</a>
+            </li>
+        </ul>
+<div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chenbin0",
+            disqus_url="http://blog.binchen.org/posts/add-live-demo-to-emacs-package/",
+        disqus_title="Add live demo to emacs package",
+        disqus_identifier="cache/posts/add-live-demo-to-emacs-package.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+    
+
+
+    </div>
+
+    
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+         document.addEventListener('DOMContentLoaded', function() {
+           var items = document.getElementsByClassName('timeago'), e, pd;
+           for (var i = 0; i < items.length; i++) {
+             e = items[i];
+             pd = moment(new Date(e.getAttribute('datetime')));
+             e.innerHTML = pd.fromNow();
+             e.setAttribute('title', pd.format('LLLL'));
+           }
+         });
+        </script>
+</body>
+</html>
