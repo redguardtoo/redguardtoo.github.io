@@ -1,5 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emms)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emms.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 25 May 2022 08:08:51 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about emms)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/emms.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 12 Jul 2022 13:32:32 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to use EMMS effectively</title><link>http://blog.binchen.org/posts/how-to-use-emms-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+First thing is setup emms.
+&lt;/p&gt;
+
+&lt;p&gt;
+I could simply enable all the emms features in one line,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'emms (emms-all))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+But above setup makes filtering tracks very slow because it's too heavy weight. 
+&lt;/p&gt;
+
+&lt;p&gt;
+So I use below setup,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'emms
+  ;; minimum setup is more robust
+  (emms-minimalistic)
+
+  ;; `emms-info-native' supports mp3,flac and requires NO cli tools
+  (unless (memq 'emms-info-native emms-info-functions)
+    (require 'emms-info-native)
+    (push 'emms-info-native emms-info-functions))
+
+  ;; extract track info when loading the playlist
+  (push 'emms-info-initialize-track emms-track-initialize-functions)
+
+  ;; I also use emms to manage tv shows, so I use mplayer only
+  (setq emms-player-list '(emms-player-mplayer)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Play mp3&amp;amp;flac in "~/Dropbox/music",
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-music ()
+  "My music."
+  (interactive)
+  (my-ensure 'emms)
+  (emms-stop)
+  (when (bufferp emms-playlist-buffer-name)
+    (kill-buffer emms-playlist-buffer-name))
+  (emms-play-directory-tree "~/Dropbox/music")
+  (emms-shuffle)
+  (emms-next))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Sometimes I need focus on some challenge programming task and I need play only Mozart or Bach. 
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar my-emms-playlist-filter-keyword "mozart|bach"
+  "Keyword to filter tracks in emms playlist.
+Space in the keyword matches any characters.
+ \"|\" means OR operator in regexp.")
+
+(defun my-emms-track-description (track)
+  "Description of TRACK."
+  (let ((desc (emms-track-simple-description track))
+        (type (emms-track-type track)))
+    (when (eq 'file type)
+      (setq desc (my-strip-path desc 2)))
+    desc))
+
+(defvar my-emms-track-regexp-function
+  (lambda (str)
+    ;; can search track with Chinese information
+    (my-emms-track-regexp-internal (my-extended-regexp str)))
+  "Get regexp to search track.")
+
+(defun my-emms-track-regexp-internal (keyword)
+  "Convert KEYWORD into regexp for matching tracks."
+  (let* ((re (replace-regexp-in-string "|" "\\\\|" keyword)))
+    (setq re (replace-regexp-in-string " +" ".*" re))))
+
+(defun my-emms-track-match-p (track keyword)
+  "Test if TRACK's information match KEYWORD."
+  (let* ((case-fold-search t)
+         (regexp (funcall my-emms-track-regexp-function keyword))
+         s)
+    (or (string-match regexp (emms-track-force-description track))
+        (and (setq s (emms-track-get track 'info-genre)) (string-match regexp s))
+        (and (setq s (emms-track-get track 'info-title)) (string-match regexp s))
+        (and (setq s (emms-track-get track 'info-album)) (string-match regexp s))
+        (and (setq s (emms-track-get track 'info-composer)) (string-match regexp s))
+        (and (setq s (emms-track-get track 'info-artist)) (string-match regexp s)))))
+
+(defun my-emms-show ()
+  "Show information of current track."
+  (interactive)
+  (let* ((emms-track-description-function (lambda (track)
+                                            (let ((composer (emms-track-get track 'info-composer))
+                                                  (artist (emms-track-get track 'info-artist)))
+                                              (concat (if composer (format "%s(C) =&amp;gt; " composer))
+                                                      (if artist (format "%s(A) =&amp;gt; " artist))
+                                                      (my-emms-track-description track))))))
+    (emms-show)))
+
+(defun my-emms-playlist-filter (&amp;amp;optional input-p)
+  "Filter tracks in emms playlist.
+If INPUT-P is t, `my-emms-playlist-random-track-keyword' is input by user."
+  (interactive "P")
+  ;; shuffle the playlist
+  (when input-p
+    (setq my-emms-playlist-filter-keyword
+          (read-string "Keyword to filter tracks in playlist: ")))
+  (with-current-buffer emms-playlist-buffer-name
+    (goto-char (point-min))
+    (let* ((case-fold-search t)
+           track)
+      (while (setq track (emms-playlist-track-at))
+        (cond
+         ((my-emms-track-match-p track my-emms-playlist-filter-keyword)
+          (forward-line 1))
+         (t
+          (emms-playlist-mode-kill-track))))))
+
+  (emms-random)
+  ;; show current track info
+  (my-emms-show))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As you can see, some knowledge on EMMS API could go a long way.
+&lt;/p&gt;
+
+&lt;p&gt;
+If you want to study EMMS API by practice, run &lt;code&gt;M-x emms-playlist-mode-go&lt;/code&gt;, then &lt;code&gt;M-x eval-expression RETURN (emms-playlist-track-at)&lt;/code&gt; to get the information of the track at point.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is &lt;a href="https://github.com/redguardtoo/emacs.d/blob/95de4c2895be7e01e2438189af0d3f69b8e2bb7e/lisp/init-emms.el"&gt;my real world emms setup&lt;/a&gt;.&lt;/p&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>lisp</category><guid>http://blog.binchen.org/posts/how-to-use-emms-effectively/</guid><pubDate>Tue, 12 Jul 2022 13:30:43 GMT</pubDate></item><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Emacs server need be started first.
 &lt;/p&gt;
 
