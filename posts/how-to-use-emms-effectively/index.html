@@ -150,10 +150,7 @@ Space in the keyword matches any characters.
       (setq desc (my-strip-path desc 2)))
     desc))
 
-(defvar my-emms-track-regexp-function
-  (lambda (str)
-    ;; can search track with Chinese information
-    (my-emms-track-regexp-internal (my-extended-regexp str)))
+(defvar my-emms-track-regexp-function #'my-emms-track-regexp-internal
   "Get regexp to search track.")
 
 (defun my-emms-track-regexp-internal (keyword)
@@ -219,7 +216,21 @@ If you want to study EMMS API by practice, run <code>M-x emms-playlist-mode-go</
 </p>
 
 <p>
-Here is <a href="https://github.com/redguardtoo/emacs.d/blob/95de4c2895be7e01e2438189af0d3f69b8e2bb7e/lisp/init-emms.el">my real world emms setup</a>.</p>
+Here is <a href="https://github.com/redguardtoo/emacs.d/blob/95de4c2895be7e01e2438189af0d3f69b8e2bb7e/lisp/init-emms.el">my real world emms setup</a> where you can see below code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defvar my-emms-track-regexp-function
+  (lambda (str)
+    ;; can search track with Chinese information
+    (my-emms-track-regexp-internal (my-extended-regexp str)))
+  "Get regexp to search track.")
+</code></pre>
+
+</div>
+
+<p>
+So I can use <a href="https://en.wikipedia.org/wiki/Pinyin">Pinyin</a> to search track's Chinese information. I don't know any other multimedia manager can do the same thing.</p>
         </div>
         
         <ul class="pager hidden-print">
