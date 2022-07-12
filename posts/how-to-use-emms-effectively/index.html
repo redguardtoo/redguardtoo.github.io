@@ -142,6 +142,18 @@ Sometimes I need focus on some challenge programming task and I need play only M
 Space in the keyword matches any characters.
  \"|\" means OR operator in regexp.")
 
+(defun my-strip-path (path strip-count)
+  "Strip PATH with STRIP-COUNT."
+  (let* ((i (1- (length path)))
+         str)
+    (while (and (&gt; strip-count 0)
+                (&gt; i 0))
+      (when (= (aref path i) ?/)
+        (setq strip-count (1- strip-count)))
+      (setq i (1- i)))
+    (setq str (if (= 0 strip-count) (substring path (1+ i)) path))
+    (replace-regexp-in-string "^/" "" str)))
+
 (defun my-emms-track-description (track)
   "Description of TRACK."
   (let ((desc (emms-track-simple-description track))

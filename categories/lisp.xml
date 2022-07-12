@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about lisp)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/lisp.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 12 Jul 2022 13:48:29 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to use EMMS effectively</title><link>http://blog.binchen.org/posts/how-to-use-emms-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about lisp)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/lisp.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 12 Jul 2022 13:51:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to use EMMS effectively</title><link>http://blog.binchen.org/posts/how-to-use-emms-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 First thing is to set up emms.
 &lt;/p&gt;
 
@@ -68,6 +68,18 @@ Sometimes I need focus on some challenge programming task and I need play only M
   "Keyword to filter tracks in emms playlist.
 Space in the keyword matches any characters.
  \"|\" means OR operator in regexp.")
+
+(defun my-strip-path (path strip-count)
+  "Strip PATH with STRIP-COUNT."
+  (let* ((i (1- (length path)))
+         str)
+    (while (and (&amp;gt; strip-count 0)
+                (&amp;gt; i 0))
+      (when (= (aref path i) ?/)
+        (setq strip-count (1- strip-count)))
+      (setq i (1- i)))
+    (setq str (if (= 0 strip-count) (substring path (1+ i)) path))
+    (replace-regexp-in-string "^/" "" str)))
 
 (defun my-emms-track-description (track)
   "Description of TRACK."
