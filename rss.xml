@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 13 Jul 2022 13:25:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Show files by date in SOME Emacs dired buffer</title><link>http://blog.binchen.org/posts/show-files-by-date-in-some-emacs-dired-buffer/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 13 Jul 2022 13:27:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Show files by date in SOME Emacs dired buffer</title><link>http://blog.binchen.org/posts/show-files-by-date-in-some-emacs-dired-buffer/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 It's as simple as modify &lt;code&gt;dired-actual-switches&lt;/code&gt; in &lt;code&gt;dired-mode-hook&lt;/code&gt;.
 &lt;/p&gt;
 
@@ -10,9 +10,9 @@ Minimum setup,
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar my-dired-new-file-first-dirs
   '("bt/finished/$"
-    "bt/torrent/$"
+    "bt/torrents?/$"
     "documents?/$"
-    "music?/$"
+    "music/$"
     "downloads?/$")
   "Dired directory patterns where newest files are on the top.")
 
@@ -29,7 +29,7 @@ Minimum setup,
 &lt;/div&gt;
 
 &lt;p&gt;
-Here is my &lt;a href="https://github.com/redguardtoo/emacs.d/blob/7ab1da4fe54d1ac94acaa1efd5717e769e295053/lisp/init-dired.el#L98"&gt;real world setup&lt;/a&gt;.
+Here is my &lt;a href="https://github.com/redguardtoo/emacs.d/blob/84a9c20e4702395fbd06347afbd995e3e9d139a6/lisp/init-dired.el#L98"&gt;real world setup&lt;/a&gt;.
 &lt;/p&gt;</description><category>dired</category><category>emacs</category><category>en</category><category>lisp</category><guid>http://blog.binchen.org/posts/show-files-by-date-in-some-emacs-dired-buffer/</guid><pubDate>Wed, 13 Jul 2022 13:24:39 GMT</pubDate></item><item><title>How to use EMMS effectively</title><link>http://blog.binchen.org/posts/how-to-use-emms-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 First thing is to set up emms.
 &lt;/p&gt;
