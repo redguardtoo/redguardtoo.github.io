@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about lisp)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/lisp.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 12 Jul 2022 13:54:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to use EMMS effectively</title><link>http://blog.binchen.org/posts/how-to-use-emms-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about lisp)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/lisp.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 13 Jul 2022 06:43:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to use EMMS effectively</title><link>http://blog.binchen.org/posts/how-to-use-emms-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 First thing is to set up emms.
 &lt;/p&gt;
 
@@ -48,7 +48,6 @@ Play mp3&amp;amp;flac in "~/Dropbox/music",
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-music ()
   "My music."
   (interactive)
-  (my-ensure 'emms)
   (emms-stop)
   (when (bufferp emms-playlist-buffer-name)
     (kill-buffer emms-playlist-buffer-name))

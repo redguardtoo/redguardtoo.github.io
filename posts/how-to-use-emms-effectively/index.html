@@ -121,7 +121,6 @@ Play mp3&amp;flac in "~/Dropbox/music",
 <pre><code class="lang-lisp">(defun my-music ()
   "My music."
   (interactive)
-  (my-ensure 'emms)
   (emms-stop)
   (when (bufferp emms-playlist-buffer-name)
     (kill-buffer emms-playlist-buffer-name))
