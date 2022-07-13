@@ -23,6 +23,59 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/start-teamviewer-on-i3wm/">Start teamviewer on i3wm</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-03-27T02:16:17+00:00">2022-03-27 02:16</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/start-teamviewer-on-i3wm/#disqus_thread" data-disqus-identifier="cache/posts/start-teamviewer-on-i3wm.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/i3/" rel="tag">i3</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/teamviewer/" rel="tag">teamviewer</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+See <a href="https://community.teamviewer.com/English/discussion/17737/debian-linux-program-does-not-start">yveslec's analysis</a>.
+</p>
+
+<p>
+So the solution is just one liner in shell.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">ssh -X 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+</code></pre>
+
+</div>
+
+<p>
+Here is my shell script "~/bin/sshx-teamviewer.sh" with a bit optimization,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/sh
+# Run "cat ~/.ssh/id_rsa.pubkey &gt;&gt; ~/.ssh/authorized_keys" to
+# avoid inputting ssh login password
+ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/suan-tai-chao-dan/">蒜苔炒蛋</a></h1>
             <div class="meta">
                 <div class="authordate">

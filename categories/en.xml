@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 13 Jul 2022 06:43:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to use EMMS effectively</title><link>http://blog.binchen.org/posts/how-to-use-emms-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 13 Jul 2022 13:25:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Show files by date in SOME Emacs dired buffer</title><link>http://blog.binchen.org/posts/show-files-by-date-in-some-emacs-dired-buffer/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+It's as simple as modify &lt;code&gt;dired-actual-switches&lt;/code&gt; in &lt;code&gt;dired-mode-hook&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Minimum setup,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar my-dired-new-file-first-dirs
+  '("bt/finished/$"
+    "bt/torrent/$"
+    "documents?/$"
+    "music?/$"
+    "downloads?/$")
+  "Dired directory patterns where newest files are on the top.")
+
+(defun my-dired-mode-hook-setup ()
+  "Set up Dired."
+  (when (cl-find-if (lambda (regexp)
+                      (let ((case-fold-search t))
+                        (string-match regexp default-directory)))
+                my-dired-new-file-first-dirs)
+    (setq dired-actual-switches "-lat")))
+(add-hook 'dired-mode-hook 'my-dired-mode-hook-setup)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Here is my &lt;a href="https://github.com/redguardtoo/emacs.d/blob/7ab1da4fe54d1ac94acaa1efd5717e769e295053/lisp/init-dired.el#L98"&gt;real world setup&lt;/a&gt;.
+&lt;/p&gt;</description><category>dired</category><category>emacs</category><category>en</category><category>lisp</category><guid>http://blog.binchen.org/posts/show-files-by-date-in-some-emacs-dired-buffer/</guid><pubDate>Wed, 13 Jul 2022 13:24:39 GMT</pubDate></item><item><title>How to use EMMS effectively</title><link>http://blog.binchen.org/posts/how-to-use-emms-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 First thing is to set up emms.
 &lt;/p&gt;
 
@@ -843,121 +874,4 @@ Below code fixes this problem. It will automatically call correct API with or wi
 (advice-add 'org-docview-open :around #'my-org-docview-open-hack)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>pdf</category><guid>http://blog.binchen.org/posts/org-link-and-pdf-tools/</guid><pubDate>Wed, 05 May 2021 11:34:28 GMT</pubDate></item><item><title>Use Magit to commit efficiently and correctly</title><link>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-I prefer using git cli because it's more light weight.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is my bash alias of &lt;code&gt;git commit&lt;/code&gt;,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;alias gc="git commit -m"
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-The problem of my "cli-only" workflow is it can't detect my mistakes automatically.
-&lt;/p&gt;
-
-&lt;p&gt;
-I often forget to add new code file into git. So my final commit might miss files.
-&lt;/p&gt;
-
-&lt;div id="outline-container-orgf9fa43b" class="outline-2"&gt;
-&lt;h3 id="orgf9fa43b"&gt;Magit UI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf9fa43b"&gt;
-&lt;p&gt;
-One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
-&lt;/p&gt;
-
-&lt;p&gt;
-My set up in Emacs,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-lines-from-command-output (command)
-  "Return lines of COMMAND output."
-  (let* ((output (string-trim (shell-command-to-string command)))
-         (cands (nonempty-lines output)))
-    (delq nil (delete-dups cands))))
-
-(defun my-hint-untracked-files ()
-  "If untracked files and commited files share same extension, warn users."
-  (let* ((exts (mapcar 'file-name-extension (my-lines-from-command-output "git diff-tree --no-commit-id --name-only -r HEAD")))
-         (untracked-files (my-lines-from-command-output "git --no-pager ls-files --others --exclude-standard"))
-         (lookup-ext (make-hash-table :test #'equal))
-         rlt)
-    ;; file extensions of files in HEAD commit
-    (dolist (ext exts)
-      (puthash ext t lookup-ext))
-    ;; If untracked file has same file extension as committed files
-    ;; maybe they should be staged too?
-    (dolist (file untracked-files)
-      (when (gethash (file-name-extension file) lookup-ext)
-        (push (file-name-nondirectory file) rlt)))
-    (when rlt
-      (message "Stage files? %s" (mapconcat 'identity rlt " ")))))
-
-(with-eval-after-load 'magit
-  (defun my-git-check-status ()
-    "Check git repo status."
-    ;; use timer here to wait magit cool down
-    (run-with-idle-timer 1 nil #'my-hint-untracked-files))
-  (add-hook 'magit-post-commit-hook #'my-git-check-status)
-  (add-hook 'git-commit-post-finish-hook #'my-git-check-status))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Screenshot of step 1 in Emacs,
-&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step1.png" alt="magit-commit-step1.png"&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-Screenshot of step 2 (final step) in Emacs (I was reminded of untracked files "bye.js" and "tree.js" at the bottom of UI),
-&lt;img src="http://blog.binchen.org/wp-content/magit-commit-step2.png" alt="magit-commit-step2.png"&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-BTW, my actual code in my &lt;code&gt;.emacs.d&lt;/code&gt; is &lt;a href="https://github.com/redguardtoo/emacs.d/commit/c62b2b9434ac8e01ed6bd6ee927e66f62df68194"&gt;a bit different&lt;/a&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgddc7f73" class="outline-2"&gt;
-&lt;h3 id="orgddc7f73"&gt;CLI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgddc7f73"&gt;
-&lt;p&gt;
-Another solution is doing the git thing in shell plus Emacs "-batch" option.
-&lt;/p&gt;
-
-&lt;p&gt;
-Here is my bash setup,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;function gc {
-    # check my emacs.d exist
-    if [ -f "$HOME/.emacs.d/README.org" ] &amp;amp;&amp;amp; [ "$PWD" != "$HOME/.emacs.d" ]; then
-        # magit hook does not work
-        git commit -m "$@" &amp;amp;&amp;amp; emacs -batch -Q -l "$HOME/.emacs.d/init.el" --eval "(my-hint-untracked-files)"
-    else
-        git commit -m "$@"
-    fi
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Please note running &lt;code&gt;magit-commit-create&lt;/code&gt; in cli won't work. It's because &lt;code&gt;magit-run-git-async&lt;/code&gt; in called and it might lock the git after the cli execution.
-&lt;/p&gt;
-
-&lt;p&gt;
-Screenshot in shell,
-&lt;img src="http://blog.binchen.org/wp-content/magit-commit-in-shell.png" alt="magit-commit-in-shell.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-to-commit-efficiently-and-correctly/</guid><pubDate>Tue, 02 Mar 2021 13:06:58 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>pdf</category><guid>http://blog.binchen.org/posts/org-link-and-pdf-tools/</guid><pubDate>Wed, 05 May 2021 11:34:28 GMT</pubDate></item></channel></rss>
