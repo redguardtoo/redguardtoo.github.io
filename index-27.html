@@ -23,6 +23,166 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/emacs-28-1-on-debian-linux/">Emacs 28.1 on Debian Linux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-04-16T04:07:37+00:00">2022-04-16 04:07</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/emacs-28-1-on-debian-linux/#disqus_thread" data-disqus-identifier="cache/posts/emacs-28-1-on-debian-linux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 and gradually migrate from Emacs 27 to Emacs 28.
+</p>
+
+<p>
+So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
+</p>
+
+<div id="outline-container-org95be015" class="outline-2">
+
+<div class="outline-text-2" id="text-1">
+<p>
+Here are the steps,
+</p>
+<ul class="org-ul">
+<li>Compare <a href="https://github.com/archlinux/svntogit-community/blob/packages/emacs-nox/trunk/PKGBUILD">PKGBUILD of emacs-nox 27</a> and <a href="https://github.com/archlinux/svntogit-packages/blob/packages/emacs/trunk/PKGBUILD">PKGBUILD of emacs-nativecomp 28</a> to get the difference of build script (I was more familiar with Arch Linux. You can use Gentoo Linux's website to collect information)</li>
+
+<li>The only missing third party package is <code>libgccjit</code>. Run <code>sudo apt install libgccjit-12-dev</code> to install it</li>
+
+<li>Download Emacs 28.1 source code, run below command in shell,</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd ~/Downloads/emacs-28.1 &amp;&amp; mkdir -p ~/myemacs/28.1 &amp;&amp; rm -rf ~/myemacs/28.1/* &amp;&amp; ./configure CFLAGS=-no-pie --prefix=~/myemacs/28.1 --without-x --without-sound  --with-modules --with-native-compilation --without-compress-install &amp;&amp; make &amp;&amp; make install
+</code></pre>
+
+</div>
+
+<ul class="org-ul">
+<li>After installation, run "~/myemacs/28.1/bin/emacs" and Emacs will compile the packages automatically (I watched a few youtube videos until the compilation finished)</li>
+
+<li>Create "~/.config/systemd/user/emacs.service" with below content ("/home/cb" is my HOME directory),</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=forking
+ExecStart=/home/cb/myemacs/28.1/bin/emacs -Q --daemon -l "/home/cb/.emacs.d/init.el" --eval "(progn (require 'server) (server-start))"
+ExecStop=emacsclient --eval "(kill-emacs)"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+</code></pre>
+
+</div>
+
+<ul class="org-ul">
+<li>Run <code>systemctl --user restart emacs.service</code> in shell</li>
+
+<li>Done! Run <code>emacsclient</code> to enjoy Emacs 28.1.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb9543cf" class="outline-2">
+
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org7e4a32b" class="outline-3">
+<h4 id="org7e4a32b">
+<span class="section-number-3">2.1.</span> disable "idle loader" in server mode</h4>
+<div class="outline-text-3" id="text-2-1">
+<p>
+I use "idle loader" in my <a href="https://github.com/redguardtoo/emacs.d">Emacs distribution</a>. Obviously it need  be disabled in server mode.
+</p>
+
+<p>
+Here is the code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defvar my-disable-idle-timer (daemonp)
+  "If not nil, Function passed to `my-run-with-idle-timer' is run immediately.")
+
+(defun my-run-with-idle-timer (seconds func)
+  "After SECONDS, run function FUNC once."
+  (cond
+   (my-disable-idle-timer
+    (funcall func))
+   (t
+    (run-with-idle-timer seconds nil func))))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org50f065d" class="outline-3">
+<h4 id="org50f065d">
+<span class="section-number-3">2.2.</span> Shell script to install Emacs</h4>
+<div class="outline-text-3" id="text-2-2">
+<p>
+You could Use below script "install-emacs.sh" to install Emacs,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/sh
+[ -z "$EMACS_VERSION" ] &amp;&amp; echo "Usage: EMACS_VERSION=25.1 install-emacs.sh or EMACS_VERSION=snapshot install-emacs.sh" &amp;&amp; exit 1
+[ -z "$EMACS_URL" ] &amp;&amp; EMACS_URL="http://mirror.aarnet.edu.au/pub/gnu/emacs/"
+# I've assign 12G memory to /tmp as ramdisk
+[ -z "$EMACS_TMP" ] &amp;&amp; EMACS_TMP="/tmp"
+
+if [ "$EMACS_VERSION" != "snapshot" ]; then
+    echo "curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz"
+    curl $EMACS_URL/emacs-$EMACS_VERSION.tar.gz | tar xvz -C $EMACS_TMP
+fi
+
+# @see http://wiki.gentoo.org/wiki/Project:Emacs/GNU_Emacs_developer_guide
+# @see http://packages.gentoo.org/package/app-editors/emacs for info on Gentoo Linux
+# --without-gtk and --without-gtk3 is optional
+echo "Installing Emacs ..."
+if [ "$EMACS_VERSION" = "snapshot" ]; then
+    cd $HOME/projs/emacs &amp;&amp; mkdir -p $HOME/myemacs/snapshot &amp;&amp; rm -rf $HOME/myemacs/snapshot/* &amp;&amp; ./autogen.sh &amp;&amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/snapshot --without-x --without-dbus --without-sound --with-gnutls=no &amp;&amp; make &amp;&amp; make install
+    echo "Emacs snapshot was installed!"
+elif [ "$EMACS_VERSION" = "28.1" ]; then
+    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;&amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;&amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;&amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound --with-modules --with-native-compilation --without-compress-install &amp;&amp; make &amp;&amp; make install
+else
+    cd $EMACS_TMP/emacs-$EMACS_VERSION &amp;&amp; mkdir -p $HOME/myemacs/$EMACS_VERSION &amp;&amp; rm -rf $HOME/myemacs/$EMACS_VERSION/* &amp;&amp; ./configure CFLAGS=-no-pie --prefix=$HOME/myemacs/$EMACS_VERSION --without-x --without-sound  --with-modules &amp;&amp; make &amp;&amp; make install
+    rm -rf $EMACS_TMP/emacs-$EMACS_VERSION
+    echo "Emacs $EMACS_VERSION was installed!"
+fi
+</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/start-teamviewer-on-i3wm/">Start teamviewer on i3wm</a></h1>
             <div class="meta">
                 <div class="authordate">
