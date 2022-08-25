@@ -23,6 +23,126 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/">Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-05-16T12:11:33+00:00">2022-05-16 12:11</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/#disqus_thread" data-disqus-identifier="cache/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/emms/" rel="tag">emms</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Emacs server need be started first.
+</p>
+
+<p>
+I use <code>emacsclient</code> to execute emms commands in the emacs server.
+</p>
+
+<p>
+Key bindings setup in <code>~/.i3/config</code> for <a href="https://i3wm.org/">i3 window manager</a>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini"># music player client (mpc, emms ...)
+bindsym XF86Search exec --no-startup-id ~/bin/music-player-client show
+bindsym XF86Tools exec --no-startup-id ~/bin/music-player-client random
+bindsym XF86AudioStop exec --no-startup-id ~/bin/music-player-client toggle
+bindsym XF86AudioPause exec --no-startup-id ~/bin/music-player-client toggle
+bindsym XF86AudioNext exec --no-startup-id ~/bin/music-player-client next
+bindsym XF86AudioPrev exec --no-startup-id ~/bin/music-player-client prev
+</code></pre>
+
+</div>
+
+<p>
+Content of <code>~/bin/music-player-client</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/bash
+
+# use mpc&amp;mpd or emacsclient&amp;emms to play music
+
+if [ -z "$1" ]; then
+    echo "Usage: music-player-client pre|next|toggle|random|show"
+    exit 1
+fi
+
+# Please uninstall mpc&amp;mpd if using emms
+if command -v mpc &amp;&gt; /dev/null; then
+    case $1 in
+        prev )
+            mpc prev
+            ;;
+        next )
+            mpc next
+            ;;
+        toggle )
+            mpc toggle
+            ;;
+    esac
+elif command -v emacsclient &amp;&gt; /dev/null; then
+    case $1 in
+        prev )
+            emacsclient --eval '(emms-previous)'
+            ;;
+        next )
+            emacsclient --eval '(emms-next)'
+            ;;
+        toggle )
+            emacsclient --eval '(emms-pause)'
+            ;;
+        random )
+            emacsclient --eval '(progn (emms-shuffle) (emms-next))'
+            ;;
+        show )
+            # program like dunst can show the notification
+            notify-send "$(emacsclient --eval '(file-name-base (emms-show))')"
+            ;;
+    esac
+fi
+</code></pre>
+
+</div>
+
+<p>
+I usually run <code>M-x emms-play-directory-tree</code> to play music. My emms setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(with-eval-after-load 'emms
+  ;; minimum setup is more robust
+  (emms-minimalistic)
+  (setq emms-player-list '(emms-player-mplayer
+                           emms-player-vlc)))
+</code></pre>
+
+</div>
+
+<p>
+Screen shot of running <code>~/bin/music-player-client show</code>,
+<img src="wp-content/emms-notification.png" alt="emms-notification.png"></p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/integrate-delta-into-git/">Integrate delta into git</a></h1>
             <div class="meta">
                 <div class="authordate">

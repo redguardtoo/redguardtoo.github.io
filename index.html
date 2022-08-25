@@ -23,6 +23,61 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/chi-zhi-zheng-pai-gu/">豉汁蒸排骨</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-08-25T12:09:35+00:00">2022-08-25 12:09</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/chi-zhi-zheng-pai-gu/#disqus_thread" data-disqus-identifier="cache/posts/chi-zhi-zheng-pai-gu.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
+           <li><a class="tag p-category" href="categories/pork/" rel="tag">pork</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <ul class="org-ul">
+<li>一把豆豉洗净</li>
+<li>葱段</li>
+<li>一点点盐</li>
+<li>一勺淀粉</li>
+<li>几滴鱼露</li>
+<li>少许料酒</li>
+<li>少许蚝油</li>
+<li>少许白糖</li>
+<li>用手搅拌腌制半小时</li>
+<li>挑出排骨,不要豆豉</li>
+<li>第二次加淀粉搅拌,表面浇上花生油</li>
+<li>撒红辣椒点缀</li>
+<li>蒸15分钟, 上盘撒葱花</li>
+</ul>
+<p>
+<a href="https://www.youtube.com/watch?v=fLQc8udunmY">Youtube视频</a>
+</p>
+
+<p>
+<a href="https://www.dropbox.com/s/vkl4kykd2cn2agx/%E8%B1%89%E6%B1%81%E6%8E%92%E9%AA%A8.mkv">视频备份</a>
+</p>
+
+<p>
+小结:
+</p>
+<ul class="org-ul">
+<li>如用大排做原料,需要用榔头敲松再切小块</li>
+</ul>
+</div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/luo-bo-si-bing/">萝卜丝饼</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -894,126 +949,6 @@ EMACS=~/myemacs/26.3/bin/emacs make test # compile and run unit test
 </code></pre>
 
 </div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/">Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2022-05-16T12:11:33+00:00">2022-05-16 12:11</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/#disqus_thread" data-disqus-identifier="cache/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/emms/" rel="tag">emms</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-Emacs server need be started first.
-</p>
-
-<p>
-I use <code>emacsclient</code> to execute emms commands in the emacs server.
-</p>
-
-<p>
-Key bindings setup in <code>~/.i3/config</code> for <a href="https://i3wm.org/">i3 window manager</a>,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-ini"># music player client (mpc, emms ...)
-bindsym XF86Search exec --no-startup-id ~/bin/music-player-client show
-bindsym XF86Tools exec --no-startup-id ~/bin/music-player-client random
-bindsym XF86AudioStop exec --no-startup-id ~/bin/music-player-client toggle
-bindsym XF86AudioPause exec --no-startup-id ~/bin/music-player-client toggle
-bindsym XF86AudioNext exec --no-startup-id ~/bin/music-player-client next
-bindsym XF86AudioPrev exec --no-startup-id ~/bin/music-player-client prev
-</code></pre>
-
-</div>
-
-<p>
-Content of <code>~/bin/music-player-client</code>,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">#!/bin/bash
-
-# use mpc&amp;mpd or emacsclient&amp;emms to play music
-
-if [ -z "$1" ]; then
-    echo "Usage: music-player-client pre|next|toggle|random|show"
-    exit 1
-fi
-
-# Please uninstall mpc&amp;mpd if using emms
-if command -v mpc &amp;&gt; /dev/null; then
-    case $1 in
-        prev )
-            mpc prev
-            ;;
-        next )
-            mpc next
-            ;;
-        toggle )
-            mpc toggle
-            ;;
-    esac
-elif command -v emacsclient &amp;&gt; /dev/null; then
-    case $1 in
-        prev )
-            emacsclient --eval '(emms-previous)'
-            ;;
-        next )
-            emacsclient --eval '(emms-next)'
-            ;;
-        toggle )
-            emacsclient --eval '(emms-pause)'
-            ;;
-        random )
-            emacsclient --eval '(progn (emms-shuffle) (emms-next))'
-            ;;
-        show )
-            # program like dunst can show the notification
-            notify-send "$(emacsclient --eval '(file-name-base (emms-show))')"
-            ;;
-    esac
-fi
-</code></pre>
-
-</div>
-
-<p>
-I usually run <code>M-x emms-play-directory-tree</code> to play music. My emms setup,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(with-eval-after-load 'emms
-  ;; minimum setup is more robust
-  (emms-minimalistic)
-  (setq emms-player-list '(emms-player-mplayer
-                           emms-player-vlc)))
-</code></pre>
-
-</div>
-
-<p>
-Screen shot of running <code>~/bin/music-player-client show</code>,
-<img src="wp-content/emms-notification.png" alt="emms-notification.png"></p>
             </div>
         </div>
     
