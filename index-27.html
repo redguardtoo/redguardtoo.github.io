@@ -23,6 +23,85 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/integrate-delta-into-git/">Integrate delta into git</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-04-27T12:03:37+00:00">2022-04-27 12:03</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/integrate-delta-into-git/#disqus_thread" data-disqus-identifier="cache/posts/integrate-delta-into-git.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/delta/" rel="tag">delta</a></li>
+           <li><a class="tag p-category" href="categories/diff/" rel="tag">diff</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+<a href="https://github.com/dandavison/delta">Delta</a> is a syntax-highlighting pager for git, diff, and grep output.
+</p>
+
+<p>
+Set up is as simple as <a href="https://github.com/dandavison/delta#get-started">copying its sample setup</a>.
+</p>
+
+<p>
+I wrote a shell script <code>my-pager</code> which can use both <code>less</code> and <code>delta</code> as pager,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">#!/bin/bash
+# @see https://stackoverflow.com/questions/19408649/pipe-input-into-a-script
+if [ -x "$HOME/.cargo/bin/delta" ]; then
+    cat | $HOME/.cargo/bin/delta "$@"
+else
+    cat | less -F -X
+fi
+</code></pre>
+
+</div>
+
+<p>
+Here is my extra delta setup in <code>~/.gitconfig</code> (Delta reads settings from <code>~/.gitconfig</code>),
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-ini">[core]
+pager = ~/bin/my-pager
+[interactive]
+diffFilter = ~/bin/my-pager --color-only
+[merge]
+conflictstyle = diff3
+[diff]
+colorMoved = default
+[delta "default"]
+file-decoration-style= blue box
+hunk-header-decoration-style = purple ol
+[delta]
+features = default
+navigate = true  # use n and N to move between diff sections
+</code></pre>
+
+</div>
+
+<p>
+Screenshot,
+<img src="wp-content/git-delta.png" alt="git-delta.png"></p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/emacs-28-1-on-debian-linux/">Emacs 28.1 on Debian Linux</a></h1>
             <div class="meta">
                 <div class="authordate">
