@@ -1,5 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about vim)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vim.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Auto-complete word in Emacs mini-buffer when using Evil</title><link>http://blog.binchen.org/posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about vim)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vim.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 29 Aug 2022 04:55:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code faster by extending Emacs EVIL text object</title><link>http://blog.binchen.org/posts/code-faster-by-extending-emacs-evil-text-object/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+I use &lt;a href="https://www.emacswiki.org/emacs/Evil"&gt;EVIL&lt;/a&gt; text object a lot. For example,  press &lt;code&gt;vi[&lt;/code&gt; to select the code snippet inside brackets.
+&lt;/p&gt;
+
+&lt;p&gt;
+I could also press &lt;code&gt;vib&lt;/code&gt; to do the exactly same thing as &lt;code&gt;vi[&lt;/code&gt; because the below setup in evil's "evil-maps.el",
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(define-key evil-outer-text-objects-map "b" 'evil-a-paren)
+(define-key evil-inner-text-objects-map "b" 'evil-inner-paren)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+As a full stack web developer, I often need select the snippet inside "[]", "{}", "()", "&amp;lt;&amp;gt;". So I prefer using one &lt;code&gt;vig&lt;/code&gt; to replace &lt;code&gt;vi[&lt;/code&gt;, &lt;code&gt;vi{&lt;/code&gt;, &lt;code&gt;vi(&lt;/code&gt;, and &lt;code&gt;vi&amp;lt;&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Here is my new text object,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-evil-paren-range (count beg end type inclusive)
+  "Get minimum range of paren text object.
+COUNT, BEG, END, TYPE is used.  If INCLUSIVE is t, the text object is inclusive."
+  (let* ((parens '("()" "[]" "{}" "&amp;lt;&amp;gt;"))
+         range
+         found-range)
+    (dolist (p parens)
+      (condition-case nil
+          (setq range (evil-select-paren (aref p 0) (aref p 1) beg end type count inclusive))
+        (error nil))
+      (when range
+        (cond
+         (found-range
+          (when (&amp;lt; (- (nth 1 range) (nth 0 range))
+                   (- (nth 1 found-range) (nth 0 found-range)))
+            (setf (nth 0 found-range) (nth 0 range))
+            (setf (nth 1 found-range) (nth 1 range))))
+         (t
+          (setq found-range range)))))
+    found-range))
+
+(evil-define-text-object my-evil-a-paren (count &amp;amp;optional beg end type)
+  "Select a paren."
+  :extend-selection t
+  (my-evil-paren-range count beg end type t))
+
+(evil-define-text-object my-evil-inner-paren (count &amp;amp;optional beg end type)
+  "Select 'inner' paren."
+  :extend-selection nil
+  (my-evil-paren-range count beg end type nil))
+
+(define-key evil-inner-text-objects-map "g" #'my-evil-inner-paren)
+(define-key evil-outer-text-objects-map "g" #'my-evil-a-paren)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+In above code,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;my-evil-paren-range&lt;/code&gt; returns the minimum range of text objects "[", "{", "(", and "&amp;lt;".&lt;/li&gt;
+&lt;li&gt;EVIL api &lt;code&gt;evil-define-text-object&lt;/code&gt; is used to define text object whose range is returned by &lt;code&gt;my-evil-paren-range&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;In &lt;code&gt;evil-outer-text-objects-map&lt;/code&gt; the text object shortcut "g" is defined&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+As you can see, understanding my personal workflow and knowing a bit Lisp does make me code faster.&lt;/p&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>vim</category><guid>http://blog.binchen.org/posts/code-faster-by-extending-emacs-evil-text-object/</guid><pubDate>Mon, 29 Aug 2022 04:52:17 GMT</pubDate></item><item><title>Auto-complete word in Emacs mini-buffer when using Evil</title><link>http://blog.binchen.org/posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 When using &lt;a href="https://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt; I often input &lt;code&gt;%s/old-keyword/new-keyword/g&lt;/code&gt; in &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html"&gt;Minibuffer&lt;/a&gt;.
 &lt;/p&gt;
 

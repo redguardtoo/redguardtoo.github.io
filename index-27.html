@@ -23,6 +23,122 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/better-emacs-package-development-workflow/">Better Emacs package development workflow</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-05-24T12:47:12+00:00">2022-05-24 12:47</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/better-emacs-package-development-workflow/#disqus_thread" data-disqus-identifier="cache/posts/better-emacs-package-development-workflow.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/lisp/" rel="tag">lisp</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
+</p>
+
+<p>
+Syntax errors could be a bit difficult to locate. For example, developers might use Emacs 28+ only APIs to develop packages running on Emacs 26.
+</p>
+
+<p>
+Here is howto.
+</p>
+
+<ul class="org-ul">
+<li>Step 1,  create a file <code>my-byte-compile.el</code> in the directory "tests/",</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'find-lisp)
+
+(let ((files (find-lisp-find-files-internal
+              "."
+              (lambda (file dir)
+                (and (not (file-directory-p (expand-file-name file dir)))
+                     (string-match "\\.el$" file)
+                     (not (string-match "\\.dir-locals\\.el$" file))))
+              (lambda (dir parent)
+                (not (or (member dir '("." ".." ".git" ".svn" "deps" "tests"))
+                         (file-symlink-p (expand-file-name dir parent))))))))
+  (dolist (file files)
+    (byte-compile-file file)))
+</code></pre>
+
+</div>
+
+<ul class="org-ul">
+<li>Step 2, insert below command line into the project's Makefile,</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-makefile">compile:
+    emacs --batch -Q -L . -l my-package-main-entry.el -l tests/my-byte-compile.el 2&gt;&amp;1 | grep -E "([Ee]rror|[Ww]arning):" &amp;&amp; exit 1 || exit 0
+</code></pre>
+
+</div>
+
+<p>
+DONE! Now Gitlab/Github could use command line <code>make compile</code> in their CI pipeline.
+</p>
+
+<p>
+Screenshot of <a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d">a tricky bug of evil-matchit</a> detected by this new workflow.
+</p>
+
+<div id="orgafb6478" class="figure">
+<p><img src="wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"></p>
+</div>
+
+<p>
+BTW, I also tried <code>elint</code>, but it's not as reliable as <code>byte-compile</code>.
+</p>
+
+<p>
+Content of <code>my-elint.el</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'elint)
+
+(let ((elint-directory-skip-re "\\(\\.dir-locals\\|ldefs-boot\\|loaddefs\\)\\.el\\'"))
+  (elint-directory "."))
+</code></pre>
+
+</div>
+
+<p>
+Here is link to the <a href="https://github.com/redguardtoo/evil-matchit/blob/master/Makefile">Makefile from my real world project</a>.
+</p>
+
+<p>
+I use below command lines to compile and test the project locally.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">EMACS=~/myemacs/26.3/bin/emacs make compile # compile only
+EMACS=~/myemacs/26.3/bin/emacs make test # compile and run unit test 
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/">Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</a></h1>
             <div class="meta">
                 <div class="authordate">
