@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 29 Aug 2022 06:40:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code faster by extending Emacs EVIL text object</title><link>http://blog.binchen.org/posts/code-faster-by-extending-emacs-evil-text-object/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Thu, 22 Dec 2022 09:36:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Emacs to read English classic books efficiently</title><link>http://blog.binchen.org/posts/use-emacs-to-read-english-classic-books-efficiently/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Classic books is difficult to read because they have many new words.
+&lt;/p&gt;
+
+&lt;p&gt;
+The tedious step to find the word's definition in dictionary will break the flow.
+&lt;/p&gt;
+
+&lt;p&gt;
+I have tried reading those books in iPad and Kindle. The experience is not smoothing because,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It takes too much effort to select the word and send it to the dictionary. Particularly difficulty for me because I've got big fingers&lt;/li&gt;
+&lt;li&gt;The dictionary popup overlaps with the book's content. Feels not comfortable&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+In Emacs,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;new words can be automatically highlighted&lt;/li&gt;
+&lt;li&gt;The book's content and dictionary are displayed side by side&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+The Emacs plugin &lt;a href="https://github.com/redguardtoo/mybigword"&gt;mybigword 0.2.4&lt;/a&gt; provides a new command &lt;code&gt;mybigword-big-words-in-current-windows&lt;/code&gt; which automatically highlight the new words in current window with hint. Type the hint, the word's definition is displayed in another window.
+&lt;/p&gt;
+
+&lt;p&gt;
+Screenshot before running &lt;code&gt;M-x mybigword-big-words-in-current-windows&lt;/code&gt;,
+&lt;/p&gt;
+
+&lt;div id="org517caf1" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/mybigword-before.png" alt="mybigword-before.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+After,
+&lt;/p&gt;
+
+&lt;div id="org515d6cc" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/mybigword-after.png" alt="mybigword-after.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+The hint UI is actually based on &lt;a href="https://github.com/abo-abo/avy"&gt;avy&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+Every English word can be measure by word frequency named Zipf Scale (see &lt;a href="http://crr.ugent.be/papers/van_Heuven_et_al_SUBTLEX-UK.pdf"&gt;http://crr.ugent.be/papers/van_Heuven_et_al_SUBTLEX-UK.pdf&lt;/a&gt; for more details)
+&lt;/p&gt;
+
+&lt;p&gt;
+Any word with ZipF less than the value of &lt;code&gt;mybigword-upper-limit&lt;/code&gt; is regarded as new word.
+&lt;/p&gt;
+
+&lt;p&gt;
+In my setup, &lt;code&gt;mybigword-upper-limit&lt;/code&gt; is 3.6.&lt;/p&gt;</description><category>emacs</category><category>en</category><category>english</category><guid>http://blog.binchen.org/posts/use-emacs-to-read-english-classic-books-efficiently/</guid><pubDate>Thu, 22 Dec 2022 09:33:03 GMT</pubDate></item><item><title>Code faster by extending Emacs EVIL text object</title><link>http://blog.binchen.org/posts/code-faster-by-extending-emacs-evil-text-object/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I use &lt;a href="https://www.emacswiki.org/emacs/Evil"&gt;EVIL&lt;/a&gt; text object a lot. For example,  press &lt;code&gt;vi(&lt;/code&gt; to select the code snippet inside parenthesis.
 &lt;/p&gt;
 
@@ -143,7 +202,7 @@ As you can see, understanding my personal workflow and knowing a bit Lisp does m
 &lt;li&gt;不要加料酒,会掩盖鸡肉和蘑菇的香味&lt;/li&gt;
 &lt;li&gt;粉条口感很好.商业版不放粉条因为粉条15分钟后会变形,很难看&lt;/li&gt;
 &lt;li&gt;我又加了青豆,10分钟就熟了,煮太久会变黄&lt;/li&gt;
-&lt;li&gt;粉条要看种类,火锅用粉条特别耐煮,小火要15分钟才能熟,可以早放&lt;/li&gt;
+&lt;li&gt;粉条要看种类,火锅用粉条特别耐煮,小火要15分钟才能熟,可以早放,普通粉条早放会融化沾锅底&lt;/li&gt;
 &lt;li&gt;粉条也可以换成腐竹,豆腐泡&lt;/li&gt;
 &lt;li&gt;蘑菇水至少一大碗(1升),这样一小时后正好&lt;/li&gt;
 &lt;li&gt;还加了少许胡萝卜片,少许生菜,生菜最后5分钟加&lt;/li&gt;
@@ -468,172 +527,4 @@ Similar solution is also used in &lt;a href="https://github.com/tumashu/pyim"&gt
 &lt;/p&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;我加入了豆腐,和少量冷冻绿色蔬菜,调个色,增加营养.&lt;/li&gt;
-&lt;/ul&gt;</description><category>fish</category><category>food</category><category>zh</category><guid>http://blog.binchen.org/posts/fan-jia-yu-pian-tang/</guid><pubDate>Mon, 06 Jun 2022 12:58:45 GMT</pubDate></item><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-In &lt;a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/"&gt;Better Emacs package development workflow&lt;/a&gt;, I proved that running Emacs compiler in CI can give huge boost to package quality.
-&lt;/p&gt;
-
-&lt;p&gt;
-The same workflow can apply to emacs distributions. But designing a CI workflow for the distribution is much more challenging.
-&lt;/p&gt;
-
-&lt;p&gt;
-For example, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;my .emacs.d&lt;/a&gt; uses about 300 packages. In CI pipeline, those packages are automatically downloaded and compiled. If compiling errors/warnings from those third party packages are not ignored, the CI will always fail.
-&lt;/p&gt;
-
-&lt;p&gt;
-There are also many other engineering issues. I struggled for &lt;b&gt;five hours&lt;/b&gt; and finally got satisfying solution. Now anyone can use my solution to &lt;b&gt;set up same CI pipeline in ten minutes&lt;/b&gt;.
-&lt;/p&gt;
-
-&lt;div id="orga9ee70e" class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;
-Makefile is in "~/.emacs.d", it's still simple,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-makefile"&gt;EMACS ?= emacs
-RM = @rm -rf
-EMACS_BATCH_OPTS = --batch -Q --debug-init
-
-install: clean
-    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el
-
-compile: install
-    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el -l tests/my-byte-compile.el 2&amp;gt;&amp;amp;1 | grep -Ev "init-(hydra|evil).el:.*Warning: docstring wider than 80 characters|an obsolete" | grep -E "[0-9]: ([Ee]rror|[Ww]arning):" &amp;amp;&amp;amp; exit 1 || exit 0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-You can run &lt;code&gt;make compile &amp;amp;&amp;amp; echo good || echo bad&lt;/code&gt; in shell  to test the pipeline locally. Please note I use &lt;code&gt;grep -v things-to-ignore&lt;/code&gt; to ignore some warnings. The warnings are from anonymous functions created by third packages (hydra, general.el, …).  
-&lt;/p&gt;
-
-&lt;p&gt;
-The final missing piece is "~/.emacs.d/tests/my-byte-compile.el", 
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'find-lisp)
-(require 'scroll-bar)
-(require 'ivy)
-(require 'counsel)
-(require 'w3m)
-(require 'ibuffer)
-(require 'org)
-(require 'diff-mode)
-(require 'cliphist)
-(require 'eacl)
-(require 'tramp)
-(require 'dired)
-(require 'shellcop)
-(require 'counsel-etags)
-(require 'typewriter-mode)
-(require 'pomodoro)
-(require 'emms)
-(require 'emms-playlist-mode)
-(require 'gnus)
-(require 'gnus-sum)
-(require 'gnus-msg)
-(require 'gnus-topic)
-(require 'magit)
-(require 'magit-refs)
-(require 'gnus-art)
-(require 'git-link)
-(require 'ace-window)
-(require 'js2-mode)
-(require 'yasnippet)
-(require 'ediff)
-(require 'company)
-(require 'evil-nerd-commenter)
-(require 'git-timemachine)
-(require 'pyim)
-(require 'cal-china-x)
-(require 'wucuo)
-(require 'langtool)
-(require 'web-mode)
-(require 'bbdb)
-(require 'gmail2bbdb)
-(require 'org-mime)
-(require 'pdf-tools)
-(require 'recentf)
-(require 'bookmark)
-(require 'find-file-in-project)
-(require 'flymake)
-(require 'elec-pair)
-(require 'elpy)
-(require 'rjsx-mode)
-(require 'simple-httpd)
-(require 'vc)
-(require 'sdcv)
-(require 'wgrep)
-(require 'mybigword)
-(require 'yaml-mode)
-(require 'octave)
-(require 'undo-fu)
-(require 'wc-mode)
-(require 'exec-path-from-shell)
-(require 'dictionary)
-(require 'company-ispell)
-(require 'company-ctags)
-(require 'lsp-mode)
-
-(let ((files (find-lisp-find-files-internal
-              "."
-              (lambda (file dir)
-                (and (not (file-directory-p (expand-file-name file dir)))
-                     (string-match "\\.el$" file)
-                     (not (member file '(".dir-locals.el"
-                                         "package-quickstart.el"
-                                         "company-statistics-cache.el"
-                                         "custom-set-variables.el"
-                                         "early-init.el")))))
-              (lambda (dir parent)
-                (member dir '("lisp"))))))
-  (dolist (file files)
-    ;; (message "file=%s" file)
-    (byte-compile-file file)))
-
-;;; my-byte-compile.el ends here
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-As you can see,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;I need add lots of &lt;code&gt;require&lt;/code&gt; statement to make compiling succeed on Emacs 26, 27, 28&lt;/li&gt;
-&lt;li&gt;Some "*.el" files generated by Emacs and 3rd party packages need be ignored&lt;/li&gt;
-&lt;li&gt;My emacs setup code is only in "lisp" directory&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-That's it.
-&lt;/p&gt;
-
-&lt;p&gt;
-You can visit &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;https://github.com/redguardtoo/emacs.d&lt;/a&gt; for a real world example. 
-&lt;/p&gt;
-
-&lt;p&gt;
-BTW, you can find &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-no-byte-compile.el"&gt;init-no-byte-compile.el&lt;/a&gt; where there are a few lines setup code the compiler will ignore. It's bad practice but sometimes there is no other way.
-&lt;/p&gt;
-
-&lt;p&gt;
-"init-no-byte-compile.el" is like,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-lisp"&gt;;; -*- coding: utf-8; lexical-binding: t; -*-
-
-;; blah blah
-
-;; Local Variables:
-;; no-byte-compile: t
-;; End:
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>lisp</category><guid>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</guid><pubDate>Tue, 31 May 2022 05:33:30 GMT</pubDate></item></channel></rss>
+&lt;/ul&gt;</description><category>fish</category><category>food</category><category>zh</category><guid>http://blog.binchen.org/posts/fan-jia-yu-pian-tang/</guid><pubDate>Mon, 06 Jun 2022 12:58:45 GMT</pubDate></item></channel></rss>

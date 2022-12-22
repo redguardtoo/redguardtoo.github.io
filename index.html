@@ -23,6 +23,89 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/use-emacs-to-read-english-classic-books-efficiently/">Use Emacs to read English classic books efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-12-22T09:33:03+00:00">2022-12-22 09:33</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-emacs-to-read-english-classic-books-efficiently/#disqus_thread" data-disqus-identifier="cache/posts/use-emacs-to-read-english-classic-books-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/english/" rel="tag">english</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Classic books is difficult to read because they have many new words.
+</p>
+
+<p>
+The tedious step to find the word's definition in dictionary will break the flow.
+</p>
+
+<p>
+I have tried reading those books in iPad and Kindle. The experience is not smoothing because,
+</p>
+<ul class="org-ul">
+<li>It takes too much effort to select the word and send it to the dictionary. Particularly difficulty for me because I've got big fingers</li>
+<li>The dictionary popup overlaps with the book's content. Feels not comfortable</li>
+</ul>
+<p>
+In Emacs,
+</p>
+<ul class="org-ul">
+<li>new words can be automatically highlighted</li>
+<li>The book's content and dictionary are displayed side by side</li>
+</ul>
+<p>
+The Emacs plugin <a href="https://github.com/redguardtoo/mybigword">mybigword 0.2.4</a> provides a new command <code>mybigword-big-words-in-current-windows</code> which automatically highlight the new words in current window with hint. Type the hint, the word's definition is displayed in another window.
+</p>
+
+<p>
+Screenshot before running <code>M-x mybigword-big-words-in-current-windows</code>,
+</p>
+
+<div id="org517caf1" class="figure">
+<p><img src="wp-content/mybigword-before.png" alt="mybigword-before.png"></p>
+</div>
+
+<p>
+After,
+</p>
+
+<div id="org515d6cc" class="figure">
+<p><img src="wp-content/mybigword-after.png" alt="mybigword-after.png"></p>
+</div>
+
+<p>
+The hint UI is actually based on <a href="https://github.com/abo-abo/avy">avy</a>.
+</p>
+
+<p>
+Every English word can be measure by word frequency named Zipf Scale (see <a href="http://crr.ugent.be/papers/van_Heuven_et_al_SUBTLEX-UK.pdf">http://crr.ugent.be/papers/van_Heuven_et_al_SUBTLEX-UK.pdf</a> for more details)
+</p>
+
+<p>
+Any word with ZipF less than the value of <code>mybigword-upper-limit</code> is regarded as new word.
+</p>
+
+<p>
+In my setup, <code>mybigword-upper-limit</code> is 3.6.</p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/code-faster-by-extending-emacs-evil-text-object/">Code faster by extending Emacs EVIL text object</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -273,7 +356,7 @@ As you can see, understanding my personal workflow and knowing a bit Lisp does m
 <li>不要加料酒,会掩盖鸡肉和蘑菇的香味</li>
 <li>粉条口感很好.商业版不放粉条因为粉条15分钟后会变形,很难看</li>
 <li>我又加了青豆,10分钟就熟了,煮太久会变黄</li>
-<li>粉条要看种类,火锅用粉条特别耐煮,小火要15分钟才能熟,可以早放</li>
+<li>粉条要看种类,火锅用粉条特别耐煮,小火要15分钟才能熟,可以早放,普通粉条早放会融化沾锅底</li>
 <li>粉条也可以换成腐竹,豆腐泡</li>
 <li>蘑菇水至少一大碗(1升),这样一小时后正好</li>
 <li>还加了少许胡萝卜片,少许生菜,生菜最后5分钟加</li>
@@ -740,201 +823,6 @@ Similar solution is also used in <a href="https://github.com/tumashu/pyim">pyim<
 <li>我加入了豆腐,和少量冷冻绿色蔬菜,调个色,增加营养.</li>
 </ul>
 </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-ci-to-improve-the-quality-of-emacs-distribution/">Use CI to improve the quality of emacs distribution</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2022-05-31T05:33:30+00:00">2022-05-31 05:33</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/use-ci-to-improve-the-quality-of-emacs-distribution/#disqus_thread" data-disqus-identifier="cache/posts/use-ci-to-improve-the-quality-of-emacs-distribution.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/lisp/" rel="tag">lisp</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-In <a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/">Better Emacs package development workflow</a>, I proved that running Emacs compiler in CI can give huge boost to package quality.
-</p>
-
-<p>
-The same workflow can apply to emacs distributions. But designing a CI workflow for the distribution is much more challenging.
-</p>
-
-<p>
-For example, <a href="https://github.com/redguardtoo/emacs.d">my .emacs.d</a> uses about 300 packages. In CI pipeline, those packages are automatically downloaded and compiled. If compiling errors/warnings from those third party packages are not ignored, the CI will always fail.
-</p>
-
-<p>
-There are also many other engineering issues. I struggled for <b>five hours</b> and finally got satisfying solution. Now anyone can use my solution to <b>set up same CI pipeline in ten minutes</b>.
-</p>
-
-<div id="orga9ee70e" class="figure">
-<p><img src="wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"></p>
-</div>
-
-<p>
-Makefile is in "~/.emacs.d", it's still simple,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-makefile">EMACS ?= emacs
-RM = @rm -rf
-EMACS_BATCH_OPTS = --batch -Q --debug-init
-
-install: clean
-    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el
-
-compile: install
-    @$(EMACS) $(EMACS_BATCH_OPTS) -l init.el -l tests/my-byte-compile.el 2&gt;&amp;1 | grep -Ev "init-(hydra|evil).el:.*Warning: docstring wider than 80 characters|an obsolete" | grep -E "[0-9]: ([Ee]rror|[Ww]arning):" &amp;&amp; exit 1 || exit 0
-</code></pre>
-
-</div>
-
-<p>
-You can run <code>make compile &amp;&amp; echo good || echo bad</code> in shell  to test the pipeline locally. Please note I use <code>grep -v things-to-ignore</code> to ignore some warnings. The warnings are from anonymous functions created by third packages (hydra, general.el, …).  
-</p>
-
-<p>
-The final missing piece is "~/.emacs.d/tests/my-byte-compile.el", 
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(require 'find-lisp)
-(require 'scroll-bar)
-(require 'ivy)
-(require 'counsel)
-(require 'w3m)
-(require 'ibuffer)
-(require 'org)
-(require 'diff-mode)
-(require 'cliphist)
-(require 'eacl)
-(require 'tramp)
-(require 'dired)
-(require 'shellcop)
-(require 'counsel-etags)
-(require 'typewriter-mode)
-(require 'pomodoro)
-(require 'emms)
-(require 'emms-playlist-mode)
-(require 'gnus)
-(require 'gnus-sum)
-(require 'gnus-msg)
-(require 'gnus-topic)
-(require 'magit)
-(require 'magit-refs)
-(require 'gnus-art)
-(require 'git-link)
-(require 'ace-window)
-(require 'js2-mode)
-(require 'yasnippet)
-(require 'ediff)
-(require 'company)
-(require 'evil-nerd-commenter)
-(require 'git-timemachine)
-(require 'pyim)
-(require 'cal-china-x)
-(require 'wucuo)
-(require 'langtool)
-(require 'web-mode)
-(require 'bbdb)
-(require 'gmail2bbdb)
-(require 'org-mime)
-(require 'pdf-tools)
-(require 'recentf)
-(require 'bookmark)
-(require 'find-file-in-project)
-(require 'flymake)
-(require 'elec-pair)
-(require 'elpy)
-(require 'rjsx-mode)
-(require 'simple-httpd)
-(require 'vc)
-(require 'sdcv)
-(require 'wgrep)
-(require 'mybigword)
-(require 'yaml-mode)
-(require 'octave)
-(require 'undo-fu)
-(require 'wc-mode)
-(require 'exec-path-from-shell)
-(require 'dictionary)
-(require 'company-ispell)
-(require 'company-ctags)
-(require 'lsp-mode)
-
-(let ((files (find-lisp-find-files-internal
-              "."
-              (lambda (file dir)
-                (and (not (file-directory-p (expand-file-name file dir)))
-                     (string-match "\\.el$" file)
-                     (not (member file '(".dir-locals.el"
-                                         "package-quickstart.el"
-                                         "company-statistics-cache.el"
-                                         "custom-set-variables.el"
-                                         "early-init.el")))))
-              (lambda (dir parent)
-                (member dir '("lisp"))))))
-  (dolist (file files)
-    ;; (message "file=%s" file)
-    (byte-compile-file file)))
-
-;;; my-byte-compile.el ends here
-</code></pre>
-
-</div>
-
-<p>
-As you can see,
-</p>
-<ul class="org-ul">
-<li>I need add lots of <code>require</code> statement to make compiling succeed on Emacs 26, 27, 28</li>
-<li>Some "*.el" files generated by Emacs and 3rd party packages need be ignored</li>
-<li>My emacs setup code is only in "lisp" directory</li>
-</ul>
-<p>
-That's it.
-</p>
-
-<p>
-You can visit <a href="https://github.com/redguardtoo/emacs.d">https://github.com/redguardtoo/emacs.d</a> for a real world example. 
-</p>
-
-<p>
-BTW, you can find <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-no-byte-compile.el">init-no-byte-compile.el</a> where there are a few lines setup code the compiler will ignore. It's bad practice but sometimes there is no other way.
-</p>
-
-<p>
-"init-no-byte-compile.el" is like,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">;; -*- coding: utf-8; lexical-binding: t; -*-
-
-;; blah blah
-
-;; Local Variables:
-;; no-byte-compile: t
-;; End:
-</code></pre>
-
-</div>
-            </div>
         </div>
     
         <nav class="postindexpager"><ul class="pager">
