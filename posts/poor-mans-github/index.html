@@ -58,8 +58,7 @@
 
         </div>
         <div class="body">
-            <p></p>
-<p>Key points of this article: </p>
+            <p>Key points of this article: </p>
 <ul>
 <li>Build a github prototype written in Bash within 5 minutes </li> <li>Highlight key elements in my usual git work flow </li> <li>Git is scalabe. you can use any tool to extend it. </li> </ul>
 <p> As <a href="https://plus.google.com/110090899194056392647">Yuri Albuquerque</a> mentioned, there are more powerful tools like <a href="https://github.com/sitaramc/gitolite">gitolite</a>. But the key concept behind the system is similar. </p> <p> Add following code into ~/.bashrc and run "source ~/.bashrc", then run "gih" to see help: </p>   <pre class="src src-sh"><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">gih</span>() {
@@ -69,24 +68,34 @@
     <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$1"</span> ]; <span style="color: #b5bd68;">then</span>
         cat &lt;&lt; <span style="color: #8abeb7;">'EOF'</span>
 <span style="color: #8abeb7;">Usage: gih [command]</span>
-<p><span style="color: #8abeb7;">Commands:</span></p>
-<p><span style="color: #8abeb7;">l, ls, list - list the projects</span></p>
-<p><span style="color: #8abeb7;">n, new [project-name] - create a new project</span></p>
-<p><span style="color: #8abeb7;">r, readme [project-name] - show README</span></p>
-<p><span style="color: #8abeb7;">i, issue [project-name] - show issues list</span></p>
-<p><span style="color: #8abeb7;">st, status - check free space of git server</span></p>
-<p><span style="color: #8abeb7;">u, url [project-name] - the full url of the project</span></p>
-<p><span style="color: #8abeb7;">EOF</span>
+
+
+
+<span style="color: #8abeb7;">Commands:</span>
+
+<span style="color: #8abeb7;">l, ls, list - list the projects</span>
+
+<span style="color: #8abeb7;">n, new [project-name] - create a new project</span>
+
+<span style="color: #8abeb7;">r, readme [project-name] - show README</span>
+
+<span style="color: #8abeb7;">i, issue [project-name] - show issues list</span>
+
+<span style="color: #8abeb7;">st, status - check free space of git server</span>
+
+<span style="color: #8abeb7;">u, url [project-name] - the full url of the project</span>
+
+<span style="color: #8abeb7;">EOF</span>
     <span style="color: #b5bd68;">else</span>
         <span style="color: #b5bd68;">case</span> $<span style="color: #f0c674;">1</span><span style="color: #b5bd68;"> in</span>
             l|ls|list)
-                ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/\.git$//g'</span>
                 ;;
             n|new)
                 <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$2"</span> ]; <span style="color: #b5bd68;">then</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Please input the name of new project!"</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Current projects hosted:"</span>
-                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/\.git$//g'</span>
                 <span style="color: #b5bd68;">else</span>
                     ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"mkdir -p ~/$2.git;cd ~/$2.git;git --bare init;"</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Push existing repository from command line:"</span>
@@ -98,7 +107,7 @@
                 <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$2"</span> ]; <span style="color: #b5bd68;">then</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Please input the name of new project!"</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Current projects hosted:"</span>
-                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/\.git$//g'</span>
                 <span style="color: #b5bd68;">else</span>
                     ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"cd ~/$2.git;git show HEAD:README.org || git show HEAD:README.md"</span>
                 <span style="color: #b5bd68;">fi</span>
@@ -107,7 +116,7 @@
                 <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$2"</span> ]; <span style="color: #b5bd68;">then</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Please input the name of new project!"</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Current projects hosted:"</span>
-                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/\.git$//g'</span>
                 <span style="color: #b5bd68;">else</span>
                     ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> git@sydneypc.mooo.com <span style="color: #8abeb7;">"cd ~/$2.git;git show HEAD:ISSUE.org || git show HEAD:ISSUE.md"</span>
                 <span style="color: #b5bd68;">fi</span>
@@ -123,8 +132,9 @@
                 ;;
         <span style="color: #b5bd68;">esac</span>
     <span style="color: #b5bd68;">fi</span>
-}</p>
-<p></p></pre>
+}
+
+</pre>
         </div>
         
         <ul class="pager hidden-print">
@@ -161,7 +171,7 @@
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -15,7 +15,6 @@
 
 
 
-
 #!/bin/sh -e
 echo "#        Adding Windows GRUB 2 menu"
 cat &lt;&lt; EOF
@@ -25,7 +24,7 @@ insmod chain
 insmod ntfs
 set root=(hd0,1)
 chainloader +1
-'>
+}'>
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2013-12-31T19:09:00Z">
 <meta property="article:tag" content="en">
@@ -73,7 +72,6 @@ chainloader +1
             <p>
 Content of <code>/etc/grub.d/11_windows</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-ini">#!/bin/sh -e
@@ -94,7 +92,6 @@ EOF
 <p>
 /etc/default/grub
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-ini"># Copyright 1999-2013 Gentoo Foundation
@@ -184,7 +181,7 @@ GRUB_CMDLINE_LINUX="libata.dma=1"
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

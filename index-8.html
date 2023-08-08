@@ -56,7 +56,6 @@ I've installed <a href="https://github.com/redguardtoo/emacs.d">more than 100 em
 <p>
 Here is my minimum <code>.emacs</code> to test plugins,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(show-paren-mode 1)
@@ -93,7 +92,6 @@ The code is straight forward. I scan any sub-directories in <code>~/test-elisp</
 <p>
 I've uploaded the <code>.emacs</code> to Dropbox, so you can use one bash liner to download it:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">cd ~/;wget https://dl.dropboxusercontent.com/u/858862/emacs/.emacs;mkdir -p ~/test-elisp;
@@ -127,36 +125,49 @@ I've uploaded the <code>.emacs</code> to Dropbox, so you can use one bash liner 
 
             </div>
             <div class="body">
-                <p></p>
-<p>Here is the detailed steps, </p>
+                <p>Here is the detailed steps, </p>
 <ol>
 <li>Install <a href="https://github.com/mooz/keysnail">keysnail</a> (a firefox addon) </li> <li>Install <a href="https://github.com/mooz/keysnail/wiki/plugin">HoK</a> (no less than version 1.3.9) through keysnail </li> <li>Add below code into .keysnail.js </li> </ol>
-<pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/*<em> </em></span><span style="color: #969896; font-style: italic;">HoK /</span>
+<pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/** </span><span style="color: #969896; font-style: italic;">HoK */</span>
 key.setViewKey(<span style="color: #70c0b1;">'e'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
         ext.exec(<span style="color: #70c0b1;">"hok-start-foreground-mode"</span>, aArg);
 }, <span style="color: #70c0b1;">'Hok - Foreground hint mode'</span>, <span style="color: #c397d8;">true</span>);
-<p>key.setViewKey(<span style="color: #70c0b1;">'E'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+
+
+
+key.setViewKey(<span style="color: #70c0b1;">'E'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
         ext.exec(<span style="color: #70c0b1;">"hok-start-background-mode"</span>, aArg);
-}, <span style="color: #70c0b1;">'HoK - Background hint mode'</span>, <span style="color: #c397d8;">true</span>);</p>
-<p>key.setViewKey(<span style="color: #70c0b1;">';'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+}, <span style="color: #70c0b1;">'HoK - Background hint mode'</span>, <span style="color: #c397d8;">true</span>);
+
+
+
+key.setViewKey(<span style="color: #70c0b1;">';'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
         ext.exec(<span style="color: #70c0b1;">"hok-start-extended-mode"</span>, aArg);
-}, <span style="color: #70c0b1;">'HoK - Extented hint mode'</span>, <span style="color: #c397d8;">true</span>);</p>
-<p>key.setViewKey([<span style="color: #70c0b1;">'C-c'</span>, <span style="color: #70c0b1;">'C-e'</span>], <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+}, <span style="color: #70c0b1;">'HoK - Extented hint mode'</span>, <span style="color: #c397d8;">true</span>);
+
+
+
+key.setViewKey([<span style="color: #70c0b1;">'C-c'</span>, <span style="color: #70c0b1;">'C-e'</span>], <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
         ext.exec(<span style="color: #70c0b1;">"hok-start-continuous-mode"</span>, aArg);
-}, <span style="color: #70c0b1;">'Start continuous HaH'</span>, <span style="color: #c397d8;">true</span>);</p>
-<p>hook.addToHook(<span style="color: #70c0b1;">'PluginLoaded'</span>, <span style="color: #b9ca4a;">function</span> () {
+}, <span style="color: #70c0b1;">'Start continuous HaH'</span>, <span style="color: #c397d8;">true</span>);
+
+
+
+hook.addToHook(<span style="color: #70c0b1;">'PluginLoaded'</span>, <span style="color: #b9ca4a;">function</span> () {
   <span style="color: #b9ca4a;">if</span> (!plugins.hok)
-    <span style="color: #b9ca4a;">return</span>;</p>
-<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">HoK 1.3.9+ requried /</span>
+    <span style="color: #b9ca4a;">return</span>;
+
+  <span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">HoK 1.3.9+ requried */</span>
   plugins.hok.pOptions.selector = plugins.hok.pOptions.selector
-    <span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">feedly /</span>
-    + <span style="color: #70c0b1;">", <em>[data-uri]"</em></span>
-    + <span style="color: #70c0b1;">", [data-selector-toggle]"</span>
-    + <span style="color: #70c0b1;">", <em>[data-page-action]"</em></span>
-    + <span style="color: #70c0b1;">", [data-app-action]"</span>
+    <span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">feedly */</span>
+    + <span style="color: #70c0b1;">", *[data-uri]"</span>
+    + <span style="color: #70c0b1;">", *[data-selector-toggle]"</span>
+    + <span style="color: #70c0b1;">", *[data-page-action]"</span>
+    + <span style="color: #70c0b1;">", *[data-app-action]"</span>
   ;
-});</p>
-<p></p></pre>  <ol>
+});
+
+</pre>  <ol>
 <li>Restart Firefox, logged into <a href="http://www.feedly.com">http://www.feedly.com</a> and press hot key "e" </li> <li>Enjoy! </li> </ol>
 </div>
         </div>
@@ -193,9 +204,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-05-01 
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-13 Fri&gt;</span></span>
 </p>
 
-<div id="outline-container-org411067d" class="outline-2">
-<h3 id="org411067d">Problem</h3>
-<div class="outline-text-2" id="text-org411067d">
+<div id="outline-container-org60cfe4a" class="outline-2">
+<h3 id="org60cfe4a">Problem</h3>
+<div class="outline-text-2" id="text-org60cfe4a">
 <p>
 As a freelancer, I need reply agent's email frequently.
 </p>
@@ -211,16 +222,16 @@ So I have several issues to resolve:
 </div>
 </div>
 
-<div id="outline-container-orga1b228e" class="outline-2">
-<h3 id="orga1b228e">Solution</h3>
-<div class="outline-text-2" id="text-orga1b228e">
+<div id="outline-container-org0644c78" class="outline-2">
+<h3 id="org0644c78">Solution</h3>
+<div class="outline-text-2" id="text-org0644c78">
 <p>
 <a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a> is the best solution for email templates because you can embed Lisp code in the template.
 </p>
 </div>
-<div id="outline-container-org5c2ee63" class="outline-3">
-<h4 id="org5c2ee63">Templates</h4>
-<div class="outline-text-3" id="text-org5c2ee63">
+<div id="outline-container-org0b17f9a" class="outline-3">
+<h4 id="org0b17f9a">Templates</h4>
+<div class="outline-text-3" id="text-org0b17f9a">
 <p>
 I publicize my .emacs.d at <a href="https://github.com/redguardtoo/emacs.d">github</a>. But email templates are my private stuff. So I place them in different location.
 </p>
@@ -232,7 +243,7 @@ That's why I place templates at ~/my-yasnippets/message-mode/.
 <p>
 Here is a sample template to reply my agents (jobok.yasnippet):
 </p>
-<pre class="example" id="orga9c7607">
+<pre class="example" id="org49636e5">
 # -*- mode: snippet -*-
 # name: email for OK job
 # key: jobok
@@ -279,9 +290,9 @@ It will automatically fetch the first name of agent,
 </div>
 </div>
 </div>
-<div id="outline-container-orgefcd267" class="outline-3">
-<h4 id="orgefcd267">Emacs setup</h4>
-<div class="outline-text-3" id="text-orgefcd267">
+<div id="outline-container-org858b7c7" class="outline-3">
+<h4 id="org858b7c7">Emacs setup</h4>
+<div class="outline-text-3" id="text-org858b7c7">
 <p>
 Add following code into .emacs to make yasnippet load the emacs templates:
 </p>
@@ -327,8 +338,7 @@ Add following code into .emacs to make yasnippet load the emacs templates:
 
             </div>
             <div class="body">
-                <p></p>
-<p>Easy. You only install company-mode and company-cmake.el according to the documentation <a href="https://github.com/company-mode/company-cmake">HERE</a>. </p> <p> company-cmake.el is written by me. I'm in the process of signing necessary copyright papers to make it part of company-mode. I was told the process could take one month because I'm deal with GNU foundation. So please be patient. </p> <p> Anyway, you can use company-cmake.el right now with company-mode without any problem. </p> <p> Please note I only tested this plugin with cmake 2.8. </p> <p> Here is screen shot: <img src="wp-content/uploads/2014/01/company-cmake-nq8.png" alt="http://blog.binchen.org/wp-content/uploads/2014/01/company-cmake-nq8.png"></p> <p> UPDATED (12th Jan, 2014): Legal procedure is done. Now company-cmake.el is officially part of company-mode since version 0.6.12. </p> <p> So all you need to do is install latest company-mode, no other set up required! </p>
+                <p>Easy. You only install company-mode and company-cmake.el according to the documentation <a href="https://github.com/company-mode/company-cmake">HERE</a>. </p> <p> company-cmake.el is written by me. I'm in the process of signing necessary copyright papers to make it part of company-mode. I was told the process could take one month because I'm deal with GNU foundation. So please be patient. </p> <p> Anyway, you can use company-cmake.el right now with company-mode without any problem. </p> <p> Please note I only tested this plugin with cmake 2.8. </p> <p> Here is screen shot: <img src="wp-content/uploads/2014/01/company-cmake-nq8.png" alt="http://blog.binchen.org/wp-content/uploads/2014/01/company-cmake-nq8.png"></p> <p> UPDATED (12th Jan, 2014): Legal procedure is done. Now company-cmake.el is officially part of company-mode since version 0.6.12. </p> <p> So all you need to do is install latest company-mode, no other set up required! </p>
             </div>
         </div>
         <div class="post">
@@ -371,7 +381,6 @@ In certain situation, this method actually makes code more readable.
 <p>
 Here is code you can paste into your .emacs:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun strip-convert-lines-into-one-big-string (beg end)
@@ -436,11 +445,10 @@ Current position is preserved."
 
             </div>
             <div class="body">
-                <p></p>
-<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Problem</h4> <div class="outline-text-3" id="text-1">  <p>Here is the situation: </p>
+                <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Problem</h4> <div class="outline-text-3" id="text-1">  <p>Here is the situation: </p>
 <ul>
 <li>I've set up a repository at github to store my configuration of specifi software. </li> <li>I synchronize the configuration with several computers </li> <li>All these computers belongs to me only. </li> </ul>
-<p> My issue is after using <code>git pull/push</code> for some time. My commit history looks not linear. </p> </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Solution</h4> <div class="outline-text-3" id="text-2">  <p>Simple. I need use <code>git pull –rebase origin master</code> instead of <code>git pull origin master</code> </p> <p> Rebase will usually rewrite my commit history at your <b>local branch</b>. It's totally fine because I won't share the software configuration on my local computer. If I want to share my configuration, I will use the public url at github. </p>
+<p> My issue is after using `git pull/push` for some time. My commit history looks not linear. </p> </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Solution</h4> <div class="outline-text-3" id="text-2">  <p>Simple. I need use `git pull –rebase origin master` instead of `git pull origin master` </p> <p> Rebase will usually rewrite my commit history at your <b>local branch</b>. It's totally fine because I won't share the software configuration on my local computer. If I want to share my configuration, I will use the public url at github. </p>
 </div> </div>
             </div>
         </div>
@@ -469,8 +477,7 @@ Current position is preserved."
 
             </div>
             <div class="body">
-                <p></p>
-<p>Author: Chen Bin &lt;chenbin.sh AT gmail DOT com&gt; Created: <span class="timestamp-wrapper"> <span class="timestamp">2013-03-30 Sat</span></span> </p> <p> This is my quick guide on how to start debugging elisp. It's written for developers who are already experienced on debugging program but too lazy to read the <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Edebug.html#Edebug">Edebug manual</a>. </p> <p> The most critical set up for the debugging is to set the hot key "C-h C-f" to the command "find-function" so you can jump the definition of the function easily. </p>   <pre class="src src-elisp">(global-set-key (kbd <span style="color: #70c0b1;">"C-h C-f"</span>) 'find-function)
+                <p>Author: Chen Bin &lt;chenbin.sh AT gmail DOT com&gt; Created: <span class="timestamp-wrapper"> <span class="timestamp">2013-03-30 Sat</span></span> </p> <p> This is my quick guide on how to start debugging elisp. It's written for developers who are already experienced on debugging program but too lazy to read the <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Edebug.html#Edebug">Edebug manual</a>. </p> <p> The most critical set up for the debugging is to set the hot key "C-h C-f" to the command "find-function" so you can jump the definition of the function easily. </p>   <pre class="src src-elisp">(global-set-key (kbd <span style="color: #70c0b1;">"C-h C-f"</span>) 'find-function)
 </pre>   <p> Here is my workflow. </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">start the debugging</h4> <div class="outline-text-3" id="text-1">  <ul>
 <li>Jump to the definition of the command (The hot key is "C-h C-f", as I mentioned before). </li> <li>Run "M-x edebug-defun" . This will set the breakpoint into the entry of the command. BTW, I run "M-x eval-defun" in the function body to undo "edebug-defun". </li> <li>Run the command to be debugged from Emacs </li> <li>Press "space" key (M-x edebug-step-mode) to debug the program step by step </li> <li>Watch the value of expression in the mini-buffer when you press "space" key </li> </ul>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">basic debug operation</h4> <div class="outline-text-3" id="text-2">  <ul>
@@ -520,9 +527,9 @@ Current position is preserved."
 <p>
 For <a href="http://www.archlinux.org">ArchLinux</a> only:
 </p>
-<div id="outline-container-org1d94fd3" class="outline-2">
-<h3 id="org1d94fd3">Prepare directory</h3>
-<div class="outline-text-2" id="text-org1d94fd3">
+<div id="outline-container-org024f379" class="outline-2">
+<h3 id="org024f379">Prepare directory</h3>
+<div class="outline-text-2" id="text-org024f379">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">mkdir -p ~/bt/{session,finished,torrent}
@@ -532,9 +539,9 @@ For <a href="http://www.archlinux.org">ArchLinux</a> only:
 </div>
 </div>
 
-<div id="outline-container-org077ae90" class="outline-2">
-<h3 id="org077ae90">Install</h3>
-<div class="outline-text-2" id="text-org077ae90">
+<div id="outline-container-orgb186361" class="outline-2">
+<h3 id="orgb186361">Install</h3>
+<div class="outline-text-2" id="text-orgb186361">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">sudo pacman -S cronie
@@ -546,9 +553,9 @@ sudo systemctl start cronie
 </div>
 </div>
 
-<div id="outline-container-org1bdfdff" class="outline-2">
-<h3 id="org1bdfdff">Add cron task to start and stop rtorrent service</h3>
-<div class="outline-text-2" id="text-org1bdfdff">
+<div id="outline-container-orgf5ce0a6" class="outline-2">
+<h3 id="orgf5ce0a6">Add cron task to start and stop rtorrent service</h3>
+<div class="outline-text-2" id="text-orgf5ce0a6">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">crontab -e #add cron task as current user
@@ -608,9 +615,9 @@ wxWidgets 3.0.0
 <p>
 WARNING: before building, please make sure remove everything in build directory, <b>including hidden directory</b>!
 </p>
-<div id="outline-container-orgbd24ffa" class="outline-2">
-<h3 id="orgbd24ffa">Install webkit by using Linux distribution's package manager</h3>
-<div class="outline-text-2" id="text-orgbd24ffa">
+<div id="outline-container-orgc6e0e2f" class="outline-2">
+<h3 id="orgc6e0e2f">Install webkit by using Linux distribution's package manager</h3>
+<div class="outline-text-2" id="text-orgc6e0e2f">
 <p>
 I need use wxWebView which dependent on webkit on Linux. The issue here is that webkit on Linux is using GTK.
 </p>
@@ -620,9 +627,9 @@ Make sure the webkit and wxWidgets are using same version of GTK.
 </p>
 </div>
 </div>
-<div id="outline-container-org2d78751" class="outline-2">
-<h3 id="org2d78751">build the source</h3>
-<div class="outline-text-2" id="text-org2d78751">
+<div id="outline-container-org026f343" class="outline-2">
+<h3 id="org026f343">build the source</h3>
+<div class="outline-text-2" id="text-org026f343">
 <p>
 Please note I don't use libtiff. I think libpng and libjpeg is enough.
 </p>
@@ -671,9 +678,9 @@ On Linux, build will be fine following above steps. But for building application
 
             </div>
             <div class="body">
-                <div id="outline-container-orgdec0678" class="outline-2">
-<h3 id="orgdec0678">Intel integrated video card</h3>
-<div class="outline-text-2" id="text-orgdec0678">
+                <div id="outline-container-org87edc3f" class="outline-2">
+<h3 id="org87edc3f">Intel integrated video card</h3>
+<div class="outline-text-2" id="text-org87edc3f">
 <p>
 Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
 </p>
@@ -685,9 +692,9 @@ Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; I
 </div>
 </div>
 </div>
-<div id="outline-container-org1b23272" class="outline-2">
-<h3 id="org1b23272">Grub2</h3>
-<div class="outline-text-2" id="text-org1b23272">
+<div id="outline-container-orgf2aa8db" class="outline-2">
+<h3 id="orgf2aa8db">Grub2</h3>
+<div class="outline-text-2" id="text-orgf2aa8db">
 <p>
 Let grub2 create the cfg for me automatically,
 </p>
@@ -699,13 +706,13 @@ Let grub2 create the cfg for me automatically,
 </div>
 </div>
 </div>
-<div id="outline-container-org44a1f26" class="outline-2">
-<h3 id="org44a1f26">Network</h3>
-<div class="outline-text-2" id="text-org44a1f26">
+<div id="outline-container-org129f906" class="outline-2">
+<h3 id="org129f906">Network</h3>
+<div class="outline-text-2" id="text-org129f906">
 </div>
-<div id="outline-container-orgf926c07" class="outline-3">
-<h4 id="orgf926c07">Ethernet</h4>
-<div class="outline-text-3" id="text-orgf926c07">
+<div id="outline-container-orgca8105a" class="outline-3">
+<h4 id="orgca8105a">Ethernet</h4>
+<div class="outline-text-3" id="text-orgca8105a">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -720,9 +727,9 @@ rc-update add net.eth0 default
 </div>
 </div>
 
-<div id="outline-container-org4a636c2" class="outline-3">
-<h4 id="org4a636c2">Wireless (wifi)</h4>
-<div class="outline-text-3" id="text-org4a636c2">
+<div id="outline-container-orgd4e26b2" class="outline-3">
+<h4 id="orgd4e26b2">Wireless (wifi)</h4>
+<div class="outline-text-3" id="text-orgd4e26b2">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -794,17 +801,17 @@ Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
 </div>
 </div>
 </div>
-<div id="outline-container-org7b906c2" class="outline-2">
-<h3 id="org7b906c2">Clock Synchronization</h3>
-<div class="outline-text-2" id="text-org7b906c2">
+<div id="outline-container-org8fcd7d0" class="outline-2">
+<h3 id="org8fcd7d0">Clock Synchronization</h3>
+<div class="outline-text-2" id="text-org8fcd7d0">
 <p>
 <a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate">htpdate</a> is great because it only use HTTP protocol, don't forget add server in its config file.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfbdd133" class="outline-2">
-<h3 id="orgfbdd133">Sound</h3>
-<div class="outline-text-2" id="text-orgfbdd133">
+<div id="outline-container-org78fca2a" class="outline-2">
+<h3 id="org78fca2a">Sound</h3>
+<div class="outline-text-2" id="text-org78fca2a">
 <p>
 Nothing to tell. There may be some issue, but I forgot.</p>
 </div>
@@ -819,7 +826,7 @@ Nothing to tell. There may be some issue, but I forgot.</p>
             <li class="next">
                 <a href="index-7.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

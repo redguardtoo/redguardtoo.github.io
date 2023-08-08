@@ -71,7 +71,6 @@ When working on JSON, the most boring and error prone task is to get the full pa
 <p>
 For example, given the JSON response like:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-javascript">{
@@ -96,7 +95,6 @@ My solution is to take advantage of AST created by <a href="https://github.com/m
 <p>
 <b>Step 1</b>, insert below code into ~/.emacs,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; {{ print json path, will be removed when latest STABLE js2-mode released
@@ -211,7 +209,6 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-24 
 <p>
 Insert below code into ~/.emacs:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; {{ nearby file path as text object,
@@ -376,9 +373,9 @@ Insert below code into ~/.emacs:
 <a href="https://www.youtube.com/watch?v=Aclyh2c_BEs">https://www.youtube.com/watch?v=Aclyh2c_BEs</a>
 </p>
 
-<div id="outline-container-org5921f4c" class="outline-2">
-<h3 id="org5921f4c">备料</h3>
-<div class="outline-text-2" id="text-org5921f4c">
+<div id="outline-container-org5c6a379" class="outline-2">
+<h3 id="org5c6a379">备料</h3>
+<div class="outline-text-2" id="text-org5c6a379">
 <ul class="org-ul">
 <li>两人份冷水</li>
 <li>米少许(半茶勺)</li>
@@ -391,15 +388,15 @@ Insert below code into ~/.emacs:
 <li>九层塔(薄荷)一把</li>
 <li>鲜红辣椒两到三根</li>
 </ul>
-<div id="orgd81cd8b" class="figure">
+<div id="org3cd1401" class="figure">
 <p><img src="wp-content/Sgow-Chrouk-Soup-prepare.jpg" alt="Sgow-Chrouk-Soup-prepare.jpg"></p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org245dda3" class="outline-2">
-<h3 id="org245dda3">步骤</h3>
-<div class="outline-text-2" id="text-org245dda3">
+<div id="outline-container-org9a98221" class="outline-2">
+<h3 id="org9a98221">步骤</h3>
+<div class="outline-text-2" id="text-org9a98221">
 <ul class="org-ul">
 <li>鸡胸脯肉切成小块,盐过一下三四分钟,洗净刀和板</li>
 <li>烧开水</li>
@@ -414,15 +411,15 @@ Insert below code into ~/.emacs:
 </div>
 </div>
 
-<div id="outline-container-org54ababb" class="outline-2">
-<h3 id="org54ababb">上菜</h3>
-<div class="outline-text-2" id="text-org54ababb">
+<div id="outline-container-orgb140f5a" class="outline-2">
+<h3 id="orgb140f5a">上菜</h3>
+<div class="outline-text-2" id="text-orgb140f5a">
 <ul class="org-ul">
 <li>准备大碗,放入薄荷,葱,适量柠檬汁,倒汤</li>
 <li>柬埔寨神秘香菜(可选)</li>
 <li>可加少量鱼露调咸味</li>
 </ul>
-<div id="orgd430b20" class="figure">
+<div id="org1792c38" class="figure">
 <p><img src="wp-content/Sgow-Chrouk-Soup-done.jpg" alt="Sgow-Chrouk-Soup-done.jpg"></p>
 </div>
 </div>
@@ -457,7 +454,6 @@ Insert below code into ~/.emacs:
                 <p>
 I'm still <b>NOT</b> satisfied with my Emacs performance after applying below tricks:
 </p>
-
 <ul class="org-ul">
 <li>autoload packages</li>
 <li>idle-load packages</li>
@@ -482,7 +478,6 @@ Since I'm a Linux guy and my computer got enough (24G) memory. I can place my se
 <p>
 <b>Step 1</b>, insert below line into /etc/fstab and restart computer:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-ini">tmpfs       /tmp        tmpfs       nodev,nosuid,size=8G    0   0
@@ -493,7 +488,6 @@ Since I'm a Linux guy and my computer got enough (24G) memory. I can place my se
 <p>
 <b>Step 2</b>, run the script "emacs2ram":
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#!/bin/sh
@@ -620,7 +614,6 @@ I consulted the issue with Frank Fischer.
 <p>
 The solution is simple. Insert below code into ~/.emacs:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
@@ -788,7 +781,6 @@ Step 1, install <a href="http://w3m.sourceforge.net/">w3m</a> and <a href="http:
 <p>
 Step 2, insert below code into ~/.emacs:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun w3m-get-url-from-search-engine-alist (k l)
@@ -878,9 +870,9 @@ I will explain how to resolve code merge conflicts with plain vim. The only thir
 <p>
 The reason to use vim is that I can't use vimdiff as a merge tool for certain VCS (CVS, Subversion, Perforce, …).
 </p>
-<div id="outline-container-orgb09cf26" class="outline-2">
-<h3 id="orgb09cf26">Problem</h3>
-<div class="outline-text-2" id="text-orgb09cf26">
+<div id="outline-container-org2e76e5c" class="outline-2">
+<h3 id="org2e76e5c">Problem</h3>
+<div class="outline-text-2" id="text-org2e76e5c">
 <p>
 A typical file in conflict is like:
 </p>
@@ -909,9 +901,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </div>
 </div>
 
-<div id="outline-container-org5e63741" class="outline-2">
-<h3 id="org5e63741">Basic knowledge of Vim</h3>
-<div class="outline-text-2" id="text-org5e63741">
+<div id="outline-container-orgb0d621b" class="outline-2">
+<h3 id="orgb0d621b">Basic knowledge of Vim</h3>
+<div class="outline-text-2" id="text-orgb0d621b">
 <ul class="org-ul">
 <li>"]n" move the focus to the next marker and "[n" to the previous marker.</li>
 <li>"dd" delete current line</li>
@@ -920,9 +912,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </div>
 </div>
 
-<div id="outline-container-orgfb48aee" class="outline-2">
-<h3 id="orgfb48aee">Solution</h3>
-<div class="outline-text-2" id="text-orgfb48aee">
+<div id="outline-container-org87324a7" class="outline-2">
+<h3 id="org87324a7">Solution</h3>
+<div class="outline-text-2" id="text-org87324a7">
 <p>
 Our workflow is actually simple:
 </p>
@@ -987,9 +979,9 @@ UPDATE: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-06-22 W
 This question has been asked so many times, so I answered it here once for all.
 </p>
 
-<div id="outline-container-org04f4bcc" class="outline-2">
-<h3 id="org04f4bcc">Solution</h3>
-<div class="outline-text-2" id="text-org04f4bcc">
+<div id="outline-container-org58fa8fd" class="outline-2">
+<h3 id="org58fa8fd">Solution</h3>
+<div class="outline-text-2" id="text-org58fa8fd">
 <p>
 Insert below code into ~/.emacs:
 </p>
@@ -1061,9 +1053,9 @@ For <b>any new programming language</b> not covered in this post, there are two 
 </div>
 </div>
 
-<div id="outline-container-org93dcd48" class="outline-2">
-<h3 id="org93dcd48">Tips (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-org93dcd48">
+<div id="outline-container-orga50cef9" class="outline-2">
+<h3 id="orga50cef9">Tips (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-orga50cef9">
 <ul class="org-ul">
 <li>Please note the first paramter of `string-match-p` is actually <b>regular expression</b>. So you can write regular expression like "\\(/proj1\\|work.org\\)"</li>
 
@@ -1131,9 +1123,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 
 I use <a href="https://angularjs.org/">AngularJS</a> as an example. The technique is actually generic and not limited to Angular Only.
 </p>
 
-<div id="outline-container-org2e1acfa" class="outline-2">
-<h3 id="org2e1acfa">Problem</h3>
-<div class="outline-text-2" id="text-org2e1acfa">
+<div id="outline-container-orgb1d614c" class="outline-2">
+<h3 id="orgb1d614c">Problem</h3>
+<div class="outline-text-2" id="text-orgb1d614c">
 <p>
 In Angular application, a function is defined in a javascript file and called in a html file.
 </p>
@@ -1176,9 +1168,9 @@ In this article, I focus on how I combine Emacs and Ctags. If you use other text
 </p>
 </div>
 </div>
-<div id="outline-container-orgff7cee6" class="outline-2">
-<h3 id="orgff7cee6">Solution</h3>
-<div class="outline-text-2" id="text-orgff7cee6">
+<div id="outline-container-org997ec76" class="outline-2">
+<h3 id="org997ec76">Solution</h3>
+<div class="outline-text-2" id="text-org997ec76">
 <p>
 Ctags is good at parsing files with <b>regular expression</b>.
 </p>
@@ -1193,9 +1185,9 @@ I use Ctags because:
 </ul>
 </div>
 
-<div id="outline-container-org2312dc3" class="outline-3">
-<h4 id="org2312dc3">Old solution</h4>
-<div class="outline-text-3" id="text-org2312dc3">
+<div id="outline-container-orge00e4f4" class="outline-3">
+<h4 id="orge00e4f4">Old solution</h4>
+<div class="outline-text-3" id="text-orge00e4f4">
 <p>
 Here is my <a href="https://gist.github.com/redguardtoo/b12ddae3b8010a276e9b#file-ctags">~/.ctags</a>.
 </p>
@@ -1222,9 +1214,9 @@ Please install the latest helm because I <a href="https://github.com/emacs-helm/
 </div>
 </div>
 
-<div id="outline-container-orgbe4b2a2" class="outline-3">
-<h4 id="orgbe4b2a2">Latest solution (recommended)</h4>
-<div class="outline-text-3" id="text-orgbe4b2a2">
+<div id="outline-container-org8c2e5ca" class="outline-3">
+<h4 id="org8c2e5ca">Latest solution (recommended)</h4>
+<div class="outline-text-3" id="text-org8c2e5ca">
 <p>
 I have developed some ctags packages on code completion and code navigation. No manual setup is needed. Everything just works out of box. My packages are very popular in the Emacs community right now,
 </p>
@@ -1269,7 +1261,7 @@ Usage is simple,
             <li class="next">
                 <a href="index-19.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

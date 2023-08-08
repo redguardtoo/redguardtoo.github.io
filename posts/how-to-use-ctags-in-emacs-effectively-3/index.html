@@ -91,7 +91,6 @@ Ctags creates an index file named "TAGS". The path of TAGS is stored in a Emacs 
 <p>
 Example of <code>tags-table-list</code>:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(setq tags-table-list '("~/wxWidgets-master/TAGS" "~/projs/Loris/src/desktop/TAGS"))
@@ -106,7 +105,6 @@ When running <code>M-x find-tag</code>, the tag files in <code>tags-table-list</
 <p>
 Here is my strategy to manage TAGS <b>automatically</b>:
 </p>
-
 <ul class="org-ul">
 <li>I hard coded path of TAGS in <code>.emacs</code> because I don't change project path frequently</li>
 <li>In major mode hook like <code>c++-mode-hook</code> or <code>js2-mode-hook</code> I check the path current file. If it matches project name, the file is part of the project</li>
@@ -117,7 +115,6 @@ Here is my strategy to manage TAGS <b>automatically</b>:
 <p>
 Code:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun my-project-name-contains-substring (regex)
@@ -187,7 +184,6 @@ Code:
 UPDATE:
 Ctags is discussed at <a href="https://plus.google.com/110954683162859211810/posts/NsdzvywuoX3">Google Plus</a>. Kaushal Modi recommended three Emacs plugins:
 </p>
-
 <ul class="org-ul">
 <li><a href="https://github.com/jixiuf/ctags-update">ctags-update</a></li>
 <li><a href="https://www.emacswiki.org/emacs/etags-table.el">etags-table</a></li>
@@ -205,7 +201,6 @@ But I do like <code>etags-select</code>, it provides better UI for finding tag a
 UPDATE:
 I have developed my own ctags solution for Emacs,
 </p>
-
 <ul class="org-ul">
 <li>
 <a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation and imenu</li>
@@ -248,7 +243,7 @@ I have developed my own ctags solution for Emacs,
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

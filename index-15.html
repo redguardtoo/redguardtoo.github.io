@@ -47,21 +47,18 @@
 
             </div>
             <div class="body">
-                <p></p>
-<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Key points</h4> <div class="outline-text-3" id="text-1">  <ul>
+                <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Key points</h4> <div class="outline-text-3" id="text-1">  <ul>
 <li>see <a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html">Redhat documenation</a>, best doc on exportfs </li> <li>
-<a href="http://superuser.com/questions/492989/understanding-subnet-mask">Understanding Subnet mask</a> and <a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask">essential Subnet mask</a> </li> <li>
-<code>sudo exportfs -r</code> to reload /etc/exports </li> <li>
-<code>sudo exportfs -v</code> to see current nfs exports </li> <li>content of /etc/exports: </li> </ul>
+<a href="http://superuser.com/questions/492989/understanding-subnet-mask">Understanding Subnet mask</a> and <a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask">essential Subnet mask</a> </li> <li>`sudo exportfs -r` to reload /etc/exports </li> <li>`sudo exportfs -v` to see current nfs exports </li> <li>content of /etc/exports: </li> </ul>
 <pre class="prettyprint ">
 
 /srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
 </pre>
 
-<p></p>
-<ul>
-<li>check <a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html">optimizatioin tips</a> </li> <li>
-<code>man 5 exports</code> for the documentation of /etc/exports </li> <li>
+
+
+  <ul>
+<li>check <a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html">optimizatioin tips</a> </li> <li>`man 5 exports` for the documentation of /etc/exports </li> <li>
 <a href="https://www.serverstack.com/blog/2012/11/21/debugging-nfs-file-access-on-server-and-client-side/">Debugging NFS File Access on Server and Client Side</a> </li> </ul>
 <pre class="prettyprint ">
 
@@ -72,10 +69,13 @@ sudo rpcdebug -m nfsd -s proc
 # turn off the log
 </pre>
 
-<p></p>
-<ul>
-<li>then <code>sudo tail -f /var/log/messages.log</code> </li> <li>Basically you need <code>sudo systemctl enable syslog-ng.service</code> to enable system log before you use rpcdebug </li> </ul>
+
+
+  <ul>
+<li>then `sudo tail -f /var/log/messages.log` </li> <li>Basically you need `sudo systemctl enable syslog-ng.service` to enable system log before you use rpcdebug </li> </ul>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Summary</h4> <div class="outline-text-3" id="text-2">  <p>On server side: </p>   
+
+
 <pre class="prettyprint ">
 
 sudo exportfs
@@ -85,8 +85,11 @@ sudo exportfs
 # /srv/nfs4/z   192.168.0.0/16
 </pre>
 
-<p></p>
-<p> Then on client side: </p>   
+
+
+   <p> Then on client side: </p>   
+
+
 <pre class="prettyprint ">
 
 # 131072 is 128K
@@ -94,8 +97,9 @@ sudo exportfs
 sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
 </pre>
 
-<p></p>
-</div> </div>
+
+
+  </div> </div>
             </div>
         </div>
         <div class="post">
@@ -122,14 +126,13 @@ sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodi
 
             </div>
             <div class="body">
-                <p></p>
-<p>List and filter all the files need resolve conflict, then apply certain git operation on them: </p>   
+                <p>List and filter all the files need resolve conflict, then apply certain git operation on them: </p>   
+
+
 <pre class="prettyprint ">
 
 git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --theirs {} &amp;&amp; git add {}"
 </pre>
-
-<p></p>
             </div>
         </div>
         <div class="post">
@@ -167,7 +170,6 @@ Since I'm using <a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> (Vim
 <p>
 The extra keybindings could be optimized by below code in <code>~/.emacs</code>:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun evil-toggle-input-method ()
@@ -263,9 +265,9 @@ There is also a <a href="http://blog.binchen.org/posts/what-s-the-best-spell-che
 <li>Difference between hunspell and aspell</li>
 <li>How to setup hunspell</li>
 </ul>
-<div id="outline-container-orgec84221" class="outline-2">
-<h3 id="orgec84221">Spell check in HTML</h3>
-<div class="outline-text-2" id="text-orgec84221">
+<div id="outline-container-orgc175fb7" class="outline-2">
+<h3 id="orgc175fb7">Spell check in HTML</h3>
+<div class="outline-text-2" id="text-orgc175fb7">
 <p>
 I will spell check,
 </p>
@@ -325,9 +327,9 @@ I use <a href="http://web-mode.org/">web-mode</a> for HTML files. The technique 
 </div>
 </div>
 
-<div id="outline-container-org1a48407" class="outline-2">
-<h3 id="org1a48407">Don't display doublon (double word) as error</h3>
-<div class="outline-text-2" id="text-org1a48407">
+<div id="outline-container-orgfa78de4" class="outline-2">
+<h3 id="orgfa78de4">Don't display doublon (double word) as error</h3>
+<div class="outline-text-2" id="text-orgfa78de4">
 <p>
 Modern CSS frameworks like <a href="http://getbootstrap.com/">Bootstrap</a> make doublon unavoidable. For example, CSS class name <code>btn btn-default</code> contains double word <code>btn</code>.
 </p>
@@ -356,9 +358,9 @@ So we need stop displaying doublon as error in HTML,
 </div>
 </div>
 
-<div id="outline-container-orgf63aba4" class="outline-2">
-<h3 id="orgf63aba4">Spell check camel case strings</h3>
-<div class="outline-text-2" id="text-orgf63aba4">
+<div id="outline-container-orgc375696" class="outline-2">
+<h3 id="orgc375696">Spell check camel case strings</h3>
+<div class="outline-text-2" id="text-orgc375696">
 <p>
 We can check camel cased string/variable/function if and only if <a href="http://aspell.net/">aspell</a> is used.
 </p>
@@ -384,9 +386,9 @@ Insert below code into <code>.emacs</code>,
 </div>
 </div>
 
-<div id="outline-container-org330a2f8" class="outline-2">
-<h3 id="org330a2f8">Summary</h3>
-<div class="outline-text-2" id="text-org330a2f8">
+<div id="outline-container-orgb74232c" class="outline-2">
+<h3 id="orgb74232c">Summary</h3>
+<div class="outline-text-2" id="text-orgb74232c">
 <p>
 <a href="http://www.emacswiki.org/emacs/FlySpell">EmacsWiki</a> suggests <code>(flyspell-prog-mode)</code> which only checks typo in comments.
 </p>
@@ -400,15 +402,15 @@ Screen shot (typos are underscored):
 </p>
 
 
-<div id="orgec53493" class="figure">
+<div id="org271cf0b" class="figure">
 <p><img src="wp-content/spell-check-html-in-emacs.png" alt="spell-check-html-in-emacs.png"></p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2db3b4d" class="outline-2">
-<h3 id="org2db3b4d">Javascript and ReactJS setup (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-org2db3b4d">
+<div id="outline-container-org7cac48a" class="outline-2">
+<h3 id="org7cac48a">Javascript and ReactJS setup (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-org7cac48a">
 <p>
 If you fully understand my previous sections, you don't need read this section.
 </p>
@@ -462,16 +464,15 @@ Insert below code into <code>.emacs</code>,
 
             </div>
             <div class="body">
-                <p></p>
-<p>Memo for my self. </p>   
+                <p>Memo for my self. </p>   
+
+
 <pre class="prettyprint ">
 
 sudo ls -1 /etc/{rc,init}.d/|grep local
 
 # then read the file either rc.local or local
 </pre>
-
-<p></p>
             </div>
         </div>
         <div class="post">
@@ -501,8 +502,7 @@ sudo ls -1 /etc/{rc,init}.d/|grep local
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>C-[ or C-] to switch panel </li> <li>C-S-J to toggle dev tools and focus <b>Console panel</b>, see <a href="https://developers.google.com/chrome-developer-tools/docs/commandline-api">command line reference</a> </li> <li>C-S-I to toggle dev tools, then C-o to switch to <b>Sources panel</b> if needed </li> <li>C-S-C to <b>open</b> dev tools and focus on <b>Elements panel</b> </li> <li>See <a href="https://developers.google.com/chrome-developer-tools/docs/shortcuts">https://developers.google.com/chrome-developer-tools/docs/shortcuts</a> for all hot keys </li> <li>See <a href="https://developers.google.com/chrome-developer-tools/docs/javascript-debugging">https://developers.google.com/chrome-developer-tools/docs/javascript-debugging</a> </li> <li>Click <a href="http://javascript-library.googlecode.com/svn/trunk/javascript/goog/demos/hovercard.html">here</a> for test </li> </ul>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption> <colgroup>
@@ -592,7 +592,6 @@ sudo ls -1 /etc/{rc,init}.d/|grep local
                 <p>
 Content of <code>/etc/grub.d/11_windows</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-ini">#!/bin/sh -e
@@ -613,7 +612,6 @@ EOF
 <p>
 /etc/default/grub
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-ini"># Copyright 1999-2013 Gentoo Foundation
@@ -704,9 +702,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-01-15 
 <p>
 Let's see an example in real life development.
 </p>
-<div id="outline-container-org2a178e3" class="outline-2">
-<h3 id="org2a178e3">Note</h3>
-<div class="outline-text-2" id="text-org2a178e3">
+<div id="outline-container-orge805d72" class="outline-2">
+<h3 id="orge805d72">Note</h3>
+<div class="outline-text-2" id="text-orge805d72">
 <p>
 For people who does not get the key points of this article, here are the points:
 </p>
@@ -718,9 +716,9 @@ For people who does not get the key points of this article, here are the points:
 </div>
 </div>
 
-<div id="outline-container-org52d8a25" class="outline-2">
-<h3 id="org52d8a25">Problem</h3>
-<div class="outline-text-2" id="text-org52d8a25">
+<div id="outline-container-org4d69676" class="outline-2">
+<h3 id="org4d69676">Problem</h3>
+<div class="outline-text-2" id="text-org4d69676">
 <p>
 I'm maintaining a big javascript file with thousands of lines of legacy code.
 </p>
@@ -774,9 +772,9 @@ Most editors like Sublime Text 3 cannot display the javascript functions with me
 </div>
 </div>
 
-<div id="outline-container-org22b5f76" class="outline-2">
-<h3 id="org22b5f76">Solution</h3>
-<div class="outline-text-2" id="text-org22b5f76">
+<div id="outline-container-org689c70e" class="outline-2">
+<h3 id="org689c70e">Solution</h3>
+<div class="outline-text-2" id="text-org689c70e">
 <p>
 Emacs has a <a href="http://www.emacswiki.org/emacs/Js2Mode">js2-mode</a> which is basically a javascript interpreter written in lisp. It's created by <a href="http://www.emacswiki.org/emacs/SteveYegge">Steve Yegge</a> and now maintained by <a href="https://github.com/mooz/js2-mode">mooz</a>.
 </p>
@@ -879,9 +877,9 @@ The screen shot after we applying the above patch:
 </div>
 </div>
 
-<div id="outline-container-org370fd6a" class="outline-2">
-<h3 id="org370fd6a">Summary</h3>
-<div class="outline-text-2" id="text-org370fd6a">
+<div id="outline-container-orgaaaeaa9" class="outline-2">
+<h3 id="orgaaaeaa9">Summary</h3>
+<div class="outline-text-2" id="text-orgaaaeaa9">
 <p>
 That's an example of beauty of Emacs.
 </p>
@@ -891,9 +889,9 @@ It gives you freedom and power. You can base your work on the top geeks like Ste
 </p>
 </div>
 </div>
-<div id="outline-container-orgcb5b5cb" class="outline-2">
-<h3 id="orgcb5b5cb">Update</h3>
-<div class="outline-text-2" id="text-orgcb5b5cb">
+<div id="outline-container-org912c914" class="outline-2">
+<h3 id="org912c914">Update</h3>
+<div class="outline-text-2" id="text-org912c914">
 <p>
 My patch is incorporated into <code>js2-mode</code> since version <code>20140114</code>.
 </p>
@@ -921,7 +919,7 @@ After installing <code>Helm</code>, you can use command <code>M-x helm-imenu</co
 </p>
 
 
-<div id="org9ef4024" class="figure">
+<div id="orga3eec7f" class="figure">
 <p><img src="wp-content/helm-imenu-and-js2-mode-nq8.png" alt="helm-imenu-and-js2-mode-nq8.png"></p>
 </div>
 
@@ -957,9 +955,9 @@ UPDATE: I suggest using <code>counsel-imenu</code> from <a href="https://github.
 
             </div>
             <div class="body">
-                <div id="outline-container-orge483434" class="outline-2">
-<h3 id="orge483434">List failed services</h3>
-<div class="outline-text-2" id="text-orge483434">
+                <div id="outline-container-org068baf0" class="outline-2">
+<h3 id="org068baf0">List failed services</h3>
+<div class="outline-text-2" id="text-org068baf0">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">sudo systemctl --failed
@@ -972,9 +970,9 @@ I can also use `sudo journalctl -b` to get the log message when booting all the 
 </p>
 </div>
 </div>
-<div id="outline-container-org28d5ada" class="outline-2">
-<h3 id="org28d5ada">Find the root cause of failed service</h3>
-<div class="outline-text-2" id="text-org28d5ada">
+<div id="outline-container-orgaf8a32d" class="outline-2">
+<h3 id="orgaf8a32d">Find the root cause of failed service</h3>
+<div class="outline-text-2" id="text-orgaf8a32d">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">sudo systemctl status service-name
@@ -983,9 +981,9 @@ I can also use `sudo journalctl -b` to get the log message when booting all the 
 </div>
 </div>
 </div>
-<div id="outline-container-org01d715c" class="outline-2">
-<h3 id="org01d715c">Why my /usr/lib/systemd/system/network-wifi.service does not work</h3>
-<div class="outline-text-2" id="text-org01d715c">
+<div id="outline-container-orga87a38b" class="outline-2">
+<h3 id="orga87a38b">Why my /usr/lib/systemd/system/network-wifi.service does not work</h3>
+<div class="outline-text-2" id="text-orga87a38b">
 <p>
 Here is the content of my wifi service
 </p>
@@ -1030,9 +1028,9 @@ Solutin is simple:
 </div>
 </div>
 </div>
-<div id="outline-container-org843c42e" class="outline-2">
-<h3 id="org843c42e">How to start a service as specific user (mpd, for example)</h3>
-<div class="outline-text-2" id="text-org843c42e">
+<div id="outline-container-org9853dc5" class="outline-2">
+<h3 id="org9853dc5">How to start a service as specific user (mpd, for example)</h3>
+<div class="outline-text-2" id="text-org9853dc5">
 <p>
 This is the content of /usr/lib/systemd/system/mpd.service: 
 </p>
@@ -1081,23 +1079,57 @@ WantedBy=multi-user.target
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>
 <a href="http://www.xinshipu.com/%E7%AE%80%E6%98%93%E7%89%88%E8%9A%9D%E6%B2%B9%E7%94%9F%E8%8F%9C-15533.htm">菜谱</a> </li> <li>油炸蒜末,倒入蚝油(至少4大勺)搅拌,最后放入生菜(半颗),搅拌一下即可,可以最后放盐如果嫌不咸的话 </li> <li>生菜用开水烫过沥干,因为其容易出水 </li> <li>不要放糖,蚝油本身有甜味了 </li> </ul>
 <p>阿基师的做法 </p>   <pre class="example">小叮嚀:
-<p>1.西生菜要集中加熱（顏色才可以保持鮮綠跟脆口）</p>
-<p>2.可以利用香菇去蠔油腥味</p>
-<p>2.1. 利用香菇去做燴的動作，讓一些物料巴在上頭</p>
-<p>2.2. 不要加雞精粉跟糖，蠔油已經有甜度了。</p>
-<p>2.3. 蠔油跟豬油一起拌會更香</p>
-<p>做法:</p>
-<p>1.去除香菇蒂頭，斜刀將香菇切片。</p>
-<p>2.起鍋下1茶匙油，爆香香菇片，下蠔油拌炒〈炒過的蠔油有焦糖味在裡面， 味道會更香〉，加入自來高湯〈自來高湯的量，只要抓蠔油鹹度即可〉，小滾一會兒， 讓香菇的甜味煮出來。</p>
-<p>3.調太白粉水〈粉1：水3〉，加入適量的太白粉水，加入少許香油，不需攪拌，熄火 〈澱粉會吃油，攪拌的話會膨脹變成一團糊〉。</p>
-<p>4.在滾水鍋中加鹽，汆燙西生菜〈菜要最後汆燙〉，加入少許薑末〈薑汁也行，薑可提味，巴在葉片上會更好吃〉汆燙，撈起西生菜瀝乾水份〈因為西生菜很會出水， 一定要徹底瀝乾水份，否則會水水的〉。</p>
-<p>5.將蠔油醬汁淋在西生菜上即可。</p>
-<p></p></pre>  <p> -<a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=X5fY_CtpUGo#t=1731">阿基师视频</a> </p> <p> Screen shot: <img src="wp-content/uploads/2013/11/wpid-fried-cabbage.jpg" alt="http://blog.binchen.org/wp-content/uploads/2013/11/wpid-fried-cabbage.jpg"></p>
+
+
+1.西生菜要集中加熱（顏色才可以保持鮮綠跟脆口）
+
+
+
+2.可以利用香菇去蠔油腥味
+
+
+
+2.1. 利用香菇去做燴的動作，讓一些物料巴在上頭
+
+
+
+2.2. 不要加雞精粉跟糖，蠔油已經有甜度了。
+
+
+
+2.3. 蠔油跟豬油一起拌會更香
+
+
+
+
+
+做法:
+
+
+
+1.去除香菇蒂頭，斜刀將香菇切片。
+
+
+
+2.起鍋下1茶匙油，爆香香菇片，下蠔油拌炒〈炒過的蠔油有焦糖味在裡面， 味道會更香〉，加入自來高湯〈自來高湯的量，只要抓蠔油鹹度即可〉，小滾一會兒， 讓香菇的甜味煮出來。
+
+
+
+3.調太白粉水〈粉1：水3〉，加入適量的太白粉水，加入少許香油，不需攪拌，熄火 〈澱粉會吃油，攪拌的話會膨脹變成一團糊〉。
+
+
+
+4.在滾水鍋中加鹽，汆燙西生菜〈菜要最後汆燙〉，加入少許薑末〈薑汁也行，薑可提味，巴在葉片上會更好吃〉汆燙，撈起西生菜瀝乾水份〈因為西生菜很會出水， 一定要徹底瀝乾水份，否則會水水的〉。
+
+
+
+5.將蠔油醬汁淋在西生菜上即可。
+
+</pre>  <p> -<a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=X5fY_CtpUGo#t=1731">阿基师视频</a> </p> <p> Screen shot: <img src="wp-content/uploads/2013/11/wpid-fried-cabbage.jpg" alt="http://blog.binchen.org/wp-content/uploads/2013/11/wpid-fried-cabbage.jpg"></p>
             </div>
         </div>
     
@@ -1108,7 +1140,7 @@ WantedBy=multi-user.target
             <li class="next">
                 <a href="index-14.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

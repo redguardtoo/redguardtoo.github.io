@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about wordpress)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/wordpress.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:45 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Migrate blog from wordpress into nikola</title><link>http://blog.binchen.org/posts/migrate-blog-from-wordpress-into-nikola/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about wordpress)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/wordpress.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:04 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Migrate blog from wordpress into nikola</title><link>http://blog.binchen.org/posts/migrate-blog-from-wordpress-into-nikola/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-04-22 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -11,9 +11,9 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 If you are only interested in web page optimization, start from the second section of the article.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orga1dc2fc" class="outline-2"&gt;
-&lt;h3 id="orga1dc2fc"&gt;Migrate from WordPress to Nikola&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga1dc2fc"&gt;
+&lt;div id="outline-container-org4dc324b" class="outline-2"&gt;
+&lt;h3 id="org4dc324b"&gt;Migrate from WordPress to Nikola&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4dc324b"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;# you might need need `sudo apt-get install python-gdbm` on Debian
@@ -131,9 +131,9 @@ You can use javascript to re-direct the URL, so your old article links are still
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org92c9cc2" class="outline-2"&gt;
-&lt;h3 id="org92c9cc2"&gt;Optimization&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org92c9cc2"&gt;
+&lt;div id="outline-container-orgfbdc78f" class="outline-2"&gt;
+&lt;h3 id="orgfbdc78f"&gt;Optimization&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfbdc78f"&gt;
 &lt;p&gt;
 I developed &lt;a href="https://github.com/redguardtoo/org2nikola"&gt;org2nikola&lt;/a&gt; to convert Org subtree into Nikola page. 
 &lt;/p&gt;
@@ -173,7 +173,6 @@ For jquery.js, see &lt;a href="http://rk.md/2012/cdnjs-scripts-without-plugin-wo
 &lt;p&gt;
 I added below code into bottom of functions.php (Appearance =&amp;gt; Editor):
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-php"&gt;add_action('wp_enqueue_scripts', 'CDNJS_scripts');
@@ -190,7 +189,6 @@ function CDNJS_scripts()
 &lt;p&gt;
 For js from SyntaxHighlighter Evolved (Plugins =&amp;gt; Installed Plugins =&amp;gt; Edit):
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-diff"&gt;diff --git a/syntaxhighlighter.php b/syntaxhighlighter.php
@@ -277,7 +275,6 @@ If you grep org2blog's code, you will find a variable "org2blog/wp-sourcecode-la
 &lt;p&gt;
 So all you need to do is insert below code into ~/.emacs:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq org2blog/wp-sourcecode-langs
@@ -297,7 +294,6 @@ Then you need install the wordpress plugin &lt;a href="http://www.viper007bond.c
 &lt;p&gt;
 That's easy to fix. Please log into your blog, modify that plugin online:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-diff"&gt;diff --git a/syntaxhighlighter.php b/syntaxhighlighter.php
@@ -347,7 +343,6 @@ My only issue that I need share the blog url to social network sites after publi
 &lt;p&gt;
 Here is my solution to automatically copy post url into clipboard after publishing:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-org2blog-post-subtree ()
@@ -390,7 +385,6 @@ It is purely simple text theme with dark background and elegant fonts.
 &lt;p&gt;
 But for geeks there are two shortcomings:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;The font color of the hyperlinks is almost same to the plain text.&lt;/li&gt;
 &lt;li&gt;The code block in &amp;lt;pre&amp;gt; element is not highlighted with solid border.&lt;/li&gt;
@@ -399,7 +393,6 @@ But for geeks there are two shortcomings:
 &lt;p&gt;
 So here is my patch to fix these problems:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-diff"&gt;--- style.css   2012-03-08 23:56:31.000000000 +0800

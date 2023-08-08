@@ -13,8 +13,10 @@
 <meta property="og:url" content="http://blog.binchen.org/posts/set-up-nfs-server-on-archlinux/">
 <meta property="og:description" content="The purpose of set up nfs server is to watch video stored on server through my android devices.     sudo pacman -S nfs-utils
 # donnot touch /etc/idmapd.conf
+
 mkdir -p /srv/nfs4/z
-    add following line">
+
+    add following li">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2013-06-19T22:00:42Z">
 <meta property="article:tag" content="en">
@@ -57,19 +59,28 @@ mkdir -p /srv/nfs4/z
 
         </div>
         <div class="body">
-            <p></p>
-<p>The purpose of set up nfs server is to watch video stored on server through my android devices. </p>    <pre class="src src-sh">sudo pacman -S nfs-utils
+            <p>The purpose of set up nfs server is to watch video stored on server through my android devices. </p>    <pre class="src src-sh">sudo pacman -S nfs-utils
 <span style="color: #969896; font-style: italic;"># </span><span style="color: #969896; font-style: italic;">donnot touch /etc/idmapd.conf</span>
-<p>mkdir -p /srv/nfs4/z</p>
-<p></p></pre>   <p> add following lines into /etc/fstab: </p>   <pre class="src src-conf"><span style="color: #e7c547;">UUID</span>=986C96596C9631CC /mnt/z ntfs-3g defaults,nofail 0 2
-<p>/mnt/z /srv/nfs4/z none bind,nofail 0 0</p>
-<p></p></pre>   <p> add this line into /etc/exports: </p>   <pre class="src src-conf"><span style="color: #e7c547;">/srv/nfs4/z</span> 192.168.0.0/24(async,rw,no_subtree_check,nohide,no_root_squash)
-<p></p></pre>   <p> make sure change in /etc/exports to take effect: </p>   <pre class="src src-sh">sudo exportfs -ra
-<p></p></pre>   <p> now enable and start the services: </p>   <pre class="src src-sh">sudo systemctl enable rpc-idmapd
-<p>sudo systemctl start rpc-idmapd</p>
-<p>sudo systemctl enable rpc-mountd</p>
-<p>sudo systemctl start rpc-mountd</p>
-<p></p></pre>
+
+mkdir -p /srv/nfs4/z
+
+</pre>   <p> add following lines into /etc/fstab: </p>   <pre class="src src-conf"><span style="color: #e7c547;">UUID</span>=986C96596C9631CC /mnt/z ntfs-3g defaults,nofail 0 2
+
+/mnt/z /srv/nfs4/z none bind,nofail 0 0
+
+</pre>   <p> add this line into /etc/exports: </p>   <pre class="src src-conf"><span style="color: #e7c547;">/srv/nfs4/z</span> 192.168.0.0/24(async,rw,no_subtree_check,nohide,no_root_squash)
+
+</pre>   <p> make sure change in /etc/exports to take effect: </p>   <pre class="src src-sh">sudo exportfs -ra
+
+</pre>   <p> now enable and start the services: </p>   <pre class="src src-sh">sudo systemctl enable rpc-idmapd
+
+sudo systemctl start rpc-idmapd
+
+sudo systemctl enable rpc-mountd
+
+sudo systemctl start rpc-mountd
+
+</pre>
         </div>
         
         <ul class="pager hidden-print">
@@ -106,7 +117,7 @@ mkdir -p /srv/nfs4/z
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

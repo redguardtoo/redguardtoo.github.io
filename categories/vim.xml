@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about vim)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vim.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 29 Aug 2022 06:40:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code faster by extending Emacs EVIL text object</title><link>http://blog.binchen.org/posts/code-faster-by-extending-emacs-evil-text-object/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about vim)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/vim.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:04 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code faster by extending Emacs EVIL text object</title><link>http://blog.binchen.org/posts/code-faster-by-extending-emacs-evil-text-object/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I use &lt;a href="https://www.emacswiki.org/emacs/Evil"&gt;EVIL&lt;/a&gt; text object a lot. For example,  press &lt;code&gt;vi(&lt;/code&gt; to select the code snippet inside parenthesis.
 &lt;/p&gt;
 
@@ -85,7 +85,6 @@ It turns out that the character "/" is treated as &lt;a href="https://www.gnu.or
 &lt;p&gt;
 The solution is to re-define "/" as &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Class-Table.html"&gt;Punctuation characters&lt;/a&gt;:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun minibuffer-inactive-mode-hook-setup ()
@@ -108,7 +107,6 @@ I have been using it for more than one month without any issue. I prefer general
 &lt;p&gt;
 Minimum setup is simple,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'general)
@@ -137,9 +135,9 @@ I will explain how to resolve code merge conflicts with plain vim. The only thir
 &lt;p&gt;
 The reason to use vim is that I can't use vimdiff as a merge tool for certain VCS (CVS, Subversion, Perforce, …).
 &lt;/p&gt;
-&lt;div id="outline-container-orgb09cf26" class="outline-2"&gt;
-&lt;h3 id="orgb09cf26"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb09cf26"&gt;
+&lt;div id="outline-container-org2e76e5c" class="outline-2"&gt;
+&lt;h3 id="org2e76e5c"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2e76e5c"&gt;
 &lt;p&gt;
 A typical file in conflict is like:
 &lt;/p&gt;
@@ -168,9 +166,9 @@ Resolving conflicts is the operation of picking up &lt;b&gt;either or both&lt;/b
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5e63741" class="outline-2"&gt;
-&lt;h3 id="org5e63741"&gt;Basic knowledge of Vim&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5e63741"&gt;
+&lt;div id="outline-container-orgb0d621b" class="outline-2"&gt;
+&lt;h3 id="orgb0d621b"&gt;Basic knowledge of Vim&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb0d621b"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;"]n" move the focus to the next marker and "[n" to the previous marker.&lt;/li&gt;
 &lt;li&gt;"dd" delete current line&lt;/li&gt;
@@ -179,9 +177,9 @@ Resolving conflicts is the operation of picking up &lt;b&gt;either or both&lt;/b
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfb48aee" class="outline-2"&gt;
-&lt;h3 id="orgfb48aee"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgfb48aee"&gt;
+&lt;div id="outline-container-org87324a7" class="outline-2"&gt;
+&lt;h3 id="org87324a7"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org87324a7"&gt;
 &lt;p&gt;
 Our workflow is actually simple:
 &lt;/p&gt;
@@ -207,16 +205,16 @@ map &amp;lt;leader&amp;gt;dg2 d]ndd]ndd
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><category>en</category><category>vim</category><guid>http://blog.binchen.org/posts/use-plain-vim-to-merge-conflicts/</guid><pubDate>Tue, 07 Apr 2015 07:19:37 GMT</pubDate></item><item><title>Use vimdiff to resolve git/subversion/mercurial merge conflicts effectively</title><link>http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-You can jump to &lt;a href="http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#org9e61bf8"&gt;No description for this link&lt;/a&gt; section at the end of this article.
+You can jump to &lt;a href="http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#orgfd4366e"&gt;No description for this link&lt;/a&gt; section at the end of this article.
 &lt;/p&gt;
 
 &lt;p&gt;
 I use git as an example of version control software. But you can use any other version control software instead.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgfff989e" class="outline-2"&gt;
-&lt;h3 id="orgfff989e"&gt;The reasons to use vimdiff to do the merge?&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgfff989e"&gt;
+&lt;div id="outline-container-org467a12e" class="outline-2"&gt;
+&lt;h3 id="org467a12e"&gt;The reasons to use vimdiff to do the merge?&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org467a12e"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;It's free (vim)&lt;/li&gt;
 &lt;li&gt;It works on any OS&lt;/li&gt;
@@ -225,13 +223,13 @@ I use git as an example of version control software. But you can use any other v
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org488bc5e" class="outline-2"&gt;
-&lt;h3 id="org488bc5e"&gt;Setup&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org488bc5e"&gt;
+&lt;div id="outline-container-org5274a36" class="outline-2"&gt;
+&lt;h3 id="org5274a36"&gt;Setup&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5274a36"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb36c331" class="outline-3"&gt;
-&lt;h4 id="orgb36c331"&gt;Setup vimdiff (OPTIONAL)&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgb36c331"&gt;
+&lt;div id="outline-container-org645d91f" class="outline-3"&gt;
+&lt;h4 id="org645d91f"&gt;Setup vimdiff (OPTIONAL)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org645d91f"&gt;
 &lt;p&gt;
 The vimdiff as a merge tool will display several buffers to show YOURS/THEIRS/ORIGINAL code.
 &lt;/p&gt;
@@ -265,9 +263,9 @@ map &amp;lt;silent&amp;gt; &amp;lt;leader&amp;gt;4 :diffget 4&amp;lt;CR&amp;gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org897e10a" class="outline-3"&gt;
-&lt;h4 id="org897e10a"&gt;Setup git&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org897e10a"&gt;
+&lt;div id="outline-container-orgfe9d73f" class="outline-3"&gt;
+&lt;h4 id="orgfe9d73f"&gt;Setup git&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgfe9d73f"&gt;
 &lt;p&gt;
 Run below commands in shell,
 &lt;/p&gt;
@@ -281,13 +279,13 @@ git config --global mergetool.prompt false
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org9cf50fa" class="outline-2"&gt;
-&lt;h3 id="org9cf50fa"&gt;Usage&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9cf50fa"&gt;
+&lt;div id="outline-container-orgbd9b00b" class="outline-2"&gt;
+&lt;h3 id="orgbd9b00b"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgbd9b00b"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd17132f" class="outline-3"&gt;
-&lt;h4 id="orgd17132f"&gt;Create a "hello world" project&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgd17132f"&gt;
+&lt;div id="outline-container-org51b7e9d" class="outline-3"&gt;
+&lt;h4 id="org51b7e9d"&gt;Create a "hello world" project&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org51b7e9d"&gt;
 &lt;p&gt;
 I setup a "hello world" project at &lt;a href="https://github.com/redguardtoo/test-git-mergetool"&gt;https://github.com/redguardtoo/test-git-mergetool&lt;/a&gt; for your practice.
 &lt;/p&gt;
@@ -320,9 +318,9 @@ git merge chen # now some conflicts created because Bob has already edited and m
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org31a8589" class="outline-3"&gt;
-&lt;h4 id="org31a8589"&gt;Resolve merge conflict&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org31a8589"&gt;
+&lt;div id="outline-container-orgd4d4bd0" class="outline-3"&gt;
+&lt;h4 id="orgd4d4bd0"&gt;Resolve merge conflict&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgd4d4bd0"&gt;
 &lt;p&gt;
 Now start merge tool,
 &lt;/p&gt;
@@ -422,9 +420,9 @@ When you have resolved all the conflicts, follow the hint of git to commit your 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd8fb36d" class="outline-2"&gt;
-&lt;h3 id="orgd8fb36d"&gt;Tips&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgd8fb36d"&gt;
+&lt;div id="outline-container-orgf685adf" class="outline-2"&gt;
+&lt;h3 id="orgf685adf"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf685adf"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;fugitive.vim (&lt;a href="https://github.com/tpope/vim-fugitive"&gt;https://github.com/tpope/vim-fugitive&lt;/a&gt;) can do this too. Actually it can do much more git stuff than merge. I cannot write this article without reading its code&lt;/li&gt;
 &lt;li&gt;You can use Emacs to do the similar job (&lt;a href="http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool"&gt;http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool&lt;/a&gt;). For me, Emacs start up time is too much for this task. Some people use &lt;code&gt;emacsclient&lt;/code&gt; which has other overhead I don't like&lt;/li&gt;
@@ -443,9 +441,9 @@ map [[ [n
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcde18ea" class="outline-2"&gt;
-&lt;h3 id="orgcde18ea"&gt;&lt;a id="org9e61bf8"&gt;&lt;/a&gt;&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgcde18ea"&gt;
+&lt;div id="outline-container-orgd6e3c05" class="outline-2"&gt;
+&lt;h3 id="orgd6e3c05"&gt;&lt;a id="orgfd4366e"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd6e3c05"&gt;
 &lt;p&gt;
 You can use command line like "git mergetool -t vimdiff" to start vimdiff from git.
 &lt;/p&gt;
@@ -476,16 +474,16 @@ Then you can press hot key ",2" ",3" ",4" in vimdiff to pull change from top thr
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1bef2f9" class="outline-2"&gt;
-&lt;h3 id="org1bef2f9"&gt;subversion/mercurial&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org1bef2f9"&gt;
+&lt;div id="outline-container-org438b239" class="outline-2"&gt;
+&lt;h3 id="org438b239"&gt;subversion/mercurial&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org438b239"&gt;
 &lt;p&gt;
 Until now I'm focusing on how to tweak the vimdiff UI because the git has already setup the &lt;a href="https://github.com/git/git/blob/master/mergetools/vimdiff"&gt;basic vimdiff layout for us&lt;/a&gt;. So we just follow the Git layout in other VCS.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org785e242" class="outline-3"&gt;
-&lt;h4 id="org785e242"&gt;subversion&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org785e242"&gt;
+&lt;div id="outline-container-orgb99bf99" class="outline-3"&gt;
+&lt;h4 id="orgb99bf99"&gt;subversion&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgb99bf99"&gt;
 &lt;p&gt;
 Insert below code into ~/.subversion/config:
 &lt;/p&gt;
@@ -534,9 +532,9 @@ vimdiff -f -d -c 'wincmd J' "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org0e438ba" class="outline-2"&gt;
-&lt;h3 id="org0e438ba"&gt;mercurial&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0e438ba"&gt;
+&lt;div id="outline-container-org5a1b29e" class="outline-2"&gt;
+&lt;h3 id="org5a1b29e"&gt;mercurial&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5a1b29e"&gt;
 &lt;p&gt;
 Insert below code into &lt;code&gt;~/.hgrc&lt;/code&gt;:
 &lt;/p&gt;

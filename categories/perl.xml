@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about perl)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/perl.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Convert TEX to PDF</title><link>http://blog.binchen.org/posts/convert-tex-to-pdf/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about perl)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/perl.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:32:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Convert TEX to PDF</title><link>http://blog.binchen.org/posts/convert-tex-to-pdf/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Install &lt;a href="http://www.tug.org/texlive/"&gt;TexLive&lt;/a&gt; in your OS.
 &lt;/p&gt;
 
 &lt;p&gt;
 Install &lt;code&gt;latex2pdf&lt;/code&gt; which is dependent on TexLive.
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;cpan App::cpanminus # handy tool to install cpan module
@@ -19,7 +18,6 @@ cpanm latex2pdf # finally
 &lt;p&gt;
 Convert now!
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;pdf2latex cv.tex
@@ -36,7 +34,6 @@ It's because the binary package requires gcc4 while on my cygwin only gcc3 avail
 &lt;p&gt;
 So I install it from source package (with some hack, of course),
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;cpanm --look Template # Download and unpack the distribution and then open the directory with your shellI
@@ -61,7 +58,6 @@ At macOS, I use the &lt;a href="http://www.tug.org/texlive/acquire-netinstall.ht
 &lt;p&gt;
 Bash shell requires setup in &lt;code&gt;~/.bashrc&lt;/code&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;if [[ `uname -s` == *Darwin* ]]; then

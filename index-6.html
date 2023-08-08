@@ -104,8 +104,7 @@ org-mode安装步骤见<a href="http://orgmode.org/guide/Installation.html#Insta
 
             </div>
             <div class="body">
-                <p></p>
-<p>作者:陈斌 (redguardtoo) </p> <p> 原创日期: <span class="timestamp-wrapper"> <span class="timestamp">2012-11-30 五</span></span> </p> <p> 本文的目的是把Lisp去神秘化. </p> <p> 我学的是Emacs Lisp(Emacs Lisp),开发环境也是Emacs.所以我举的例子都是只基于Elisp. </p> <p> 本文针对的读者是有相当经验的开发者,目的是尽可能简明扼要地突出重点. </p> <p> 我对于目前的主流开发语言都很熟悉,但是Lisp还只能算是入门水准,所以错过很多Lisp精彩之处是很可能的. </p> <p> 我所谓的重点,主要是指Lisp对于开发一个现实世界的产品有什么优点. </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">所有的函数和数据可以在系统运行时改变</h4> <div class="outline-text-3" id="text-1">  <p>其意义是,假设你一个系统上线了,你可以随时改变正在运行的代码,不需要重启系统. </p> <p> 我的理解是,一个函数实际上就是带有字符串Key(该key就是函数名)的数据,运行某个函数就是在系统运行时根据Key找到对应的数据(或者代码,在Lips中是一回事)运行之. </p> <p> 例如,我可以在hook中申明某个函数将被调用,而这个函数的定义可以还不存在.系统在<em>运行时</em>才会去寻找这个函数.解释一下,hook可以认为是事件触发机制,就是在系统运行的某个时刻调用用户自定义的函数) </p> <p> 优点是灵活性很高.缺点是Lisp写的东西快不了. </p>
+                <p>作者:陈斌 (redguardtoo) </p> <p> 原创日期: <span class="timestamp-wrapper"> <span class="timestamp">2012-11-30 五</span></span> </p> <p> 本文的目的是把Lisp去神秘化. </p> <p> 我学的是Emacs Lisp(Emacs Lisp),开发环境也是Emacs.所以我举的例子都是只基于Elisp. </p> <p> 本文针对的读者是有相当经验的开发者,目的是尽可能简明扼要地突出重点. </p> <p> 我对于目前的主流开发语言都很熟悉,但是Lisp还只能算是入门水准,所以错过很多Lisp精彩之处是很可能的. </p> <p> 我所谓的重点,主要是指Lisp对于开发一个现实世界的产品有什么优点. </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">所有的函数和数据可以在系统运行时改变</h4> <div class="outline-text-3" id="text-1">  <p>其意义是,假设你一个系统上线了,你可以随时改变正在运行的代码,不需要重启系统. </p> <p> 我的理解是,一个函数实际上就是带有字符串Key(该key就是函数名)的数据,运行某个函数就是在系统运行时根据Key找到对应的数据(或者代码,在Lips中是一回事)运行之. </p> <p> 例如,我可以在hook中申明某个函数将被调用,而这个函数的定义可以还不存在.系统在*运行时*才会去寻找这个函数.解释一下,hook可以认为是事件触发机制,就是在系统运行的某个时刻调用用户自定义的函数) </p> <p> 优点是灵活性很高.缺点是Lisp写的东西快不了. </p>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">没有namespace,所有的函数默认都是可以全局访问的</h4> <div class="outline-text-3" id="text-2">  <p>正因为这两条,所以要多打字(每个函数都要手动输入名字前缀). </p> <p> 这点我完全可以接受,没有namespace就是多打点字而已.那些不了解历史或者没有用过C的初级程序员可能会大惊小怪.实际上没什么大不了的. </p> <p> 所有函数都可以访问在Emacs场景下有个巨大的优点,见下一条. </p>
 </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">defadivce可以改变系统中任意函数的行为.</h4> <div class="outline-text-3" id="text-3">  <p>defadvice可以重定义系统中的任意函数.原因如前文所说. </p>
 </div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">循环语句和条件判断语句</h4> <div class="outline-text-3" id="text-4">  <p>和其他语言没什么不同,foreach之类的语法糖也不少. </p> <p> 我唯一不喜欢的是没有C中的return,break,和continue语句,这样的缺点是有可能让代码嵌套过深. </p> <p> 不过不是什么大不了的问题,Lisp也提供了一些替代语法. </p> <p> 另外其他所有语言提供了这些语法糖又怎么样呢,我遇到的超过50%的程序员还是一样瞎写. </p>
@@ -188,17 +187,17 @@ The purpose to load tags files is to look up API easily. For example, I use C++ 
 <p>
 The reason to do the unload thing is to avoid function name conflict from some tags files. EmacsWiki has a section "Choosing Among Multiple Tags for the Same Name" to solve this problem. But unloading is more convenient. In theory, it would be annoying if I need repeat load and unload the same tags files. In reality, it seldom happens because if I need work on Javascript (so I unload C++ related TAGS), I will usually keep working on Javascript until the end of the day.
 </p>
-<div id="outline-container-orgbdc30cf" class="outline-2">
-<h3 id="orgbdc30cf">Produce tags files for all the environments</h3>
-<div class="outline-text-2" id="text-orgbdc30cf">
+<div id="outline-container-org480012b" class="outline-2">
+<h3 id="org480012b">Produce tags files for all the environments</h3>
+<div class="outline-text-2" id="text-org480012b">
 <p>
 For example, I produce tags files of Library A for Mac and Linux. I put tags file from Mac at directory "/home/cb/tags/Library_A/mac" and file from Linux at <code>/home/cb/tags/Library_A/linux</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org77f450b" class="outline-2">
-<h3 id="org77f450b">Use git and github to manage the tags files</h3>
-<div class="outline-text-2" id="text-org77f450b">
+<div id="outline-container-org004fa9b" class="outline-2">
+<h3 id="org004fa9b">Use git and github to manage the tags files</h3>
+<div class="outline-text-2" id="text-org004fa9b">
 <p>
 So I can have copies of the tags files at github server and my local computers. That's also a part of my strategy to setup the development environment. My projects on different computers usually use same external library.
 </p>
@@ -208,9 +207,9 @@ EmacsWiki discusses how to update your tags file frequently because your own cod
 </p>
 </div>
 </div>
-<div id="outline-container-org5ca01ff" class="outline-2">
-<h3 id="org5ca01ff">Write emacs lisp code to load/unload these tags files</h3>
-<div class="outline-text-2" id="text-org5ca01ff">
+<div id="outline-container-org573fdf0" class="outline-2">
+<h3 id="org573fdf0">Write emacs lisp code to load/unload these tags files</h3>
+<div class="outline-text-2" id="text-org573fdf0">
 <p>
 Here is the code. In this example, if I need load tags file for <a href="http://www.wxwidgets.org">wxWidgets</a>, I call the function "add-wx-tags". If I need unload the tags file, I press "Ctrl-u" and call the same function "add-wx-tags". Since I use <a href="http://www.emacswiki.org/Smex">Smex</a>, calling function doesn't mean pressing many keys.
 </p>
@@ -533,8 +532,7 @@ custom.el is my personal emacs configuration. I use it with my publicized <a hre
 
             </div>
             <div class="body">
-                <p></p>
-<p>Emacs's default <a href="http://www.emacswiki.org/AngeFtp">Ftp client</a> is a little outdated compared to other modern Ftp clients. </p> <p> What I want is a two panel file explorer with ftp client integrated (An excellent example is <a href="http://www.ghisler.com">Total Commander</a> on windows). </p> <p> In Emacs, I've got <a href="http://emacswiki.org/emacs/Sunrise_Commander">Sunrise Commander</a> which is close to Total Commander, but NO Ftp integration. </p> <p> I dig around the internet for a while and find that the perfect solution is mount the ftp server into my local file system with <a href="http://curlftpfs.sourceforge.net">CurlFtpFS</a>. </p> <p> The best part of this solution is CurlFtpFS supports both OS X and Linux. </p> <p> In order to install CurlFtpFS on OS X, you need use the package manager <a href="http://mxcl.github.com/homebrew/">Homebrew</a>. The only catch I met on OS X is that I need upgrade Fuse4X driver manually for some wired reason to avoid "incompatible with the kernel version" error. Upgrading is simple. Download dmg plus mouse click stuff only. See <a href="http://fuse4x.github.com/faq.html">FAQ</a> for details. </p> <p> For the usage of CurlFtpFS, see <a href="https://wiki.archlinux.org/index.php/Mount_FTP">HERE</a> for documentation. It's for Linux. But totally fine for OS X users. </p>
+                <p>Emacs's default <a href="http://www.emacswiki.org/AngeFtp">Ftp client</a> is a little outdated compared to other modern Ftp clients. </p> <p> What I want is a two panel file explorer with ftp client integrated (An excellent example is <a href="http://www.ghisler.com">Total Commander</a> on windows). </p> <p> In Emacs, I've got <a href="http://emacswiki.org/emacs/Sunrise_Commander">Sunrise Commander</a> which is close to Total Commander, but NO Ftp integration. </p> <p> I dig around the internet for a while and find that the perfect solution is mount the ftp server into my local file system with <a href="http://curlftpfs.sourceforge.net">CurlFtpFS</a>. </p> <p> The best part of this solution is CurlFtpFS supports both OS X and Linux. </p> <p> In order to install CurlFtpFS on OS X, you need use the package manager <a href="http://mxcl.github.com/homebrew/">Homebrew</a>. The only catch I met on OS X is that I need upgrade Fuse4X driver manually for some wired reason to avoid "incompatible with the kernel version" error. Upgrading is simple. Download dmg plus mouse click stuff only. See <a href="http://fuse4x.github.com/faq.html">FAQ</a> for details. </p> <p> For the usage of CurlFtpFS, see <a href="https://wiki.archlinux.org/index.php/Mount_FTP">HERE</a> for documentation. It's for Linux. But totally fine for OS X users. </p>
             </div>
         </div>
         <div class="post">
@@ -594,8 +592,7 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
 
             </div>
             <div class="body">
-                <p></p>
-<p>Yes. The latest yasnippet (yasnippet-20120822.52) changed too many APIs and I cannot figure out how to work around it. Upgrading to the latest auto-complete (auto-complete-20120922.1815) won't solve the problem. </p> <p> See <a href="https://github.com/capitaomorte/yasnippet/issues/311">https://github.com/capitaomorte/yasnippet/issues/311</a> for the details. </p> <p> So here is the fix. You can use older version of yasnippet (yasnippet-20120718) and wait until the issue is fixed. </p> <p> Here is the link of older version, <a href="http://dl.dropbox.com/u/858862/yasnippet-20120718.tar.gz">http://dl.dropbox.com/u/858862/yasnippet-20120718.tar.gz</a>. </p>
+                <p>Yes. The latest yasnippet (yasnippet-20120822.52) changed too many APIs and I cannot figure out how to work around it. Upgrading to the latest auto-complete (auto-complete-20120922.1815) won't solve the problem. </p> <p> See <a href="https://github.com/capitaomorte/yasnippet/issues/311">https://github.com/capitaomorte/yasnippet/issues/311</a> for the details. </p> <p> So here is the fix. You can use older version of yasnippet (yasnippet-20120718) and wait until the issue is fixed. </p> <p> Here is the link of older version, <a href="http://dl.dropbox.com/u/858862/yasnippet-20120718.tar.gz">http://dl.dropbox.com/u/858862/yasnippet-20120718.tar.gz</a>. </p>
             </div>
         </div>
         <div class="post">
@@ -624,8 +621,7 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
 
             </div>
             <div class="body">
-                <p></p>
-<p>I don't use facebook. I just record my roommates' complaining. </p> <p> Here are his points, </p>
+                <p>I don't use facebook. I just record my roommates' complaining. </p> <p> Here are his points, </p>
 <dl>
 <dt>failed to take full advantage of big screen of android pad</dt>
 <dd>The right blank margin could be used to display comments instead, as some application has done. </dd> <dt>scroll down/up to view the images sucks</dt>
@@ -662,7 +658,6 @@ The article is moved to <a href="https://github.com/redguardtoo/mastering-emacs-
                 <p>
 The script reads configuration and requires python 2.4.
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-python">#!/usr/bin/python
@@ -1022,9 +1017,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 <li>说明哪些框架流行</li>
 <li>如何使用框架</li>
 </ul>
-<div id="outline-container-orga7e14cb" class="outline-2">
-<h3 id="orga7e14cb">概述</h3>
-<div class="outline-text-2" id="text-orga7e14cb">
+<div id="outline-container-org1eff5b6" class="outline-2">
+<h3 id="org1eff5b6">概述</h3>
+<div class="outline-text-2" id="text-org1eff5b6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -1066,9 +1061,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 </table>
 </div>
 </div>
-<div id="outline-container-org195550a" class="outline-2">
-<h3 id="org195550a">auto-complete结合clang</h3>
-<div class="outline-text-2" id="text-org195550a">
+<div id="outline-container-orgb00e495" class="outline-2">
+<h3 id="orgb00e495">auto-complete结合clang</h3>
+<div class="outline-text-2" id="text-orgb00e495">
 <p>
 <a href="http://emacswiki.org/emacs/AutoComplete">auto-complete</a>是第三方开发的插件,提供了自动完成需要的支持(例如在命令行环境下对下拉菜单的模拟).
 </p>
@@ -1094,17 +1089,17 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 </p>
 </div>
 </div>
-<div id="outline-container-orge7e373a" class="outline-2">
-<h3 id="orge7e373a">company-mode</h3>
-<div class="outline-text-2" id="text-orge7e373a">
+<div id="outline-container-org6713853" class="outline-2">
+<h3 id="org6713853">company-mode</h3>
+<div class="outline-text-2" id="text-org6713853">
 <p>
 <a href="https://github.com/company-mode/company-mode">company-mode</a>和auto-complete功能类似，唯一的区别是clang以及其他语言支持已内置，所以不需要安装其他elisp插件或者额外配置.目前我已用company-mode代替了auto-complete.
 </p>
 </div>
 </div>
-<div id="outline-container-org3cac79b" class="outline-2">
-<h3 id="org3cac79b">hippie-expand</h3>
-<div class="outline-text-2" id="text-org3cac79b">
+<div id="outline-container-org3a8fbfa" class="outline-2">
+<h3 id="org3a8fbfa">hippie-expand</h3>
+<div class="outline-text-2" id="text-org3a8fbfa">
 <p>
 <a href="http://emacswiki.org/emacs/HippieExpand">hippie-expand</a>是Emacs自带的自动完成框架.
 </p>
@@ -1114,9 +1109,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 </p>
 </div>
 </div>
-<div id="outline-container-orgac6b257" class="outline-2">
-<h3 id="orgac6b257">complete-symbol</h3>
-<div class="outline-text-2" id="text-orgac6b257">
+<div id="outline-container-org437cb66" class="outline-2">
+<h3 id="org437cb66">complete-symbol</h3>
+<div class="outline-text-2" id="text-org437cb66">
 <p>
 Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,它默认仅仅调用了后台的ctags而已.
 </p>
@@ -1150,9 +1145,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 </p>
 </div>
 </div>
-<div id="outline-container-org3ee08d6" class="outline-2">
-<h3 id="org3ee08d6">evil-mode</h3>
-<div class="outline-text-2" id="text-org3ee08d6">
+<div id="outline-container-orge46cea0" class="outline-2">
+<h3 id="orge46cea0">evil-mode</h3>
+<div class="outline-text-2" id="text-orge46cea0">
 <p>
 <a href="http://emacswiki.org/emacs/Evil">Evil-mode</a>把Emacs模拟成了Vim,是我最喜欢的第三方插件,其自动完成很简单,就是根据当前文件内容自动完成词或行.
 </p>
@@ -1166,9 +1161,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 </p>
 </div>
 </div>
-<div id="outline-container-org6c6833c" class="outline-2">
-<h3 id="org6c6833c">其他</h3>
-<div class="outline-text-2" id="text-org6c6833c">
+<div id="outline-container-orgcb539fd" class="outline-2">
+<h3 id="orgcb539fd">其他</h3>
+<div class="outline-text-2" id="text-orgcb539fd">
 <p>
 我的一个想法. 类似于Evil的完成行.但是可以扫瞄指定目录中所有的文件,列出相似的行.
 </p>
@@ -1189,9 +1184,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 </p>
 </div>
 </div>
-<div id="outline-container-org804060b" class="outline-2">
-<h3 id="org804060b">小结</h3>
-<div class="outline-text-2" id="text-org804060b">
+<div id="outline-container-org7738aa4" class="outline-2">
+<h3 id="org7738aa4">小结</h3>
+<div class="outline-text-2" id="text-org7738aa4">
 <p>
 自动完成包括前端用户界面和后端语法解析引擎两个部分.
 </p>
@@ -1234,7 +1229,7 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
             <li class="next">
                 <a href="index-5.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

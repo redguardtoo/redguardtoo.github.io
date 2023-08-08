@@ -64,7 +64,6 @@ It's well known that linum-mode slows Emacs when the file contains thousands of 
 <p>
 Here is the fix,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun buffer-too-big-p ()
@@ -123,9 +122,9 @@ The techniques are compatible with <a href="https://github.com/jwiegley/use-pack
 <p>
 Mid-level Lisp knowledge is required to read this article.
 </p>
-<div id="outline-container-orgc527da7" class="outline-2">
-<h3 id="orgc527da7">Do NOT use package.el for certain packages</h3>
-<div class="outline-text-2" id="text-orgc527da7">
+<div id="outline-container-org8026a31" class="outline-2">
+<h3 id="org8026a31">Do NOT use package.el for certain packages</h3>
+<div class="outline-text-2" id="text-org8026a31">
 <p>
 Create the directory <code>~/.emacs.d/site-lisp</code>. Then insert below code into <code>~/.emacs</code>,
 </p>
@@ -149,9 +148,9 @@ You can place a package's source code at sub-directory of <code>~/.emacs.d/site-
 </p>
 </div>
 </div>
-<div id="outline-container-orgb993de6" class="outline-2">
-<h3 id="orgb993de6">Create your own package repository</h3>
-<div class="outline-text-2" id="text-orgb993de6">
+<div id="outline-container-org02751a0" class="outline-2">
+<h3 id="org02751a0">Create your own package repository</h3>
+<div class="outline-text-2" id="text-org02751a0">
 <p>
 Step 1, Place two files "archive-contents" and "hello-1.0.0.el" in any directory. Say <code>~/.emacs.d/localelpa</code>. 
 </p>
@@ -211,10 +210,10 @@ Orphan package issue is also resolved by <code>elpa-mirror</code>. You can delet
 </div>
 </div>
 
-<div id="outline-container-orgadbe8cb" class="outline-2">
-<h3 id="orgadbe8cb">
+<div id="outline-container-orgd70ac98" class="outline-2">
+<h3 id="orgd70ac98">
 <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">Advice</a> <code>package--add-to-archive-contents</code> to filter packages</h3>
-<div class="outline-text-2" id="text-orgadbe8cb">
+<div class="outline-text-2" id="text-orgd70ac98">
 <p>
 Insert below code into ~/.emacs,
 </p>
@@ -277,9 +276,9 @@ This solution is copied from Steve Purcell's setup with a little modification.
 </p>
 </div>
 </div>
-<div id="outline-container-org9297cb5" class="outline-2">
-<h3 id="org9297cb5">Summary</h3>
-<div class="outline-text-2" id="text-org9297cb5">
+<div id="outline-container-org0bc54c9" class="outline-2">
+<h3 id="org0bc54c9">Summary</h3>
+<div class="outline-text-2" id="text-org0bc54c9">
 <p>
 You can combine above techniques to <b>solve any package issue</b>.
 </p>
@@ -378,7 +377,7 @@ Here is my code based on <a href="https://github.com/abo-abo/swiper">ivy-mode</a
 Screenshot after <code>M-x my-git-timemachine</code>,
 </p>
 
-<div id="orgcb03dba" class="figure">
+<div id="org235d2b2" class="figure">
 <p><img src="wp-content/my-git-timemachine-nq8.png" alt="my-git-timemachine-nq8.png"></p>
 </div>
             </div>
@@ -531,7 +530,6 @@ You can <code>M-x toggle-input-method</code> or <code>C-\</code> to input Non-En
 <p>
 Analysis about evil-mode,
 </p>
-
 <ul class="org-ul">
 <li>You only input Non-English characters in evil-insert-state. So you need <b>go into evil-insert-state at first</b> before toggle on input method</li>
 <li>In evil-insert-state, you can toggle off input method to input English characters while <b>staying in evil-insert state</b>
@@ -542,7 +540,6 @@ Analysis about evil-mode,
 <p>
 Here is the setup,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; {{ make IME compatible with evil-mode
@@ -587,7 +584,6 @@ Chinese version:
 <p>
 在evil-mode中切换输入法有以下要点,
 </p>
-
 <ul class="org-ul">
 <li>输中文前须进入evil-insert-state</li>
 <li>在evil-insert-state中可能会切换输入法</li>
@@ -674,7 +670,6 @@ I have been using it for more than one month without any issue. I prefer general
 <p>
 Minimum setup is simple,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'general)
@@ -758,7 +753,7 @@ Here is my setup,
 Screenshot:
 </p>
 
-<div id="org5d1ad8e" class="figure">
+<div id="orgb33a966" class="figure">
 <p><img src="wp-content/ivy-recent-directory-nq8.png" alt="ivy-recent-directory-nq8.png"></p>
 </div>
             </div>
@@ -801,9 +796,9 @@ Salesforce provides <a href="https://developer.salesforce.com/docs/atlas.en-us.d
 Luckily, there is <a href="https://force-cli.heroku.com/">Force.com CLI</a> which can upload single file in a few seconds. Both Sublime Text and Emacs use this tool.
 </p>
 
-<div id="outline-container-org26bffc4" class="outline-2">
-<h3 id="org26bffc4">Sublime Text</h3>
-<div class="outline-text-2" id="text-org26bffc4">
+<div id="outline-container-org8e5dbda" class="outline-2">
+<h3 id="org8e5dbda">Sublime Text</h3>
+<div class="outline-text-2" id="text-org8e5dbda">
 <p>
 You need install sublime text plugin <a href="http://mavensmate.com/Getting_Started/Users">mavensmate</a>. After installation, you need click <code>Login</code> menu at least once. Then when you save the code file, it's automatically deployed to the server.
 </p>
@@ -822,9 +817,9 @@ Mavensmate is actually just GUI wrapper of Force.com CLI,
 </ul>
 </div>
 </div>
-<div id="outline-container-org4346d5c" class="outline-2">
-<h3 id="org4346d5c">Emacs</h3>
-<div class="outline-text-2" id="text-org4346d5c">
+<div id="outline-container-orgdad8267" class="outline-2">
+<h3 id="orgdad8267">Emacs</h3>
+<div class="outline-text-2" id="text-orgdad8267">
 <p>
 In Sublime Text I have to re-login and fetch from time to time. That get me distracted. I prefer executing only one commmand to upload the file in editing. That command should be always successful.
 </p>
@@ -890,7 +885,7 @@ Here is my setup,
             <li class="next">
                 <a href="index-21.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

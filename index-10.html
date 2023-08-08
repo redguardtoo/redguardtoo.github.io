@@ -85,8 +85,7 @@
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>到少量油，四成热，蛋打碎，用小汤勺缓慢搅拌 </li> <li>蛋炒熟后捞出，放入木耳单独炒 </li> <li>炒木耳要多放盐 </li> <li>最后一起炒 </li> </ul>
 <p><img src="wp-content/uploads/2013/07/wpid-black-mushroom-fried-egg.jpg" alt="image/black-mushroom-fried-egg.jpg"></p>
             </div>
@@ -115,10 +114,10 @@
 
             </div>
             <div class="body">
-                <p></p>
-<p>Copy below code into ~/.emacs. The hot keys is "C-x v f": </p>   <pre class="src src-elisp"><span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">you need install xsel under Linux</span>
+                <p>Copy below code into ~/.emacs. The hot keys is "C-x v f": </p>   <pre class="src src-elisp"><span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">you need install xsel under Linux</span>
 <span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">xclip has some problem when copying under Linux</span>
-<p>(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">copy-yank-str</span> (msg)
+
+(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">copy-yank-str</span> (msg)
   (kill-new msg)
   (<span style="color: #b5bd68;">with-temp-buffer</span>
     (insert msg)
@@ -127,17 +126,22 @@
                               ((eq system-type 'cygwin) <span style="color: #8abeb7;">"putclip"</span>)
                               ((eq system-type 'darwin) <span style="color: #8abeb7;">"pbcopy"</span>)
                               (t <span style="color: #8abeb7;">"xsel -ib"</span>)
-                              ))))</p>
-<p>(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">copy-full-path-of-current-buffer</span> ()
+                              ))))
+
+
+(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">copy-full-path-of-current-buffer</span> ()
   <span style="color: #b294bb;">"copy full path into the yank ring and OS clipboard"</span>
   (interactive)
   (<span style="color: #b5bd68;">when</span> buffer-file-name
     (kill-new (file-truename buffer-file-name))
     (copy-yank-str (file-truename buffer-file-name))
     (message <span style="color: #8abeb7;">"full path of current buffer =&gt; clipboard &amp; yank ring"</span>)
-    ))</p>
-<p>(global-set-key (kbd <span style="color: #8abeb7;">"C-x v f"</span>) 'copy-full-path-of-current-buffer)</p>
-<p></p></pre>
+    ))
+
+
+(global-set-key (kbd <span style="color: #8abeb7;">"C-x v f"</span>) 'copy-full-path-of-current-buffer)
+
+</pre>
             </div>
         </div>
         <div class="post">
@@ -166,8 +170,7 @@
 
             </div>
             <div class="body">
-                <p></p>
-<p>Key points of this article: </p>
+                <p>Key points of this article: </p>
 <ul>
 <li>Build a github prototype written in Bash within 5 minutes </li> <li>Highlight key elements in my usual git work flow </li> <li>Git is scalabe. you can use any tool to extend it. </li> </ul>
 <p> As <a href="https://plus.google.com/110090899194056392647">Yuri Albuquerque</a> mentioned, there are more powerful tools like <a href="https://github.com/sitaramc/gitolite">gitolite</a>. But the key concept behind the system is similar. </p> <p> Add following code into ~/.bashrc and run "source ~/.bashrc", then run "gih" to see help: </p>   <pre class="src src-sh"><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">gih</span>() {
@@ -177,24 +180,34 @@
     <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$1"</span> ]; <span style="color: #b5bd68;">then</span>
         cat &lt;&lt; <span style="color: #8abeb7;">'EOF'</span>
 <span style="color: #8abeb7;">Usage: gih [command]</span>
-<p><span style="color: #8abeb7;">Commands:</span></p>
-<p><span style="color: #8abeb7;">l, ls, list - list the projects</span></p>
-<p><span style="color: #8abeb7;">n, new [project-name] - create a new project</span></p>
-<p><span style="color: #8abeb7;">r, readme [project-name] - show README</span></p>
-<p><span style="color: #8abeb7;">i, issue [project-name] - show issues list</span></p>
-<p><span style="color: #8abeb7;">st, status - check free space of git server</span></p>
-<p><span style="color: #8abeb7;">u, url [project-name] - the full url of the project</span></p>
-<p><span style="color: #8abeb7;">EOF</span>
+
+
+
+<span style="color: #8abeb7;">Commands:</span>
+
+<span style="color: #8abeb7;">l, ls, list - list the projects</span>
+
+<span style="color: #8abeb7;">n, new [project-name] - create a new project</span>
+
+<span style="color: #8abeb7;">r, readme [project-name] - show README</span>
+
+<span style="color: #8abeb7;">i, issue [project-name] - show issues list</span>
+
+<span style="color: #8abeb7;">st, status - check free space of git server</span>
+
+<span style="color: #8abeb7;">u, url [project-name] - the full url of the project</span>
+
+<span style="color: #8abeb7;">EOF</span>
     <span style="color: #b5bd68;">else</span>
         <span style="color: #b5bd68;">case</span> $<span style="color: #f0c674;">1</span><span style="color: #b5bd68;"> in</span>
             l|ls|list)
-                ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/\.git$//g'</span>
                 ;;
             n|new)
                 <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$2"</span> ]; <span style="color: #b5bd68;">then</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Please input the name of new project!"</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Current projects hosted:"</span>
-                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/\.git$//g'</span>
                 <span style="color: #b5bd68;">else</span>
                     ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"mkdir -p ~/$2.git;cd ~/$2.git;git --bare init;"</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Push existing repository from command line:"</span>
@@ -206,7 +219,7 @@
                 <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$2"</span> ]; <span style="color: #b5bd68;">then</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Please input the name of new project!"</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Current projects hosted:"</span>
-                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/\.git$//g'</span>
                 <span style="color: #b5bd68;">else</span>
                     ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"cd ~/$2.git;git show HEAD:README.org || git show HEAD:README.md"</span>
                 <span style="color: #b5bd68;">fi</span>
@@ -215,7 +228,7 @@
                 <span style="color: #b5bd68;">if</span> [ -z <span style="color: #8abeb7;">"$2"</span> ]; <span style="color: #b5bd68;">then</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Please input the name of new project!"</span>
                     <span style="color: #b294bb;">echo</span> <span style="color: #8abeb7;">"Current projects hosted:"</span>
-                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/.git$//g'</span>
+                    ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> $<span style="color: #f0c674;">MY_SSH_URL</span> <span style="color: #8abeb7;">"ls -1"</span>|sed <span style="color: #8abeb7;">'s/\.git$//g'</span>
                 <span style="color: #b5bd68;">else</span>
                     ssh -p $<span style="color: #f0c674;">MY_SSH_PORT</span> git@sydneypc.mooo.com <span style="color: #8abeb7;">"cd ~/$2.git;git show HEAD:ISSUE.org || git show HEAD:ISSUE.md"</span>
                 <span style="color: #b5bd68;">fi</span>
@@ -231,8 +244,9 @@
                 ;;
         <span style="color: #b5bd68;">esac</span>
     <span style="color: #b5bd68;">fi</span>
-}</p>
-<p></p></pre>
+}
+
+</pre>
             </div>
         </div>
         <div class="post">
@@ -259,9 +273,8 @@
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
-<li>四个6厘米直径的番茄对应4到6个蛋 </li> <li>多放油,番茄先炒,炒到茄红素溶于油,油为红色,全部捞出 </li> <li>放少量油,<em>小火</em>加温，加蛋,<em>慢慢搅动</em>蛋 </li> <li>加入番茄,然后加入太白粉勾兑的汤一点 </li> </ul>
+                <ul>
+<li>四个6厘米直径的番茄对应4到6个蛋 </li> <li>多放油,番茄先炒,炒到茄红素溶于油,油为红色,全部捞出 </li> <li>放少量油,*小火*加温，加蛋,*慢慢搅动*蛋 </li> <li>加入番茄,然后加入太白粉勾兑的汤一点 </li> </ul>
 <p> 参考<a href="http://www.youtube.com/watch?v=t00coxHaA9E">阿基师教你番茄炒蛋</a>. <img src="wp-content/uploads/2013/07/wpid-tomatto_fried_egg.jpg" alt="image/tomatto_fried_egg.jpg"></p>
             </div>
         </div>
@@ -290,8 +303,7 @@
 
             </div>
             <div class="body">
-                <p></p>
-<p>See <a href="http://askubuntu.com/questions/107726/how-to-create-animated-gif-images-of-a-screencast">http://askubuntu.com/questions/107726/how-to-create-animated-gif-images-of-a-screencast</a>.  </p> <p> Issues: </p>
+                <p>See <a href="http://askubuntu.com/questions/107726/how-to-create-animated-gif-images-of-a-screencast">http://askubuntu.com/questions/107726/how-to-create-animated-gif-images-of-a-screencast</a>.  </p> <p> Issues: </p>
 <ul>
 <li>does not work in i3. </li> <li>I'd better put all the files in ram disk because it takes time for the conversion </li> <li>gifsicle is NOT needed </li> <li>I need find some way to adjust the record frame </li> <li>I use gimp to crop the gif </li> </ul>
 </div>
@@ -384,7 +396,6 @@ BTW, "C-z" is the default hot key from evil-mode. Evil-mode assign "C-x C-z" for
                 <p>
 Content of my <code>.gitconfig</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-ini">[apply]
@@ -484,7 +495,6 @@ Content of my <code>.gitconfig</code>,
 <p>
 Content of my <code>.bashrc</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh"># enable bash completion in interactive shells
@@ -605,7 +615,6 @@ function ggs()
 <p>
 I do lots of git stuff under shell, so I'm heavly dependent on below bash tools,
 </p>
-
 <ul class="org-ul">
 <li>
 <a href="https://github.com/clvv/fasd">fasd</a> to change current directory quickly</li>
@@ -638,8 +647,7 @@ I do lots of git stuff under shell, so I'm heavly dependent on below bash tools,
 
             </div>
             <div class="body">
-                <p></p>
-<p>台湾很有名的小吃,烧法见<a href="http://blog.iset.com.tw/chef/?p=5952">型男大主厨</a>. </p> <p> 要点: </p>
+                <p>台湾很有名的小吃,烧法见<a href="http://blog.iset.com.tw/chef/?p=5952">型男大主厨</a>. </p> <p> 要点: </p>
 <ul>
 <li>先煎生姜是为了快速逼出姜的香味,同一个厨师在另一个节目中又建议姜丝最后放,因为姜放在水中煮就无味了. </li> <li>如最后放生姜,姜丝要很细. </li> <li>鱼肉一面,煎鱼皮沾锅. </li> <li>放下鱼肉煮5分钟即可,否则鱼肉容易老. </li> <li>豆腐当场切片下锅,这样容易入味 </li> <li>柴鱼粉是因为快速烧法,如果先熬鱼骨汤则不需要. </li> </ul>
 </div>
@@ -670,81 +678,198 @@ I do lots of git stuff under shell, so I'm heavly dependent on below bash tools,
 
             </div>
             <div class="body">
-                <p></p>
-<pre class="src src-sh">firefox <span style="color: #8abeb7;">'http://www.google.com/chat/video/thankyou.html'</span>
+                <pre class="src src-sh">firefox <span style="color: #8abeb7;">'http://www.google.com/chat/video/thankyou.html'</span>
 emerge -v deb2targz &amp;&amp;
-<p>deb2targz google-talkplugin_current_amd64.deb &amp;&amp;</p>
-<p>mkdir googletalk &amp;&amp; <span style="color: #b294bb;">cd</span> googletalk</p>
-<p>tar xvf ../google-talkplugin_current_i386.tar.gz &amp;&amp;</p>
-<p>sudo cp -Rfv {etc,opt} /</p>
-<p>sudo cp -Rfv usr/lib/* /usr/lib64/</p>
-<p></p></pre>   <p> Here is the content of google talk: </p>   <pre class="src src-sh">./etc/cron.daily:
-<p>google-talkplugin</p>
-<p>./opt/google:</p>
-<p>chrome</p>
-<p>talkplugin</p>
-<p>./opt/google/chrome:</p>
-<p>pepper</p>
-<p>./opt/google/chrome/pepper:</p>
-<p>libppo1d.so</p>
-<p>./opt/google/talkplugin:</p>
-<p>./usr/lib:</p>
-<p>firefox</p>
-<p>iceape</p>
-<p>iceweasel</p>
-<p>midbrowser</p>
-<p>mozilla</p>
-<p>xulrunner</p>
-<p>xulrunner-addons</p>
-<p>./usr/lib/firefox:</p>
-<p>plugins</p>
-<p>./usr/lib/firefox/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/iceape:</p>
-<p>plugins</p>
-<p>./usr/lib/iceape/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/iceweasel:</p>
-<p>plugins</p>
-<p>./usr/lib/iceweasel/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/midbrowser:</p>
-<p>plugins</p>
-<p>./usr/lib/midbrowser/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/mozilla:</p>
-<p>plugins</p>
-<p>./usr/lib/mozilla/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/xulrunner:</p>
-<p>plugins</p>
-<p>./usr/lib/xulrunner/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/lib/xulrunner-addons:</p>
-<p>plugins</p>
-<p>./usr/lib/xulrunner-addons/plugins:</p>
-<p>libnpgoogletalk.so</p>
-<p>libnpgtpo3dautoplugin.so</p>
-<p>libnpo1d.so</p>
-<p>./usr/share:</p>
-<p>doc</p>
-<p>./usr/share/doc:</p>
-<p>google-talkplugin</p>
-<p>./usr/share/doc/google-talkplugin:</p>
-<p>changelog.Debian.gz</p>
-<p></p></pre>
+
+deb2targz google-talkplugin_current_amd64.deb &amp;&amp;
+
+mkdir googletalk &amp;&amp; <span style="color: #b294bb;">cd</span> googletalk
+
+tar xvf ../google-talkplugin_current_i386.tar.gz &amp;&amp;
+
+sudo cp -Rfv {etc,opt} /
+
+sudo cp -Rfv usr/lib/* /usr/lib64/
+
+</pre>   <p> Here is the content of google talk: </p>   <pre class="src src-sh">./etc/cron.daily:
+
+google-talkplugin
+
+
+
+./opt/google:
+
+chrome
+
+talkplugin
+
+
+
+./opt/google/chrome:
+
+pepper
+
+
+
+./opt/google/chrome/pepper:
+
+libppo1d.so
+
+
+
+./opt/google/talkplugin:
+
+
+
+./usr/lib:
+
+firefox
+
+iceape
+
+iceweasel
+
+midbrowser
+
+mozilla
+
+xulrunner
+
+xulrunner-addons
+
+
+
+./usr/lib/firefox:
+
+plugins
+
+
+
+./usr/lib/firefox/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/iceape:
+
+plugins
+
+
+
+./usr/lib/iceape/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/iceweasel:
+
+plugins
+
+
+
+./usr/lib/iceweasel/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/midbrowser:
+
+plugins
+
+
+
+./usr/lib/midbrowser/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/mozilla:
+
+plugins
+
+
+
+./usr/lib/mozilla/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/xulrunner:
+
+plugins
+
+
+
+./usr/lib/xulrunner/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/xulrunner-addons:
+
+plugins
+
+
+
+./usr/lib/xulrunner-addons/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/share:
+
+doc
+
+
+
+./usr/share/doc:
+
+google-talkplugin
+
+
+
+./usr/share/doc/google-talkplugin:
+
+changelog.Debian.gz
+
+
+
+</pre>
             </div>
         </div>
     
@@ -755,7 +880,7 @@ emerge -v deb2targz &amp;&amp;
             <li class="next">
                 <a href="index-9.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

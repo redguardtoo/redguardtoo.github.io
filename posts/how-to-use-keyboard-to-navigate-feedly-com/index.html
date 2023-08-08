@@ -11,8 +11,8 @@
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="How to use keyboard to navigate feedly.com">
 <meta property="og:url" content="http://blog.binchen.org/posts/how-to-use-keyboard-to-navigate-feedly-com/">
-<meta property="og:description" content="Here is the detailed steps,  Install keysnail (a firefox addon)  Install HoK (no less than version 1.3.9) through keysnail  Add below code into .keysnail.js       /* HoK /
-key.setViewKey('e', function">
+<meta property="og:description" content="Here is the detailed steps,  Install keysnail (a firefox addon)  Install HoK (no less than version 1.3.9) through keysnail  Add below code into .keysnail.js       /** HoK */
+key.setViewKey('e', functi">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2013-05-06T21:59:00Z">
 <meta property="article:tag" content="emacs">
@@ -57,36 +57,49 @@ key.setViewKey('e', function">
 
         </div>
         <div class="body">
-            <p></p>
-<p>Here is the detailed steps, </p>
+            <p>Here is the detailed steps, </p>
 <ol>
 <li>Install <a href="https://github.com/mooz/keysnail">keysnail</a> (a firefox addon) </li> <li>Install <a href="https://github.com/mooz/keysnail/wiki/plugin">HoK</a> (no less than version 1.3.9) through keysnail </li> <li>Add below code into .keysnail.js </li> </ol>
-<pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/*<em> </em></span><span style="color: #969896; font-style: italic;">HoK /</span>
+<pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/** </span><span style="color: #969896; font-style: italic;">HoK */</span>
 key.setViewKey(<span style="color: #70c0b1;">'e'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
         ext.exec(<span style="color: #70c0b1;">"hok-start-foreground-mode"</span>, aArg);
 }, <span style="color: #70c0b1;">'Hok - Foreground hint mode'</span>, <span style="color: #c397d8;">true</span>);
-<p>key.setViewKey(<span style="color: #70c0b1;">'E'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+
+
+
+key.setViewKey(<span style="color: #70c0b1;">'E'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
         ext.exec(<span style="color: #70c0b1;">"hok-start-background-mode"</span>, aArg);
-}, <span style="color: #70c0b1;">'HoK - Background hint mode'</span>, <span style="color: #c397d8;">true</span>);</p>
-<p>key.setViewKey(<span style="color: #70c0b1;">';'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+}, <span style="color: #70c0b1;">'HoK - Background hint mode'</span>, <span style="color: #c397d8;">true</span>);
+
+
+
+key.setViewKey(<span style="color: #70c0b1;">';'</span>, <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
         ext.exec(<span style="color: #70c0b1;">"hok-start-extended-mode"</span>, aArg);
-}, <span style="color: #70c0b1;">'HoK - Extented hint mode'</span>, <span style="color: #c397d8;">true</span>);</p>
-<p>key.setViewKey([<span style="color: #70c0b1;">'C-c'</span>, <span style="color: #70c0b1;">'C-e'</span>], <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
+}, <span style="color: #70c0b1;">'HoK - Extented hint mode'</span>, <span style="color: #c397d8;">true</span>);
+
+
+
+key.setViewKey([<span style="color: #70c0b1;">'C-c'</span>, <span style="color: #70c0b1;">'C-e'</span>], <span style="color: #b9ca4a;">function</span> (<span style="color: #e7c547;">aEvent</span>, <span style="color: #e7c547;">aArg</span>) {
         ext.exec(<span style="color: #70c0b1;">"hok-start-continuous-mode"</span>, aArg);
-}, <span style="color: #70c0b1;">'Start continuous HaH'</span>, <span style="color: #c397d8;">true</span>);</p>
-<p>hook.addToHook(<span style="color: #70c0b1;">'PluginLoaded'</span>, <span style="color: #b9ca4a;">function</span> () {
+}, <span style="color: #70c0b1;">'Start continuous HaH'</span>, <span style="color: #c397d8;">true</span>);
+
+
+
+hook.addToHook(<span style="color: #70c0b1;">'PluginLoaded'</span>, <span style="color: #b9ca4a;">function</span> () {
   <span style="color: #b9ca4a;">if</span> (!plugins.hok)
-    <span style="color: #b9ca4a;">return</span>;</p>
-<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">HoK 1.3.9+ requried /</span>
+    <span style="color: #b9ca4a;">return</span>;
+
+  <span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">HoK 1.3.9+ requried */</span>
   plugins.hok.pOptions.selector = plugins.hok.pOptions.selector
-    <span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">feedly /</span>
-    + <span style="color: #70c0b1;">", <em>[data-uri]"</em></span>
-    + <span style="color: #70c0b1;">", [data-selector-toggle]"</span>
-    + <span style="color: #70c0b1;">", <em>[data-page-action]"</em></span>
-    + <span style="color: #70c0b1;">", [data-app-action]"</span>
+    <span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">feedly */</span>
+    + <span style="color: #70c0b1;">", *[data-uri]"</span>
+    + <span style="color: #70c0b1;">", *[data-selector-toggle]"</span>
+    + <span style="color: #70c0b1;">", *[data-page-action]"</span>
+    + <span style="color: #70c0b1;">", *[data-app-action]"</span>
   ;
-});</p>
-<p></p></pre>  <ol>
+});
+
+</pre>  <ol>
 <li>Restart Firefox, logged into <a href="http://www.feedly.com">http://www.feedly.com</a> and press hot key "e" </li> <li>Enjoy! </li> </ol>
 </div>
         
@@ -124,7 +137,7 @@ key.setViewKey(<span style="color: #70c0b1;">'e'</span>, <span style="color: #b9
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

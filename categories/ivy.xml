@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about ivy)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ivy.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Enhance diff-mode with Ivy</title><link>http://blog.binchen.org/posts/enhance-diff-mode-with-ivy/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about ivy)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ivy.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Enhance diff-mode with Ivy</title><link>http://blog.binchen.org/posts/enhance-diff-mode-with-ivy/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 My current job requires me to review the freelancer's patches and apply them to our code branch under &lt;a href="https://www.perforce.com/"&gt;Perforce&lt;/a&gt; control. Due to my client's security policy, the freelancer can only work on isolated sandbox environment and can't access our code base directly.
 &lt;/p&gt;
 
 &lt;p&gt;
 I need two steps to finish the task:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Open the freelancer's patch in &lt;code&gt;diff-mode&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Run &lt;code&gt;diff-apply-hunk&lt;/code&gt; to apply the hunks interactively&lt;/li&gt;
@@ -27,7 +26,6 @@ Here is my solution. I can find the file to patch in recent opened files because
 &lt;p&gt;
 Here is the code
 &lt;/p&gt;
-
 &lt;pre class="example"&gt;
 
 &lt;/pre&gt;
@@ -84,7 +82,6 @@ Keysnail has similar javascript API &lt;code&gt;prompt.selector&lt;/code&gt; and
 &lt;p&gt;
 For example, you can insert below snippet into &lt;code&gt;~/.keysnail.js&lt;/code&gt; and press ",hh" or "C-c C-h" to query browse history:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-javascript"&gt;function searchHistory(evt, arg) {
@@ -393,7 +390,7 @@ But if there are too many hunks in one file, &lt;a href="https://github.com/abo-
 Screenshot:
 &lt;/p&gt;
 
-&lt;div id="org232ebcf" class="figure"&gt;
+&lt;div id="org9d44b4e" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>gutter</category><category>ivy</category><category>mode</category><guid>http://blog.binchen.org/posts/enhance-emacs-git-gutter-with-ivy-mode/</guid><pubDate>Thu, 14 Jul 2016 13:35:32 GMT</pubDate></item><item><title>New git-timemachine UI based on ivy-mode</title><link>http://blog.binchen.org/posts/new-git-timemachine-ui-based-on-ivy-mode/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
@@ -442,7 +439,7 @@ Here is my code based on &lt;a href="https://github.com/abo-abo/swiper"&gt;ivy-m
 Screenshot after &lt;code&gt;M-x my-git-timemachine&lt;/code&gt;,
 &lt;/p&gt;
 
-&lt;div id="orgcb03dba" class="figure"&gt;
+&lt;div id="org235d2b2" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/my-git-timemachine-nq8.png" alt="my-git-timemachine-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>ivy</category><category>timemachine</category><guid>http://blog.binchen.org/posts/new-git-timemachine-ui-based-on-ivy-mode/</guid><pubDate>Sun, 05 Jun 2016 14:32:39 GMT</pubDate></item><item><title>Complete line with ivy-mode</title><link>http://blog.binchen.org/posts/complete-line-with-ivy-mode/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
@@ -540,7 +537,7 @@ Here is my setup,
 Screenshot:
 &lt;/p&gt;
 
-&lt;div id="org5d1ad8e" class="figure"&gt;
+&lt;div id="orgb33a966" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/ivy-recent-directory-nq8.png" alt="ivy-recent-directory-nq8.png"&gt;
 &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>ivy</category><guid>http://blog.binchen.org/posts/use-ivy-to-open-recent-directories/</guid><pubDate>Wed, 30 Mar 2016 11:13:23 GMT</pubDate></item><item><title>Use ivy-mode to search bash history</title><link>http://blog.binchen.org/posts/use-ivy-mode-to-search-bash-history/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
 
@@ -585,7 +582,6 @@ So I use &lt;a href="https://github.com/abo-abo/swiper"&gt;Ivy-mode&lt;/a&gt; to
 &lt;p&gt;
 Here is code:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq wg-use-default-session-file nil)

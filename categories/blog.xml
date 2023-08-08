@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about blog)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/blog.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Demo blog post created by nikola&amp;org2nikola</title><link>http://blog.binchen.org/posts/demo-blog-post-created-by-nikolaorg2nikola/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about blog)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/blog.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:32:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Demo blog post created by nikola&amp;org2nikola</title><link>http://blog.binchen.org/posts/demo-blog-post-created-by-nikolaorg2nikola/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 python code:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-python"&gt;import getopt, sys
@@ -21,8 +20,8 @@ if __name__ == '__main__':
 &lt;p&gt;
 This is table:
 &lt;/p&gt;
-
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
 
 &lt;colgroup&gt;
 &lt;col class="org-left"&gt;
@@ -68,7 +67,6 @@ This is table:
 &lt;p&gt;
 This is list:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;list item 1&lt;/li&gt;
 &lt;li&gt;list item 2&lt;/li&gt;
@@ -86,9 +84,9 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 If you are only interested in web page optimization, start from the second section of the article.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orga1dc2fc" class="outline-2"&gt;
-&lt;h3 id="orga1dc2fc"&gt;Migrate from WordPress to Nikola&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga1dc2fc"&gt;
+&lt;div id="outline-container-org4dc324b" class="outline-2"&gt;
+&lt;h3 id="org4dc324b"&gt;Migrate from WordPress to Nikola&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4dc324b"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;# you might need need `sudo apt-get install python-gdbm` on Debian
@@ -206,9 +204,9 @@ You can use javascript to re-direct the URL, so your old article links are still
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org92c9cc2" class="outline-2"&gt;
-&lt;h3 id="org92c9cc2"&gt;Optimization&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org92c9cc2"&gt;
+&lt;div id="outline-container-orgfbdc78f" class="outline-2"&gt;
+&lt;h3 id="orgfbdc78f"&gt;Optimization&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfbdc78f"&gt;
 &lt;p&gt;
 I developed &lt;a href="https://github.com/redguardtoo/org2nikola"&gt;org2nikola&lt;/a&gt; to convert Org subtree into Nikola page. 
 &lt;/p&gt;
@@ -248,7 +246,6 @@ For jquery.js, see &lt;a href="http://rk.md/2012/cdnjs-scripts-without-plugin-wo
 &lt;p&gt;
 I added below code into bottom of functions.php (Appearance =&amp;gt; Editor):
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-php"&gt;add_action('wp_enqueue_scripts', 'CDNJS_scripts');
@@ -265,7 +262,6 @@ function CDNJS_scripts()
 &lt;p&gt;
 For js from SyntaxHighlighter Evolved (Plugins =&amp;gt; Installed Plugins =&amp;gt; Edit):
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-diff"&gt;diff --git a/syntaxhighlighter.php b/syntaxhighlighter.php
@@ -344,7 +340,6 @@ My only issue that I need share the blog url to social network sites after publi
 &lt;p&gt;
 Here is my solution to automatically copy post url into clipboard after publishing:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun my-org2blog-post-subtree ()
@@ -402,5 +397,5 @@ org2blog安装步骤在上文的链接里都有,也可以参看&lt;a href="http:
 
 &lt;p&gt;
 org-mode安装步骤见&lt;a href="http://orgmode.org/guide/Installation.html#Installation"&gt;官方文档&lt;/a&gt;.
-&lt;/p&gt;</description><category>blog</category><category>emacs</category><category>org2blog</category><category>zh</category><guid>http://blog.binchen.org/posts/yong-org2blog-emacs-fa-biao-bo-ke/</guid><pubDate>Wed, 26 Dec 2012 09:16:27 GMT</pubDate></item><item><title>One-line Linux CLI to remove span tag</title><link>http://blog.binchen.org/posts/one-line-linux-cli-to-remove-span-tag/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;Some CMS are too smart to handle &amp;lt;span&amp;gt; tag properly. &lt;/p&gt; &lt;p&gt; I have to copy the content into clipboard, remove the span tag, and paste it back into CMS. &lt;/p&gt; &lt;p&gt; Actually all the trouble could be saved by one line linux command, &lt;/p&gt;   &lt;pre class="src src-sh"&gt;xclip -o|sed &lt;span style="color:#802a55;"&gt;'s%&amp;lt;/&lt;em&gt;span[^&amp;gt;]&lt;/em&gt;&amp;gt;%%g'&lt;/span&gt;|xclip -selection c
+&lt;/p&gt;</description><category>blog</category><category>emacs</category><category>org2blog</category><category>zh</category><guid>http://blog.binchen.org/posts/yong-org2blog-emacs-fa-biao-bo-ke/</guid><pubDate>Wed, 26 Dec 2012 09:16:27 GMT</pubDate></item><item><title>One-line Linux CLI to remove span tag</title><link>http://blog.binchen.org/posts/one-line-linux-cli-to-remove-span-tag/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;Some CMS are too smart to handle &amp;lt;span&amp;gt; tag properly. &lt;/p&gt; &lt;p&gt; I have to copy the content into clipboard, remove the span tag, and paste it back into CMS. &lt;/p&gt; &lt;p&gt; Actually all the trouble could be saved by one line linux command, &lt;/p&gt;   &lt;pre class="src src-sh"&gt;xclip -o|sed &lt;span style="color:#802a55;"&gt;'s%&amp;lt;/*span[^&amp;gt;]*&amp;gt;%%g'&lt;/span&gt;|xclip -selection c
 &lt;/pre&gt;</description><category>blog</category><category>cms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/one-line-linux-cli-to-remove-span-tag/</guid><pubDate>Thu, 12 May 2011 15:00:00 GMT</pubDate></item></channel></rss>

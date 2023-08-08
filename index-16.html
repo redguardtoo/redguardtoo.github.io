@@ -70,7 +70,6 @@ Ctags creates an index file named "TAGS". The path of TAGS is stored in a Emacs 
 <p>
 Example of <code>tags-table-list</code>:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(setq tags-table-list '("~/wxWidgets-master/TAGS" "~/projs/Loris/src/desktop/TAGS"))
@@ -85,7 +84,6 @@ When running <code>M-x find-tag</code>, the tag files in <code>tags-table-list</
 <p>
 Here is my strategy to manage TAGS <b>automatically</b>:
 </p>
-
 <ul class="org-ul">
 <li>I hard coded path of TAGS in <code>.emacs</code> because I don't change project path frequently</li>
 <li>In major mode hook like <code>c++-mode-hook</code> or <code>js2-mode-hook</code> I check the path current file. If it matches project name, the file is part of the project</li>
@@ -96,7 +94,6 @@ Here is my strategy to manage TAGS <b>automatically</b>:
 <p>
 Code:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun my-project-name-contains-substring (regex)
@@ -166,7 +163,6 @@ Code:
 UPDATE:
 Ctags is discussed at <a href="https://plus.google.com/110954683162859211810/posts/NsdzvywuoX3">Google Plus</a>. Kaushal Modi recommended three Emacs plugins:
 </p>
-
 <ul class="org-ul">
 <li><a href="https://github.com/jixiuf/ctags-update">ctags-update</a></li>
 <li><a href="https://www.emacswiki.org/emacs/etags-table.el">etags-table</a></li>
@@ -184,7 +180,6 @@ But I do like <code>etags-select</code>, it provides better UI for finding tag a
 UPDATE:
 I have developed my own ctags solution for Emacs,
 </p>
-
 <ul class="org-ul">
 <li>
 <a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation and imenu</li>
@@ -227,7 +222,6 @@ For jquery.js, see <a href="http://rk.md/2012/cdnjs-scripts-without-plugin-wordp
 <p>
 I added below code into bottom of functions.php (Appearance =&gt; Editor):
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-php">add_action('wp_enqueue_scripts', 'CDNJS_scripts');
@@ -244,7 +238,6 @@ function CDNJS_scripts()
 <p>
 For js from SyntaxHighlighter Evolved (Plugins =&gt; Installed Plugins =&gt; Edit):
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-diff">diff --git a/syntaxhighlighter.php b/syntaxhighlighter.php
@@ -360,7 +353,6 @@ If you grep org2blog's code, you will find a variable "org2blog/wp-sourcecode-la
 <p>
 So all you need to do is insert below code into ~/.emacs:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(setq org2blog/wp-sourcecode-langs
@@ -380,7 +372,6 @@ Then you need install the wordpress plugin <a href="http://www.viper007bond.com/
 <p>
 That's easy to fix. Please log into your blog, modify that plugin online:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-diff">diff --git a/syntaxhighlighter.php b/syntaxhighlighter.php
@@ -442,15 +433,18 @@ Besides, I find the wordpress theme produced by <a href="http://automattic.com">
 
             </div>
             <div class="body">
-                <p></p>
-<p>I write some set up code in ~/.custom.el. It will detect which machine and what directory I'm working on. Then I hook the set up code when major mode (js2-mode, web-mode, for example) loaded. </p> <p> In my ~/.emacs, </p>   
+                <p>I write some set up code in ~/.custom.el. It will detect which machine and what directory I'm working on. Then I hook the set up code when major mode (js2-mode, web-mode, for example) loaded. </p> <p> In my ~/.emacs, </p>   
+
+
 <pre class="prettyprint lang-lisp">
 (if (file-readable-p (expand-file-name "~/.custom.el"))
      (load-file (expand-file-name "~/.custom.el")))
 </pre>
 
-<p></p>
-<p> Content of my ~/.custom.el: </p>   
+
+   <p> Content of my ~/.custom.el: </p>   
+
+
 <pre class="prettyprint lang-lisp">
 ;; (getenv "HOSTNAME") won't work because $HOSTNAME is not an env variable
 ;; (system-name) won't work because as Optus required, my /etc/hosts is changed
@@ -498,8 +492,6 @@ Besides, I find the wordpress theme produced by <a href="http://automattic.com">
 (add-hook 'js2-mode-hook 'my/setup-develop-environment)
 (add-hook 'web-mode-hook 'my/setup-develop-environment)
 </pre>
-
-<p></p>
             </div>
         </div>
         <div class="post">
@@ -528,8 +520,7 @@ Besides, I find the wordpress theme produced by <a href="http://automattic.com">
 
             </div>
             <div class="body">
-                <p></p>
-<p>This is <a href="http://www.quora.com/Emacs/How-do-you-use-Emacs-without-a-directory-tree-on-the-side-of-the-editor">original link of the question</a>. Please note I focus on programming for large projects. I need search/grep/modify files scattered in different places without documentation. </p> <p> If your use case is different, a embedded file explorer may be a better choice </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Tools I use to replace a file explorer</h4> <div class="outline-text-3" id="text-1">  <ol>
+                <p>This is <a href="http://www.quora.com/Emacs/How-do-you-use-Emacs-without-a-directory-tree-on-the-side-of-the-editor">original link of the question</a>. Please note I focus on programming for large projects. I need search/grep/modify files scattered in different places without documentation. </p> <p> If your use case is different, a embedded file explorer may be a better choice </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Tools I use to replace a file explorer</h4> <div class="outline-text-3" id="text-1">  <ol>
 <li>ido-find-file (emacs), just type any characters, it will fuzz search matched file in parent/sibling/current/or-whatever directory.  </li> <li>helm-find-file (emacs), this one use regular expression and has bigger window  </li> <li>recentf and helm (emacs), I use regular expression open recent opened files.  </li> <li>ctags, gtags or whatever tag tools (CLI tool), as mentioned by other people  </li> <li>I also use lots of bash functions written by myself, those functions are trivial, but combined with a wonderful tool called percol, they become really powerful.  </li> <li>I use some CLI clipboard tool so I can easily share the file path between terminal/emacs/firefox.  </li> <li>there is also a emacs bundled feature called speedbar, which is similar to the file explorer, I used it once, but it does not fit in my ninja style ;) It's fine but the UI is almost same to those average text editors.  </li> <li>I also write some elisp snippets, for example, convert absolute path to relative path; given one relative path, output one absolute path, etc …  </li> <li>there is also some git based emacs plugin: you can search file under the project root directory.  </li> <li>there is a CLI tool called fasd which can let you interactively select the file or folder you recently visited.  </li> <li>many other tools, plug-ins, code snippets I can use … </li> </ol>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Use case</h4> <div class="outline-text-3" id="text-2">  <ol>
 <li>I need search a big project for a certain library (it's a freemarker file I need include) whose full path I don't know, I just search the API's name by type: </li> </ol>
@@ -568,15 +559,17 @@ Besides, I find the wordpress theme produced by <a href="http://automattic.com">
 
             </div>
             <div class="body">
-                <p></p>
-<p>Run the below command in shell, </p>   
+                <p>Run the below command in shell, </p>   
+
+
 <pre class="prettyprint ">
 
 curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`.tar.gz | sudo tar --exclude=admin/* --exclude=etc/* --exclude=nt/* --exclude=doc/* --exclude=leim/* -C /usr/share/emacs/`emacs --version|head -n1|sed 's/[^0-9.]*\([0-9]\+\.[0-9]\+\).*/\1/g'`/lisp/ --strip-components=2 --wildcards -zxv *.el
 </pre>
 
-<p></p>
-<p> For example, after installing the lisp code. You can <code>M-x find-function package-list-packages</code> in Emacs, you will jump to the definition of that command in "/usr/share/emacs/24.3/lisp/emacs-lisp/package.el" (I assume your emacs version is 24.3). </p>
+
+
+   <p> For example, after installing the lisp code. You can `M-x find-function package-list-packages` in Emacs, you will jump to the definition of that command in "/usr/share/emacs/24.3/lisp/emacs-lisp/package.el" (I assume your emacs version is 24.3). </p>
             </div>
         </div>
         <div class="post">
@@ -605,8 +598,8 @@ curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]
 
             </div>
             <div class="body">
-                <p></p>
-<p>Useful when developing emacs plugin: </p>
+                <p>Useful when developing emacs plugin: </p>
+
 <pre class="prettyprint lang-lisp">
 (defun add-pwd-into-load-path ()
   "add current directory into load-path, useful for elisp developers"
@@ -619,8 +612,6 @@ curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]
     )
   )
 </pre>
-
-<p></p>
             </div>
         </div>
         <div class="post">
@@ -649,8 +640,7 @@ curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]
 
             </div>
             <div class="body">
-                <p></p>
-<p>小结,代码库庞大,质量有问题,招了一些废物.M Toy:"我们不是要痛扁谁…". 1998年3月31日,Netscape公开其源代码. </p> <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+                <p>小结,代码库庞大,质量有问题,招了一些废物.M Toy:"我们不是要痛扁谁…". 1998年3月31日,Netscape公开其源代码. </p> <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption> <colgroup>
 <col class="left">
 <col class="left">
@@ -726,8 +716,7 @@ curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]
 
             </div>
             <div class="body">
-                <p></p>
-<div id="table-of-contents"> <h3>Table of Contents</h3> <div id="text-table-of-contents"> <ul>
+                <div id="table-of-contents"> <h3>Table of Contents</h3> <div id="text-table-of-contents"> <ul>
 <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-1">1. Warning</a></li> <li>
 <a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2">2. third party plugins</a> <ul>
 <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-1">2.1. company-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-2">2.2. yasnippet</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-3">2.3. js2-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-4">2.4. evil-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-5">2.5. evil-leader</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-6">2.6. evil-matchit (written by me)</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-7">2.7. evil-nerd-commenter (written by me)</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-8">2.8. helm</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-9">2.9. web-mode</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-10">2.10. windows-numbering.el</a></li> <li><a href="posts/my-answer-to-what-are-some-must-have-emacs-additions-on-quora-com/#sec-2-11">2.11. smex</a></li> </ul>
@@ -796,9 +785,9 @@ curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]
 
             </div>
             <div class="body">
-                <div id="outline-container-orgeedecb2" class="outline-2">
-<h3 id="orgeedecb2">Problem</h3>
-<div class="outline-text-2" id="text-orgeedecb2">
+                <div id="outline-container-org86c020e" class="outline-2">
+<h3 id="org86c020e">Problem</h3>
+<div class="outline-text-2" id="text-org86c020e">
 <p>
 I love the REPL (Read–eval–print loop). Watch live update of web page when typing code is cool.
 </p>
@@ -829,9 +818,9 @@ For me, a practical solution must be:
 </ul>
 </div>
 </div>
-<div id="outline-container-org4ffab82" class="outline-2">
-<h3 id="org4ffab82">Solution</h3>
-<div class="outline-text-2" id="text-org4ffab82">
+<div id="outline-container-org756dbb5" class="outline-2">
+<h3 id="org756dbb5">Solution</h3>
+<div class="outline-text-2" id="text-org756dbb5">
 <p>
 The best solution is firefox addon <a href="https://github.com/bard/mozrepl/wiki">MozRepl</a>. You can install it <a href="https://addons.mozilla.org">https://addons.mozilla.org</a>. Click firefox menu "Tools =&gt; MozRepl =&gt; Start" to run it.
 <img src="wp-content/moz-repl-start-nq8.png" alt="moz-repl-start-nq8.png"></p>
@@ -857,9 +846,9 @@ Section 2 is on how to set up my text editor Emacs to interact with MozRepl. It'
 </p>
 </div>
 
-<div id="outline-container-orge0ee526" class="outline-3">
-<h4 id="orge0ee526">Section 1, use MozRepl</h4>
-<div class="outline-text-3" id="text-orge0ee526">
+<div id="outline-container-orgd2663ee" class="outline-3">
+<h4 id="orgd2663ee">Section 1, use MozRepl</h4>
+<div class="outline-text-3" id="text-orgd2663ee">
 <p>
 Here are key points:
 </p>
@@ -912,9 +901,9 @@ Please note the code is not part of my web application! It will be run only in M
 </div>
 </div>
 
-<div id="outline-container-org1a4e4ad" class="outline-3">
-<h4 id="org1a4e4ad">Section 2, set up text editor (Emacs)</h4>
-<div class="outline-text-3" id="text-org1a4e4ad">
+<div id="outline-container-org2644f79" class="outline-3">
+<h4 id="org2644f79">Section 2, set up text editor (Emacs)</h4>
+<div class="outline-text-3" id="text-org2644f79">
 <p>
 My text editor is Emacs, so I use Emacs as an example.
 </p>
@@ -968,13 +957,13 @@ From now on, you only need "M-x moz-load-js-file-and-send-it" and select the js 
 </div>
 </div>
 </div>
-<div id="outline-container-org3692bbf" class="outline-2">
-<h3 id="org3692bbf">Tips</h3>
-<div class="outline-text-2" id="text-org3692bbf">
+<div id="outline-container-org51d1ef5" class="outline-2">
+<h3 id="org51d1ef5">Tips</h3>
+<div class="outline-text-2" id="text-org51d1ef5">
 </div>
-<div id="outline-container-orgfb58c8b" class="outline-3">
-<h4 id="orgfb58c8b">Tip 1</h4>
-<div class="outline-text-3" id="text-orgfb58c8b">
+<div id="outline-container-org0b0953a" class="outline-3">
+<h4 id="org0b0953a">Tip 1</h4>
+<div class="outline-text-3" id="text-org0b0953a">
 <p>
 Well, this is a simple tip. Maybe you are already aware of this.
 </p>
@@ -1004,9 +993,9 @@ Since javascript is good at analyzing URL, you can also tweak the URL parameters
 </div>
 </div>
 
-<div id="outline-container-org471da04" class="outline-3">
-<h4 id="org471da04">Tip 2</h4>
-<div class="outline-text-3" id="text-org471da04">
+<div id="outline-container-org211071c" class="outline-3">
+<h4 id="org211071c">Tip 2</h4>
+<div class="outline-text-3" id="text-org211071c">
 <p>
 Sometimes mozrepl will be unresponsive. You can test it by running "M-x moz-reload-browser" to refresh the page. If page is not refreshed, restart Firefox. Luckily this does not happen too often.
 </p>
@@ -1024,9 +1013,9 @@ Sometimes mozrepl will be unresponsive. You can test it by running "M-x moz-relo
 </div>
 </div>
 
-<div id="outline-container-orge42cfda" class="outline-2">
-<h3 id="orge42cfda">Demo</h3>
-<div class="outline-text-2" id="text-orge42cfda">
+<div id="outline-container-org6cab034" class="outline-2">
+<h3 id="org6cab034">Demo</h3>
+<div class="outline-text-2" id="text-org6cab034">
 <p>
 Here is a demo how I use it in a real world web application development.
 </p>
@@ -1036,7 +1025,7 @@ The script to drive the firefox is written in simple javascript/jquery code, whi
 </p>
 
 
-<div id="orgd76bd60" class="figure">
+<div id="orgcced7dc" class="figure">
 <p><img src="wp-content/mozrepl-in-action.gif" alt="mozrepl-in-action.gif"></p>
 </div>
 </div>
@@ -1051,7 +1040,7 @@ The script to drive the firefox is written in simple javascript/jquery code, whi
             <li class="next">
                 <a href="index-15.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

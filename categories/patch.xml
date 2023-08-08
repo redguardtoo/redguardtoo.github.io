@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about patch)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/patch.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-orge5b7bc5" class="outline-2"&gt;
-&lt;h3 id="orge5b7bc5"&gt;Setup git-send-email&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge5b7bc5"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about patch)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/patch.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-orgbaf651e" class="outline-2"&gt;
+&lt;h3 id="orgbaf651e"&gt;Setup git-send-email&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgbaf651e"&gt;
 &lt;p&gt;
 On Debian run &lt;code&gt;sudo apt-get install git-email&lt;/code&gt; to install git command line tools.
 &lt;/p&gt;
@@ -25,9 +25,9 @@ Modify &lt;code&gt;~/.gitconfig&lt;/code&gt; to use Gmail SMTP:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5966c1e" class="outline-2"&gt;
-&lt;h3 id="org5966c1e"&gt;Send the latest commit&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5966c1e"&gt;
+&lt;div id="outline-container-org5d3cc86" class="outline-2"&gt;
+&lt;h3 id="org5d3cc86"&gt;Send the latest commit&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5d3cc86"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;# send one commit
@@ -38,9 +38,9 @@ git send-email -1 --annotate
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf2744f5" class="outline-2"&gt;
-&lt;h3 id="orgf2744f5"&gt;Apply patch&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf2744f5"&gt;
+&lt;div id="outline-container-org4a730f8" class="outline-2"&gt;
+&lt;h3 id="org4a730f8"&gt;Apply patch&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4a730f8"&gt;
 &lt;p&gt;
 Select one mail. Run command "M-x gnus-summary-save-article-email" whose short key is "O m" in summary buffer.
 &lt;/p&gt;
@@ -56,9 +56,9 @@ Emacs will ask for directory to save that patch. Say I save it as &lt;code&gt;~/
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc2d57fb" class="outline-2"&gt;
-&lt;h3 id="orgc2d57fb"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc2d57fb"&gt;
+&lt;div id="outline-container-org298acd5" class="outline-2"&gt;
+&lt;h3 id="org298acd5"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org298acd5"&gt;
 &lt;p&gt;
 Use &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/gnus-article-treat-patch/gnus-article-treat-patch.el"&gt;gnus-article-treat-patch.el&lt;/a&gt;.
 &lt;/p&gt;
@@ -75,4 +75,4 @@ Add below code to setup:
 
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>git</category><category>gnus</category><category>patch</category><guid>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</guid><pubDate>Sat, 07 Sep 2013 00:00:00 GMT</pubDate></item><item><title>Simplest workflow on email git commit in Emacs (No magit needed)</title><link>http://blog.binchen.org/posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;Sometimes I just want to email my trivial patch to the original author and forget it. In this case "github fork" or "git format-patch" is too heavy weight for me. &lt;/p&gt; &lt;p&gt; So here is the simplest workflow I can figure out: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Step 1, command "M-x vc-dir" whose hotkey is "C-x v d" &lt;/li&gt; &lt;li&gt;Step 2, command "M-x git-print-log" whose hotkey is "C-x v l" &lt;/li&gt; &lt;li&gt;Step 3, Move focus to the specific commit and run command "M-x log-view-diff" whose hotkey is "d". &lt;/li&gt; &lt;li&gt;Step 4, Yank the commit/diff &lt;/li&gt; &lt;li&gt;Step 5, Compose new email (command "M-x compose-mail" whose hotkey is "C-x m") &lt;/li&gt; &lt;li&gt;Step 6, Make sure the subject of email start with "[PATCH]". See &lt;a href="http://linuxtv.org/wiki/index.php/Development:_How_to_submit_patches"&gt;this patch sumbit guide&lt;/a&gt; for reasons. &lt;/li&gt; &lt;li&gt;Step 7, Paste the content of commit/diff into email body. &lt;/li&gt; &lt;li&gt;Step 8, Send the email by command "M-x message-send-and-exit" whose hotkey is "C-c C-c" &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; Please note: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Step 1 is usually necessary unless you only need the diff of current file. &lt;/li&gt; &lt;li&gt;Step 2 and step 3 could be replaced with command "M-x vc-diff" or hotkey "C-x v =" if you want to email the diff of work directory. &lt;/li&gt; &lt;/ul&gt;</description><category>emacs</category><category>email</category><category>en</category><category>git</category><category>patch</category><guid>http://blog.binchen.org/posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed/</guid><pubDate>Sun, 27 Jan 2013 15:51:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>git</category><category>gnus</category><category>patch</category><guid>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</guid><pubDate>Sat, 07 Sep 2013 00:00:00 GMT</pubDate></item><item><title>Simplest workflow on email git commit in Emacs (No magit needed)</title><link>http://blog.binchen.org/posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;Sometimes I just want to email my trivial patch to the original author and forget it. In this case "github fork" or "git format-patch" is too heavy weight for me. &lt;/p&gt; &lt;p&gt; So here is the simplest workflow I can figure out: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Step 1, command "M-x vc-dir" whose hotkey is "C-x v d" &lt;/li&gt; &lt;li&gt;Step 2, command "M-x git-print-log" whose hotkey is "C-x v l" &lt;/li&gt; &lt;li&gt;Step 3, Move focus to the specific commit and run command "M-x log-view-diff" whose hotkey is "d". &lt;/li&gt; &lt;li&gt;Step 4, Yank the commit/diff &lt;/li&gt; &lt;li&gt;Step 5, Compose new email (command "M-x compose-mail" whose hotkey is "C-x m") &lt;/li&gt; &lt;li&gt;Step 6, Make sure the subject of email start with "[PATCH]". See &lt;a href="http://linuxtv.org/wiki/index.php/Development:_How_to_submit_patches"&gt;this patch sumbit guide&lt;/a&gt; for reasons. &lt;/li&gt; &lt;li&gt;Step 7, Paste the content of commit/diff into email body. &lt;/li&gt; &lt;li&gt;Step 8, Send the email by command "M-x message-send-and-exit" whose hotkey is "C-c C-c" &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; Please note: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Step 1 is usually necessary unless you only need the diff of current file. &lt;/li&gt; &lt;li&gt;Step 2 and step 3 could be replaced with command "M-x vc-diff" or hotkey "C-x v =" if you want to email the diff of work directory. &lt;/li&gt; &lt;/ul&gt;</description><category>emacs</category><category>email</category><category>en</category><category>git</category><category>patch</category><guid>http://blog.binchen.org/posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed/</guid><pubDate>Sun, 27 Jan 2013 15:51:00 GMT</pubDate></item></channel></rss>

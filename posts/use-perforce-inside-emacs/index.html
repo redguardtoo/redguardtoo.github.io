@@ -90,9 +90,9 @@ Perforce is a proprietary VCS. It's less powerful than <a href="https://git-scm.
 For example, <code>git log -p file-path</code> displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like <code>p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}</code> can't do it. I have to use Emacs Lisp to clean the output of <code>p4</code>.
 </p>
 
-<div id="outline-container-org1fc6a22" class="outline-2">
-<h3 id="org1fc6a22">Perforce workflow</h3>
-<div class="outline-text-2" id="text-org1fc6a22">
+<div id="outline-container-org3e8d6f0" class="outline-2">
+<h3 id="org3e8d6f0">Perforce workflow</h3>
+<div class="outline-text-2" id="text-org3e8d6f0">
 <ul class="org-ul">
 <li>
 <code>p4 set</code> to <a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html">set up</a>
@@ -113,9 +113,9 @@ For example, <code>git log -p file-path</code> displays the detailed history of 
 </div>
 </div>
 
-<div id="outline-container-org3a10893" class="outline-2">
-<h3 id="org3a10893">My solution</h3>
-<div class="outline-text-2" id="text-org3a10893">
+<div id="outline-container-org8f38c59" class="outline-2">
+<h3 id="org8f38c59">My solution</h3>
+<div class="outline-text-2" id="text-org8f38c59">
 <p>
 Perforce Cygwin portable is not recommended.
 </p>
@@ -128,9 +128,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed <code>p4</code> that URL, the operation is always successful.
 </p>
 </div>
-<div id="outline-container-org364b033" class="outline-3">
-<h4 id="org364b033">Emacs</h4>
-<div class="outline-text-3" id="text-org364b033">
+<div id="outline-container-org20f3c91" class="outline-3">
+<h4 id="org20f3c91">Emacs</h4>
+<div class="outline-text-3" id="text-org20f3c91">
 <p>
 I developed <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a> which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need <code>p4 login</code> at first.)
 </p>
@@ -292,9 +292,9 @@ You can also check my <a href="https://github.com/redguardtoo/emacs.d/blob/maste
 </p>
 </div>
 </div>
-<div id="outline-container-org4d6f23c" class="outline-3">
-<h4 id="org4d6f23c">Bash Shell</h4>
-<div class="outline-text-3" id="text-org4d6f23c">
+<div id="outline-container-orgb084836" class="outline-3">
+<h4 id="orgb084836">Bash Shell</h4>
+<div class="outline-text-3" id="text-orgb084836">
 <p>
 Other operations are finished in Bash Shell,
 </p>
@@ -463,7 +463,7 @@ function p4ml(){
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

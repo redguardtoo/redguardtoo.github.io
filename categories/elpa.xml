@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about elpa)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/elpa.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>No worries when elpa is down</title><link>http://blog.binchen.org/posts/no-worries-when-elpa-is-down/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about elpa)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/elpa.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>No worries when elpa is down</title><link>http://blog.binchen.org/posts/no-worries-when-elpa-is-down/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I use one liner shell command to clone Emacs Lisp Package Archive (ELPA):
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;mkdir -p ~/elpaclone &amp;amp;&amp;amp; cd ~/elpaclone &amp;amp;&amp;amp; curl -L https://elpa.gnu.org/packages/archive-contents | perl -pe 's/(^\(1|\n)//g' | perl -pe 's/\]\)/])\n/g' | perl -pe 's/^ *\(([a-z0-9A-Z-]*).*\[\(([0-9 ]*).*(single|tar).*/\1-\2.\3/g' | perl -pe 's/ /./g' | perl -pe 's/single/el/g' | perl -pe 's/\)//g' | xargs -I {} curl -L  -O https://elpa.gnu.org/packages/{} &amp;amp;&amp;amp; curl -L -O https://elpa.gnu.org/packages/archive-contents
@@ -21,7 +20,6 @@ Usage is simple.
 &lt;p&gt;
 Insert below line at the beginning of ~/.emacs when &lt;b&gt;elpa.gnu.org is down&lt;/b&gt;:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq package-archives '(("elpaclone" . "~/elpaclone")))

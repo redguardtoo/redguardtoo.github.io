@@ -58,8 +58,9 @@
 
         </div>
         <div class="body">
-            <p></p>
-<p>I <a href="https://github.com/emacs-helm/helm/issues/448">met some issue</a> when using helm several days ago. </p> <p> With the help from Michael Heerdegen, I can locate the line error message is dumped. </p> <p> But the problem is I cannot get the backtrace at all. </p> <p> So I insert some <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Internals-of-Debugger.html">backtrace printing code</a> above that line and "M-x eval-buffer": </p>   
+            <p>I <a href="https://github.com/emacs-helm/helm/issues/448">met some issue</a> when using helm several days ago. </p> <p> With the help from Michael Heerdegen, I can locate the line error message is dumped. </p> <p> But the problem is I cannot get the backtrace at all. </p> <p> So I insert some <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Internals-of-Debugger.html">backtrace printing code</a> above that line and "M-x eval-buffer": </p>   
+
+
 <pre class="prettyprint ">
 
 (with-output-to-temp-buffer "backtrace-output"
@@ -70,8 +71,8 @@
                          (list 'testing (backtrace))))))))
 </pre>
 
-<p></p>
-<p> It turns out that some third party package I installed changes the emacs variable "display-buffer-function". I guess that's why the backtrace is blocked. Because backtrace is usually dumped into a backtrace buffer. And backtrace buffer's is actually influenced by the variable. </p>
+
+   <p> It turns out that some third party package I installed changes the emacs variable "display-buffer-function". I guess that's why the backtrace is blocked. Because backtrace is usually dumped into a backtrace buffer. And backtrace buffer's is actually influenced by the variable. </p>
         </div>
         
         <ul class="pager hidden-print">
@@ -108,7 +109,7 @@
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

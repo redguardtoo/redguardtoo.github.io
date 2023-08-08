@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about flyspell)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/flyspell.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about flyspell)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/flyspell.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://blog.binchen.org/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
@@ -155,7 +155,6 @@ But this solution is not perfect. It wrongly identifies two character sub-word a
 &lt;p&gt;
 In this article,
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;I will explain &lt;b&gt;how Emacs spell checker works&lt;/b&gt;&lt;/li&gt;
 &lt;li&gt;Then we study the &lt;b&gt;algorithm of aspell&lt;/b&gt;&lt;/li&gt;
@@ -173,7 +172,6 @@ Aspell doesn't understand syntax of any programming language. It simply reports 
 &lt;p&gt;
 Aspell has two options:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;--run-together-limit&lt;/code&gt; is "Maximum number of words can be strung together"&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;--run-together-min&lt;/code&gt; is "Minimal length of sub-words"&lt;/li&gt;
@@ -186,7 +184,6 @@ Aspell C++ code has to be studied in order to understand above two options. Let'
 &lt;p&gt;
 Here is code,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-c"&gt;class Working : public Score {
@@ -238,7 +235,6 @@ unsigned Working::check_word(char * word, char * word_end,  CheckInfo * ci,
 &lt;p&gt;
 Say first parameter of &lt;code&gt;check_word&lt;/code&gt; is "hisHelle",
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;word&lt;/code&gt; points to string "hisHelle" (in C/C++, string is character array. The last character of array is character &lt;code&gt;'\0'&lt;/code&gt;)&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;sp-&amp;gt;run_together_min_&lt;/code&gt; is 3, so &lt;code&gt;i&lt;/code&gt; initially points to the character "H", at the end of sub-word "his"&lt;/li&gt;
@@ -252,7 +248,6 @@ Say first parameter of &lt;code&gt;check_word&lt;/code&gt; is "hisHelle",
 &lt;p&gt;
 Key points:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;--run-together-limit&lt;/code&gt; could be bigger with enough memory. It's default value is 8. I prefer 16.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;--run-together-min&lt;/code&gt; can't be 2 because too many typos are combination of "correct" two character sub-words ("hehe", "isme", …)&lt;/li&gt;
@@ -275,7 +270,6 @@ A predicate could be attached to specific major-mode. The predicate file all the
 &lt;p&gt;
 A example of predicate for &lt;code&gt;js2-mode&lt;/code&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun js-flyspell-verify ()
@@ -299,7 +293,6 @@ Here is complete setup you can paste into &lt;code&gt;.emacs&lt;/code&gt; (I set
 &lt;p&gt;
 Please note function &lt;code&gt;split-camel-case&lt;/code&gt; splits a camel case word into a list of sub-words. Sub-word with less one or two characters is not typo.
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun split-camel-case (word)

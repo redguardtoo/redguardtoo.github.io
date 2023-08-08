@@ -56,9 +56,9 @@ I use <a href="http://company-mode.github.io/">company-mode</a> most of the time
 I surely can do this in company-mode too. But I prefer hippie-expand because I choose to make company-mode focus on programming stuff and hippie-expand on writing.
 </p>
 
-<div id="outline-container-orgb88e621" class="outline-2">
-<h3 id="orgb88e621">Solution</h3>
-<div class="outline-text-2" id="text-orgb88e621">
+<div id="outline-container-orga2599f2" class="outline-2">
+<h3 id="orga2599f2">Solution</h3>
+<div class="outline-text-2" id="text-orga2599f2">
 <p>
 This solution works <b>in any environment</b>.
 </p>
@@ -107,9 +107,9 @@ This solution works <b>in any environment</b>.
 </div>
 </div>
 </div>
-<div id="outline-container-orgcc9be1e" class="outline-2">
-<h3 id="orgcc9be1e">Technical details</h3>
-<div class="outline-text-2" id="text-orgcc9be1e">
+<div id="outline-container-org439eb8b" class="outline-2">
+<h3 id="org439eb8b">Technical details</h3>
+<div class="outline-text-2" id="text-org439eb8b">
 <ul class="org-ul">
 <li>based on <a href="https://github.com/syohex/emacs-ac-ispell">ac-ispell</a>
 </li>
@@ -153,7 +153,6 @@ This solution works <b>in any environment</b>.
  people say "Emacs is the best operating system"                           :en:emacs:font:linux:terminal:terminator:
 It's becasue Emacs has great documentation and enough APIs.
 </p>
-
 <div id="outline-container-sec-1" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
@@ -215,7 +214,6 @@ Because the manual also gives the details of other components of "Pango font nam
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-2" class="outline-2">
 <h3 id="sec-2">API</h3>
 <div class="outline-text-2" id="text-2">
@@ -250,8 +248,8 @@ Emacs has enough APIs. Later I found another pure Lisp API "find-lisp-find-dired
                 <p>
 python code:
 </p>
-
 <div class="org-src-container">
+
 
 <pre><code class="lang-python">
 import getopt, sys
@@ -270,7 +268,6 @@ if __name__ == '__main__':
 <p>
 This is table:
 </p>
-
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="left">
@@ -308,7 +305,6 @@ This is table:
 <p>
 This is list:
 </p>
-
 <ul class="org-ul">
 <li>list item 1
 </li>
@@ -351,7 +347,6 @@ This is list:
                 <p>
 python code:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-python">import getopt, sys
@@ -370,7 +365,6 @@ if __name__ == '__main__':
 <p>
 This is table:
 </p>
-
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -408,7 +402,6 @@ This is table:
 <p>
 This is list:
 </p>
-
 <ul class="org-ul">
 <li>list item 1</li>
 <li>list item 2</li>
@@ -467,7 +460,6 @@ I only need validation of missing open/closed html tag(s). Nothing more!
 <p>
 So here is my complete solution:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun flymake-html-init ()
@@ -501,7 +493,6 @@ So here is my complete solution:
 <p>
 The only difference from EmacsWiki is only one line:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">'(("line \\([0-9]+\\) column \\([0-9]+\\) - \\(Warning\\|Error\\): \\(missing &lt;\/[a-z0-9A-Z]+&gt;.*\\|discarding unexpected.*\\)" nil 1 2 4))
@@ -551,7 +542,6 @@ The mozrepl trick basically will refresh the <b>current active page</b> in Firef
 <p>
 So here is my improved solution:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun my-moz-refresh-browser-condition (current-file)
@@ -629,7 +619,6 @@ The first tip is to use global variable <code>tags-table-list</code> instead of 
 <p>
 Here is the value of <code>tags-table-list</code> for one project:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">("/Users/cb/projs/their-project/test/cdn/test/assets/test/js/TAGS" "/Users/cb/projs/their-project/test/app/TAGS")
@@ -648,7 +637,6 @@ The second tip is we can avoid feeding big js files to ctags. Currently one of m
 <p>
 Changing the ctags command line  will solve the problem. Here is the actual liner to create a tag file:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">find proj-dir -type f -not -iwholename '*TAGS' -not -size +16k | ctags -f ~/proj/output/TAGS -e -L -
@@ -663,7 +651,6 @@ The point is the option <code>-not -size +16k</code>. It means only handle files
 <p>
 Here is the Emacs lisp function to wrap above shell command:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun my-create-tags-if-needed (SRC-DIR CTAGS-OPTS &amp;optional FORCE)
@@ -688,7 +675,6 @@ BTW, here is my <a href="https://gist.github.com/redguardtoo/b12ddae3b8010a276e9
 <p>
 UPDATE:
 </p>
-
 <ol class="org-ol">
 <li>My tags file management strategy is described at <a href="http://blog.binchen.org/posts/how-to-use-ctags-in-emacs-effectively-3.html">How to use ctags in Emacs effectively</a>. It's effective to me. But it may be not generic enough to apply to others' use cases.</li>
 
@@ -729,9 +715,9 @@ Please note:
 <li>I'm good at most debuggers. The point of this article is to deal with <b>more difficult issues</b> the debugger can not handle.</li>
 <li>My code quality is fine. It handles all the corner cases I've met. For example, single quote and double quotes will be escaped properly.</li>
 </ul>
-<div id="outline-container-orge363c62" class="outline-2">
-<h3 id="orge363c62">Problem</h3>
-<div class="outline-text-2" id="text-orge363c62">
+<div id="outline-container-org009afc6" class="outline-2">
+<h3 id="org009afc6">Problem</h3>
+<div class="outline-text-2" id="text-org009afc6">
 <p>
 As a freelancer I am often required to debug legacy javascript code from some huge "enterprise"" applications.
 </p>
@@ -746,18 +732,18 @@ So my problem is how to insert logging code as quickly as possible.
 </div>
 </div>
 
-<div id="outline-container-orgdfcf6c2" class="outline-2">
-<h3 id="orgdfcf6c2">Solution</h3>
-<div class="outline-text-2" id="text-orgdfcf6c2">
+<div id="outline-container-org74f7503" class="outline-2">
+<h3 id="org74f7503">Solution</h3>
+<div class="outline-text-2" id="text-org74f7503">
 <p>
 My solution is <a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a>. Yasnippet allow me to insert executable Emacs Lisp code in its snippet. I will Sotake full advantage of that feature. 
 </p>
 </div>
 </div>
 
-<div id="outline-container-org3059ed8" class="outline-2">
-<h3 id="org3059ed8">Logging simple JS variable</h3>
-<div class="outline-text-2" id="text-org3059ed8">
+<div id="outline-container-orgcb019e3" class="outline-2">
+<h3 id="orgcb019e3">Logging simple JS variable</h3>
+<div class="outline-text-2" id="text-orgcb019e3">
 <p>
 Given a variable name like "var1", I need insert javascript code as below:
 </p>
@@ -779,9 +765,9 @@ This snippet need you input variable name once.
 </div>
 </div>
 
-<div id="outline-container-org6c7a598" class="outline-2">
-<h3 id="org6c7a598">Logging complex JS variable</h3>
-<div class="outline-text-2" id="text-org6c7a598">
+<div id="outline-container-org2b75d4b" class="outline-2">
+<h3 id="org2b75d4b">Logging complex JS variable</h3>
+<div class="outline-text-2" id="text-org2b75d4b">
 <p>
 In real world, the JS variable is often a string like "MyController.servicea.find('.class').attr1" which I hate to type.
 </p>
@@ -797,9 +783,9 @@ Snippet:
 </div>
 </div>
 
-<div id="outline-container-orgdf9d4ba" class="outline-2">
-<h3 id="orgdf9d4ba">Logging JS function name when it's called</h3>
-<div class="outline-text-2" id="text-orgdf9d4ba">
+<div id="outline-container-orge898ac9" class="outline-2">
+<h3 id="orge898ac9">Logging JS function name when it's called</h3>
+<div class="outline-text-2" id="text-orge898ac9">
 <p>
 In below example, I need insert  "console.log('hello is called');" in function "hello":
 </p>
@@ -832,9 +818,9 @@ The regular expressions could be used in <b>both</b> js-mode and js2-mode.
 </div>
 </div>
 
-<div id="outline-container-org148eae0" class="outline-2">
-<h3 id="org148eae0">Logging JS function name with its parameters</h3>
-<div class="outline-text-2" id="text-org148eae0">
+<div id="outline-container-orgeb5cafe" class="outline-2">
+<h3 id="orgeb5cafe">Logging JS function name with its parameters</h3>
+<div class="outline-text-2" id="text-orgeb5cafe">
 <p>
 JS example:
 </p>
@@ -863,9 +849,9 @@ BTW, since I use <a href="http://www.emacswiki.org/Evil">Evil</a>, copy the para
 </div>
 </div>
 
-<div id="outline-container-org14527e9" class="outline-2">
-<h3 id="org14527e9">Insert JS debugger statement</h3>
-<div class="outline-text-2" id="text-org14527e9">
+<div id="outline-container-org7454fca" class="outline-2">
+<h3 id="org7454fca">Insert JS debugger statement</h3>
+<div class="outline-text-2" id="text-org7454fca">
 <p>
 @cjk provided this tip. The debugger like Firebug will pause at the debugger statement. It saves me the time to locate JS file, to go to the specific line and set breakpoint after re-deploying the application.
 </p>
@@ -881,9 +867,9 @@ Snippets:
 </div>
 </div>
 
-<div id="outline-container-orgd7658f3" class="outline-2">
-<h3 id="orgd7658f3">Bonus</h3>
-<div class="outline-text-2" id="text-orgd7658f3">
+<div id="outline-container-org8ffe1db" class="outline-2">
+<h3 id="org8ffe1db">Bonus</h3>
+<div class="outline-text-2" id="text-org8ffe1db">
 <p>
 Similar snippets for Emacs Lisp are defined <a href="https://github.com/redguardtoo/emacs.d/tree/master/snippets/emacs-lisp-mode">HERE</a>.
 </p>
@@ -926,9 +912,9 @@ Live demo:
 Screenshot:
 <img src="https://cloud.githubusercontent.com/assets/184553/5156904/e86f11a6-733c-11e4-8312-a6c8ad2b17be.png" alt="e86f11a6-733c-11e4-8312-a6c8ad2b17be.png"></p>
 
-<div id="outline-container-orgb0c6e62" class="outline-2">
-<h3 id="orgb0c6e62">Environment</h3>
-<div class="outline-text-2" id="text-orgb0c6e62">
+<div id="outline-container-orga92eade" class="outline-2">
+<h3 id="orga92eade">Environment</h3>
+<div class="outline-text-2" id="text-orga92eade">
 <ul class="org-ul">
 <li>Bootstrap 2.3.2</li>
 <li>font-awesome 3.2.1</li>
@@ -940,9 +926,9 @@ I only use the grid layout from bootstrap and minimum API from jQuery.
 </div>
 </div>
 
-<div id="outline-container-org257182d" class="outline-2">
-<h3 id="org257182d">Notes</h3>
-<div class="outline-text-2" id="text-org257182d">
+<div id="outline-container-orgea2fb50" class="outline-2">
+<h3 id="orgea2fb50">Notes</h3>
+<div class="outline-text-2" id="text-orgea2fb50">
 <ul class="org-ul">
 <li>IE7 does not support media query. So I abandon "mobile first" strategy, new strategy is "IE7 first".</li>
 <li>IE7 does not support inline-block properly, I need below css code hack:</li>
@@ -1008,7 +994,6 @@ I find it very useful to use `M-x imenu` to jump to the  <a href="http://angular
 <p>
 Insert below code into ~/.emacs:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(with-eval-after-load 'web-mode
@@ -1028,7 +1013,7 @@ Insert below code into ~/.emacs:
             <li class="next">
                 <a href="index-18.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

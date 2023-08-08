@@ -49,11 +49,10 @@
             </div>
             <div class="body">
                 <p></p>
-<p></p>
 <pre class="prettyprint ">
-<p>mpc clear;ln -s ~/Music/all.m3u ~/.mpd/playlists/all.m3u;mpc load all;mpc update;mpc shuffle;mpc play;
-</p></pre>
-<p></p>
+
+mpc clear;ln -s ~/Music/all.m3u ~/.mpd/playlists/all.m3u;mpc load all;mpc update;mpc shuffle;mpc play;
+</pre>
             </div>
         </div>
         <div class="post">
@@ -80,8 +79,9 @@
 
             </div>
             <div class="body">
-                <p></p>
-<p>Add below code into your ~/.emacs: </p>   
+                <p>Add below code into your ~/.emacs: </p>   
+
+
 <pre class="prettyprint ">
 
 (defun toggle-full-window()
@@ -94,8 +94,8 @@
     ))
 </pre>
 
-<p></p>
-<p> I use <a href="http://www.emacswiki.org/emacs/Evil">evil</a>, so I assign hot key ",ff" to <code>toggle-full-window</code>. </p>
+
+   <p> I use <a href="http://www.emacswiki.org/emacs/Evil">evil</a>, so I assign hot key ",ff" to `toggle-full-window`. </p>
             </div>
         </div>
         <div class="post">
@@ -125,11 +125,10 @@
             </div>
             <div class="body">
                 <p></p>
-<p></p>
 <pre class="prettyprint ">
-<p>sudo apt-get install ack git emacs24-nox feh i3 xsel ctags vim scrot xbindkeys dunst unclutter parcellite gimp
-</p></pre>
-<p></p>
+
+sudo apt-get install ack git emacs24-nox feh i3 xsel ctags vim scrot xbindkeys dunst unclutter parcellite gimp
+</pre>
             </div>
         </div>
         <div class="post">
@@ -160,9 +159,9 @@
 
             </div>
             <div class="body">
-                <div id="outline-container-orge5b7bc5" class="outline-2">
-<h3 id="orge5b7bc5">Setup git-send-email</h3>
-<div class="outline-text-2" id="text-orge5b7bc5">
+                <div id="outline-container-orgbaf651e" class="outline-2">
+<h3 id="orgbaf651e">Setup git-send-email</h3>
+<div class="outline-text-2" id="text-orgbaf651e">
 <p>
 On Debian run <code>sudo apt-get install git-email</code> to install git command line tools.
 </p>
@@ -186,9 +185,9 @@ Modify <code>~/.gitconfig</code> to use Gmail SMTP:
 </div>
 </div>
 </div>
-<div id="outline-container-org5966c1e" class="outline-2">
-<h3 id="org5966c1e">Send the latest commit</h3>
-<div class="outline-text-2" id="text-org5966c1e">
+<div id="outline-container-org5d3cc86" class="outline-2">
+<h3 id="org5d3cc86">Send the latest commit</h3>
+<div class="outline-text-2" id="text-org5d3cc86">
 <div class="org-src-container">
 
 <pre><code class="lang-sh"># send one commit
@@ -199,9 +198,9 @@ git send-email -1 --annotate
 </div>
 </div>
 
-<div id="outline-container-orgf2744f5" class="outline-2">
-<h3 id="orgf2744f5">Apply patch</h3>
-<div class="outline-text-2" id="text-orgf2744f5">
+<div id="outline-container-org4a730f8" class="outline-2">
+<h3 id="org4a730f8">Apply patch</h3>
+<div class="outline-text-2" id="text-org4a730f8">
 <p>
 Select one mail. Run command "M-x gnus-summary-save-article-email" whose short key is "O m" in summary buffer.
 </p>
@@ -217,9 +216,9 @@ Emacs will ask for directory to save that patch. Say I save it as <code>~/News/p
 </div>
 </div>
 </div>
-<div id="outline-container-orgc2d57fb" class="outline-2">
-<h3 id="orgc2d57fb">Syntax highlight patch embedded in mail (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-orgc2d57fb">
+<div id="outline-container-org298acd5" class="outline-2">
+<h3 id="org298acd5">Syntax highlight patch embedded in mail (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-org298acd5">
 <p>
 Use <a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/gnus-article-treat-patch/gnus-article-treat-patch.el">gnus-article-treat-patch.el</a>.
 </p>
@@ -264,8 +263,7 @@ Add below code to setup:
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>
 <a href="http://www.meishij.net/zuofa/xianggushenggunniurouwodanzhou.html">菜谱</a> </li> <li>香菇先用冷水冲洗,然后25度温水浸泡至少1小时,浸泡后的水也要放到粥里 </li> <li>小火1到1.5小时后粥基本烂了,不断搅拌粥 </li> <li>牛肉最后开大火加入过一下,可能是为了避免把牛肉烧老 </li> <li>蛋是用粥捂熟的,据说很经典的技巧,就是要蛋白和粥混在一起,但是蛋黄半熟还是完整的 </li> <li>如果粥觉得不够味可以加盐和鲜露(家乐牌鲜露) </li> </ul>
 <p><img src="wp-content/uploads/2013/08/wpid-beef-porridge.jpg" alt="http://blog.binchen.org/wp-content/uploads/2013/08/wpid-beef-porridge.jpg"></p>
@@ -313,7 +311,6 @@ My only issue that I need share the blog url to social network sites after publi
 <p>
 Here is my solution to automatically copy post url into clipboard after publishing:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun my-org2blog-post-subtree ()
@@ -376,8 +373,9 @@ BTW, please use some clipboard manager to synchronize the X clipboards.
 
             </div>
             <div class="body">
-                <p></p>
-<p>Gitso is a frontend to reverse VNC connections. Say you want to access your office pc which is behind firewall. Then you need Gitso. </p> <p> Here is the commands to install gitso: </p>   
+                <p>Gitso is a frontend to reverse VNC connections. Say you want to access your office pc which is behind firewall. Then you need Gitso. </p> <p> Here is the commands to install gitso: </p>   
+
+
 <pre class="prettyprint ">
 
 sudo mkdir /usr/portage/net-misc/gitso
@@ -391,8 +389,9 @@ sudo emerge wxpython iproute2 x11vnc tightvnc
 sudo ebuild /usr/portage/net-misc/gitso/gitso-0.6.ebuild unpack compile install qmerge clean
 </pre>
 
-<p></p>
-<p> There are many howtos on gitso on internet. Google it. </p>
+
+
+   <p> There are many howtos on gitso on internet. Google it. </p>
             </div>
         </div>
         <div class="post">
@@ -421,8 +420,7 @@ sudo ebuild /usr/portage/net-misc/gitso/gitso-0.6.ebuild unpack compile install 
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>买酱,见下图 </li> </ul>
 <p><img src="wp-content/uploads/2013/08/wpid-korean-soup-sauce.jpg" alt="http://blog.binchen.org/wp-content/uploads/2013/08/wpid-korean-soup-sauce.jpg"></p>
 <ul>
@@ -483,7 +481,6 @@ The solution is simple, press ",xx" to select the initial region. Keep press "x"
 <p>
 Here is the setup:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'evil)
@@ -552,7 +549,6 @@ Screen cast:
 <p>
 Here is the code to insert it into your <code>~/.emacs</code>:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; make sp-select-next-thing works even the cusor is in the open/close tag
@@ -620,7 +616,6 @@ Navigation is easy. After selecting the tags, press <code>C-x C-x</code> to move
 <p>
 For evil-mode, I write some code which simulate the famous <b>matchit</b> in vi:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'evil)
@@ -649,7 +644,6 @@ Now you can press <code>%</code> in evil to jump between tags!
 <p>
 Requirement:
 </p>
-
 <ul class="org-ul">
 <li>smartparens-1.5</li>
 <li>evil-1.0.7</li>
@@ -682,7 +676,7 @@ UPDATED (13rd Jan, 2014):
             <li class="next">
                 <a href="index-12.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

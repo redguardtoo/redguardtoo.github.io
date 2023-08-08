@@ -75,9 +75,9 @@ Let grub2 create the cfg for">
 
         </div>
         <div class="body">
-            <div id="outline-container-orgdec0678" class="outline-2">
-<h3 id="orgdec0678">Intel integrated video card</h3>
-<div class="outline-text-2" id="text-orgdec0678">
+            <div id="outline-container-org87edc3f" class="outline-2">
+<h3 id="org87edc3f">Intel integrated video card</h3>
+<div class="outline-text-2" id="text-org87edc3f">
 <p>
 Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
 </p>
@@ -89,9 +89,9 @@ Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; I
 </div>
 </div>
 </div>
-<div id="outline-container-org1b23272" class="outline-2">
-<h3 id="org1b23272">Grub2</h3>
-<div class="outline-text-2" id="text-org1b23272">
+<div id="outline-container-orgf2aa8db" class="outline-2">
+<h3 id="orgf2aa8db">Grub2</h3>
+<div class="outline-text-2" id="text-orgf2aa8db">
 <p>
 Let grub2 create the cfg for me automatically,
 </p>
@@ -103,13 +103,13 @@ Let grub2 create the cfg for me automatically,
 </div>
 </div>
 </div>
-<div id="outline-container-org44a1f26" class="outline-2">
-<h3 id="org44a1f26">Network</h3>
-<div class="outline-text-2" id="text-org44a1f26">
+<div id="outline-container-org129f906" class="outline-2">
+<h3 id="org129f906">Network</h3>
+<div class="outline-text-2" id="text-org129f906">
 </div>
-<div id="outline-container-orgf926c07" class="outline-3">
-<h4 id="orgf926c07">Ethernet</h4>
-<div class="outline-text-3" id="text-orgf926c07">
+<div id="outline-container-orgca8105a" class="outline-3">
+<h4 id="orgca8105a">Ethernet</h4>
+<div class="outline-text-3" id="text-orgca8105a">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -124,9 +124,9 @@ rc-update add net.eth0 default
 </div>
 </div>
 
-<div id="outline-container-org4a636c2" class="outline-3">
-<h4 id="org4a636c2">Wireless (wifi)</h4>
-<div class="outline-text-3" id="text-org4a636c2">
+<div id="outline-container-orgd4e26b2" class="outline-3">
+<h4 id="orgd4e26b2">Wireless (wifi)</h4>
+<div class="outline-text-3" id="text-orgd4e26b2">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -198,17 +198,17 @@ Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
 </div>
 </div>
 </div>
-<div id="outline-container-org7b906c2" class="outline-2">
-<h3 id="org7b906c2">Clock Synchronization</h3>
-<div class="outline-text-2" id="text-org7b906c2">
+<div id="outline-container-org8fcd7d0" class="outline-2">
+<h3 id="org8fcd7d0">Clock Synchronization</h3>
+<div class="outline-text-2" id="text-org8fcd7d0">
 <p>
 <a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate">htpdate</a> is great because it only use HTTP protocol, don't forget add server in its config file.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfbdd133" class="outline-2">
-<h3 id="orgfbdd133">Sound</h3>
-<div class="outline-text-2" id="text-orgfbdd133">
+<div id="outline-container-org78fca2a" class="outline-2">
+<h3 id="org78fca2a">Sound</h3>
+<div class="outline-text-2" id="text-org78fca2a">
 <p>
 Nothing to tell. There may be some issue, but I forgot.</p>
 </div>
@@ -249,7 +249,7 @@ Nothing to tell. There may be some issue, but I forgot.</p>
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

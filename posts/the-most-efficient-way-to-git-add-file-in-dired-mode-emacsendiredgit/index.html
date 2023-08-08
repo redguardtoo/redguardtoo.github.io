@@ -11,8 +11,8 @@
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="The most efficient way to `git add` files in dired-mode">
 <meta property="og:url" content="http://blog.binchen.org/posts/the-most-efficient-way-to-git-add-file-in-dired-mode-emacsendiredgit/">
-<meta property="og:description" content='Add following code into your .emacs, then use "/" to execute git command on your marked files in dired-mode:    (defun diredext-exec-git-command-in-shell (command &amp;optional arg file-list)
-  "Run a she'>
+<meta property="og:description" content='Add following code into your .emacs, then use "/" to execute `git command` on your marked files in dired-mode:    (defun diredext-exec-git-command-in-shell (command &amp;optional arg file-list)
+  "Run a s'>
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2013-05-14T23:16:00Z">
 <meta property="article:tag" content="dired">
@@ -59,11 +59,11 @@
 
         </div>
         <div class="body">
-            <p></p>
-<p>Add following code into your .emacs, then use "/" to execute <code>git command</code> on your marked files in dired-mode: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">diredext-exec-git-command-in-shell</span> (command <span style="color: #e78c45;">&amp;optional</span> arg file-list)
-  <span style="color: #c397d8;">"Run a shell command <code>git COMMAND</code>' on the marked files.</span>
+            <p>Add following code into your .emacs, then use "/" to execute `git command` on your marked files in dired-mode: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">diredext-exec-git-command-in-shell</span> (command <span style="color: #e78c45;">&amp;optional</span> arg file-list)
+  <span style="color: #c397d8;">"Run a shell command `git COMMAND`' on the marked files.</span>
 <span style="color: #c397d8;">if no files marked, always operate on current line in dired-mode</span>
-<p><span style="color: #c397d8;">"</span>
+
+<span style="color: #c397d8;">"</span>
   (interactive
    (<span style="color: #b9ca4a;">let</span> ((files (dired-get-marked-files t current-prefix-arg)))
      (list
@@ -71,13 +71,16 @@
       (dired-read-shell-command <span style="color: #70c0b1;">"git command on %s: "</span> current-prefix-arg files)
       current-prefix-arg
       files)))
-  (<span style="color: #b9ca4a;">unless</span> (string-match <span style="color: #70c0b1;">"[<em>?][ \t]</em>\'"</span> command)
+  (<span style="color: #b9ca4a;">unless</span> (string-match <span style="color: #70c0b1;">"[*?][ \t]*\\'"</span> command)
     (setq command (concat command <span style="color: #70c0b1;">" *"</span>)))
   (setq command (concat <span style="color: #70c0b1;">"git "</span> command))
   (dired-do-shell-command command arg file-list)
-  (message command))</p>
-<p>(<span style="color: #b9ca4a;">eval-after-load</span> 'dired '(define-key dired-mode-map <span style="color: #70c0b1;">"/"</span> 'diredext-exec-git-command-in-shell))</p>
-<p></p></pre>   <p> For example, say you set the alias "a" for git command "add" in your $HOME/.gitconfig. </p> <p> In order to <code>git add</code> files, you marked files in dired-mode and press "/", then press "a". The command <code>git a(dd)</code> will be executed. </p> <p> The reason to use git in dired-mode is simple. I'm working for some big enterprise application. You know the enterprise guys have the tendency to create lots of small modules/files for one feature. So I need do lots of <code>cp files somewhere</code> and <code>git add files</code> things these days. </p> <p> Thanks all the <a href="https://plus.google.com/110954683162859211810/posts/4CmwuDxVCA1">Emacs geeks on the Google+</a> who enlighten me. </p>
+  (message command))
+
+
+(<span style="color: #b9ca4a;">eval-after-load</span> 'dired '(define-key dired-mode-map <span style="color: #70c0b1;">"/"</span> 'diredext-exec-git-command-in-shell))
+
+</pre>   <p> For example, say you set the alias "a" for git command "add" in your $HOME/.gitconfig. </p> <p> In order to `git add` files, you marked files in dired-mode and press "/", then press "a". The command `git a(dd)` will be executed. </p> <p> The reason to use git in dired-mode is simple. I'm working for some big enterprise application. You know the enterprise guys have the tendency to create lots of small modules/files for one feature. So I need do lots of `cp files somewhere` and `git add files` things these days. </p> <p> Thanks all the <a href="https://plus.google.com/110954683162859211810/posts/4CmwuDxVCA1">Emacs geeks on the Google+</a> who enlighten me. </p>
         </div>
         
         <ul class="pager hidden-print">
@@ -114,7 +117,7 @@
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

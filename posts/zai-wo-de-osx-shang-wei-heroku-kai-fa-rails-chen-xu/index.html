@@ -60,16 +60,18 @@
 
         </div>
         <div class="body">
-            <p></p>
-<p>rails版本为3.1，OS X版本10.7.3，postgresql版本9.1.3j </p> <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">数据库必须用postgresql</h4> <div class="outline-text-3" id="text-1">  <p>heroku官方主页反对开发版本用sqlite3而生产版本用postgresql. </p>
+            <p>rails版本为3.1，OS X版本10.7.3，postgresql版本9.1.3j </p> <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">数据库必须用postgresql</h4> <div class="outline-text-3" id="text-1">  <p>heroku官方主页反对开发版本用sqlite3而生产版本用postgresql. </p>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">在OS X 10.7.3上安装postgresql</h4> <div class="outline-text-3" id="text-2">  <p>首先,检查你的OS X版本，从10.7开始OS X自带postgresql </p>   <pre class="src src-sh">sw_vers -productVersion
 </pre>  <p> 如果要安装最新版的postgresql，必须删除老版本的数据库。具体做法参考<a href="http://nextmarvel.net/blog/2011/09/brew-install-postgresql-on-os-x-lion/">这篇文章</a>,实际上也就是一行命令： </p>   <pre class="src src-sh">curl http://nextmarvel.net/blog/downloads/fixBrewLionPostgres.sh | sh
-<p></p></pre>  <p> 强烈推荐用homebrew安装数据库, </p>   <pre class="src src-sh">brew install postgresql
-<p></p></pre>  <p> 具体安装细节请参考<a href="http://wiki.postgresql.org/wiki/Detailed_installation_guides">postgresql官方wiki</a>. </p>
-</div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">检测已安装的postgresql</h4> <div class="outline-text-3" id="text-3">  <p>这里是<a href="http://www.postgresql.org/docs/9.1/interactive/tutorial-createdb.html">一些数据库基本操作的官方文档</a>. 可以<code>psql -l</code>看一些已有数据库列表. </p>
+
+</pre>  <p> 强烈推荐用homebrew安装数据库, </p>   <pre class="src src-sh">brew install postgresql
+
+</pre>  <p> 具体安装细节请参考<a href="http://wiki.postgresql.org/wiki/Detailed_installation_guides">postgresql官方wiki</a>. </p>
+</div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">检测已安装的postgresql</h4> <div class="outline-text-3" id="text-3">  <p>这里是<a href="http://www.postgresql.org/docs/9.1/interactive/tutorial-createdb.html">一些数据库基本操作的官方文档</a>. 可以`psql -l`看一些已有数据库列表. </p>
 </div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">数据库用postgresql的rails项目</h4> <div class="outline-text-3" id="text-4">     <pre class="src src-sh">rails new myapp --database=postgresql
-<p></p></pre>  <p> 如果是从一个已经使用sqlite的项目切换数据库，就必须改config/database.yml,有一些catch，请参考<a href="http://stackoverflow.com/questions/8199141/postgres-rake-dbmigrate-fails-with-access-denied-error">stackoverflow上的讨论</a>. </p> <p> 然后,<code>createdb myapp_development</code>创建postgresql数据库，<code>rake db:migrate</code>建立数据库schema并导入数据在本地数据库.简单测试可证明数据库和web程序可以无缝工作. </p> <p> 最后不要忘记<code>git commit</code>最新代码. </p>
-</div>  </div>  <div id="outline-container-5" class="outline-3"> <h4 id="sec-5">部署web程序到heroku</h4> <div class="outline-text-3" id="text-5">  <p>请参考<a href="https://devcenter.heroku.com/articles/ruby">heroku官方文档</a>,提醒一下不要忘记运行<code>heroku run rake db:migrate</code>,否则数据库是空的. </p> <p> 部署结束后可以运行<code>heroku open</code>打开浏览器访问web程序首页. </p> <p> 如打开网站有问题，可以<code>heroku logs</code>查看日志. </p>
+
+</pre>  <p> 如果是从一个已经使用sqlite的项目切换数据库，就必须改config/database.yml,有一些catch，请参考<a href="http://stackoverflow.com/questions/8199141/postgres-rake-dbmigrate-fails-with-access-denied-error">stackoverflow上的讨论</a>. </p> <p> 然后,`createdb myapp_development`创建postgresql数据库，`rake db:migrate`建立数据库schema并导入数据在本地数据库.简单测试可证明数据库和web程序可以无缝工作. </p> <p> 最后不要忘记`git commit`最新代码. </p>
+</div>  </div>  <div id="outline-container-5" class="outline-3"> <h4 id="sec-5">部署web程序到heroku</h4> <div class="outline-text-3" id="text-5">  <p>请参考<a href="https://devcenter.heroku.com/articles/ruby">heroku官方文档</a>,提醒一下不要忘记运行`heroku run rake db:migrate`,否则数据库是空的. </p> <p> 部署结束后可以运行`heroku open`打开浏览器访问web程序首页. </p> <p> 如打开网站有问题，可以`heroku logs`查看日志. </p>
 </div> </div>
         </div>
         
@@ -107,7 +109,7 @@
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

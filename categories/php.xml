@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about php)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/php.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hack wordpress php and make cdnjs.com host js</title><link>http://blog.binchen.org/posts/hack-wordpress-php-and-make-cdnjs-com-host-js/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about php)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/php.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:07 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hack wordpress php and make cdnjs.com host js</title><link>http://blog.binchen.org/posts/hack-wordpress-php-and-make-cdnjs-com-host-js/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 For jquery.js, see &lt;a href="http://rk.md/2012/cdnjs-scripts-without-plugin-wordpress/"&gt;http://rk.md/2012/cdnjs-scripts-without-plugin-wordpress/&lt;/a&gt;.
 &lt;/p&gt;
 
 &lt;p&gt;
 I added below code into bottom of functions.php (Appearance =&amp;gt; Editor):
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-php"&gt;add_action('wp_enqueue_scripts', 'CDNJS_scripts');
@@ -23,7 +22,6 @@ function CDNJS_scripts()
 &lt;p&gt;
 For js from SyntaxHighlighter Evolved (Plugins =&amp;gt; Installed Plugins =&amp;gt; Edit):
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-diff"&gt;diff --git a/syntaxhighlighter.php b/syntaxhighlighter.php

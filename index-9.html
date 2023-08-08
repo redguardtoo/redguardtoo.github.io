@@ -46,19 +46,28 @@
 
             </div>
             <div class="body">
-                <p></p>
-<p>The purpose of set up nfs server is to watch video stored on server through my android devices. </p>    <pre class="src src-sh">sudo pacman -S nfs-utils
+                <p>The purpose of set up nfs server is to watch video stored on server through my android devices. </p>    <pre class="src src-sh">sudo pacman -S nfs-utils
 <span style="color: #969896; font-style: italic;"># </span><span style="color: #969896; font-style: italic;">donnot touch /etc/idmapd.conf</span>
-<p>mkdir -p /srv/nfs4/z</p>
-<p></p></pre>   <p> add following lines into /etc/fstab: </p>   <pre class="src src-conf"><span style="color: #e7c547;">UUID</span>=986C96596C9631CC /mnt/z ntfs-3g defaults,nofail 0 2
-<p>/mnt/z /srv/nfs4/z none bind,nofail 0 0</p>
-<p></p></pre>   <p> add this line into /etc/exports: </p>   <pre class="src src-conf"><span style="color: #e7c547;">/srv/nfs4/z</span> 192.168.0.0/24(async,rw,no_subtree_check,nohide,no_root_squash)
-<p></p></pre>   <p> make sure change in /etc/exports to take effect: </p>   <pre class="src src-sh">sudo exportfs -ra
-<p></p></pre>   <p> now enable and start the services: </p>   <pre class="src src-sh">sudo systemctl enable rpc-idmapd
-<p>sudo systemctl start rpc-idmapd</p>
-<p>sudo systemctl enable rpc-mountd</p>
-<p>sudo systemctl start rpc-mountd</p>
-<p></p></pre>
+
+mkdir -p /srv/nfs4/z
+
+</pre>   <p> add following lines into /etc/fstab: </p>   <pre class="src src-conf"><span style="color: #e7c547;">UUID</span>=986C96596C9631CC /mnt/z ntfs-3g defaults,nofail 0 2
+
+/mnt/z /srv/nfs4/z none bind,nofail 0 0
+
+</pre>   <p> add this line into /etc/exports: </p>   <pre class="src src-conf"><span style="color: #e7c547;">/srv/nfs4/z</span> 192.168.0.0/24(async,rw,no_subtree_check,nohide,no_root_squash)
+
+</pre>   <p> make sure change in /etc/exports to take effect: </p>   <pre class="src src-sh">sudo exportfs -ra
+
+</pre>   <p> now enable and start the services: </p>   <pre class="src src-sh">sudo systemctl enable rpc-idmapd
+
+sudo systemctl start rpc-idmapd
+
+sudo systemctl enable rpc-mountd
+
+sudo systemctl start rpc-mountd
+
+</pre>
             </div>
         </div>
         <div class="post">
@@ -87,11 +96,10 @@
 
             </div>
             <div class="body">
-                <p></p>
-<p>WARNING, this is BAD practice. I'm showing you anti-pattern you'd better avoid. </p> <p> The work flow is simple at the beginning. There is only one master branch where several developers submit the code. </p> <p> Then come bad rules:  </p>
+                <p>WARNING, this is BAD practice. I'm showing you anti-pattern you'd better avoid. </p> <p> The work flow is simple at the beginning. There is only one master branch where several developers submit the code. </p> <p> Then come bad rules:  </p>
 <ul>
-<li>Rule 1, any feature should be done on new branch (this rule is actually good if without next three rules)  </li> <li>Rule 2, <code>git rebase</code> is forbidden and any minor branch created by developers should be publicized immediately.  </li> <li>Rule 3, keep using your same feature branch forever even it's behind master branch for a very long time.   </li> <li>Rule 4, <code>git merge</code> between feature and master branches frequently </li> </ul>
-<p> After three months developement, this is the result of <code>git log –graph –oneline</code>: <img src="wp-content/uploads/2013/06/git-merge-mess-nq82.png" alt="image/git-merge-mess-nq8.png"></p> <p> Can you see the "M" at the top right corner. It's "M" from "Merge". </p>
+<li>Rule 1, any feature should be done on new branch (this rule is actually good if without next three rules)  </li> <li>Rule 2, `git rebase` is forbidden and any minor branch created by developers should be publicized immediately.  </li> <li>Rule 3, keep using your same feature branch forever even it's behind master branch for a very long time.   </li> <li>Rule 4, `git merge` between feature and master branches frequently </li> </ul>
+<p> After three months developement, this is the result of `git log –graph –oneline`: <img src="wp-content/uploads/2013/06/git-merge-mess-nq82.png" alt="image/git-merge-mess-nq8.png"></p> <p> Can you see the "M" at the top right corner. It's "M" from "Merge". </p>
             </div>
         </div>
         <div class="post">
@@ -122,16 +130,16 @@
             </div>
             <div class="body">
                 <p>
-You can jump to <a href="posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#org9e61bf8">No description for this link</a> section at the end of this article.
+You can jump to <a href="posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#orgfd4366e">No description for this link</a> section at the end of this article.
 </p>
 
 <p>
 I use git as an example of version control software. But you can use any other version control software instead.
 </p>
 
-<div id="outline-container-orgfff989e" class="outline-2">
-<h3 id="orgfff989e">The reasons to use vimdiff to do the merge?</h3>
-<div class="outline-text-2" id="text-orgfff989e">
+<div id="outline-container-org467a12e" class="outline-2">
+<h3 id="org467a12e">The reasons to use vimdiff to do the merge?</h3>
+<div class="outline-text-2" id="text-org467a12e">
 <ul class="org-ul">
 <li>It's free (vim)</li>
 <li>It works on any OS</li>
@@ -140,13 +148,13 @@ I use git as an example of version control software. But you can use any other v
 </ul>
 </div>
 </div>
-<div id="outline-container-org488bc5e" class="outline-2">
-<h3 id="org488bc5e">Setup</h3>
-<div class="outline-text-2" id="text-org488bc5e">
+<div id="outline-container-org5274a36" class="outline-2">
+<h3 id="org5274a36">Setup</h3>
+<div class="outline-text-2" id="text-org5274a36">
 </div>
-<div id="outline-container-orgb36c331" class="outline-3">
-<h4 id="orgb36c331">Setup vimdiff (OPTIONAL)</h4>
-<div class="outline-text-3" id="text-orgb36c331">
+<div id="outline-container-org645d91f" class="outline-3">
+<h4 id="org645d91f">Setup vimdiff (OPTIONAL)</h4>
+<div class="outline-text-3" id="text-org645d91f">
 <p>
 The vimdiff as a merge tool will display several buffers to show YOURS/THEIRS/ORIGINAL code.
 </p>
@@ -180,9 +188,9 @@ map &lt;silent&gt; &lt;leader&gt;4 :diffget 4&lt;CR&gt;
 </div>
 </div>
 
-<div id="outline-container-org897e10a" class="outline-3">
-<h4 id="org897e10a">Setup git</h4>
-<div class="outline-text-3" id="text-org897e10a">
+<div id="outline-container-orgfe9d73f" class="outline-3">
+<h4 id="orgfe9d73f">Setup git</h4>
+<div class="outline-text-3" id="text-orgfe9d73f">
 <p>
 Run below commands in shell,
 </p>
@@ -196,13 +204,13 @@ git config --global mergetool.prompt false
 </div>
 </div>
 </div>
-<div id="outline-container-org9cf50fa" class="outline-2">
-<h3 id="org9cf50fa">Usage</h3>
-<div class="outline-text-2" id="text-org9cf50fa">
+<div id="outline-container-orgbd9b00b" class="outline-2">
+<h3 id="orgbd9b00b">Usage</h3>
+<div class="outline-text-2" id="text-orgbd9b00b">
 </div>
-<div id="outline-container-orgd17132f" class="outline-3">
-<h4 id="orgd17132f">Create a "hello world" project</h4>
-<div class="outline-text-3" id="text-orgd17132f">
+<div id="outline-container-org51b7e9d" class="outline-3">
+<h4 id="org51b7e9d">Create a "hello world" project</h4>
+<div class="outline-text-3" id="text-org51b7e9d">
 <p>
 I setup a "hello world" project at <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a> for your practice.
 </p>
@@ -235,9 +243,9 @@ git merge chen # now some conflicts created because Bob has already edited and m
 </div>
 </div>
 
-<div id="outline-container-org31a8589" class="outline-3">
-<h4 id="org31a8589">Resolve merge conflict</h4>
-<div class="outline-text-3" id="text-org31a8589">
+<div id="outline-container-orgd4d4bd0" class="outline-3">
+<h4 id="orgd4d4bd0">Resolve merge conflict</h4>
+<div class="outline-text-3" id="text-orgd4d4bd0">
 <p>
 Now start merge tool,
 </p>
@@ -326,9 +334,9 @@ When you have resolved all the conflicts, follow the hint of git to commit your 
 </div>
 </div>
 </div>
-<div id="outline-container-orgd8fb36d" class="outline-2">
-<h3 id="orgd8fb36d">Tips</h3>
-<div class="outline-text-2" id="text-orgd8fb36d">
+<div id="outline-container-orgf685adf" class="outline-2">
+<h3 id="orgf685adf">Tips</h3>
+<div class="outline-text-2" id="text-orgf685adf">
 <ul class="org-ul">
 <li>fugitive.vim (<a href="https://github.com/tpope/vim-fugitive">https://github.com/tpope/vim-fugitive</a>) can do this too. Actually it can do much more git stuff than merge. I cannot write this article without reading its code</li>
 <li>You can use Emacs to do the similar job (<a href="http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool">http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool</a>). For me, Emacs start up time is too much for this task. Some people use <code>emacsclient</code> which has other overhead I don't like</li>
@@ -347,9 +355,9 @@ map [[ [n
 </div>
 </div>
 
-<div id="outline-container-orgcde18ea" class="outline-2">
-<h3 id="orgcde18ea"><a id="org9e61bf8"></a></h3>
-<div class="outline-text-2" id="text-orgcde18ea">
+<div id="outline-container-orgd6e3c05" class="outline-2">
+<h3 id="orgd6e3c05"><a id="orgfd4366e"></a></h3>
+<div class="outline-text-2" id="text-orgd6e3c05">
 <p>
 You can use command line like "git mergetool -t vimdiff" to start vimdiff from git.
 </p>
@@ -379,16 +387,16 @@ Then you can press hot key ",2" ",3" ",4" in vimdiff to pull change from top thr
 </div>
 </div>
 
-<div id="outline-container-org1bef2f9" class="outline-2">
-<h3 id="org1bef2f9">subversion/mercurial</h3>
-<div class="outline-text-2" id="text-org1bef2f9">
+<div id="outline-container-org438b239" class="outline-2">
+<h3 id="org438b239">subversion/mercurial</h3>
+<div class="outline-text-2" id="text-org438b239">
 <p>
 Until now I'm focusing on how to tweak the vimdiff UI because the git has already setup the <a href="https://github.com/git/git/blob/master/mergetools/vimdiff">basic vimdiff layout for us</a>. So we just follow the Git layout in other VCS.
 </p>
 </div>
-<div id="outline-container-org785e242" class="outline-3">
-<h4 id="org785e242">subversion</h4>
-<div class="outline-text-3" id="text-org785e242">
+<div id="outline-container-orgb99bf99" class="outline-3">
+<h4 id="orgb99bf99">subversion</h4>
+<div class="outline-text-3" id="text-orgb99bf99">
 <p>
 Insert below code into ~/.subversion/config:
 </p>
@@ -437,9 +445,9 @@ vimdiff -f -d -c 'wincmd J' "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
 </div>
 </div>
 </div>
-<div id="outline-container-org0e438ba" class="outline-2">
-<h3 id="org0e438ba">mercurial</h3>
-<div class="outline-text-2" id="text-org0e438ba">
+<div id="outline-container-org5a1b29e" class="outline-2">
+<h3 id="org5a1b29e">mercurial</h3>
+<div class="outline-text-2" id="text-org5a1b29e">
 <p>
 Insert below code into <code>~/.hgrc</code>:
 </p>
@@ -483,8 +491,7 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
 
             </div>
             <div class="body">
-                <p></p>
-<p>I often need update my README files at the root directory of my project which is always managed by git. </p> <p> As a lazy guy, I' rather use some hotkey to open that README. </p> <p> So if you add below elisp code into your ~/ .emacs, you can use hot key <code>C-c C-f</code> to open the README: </p>    <pre class="src src-elisp">(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">open-readme-in-git-root-directory</span> ()
+                <p>I often need update my README files at the root directory of my project which is always managed by git. </p> <p> As a lazy guy, I' rather use some hotkey to open that README. </p> <p> So if you add below elisp code into your ~/ .emacs, you can use hot key `C-c C-f` to open the README: </p>    <pre class="src src-elisp">(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">open-readme-in-git-root-directory</span> ()
   (interactive)
   (<span style="color: #b5bd68;">let</span> (filename
         (root-dir (locate-dominating-file (file-name-as-directory (file-name-directory buffer-file-name)) <span style="color: #8abeb7;">".git"</span>))
@@ -501,7 +508,8 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
       (message <span style="color: #8abeb7;">"NO README.org or README.md found!"</span>))
     ))
 (global-set-key (kbd <span style="color: #8abeb7;">"C-c C-f"</span>) 'open-readme-in-git-root-directory)
-<p></p></pre>  <p> ,,,, </p>
+
+</pre>  <p> ,,,, </p>
             </div>
         </div>
         <div class="post">
@@ -530,12 +538,14 @@ vimdiff.args = -f -d -c 'wincmd J' "$output" "$local" "$base" "$other" +close +c
 
             </div>
             <div class="body">
-                <p></p>
-<p>Me, for example. </p> <p> The first day I changed my .emacs.d: </p>   <pre class="example">master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "<code>git config user.name</code>"|tail -n1
+                <p>Me, for example. </p> <p> The first day I changed my .emacs.d: </p>   <pre class="example">master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "`git config user.name`"|tail -n1
 11fd85f 2011-08-31 eim (Chinese input method) (chen bin)
-<p></p></pre>   <p> How many times I modified my emacs.d since then: </p>   <pre class="example">master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "<code>git config user.name</code>"|wc -l
-<p>672</p>
-<p></p></pre>   <p> My emacs.d at github: <a href="https://github.com/redguardtoo/emacs.d">https://github.com/redguardtoo/emacs.d</a> </p>
+
+</pre>   <p> How many times I modified my emacs.d since then: </p>   <pre class="example">master $ git log --pretty=format:'%C(yellow)%h%Creset %ad %s %Cred(%an)%Creset' --date=short|grep "`git config user.name`"|wc -l
+
+672
+
+</pre>   <p> My emacs.d at github: <a href="https://github.com/redguardtoo/emacs.d">https://github.com/redguardtoo/emacs.d</a> </p>
             </div>
         </div>
         <div class="post">
@@ -591,7 +601,6 @@ I only use its APIs `simpleclip-get-contents` and `simpleclip-set-contents`.
 <p>
 Here is my setup:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'simpleclip)
@@ -643,8 +652,7 @@ Here is my setup:
 
             </div>
             <div class="body">
-                <p></p>
-<p>As we dicussed in <a href="https://plus.google.com/110954683162859211810/posts/TgnyDRqBWkb">Emacs community at Google+</a>. Although <a href="https://github.com/magnars/multiple-cursors.el">multiple-cursor</a> is good for this task, I cannot use it because it conflicts with my favourite <a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> (Vim simulation in Emacs). </p> <p> There is another emacs plugin called <a href="https://github.com/victorhge/iedit">iedit</a> which could do the similar job (I usually use its command called iedit-mode-toggle-on-function) </p> <p> Though iedit is good, there is still room for improvement. When using iedit-mode-toggle-on-function, we need press key twice to rename the variable name. Once to enable it, twice to disable it. </p> <p> Magnar Sveen pointed out in the G+ discussion that the key point we need plugins like multiple-cursor or iedit-mode is that we can see all the changes while doing the editing. </p> <p> This reminds me that evil-mode has a excellent regex string replacing mode which also show the changes when you are typing EACH character of new string. </p> <p> So by using evil-mode's default regex replacing command, I can implement similar feature even more efficiently then iedit-mode! </p> <p> Here is my elisp code: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">evilcvn-change-symbol-in-defun</span> ()
+                <p>As we dicussed in <a href="https://plus.google.com/110954683162859211810/posts/TgnyDRqBWkb">Emacs community at Google+</a>. Although <a href="https://github.com/magnars/multiple-cursors.el">multiple-cursor</a> is good for this task, I cannot use it because it conflicts with my favourite <a href="http://www.emacswiki.org/emacs/Evil">evil-mode</a> (Vim simulation in Emacs). </p> <p> There is another emacs plugin called <a href="https://github.com/victorhge/iedit">iedit</a> which could do the similar job (I usually use its command called iedit-mode-toggle-on-function) </p> <p> Though iedit is good, there is still room for improvement. When using iedit-mode-toggle-on-function, we need press key twice to rename the variable name. Once to enable it, twice to disable it. </p> <p> Magnar Sveen pointed out in the G+ discussion that the key point we need plugins like multiple-cursor or iedit-mode is that we can see all the changes while doing the editing. </p> <p> This reminds me that evil-mode has a excellent regex string replacing mode which also show the changes when you are typing EACH character of new string. </p> <p> So by using evil-mode's default regex replacing command, I can implement similar feature even more efficiently then iedit-mode! </p> <p> Here is my elisp code: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">evilcvn-change-symbol-in-defun</span> ()
   <span style="color: #c397d8;">"mark the region in defun (definition of function) and use string replacing UI in evil-mode</span>
 <span style="color: #c397d8;">to replace the symbol under cursor"</span>
   (interactive)
@@ -652,10 +660,11 @@ Here is my setup:
     (mark-defun)
     (<span style="color: #b9ca4a;">unless</span> (evil-visual-state-p)
       (evil-visual-state))
-    (evil-ex (concat <span style="color: #70c0b1;">"'&lt;,'&gt;s/"</span> (<span style="color: #b9ca4a;">if</span> (= 0 (length old)) <span style="color: #70c0b1;">""</span> <span style="color: #70c0b1;">"\&lt;</span><span style="color: #e7c547; font-weight: bold;">\</span><span style="color: #c397d8; font-weight: bold;">(</span><span style="color: #70c0b1;">"</span>) old (<span style="color: #b9ca4a;">if</span> (= 0 (length old)) <span style="color: #70c0b1;">""</span> <span style="color: #70c0b1;">"</span><span style="color: #e7c547; font-weight: bold;">\</span><span style="color: #c397d8; font-weight: bold;">)</span><span style="color: #70c0b1;">\&gt;/"</span>))))
+    (evil-ex (concat <span style="color: #70c0b1;">"'&lt;,'&gt;s/"</span> (<span style="color: #b9ca4a;">if</span> (= 0 (length old)) <span style="color: #70c0b1;">""</span> <span style="color: #70c0b1;">"\\&lt;</span><span style="color: #e7c547; font-weight: bold;">\\</span><span style="color: #c397d8; font-weight: bold;">(</span><span style="color: #70c0b1;">"</span>) old (<span style="color: #b9ca4a;">if</span> (= 0 (length old)) <span style="color: #70c0b1;">""</span> <span style="color: #70c0b1;">"</span><span style="color: #e7c547; font-weight: bold;">\\</span><span style="color: #c397d8; font-weight: bold;">)</span><span style="color: #70c0b1;">\\&gt;/"</span>))))
   )
 (global-set-key (kbd <span style="color: #70c0b1;">"C-c ; s"</span>) 'evilcvn-change-symbol-in-defun)
-<p></p></pre>   <p> Put you cursor above a symbol/variable and press hot key "Ctrl-c ; s", then the regex to replace that symbol is automatically created and inserted into mini-buffer. Now you only need type new string and watch. </p> <p> This is the screen shot (I renamed variable "count" into "cnt" in C++ function hello): <img src="wp-content/uploads/2013/05/wpid-evil-regex-replace-nq8.png" alt="image/evil-regex-replace-nq8.png"></p>
+
+</pre>   <p> Put you cursor above a symbol/variable and press hot key "Ctrl-c ; s", then the regex to replace that symbol is automatically created and inserted into mini-buffer. Now you only need type new string and watch. </p> <p> This is the screen shot (I renamed variable "count" into "cnt" in C++ function hello): <img src="wp-content/uploads/2013/05/wpid-evil-regex-replace-nq8.png" alt="image/evil-regex-replace-nq8.png"></p>
             </div>
         </div>
         <div class="post">
@@ -685,8 +694,7 @@ Here is my setup:
 
             </div>
             <div class="body">
-                <p></p>
-<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">mixing code of javascript and html is a big problem</h4> <div class="outline-text-3" id="text-1">   <p> If we mix the javascript code into html file as below: </p>   <pre class="src src-html">&lt;<span style="color: #81a2be;">ul</span>&gt;
+                <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">mixing code of javascript and html is a big problem</h4> <div class="outline-text-3" id="text-1">   <p> If we mix the javascript code into html file as below: </p>   <pre class="src src-html">&lt;<span style="color: #81a2be;">ul</span>&gt;
   &lt;% for(var key in service.get('Detail')){ %&gt;
     &lt;<span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span> if(key!='creditcard_number){ %&gt;
       &lt;<span style="color: #81a2be;">li</span>&gt;
@@ -695,8 +703,12 @@ Here is my setup:
         &lt;/<span style="color: #81a2be;">li</span>&gt;
     &lt;% }<span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
 &lt;% } <span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
-<p>&lt;/<span style="color: #81a2be;">ul</span>&gt;</p>
-<p></p></pre>  <p> Then it's hard to write/debug/fix the javascript code because: </p>
+
+&lt;/<span style="color: #81a2be;">ul</span>&gt;
+
+
+
+</pre>  <p> Then it's hard to write/debug/fix the javascript code because: </p>
 <ol>
 <li>html code becomes noise for javascript development. </li> <li>The syntax checker for javascript will not work properly. </li> </ol>
 <p> If  we mix the html code into javascript file as below: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">for</span>(<span style="color: #b5bd68;">var</span> <span style="color: #f0c674;">key</span> <span style="color: #b5bd68;">in</span> service.get(<span style="color: #8abeb7;">'Detail'</span>)){
@@ -704,7 +716,8 @@ Here is my setup:
     htmlRender(formatString(<span style="color: #8abeb7;">"&lt;li&gt;&lt;label for='%s'&gt;%s&lt;/label&gt;&lt;div id='%s'&gt;%s&lt;/div&gt;"</span>,key,key,service.get(<span style="color: #8abeb7;">'Details'</span>)[key]));
   }
 }
-<p></p></pre>  <p> Now html code becomes hard to write/debug/fix because: </p>
+
+</pre>  <p> Now html code becomes hard to write/debug/fix because: </p>
 <ol>
 <li>javascript code becomes noise for html development. </li> <li>The syntax checker for html will not work properly. </li> </ol>
 <p> In summary, mixing code in different language syntax will: </p>
@@ -719,39 +732,53 @@ Here is my setup:
      &lt;<span style="color: #81a2be;">div</span> <span style="color: #f0c674;">id</span>='&lt;%=key %&gt;'&gt;&lt;%= formatServiceAttributes(service,key) %&gt;&lt;/<span style="color: #81a2be;">div</span>&gt;
    &lt;/<span style="color: #81a2be;">li</span>&gt;
 &lt;%  }); <span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
-<p></p></pre>   <p> Here is the javascript file: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">forEachAttributeInService</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">fn</span>) {
+
+</pre>   <p> Here is the javascript file: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">forEachAttributeInService</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">fn</span>) {
   <span style="color: #b5bd68;">for</span>(<span style="color: #b5bd68;">var</span> <span style="color: #f0c674;">key</span> <span style="color: #b5bd68;">in</span> service.get(<span style="color: #8abeb7;">'Detail'</span>)){
     <span style="color: #b5bd68;">if</span>(key!=<span style="color: #8abeb7;">'creditcard_number'</span>){
       fn(service,key)
     }
   }
 }
-<p><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">formatServiceAttributes</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">key</span>) {
+
+
+
+<span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">formatServiceAttributes</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">key</span>) {
   <span style="color: #b5bd68;">return</span> service.get(<span style="color: #8abeb7;">'Details'</span>)[key];
-}</p>
-<p></p></pre>   <p> Now let's check what happens. </p> <p> In the html file, the business logic is converted into combination of functional calls. </p> <p> In javascript file, all the code dealing with hard coded html tags are converted to the call of anonymous functions. Those anonymous function is basically dump of html tags which is defined in html file. </p> <p> You can use this technique to convert any existing code into new style. For example, a simple "if else" statement could be re-written in new style: </p>   <pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">code in old style /</span>
-<p><span style="color: #b5bd68;">if</span> (<span style="color: #de935f;">true</span>){
+}
+
+</pre>   <p> Now let's check what happens. </p> <p> In the html file, the business logic is converted into combination of functional calls. </p> <p> In javascript file, all the code dealing with hard coded html tags are converted to the call of anonymous functions. Those anonymous function is basically dump of html tags which is defined in html file. </p> <p> You can use this technique to convert any existing code into new style. For example, a simple "if else" statement could be re-written in new style: </p>   <pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">code in old style */</span>
+
+<span style="color: #b5bd68;">if</span> (<span style="color: #de935f;">true</span>){
   console.log(<span style="color: #8abeb7;">'&lt;li&gt;YES&lt;/li&gt;'</span>);
 } <span style="color: #b5bd68;">else</span> {
   console.log(<span style="color: #8abeb7;">'&lt;li&gt;NO&lt;/li&gt;'</span>);
-}</p>
-<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">code in new style /</span></p>
-<p><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">func_if_else</span>(<span style="color: #f0c674;">f1</span>,<span style="color: #f0c674;">f2</span>,<span style="color: #f0c674;">f3</span>){
+}
+
+
+
+<span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">code in new style */</span>
+
+<span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">func_if_else</span>(<span style="color: #f0c674;">f1</span>,<span style="color: #f0c674;">f2</span>,<span style="color: #f0c674;">f3</span>){
   <span style="color: #b5bd68;">if</span>(f1()){
     f2();
   } <span style="color: #b5bd68;">else</span> {
     f3();
   }
-}</p>
-<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">the execution of func_if_else() /</span></p>
-<p>func_if_else(<span style="color: #b5bd68;">function</span>(){ <span style="color: #b5bd68;">return</span> <span style="color: #de935f;">true</span> },
+}
+
+
+
+<span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">the execution of func_if_else() */</span>
+
+func_if_else(<span style="color: #b5bd68;">function</span>(){ <span style="color: #b5bd68;">return</span> <span style="color: #de935f;">true</span> },
            <span style="color: #b5bd68;">function</span>(){
              console.log(<span style="color: #8abeb7;">'&lt;li&gt;YES&lt;/li&gt;'</span>);
            },
            <span style="color: #b5bd68;">function</span>(){
              console.log(<span style="color: #8abeb7;">'&lt;li&gt;NO&lt;/li&gt;'</span>);
            });
-</p></pre>   <p> This is a kind of radical example. I'm only demonstrating the power of new style. I'm not suggesting you should convert any logic statement into function call. New style is not a silver bullet. It's only a useful if used properly in right timing. </p>
+</pre>   <p> This is a kind of radical example. I'm only demonstrating the power of new style. I'm not suggesting you should convert any logic statement into function call. New style is not a silver bullet. It's only a useful if used properly in right timing. </p>
 </div> </div>
             </div>
         </div>
@@ -781,11 +808,11 @@ Here is my setup:
 
             </div>
             <div class="body">
-                <p></p>
-<p>Add following code into your .emacs, then use "/" to execute <code>git command</code> on your marked files in dired-mode: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">diredext-exec-git-command-in-shell</span> (command <span style="color: #e78c45;">&amp;optional</span> arg file-list)
-  <span style="color: #c397d8;">"Run a shell command <code>git COMMAND</code>' on the marked files.</span>
+                <p>Add following code into your .emacs, then use "/" to execute `git command` on your marked files in dired-mode: </p>   <pre class="src src-elisp">(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">diredext-exec-git-command-in-shell</span> (command <span style="color: #e78c45;">&amp;optional</span> arg file-list)
+  <span style="color: #c397d8;">"Run a shell command `git COMMAND`' on the marked files.</span>
 <span style="color: #c397d8;">if no files marked, always operate on current line in dired-mode</span>
-<p><span style="color: #c397d8;">"</span>
+
+<span style="color: #c397d8;">"</span>
   (interactive
    (<span style="color: #b9ca4a;">let</span> ((files (dired-get-marked-files t current-prefix-arg)))
      (list
@@ -793,13 +820,16 @@ Here is my setup:
       (dired-read-shell-command <span style="color: #70c0b1;">"git command on %s: "</span> current-prefix-arg files)
       current-prefix-arg
       files)))
-  (<span style="color: #b9ca4a;">unless</span> (string-match <span style="color: #70c0b1;">"[<em>?][ \t]</em>\'"</span> command)
+  (<span style="color: #b9ca4a;">unless</span> (string-match <span style="color: #70c0b1;">"[*?][ \t]*\\'"</span> command)
     (setq command (concat command <span style="color: #70c0b1;">" *"</span>)))
   (setq command (concat <span style="color: #70c0b1;">"git "</span> command))
   (dired-do-shell-command command arg file-list)
-  (message command))</p>
-<p>(<span style="color: #b9ca4a;">eval-after-load</span> 'dired '(define-key dired-mode-map <span style="color: #70c0b1;">"/"</span> 'diredext-exec-git-command-in-shell))</p>
-<p></p></pre>   <p> For example, say you set the alias "a" for git command "add" in your $HOME/.gitconfig. </p> <p> In order to <code>git add</code> files, you marked files in dired-mode and press "/", then press "a". The command <code>git a(dd)</code> will be executed. </p> <p> The reason to use git in dired-mode is simple. I'm working for some big enterprise application. You know the enterprise guys have the tendency to create lots of small modules/files for one feature. So I need do lots of <code>cp files somewhere</code> and <code>git add files</code> things these days. </p> <p> Thanks all the <a href="https://plus.google.com/110954683162859211810/posts/4CmwuDxVCA1">Emacs geeks on the Google+</a> who enlighten me. </p>
+  (message command))
+
+
+(<span style="color: #b9ca4a;">eval-after-load</span> 'dired '(define-key dired-mode-map <span style="color: #70c0b1;">"/"</span> 'diredext-exec-git-command-in-shell))
+
+</pre>   <p> For example, say you set the alias "a" for git command "add" in your $HOME/.gitconfig. </p> <p> In order to `git add` files, you marked files in dired-mode and press "/", then press "a". The command `git a(dd)` will be executed. </p> <p> The reason to use git in dired-mode is simple. I'm working for some big enterprise application. You know the enterprise guys have the tendency to create lots of small modules/files for one feature. So I need do lots of `cp files somewhere` and `git add files` things these days. </p> <p> Thanks all the <a href="https://plus.google.com/110954683162859211810/posts/4CmwuDxVCA1">Emacs geeks on the Google+</a> who enlighten me. </p>
             </div>
         </div>
         <div class="post">
@@ -827,9 +857,9 @@ Here is my setup:
 
             </div>
             <div class="body">
-                <div id="outline-container-orgdf5aa96" class="outline-2">
-<h3 id="orgdf5aa96">Install CLI tools</h3>
-<div class="outline-text-2" id="text-orgdf5aa96">
+                <div id="outline-container-orgdca8eab" class="outline-2">
+<h3 id="orgdca8eab">Install CLI tools</h3>
+<div class="outline-text-2" id="text-orgdca8eab">
 <div class="org-src-container">
 
 <pre><code class="lang-sh"># mac to support ape
@@ -840,9 +870,9 @@ sudo emerge cuetools
 </div>
 </div>
 </div>
-<div id="outline-container-orgd3bdc6f" class="outline-2">
-<h3 id="orgd3bdc6f">Download script</h3>
-<div class="outline-text-2" id="text-orgd3bdc6f">
+<div id="outline-container-org20b9047" class="outline-2">
+<h3 id="org20b9047">Download script</h3>
+<div class="outline-text-2" id="text-org20b9047">
 <p>
 See <a href="https://bbs.archlinux.org/viewtopic.php?id=58766">https://bbs.archlinux.org/viewtopic.php?id=58766</a> for the source of bash script.
 </p>
@@ -912,9 +942,9 @@ Put the script somewhere and name it to <code>cue2flac</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orgbe2d0aa" class="outline-2">
-<h3 id="orgbe2d0aa">Start conversion</h3>
-<div class="outline-text-2" id="text-orgbe2d0aa">
+<div id="outline-container-orgb853a50" class="outline-2">
+<h3 id="orgb853a50">Start conversion</h3>
+<div class="outline-text-2" id="text-orgb853a50">
 <div class="org-src-container">
 
 <pre><code class="lang-sh"># convert the ape to corresponding wav file, for example, "a.ape" is converted to "a.ape.wav"
@@ -938,7 +968,7 @@ rm *.ape *.wav
             <li class="next">
                 <a href="index-8.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

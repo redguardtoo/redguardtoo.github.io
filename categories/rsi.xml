@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about rsi)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/rsi.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to avoid Repeated Strain Injury when using emacs by re-assigning hotkeys</title><link>http://blog.binchen.org/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about rsi)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/rsi.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:32:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to avoid Repeated Strain Injury when using emacs by re-assigning hotkeys</title><link>http://blog.binchen.org/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I've read all the Emacs RSI related articles from the internet.
 &lt;/p&gt;
 
 &lt;p&gt;
 Typical solutions are:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;buy special hardware&lt;/li&gt;
 &lt;li&gt;remap ctrl key (because Emacs users press Ctrl key too often)&lt;/li&gt;
@@ -42,7 +41,6 @@ The principle here is &lt;b&gt;DO NOT&lt;/b&gt; move hands at all. Following thi
 &lt;p&gt;
 For example, by using &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt; and &lt;a href="https://github.com/cofi/evil-leader"&gt;evil-leader&lt;/a&gt;. With hot key prefix &lt;code&gt;C-x&lt;/code&gt;, I use &lt;code&gt;,x&lt;/code&gt; to replace. For example, &lt;code&gt;C-x C-c&lt;/code&gt; is replaced with &lt;code&gt;,xc&lt;/code&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'evil-leader)
@@ -66,7 +64,6 @@ On some keyboard, the &lt;code&gt;Alt&lt;/code&gt; key is easy to press because 
 &lt;p&gt;
 Please note &lt;code&gt;Alt&lt;/code&gt; and &lt;code&gt;k&lt;/code&gt; is also close to my fingers. Here is my setup in &lt;code&gt;.emacs&lt;/code&gt;:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(global-set-key (kbd "M-k") 'keyboard-quit)
@@ -81,7 +78,6 @@ Please note &lt;code&gt;Alt&lt;/code&gt; and &lt;code&gt;k&lt;/code&gt; is also 
 &lt;p&gt;
 Some minor modes will re-assign the hot key &lt;code&gt;C-g&lt;/code&gt;, so when I say replace &lt;code&gt;C-g&lt;/code&gt; with &lt;code&gt;,k&lt;/code&gt;. It may be a bit more elisp code:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;;; the original hot key of helm-keyboard-quit is "C-g"
@@ -93,7 +89,6 @@ Some minor modes will re-assign the hot key &lt;code&gt;C-g&lt;/code&gt;, so whe
 &lt;p&gt;
 The key point is to understand the principles instead copy my configuration:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;comma is a good key for hot key prefix, it's used by vi users for ages&lt;/li&gt;
 &lt;li&gt;use keys close to fingers (L,J,K,L, for example) in hot keys&lt;/li&gt;

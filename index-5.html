@@ -317,19 +317,19 @@ function gp() {
 
             </div>
             <div class="body">
-                <p></p>
-<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">典型的工作流</h4> <div class="outline-text-3" id="text-1">  <ol>
+                <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">典型的工作流</h4> <div class="outline-text-3" id="text-1">  <ol>
 <li>在两个子窗口中对比文件内容 </li> <li>打开更多的窗口以参考其他信息. </li> <li>对某个窗口内容比较有兴趣,跳转到该窗口,将该窗口最大化 </li> <li>看完最大化的窗口内容后,undo最大化操作,重新回到早先的多个小窗口模式以便继续纵览全局 </li> </ol>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">将子窗口自动编号,然后按M-0…9跳转(最爱)</h4> <div class="outline-text-3" id="text-2">  <p>安装<a href="https://github.com/nschum/window-numbering.el">window-numbering.el</a>,然后在.emacs中添加以下代码, </p>   <pre class="src src-elisp">(<span style="color: #af00ff;">require</span> '<span style="color: #008787;">window-numbering</span>)
 (window-numbering-mode 1)</pre>  </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">undo/redo之前的窗口操作(最爱)</h4> <div class="outline-text-3" id="text-3">  <p>安装<a href="http://www.emacswiki.org/emacs/WinnerMode">Winner Mode</a>,然后在.emacs中添加以下代码, </p>   <pre class="src src-elisp">(winner-mode 1)
-<p><span style="color: #af0000;">;; </span><span style="color: #af0000;">copied from http://puntoblogspot.blogspot.com/2011/05/undo-layouts-in-emacs.html</span>
+
+<span style="color: #af0000;">;; </span><span style="color: #af0000;">copied from http://puntoblogspot.blogspot.com/2011/05/undo-layouts-in-emacs.html</span>
 (global-set-key (kbd <span style="color: #87005f;">"C-x 4 u"</span>) 'winner-undo)
-(global-set-key (kbd <span style="color: #87005f;">"C-x 4 r"</span>) 'winner-redo)</p></pre>  </div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">焦点移动到下一窗口(常用)</h4> <div class="outline-text-3" id="text-4">  <p>M-x other-window,快捷键是<code>C-x o</code>. </p>
+(global-set-key (kbd <span style="color: #87005f;">"C-x 4 r"</span>) 'winner-redo)</pre>  </div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">焦点移动到下一窗口(常用)</h4> <div class="outline-text-3" id="text-4">  <p>M-x other-window,快捷键是`C-x o`. </p>
 </div>  </div>  <div id="outline-container-5" class="outline-3"> <h4 id="sec-5">水平/垂直切分当前窗口(常用)</h4> <div class="outline-text-3" id="text-5">  <p>快捷键C-x 2/3 </p>
-</div>  </div>  <div id="outline-container-6" class="outline-3"> <h4 id="sec-6">将当前子窗口最大化(常用)</h4> <div class="outline-text-3" id="text-6">  <p>M-x delete-other-windows,快捷键<code>C-x 1</code>. </p>
-</div>  </div>  <div id="outline-container-7" class="outline-3"> <h4 id="sec-7">删除当前子窗口(偶尔用)</h4> <div class="outline-text-3" id="text-7">  <p>M-x delete-window (快捷键<code>C-x 0</code>) </p> <p> 顺便说一下,M-x kill-buffer-and-window (快捷键<code>C-x 4 0</code>),我现在用得更多 些. </p>
+</div>  </div>  <div id="outline-container-6" class="outline-3"> <h4 id="sec-6">将当前子窗口最大化(常用)</h4> <div class="outline-text-3" id="text-6">  <p>M-x delete-other-windows,快捷键`C-x 1`. </p>
+</div>  </div>  <div id="outline-container-7" class="outline-3"> <h4 id="sec-7">删除当前子窗口(偶尔用)</h4> <div class="outline-text-3" id="text-7">  <p>M-x delete-window (快捷键`C-x 0`) </p> <p> 顺便说一下,M-x kill-buffer-and-window (快捷键`C-x 4 0`),我现在用得更多 些. </p>
 </div>  </div>  <div id="outline-container-8" class="outline-3"> <h4 id="sec-8">移动焦点到上下左右的窗口(基本不用)</h4> <div class="outline-text-3" id="text-8">  <p>因我较喜欢vi快捷键,所以我安装了<a href="http://emacswiki.org/emacs/Evil">Evil Mode</a>.快捷键和Vi一样. C-w h/j/k/l移动至各方向的子窗口. </p>
-</div>  </div>  <div id="outline-container-9" class="outline-3"> <h4 id="sec-9">存储/载入窗口布局到register(基本不用)</h4> <div class="outline-text-3" id="text-9">  <p><code>C-x r w</code>存储,<code>C-x r j</code>载入. </p>
+</div>  </div>  <div id="outline-container-9" class="outline-3"> <h4 id="sec-9">存储/载入窗口布局到register(基本不用)</h4> <div class="outline-text-3" id="text-9">  <p>`C-x r w`存储,`C-x r j`载入. </p>
 </div> </div>
             </div>
         </div>
@@ -367,7 +367,6 @@ Install <a href="http://www.tug.org/texlive/">TexLive</a> in your OS.
 <p>
 Install <code>latex2pdf</code> which is dependent on TexLive.
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">cpan App::cpanminus # handy tool to install cpan module
@@ -380,7 +379,6 @@ cpanm latex2pdf # finally
 <p>
 Convert now!
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">pdf2latex cv.tex
@@ -428,7 +426,6 @@ It's because the binary package requires gcc4 while on my cygwin only gcc3 avail
 <p>
 So I install it from source package (with some hack, of course),
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">cpanm --look Template # Download and unpack the distribution and then open the directory with your shellI
@@ -483,7 +480,6 @@ At macOS, I use the <a href="http://www.tug.org/texlive/acquire-netinstall.html"
 <p>
 Bash shell requires setup in <code>~/.bashrc</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">if [[ `uname -s` == *Darwin* ]]; then
@@ -529,7 +525,6 @@ See <a href="http://sachachua.com/blog/2012/07/transcript-emacs-chat-john-wiegle
 <p>
 I only record key points,
 </p>
-
 <ul class="org-ul">
 <li>Use gnus heavily</li>
 <li>ERC in another Emacs instance</li>
@@ -580,9 +575,9 @@ I only record key points,
                 <p>
 I will only talk about how to set up yasnippet 0.7.0 or higher version.
 </p>
-<div id="outline-container-orga512445" class="outline-2">
-<h3 id="orga512445">If you follow `normal install` way, setup is simple</h3>
-<div class="outline-text-2" id="text-orga512445">
+<div id="outline-container-orgf0e65bd" class="outline-2">
+<h3 id="orgf0e65bd">If you follow `normal install` way, setup is simple</h3>
+<div class="outline-text-2" id="text-orgf0e65bd">
 <p>
 See its <a href="http://capitaomorte.github.com/yasnippet/">official documentation</a>.
 </p>
@@ -603,9 +598,9 @@ Install the yasnippet into somewhere and add following code into your .emacs:
 </div>
 </div>
 
-<div id="outline-container-orga645191" class="outline-2">
-<h3 id="orga645191">If you use elpa package system, setup is even simpler</h3>
-<div class="outline-text-2" id="text-orga645191">
+<div id="outline-container-orgfbe54fb" class="outline-2">
+<h3 id="orgfbe54fb">If you use elpa package system, setup is even simpler</h3>
+<div class="outline-text-2" id="text-orgfbe54fb">
 <p>
 After installation, you only need two lines in .emacs.
 </p>
@@ -627,16 +622,16 @@ So you only put your own snippets in "~/.emacs.d/snippets" and done. No need to 
 </div>
 </div>
 
-<div id="outline-container-org4756bd6" class="outline-2">
-<h3 id="org4756bd6">The real world setup is NOT simple</h3>
-<div class="outline-text-2" id="text-org4756bd6">
+<div id="outline-container-org9d19426" class="outline-2">
+<h3 id="org9d19426">The real world setup is NOT simple</h3>
+<div class="outline-text-2" id="text-org9d19426">
 <p>
 I will explain the reasons at first and give my complete yasnippet configuration code at the end of the this post.
 </p>
 </div>
-<div id="outline-container-org2c78813" class="outline-3">
-<h4 id="org2c78813">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
-<div class="outline-text-3" id="text-org2c78813">
+<div id="outline-container-org5d3515e" class="outline-3">
+<h4 id="org5d3515e">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
+<div class="outline-text-3" id="text-org5d3515e">
 <p>
 One issue is I need a user-friendly dropdown window popped up when the key I input has several candidates. For example, when I type "inc" in C code. There are two candidates `#include "…"' and `#include &lt;…&gt;' available. A handy dropdown popup will help me to choose one of them as efficient as possible.
 </p>
@@ -651,18 +646,18 @@ The bad news is for some strange reason yasnippet won't load that dropdown-list 
 </div>
 </div>
 
-<div id="outline-container-orgf5c57c2" class="outline-3">
-<h4 id="orgf5c57c2">`yas/dropdown-prompt' is not perfect</h4>
-<div class="outline-text-3" id="text-orgf5c57c2">
+<div id="outline-container-org9afbaa0" class="outline-3">
+<h4 id="org9afbaa0">`yas/dropdown-prompt' is not perfect</h4>
+<div class="outline-text-3" id="text-org9afbaa0">
 <p>
 I cannot scroll down the dropdown window when there are more candidates it can display. That's especially annoying when calling `yas/insert-snippet'. In this case, we need use `yas/completing-prompt' instead. I will show the fix at the end of this article.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgc372dd8" class="outline-3">
-<h4 id="orgc372dd8">Yasnippet conflicts with other plugins</h4>
-<div class="outline-text-3" id="text-orgc372dd8">
+<div id="outline-container-orgaca0260" class="outline-3">
+<h4 id="orgaca0260">Yasnippet conflicts with other plugins</h4>
+<div class="outline-text-3" id="text-orgaca0260">
 <p>
 I use <a href="http://cx4a.org/software/auto-complete/">Auto Complete Mode</a> (version 20120327 in elpa).  There are two issues when using it with yasnippet.
 </p>
@@ -685,9 +680,9 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
 </div>
 </div>
 </div>
-<div id="outline-container-org4f543d5" class="outline-2">
-<h3 id="org4f543d5">My final yasnippet setup</h3>
-<div class="outline-text-2" id="text-org4f543d5">
+<div id="outline-container-org9d8a1b5" class="outline-2">
+<h3 id="org9d8a1b5">My final yasnippet setup</h3>
+<div class="outline-text-2" id="text-org9d8a1b5">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'yasnippet)
@@ -738,16 +733,18 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
 
             </div>
             <div class="body">
-                <p></p>
-<p>rails版本为3.1，OS X版本10.7.3，postgresql版本9.1.3j </p> <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">数据库必须用postgresql</h4> <div class="outline-text-3" id="text-1">  <p>heroku官方主页反对开发版本用sqlite3而生产版本用postgresql. </p>
+                <p>rails版本为3.1，OS X版本10.7.3，postgresql版本9.1.3j </p> <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">数据库必须用postgresql</h4> <div class="outline-text-3" id="text-1">  <p>heroku官方主页反对开发版本用sqlite3而生产版本用postgresql. </p>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">在OS X 10.7.3上安装postgresql</h4> <div class="outline-text-3" id="text-2">  <p>首先,检查你的OS X版本，从10.7开始OS X自带postgresql </p>   <pre class="src src-sh">sw_vers -productVersion
 </pre>  <p> 如果要安装最新版的postgresql，必须删除老版本的数据库。具体做法参考<a href="http://nextmarvel.net/blog/2011/09/brew-install-postgresql-on-os-x-lion/">这篇文章</a>,实际上也就是一行命令： </p>   <pre class="src src-sh">curl http://nextmarvel.net/blog/downloads/fixBrewLionPostgres.sh | sh
-<p></p></pre>  <p> 强烈推荐用homebrew安装数据库, </p>   <pre class="src src-sh">brew install postgresql
-<p></p></pre>  <p> 具体安装细节请参考<a href="http://wiki.postgresql.org/wiki/Detailed_installation_guides">postgresql官方wiki</a>. </p>
-</div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">检测已安装的postgresql</h4> <div class="outline-text-3" id="text-3">  <p>这里是<a href="http://www.postgresql.org/docs/9.1/interactive/tutorial-createdb.html">一些数据库基本操作的官方文档</a>. 可以<code>psql -l</code>看一些已有数据库列表. </p>
+
+</pre>  <p> 强烈推荐用homebrew安装数据库, </p>   <pre class="src src-sh">brew install postgresql
+
+</pre>  <p> 具体安装细节请参考<a href="http://wiki.postgresql.org/wiki/Detailed_installation_guides">postgresql官方wiki</a>. </p>
+</div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">检测已安装的postgresql</h4> <div class="outline-text-3" id="text-3">  <p>这里是<a href="http://www.postgresql.org/docs/9.1/interactive/tutorial-createdb.html">一些数据库基本操作的官方文档</a>. 可以`psql -l`看一些已有数据库列表. </p>
 </div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">数据库用postgresql的rails项目</h4> <div class="outline-text-3" id="text-4">     <pre class="src src-sh">rails new myapp --database=postgresql
-<p></p></pre>  <p> 如果是从一个已经使用sqlite的项目切换数据库，就必须改config/database.yml,有一些catch，请参考<a href="http://stackoverflow.com/questions/8199141/postgres-rake-dbmigrate-fails-with-access-denied-error">stackoverflow上的讨论</a>. </p> <p> 然后,<code>createdb myapp_development</code>创建postgresql数据库，<code>rake db:migrate</code>建立数据库schema并导入数据在本地数据库.简单测试可证明数据库和web程序可以无缝工作. </p> <p> 最后不要忘记<code>git commit</code>最新代码. </p>
-</div>  </div>  <div id="outline-container-5" class="outline-3"> <h4 id="sec-5">部署web程序到heroku</h4> <div class="outline-text-3" id="text-5">  <p>请参考<a href="https://devcenter.heroku.com/articles/ruby">heroku官方文档</a>,提醒一下不要忘记运行<code>heroku run rake db:migrate</code>,否则数据库是空的. </p> <p> 部署结束后可以运行<code>heroku open</code>打开浏览器访问web程序首页. </p> <p> 如打开网站有问题，可以<code>heroku logs</code>查看日志. </p>
+
+</pre>  <p> 如果是从一个已经使用sqlite的项目切换数据库，就必须改config/database.yml,有一些catch，请参考<a href="http://stackoverflow.com/questions/8199141/postgres-rake-dbmigrate-fails-with-access-denied-error">stackoverflow上的讨论</a>. </p> <p> 然后,`createdb myapp_development`创建postgresql数据库，`rake db:migrate`建立数据库schema并导入数据在本地数据库.简单测试可证明数据库和web程序可以无缝工作. </p> <p> 最后不要忘记`git commit`最新代码. </p>
+</div>  </div>  <div id="outline-container-5" class="outline-3"> <h4 id="sec-5">部署web程序到heroku</h4> <div class="outline-text-3" id="text-5">  <p>请参考<a href="https://devcenter.heroku.com/articles/ruby">heroku官方文档</a>,提醒一下不要忘记运行`heroku run rake db:migrate`,否则数据库是空的. </p> <p> 部署结束后可以运行`heroku open`打开浏览器访问web程序首页. </p> <p> 如打开网站有问题，可以`heroku logs`查看日志. </p>
 </div> </div>
             </div>
         </div>
@@ -777,8 +774,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
 
             </div>
             <div class="body">
-                <p></p>
-<p>我主要用两个插件<a href="http://rinari.rubyforge.org/">rinari</a>和<a href="http://www.emacswiki.org/emacs/yari.el">yari</a>. </p> <p> rinari支持在rails项目中多个文件快速跳转,另外它提供的grep工具我发觉也很有用.快捷键很容易记. </p> <p> yari对ruby自带的ri工具提供一个emacs界面,优点是兼容最新的ruby,操作简单,只要使用一个函数yari-anything即可.但是其官方文档推荐的yari-anything的快捷键F1在有些远程terminal下有问题.我改成了<code>C-c ; r</code>. </p>
+                <p>我主要用两个插件<a href="http://rinari.rubyforge.org/">rinari</a>和<a href="http://www.emacswiki.org/emacs/yari.el">yari</a>. </p> <p> rinari支持在rails项目中多个文件快速跳转,另外它提供的grep工具我发觉也很有用.快捷键很容易记. </p> <p> yari对ruby自带的ri工具提供一个emacs界面,优点是兼容最新的ruby,操作简单,只要使用一个函数yari-anything即可.但是其官方文档推荐的yari-anything的快捷键F1在有些远程terminal下有问题.我改成了`C-c ; r`. </p>
             </div>
         </div>
         <div class="post">
@@ -808,8 +804,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
 
             </div>
             <div class="body">
-                <p></p>
-<p><a href="http://lucapette.com/rails/twitter-bootstrap-on-rails/">Luca Pette的Twitter Bootstrap on Rails</a>比较简单，直接使用了bootstrap的css，没用less，测试了simple_form，show_for,kaminari(分页数据)三个应用。要点在于kaminari有点兼容性问题，用<a href="https://github.com/gabetax/twitter-bootstrap-kaminari-views">twitter-bootstrap-kaminari-views</a>解决这个问题，其他没难度。 </p> <p> <a href="http://metaskills.net/2011/09/26/less-is-more-using-twitter-bootstrap-in-the-rails-3-1-asset-pipeline/">@metaskill的LESS Is More - Using Twitter's Bootstrap In The Rails 3.1 Asset Pipeline</a>讲了如何用bootstrap的less函数和变量，我很有兴趣，根据我的经验能通过less语法调用twitter的函数比较有价值。安装gem <code>less-rails-bootstrap</code>就行了，调用bootstrap的函数的技术细节省略，基本就是less语法。 </p> <p> <a href="http://www.opinionatedprogrammer.com/2011/11/twitter-bootstrap-on-rails/">Adding Twitter's Bootstrap CSS to your Rails app</a>的作者也读了以上两篇文章，要点在于确认了@metaskill的方法，less的一些详细的例子。也提到了可以用sass，但我没有深入读下去。 </p> <p> <a href="http://railscasts.com/episodes/328-twitter-bootstrap-basics">Twitter Bootstrap Basics at railscasts.com</a>非常好，一个完整的例子。Comments也不错，一些html细节。要点在于用了gem<code>twitter-bootstrap-rails</code>,看起来很强大。 </p> <p> 结论，看来我需要转向less而不是sass，因为bootstrap用less。 </p>
+                <p><a href="http://lucapette.com/rails/twitter-bootstrap-on-rails/">Luca Pette的Twitter Bootstrap on Rails</a>比较简单，直接使用了bootstrap的css，没用less，测试了simple_form，show_for,kaminari(分页数据)三个应用。要点在于kaminari有点兼容性问题，用<a href="https://github.com/gabetax/twitter-bootstrap-kaminari-views">twitter-bootstrap-kaminari-views</a>解决这个问题，其他没难度。 </p> <p> <a href="http://metaskills.net/2011/09/26/less-is-more-using-twitter-bootstrap-in-the-rails-3-1-asset-pipeline/">@metaskill的LESS Is More - Using Twitter's Bootstrap In The Rails 3.1 Asset Pipeline</a>讲了如何用bootstrap的less函数和变量，我很有兴趣，根据我的经验能通过less语法调用twitter的函数比较有价值。安装gem `less-rails-bootstrap`就行了，调用bootstrap的函数的技术细节省略，基本就是less语法。 </p> <p> <a href="http://www.opinionatedprogrammer.com/2011/11/twitter-bootstrap-on-rails/">Adding Twitter's Bootstrap CSS to your Rails app</a>的作者也读了以上两篇文章，要点在于确认了@metaskill的方法，less的一些详细的例子。也提到了可以用sass，但我没有深入读下去。 </p> <p> <a href="http://railscasts.com/episodes/328-twitter-bootstrap-basics">Twitter Bootstrap Basics at railscasts.com</a>非常好，一个完整的例子。Comments也不错，一些html细节。要点在于用了gem`twitter-bootstrap-rails`,看起来很强大。 </p> <p> 结论，看来我需要转向less而不是sass，因为bootstrap用less。 </p>
             </div>
         </div>
     
@@ -820,7 +815,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
             <li class="next">
                 <a href="index-4.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

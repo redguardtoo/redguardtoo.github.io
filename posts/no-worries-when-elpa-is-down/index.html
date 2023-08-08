@@ -15,8 +15,7 @@
 
 
 
-
-mkdir -p ~/elpaclone &amp;&amp; cd ~/elpaclone &amp;&amp; curl -L https://elpa.gnu.org/packages/archive-contents | perl -pe 's/(^\(1|\n)//">
+mkdir -p ~/elpaclone &amp;&amp; cd ~/elpaclone &amp;&amp; curl -L https://elpa.gnu.org/packages/archive-contents | perl -pe 's/(^\(1|\n)//g">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2016-08-14T12:52:27Z">
 <meta property="article:tag" content="elpa">
@@ -66,7 +65,6 @@ mkdir -p ~/elpaclone &amp;&amp; cd ~/elpaclone &amp;&amp; curl -L https://elpa.g
             <p>
 I use one liner shell command to clone Emacs Lisp Package Archive (ELPA):
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">mkdir -p ~/elpaclone &amp;&amp; cd ~/elpaclone &amp;&amp; curl -L https://elpa.gnu.org/packages/archive-contents | perl -pe 's/(^\(1|\n)//g' | perl -pe 's/\]\)/])\n/g' | perl -pe 's/^ *\(([a-z0-9A-Z-]*).*\[\(([0-9 ]*).*(single|tar).*/\1-\2.\3/g' | perl -pe 's/ /./g' | perl -pe 's/single/el/g' | perl -pe 's/\)//g' | xargs -I {} curl -L  -O https://elpa.gnu.org/packages/{} &amp;&amp; curl -L -O https://elpa.gnu.org/packages/archive-contents
@@ -85,7 +83,6 @@ Usage is simple.
 <p>
 Insert below line at the beginning of ~/.emacs when <b>elpa.gnu.org is down</b>:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(setq package-archives '(("elpaclone" . "~/elpaclone")))
@@ -132,7 +129,7 @@ This solution also works for <a href="https://melpa.org/">MELPA</a>.
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

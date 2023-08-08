@@ -14,7 +14,9 @@
 <meta property="og:description" content='List and filter all the files need resolve conflict, then apply certain git operation on them:    
 
 
-git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --thei'>
+
+
+git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --th'>
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2014-01-28T16:53:00Z">
 <meta property="article:tag" content="en">
@@ -57,14 +59,13 @@ git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "
 
         </div>
         <div class="body">
-            <p></p>
-<p>List and filter all the files need resolve conflict, then apply certain git operation on them: </p>   
+            <p>List and filter all the files need resolve conflict, then apply certain git operation on them: </p>   
+
+
 <pre class="prettyprint ">
 
 git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "git checkout --theirs {} &amp;&amp; git add {}"
 </pre>
-
-<p></p>
         </div>
         
         <ul class="pager hidden-print">
@@ -101,7 +102,7 @@ git diff --name-only --diff-filter=U|grep "\.html\|\.min\.js"|xargs -I{} sh -c "
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

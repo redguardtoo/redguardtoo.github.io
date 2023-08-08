@@ -55,7 +55,6 @@ I've read all the Emacs RSI related articles from the internet.
 <p>
 Typical solutions are:
 </p>
-
 <ul class="org-ul">
 <li>buy special hardware</li>
 <li>remap ctrl key (because Emacs users press Ctrl key too often)</li>
@@ -90,7 +89,6 @@ The principle here is <b>DO NOT</b> move hands at all. Following this example, I
 <p>
 For example, by using <a href="http://www.emacswiki.org/emacs/Evil">Evil</a> and <a href="https://github.com/cofi/evil-leader">evil-leader</a>. With hot key prefix <code>C-x</code>, I use <code>,x</code> to replace. For example, <code>C-x C-c</code> is replaced with <code>,xc</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'evil-leader)
@@ -114,7 +112,6 @@ On some keyboard, the <code>Alt</code> key is easy to press because it's big and
 <p>
 Please note <code>Alt</code> and <code>k</code> is also close to my fingers. Here is my setup in <code>.emacs</code>:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(global-set-key (kbd "M-k") 'keyboard-quit)
@@ -129,7 +126,6 @@ Please note <code>Alt</code> and <code>k</code> is also close to my fingers. Her
 <p>
 Some minor modes will re-assign the hot key <code>C-g</code>, so when I say replace <code>C-g</code> with <code>,k</code>. It may be a bit more elisp code:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">;; the original hot key of helm-keyboard-quit is "C-g"
@@ -141,7 +137,6 @@ Some minor modes will re-assign the hot key <code>C-g</code>, so when I say repl
 <p>
 The key point is to understand the principles instead copy my configuration:
 </p>
-
 <ul class="org-ul">
 <li>comma is a good key for hot key prefix, it's used by vi users for ages</li>
 <li>use keys close to fingers (L,J,K,L, for example) in hot keys</li>
@@ -194,16 +189,16 @@ Second part uses <a href="https://www.mozilla.org/en-US/thunderbird/">thunderbir
 <p>
 Third part uses Emacs and Gnus to replace thunderbird. It's optional.
 </p>
-<div id="outline-container-orgd3c5acb" class="outline-2">
-<h3 id="orgd3c5acb">DavMail as mail gateway</h3>
-<div class="outline-text-2" id="text-orgd3c5acb">
-<pre class="example" id="org25f538a">
+<div id="outline-container-org67213d9" class="outline-2">
+<h3 id="org67213d9">DavMail as mail gateway</h3>
+<div class="outline-text-2" id="text-org67213d9">
+<pre class="example" id="orgaf621ea">
 Ever wanted to get rid of Outlook ? DavMail is a POP/IMAP/SMTP/Caldav/Carddav/LDAP exchange gateway allowing users to use any mail/calendar client (e.g. Thunderbird with Lightning or Apple iCal) with an Exchange server.
 </pre>
 </div>
-<div id="outline-container-org743a97c" class="outline-3">
-<h4 id="org743a97c">Install</h4>
-<div class="outline-text-3" id="text-org743a97c">
+<div id="outline-container-org9ce19cb" class="outline-3">
+<h4 id="org9ce19cb">Install</h4>
+<div class="outline-text-3" id="text-org9ce19cb">
 <p>
 <a href="http://davmail.sourceforge.net/download.html">Download the installer</a> at Debian/Ubuntu/Mint:
 </p>
@@ -221,9 +216,9 @@ Installation is easy. DavMail by itself is a portable java application. Since it
 </p>
 </div>
 </div>
-<div id="outline-container-org43c8436" class="outline-3">
-<h4 id="org43c8436">Configuration</h4>
-<div class="outline-text-3" id="text-org43c8436">
+<div id="outline-container-org7631f2e" class="outline-3">
+<h4 id="org7631f2e">Configuration</h4>
+<div class="outline-text-3" id="text-org7631f2e">
 <p>
 Now start DavMail. 
 </p>
@@ -258,9 +253,9 @@ BTW, <a href="https://outlook.office365.com/">https://outlook.office365.com/</a>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf47ae3a" class="outline-2">
-<h3 id="orgf47ae3a">Thunderbird</h3>
-<div class="outline-text-2" id="text-orgf47ae3a">
+<div id="outline-container-orgba51312" class="outline-2">
+<h3 id="orgba51312">Thunderbird</h3>
+<div class="outline-text-2" id="text-orgba51312">
 <p>
 Create a new account, and <b>manually</b> configure the server. The server name is "127.0.0.1", the port number is already on your paper. The minimum setup needs IMAP port to  receive mail and SMTP port to send email.
 </p>
@@ -274,9 +269,9 @@ The only issue is the "Username". You can log in Outlook Web UI, click "Options 
 </p>
 </div>
 </div>
-<div id="outline-container-org2c29994" class="outline-2">
-<h3 id="org2c29994">Emacs Gnus</h3>
-<div class="outline-text-2" id="text-org2c29994">
+<div id="outline-container-org69be5a7" class="outline-2">
+<h3 id="org69be5a7">Emacs Gnus</h3>
+<div class="outline-text-2" id="text-org69be5a7">
 <p>
 Gnus cannot access IMAP service of DavMail. There is <a href="http://permalink.gmane.org/gmane.emacs.gnus.general/83301">some bug</a>.
 </p>
@@ -345,13 +340,16 @@ Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> inste
 
             </div>
             <div class="body">
-                <p></p>
-<p> 这里是<a href="http://www.xinshipu.com/%E9%9D%92%E6%A4%92%E7%82%92%E9%B8%A1%E8%82%89-72708.htm">菜谱</a>. </p> <pre class="example">
+                <p> 这里是<a href="http://www.xinshipu.com/%E9%9D%92%E6%A4%92%E7%82%92%E9%B8%A1%E8%82%89-72708.htm">菜谱</a>. </p> <pre class="example">
 鸡腿肉430克，青椒3个，盐2茶匙，生抽3茶匙，糖1茶匙，芝麻油1茶匙，生粉1汤匙，料酒1汤匙，老干妈辣椒碎1汤匙（可选），蒜头2瓣切碎，植物油3汤匙，盐适量调味用
-<p>1.鸡肉切成小块，然后用盐、生抽、糖、麻油、生粉、料酒腌15分钟左右。青椒去籽切块。</p>
-<p>2.大火下一半的油和一半的蒜末，爆香蒜末之后，加入鸡肉炒，炒至8成熟的时候，盛起。</p>
-<p>3.把剩下的油和蒜末放在锅里爆香，然后放入青椒块，炒至青椒颜色变深开始变软的时候加入鸡肉一块炒。如喜欢有点辣，可撒上老干妈辣椒碎一块炒，炒熟青椒和鸡以后，最后撒适量的盐调味即成。</p>
-<p></p></pre> <ul class="org-ul">
+
+1.鸡肉切成小块，然后用盐、生抽、糖、麻油、生粉、料酒腌15分钟左右。青椒去籽切块。
+
+2.大火下一半的油和一半的蒜末，爆香蒜末之后，加入鸡肉炒，炒至8成熟的时候，盛起。
+
+3.把剩下的油和蒜末放在锅里爆香，然后放入青椒块，炒至青椒颜色变深开始变软的时候加入鸡肉一块炒。如喜欢有点辣，可撒上老干妈辣椒碎一块炒，炒熟青椒和鸡以后，最后撒适量的盐调味即成。
+
+</pre> <ul class="org-ul">
 <li>开大火鸡肉炒两到三分钟 </li> <li>炒青椒时如决定加干辣椒,应先炸干辣椒,否则辣味出不来 </li> <li>青椒加入鸡肉后1或者2分钟就可以了 </li> <li>最后加点盐,可能会淡点 </li> </ul>
 <div class="figure"> <p><img src="wp-content/uploads/2013/08/wpid-capsicum-chicken.jpg" alt="capsicum-chicken.jpg"></p> </div>
             </div>
@@ -398,7 +396,6 @@ percol "adds flavor of interactive filtering to the traditional pipe concept of 
 <p>
 Append below code into <code>~/.bashrc</code> and run <code>source ~/.bashrc</code>:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">function gurl () {
@@ -476,8 +473,7 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
 
             </div>
             <div class="body">
-                <p></p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+                <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption> <colgroup>
 <col class="left">
 <col class="left">
@@ -531,8 +527,7 @@ so I can <code>git show `gcid`|xsel -ib</code> to copy/paste the code of specifi
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>
 <a href="http://blog.sina.com.cn/s/blog_62cc086901014d94.html">菜谱</a> </li> <li>花生酱多放点 </li> <li>酱油放的不多,最后还是要放盐 </li> <li>胡萝卜炒了下,但是油温太高起火了 </li> </ul>
 <p><img src="wp-content/uploads/2013/07/wpid-peanut-sauce-noodle.jpg" alt="image/peanut-sauce-noodle.jpg"></p>
@@ -601,23 +596,28 @@ pkgfile amidi # archlinux, You need install pkgfile
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>
 <a href="https://www.youtube.com/watch?v=6axDHwWVlLw">美食好简单视频教程</a> </li> <li>
 <a href="http://www.ttv.com.tw/drama11/GourmetEasy/cook_content.asp?info=17273">菜谱</a> </li> </ul>
 <pre class="example">材料：
 鮑魚菇300公克、洋地瓜200公克、樹子50公克、薑末10公克、香菜10公克、麵粉30公克。
-<p>調味料：</p>
-<p>醬油2大匙、蘋果淳1大匙、香油1大匙、糖1/2小匙、黑胡椒粒1/2小匙。</p>
-<p>作法：</p>
-<pre class="code literal-block"><span></span>鮑魚菇切花刀、洋地瓜切成末、香菜切末，備用。
-鮑魚菇沾上麵粉放入鍋中煎至上色，備用。
-鍋中放入1大匙葡萄籽油，爆香洋地瓜、樹子、薑末放入鮑魚菇、調味料燒至入味，灑上香菜即可盛盤。
-</pre>
 
 
-<p></p></pre>  <ul>
+
+調味料：
+
+醬油2大匙、蘋果淳1大匙、香油1大匙、糖1/2小匙、黑胡椒粒1/2小匙。
+
+
+
+作法：
+
+
+    鮑魚菇切花刀、洋地瓜切成末、香菜切末，備用。
+    鮑魚菇沾上麵粉放入鍋中煎至上色，備用。
+    鍋中放入1大匙葡萄籽油，爆香洋地瓜、樹子、薑末放入鮑魚菇、調味料燒至入味，灑上香菜即可盛盤。
+</pre>  <ul>
 <li>我误用红薯代替了<a href="http://blog.sina.com.tw/yoko6712/article.php?entryid=580537">洋地瓜</a>.洋地瓜又名豆薯,见<a href="http://en.wikipedia.org/wiki/Pachyrhizus">Wiki</a>. </li> <li>菇应该煎得焦一点 </li> <li>红薯本身甜的，加苹果醋和糖后就过甜了.而洋地瓜则是淡的,可能口感上也好一点 </li> <li>生姜尽可能切碎 </li> <li>面粉应该一开始放在干燥的碗里,面粉本身不结块,用生粉代替不好 </li> <li>黑胡椒粒还是需要的 </li> <li>香菜保持干燥包好隔绝空气放到冰箱保存 </li> <li>树子是台湾特产,在悉尼可能只能买罐头了，见<a href="http://www.sbar.com.cn/caipu/66836">这道菜谱</a>. </li> <li>酱油好像放了多一点 </li> <li>不过再视频里一大勺实际上是满满两勺 </li> </ul>
 <p><img src="wp-content/uploads/2013/07/wpid-butter-chinese-mushroom.jpg" alt="image/butter-chinese-mushroom.jpg"></p>
             </div>
@@ -647,8 +647,7 @@ pkgfile amidi # archlinux, You need install pkgfile
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>大蒜15片切碎，橄榄油炸到焦黄 </li> <li>蘑菇倒入翻炒到软掉 </li> <li>倒入鸡肉块300克炒至鸡肉变白 </li> <li>倒入Five Brother Alfredo Pasta Sauce 220克加少量水 </li> <li>又有说小火炒5分钟,偶尔翻炒,到浆粘稠，不要沸腾 </li> <li>参考<a href="http://en.wikipedia.org/wiki/Fettuccine_Alfredo">Fettuccine Alfredo at wikipedia</a>获得背景，看来要加大量黄油和Cheese </li> <li>看<a href="http://www.taste.com.au/recipes/3157/fettuccine+alfredo">另一菜谱</a> </li> <li>盐要少加一点调味,因为sauce以有盐 </li> <li>起锅拌上熟意大利面，加九层塔(Basil),撒上黑胡椒 </li> <li>大概三人份 </li> </ul>
 <p><img src="wp-content/uploads/2013/07/wpid-mushroom-chicken-pasta.jpg" alt="image/mushroom-chicken-pasta.jpg"></p>
             </div>
@@ -694,7 +693,7 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-30 
 <li>米水比例至少1:6</li>
 <li>吃前放碎香菜,胡椒粉,盐,味精</li>
 </ul>
-<div id="orgcc0e270" class="figure">
+<div id="org410d1fa" class="figure">
 <p><img src="wp-content/carrot-rice.jpg" alt="carrot-rice.jpg"></p>
 </div>
             </div>
@@ -707,7 +706,7 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-30 
             <li class="next">
                 <a href="index-10.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

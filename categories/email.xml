@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about email)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/email.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>dianyou 0.0.3 is out</title><link>http://blog.binchen.org/posts/dianyou-0-0-3-is-out/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about email)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/email.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:07 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>dianyou 0.0.3 is out</title><link>http://blog.binchen.org/posts/dianyou-0-0-3-is-out/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I created &lt;a href="https://github.com/redguardtoo/dianyou"&gt;dianyou&lt;/a&gt; (电邮) to solve improve my Gnus work flow.
 &lt;/p&gt;
-&lt;div id="outline-container-org9115dde" class="outline-2"&gt;
-&lt;h3 id="org9115dde"&gt;Search mails&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org9115dde"&gt;
+&lt;div id="outline-container-org3303d51" class="outline-2"&gt;
+&lt;h3 id="org3303d51"&gt;Search mails&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3303d51"&gt;
 &lt;p&gt;
 Most Gnus users use &lt;code&gt;gnus-group-make-nnir-group&lt;/code&gt; to search mails. But it's not usable in "Summary Buffer". Its &lt;a href="https://tools.ietf.org/html/rfc3501#section-6.4.4"&gt;IMAP SEARCH Command&lt;/a&gt; is hard to use.
 &lt;/p&gt;
@@ -14,27 +14,27 @@ It could be replaced by &lt;code&gt;dianyou-group-make-nnir-group&lt;/code&gt; w
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org222eb11" class="outline-2"&gt;
-&lt;h3 id="org222eb11"&gt;Auto complete email address&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org222eb11"&gt;
+&lt;div id="outline-container-orgd4557a8" class="outline-2"&gt;
+&lt;h3 id="orgd4557a8"&gt;Auto complete email address&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd4557a8"&gt;
 &lt;p&gt;
 I'm too lazy to set up my contacts. It would be better that Gnus could &lt;b&gt;automatically&lt;/b&gt; collect email addresses from all received mails. So I created the command &lt;code&gt;dianyou-insert-email-address-from-received-mails&lt;/code&gt;. The inserted email address is also inserted into the global variable &lt;code&gt;dianyou-email-address-history&lt;/code&gt; which could be persisted by &lt;a href="https://github.com/jwiegley/session"&gt;session&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org96ae8da" class="outline-2"&gt;
-&lt;h3 id="org96ae8da"&gt;Switch Gnus buffer&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org96ae8da"&gt;
+&lt;div id="outline-container-orgfe34cbc" class="outline-2"&gt;
+&lt;h3 id="orgfe34cbc"&gt;Switch Gnus buffer&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfe34cbc"&gt;
 &lt;p&gt;
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use &lt;code&gt;dianyou-switch-gnus-buffer&lt;/code&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org062d155" class="outline-2"&gt;
-&lt;h3 id="org062d155"&gt;Paste image from clipboard&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org062d155"&gt;
+&lt;div id="outline-container-org4ab9759" class="outline-2"&gt;
+&lt;h3 id="org4ab9759"&gt;Paste image from clipboard&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4ab9759"&gt;
 &lt;p&gt;
 Use &lt;code&gt;dianyou-paste-image-from-clipboard&lt;/code&gt;. CLI program &lt;a href="https://github.com/astrand/xclip"&gt;xclip&lt;/a&gt; should be installed at first.&lt;/p&gt;
 &lt;/div&gt;
@@ -45,7 +45,6 @@ Group Topics is used to manage Gnus groups.
 &lt;p&gt;
 For example, you can,
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Place groups (mail folders)  from Gmail into "gmail" topic&lt;/li&gt;
 &lt;li&gt;Place groups (mails folders) from Outlook.com into "hotmail" topic&lt;/li&gt;
@@ -55,7 +54,6 @@ For example, you can,
 &lt;p&gt;
 Enable it is just one line,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
@@ -74,7 +72,6 @@ The official answer is to read &lt;a href="http://www.gnu.org/software/emacs/man
 &lt;p&gt;
 But there is a &lt;b&gt;simpler solution&lt;/b&gt;. All you need to do is insert below code into ~/.emacs or ~/.gnus.el,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(with-eval-after-load 'gnus-topic
@@ -109,7 +106,6 @@ My setup always works no matter ~/.newsrc.eld is loaded or not.
 &lt;p&gt;
 BTW, "hotmail" and "gmail" are the keys you used when configuring IMAP accounts,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(setq gnus-select-method
@@ -151,7 +147,6 @@ It's hard to do this thing in Gmail.
 &lt;p&gt;
 In Emacs, the job can be done easily:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Step 1, Switch to Groups buffer (the buffer which lists email folder). press key &lt;code&gt;G G&lt;/code&gt; or run command &lt;code&gt;M-x gnus-group-make-nnir-group&lt;/code&gt;, input the keyword "FF" to start search&lt;/li&gt;
 &lt;li&gt;Step 2, Mark the emails I want to forward with hot key &lt;code&gt;#&lt;/code&gt;&lt;/li&gt;
@@ -166,7 +161,6 @@ Step 4 could be improved.
 &lt;p&gt;
 Insert below code into &lt;code&gt;~/.emacs&lt;/code&gt;:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun message-select-forwarded-email-tags ()
@@ -202,9 +196,9 @@ All you need is "M-x message-copy-select-forwarded-email-tags" to copy the tags 
 &lt;p&gt;
 UPDATE:
 This is only a case study. My complete guide on Gnus is at &lt;a href="http://blog.binchen.org/posts/notes-on-using-gnus.html"&gt;http://blog.binchen.org/posts/notes-on-using-gnus.html&lt;/a&gt;.
-&lt;/p&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://blog.binchen.org/posts/why-gnus-is-better-than-gmail/</guid><pubDate>Wed, 30 Apr 2014 12:46:31 GMT</pubDate></item><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-orge5b7bc5" class="outline-2"&gt;
-&lt;h3 id="orge5b7bc5"&gt;Setup git-send-email&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge5b7bc5"&gt;
+&lt;/p&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://blog.binchen.org/posts/why-gnus-is-better-than-gmail/</guid><pubDate>Wed, 30 Apr 2014 12:46:31 GMT</pubDate></item><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-orgbaf651e" class="outline-2"&gt;
+&lt;h3 id="orgbaf651e"&gt;Setup git-send-email&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgbaf651e"&gt;
 &lt;p&gt;
 On Debian run &lt;code&gt;sudo apt-get install git-email&lt;/code&gt; to install git command line tools.
 &lt;/p&gt;
@@ -228,9 +222,9 @@ Modify &lt;code&gt;~/.gitconfig&lt;/code&gt; to use Gmail SMTP:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5966c1e" class="outline-2"&gt;
-&lt;h3 id="org5966c1e"&gt;Send the latest commit&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5966c1e"&gt;
+&lt;div id="outline-container-org5d3cc86" class="outline-2"&gt;
+&lt;h3 id="org5d3cc86"&gt;Send the latest commit&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org5d3cc86"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;# send one commit
@@ -241,9 +235,9 @@ git send-email -1 --annotate
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf2744f5" class="outline-2"&gt;
-&lt;h3 id="orgf2744f5"&gt;Apply patch&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf2744f5"&gt;
+&lt;div id="outline-container-org4a730f8" class="outline-2"&gt;
+&lt;h3 id="org4a730f8"&gt;Apply patch&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4a730f8"&gt;
 &lt;p&gt;
 Select one mail. Run command "M-x gnus-summary-save-article-email" whose short key is "O m" in summary buffer.
 &lt;/p&gt;
@@ -259,9 +253,9 @@ Emacs will ask for directory to save that patch. Say I save it as &lt;code&gt;~/
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc2d57fb" class="outline-2"&gt;
-&lt;h3 id="orgc2d57fb"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc2d57fb"&gt;
+&lt;div id="outline-container-org298acd5" class="outline-2"&gt;
+&lt;h3 id="org298acd5"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org298acd5"&gt;
 &lt;p&gt;
 Use &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/gnus-article-treat-patch/gnus-article-treat-patch.el"&gt;gnus-article-treat-patch.el&lt;/a&gt;.
 &lt;/p&gt;
@@ -278,12 +272,15 @@ Add below code to setup:
 
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>git</category><category>gnus</category><category>patch</category><guid>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</guid><pubDate>Sat, 07 Sep 2013 00:00:00 GMT</pubDate></item><item><title>Use `git send-email' at ubuntu</title><link>http://blog.binchen.org/posts/use-git-send-email-at-ubuntu/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt; When I try to use `git send-email' at ubuntu 13.04, I get error message some perl modules are missing. &lt;/p&gt;  &lt;p&gt; So here is one line command to install all missing perl modules: &lt;/p&gt; &lt;div class="org-src-container"&gt;&lt;br&gt;
+&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><category>git</category><category>gnus</category><category>patch</category><guid>http://blog.binchen.org/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</guid><pubDate>Sat, 07 Sep 2013 00:00:00 GMT</pubDate></item><item><title>Use `git send-email' at ubuntu</title><link>http://blog.binchen.org/posts/use-git-send-email-at-ubuntu/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt; When I try to use `git send-email' at ubuntu 13.04, I get error message some perl modules are missing. &lt;/p&gt;  &lt;p&gt; So here is one line command to install all missing perl modules: &lt;/p&gt; &lt;div class="org-src-container"&gt;  
 &lt;pre class="prettyprint "&gt;
-&lt;p&gt;sudo cpan Error Net:SMTP:SSL MIME::Base64 Authen::SASL&lt;/p&gt;
+
+sudo cpan Error Net:SMTP:SSL MIME::Base64 Authen::SASL
+
+
 &lt;/pre&gt;
 
-&lt;p&gt;&lt;/p&gt;&lt;/div&gt;</description><category>email</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/use-git-send-email-at-ubuntu/</guid><pubDate>Thu, 15 Aug 2013 08:24:21 GMT</pubDate></item><item><title>How to get email from exchange server without Outlook</title><link>http://blog.binchen.org/posts/how-to-get-email-from-exchange-server-without-outlook/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+ &lt;/div&gt;</description><category>email</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/use-git-send-email-at-ubuntu/</guid><pubDate>Thu, 15 Aug 2013 08:24:21 GMT</pubDate></item><item><title>How to get email from exchange server without Outlook</title><link>http://blog.binchen.org/posts/how-to-get-email-from-exchange-server-without-outlook/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 This article has three parts. 
 &lt;/p&gt;
 
@@ -298,16 +295,16 @@ Second part uses &lt;a href="https://www.mozilla.org/en-US/thunderbird/"&gt;thun
 &lt;p&gt;
 Third part uses Emacs and Gnus to replace thunderbird. It's optional.
 &lt;/p&gt;
-&lt;div id="outline-container-orgd3c5acb" class="outline-2"&gt;
-&lt;h3 id="orgd3c5acb"&gt;DavMail as mail gateway&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgd3c5acb"&gt;
-&lt;pre class="example" id="org25f538a"&gt;
+&lt;div id="outline-container-org67213d9" class="outline-2"&gt;
+&lt;h3 id="org67213d9"&gt;DavMail as mail gateway&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org67213d9"&gt;
+&lt;pre class="example" id="orgaf621ea"&gt;
 Ever wanted to get rid of Outlook ? DavMail is a POP/IMAP/SMTP/Caldav/Carddav/LDAP exchange gateway allowing users to use any mail/calendar client (e.g. Thunderbird with Lightning or Apple iCal) with an Exchange server.
 &lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org743a97c" class="outline-3"&gt;
-&lt;h4 id="org743a97c"&gt;Install&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org743a97c"&gt;
+&lt;div id="outline-container-org9ce19cb" class="outline-3"&gt;
+&lt;h4 id="org9ce19cb"&gt;Install&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org9ce19cb"&gt;
 &lt;p&gt;
 &lt;a href="http://davmail.sourceforge.net/download.html"&gt;Download the installer&lt;/a&gt; at Debian/Ubuntu/Mint:
 &lt;/p&gt;
@@ -325,9 +322,9 @@ Installation is easy. DavMail by itself is a portable java application. Since it
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org43c8436" class="outline-3"&gt;
-&lt;h4 id="org43c8436"&gt;Configuration&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org43c8436"&gt;
+&lt;div id="outline-container-org7631f2e" class="outline-3"&gt;
+&lt;h4 id="org7631f2e"&gt;Configuration&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org7631f2e"&gt;
 &lt;p&gt;
 Now start DavMail. 
 &lt;/p&gt;
@@ -362,9 +359,9 @@ BTW, &lt;a href="https://outlook.office365.com/"&gt;https://outlook.office365.co
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf47ae3a" class="outline-2"&gt;
-&lt;h3 id="orgf47ae3a"&gt;Thunderbird&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf47ae3a"&gt;
+&lt;div id="outline-container-orgba51312" class="outline-2"&gt;
+&lt;h3 id="orgba51312"&gt;Thunderbird&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgba51312"&gt;
 &lt;p&gt;
 Create a new account, and &lt;b&gt;manually&lt;/b&gt; configure the server. The server name is "127.0.0.1", the port number is already on your paper. The minimum setup needs IMAP port to  receive mail and SMTP port to send email.
 &lt;/p&gt;
@@ -378,9 +375,9 @@ The only issue is the "Username". You can log in Outlook Web UI, click "Options 
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2c29994" class="outline-2"&gt;
-&lt;h3 id="org2c29994"&gt;Emacs Gnus&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org2c29994"&gt;
+&lt;div id="outline-container-org69be5a7" class="outline-2"&gt;
+&lt;h3 id="org69be5a7"&gt;Emacs Gnus&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org69be5a7"&gt;
 &lt;p&gt;
 Gnus cannot access IMAP service of DavMail. There is &lt;a href="http://permalink.gmane.org/gmane.emacs.gnus.general/83301"&gt;some bug&lt;/a&gt;.
 &lt;/p&gt;
@@ -430,9 +427,9 @@ CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-11-13 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
-&lt;div id="outline-container-org411067d" class="outline-2"&gt;
-&lt;h3 id="org411067d"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org411067d"&gt;
+&lt;div id="outline-container-org60cfe4a" class="outline-2"&gt;
+&lt;h3 id="org60cfe4a"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org60cfe4a"&gt;
 &lt;p&gt;
 As a freelancer, I need reply agent's email frequently.
 &lt;/p&gt;
@@ -448,16 +445,16 @@ So I have several issues to resolve:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga1b228e" class="outline-2"&gt;
-&lt;h3 id="orga1b228e"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga1b228e"&gt;
+&lt;div id="outline-container-org0644c78" class="outline-2"&gt;
+&lt;h3 id="org0644c78"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0644c78"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/capitaomorte/yasnippet"&gt;Yasnippet&lt;/a&gt; is the best solution for email templates because you can embed Lisp code in the template.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5c2ee63" class="outline-3"&gt;
-&lt;h4 id="org5c2ee63"&gt;Templates&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org5c2ee63"&gt;
+&lt;div id="outline-container-org0b17f9a" class="outline-3"&gt;
+&lt;h4 id="org0b17f9a"&gt;Templates&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org0b17f9a"&gt;
 &lt;p&gt;
 I publicize my .emacs.d at &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;github&lt;/a&gt;. But email templates are my private stuff. So I place them in different location.
 &lt;/p&gt;
@@ -469,7 +466,7 @@ That's why I place templates at ~/my-yasnippets/message-mode/.
 &lt;p&gt;
 Here is a sample template to reply my agents (jobok.yasnippet):
 &lt;/p&gt;
-&lt;pre class="example" id="orga9c7607"&gt;
+&lt;pre class="example" id="org49636e5"&gt;
 # -*- mode: snippet -*-
 # name: email for OK job
 # key: jobok
@@ -516,9 +513,9 @@ It will automatically fetch the first name of agent,
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgefcd267" class="outline-3"&gt;
-&lt;h4 id="orgefcd267"&gt;Emacs setup&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgefcd267"&gt;
+&lt;div id="outline-container-org858b7c7" class="outline-3"&gt;
+&lt;h4 id="org858b7c7"&gt;Emacs setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org858b7c7"&gt;
 &lt;p&gt;
 Add following code into .emacs to make yasnippet load the emacs templates:
 &lt;/p&gt;
@@ -535,7 +532,7 @@ Add following code into .emacs to make yasnippet load the emacs templates:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><guid>http://blog.binchen.org/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs/</guid><pubDate>Wed, 01 May 2013 15:53:08 GMT</pubDate></item><item><title>Simplest workflow on email git commit in Emacs (No magit needed)</title><link>http://blog.binchen.org/posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;Sometimes I just want to email my trivial patch to the original author and forget it. In this case "github fork" or "git format-patch" is too heavy weight for me. &lt;/p&gt; &lt;p&gt; So here is the simplest workflow I can figure out: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Step 1, command "M-x vc-dir" whose hotkey is "C-x v d" &lt;/li&gt; &lt;li&gt;Step 2, command "M-x git-print-log" whose hotkey is "C-x v l" &lt;/li&gt; &lt;li&gt;Step 3, Move focus to the specific commit and run command "M-x log-view-diff" whose hotkey is "d". &lt;/li&gt; &lt;li&gt;Step 4, Yank the commit/diff &lt;/li&gt; &lt;li&gt;Step 5, Compose new email (command "M-x compose-mail" whose hotkey is "C-x m") &lt;/li&gt; &lt;li&gt;Step 6, Make sure the subject of email start with "[PATCH]". See &lt;a href="http://linuxtv.org/wiki/index.php/Development:_How_to_submit_patches"&gt;this patch sumbit guide&lt;/a&gt; for reasons. &lt;/li&gt; &lt;li&gt;Step 7, Paste the content of commit/diff into email body. &lt;/li&gt; &lt;li&gt;Step 8, Send the email by command "M-x message-send-and-exit" whose hotkey is "C-c C-c" &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; Please note: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Step 1 is usually necessary unless you only need the diff of current file. &lt;/li&gt; &lt;li&gt;Step 2 and step 3 could be replaced with command "M-x vc-diff" or hotkey "C-x v =" if you want to email the diff of work directory. &lt;/li&gt; &lt;/ul&gt;</description><category>emacs</category><category>email</category><category>en</category><category>git</category><category>patch</category><guid>http://blog.binchen.org/posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed/</guid><pubDate>Sun, 27 Jan 2013 15:51:00 GMT</pubDate></item><item><title>Use POPFile at Linux</title><link>http://blog.binchen.org/posts/use-popfile-at-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>emacs</category><category>email</category><category>en</category><guid>http://blog.binchen.org/posts/how-to-use-yasnippets-to-produce-email-templates-in-emacs/</guid><pubDate>Wed, 01 May 2013 15:53:08 GMT</pubDate></item><item><title>Simplest workflow on email git commit in Emacs (No magit needed)</title><link>http://blog.binchen.org/posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;Sometimes I just want to email my trivial patch to the original author and forget it. In this case "github fork" or "git format-patch" is too heavy weight for me. &lt;/p&gt; &lt;p&gt; So here is the simplest workflow I can figure out: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Step 1, command "M-x vc-dir" whose hotkey is "C-x v d" &lt;/li&gt; &lt;li&gt;Step 2, command "M-x git-print-log" whose hotkey is "C-x v l" &lt;/li&gt; &lt;li&gt;Step 3, Move focus to the specific commit and run command "M-x log-view-diff" whose hotkey is "d". &lt;/li&gt; &lt;li&gt;Step 4, Yank the commit/diff &lt;/li&gt; &lt;li&gt;Step 5, Compose new email (command "M-x compose-mail" whose hotkey is "C-x m") &lt;/li&gt; &lt;li&gt;Step 6, Make sure the subject of email start with "[PATCH]". See &lt;a href="http://linuxtv.org/wiki/index.php/Development:_How_to_submit_patches"&gt;this patch sumbit guide&lt;/a&gt; for reasons. &lt;/li&gt; &lt;li&gt;Step 7, Paste the content of commit/diff into email body. &lt;/li&gt; &lt;li&gt;Step 8, Send the email by command "M-x message-send-and-exit" whose hotkey is "C-c C-c" &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; Please note: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Step 1 is usually necessary unless you only need the diff of current file. &lt;/li&gt; &lt;li&gt;Step 2 and step 3 could be replaced with command "M-x vc-diff" or hotkey "C-x v =" if you want to email the diff of work directory. &lt;/li&gt; &lt;/ul&gt;</description><category>emacs</category><category>email</category><category>en</category><category>git</category><category>patch</category><guid>http://blog.binchen.org/posts/simplest-workflow-on-email-git-commit-in-emacs-no-magit-needed/</guid><pubDate>Sun, 27 Jan 2013 15:51:00 GMT</pubDate></item><item><title>Use POPFile at Linux</title><link>http://blog.binchen.org/posts/use-popfile-at-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2012-12-28 Fri&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -547,17 +544,17 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;a href="http://getpopfile.org"&gt;POPFile&lt;/a&gt; automatically sorts emails.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgfeb418c" class="outline-2"&gt;
-&lt;h3 id="orgfeb418c"&gt;Install POPFile&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgfeb418c"&gt;
+&lt;div id="outline-container-orgddb3e4e" class="outline-2"&gt;
+&lt;h3 id="orgddb3e4e"&gt;Install POPFile&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgddb3e4e"&gt;
 &lt;p&gt;
 &lt;a href="http://getpopfile.org/docs/download"&gt;Download and extract cross-platform version&lt;/a&gt; to &lt;code&gt;~/bin/popfile/&lt;/code&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8b06a72" class="outline-2"&gt;
-&lt;h3 id="org8b06a72"&gt;Install third party packages&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8b06a72"&gt;
+&lt;div id="outline-container-org13da543" class="outline-2"&gt;
+&lt;h3 id="org13da543"&gt;Install third party packages&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org13da543"&gt;
 &lt;p&gt;
 Run:
 &lt;/p&gt;
@@ -685,9 +682,9 @@ cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::So
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga2dfd31" class="outline-2"&gt;
-&lt;h3 id="orga2dfd31"&gt;Setup&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga2dfd31"&gt;
+&lt;div id="outline-container-orgba05124" class="outline-2"&gt;
+&lt;h3 id="orgba05124"&gt;Setup&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgba05124"&gt;
 &lt;p&gt;
 I only use IMAP. The purpose of tweak POP3 port is only to make the program executable without root permission.
 &lt;/p&gt;
@@ -829,9 +826,9 @@ The only remaining issue is user name. If it contains "\", you should replace it
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org52b83c8" class="outline-2"&gt;
-&lt;h3 id="org52b83c8"&gt;Run the program&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org52b83c8"&gt;
+&lt;div id="outline-container-orgbc1f71f" class="outline-2"&gt;
+&lt;h3 id="orgbc1f71f"&gt;Run the program&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgbc1f71f"&gt;
 &lt;p&gt;
 See &lt;a href="http://getpopfile.org/docs/howtos:runlocation"&gt;http://getpopfile.org/docs/howtos:runlocation&lt;/a&gt; for details.
 &lt;/p&gt;
@@ -843,9 +840,9 @@ See &lt;a href="http://getpopfile.org/docs/howtos:runlocation"&gt;http://getpopf
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb071004" class="outline-2"&gt;
-&lt;h3 id="orgb071004"&gt;Start the POPFile automatically when bash login&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb071004"&gt;
+&lt;div id="outline-container-orgc25b408" class="outline-2"&gt;
+&lt;h3 id="orgc25b408"&gt;Start the POPFile automatically when bash login&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc25b408"&gt;
 &lt;p&gt;
 Insert below code in ~/.bashrc:
 &lt;/p&gt;
@@ -869,9 +866,9 @@ fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org58d4247" class="outline-2"&gt;
-&lt;h3 id="org58d4247"&gt;Start the POPFile systemd service as a user (OPTIONAL)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org58d4247"&gt;
+&lt;div id="outline-container-org3502de9" class="outline-2"&gt;
+&lt;h3 id="org3502de9"&gt;Start the POPFile systemd service as a user (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3502de9"&gt;
 &lt;p&gt;
 My user name is cb. Put popfile.service in &lt;i&gt;usr/lib/systemd/system&lt;/i&gt;. Then run `systemctl enable popfile` to install service. Run `systemctl start popfile` to start the service. My Linux distribution is ArchLinux.
 &lt;/p&gt;
@@ -897,9 +894,9 @@ WantedBy=multi-user.target
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org472e0c4" class="outline-2"&gt;
-&lt;h3 id="org472e0c4"&gt;Backup&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org472e0c4"&gt;
+&lt;div id="outline-container-org859e54b" class="outline-2"&gt;
+&lt;h3 id="org859e54b"&gt;Backup&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org859e54b"&gt;
 &lt;p&gt;
 Please backup popfile.cfg and popfile.db.
 &lt;/p&gt;
@@ -909,9 +906,9 @@ See &lt;a href="http://getpopfile.org/docs/howtos:backup"&gt;http://getpopfile.o
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2977776" class="outline-2"&gt;
-&lt;h3 id="org2977776"&gt;Summary&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org2977776"&gt;
+&lt;div id="outline-container-org9cf3798" class="outline-2"&gt;
+&lt;h3 id="org9cf3798"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9cf3798"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Portable&lt;/li&gt;
 &lt;li&gt;No root privilege needed&lt;/li&gt;

@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about ssh)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ssh.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Poor man's github</title><link>http://blog.binchen.org/posts/poor-mans-github/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;Key points of this article: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Build a github prototype written in Bash within 5 minutes &lt;/li&gt; &lt;li&gt;Highlight key elements in my usual git work flow &lt;/li&gt; &lt;li&gt;Git is scalabe. you can use any tool to extend it. &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; As &lt;a href="https://plus.google.com/110090899194056392647"&gt;Yuri Albuquerque&lt;/a&gt; mentioned, there are more powerful tools like &lt;a href="https://github.com/sitaramc/gitolite"&gt;gitolite&lt;/a&gt;. But the key concept behind the system is similar. &lt;/p&gt; &lt;p&gt; Add following code into ~/.bashrc and run "source ~/.bashrc", then run "gih" to see help: &lt;/p&gt;   &lt;pre class="src src-sh"&gt;&lt;span style="color: #b5bd68;"&gt;function&lt;/span&gt; &lt;span style="color: #81a2be;"&gt;gih&lt;/span&gt;() {
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about ssh)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/ssh.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Poor man's github</title><link>http://blog.binchen.org/posts/poor-mans-github/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;Key points of this article: &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Build a github prototype written in Bash within 5 minutes &lt;/li&gt; &lt;li&gt;Highlight key elements in my usual git work flow &lt;/li&gt; &lt;li&gt;Git is scalabe. you can use any tool to extend it. &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; As &lt;a href="https://plus.google.com/110090899194056392647"&gt;Yuri Albuquerque&lt;/a&gt; mentioned, there are more powerful tools like &lt;a href="https://github.com/sitaramc/gitolite"&gt;gitolite&lt;/a&gt;. But the key concept behind the system is similar. &lt;/p&gt; &lt;p&gt; Add following code into ~/.bashrc and run "source ~/.bashrc", then run "gih" to see help: &lt;/p&gt;   &lt;pre class="src src-sh"&gt;&lt;span style="color: #b5bd68;"&gt;function&lt;/span&gt; &lt;span style="color: #81a2be;"&gt;gih&lt;/span&gt;() {
     &lt;span style="color: #b294bb;"&gt;local&lt;/span&gt; &lt;span style="color: #f0c674;"&gt;MY_USERNAME&lt;/span&gt;=git
     &lt;span style="color: #b294bb;"&gt;local&lt;/span&gt; &lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt;=git@domain.name
     &lt;span style="color: #b294bb;"&gt;local&lt;/span&gt; &lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt;=8888
     &lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt; [ -z &lt;span style="color: #8abeb7;"&gt;"$1"&lt;/span&gt; ]; &lt;span style="color: #b5bd68;"&gt;then&lt;/span&gt;
         cat &amp;lt;&amp;lt; &lt;span style="color: #8abeb7;"&gt;'EOF'&lt;/span&gt;
 &lt;span style="color: #8abeb7;"&gt;Usage: gih [command]&lt;/span&gt;
-&lt;p&gt;&lt;span style="color: #8abeb7;"&gt;Commands:&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style="color: #8abeb7;"&gt;l, ls, list - list the projects&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style="color: #8abeb7;"&gt;n, new [project-name] - create a new project&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style="color: #8abeb7;"&gt;r, readme [project-name] - show README&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style="color: #8abeb7;"&gt;i, issue [project-name] - show issues list&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style="color: #8abeb7;"&gt;st, status - check free space of git server&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style="color: #8abeb7;"&gt;u, url [project-name] - the full url of the project&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style="color: #8abeb7;"&gt;EOF&lt;/span&gt;
+
+
+
+&lt;span style="color: #8abeb7;"&gt;Commands:&lt;/span&gt;
+
+&lt;span style="color: #8abeb7;"&gt;l, ls, list - list the projects&lt;/span&gt;
+
+&lt;span style="color: #8abeb7;"&gt;n, new [project-name] - create a new project&lt;/span&gt;
+
+&lt;span style="color: #8abeb7;"&gt;r, readme [project-name] - show README&lt;/span&gt;
+
+&lt;span style="color: #8abeb7;"&gt;i, issue [project-name] - show issues list&lt;/span&gt;
+
+&lt;span style="color: #8abeb7;"&gt;st, status - check free space of git server&lt;/span&gt;
+
+&lt;span style="color: #8abeb7;"&gt;u, url [project-name] - the full url of the project&lt;/span&gt;
+
+&lt;span style="color: #8abeb7;"&gt;EOF&lt;/span&gt;
     &lt;span style="color: #b5bd68;"&gt;else&lt;/span&gt;
         &lt;span style="color: #b5bd68;"&gt;case&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;1&lt;/span&gt;&lt;span style="color: #b5bd68;"&gt; in&lt;/span&gt;
             l|ls|list)
-                ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"ls -1"&lt;/span&gt;|sed &lt;span style="color: #8abeb7;"&gt;'s/.git$//g'&lt;/span&gt;
+                ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"ls -1"&lt;/span&gt;|sed &lt;span style="color: #8abeb7;"&gt;'s/\.git$//g'&lt;/span&gt;
                 ;;
             n|new)
                 &lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt; [ -z &lt;span style="color: #8abeb7;"&gt;"$2"&lt;/span&gt; ]; &lt;span style="color: #b5bd68;"&gt;then&lt;/span&gt;
                     &lt;span style="color: #b294bb;"&gt;echo&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"Please input the name of new project!"&lt;/span&gt;
                     &lt;span style="color: #b294bb;"&gt;echo&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"Current projects hosted:"&lt;/span&gt;
-                    ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"ls -1"&lt;/span&gt;|sed &lt;span style="color: #8abeb7;"&gt;'s/.git$//g'&lt;/span&gt;
+                    ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"ls -1"&lt;/span&gt;|sed &lt;span style="color: #8abeb7;"&gt;'s/\.git$//g'&lt;/span&gt;
                 &lt;span style="color: #b5bd68;"&gt;else&lt;/span&gt;
                     ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"mkdir -p ~/$2.git;cd ~/$2.git;git --bare init;"&lt;/span&gt;
                     &lt;span style="color: #b294bb;"&gt;echo&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"Push existing repository from command line:"&lt;/span&gt;
@@ -35,7 +45,7 @@
                 &lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt; [ -z &lt;span style="color: #8abeb7;"&gt;"$2"&lt;/span&gt; ]; &lt;span style="color: #b5bd68;"&gt;then&lt;/span&gt;
                     &lt;span style="color: #b294bb;"&gt;echo&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"Please input the name of new project!"&lt;/span&gt;
                     &lt;span style="color: #b294bb;"&gt;echo&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"Current projects hosted:"&lt;/span&gt;
-                    ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"ls -1"&lt;/span&gt;|sed &lt;span style="color: #8abeb7;"&gt;'s/.git$//g'&lt;/span&gt;
+                    ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"ls -1"&lt;/span&gt;|sed &lt;span style="color: #8abeb7;"&gt;'s/\.git$//g'&lt;/span&gt;
                 &lt;span style="color: #b5bd68;"&gt;else&lt;/span&gt;
                     ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"cd ~/$2.git;git show HEAD:README.org || git show HEAD:README.md"&lt;/span&gt;
                 &lt;span style="color: #b5bd68;"&gt;fi&lt;/span&gt;
@@ -44,7 +54,7 @@
                 &lt;span style="color: #b5bd68;"&gt;if&lt;/span&gt; [ -z &lt;span style="color: #8abeb7;"&gt;"$2"&lt;/span&gt; ]; &lt;span style="color: #b5bd68;"&gt;then&lt;/span&gt;
                     &lt;span style="color: #b294bb;"&gt;echo&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"Please input the name of new project!"&lt;/span&gt;
                     &lt;span style="color: #b294bb;"&gt;echo&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"Current projects hosted:"&lt;/span&gt;
-                    ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"ls -1"&lt;/span&gt;|sed &lt;span style="color: #8abeb7;"&gt;'s/.git$//g'&lt;/span&gt;
+                    ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; $&lt;span style="color: #f0c674;"&gt;MY_SSH_URL&lt;/span&gt; &lt;span style="color: #8abeb7;"&gt;"ls -1"&lt;/span&gt;|sed &lt;span style="color: #8abeb7;"&gt;'s/\.git$//g'&lt;/span&gt;
                 &lt;span style="color: #b5bd68;"&gt;else&lt;/span&gt;
                     ssh -p $&lt;span style="color: #f0c674;"&gt;MY_SSH_PORT&lt;/span&gt; git@sydneypc.mooo.com &lt;span style="color: #8abeb7;"&gt;"cd ~/$2.git;git show HEAD:ISSUE.org || git show HEAD:ISSUE.md"&lt;/span&gt;
                 &lt;span style="color: #b5bd68;"&gt;fi&lt;/span&gt;
@@ -60,6 +70,7 @@
                 ;;
         &lt;span style="color: #b5bd68;"&gt;esac&lt;/span&gt;
     &lt;span style="color: #b5bd68;"&gt;fi&lt;/span&gt;
-}&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;</description><category>en</category><category>git</category><category>linux</category><category>ssh</category><guid>http://blog.binchen.org/posts/poor-mans-github/</guid><pubDate>Mon, 15 Jul 2013 10:09:00 GMT</pubDate></item><item><title>multiple ssh private keys</title><link>http://blog.binchen.org/posts/multiple-ssh-private-keys/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;See &lt;a href="http://www.karan.org/blog/index.php/2009/08/25/multiple-ssh-private-keys"&gt;http://www.karan.org/blog/index.php/2009/08/25/multiple-ssh-private-keys&lt;/a&gt; &lt;/p&gt;   &lt;pre class="src src-sh"&gt;chown my_user_name ~/.ssh/config
+}
+
+&lt;/pre&gt;</description><category>en</category><category>git</category><category>linux</category><category>ssh</category><guid>http://blog.binchen.org/posts/poor-mans-github/</guid><pubDate>Mon, 15 Jul 2013 10:09:00 GMT</pubDate></item><item><title>multiple ssh private keys</title><link>http://blog.binchen.org/posts/multiple-ssh-private-keys/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;See &lt;a href="http://www.karan.org/blog/index.php/2009/08/25/multiple-ssh-private-keys"&gt;http://www.karan.org/blog/index.php/2009/08/25/multiple-ssh-private-keys&lt;/a&gt; &lt;/p&gt;   &lt;pre class="src src-sh"&gt;chown my_user_name ~/.ssh/config
 &lt;/pre&gt;   &lt;p&gt; And see &lt;a href="http://help.github.com/multiple-ssh-keys/"&gt;http://help.github.com/multiple-ssh-keys/&lt;/a&gt; &lt;/p&gt;</description><category>en</category><category>linux</category><category>ssh</category><guid>http://blog.binchen.org/posts/multiple-ssh-private-keys/</guid><pubDate>Fri, 24 Jun 2011 12:38:00 GMT</pubDate></item></channel></rss>

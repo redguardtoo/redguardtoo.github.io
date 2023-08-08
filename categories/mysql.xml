@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about mysql)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/mysql.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>python code to migrate the MySQL database</title><link>http://blog.binchen.org/posts/python-code-to-migrate-the-mysql-database-enmysqldatabasepython/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about mysql)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/mysql.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>python code to migrate the MySQL database</title><link>http://blog.binchen.org/posts/python-code-to-migrate-the-mysql-database-enmysqldatabasepython/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 The script reads configuration and requires python 2.4.
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-python"&gt;#!/usr/bin/python
@@ -309,7 +308,6 @@ if __name__=="__main__":
 &lt;/div&gt;</description><category>database</category><category>en</category><category>mysql</category><category>python</category><guid>http://blog.binchen.org/posts/python-code-to-migrate-the-mysql-database-enmysqldatabasepython/</guid><pubDate>Wed, 22 Aug 2012 12:08:00 GMT</pubDate></item><item><title>mysqldump for sqlite3</title><link>http://blog.binchen.org/posts/mysqldump-for-sqlite3/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Please note that data import could be very slow in this way.
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;mysqldump -u root -p111111 -c --compact -t --skip-opt dbname tbl1 tbl2|sed -e "s/\\\'/''/g"|gzip -9 &amp;gt; data.dump.gz

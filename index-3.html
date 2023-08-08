@@ -81,7 +81,6 @@ See <a href="http://www.emacswiki.org/emacs/WindMove">http://www.emacswiki.org/e
 <p>
 My hotkeys are different from EmacsWiki because:
 </p>
-
 <ul class="org-ul">
 <li>As a vi guy I prefer H,J,K,L for navigation</li>
 <li>Arrow keys does not work on my terminal simulators</li>
@@ -89,7 +88,6 @@ My hotkeys are different from EmacsWiki because:
 <p>
 Here is setup:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(when (fboundp 'windmove-left)
@@ -142,9 +140,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2012-01-30 
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2018-06-04 Mon&gt;</span></span>
 </p>
 
-<div id="outline-container-orgffa05b8" class="outline-2">
-<h3 id="orgffa05b8">Prepare</h3>
-<div class="outline-text-2" id="text-orgffa05b8">
+<div id="outline-container-org07d5327" class="outline-2">
+<h3 id="org07d5327">Prepare</h3>
+<div class="outline-text-2" id="text-org07d5327">
 <p>
 At Linux, <a href="http://www.vergenet.net/~conrad/software/xsel/">xsel</a> is required.
 </p>
@@ -162,9 +160,9 @@ At Windows 10 Linux Subsystem, no external tool is required.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbadfbe5" class="outline-2">
-<h3 id="orgbadfbe5">Solution</h3>
-<div class="outline-text-2" id="text-orgbadfbe5">
+<div id="outline-container-org0590720" class="outline-2">
+<h3 id="org0590720">Solution</h3>
+<div class="outline-text-2" id="text-org0590720">
 <p>
 This solution works reliably in <b>any environment</b>.
 </p>
@@ -246,13 +244,13 @@ My actual setup is more robust. See <a href="https://github.com/redguardtoo/emac
 </div>
 </div>
 
-<div id="outline-container-orgc2047ab" class="outline-2">
-<h3 id="orgc2047ab">Tips</h3>
-<div class="outline-text-2" id="text-orgc2047ab">
+<div id="outline-container-org9fae559" class="outline-2">
+<h3 id="org9fae559">Tips</h3>
+<div class="outline-text-2" id="text-org9fae559">
 </div>
-<div id="outline-container-org33f6685" class="outline-3">
-<h4 id="org33f6685">Clipboard manager</h4>
-<div class="outline-text-3" id="text-org33f6685">
+<div id="outline-container-org8605ebb" class="outline-3">
+<h4 id="org8605ebb">Clipboard manager</h4>
+<div class="outline-text-3" id="text-org8605ebb">
 <p>
 I suggest <a href="http://parcellite.sourceforge.net/">Parcellite</a> on Linux, <a href="http://ditto-cp.sourceforge.net/">Ditto</a> on Windows, <a href="https://github.com/TermiT/Flycut">Flycut</a> on macOS.
 </p>
@@ -291,9 +289,9 @@ trim_newline=false
 </div>
 </div>
 </div>
-<div id="outline-container-org5072ebe" class="outline-3">
-<h4 id="org5072ebe">Clipboard in ssh</h4>
-<div class="outline-text-3" id="text-org5072ebe">
+<div id="outline-container-org5372938" class="outline-3">
+<h4 id="org5372938">Clipboard in ssh</h4>
+<div class="outline-text-3" id="text-org5372938">
 <p>
 Use <code>ssh -X -C username@some-server.whatever.domain</code>.
 </p>
@@ -328,8 +326,7 @@ Use <code>ssh -X -C username@some-server.whatever.domain</code>.
 
             </div>
             <div class="body">
-                <p></p>
-<p>Since I was a big fan of <a href="http://www.ghisler.com">Total Commander (TC)</a>, I priorize the MC's feature according to my TC's experience. </p> <p> Here is the list (C = Ctrl, M = Alt, S = Shift): </p>
+                <p>Since I was a big fan of <a href="http://www.ghisler.com">Total Commander (TC)</a>, I priorize the MC's feature according to my TC's experience. </p> <p> Here is the list (C = Ctrl, M = Alt, S = Shift): </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption> <colgroup>
 <col class="left">
@@ -460,7 +457,6 @@ We use vcvars32.bat to set up the CLI tool chains.
 <p>
 CMakeLists.txt is the project file for CMake:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-cmake">PROJECT(main)
@@ -554,7 +550,6 @@ cmake path/of/directory/which/contains/CMakeLists.txt/
 </code></pre>
 
 </div>
-
 <ul class="org-ul">
 <li>Enjoy!</li>
 </ul>
@@ -592,7 +587,7 @@ BTW, for other systems, see <a href="http://wiki.wxwidgets.org/Compiling_wxWidge
                 <p>
 Below code will get error message if compiled by gcc 4.6+:
 </p>
-<pre class="example" id="org7d70489">
+<pre class="example" id="org29c422a">
 "const A" as 'this' argument of "void A::a()' discards qualifiers [-fpermissive]
 </pre>
 
@@ -683,7 +678,7 @@ Here is my fixed version.
 <ul class="org-ul">
 <li>screenshot</li>
 </ul>
-<div id="org3ab13a5" class="figure">
+<div id="org69125e3" class="figure">
 <p><img src="wp-content/2012-01-14-034733-800x480.png" alt="2012-01-14-034733-800x480.png"></p>
 </div>
 <ul class="org-ul">
@@ -778,8 +773,7 @@ Here is my fixed version.
 
             </div>
             <div class="body">
-                <p></p>
-<p>读了<a href="http://blog.asmartbear.com">A Smart Bear</a>的两篇文章后的简写. </p> <p> 第一篇,<a href="http://blog.asmartbear.com/value-time">你的时间价值1000$每小时</a>: </p>
+                <p>读了<a href="http://blog.asmartbear.com">A Smart Bear</a>的两篇文章后的简写. </p> <p> 第一篇,<a href="http://blog.asmartbear.com/value-time">你的时间价值1000$每小时</a>: </p>
 <ul>
 <li>如果你投资自己的时间做一个金钱回报在未来的项目,项目成功概率不是100%,你得假设你的小时工资是你1000$每小时 </li> <li>简单数学计算的结果,回报X概率/项目开发时间 </li> <li>否则还不如做别人的项目. </li> <li>结论是你的时间非常宝贵,必需只用来做最重要的事. </li> </ul>
 <p> 第二篇,<a href="http://blog.asmartbear.com/virtual-assistant-startup.html">尽可能外包是唯一解决之道</a>: </p>
@@ -824,7 +818,7 @@ Use <code>j</code> or <code>k</code> to navigate.
 <p>
 Information:
 </p>
-<pre class="example" id="orgce90603">
+<pre class="example" id="org955cbd9">
 Name           : ncdu
 Version        : 1.8-1
 URL            : http://dev.yorhel.nl/ncdu/
@@ -861,8 +855,7 @@ Description    : Disk usage analyzer with an ncurses interface
 
             </div>
             <div class="body">
-                <p></p>
-<p>  我的结论,Emacs23自带的semantic简单可用. </p> <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Cedet1.0</h4> <div class="outline-text-3" id="text-1">  <p>   (require 'semantic-ia)后一些函数可用. </p> <p>    我没有试出来,和我安装的emacs是terminal版本有关(Cedet下的semantic-ia需要一个GUI介面的popup-menu). </p> <p>    这也是游人探讨<a href="http://www.emacswiki.org/emacs/AutoComplete">Auto Complete</a>接合semantic-ia的原因,因为AutoComplete已经完美实现了popup-menu. </p> <p>    缺点,semantic做后台语法解析的时候emacs会失去响应几妙种(我的硬件配置很好,intel i3 双核,4G内存),有时候会导致emacs退出. </p> </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Emacs23自带的semantic</h4> <div class="outline-text-3" id="text-2">  <p>   没有semantic-ia. </p> <p>    semantic-analyze-possible-completion(快捷键为C-c , l)较符合要求,可惜这个函数只是打印候选字符串在另一个buffer.需用hippie-expand(快捷键为M-/)选择. </p> <p>    启动semantic-mode在emacs23中很简单,M-x semantic-mode即可. </p> </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">Clang</h4> <div class="outline-text-3" id="text-3">  <p>   速度极快,<a href="http://www.emacswiki.org/emacs/AutoComplete">AutoComplete</a> 上有几个接合Clang和AutoComple的方案(<a href="https://llvm.org/svn/llvm-project/cfe/trunk/utils/clang-completion-mode.el">其中一个</a> 为clang官方提供演示原理,我不建议使用). </p> <p>    通过elpa安装auto-complete-clang,试用后非常完美,智能且响应速度极快,支持Mac/Cygwin/Linux. </p> <p>    如果做语法实时检查,可以用flymake,需要提供完整的CXXFLAG给clang.如果用CMake生成Makefile的话,可在flags.make中轻易得到. </p> <p>    顺便说一下,我个人非常喜爱CMake,是构建打包配置管理的最佳工具.我以后所有的C++项目都将用CMake. </p>
+                <p>  我的结论,Emacs23自带的semantic简单可用. </p> <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Cedet1.0</h4> <div class="outline-text-3" id="text-1">  <p>   (require 'semantic-ia)后一些函数可用. </p> <p>    我没有试出来,和我安装的emacs是terminal版本有关(Cedet下的semantic-ia需要一个GUI介面的popup-menu). </p> <p>    这也是游人探讨<a href="http://www.emacswiki.org/emacs/AutoComplete">Auto Complete</a>接合semantic-ia的原因,因为AutoComplete已经完美实现了popup-menu. </p> <p>    缺点,semantic做后台语法解析的时候emacs会失去响应几妙种(我的硬件配置很好,intel i3 双核,4G内存),有时候会导致emacs退出. </p> </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Emacs23自带的semantic</h4> <div class="outline-text-3" id="text-2">  <p>   没有semantic-ia. </p> <p>    semantic-analyze-possible-completion(快捷键为C-c , l)较符合要求,可惜这个函数只是打印候选字符串在另一个buffer.需用hippie-expand(快捷键为M-/)选择. </p> <p>    启动semantic-mode在emacs23中很简单,M-x semantic-mode即可. </p> </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">Clang</h4> <div class="outline-text-3" id="text-3">  <p>   速度极快,<a href="http://www.emacswiki.org/emacs/AutoComplete">AutoComplete</a> 上有几个接合Clang和AutoComple的方案(<a href="https://llvm.org/svn/llvm-project/cfe/trunk/utils/clang-completion-mode.el">其中一个</a> 为clang官方提供演示原理,我不建议使用). </p> <p>    通过elpa安装auto-complete-clang,试用后非常完美,智能且响应速度极快,支持Mac/Cygwin/Linux. </p> <p>    如果做语法实时检查,可以用flymake,需要提供完整的CXXFLAG给clang.如果用CMake生成Makefile的话,可在flags.make中轻易得到. </p> <p>    顺便说一下,我个人非常喜爱CMake,是构建打包配置管理的最佳工具.我以后所有的C++项目都将用CMake. </p>
 </div> </div>
             </div>
         </div>
@@ -874,7 +867,7 @@ Description    : Disk usage analyzer with an ncurses interface
             <li class="next">
                 <a href="index-2.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -58,8 +58,7 @@
 
         </div>
         <div class="body">
-            <p></p>
-<p>Here is some handy elisp function which use browse-url-generic to open the url in external browser (firefox, for example). </p> <p> The key point is how to detect the url. If we are in w3m-mode, we will use the link under cursor or the URI of current web page. Or else, we will let browse-url-generic to detect the url. </p>    <pre class="src src-elisp">(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">w3mext-open-link-or-image-or-url</span> ()
+            <p>Here is some handy elisp function which use browse-url-generic to open the url in external browser (firefox, for example). </p> <p> The key point is how to detect the url. If we are in w3m-mode, we will use the link under cursor or the URI of current web page. Or else, we will let browse-url-generic to detect the url. </p>    <pre class="src src-elisp">(<span style="color: #b5bd68;">defun</span> <span style="color: #81a2be;">w3mext-open-link-or-image-or-url</span> ()
   <span style="color: #b294bb;">"Opens the current link or image or current page's uri or any url-like text under cursor in firefox."</span>
   (interactive)
   (<span style="color: #b5bd68;">let</span> (url)
@@ -68,14 +67,17 @@
     (browse-url-generic (<span style="color: #b5bd68;">if</span> url url (car (browse-url-interactive-arg <span style="color: #8abeb7;">"URL: "</span>))))
     ))
 (global-set-key (kbd <span style="color: #8abeb7;">"C-c b"</span>) 'w3mext-open-link-or-image-or-url)
-<p></p></pre>   <p> To specify the external browser like firefox, add below code into ~/.emacs: </p>   <pre class="src src-elisp"><span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;"><code>C-h v browse-url-generic-program RET</code> to see the documentation</span>
-<p><span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;"><em>is-a-mac</em> and <em>linux</em> is the boolean constants defined by me</span></p>
-<p>(setq browse-url-generic-program
+
+</pre>   <p> To specify the external browser like firefox, add below code into ~/.emacs: </p>   <pre class="src src-elisp"><span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">`C-h v browse-url-generic-program RET` to see the documentation</span>
+
+<span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">*is-a-mac* and *linux* is the boolean constants defined by me</span>
+
+(setq browse-url-generic-program
       (<span style="color: #b5bd68;">cond</span>
-       (<em>is-a-mac</em> <span style="color: #8abeb7;">"open"</span>)
-       (<em>linux</em> (executable-find <span style="color: #8abeb7;">"firefox"</span>))
+       (*is-a-mac* <span style="color: #8abeb7;">"open"</span>)
+       (*linux* (executable-find <span style="color: #8abeb7;">"firefox"</span>))
        ))
-</p></pre>
+</pre>
         </div>
         
         <ul class="pager hidden-print">
@@ -112,7 +114,7 @@
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

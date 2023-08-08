@@ -60,8 +60,7 @@
 
         </div>
         <div class="body">
-            <p></p>
-<p>作者:陈斌 (redguardtoo) </p> <p> 原创日期: <span class="timestamp-wrapper"> <span class="timestamp">2012-11-30 五</span></span> </p> <p> 本文的目的是把Lisp去神秘化. </p> <p> 我学的是Emacs Lisp(Emacs Lisp),开发环境也是Emacs.所以我举的例子都是只基于Elisp. </p> <p> 本文针对的读者是有相当经验的开发者,目的是尽可能简明扼要地突出重点. </p> <p> 我对于目前的主流开发语言都很熟悉,但是Lisp还只能算是入门水准,所以错过很多Lisp精彩之处是很可能的. </p> <p> 我所谓的重点,主要是指Lisp对于开发一个现实世界的产品有什么优点. </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">所有的函数和数据可以在系统运行时改变</h4> <div class="outline-text-3" id="text-1">  <p>其意义是,假设你一个系统上线了,你可以随时改变正在运行的代码,不需要重启系统. </p> <p> 我的理解是,一个函数实际上就是带有字符串Key(该key就是函数名)的数据,运行某个函数就是在系统运行时根据Key找到对应的数据(或者代码,在Lips中是一回事)运行之. </p> <p> 例如,我可以在hook中申明某个函数将被调用,而这个函数的定义可以还不存在.系统在<em>运行时</em>才会去寻找这个函数.解释一下,hook可以认为是事件触发机制,就是在系统运行的某个时刻调用用户自定义的函数) </p> <p> 优点是灵活性很高.缺点是Lisp写的东西快不了. </p>
+            <p>作者:陈斌 (redguardtoo) </p> <p> 原创日期: <span class="timestamp-wrapper"> <span class="timestamp">2012-11-30 五</span></span> </p> <p> 本文的目的是把Lisp去神秘化. </p> <p> 我学的是Emacs Lisp(Emacs Lisp),开发环境也是Emacs.所以我举的例子都是只基于Elisp. </p> <p> 本文针对的读者是有相当经验的开发者,目的是尽可能简明扼要地突出重点. </p> <p> 我对于目前的主流开发语言都很熟悉,但是Lisp还只能算是入门水准,所以错过很多Lisp精彩之处是很可能的. </p> <p> 我所谓的重点,主要是指Lisp对于开发一个现实世界的产品有什么优点. </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">所有的函数和数据可以在系统运行时改变</h4> <div class="outline-text-3" id="text-1">  <p>其意义是,假设你一个系统上线了,你可以随时改变正在运行的代码,不需要重启系统. </p> <p> 我的理解是,一个函数实际上就是带有字符串Key(该key就是函数名)的数据,运行某个函数就是在系统运行时根据Key找到对应的数据(或者代码,在Lips中是一回事)运行之. </p> <p> 例如,我可以在hook中申明某个函数将被调用,而这个函数的定义可以还不存在.系统在*运行时*才会去寻找这个函数.解释一下,hook可以认为是事件触发机制,就是在系统运行的某个时刻调用用户自定义的函数) </p> <p> 优点是灵活性很高.缺点是Lisp写的东西快不了. </p>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">没有namespace,所有的函数默认都是可以全局访问的</h4> <div class="outline-text-3" id="text-2">  <p>正因为这两条,所以要多打字(每个函数都要手动输入名字前缀). </p> <p> 这点我完全可以接受,没有namespace就是多打点字而已.那些不了解历史或者没有用过C的初级程序员可能会大惊小怪.实际上没什么大不了的. </p> <p> 所有函数都可以访问在Emacs场景下有个巨大的优点,见下一条. </p>
 </div>  </div>  <div id="outline-container-3" class="outline-3"> <h4 id="sec-3">defadivce可以改变系统中任意函数的行为.</h4> <div class="outline-text-3" id="text-3">  <p>defadvice可以重定义系统中的任意函数.原因如前文所说. </p>
 </div>  </div>  <div id="outline-container-4" class="outline-3"> <h4 id="sec-4">循环语句和条件判断语句</h4> <div class="outline-text-3" id="text-4">  <p>和其他语言没什么不同,foreach之类的语法糖也不少. </p> <p> 我唯一不喜欢的是没有C中的return,break,和continue语句,这样的缺点是有可能让代码嵌套过深. </p> <p> 不过不是什么大不了的问题,Lisp也提供了一些替代语法. </p> <p> 另外其他所有语言提供了这些语法糖又怎么样呢,我遇到的超过50%的程序员还是一样瞎写. </p>
@@ -106,7 +105,7 @@
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

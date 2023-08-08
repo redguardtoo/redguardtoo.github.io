@@ -11,7 +11,7 @@
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="Notes on set up nfs on ArchLinux">
 <meta property="og:url" content="http://blog.binchen.org/posts/notes-on-set-up-nfs-on-archlinux/">
-<meta property="og:description" content="Key points    see Redhat documenation, best doc on exportfs  Understanding Subnet mask and essential Subnet mask  sudo exportfs -r to reload /etc/exports  sudo exportfs -v to see current nfs exports  ">
+<meta property="og:description" content="Key points    see Redhat documenation, best doc on exportfs  Understanding Subnet mask and essential Subnet mask  `sudo exportfs -r` to reload /etc/exports  `sudo exportfs -v` to see current nfs expor">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2014-02-07T17:24:09Z">
 <meta property="article:tag" content="archlinux">
@@ -56,21 +56,18 @@
 
         </div>
         <div class="body">
-            <p></p>
-<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Key points</h4> <div class="outline-text-3" id="text-1">  <ul>
+            <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Key points</h4> <div class="outline-text-3" id="text-1">  <ul>
 <li>see <a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html">Redhat documenation</a>, best doc on exportfs </li> <li>
-<a href="http://superuser.com/questions/492989/understanding-subnet-mask">Understanding Subnet mask</a> and <a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask">essential Subnet mask</a> </li> <li>
-<code>sudo exportfs -r</code> to reload /etc/exports </li> <li>
-<code>sudo exportfs -v</code> to see current nfs exports </li> <li>content of /etc/exports: </li> </ul>
+<a href="http://superuser.com/questions/492989/understanding-subnet-mask">Understanding Subnet mask</a> and <a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask">essential Subnet mask</a> </li> <li>`sudo exportfs -r` to reload /etc/exports </li> <li>`sudo exportfs -v` to see current nfs exports </li> <li>content of /etc/exports: </li> </ul>
 <pre class="prettyprint ">
 
 /srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
 </pre>
 
-<p></p>
-<ul>
-<li>check <a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html">optimizatioin tips</a> </li> <li>
-<code>man 5 exports</code> for the documentation of /etc/exports </li> <li>
+
+
+  <ul>
+<li>check <a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html">optimizatioin tips</a> </li> <li>`man 5 exports` for the documentation of /etc/exports </li> <li>
 <a href="https://www.serverstack.com/blog/2012/11/21/debugging-nfs-file-access-on-server-and-client-side/">Debugging NFS File Access on Server and Client Side</a> </li> </ul>
 <pre class="prettyprint ">
 
@@ -81,10 +78,13 @@ sudo rpcdebug -m nfsd -s proc
 # turn off the log
 </pre>
 
-<p></p>
-<ul>
-<li>then <code>sudo tail -f /var/log/messages.log</code> </li> <li>Basically you need <code>sudo systemctl enable syslog-ng.service</code> to enable system log before you use rpcdebug </li> </ul>
+
+
+  <ul>
+<li>then `sudo tail -f /var/log/messages.log` </li> <li>Basically you need `sudo systemctl enable syslog-ng.service` to enable system log before you use rpcdebug </li> </ul>
 </div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Summary</h4> <div class="outline-text-3" id="text-2">  <p>On server side: </p>   
+
+
 <pre class="prettyprint ">
 
 sudo exportfs
@@ -94,8 +94,11 @@ sudo exportfs
 # /srv/nfs4/z   192.168.0.0/16
 </pre>
 
-<p></p>
-<p> Then on client side: </p>   
+
+
+   <p> Then on client side: </p>   
+
+
 <pre class="prettyprint ">
 
 # 131072 is 128K
@@ -103,8 +106,9 @@ sudo exportfs
 sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
 </pre>
 
-<p></p>
-</div> </div>
+
+
+  </div> </div>
         </div>
         
         <ul class="pager hidden-print">
@@ -141,7 +145,7 @@ sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodi
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

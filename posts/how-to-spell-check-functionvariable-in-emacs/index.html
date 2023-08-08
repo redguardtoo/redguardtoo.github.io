@@ -83,7 +83,6 @@ But this solution is not perfect. It wrongly identifies two character sub-word a
 <p>
 In this article,
 </p>
-
 <ul class="org-ul">
 <li>I will explain <b>how Emacs spell checker works</b>
 </li>
@@ -102,7 +101,6 @@ Aspell doesn't understand syntax of any programming language. It simply reports 
 <p>
 Aspell has two options:
 </p>
-
 <ul class="org-ul">
 <li>
 <code>--run-together-limit</code> is "Maximum number of words can be strung together"</li>
@@ -116,7 +114,6 @@ Aspell C++ code has to be studied in order to understand above two options. Let'
 <p>
 Here is code,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-c">class Working : public Score {
@@ -168,7 +165,6 @@ unsigned Working::check_word(char * word, char * word_end,  CheckInfo * ci,
 <p>
 Say first parameter of <code>check_word</code> is "hisHelle",
 </p>
-
 <ul class="org-ul">
 <li>
 <code>word</code> points to string "hisHelle" (in C/C++, string is character array. The last character of array is character <code>'\0'</code>)</li>
@@ -184,7 +180,6 @@ Say first parameter of <code>check_word</code> is "hisHelle",
 <p>
 Key points:
 </p>
-
 <ul class="org-ul">
 <li>
 <code>--run-together-limit</code> could be bigger with enough memory. It's default value is 8. I prefer 16.</li>
@@ -210,7 +205,6 @@ A predicate could be attached to specific major-mode. The predicate file all the
 <p>
 A example of predicate for <code>js2-mode</code>,
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun js-flyspell-verify ()
@@ -234,7 +228,6 @@ Here is complete setup you can paste into <code>.emacs</code> (I setup for <code
 <p>
 Please note function <code>split-camel-case</code> splits a camel case word into a list of sub-words. Sub-word with less one or two characters is not typo.
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun split-camel-case (word)
@@ -433,7 +426,7 @@ Now you can use <a href="https://github.com/redguardtoo/wucuo">wucuo</a>. It's a
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

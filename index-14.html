@@ -51,7 +51,6 @@
                 <p>
 Run <code>pacman -Syu</code> to upgrade all packages.
 </p>
-
 <ul class="org-ul">
 <li>Archlinux replaces grub with grub2</li>
 <li>I cannot install grub2, blocklists stuff</li>
@@ -89,20 +88,22 @@ Run <code>pacman -Syu</code> to upgrade all packages.
             </div>
             <div class="body">
                 <p></p>
-<p></p>
 <pre class="prettyprint ">
-<p>sudo emerge --update --deep --with-bdeps=y --newuse world
-</p></pre>
-<p></p>
-<ul>
-<li>I get notified that some newer version package is required, so I have to manually install those package and re-run the <code>emerge world</code> </li> <li>Some package is gone (libreoffice-bin, for example). </li> </ul>
+
+sudo emerge --update --deep --with-bdeps=y --newuse world
+</pre>
+
+
+
+   <ul>
+<li>I get notified that some newer version package is required, so I have to manually install those package and re-run the `emerge world` </li> <li>Some package is gone (libreoffice-bin, for example). </li> </ul>
 <p> Here is command to manually install package: </p>   
+
+
 <pre class="prettyprint ">
 
 sudo ebuild /usr/portage/www-client/firefox-bin/firefox-bin-23.0.ebuild unpack compile install qmerge clean
 </pre>
-
-<p></p>
             </div>
         </div>
         <div class="post">
@@ -142,9 +143,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-10-23 
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 Tue&gt;</span></span>
 </p>
 
-<div id="outline-container-org0d18343" class="outline-2">
-<h3 id="org0d18343">Tools</h3>
-<div class="outline-text-2" id="text-org0d18343">
+<div id="outline-container-orgc2a6486" class="outline-2">
+<h3 id="orgc2a6486">Tools</h3>
+<div class="outline-text-2" id="text-orgc2a6486">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -181,13 +182,13 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 
 </table>
 </div>
 </div>
-<div id="outline-container-orgeea6a9f" class="outline-2">
-<h3 id="orgeea6a9f">Work flow</h3>
-<div class="outline-text-2" id="text-orgeea6a9f">
+<div id="outline-container-org4727814" class="outline-2">
+<h3 id="org4727814">Work flow</h3>
+<div class="outline-text-2" id="text-org4727814">
 </div>
-<div id="outline-container-org5465eec" class="outline-3">
-<h4 id="org5465eec">Use scrot to screenshot and put its path into clipboard</h4>
-<div class="outline-text-3" id="text-org5465eec">
+<div id="outline-container-org76c28b4" class="outline-3">
+<h4 id="org76c28b4">Use scrot to screenshot and put its path into clipboard</h4>
+<div class="outline-text-3" id="text-org76c28b4">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">scrot '%H%M%S-%d_$wx$h.png' -e 'mkdir -p ~/screenshot;mv $f ~/screenshot/;echo ~/screenshot/$f|tr -d \"\\n\"|xsel -ib;'
@@ -197,9 +198,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 
 </div>
 </div>
 
-<div id="outline-container-org0e9ec95" class="outline-3">
-<h4 id="org0e9ec95">Create org file and insert path of screen shot</h4>
-<div class="outline-text-3" id="text-org0e9ec95">
+<div id="outline-container-org931ab81" class="outline-3">
+<h4 id="org931ab81">Create org file and insert path of screen shot</h4>
+<div class="outline-text-3" id="text-org931ab81">
 <p>
 Actually I use below elisp command to do the insertion for me.
 </p>
@@ -232,9 +233,9 @@ The full path into relative path and insert it as a local file link in org-mode"
 </div>
 </div>
 </div>
-<div id="outline-container-org07194ee" class="outline-3">
-<h4 id="org07194ee">Convert org file into Microsoft Word format</h4>
-<div class="outline-text-3" id="text-org07194ee">
+<div id="outline-container-orgfca9224" class="outline-3">
+<h4 id="orgfca9224">Convert org file into Microsoft Word format</h4>
+<div class="outline-text-3" id="text-orgfca9224">
 <p>
 I'm sure this method works even on Windows. But I don't have Windows PC to validate my belief. Libreoffice is required.
 </p>
@@ -276,9 +277,9 @@ Emacs will find the binary "soffice" from libreoffice to do the conversion.
 </div>
 </div>
 
-<div id="outline-container-org03f7f38" class="outline-3">
-<h4 id="org03f7f38">Tips</h4>
-<div class="outline-text-3" id="text-org03f7f38">
+<div id="outline-container-orgae24a97" class="outline-3">
+<h4 id="orgae24a97">Tips</h4>
+<div class="outline-text-3" id="text-orgae24a97">
 <p>
 If you need page break in exported document, insert below snippet into the org file:
 </p>
@@ -348,8 +349,7 @@ Please see <a href="http://blog.binchen.org/posts/effective-spell-check-in-emacs
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>
 <a href="http://www.xinshipu.com/%E7%89%9B%E8%82%89%E7%82%92%E8%92%9C%E8%8B%97-83979.htm">菜谱</a> </li> <li>甜面酱本身带盐了 </li> <li>蒜苗可以大火快炒,更嫩一点 </li> </ul>
 <p> <img src="wp-content/uploads/2013/10/wpid-stir-fried-beef-and-garlic-stem1.jpg" alt="lightbox"></p>
@@ -389,9 +389,9 @@ To take the full power of git, you need forget GUI and use CLI only. A little kn
 Here is an example how I use git.
 </p>
 
-<div id="outline-container-orgfaa267b" class="outline-2">
-<h3 id="orgfaa267b">Problem</h3>
-<div class="outline-text-2" id="text-orgfaa267b">
+<div id="outline-container-org4ab7767" class="outline-2">
+<h3 id="org4ab7767">Problem</h3>
+<div class="outline-text-2" id="text-org4ab7767">
 <p>
 I'm working for a big enterprise project which uses git as version control software.  My daily routine is find what files I changed. So I often use git commands with "–stat" parameters.
 </p>
@@ -420,9 +420,9 @@ Getting full path into clipboard is useful because in big projects I need do lot
 </div>
 </div>
 
-<div id="outline-container-orgabb5165" class="outline-2">
-<h3 id="orgabb5165">Set up</h3>
-<div class="outline-text-2" id="text-orgabb5165">
+<div id="outline-container-org3c2b938" class="outline-2">
+<h3 id="org3c2b938">Set up</h3>
+<div class="outline-text-2" id="text-org3c2b938">
 <p>
 Now you understand the problem. Here comes the solution.
 </p>
@@ -480,9 +480,9 @@ function ff()
 </div>
 </div>
 
-<div id="outline-container-org0d63118" class="outline-2">
-<h3 id="org0d63118">Usage</h3>
-<div class="outline-text-2" id="text-org0d63118">
+<div id="outline-container-orgd341d2f" class="outline-2">
+<h3 id="orgd341d2f">Usage</h3>
+<div class="outline-text-2" id="text-orgd341d2f">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">glsf
@@ -526,34 +526,85 @@ Here is the screen cast:
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>
 <a href="http://blog.sina.com.cn/s/blog_4cc524d50102dzgv.html">菜谱, 全文如下</a> </li> </ul>
 <pre class="example">用料:
 三文鱼、老豆腐、面粉、黑胡椒粒、甜椒、葱、
-<p>大蒜、姜、松子、香菜、盐、老抽、生抽、糖。</p>
-<p>做法：</p>
-<p>1: 三文鱼去掉鱼骨，拔出鱼刺，和豆腐切成大小相仿的小块，</p>
-<p>并用厨房纸巾稍稍擦干水份，三文鱼块里撒入适量的黑胡椒粒，</p>
-<p>放入2勺面粉稍微裹以下;</p>
-<p>鱼炖豆腐好吃2字诀-三文鱼炖豆腐</p>
-<p>2: 其他材料备好;</p>
-<p>鱼炖豆腐好吃2字诀-三文鱼炖豆腐</p>
-<p>3: 锅底用姜片擦一遍，放入姜片、三文鱼2面煎黄取出，</p>
-<p>再放入豆腐块煎黄;</p>
-<p>鱼炖豆腐好吃2字诀-三文鱼炖豆腐</p>
-<p>4: 倒入适量老抽上色，生抽、盐、糖、大蒜调味，</p>
-<p>一次性倒入足量的开水，大火煮开，中火炖至快干;</p>
-<p>鱼炖豆腐好吃2字诀-三文鱼炖豆腐</p>
-<p>5: 放入甜椒块翻炒一下，撒入松子、香菜段即可起锅。</p>
-<p>鱼炖豆腐好吃2字诀-三文鱼炖豆腐</p>
-<p>小牛贴心提示：</p>
-<p>1：炖豆腐和鱼，想要好吃，关键要时间，</p>
-<p>即是老话所说"千滚的豆腐万滚的鱼";</p>
-<p>2：鱼块裹面粉、生姜擦锅都能防止鱼不沾锅;</p>
-<p>3：一次性加入足量的开水，中途不要频繁加水。</p>
-<p></p></pre>  <ul>
+
+
+
+大蒜、姜、松子、香菜、盐、老抽、生抽、糖。
+
+
+
+做法：
+
+1: 三文鱼去掉鱼骨，拔出鱼刺，和豆腐切成大小相仿的小块，
+
+
+
+并用厨房纸巾稍稍擦干水份，三文鱼块里撒入适量的黑胡椒粒，
+
+
+
+放入2勺面粉稍微裹以下;
+
+
+
+鱼炖豆腐好吃2字诀-三文鱼炖豆腐
+
+
+
+2: 其他材料备好;
+
+鱼炖豆腐好吃2字诀-三文鱼炖豆腐
+
+
+
+3: 锅底用姜片擦一遍，放入姜片、三文鱼2面煎黄取出，
+
+
+
+再放入豆腐块煎黄;
+
+鱼炖豆腐好吃2字诀-三文鱼炖豆腐
+
+
+
+4: 倒入适量老抽上色，生抽、盐、糖、大蒜调味，
+
+
+
+一次性倒入足量的开水，大火煮开，中火炖至快干;
+
+鱼炖豆腐好吃2字诀-三文鱼炖豆腐
+
+
+
+5: 放入甜椒块翻炒一下，撒入松子、香菜段即可起锅。
+
+鱼炖豆腐好吃2字诀-三文鱼炖豆腐
+
+
+
+
+
+小牛贴心提示：
+
+1：炖豆腐和鱼，想要好吃，关键要时间，
+
+即是老话所说"千滚的豆腐万滚的鱼";
+
+
+
+2：鱼块裹面粉、生姜擦锅都能防止鱼不沾锅;
+
+
+
+3：一次性加入足量的开水，中途不要频繁加水。
+
+</pre>  <ul>
 <li>生抽至少两大勺,我放得太少 </li> <li>炖得时候我放水太少,一开始就要多放,至少半大碗水 </li> <li>鱼和豆腐煎的黄一点,一开始用纸吸干水份较好,否则油到处溅 </li> <li>老抽没有了,所以颜色很难看 </li> <li>诀窍1,黑胡椒之类的辛香料都是油炸过后才更香 </li> <li>诀窍2,如果做汤的话,鱼和豆腐炖的时间越长越好吃,也有营养 </li> </ul>
 <p> <a href="http://www.meishij.net/zuofa/sanwenyudoufutang.html">另附有三文鱼豆腐汤</a>的做法 </p> <p> <img src="wp-content/uploads/2013/10/wpid-salmon-dun-doufu.jpg" alt="http://blog.binchen.org/wp-content/uploads/2013/10/wpid-salmon-dun-doufu.jpg"></p>
             </div>
@@ -583,8 +634,9 @@ Here is the screen cast:
 
             </div>
             <div class="body">
-                <p></p>
-<p>Simple, insert below code into your ~/.emacs: </p>   
+                <p>Simple, insert below code into your ~/.emacs: </p>   
+
+
 <pre class="prettyprint ">
 
 ;; {{ copy the file-name/full-path in dired buffer into clipboard
@@ -606,8 +658,8 @@ Here is the screen cast:
   )
 </pre>
 
-<p></p>
-<p> It support Cygwin and OSX out of the box. You need install xsel under Linux. </p> <p> BTW, I suggest installing a clipboard manager like parcellite under Linux to sync the two X clipboards. </p>
+
+   <p> It support Cygwin and OSX out of the box. You need install xsel under Linux. </p> <p> BTW, I suggest installing a clipboard manager like parcellite under Linux to sync the two X clipboards. </p>
             </div>
         </div>
         <div class="post">
@@ -635,8 +687,7 @@ Here is the screen cast:
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>放蒜(可以加姜,葱)大火爆炒,也可以加点老抽 </li> <li>放入番茄超出茄红素 </li> <li>加水煮,调味放盐糖 </li> <li>最后放入打碎鸡蛋,五秒钟后起锅 </li> </ul>
 <p>有人介绍下面也是类似原理,加葱花老抽爆炒,然后放水煮面 </p>
             </div>
@@ -666,8 +717,7 @@ Here is the screen cast:
 
             </div>
             <div class="body">
-                <p></p>
-<p>At <a href="https://www.youtube.com/watch?feature=player_detailpage&amp;v=lsYdK0C2RvQ#t=308">4:57</a> it becomes interesting. </p>
+                <p>At <a href="https://www.youtube.com/watch?feature=player_detailpage&amp;v=lsYdK0C2RvQ#t=308">4:57</a> it becomes interesting. </p>
             </div>
         </div>
     
@@ -678,7 +728,7 @@ Here is the screen cast:
             <li class="next">
                 <a href="index-13.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

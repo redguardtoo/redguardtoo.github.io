@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about calendar)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/calendar.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use gcalcli for google calendar</title><link>http://blog.binchen.org/posts/use-gcalcli-for-google-calendar/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about calendar)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/calendar.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use gcalcli for google calendar</title><link>http://blog.binchen.org/posts/use-gcalcli-for-google-calendar/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I use cli `pip install –user gcalcli parsedatetime` to install &lt;a href="https://github.com/insanum/gcalcli"&gt;gcalcli&lt;/a&gt; into HOME folder.
 &lt;/p&gt;
 
@@ -14,7 +14,6 @@ For &lt;a href="https://github.com/insanum/gcalcli/issues/167"&gt;multiple accou
 &lt;p&gt;
 Use &lt;a href="https://en.wikipedia.org/wiki/Paste_%28Unix%29"&gt;paste (Unix)&lt;/a&gt; to join two calendars in bash,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;paste &amp;lt;(gcalcli --configFolder ~/.config/gcacli-work calw) &amp;lt;(gcalcli calw)
@@ -25,7 +24,6 @@ Use &lt;a href="https://en.wikipedia.org/wiki/Paste_%28Unix%29"&gt;paste (Unix)&
 &lt;p&gt;
 Edit crontab to remind me about the calendar events,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-crontab"&gt;*/10 * * * * $HOME/.local/bin/gcalcli remind

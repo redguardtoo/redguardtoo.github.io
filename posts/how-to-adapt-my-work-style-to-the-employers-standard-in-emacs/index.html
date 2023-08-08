@@ -54,15 +54,18 @@
 
         </div>
         <div class="body">
-            <p></p>
-<p>I write some set up code in ~/.custom.el. It will detect which machine and what directory I'm working on. Then I hook the set up code when major mode (js2-mode, web-mode, for example) loaded. </p> <p> In my ~/.emacs, </p>   
+            <p>I write some set up code in ~/.custom.el. It will detect which machine and what directory I'm working on. Then I hook the set up code when major mode (js2-mode, web-mode, for example) loaded. </p> <p> In my ~/.emacs, </p>   
+
+
 <pre class="prettyprint lang-lisp">
 (if (file-readable-p (expand-file-name "~/.custom.el"))
      (load-file (expand-file-name "~/.custom.el")))
 </pre>
 
-<p></p>
-<p> Content of my ~/.custom.el: </p>   
+
+   <p> Content of my ~/.custom.el: </p>   
+
+
 <pre class="prettyprint lang-lisp">
 ;; (getenv "HOSTNAME") won't work because $HOSTNAME is not an env variable
 ;; (system-name) won't work because as Optus required, my /etc/hosts is changed
@@ -110,8 +113,6 @@
 (add-hook 'js2-mode-hook 'my/setup-develop-environment)
 (add-hook 'web-mode-hook 'my/setup-develop-environment)
 </pre>
-
-<p></p>
         </div>
         
         <ul class="pager hidden-print">
@@ -148,7 +149,7 @@
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -46,8 +46,7 @@
 
             </div>
             <div class="body">
-                <p></p>
-<p>我陆续收到Email，一些读者使用了我推荐的Emacs牛人配置后，Emacs启动或者使用还是有问题， </p> <p> 主要原因是， </p>
+                <p>我陆续收到Email，一些读者使用了我推荐的Emacs牛人配置后，Emacs启动或者使用还是有问题， </p> <p> 主要原因是， </p>
 <ul>
 <li>
 <a href="https://github.com/purcell/emacs.d">牛人如Steve Purcell</a>用Emacs的最新版本24.x，而读者使用的是主流版本23.x。 </li> <li>对于Emacs的一些基本命令还是不熟悉 </li> <li>对github不是很熟悉 </li> </ul>
@@ -88,30 +87,30 @@
 <p>
 以下是我的翻译兼一些背景资料:
 </p>
-<div id="outline-container-orgf758881" class="outline-2">
-<h3 id="orgf758881">1980年,我开始编程.</h3>
+<div id="outline-container-org526d015" class="outline-2">
+<h3 id="org526d015">1980年,我开始编程.</h3>
 </div>
-<div id="outline-container-orgcfd464f" class="outline-2">
-<h3 id="orgcfd464f">Basic,400 steps (此句不知如何翻译)</h3>
+<div id="outline-container-org2cf506d" class="outline-2">
+<h3 id="org2cf506d">Basic,400 steps (此句不知如何翻译)</h3>
 </div>
-<div id="outline-container-orgd300032" class="outline-2">
-<h3 id="orgd300032">1988年,我遇到了Emacs,在学校的Sun-3上,和200多个学生共用.</h3>
+<div id="outline-container-org118651b" class="outline-2">
+<h3 id="org118651b">1988年,我遇到了Emacs,在学校的Sun-3上,和200多个学生共用.</h3>
 </div>
-<div id="outline-container-org4e0e8a6" class="outline-2">
-<h3 id="org4e0e8a6">Emacs实际上是被禁止使用的,因为消耗太多内存.所以我只是尝试了一下.</h3>
+<div id="outline-container-orgf1dc878" class="outline-2">
+<h3 id="orgf1dc878">Emacs实际上是被禁止使用的,因为消耗太多内存.所以我只是尝试了一下.</h3>
 </div>
-<div id="outline-container-org2f9333d" class="outline-2">
-<h3 id="org2f9333d">我可以自由下载Emacs并阅读其源代码.</h3>
+<div id="outline-container-org84f8689" class="outline-2">
+<h3 id="org84f8689">我可以自由下载Emacs并阅读其源代码.</h3>
 </div>
-<div id="outline-container-org6c93287" class="outline-2">
-<h3 id="org6c93287">Emacs是我的第一个Lisp解释器.</h3>
+<div id="outline-container-org5627b3a" class="outline-2">
+<h3 id="org5627b3a">Emacs是我的第一个Lisp解释器.</h3>
 </div>
-<div id="outline-container-orgbd2a1cf" class="outline-2">
-<h3 id="orgbd2a1cf">从Emacs我学到了很多关于语言实现的知识.</h3>
+<div id="outline-container-orgb10e36d" class="outline-2">
+<h3 id="orgb10e36d">从Emacs我学到了很多关于语言实现的知识.</h3>
 </div>
-<div id="outline-container-org8ed4816" class="outline-2">
-<h3 id="org8ed4816">例如,emacs的整数实现(Embedding integer in pointers)</h3>
-<div class="outline-text-2" id="text-org8ed4816">
+<div id="outline-container-org873f2c6" class="outline-2">
+<h3 id="org873f2c6">例如,emacs的整数实现(Embedding integer in pointers)</h3>
+<div class="outline-text-2" id="text-org873f2c6">
 <p>
 参考Lisp_Object定义,在Emacs源代码的lisp.h中,Lisp_Object是一个既可以作为指针使用又可以作为整数使用的类型
 具体代码见下,注意Lisp_Int为0,使得非负整数可以直接转换为对应的List_Object类型:
@@ -170,85 +169,85 @@ Lisp_OLisp_Stringbject;
 </div>
 </div>
 </div>
-<div id="outline-container-org0a01859" class="outline-2">
-<h3 id="org0a01859">又例如Emacs的内存自动回收机制(Mark and sweep garbage collection)</h3>
-<div class="outline-text-2" id="text-org0a01859">
+<div id="outline-container-org93e969a" class="outline-2">
+<h3 id="org93e969a">又例如Emacs的内存自动回收机制(Mark and sweep garbage collection)</h3>
+<div class="outline-text-2" id="text-org93e969a">
 <p>
 具体细节参考<a href="http://lists.gnu.org/archive/html/emacs-devel/2011-10/msg01289.html">这里</a>的讨论.
 </p>
 </div>
 </div>
-<div id="outline-container-orgeb38fb5" class="outline-2">
-<h3 id="orgeb38fb5">C和Lisp的Calling conventions(不好翻,基本上就是函数如何调用,函数参数的内存模型之类…)</h3>
+<div id="outline-container-orgc05377a" class="outline-2">
+<h3 id="orgc05377a">C和Lisp的Calling conventions(不好翻,基本上就是函数如何调用,函数参数的内存模型之类…)</h3>
 </div>
-<div id="outline-container-org489e953" class="outline-2">
-<h3 id="org489e953">我完全理解Lisp怎么工作的</h3>
+<div id="outline-container-orga8e6209" class="outline-2">
+<h3 id="orga8e6209">我完全理解Lisp怎么工作的</h3>
 </div>
-<div id="outline-container-org58297b8" class="outline-2">
-<h3 id="org58297b8">我被Lisp Objects迷住了</h3>
+<div id="outline-container-org56e1d5b" class="outline-2">
+<h3 id="org56e1d5b">我被Lisp Objects迷住了</h3>
 </div>
-<div id="outline-container-orgee18cd5" class="outline-2">
-<h3 id="orgee18cd5">当我得到Sparc工作站时我开始使用Emacs</h3>
+<div id="outline-container-org733cff3" class="outline-2">
+<h3 id="org733cff3">当我得到Sparc工作站时我开始使用Emacs</h3>
 </div>
-<div id="outline-container-org7a0574c" class="outline-2">
-<h3 id="org7a0574c">我完全被迷住了,Emacs成为我的一部分</h3>
+<div id="outline-container-org0a7ad47" class="outline-2">
+<h3 id="org0a7ad47">我完全被迷住了,Emacs成为我的一部分</h3>
 </div>
-<div id="outline-container-org4e1a5f1" class="outline-2">
-<h3 id="org4e1a5f1">而且Emacs任何我不喜欢的部分我都可以改,Emacs完全可配置.</h3>
+<div id="outline-container-org2289c1a" class="outline-2">
+<h3 id="org2289c1a">而且Emacs任何我不喜欢的部分我都可以改,Emacs完全可配置.</h3>
 </div>
-<div id="outline-container-org29c818e" class="outline-2">
-<h3 id="org29c818e">Emacs使我明白了任何东西都可以被程序员改变</h3>
+<div id="outline-container-org9f470d9" class="outline-2">
+<h3 id="org9f470d9">Emacs使我明白了任何东西都可以被程序员改变</h3>
 </div>
-<div id="outline-container-org188161d" class="outline-2">
-<h3 id="org188161d">完全的自由</h3>
+<div id="outline-container-org8c1be66" class="outline-2">
+<h3 id="org8c1be66">完全的自由</h3>
 </div>
-<div id="outline-container-org07d70af" class="outline-2">
-<h3 id="org07d70af">编辑时可以无视键位设置</h3>
+<div id="outline-container-org587e382" class="outline-2">
+<h3 id="org587e382">编辑时可以无视键位设置</h3>
 </div>
-<div id="outline-container-orgf66cf2e" class="outline-2">
-<h3 id="orgf66cf2e">我想用Emacs做所有的事,编程,文档,邮件…</h3>
+<div id="outline-container-org310b808" class="outline-2">
+<h3 id="org310b808">我想用Emacs做所有的事,编程,文档,邮件…</h3>
 </div>
-<div id="outline-container-org2ab7f09" class="outline-2">
-<h3 id="org2ab7f09">所以我写了"cmail",我的第一个严肃的Lisp程序,我每天用它</h3>
+<div id="outline-container-org31aac0c" class="outline-2">
+<h3 id="org31aac0c">所以我写了"cmail",我的第一个严肃的Lisp程序,我每天用它</h3>
 </div>
-<div id="outline-container-org13e1fb6" class="outline-2">
-<h3 id="org13e1fb6">1993年,我开始搞我的Ruby</h3>
+<div id="outline-container-org33338f2" class="outline-2">
+<h3 id="org33338f2">1993年,我开始搞我的Ruby</h3>
 </div>
-<div id="outline-container-org9485dd9" class="outline-2">
-<h3 id="org9485dd9">Ruby的设计受到Emacs实现的影响,例如整数和tagged pointer合用,相似的GC,和Lisp类似的Object Model</h3>
-<div class="outline-text-2" id="text-org9485dd9">
+<div id="outline-container-org468e7db" class="outline-2">
+<h3 id="org468e7db">Ruby的设计受到Emacs实现的影响,例如整数和tagged pointer合用,相似的GC,和Lisp类似的Object Model</h3>
+<div class="outline-text-2" id="text-org468e7db">
 <p>
 tagged pointer的细节请参考上文的C代码,高地址的3bit用作判别数据类型,低地址的29bit用作指针或者整数(取决于数据类型)
 </p>
 </div>
 </div>
-<div id="outline-container-org27d4d7e" class="outline-2">
-<h3 id="org27d4d7e">接下来我把Smalltalk的OO系统加上去</h3>
+<div id="outline-container-org3fd675e" class="outline-2">
+<h3 id="org3fd675e">接下来我把Smalltalk的OO系统加上去</h3>
 </div>
-<div id="outline-container-org8091eb1" class="outline-2">
-<h3 id="org8091eb1">语法我用Algol/Ada/Eiffel</h3>
+<div id="outline-container-orge5ec554" class="outline-2">
+<h3 id="orge5ec554">语法我用Algol/Ada/Eiffel</h3>
 </div>
-<div id="outline-container-orgfd06249" class="outline-2">
-<h3 id="orgfd06249">但是我是Emacs狂,所以在Emacs中支持auto-indent是必须的</h3>
+<div id="outline-container-org081dd00" class="outline-2">
+<h3 id="org081dd00">但是我是Emacs狂,所以在Emacs中支持auto-indent是必须的</h3>
 </div>
-<div id="outline-container-org96b43c9" class="outline-2">
-<h3 id="org96b43c9">在1993年,类似的语法要支持auto-indent很难</h3>
+<div id="outline-container-org3de6183" class="outline-2">
+<h3 id="org3de6183">在1993年,类似的语法要支持auto-indent很难</h3>
 </div>
-<div id="outline-container-orgfd78a98" class="outline-2">
-<h3 id="orgfd78a98">所以我就写了自己的ruby-mode.el,试图用elisp和正则表达式(regex)解决这个问题.</h3>
+<div id="outline-container-org2cf45b7" class="outline-2">
+<h3 id="org2cf45b7">所以我就写了自己的ruby-mode.el,试图用elisp和正则表达式(regex)解决这个问题.</h3>
 </div>
-<div id="outline-container-org2349e10" class="outline-2">
-<h3 id="org2349e10">一个礼拜后,我在给Ruby加上end关键字后终于成功了</h3>
+<div id="outline-container-org7f242e5" class="outline-2">
+<h3 id="org7f242e5">一个礼拜后,我在给Ruby加上end关键字后终于成功了</h3>
 </div>
-<div id="outline-container-orgf4ab48f" class="outline-2">
-<h3 id="orgf4ab48f">如果我不能让我的emacs下的ruby-mode成功,那么Ruby的语法会更像C</h3>
+<div id="outline-container-org51af2e4" class="outline-2">
+<h3 id="org51af2e4">如果我不能让我的emacs下的ruby-mode成功,那么Ruby的语法会更像C</h3>
 </div>
-<div id="outline-container-org4f7bb80" class="outline-2">
-<h3 id="org4f7bb80">这样就和其他脚本语言差不多,Ruby也不会那么受欢迎</h3>
+<div id="outline-container-org2b5b724" class="outline-2">
+<h3 id="org2b5b724">这样就和其他脚本语言差不多,Ruby也不会那么受欢迎</h3>
 </div>
-<div id="outline-container-orgea526bc" class="outline-2">
-<h3 id="orgea526bc">小结</h3>
-<div class="outline-text-2" id="text-orgea526bc">
+<div id="outline-container-org5d810bd" class="outline-2">
+<h3 id="org5d810bd">小结</h3>
+<div class="outline-text-2" id="text-org5d810bd">
 <ul class="org-ul">
 <li>Emacs教我什么是软件自由(freedom for software)</li>
 <li>Emacs教我如何读代码</li>
@@ -289,8 +288,7 @@ tagged pointer的细节请参考上文的C代码,高地址的3bit用作判别数
 
             </div>
             <div class="body">
-                <p></p>
-<p><a href="http://www.boraid.com/book/book.asp?id=3093">IT创业疯魔史</a>一书讲述了一个研发手写电脑的公司惨败收场的悲剧。 </p> <p> 我个人觉得这本书不错，有志于创业的程序员可以学到很多东西。没有兴趣创业的看完后也会心理平衡一下。 </p> <p> 我这里秀一些和原书相关的八卦: </p> <ul>
+                <p><a href="http://www.boraid.com/book/book.asp?id=3093">IT创业疯魔史</a>一书讲述了一个研发手写电脑的公司惨败收场的悲剧。 </p> <p> 我个人觉得这本书不错，有志于创业的程序员可以学到很多东西。没有兴趣创业的看完后也会心理平衡一下。 </p> <p> 我这里秀一些和原书相关的八卦: </p> <ul>
 <li>《IT创业疯魔史》老早就引进国内了，这次只是重新包装了个新标题。原书叫《硅谷传奇》，上海的图书馆都有借的，我一个月前刚看过,我建议你省下买书的大洋。哈哈，出版社要不高兴了。  </li> <li>该书主人公后来去搞电子商务去了，我胡猜大概是吃到软硬通吃的苦头了。毕竟乔布斯东山再起还是小概率事件。  </li> <li>书中所提手写电脑GO当时锋头很健，把微软吓的半死。于是微软使出惯用伎俩，到处搜罗搞手写识别软件的小公司。就在这时候，有个天才的中国工程师搞了个世界最牛逼的手写识别软件，跑到美国来推销。可是他英文不好，人生地不熟。他结识了两个当地的文科生，一个做他的CEO，一个做他的CFO。微软的人找到了这个三人帮，虽对软件很欣赏，但是鄙视那两个文科生。于是假意冷淡把三人帮打发走,然后给那个中国工程师单独打电话约出来谈,”那两个文科生就是骗子，我们就买你的代码，连你人也要了，怎么样？“那个中国工程师也不傻，就答应了。微软拿到该手写软件后就到处宣扬，说用户需要的不是全新的手写电脑，而是带手写功能的Windows。再加上其他一些卑鄙手段（《IT创业疯魔史》中有介绍），把GO打得落花流水。  </li> <li>上面的八卦我在微软前员工的回忆录里读到过，书名手头没有，回去查一下。  </li> <li>资助GO的牛人<a href="http://http://en.wikipedia.org/wiki/Mitch_Kapor">Mitchell David Kapor</a>我印象中办公自动化方面的失败尝试至少有三次，  </li> <li>一次是找了两个程序员要写个巨牛无比的办公自动化的软件，结果惨败，只是给我读过的一本关于软件项目失败案例的书增加了一个条目.该书书名为&lt;软件开发的滑铁卢: 重大失控项目的经验与教训&gt;.  </li> <li>一次是做开源个人信息管理软件<a href="http://en.wikipedia.org/wiki/Chandler_(PIM)">Chandler默默收摊</a>,事后总结失败原因，我所热爱的跨平台C++GUI框架wxWidgets的不成熟对其失败也有贡献。  </li> <li>一次就是资助手写识别电脑。不再复述。  </li> <li>我感觉自从搞出了Lotus-1-2-3后，Mitchell就盯着这个方向上了。过去的成功经验和domain knowledge也不一定能保证未来的成功。 </li> </ul>
 </div>
         </div>
@@ -325,7 +323,7 @@ My workflow with <a href="https://github.com/clvv/fasd">fasd.</a>
 <p>
 Quick visit my work folder named "NeonSite":
 </p>
-<pre class="example" id="org873ddd9">
+<pre class="example" id="org73452da">
 $ z neon
 4       1.701      /home/chenbi/work/raas/current/webapp/NeonSite/css/src/page
 3       22.995     /home/chenbi/work/raas/current/webapp/NeonSite/css
@@ -339,7 +337,7 @@ I press <code>1</code> and go into the folder "/home/chenbi/work/raas/current/we
 <ul class="org-ul">
 <li>Copy file <code>hello.c</code> to a folder named "NeonSite":</li>
 </ul>
-<pre class="example" id="org6af3cc8">
+<pre class="example" id="orgf7c1959">
 $ cp ~/hello.c `s neon`
 5       1.701      /home/chenbi/work/raas/current/webapp/NeonSite/css/src/page
 4       4.41       /home/chenbi/work/raas/current/webapp/NeonSite/js/gallery2.js
@@ -389,7 +387,6 @@ It is purely simple text theme with dark background and elegant fonts.
 <p>
 But for geeks there are two shortcomings:
 </p>
-
 <ul class="org-ul">
 <li>The font color of the hyperlinks is almost same to the plain text.</li>
 <li>The code block in &lt;pre&gt; element is not highlighted with solid border.</li>
@@ -397,7 +394,6 @@ But for geeks there are two shortcomings:
 <p>
 So here is my patch to fix these problems:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-diff">--- style.css   2012-03-08 23:56:31.000000000 +0800
@@ -458,8 +454,7 @@ So here is my patch to fix these problems:
 
             </div>
             <div class="body">
-                <p></p>
-<p>作者: 陈斌(redguardtoo) </p> <p> 原创时间: <span class="timestamp-wrapper"> <span class="timestamp">2012-03-06 二</span></span> </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">配置成神一样的编辑器要花很多时间</h4> <div class="outline-text-3" id="text-1">  <p>抄高手的配置,不要抱着玩玩的心态在低水平上创新. </p>
+                <p>作者: 陈斌(redguardtoo) </p> <p> 原创时间: <span class="timestamp-wrapper"> <span class="timestamp">2012-03-06 二</span></span> </p>  <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">配置成神一样的编辑器要花很多时间</h4> <div class="outline-text-3" id="text-1">  <p>抄高手的配置,不要抱着玩玩的心态在低水平上创新. </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption> <colgroup>
 <col class="left">
@@ -512,7 +507,8 @@ So here is my patch to fix these problems:
 </table>
 </div>  </div>  <div id="outline-container-9" class="outline-3"> <h4 id="sec-9">恩,有时候我要用代理(Emacs很多功能需网络)</h4> <div class="outline-text-3" id="text-9">  <p>在bash下: </p>   <pre class="src src-sh"><span style="color: #c397d8;">export</span> <span style="color: #e7c547;">http_proxy</span>=http://127.0.0.1:8000; emacs
 </pre>   <p> 使用socks server和<a href="http://tsocks.sourceforge.net">tsocks</a>: </p>   <pre class="src src-sh">tsocks emacs
-<p></p></pre>  </div> </div>
+
+</pre>  </div> </div>
             </div>
         </div>
         <div class="post">
@@ -540,8 +536,7 @@ So here is my patch to fix these problems:
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>抬头挺胸缩下巴(拉直颈椎) </li> <li>轮流头部向左右侧弯低头俯视 </li> <li>耸肩 </li> <li>不可以头转圈 </li> <li>不可以仰头 </li> </ul>
 <p>台湾医师的建议,见<a href="http://mypaper.pchome.com.tw/herbert0937/post/1322716827">http://mypaper.pchome.com.tw/herbert0937/post/1322716827</a> </p>
             </div>
@@ -573,8 +568,7 @@ So here is my patch to fix these problems:
 
             </div>
             <div class="body">
-                <p></p>
-<p>Mark: 3 =&gt; cool, 2 =&gt; useful, 1 =&gt; rarely used </p>
+                <p>Mark: 3 =&gt; cool, 2 =&gt; useful, 1 =&gt; rarely used </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="left">
@@ -672,8 +666,7 @@ So here is my patch to fix these problems:
 
             </div>
             <div class="body">
-                <p></p>
-<p>My code (based on wxWidgets) will produce some annoying gtk warnings when debugged in gdb. The best way to debug it is <code>run –g-fatal-warnings</code> in gdb. </p>
+                <p>My code (based on wxWidgets) will produce some annoying gtk warnings when debugged in gdb. The best way to debug it is `run –g-fatal-warnings` in gdb. </p>
             </div>
         </div>
         <div class="post">
@@ -702,8 +695,7 @@ So here is my patch to fix these problems:
 
             </div>
             <div class="body">
-                <p></p>
-<ul>
+                <ul>
 <li>M-x gdb then M-x gdb-many-windows </li> <li>display/call/s(tep)/n(ext)/watch in gud-mode </li> <li>assert, use frame #num to located the failed assertion </li> <li>windmove-down/up/left/right to move between many windows </li> <li>winnner-mode to redo/undo windows layout </li> <li>C-x r w to save widnows layout, C-x r j to load windows layout </li> </ul>
 </div>
         </div>
@@ -715,7 +707,7 @@ So here is my patch to fix these problems:
             <li class="next">
                 <a href="index-3.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

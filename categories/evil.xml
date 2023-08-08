@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about evil)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/evil.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 29 Aug 2022 06:40:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code faster by extending Emacs EVIL text object</title><link>http://blog.binchen.org/posts/code-faster-by-extending-emacs-evil-text-object/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about evil)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/evil.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:04 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Code faster by extending Emacs EVIL text object</title><link>http://blog.binchen.org/posts/code-faster-by-extending-emacs-evil-text-object/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I use &lt;a href="https://www.emacswiki.org/emacs/Evil"&gt;EVIL&lt;/a&gt; text object a lot. For example,  press &lt;code&gt;vi(&lt;/code&gt; to select the code snippet inside parenthesis.
 &lt;/p&gt;
 
@@ -77,7 +77,6 @@ Global evil marker is saved in &lt;code&gt;evil-global-markers-history&lt;/code&
 &lt;p&gt;
 Insert below code int &lt;code&gt;~/.emacs&lt;/code&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defvar evil-global-markers-history nil)
@@ -167,7 +166,6 @@ It turns out that the character "/" is treated as &lt;a href="https://www.gnu.or
 &lt;p&gt;
 The solution is to re-define "/" as &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Class-Table.html"&gt;Punctuation characters&lt;/a&gt;:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun minibuffer-inactive-mode-hook-setup ()
@@ -186,7 +184,6 @@ You can &lt;code&gt;M-x toggle-input-method&lt;/code&gt; or &lt;code&gt;C-\&lt;/
 &lt;p&gt;
 Analysis about evil-mode,
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;You only input Non-English characters in evil-insert-state. So you need &lt;b&gt;go into evil-insert-state at first&lt;/b&gt; before toggle on input method&lt;/li&gt;
 &lt;li&gt;In evil-insert-state, you can toggle off input method to input English characters while &lt;b&gt;staying in evil-insert state&lt;/b&gt;&lt;/li&gt;
@@ -196,7 +193,6 @@ Analysis about evil-mode,
 &lt;p&gt;
 Here is the setup,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;;; {{ make IME compatible with evil-mode
@@ -241,7 +237,6 @@ Chinese version:
 &lt;p&gt;
 在evil-mode中切换输入法有以下要点,
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;输中文前须进入evil-insert-state&lt;/li&gt;
 &lt;li&gt;在evil-insert-state中可能会切换输入法&lt;/li&gt;
@@ -271,7 +266,6 @@ I have been using it for more than one month without any issue. I prefer general
 &lt;p&gt;
 Minimum setup is simple,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'general)
@@ -304,7 +298,6 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;p&gt;
 Insert below code into ~/.emacs:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;;; {{ nearby file path as text object,
@@ -443,7 +436,6 @@ I've read all the Emacs RSI related articles from the internet.
 &lt;p&gt;
 Typical solutions are:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;buy special hardware&lt;/li&gt;
 &lt;li&gt;remap ctrl key (because Emacs users press Ctrl key too often)&lt;/li&gt;
@@ -479,7 +471,6 @@ The principle here is &lt;b&gt;DO NOT&lt;/b&gt; move hands at all. Following thi
 &lt;p&gt;
 For example, by using &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt; and &lt;a href="https://github.com/cofi/evil-leader"&gt;evil-leader&lt;/a&gt;. With hot key prefix &lt;code&gt;C-x&lt;/code&gt;, I use &lt;code&gt;,x&lt;/code&gt; to replace. For example, &lt;code&gt;C-x C-c&lt;/code&gt; is replaced with &lt;code&gt;,xc&lt;/code&gt;,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(require 'evil-leader)
@@ -503,7 +494,6 @@ On some keyboard, the &lt;code&gt;Alt&lt;/code&gt; key is easy to press because 
 &lt;p&gt;
 Please note &lt;code&gt;Alt&lt;/code&gt; and &lt;code&gt;k&lt;/code&gt; is also close to my fingers. Here is my setup in &lt;code&gt;.emacs&lt;/code&gt;:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(global-set-key (kbd "M-k") 'keyboard-quit)
@@ -518,7 +508,6 @@ Please note &lt;code&gt;Alt&lt;/code&gt; and &lt;code&gt;k&lt;/code&gt; is also 
 &lt;p&gt;
 Some minor modes will re-assign the hot key &lt;code&gt;C-g&lt;/code&gt;, so when I say replace &lt;code&gt;C-g&lt;/code&gt; with &lt;code&gt;,k&lt;/code&gt;. It may be a bit more elisp code:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;;; the original hot key of helm-keyboard-quit is "C-g"
@@ -530,13 +519,12 @@ Some minor modes will re-assign the hot key &lt;code&gt;C-g&lt;/code&gt;, so whe
 &lt;p&gt;
 The key point is to understand the principles instead copy my configuration:
 &lt;/p&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;comma is a good key for hot key prefix, it's used by vi users for ages&lt;/li&gt;
 &lt;li&gt;use keys close to fingers (L,J,K,L, for example) in hot keys&lt;/li&gt;
 &lt;li&gt;Other keys close to right hand is also useful in key combinations&lt;/li&gt;
 &lt;li&gt;Avoid move left hand&lt;/li&gt;
-&lt;/ul&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>rsi</category><guid>http://blog.binchen.org/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2/</guid><pubDate>Fri, 09 Aug 2013 10:05:00 GMT</pubDate></item><item><title>How to refactor/rename a variable name in a function efficiently</title><link>http://blog.binchen.org/posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;As we dicussed in &lt;a href="https://plus.google.com/110954683162859211810/posts/TgnyDRqBWkb"&gt;Emacs community at Google+&lt;/a&gt;. Although &lt;a href="https://github.com/magnars/multiple-cursors.el"&gt;multiple-cursor&lt;/a&gt; is good for this task, I cannot use it because it conflicts with my favourite &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;evil-mode&lt;/a&gt; (Vim simulation in Emacs). &lt;/p&gt; &lt;p&gt; There is another emacs plugin called &lt;a href="https://github.com/victorhge/iedit"&gt;iedit&lt;/a&gt; which could do the similar job (I usually use its command called iedit-mode-toggle-on-function) &lt;/p&gt; &lt;p&gt; Though iedit is good, there is still room for improvement. When using iedit-mode-toggle-on-function, we need press key twice to rename the variable name. Once to enable it, twice to disable it. &lt;/p&gt; &lt;p&gt; Magnar Sveen pointed out in the G+ discussion that the key point we need plugins like multiple-cursor or iedit-mode is that we can see all the changes while doing the editing. &lt;/p&gt; &lt;p&gt; This reminds me that evil-mode has a excellent regex string replacing mode which also show the changes when you are typing EACH character of new string. &lt;/p&gt; &lt;p&gt; So by using evil-mode's default regex replacing command, I can implement similar feature even more efficiently then iedit-mode! &lt;/p&gt; &lt;p&gt; Here is my elisp code: &lt;/p&gt;   &lt;pre class="src src-elisp"&gt;(&lt;span style="color: #b9ca4a;"&gt;defun&lt;/span&gt; &lt;span style="color: #7aa6da;"&gt;evilcvn-change-symbol-in-defun&lt;/span&gt; ()
+&lt;/ul&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>rsi</category><guid>http://blog.binchen.org/posts/how-to-avoid-ris-when-using-emacs-by-re-assigning-hotkeys-2/</guid><pubDate>Fri, 09 Aug 2013 10:05:00 GMT</pubDate></item><item><title>How to refactor/rename a variable name in a function efficiently</title><link>http://blog.binchen.org/posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;As we dicussed in &lt;a href="https://plus.google.com/110954683162859211810/posts/TgnyDRqBWkb"&gt;Emacs community at Google+&lt;/a&gt;. Although &lt;a href="https://github.com/magnars/multiple-cursors.el"&gt;multiple-cursor&lt;/a&gt; is good for this task, I cannot use it because it conflicts with my favourite &lt;a href="http://www.emacswiki.org/emacs/Evil"&gt;evil-mode&lt;/a&gt; (Vim simulation in Emacs). &lt;/p&gt; &lt;p&gt; There is another emacs plugin called &lt;a href="https://github.com/victorhge/iedit"&gt;iedit&lt;/a&gt; which could do the similar job (I usually use its command called iedit-mode-toggle-on-function) &lt;/p&gt; &lt;p&gt; Though iedit is good, there is still room for improvement. When using iedit-mode-toggle-on-function, we need press key twice to rename the variable name. Once to enable it, twice to disable it. &lt;/p&gt; &lt;p&gt; Magnar Sveen pointed out in the G+ discussion that the key point we need plugins like multiple-cursor or iedit-mode is that we can see all the changes while doing the editing. &lt;/p&gt; &lt;p&gt; This reminds me that evil-mode has a excellent regex string replacing mode which also show the changes when you are typing EACH character of new string. &lt;/p&gt; &lt;p&gt; So by using evil-mode's default regex replacing command, I can implement similar feature even more efficiently then iedit-mode! &lt;/p&gt; &lt;p&gt; Here is my elisp code: &lt;/p&gt;   &lt;pre class="src src-elisp"&gt;(&lt;span style="color: #b9ca4a;"&gt;defun&lt;/span&gt; &lt;span style="color: #7aa6da;"&gt;evilcvn-change-symbol-in-defun&lt;/span&gt; ()
   &lt;span style="color: #c397d8;"&gt;"mark the region in defun (definition of function) and use string replacing UI in evil-mode&lt;/span&gt;
 &lt;span style="color: #c397d8;"&gt;to replace the symbol under cursor"&lt;/span&gt;
   (interactive)
@@ -544,7 +532,8 @@ The key point is to understand the principles instead copy my configuration:
     (mark-defun)
     (&lt;span style="color: #b9ca4a;"&gt;unless&lt;/span&gt; (evil-visual-state-p)
       (evil-visual-state))
-    (evil-ex (concat &lt;span style="color: #70c0b1;"&gt;"'&amp;lt;,'&amp;gt;s/"&lt;/span&gt; (&lt;span style="color: #b9ca4a;"&gt;if&lt;/span&gt; (= 0 (length old)) &lt;span style="color: #70c0b1;"&gt;""&lt;/span&gt; &lt;span style="color: #70c0b1;"&gt;"\&amp;lt;&lt;/span&gt;&lt;span style="color: #e7c547; font-weight: bold;"&gt;\&lt;/span&gt;&lt;span style="color: #c397d8; font-weight: bold;"&gt;(&lt;/span&gt;&lt;span style="color: #70c0b1;"&gt;"&lt;/span&gt;) old (&lt;span style="color: #b9ca4a;"&gt;if&lt;/span&gt; (= 0 (length old)) &lt;span style="color: #70c0b1;"&gt;""&lt;/span&gt; &lt;span style="color: #70c0b1;"&gt;"&lt;/span&gt;&lt;span style="color: #e7c547; font-weight: bold;"&gt;\&lt;/span&gt;&lt;span style="color: #c397d8; font-weight: bold;"&gt;)&lt;/span&gt;&lt;span style="color: #70c0b1;"&gt;\&amp;gt;/"&lt;/span&gt;))))
+    (evil-ex (concat &lt;span style="color: #70c0b1;"&gt;"'&amp;lt;,'&amp;gt;s/"&lt;/span&gt; (&lt;span style="color: #b9ca4a;"&gt;if&lt;/span&gt; (= 0 (length old)) &lt;span style="color: #70c0b1;"&gt;""&lt;/span&gt; &lt;span style="color: #70c0b1;"&gt;"\\&amp;lt;&lt;/span&gt;&lt;span style="color: #e7c547; font-weight: bold;"&gt;\\&lt;/span&gt;&lt;span style="color: #c397d8; font-weight: bold;"&gt;(&lt;/span&gt;&lt;span style="color: #70c0b1;"&gt;"&lt;/span&gt;) old (&lt;span style="color: #b9ca4a;"&gt;if&lt;/span&gt; (= 0 (length old)) &lt;span style="color: #70c0b1;"&gt;""&lt;/span&gt; &lt;span style="color: #70c0b1;"&gt;"&lt;/span&gt;&lt;span style="color: #e7c547; font-weight: bold;"&gt;\\&lt;/span&gt;&lt;span style="color: #c397d8; font-weight: bold;"&gt;)&lt;/span&gt;&lt;span style="color: #70c0b1;"&gt;\\&amp;gt;/"&lt;/span&gt;))))
   )
 (global-set-key (kbd &lt;span style="color: #70c0b1;"&gt;"C-c ; s"&lt;/span&gt;) 'evilcvn-change-symbol-in-defun)
-&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;   &lt;p&gt; Put you cursor above a symbol/variable and press hot key "Ctrl-c ; s", then the regex to replace that symbol is automatically created and inserted into mini-buffer. Now you only need type new string and watch. &lt;/p&gt; &lt;p&gt; This is the screen shot (I renamed variable "count" into "cnt" in C++ function hello): &lt;img src="http://blog.binchen.org/wp-content/uploads/2013/05/wpid-evil-regex-replace-nq8.png" alt="image/evil-regex-replace-nq8.png"&gt; &lt;/p&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>programming</category><guid>http://blog.binchen.org/posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently/</guid><pubDate>Thu, 23 May 2013 21:05:00 GMT</pubDate></item></channel></rss>
+
+&lt;/pre&gt;   &lt;p&gt; Put you cursor above a symbol/variable and press hot key "Ctrl-c ; s", then the regex to replace that symbol is automatically created and inserted into mini-buffer. Now you only need type new string and watch. &lt;/p&gt; &lt;p&gt; This is the screen shot (I renamed variable "count" into "cnt" in C++ function hello): &lt;img src="http://blog.binchen.org/wp-content/uploads/2013/05/wpid-evil-regex-replace-nq8.png" alt="image/evil-regex-replace-nq8.png"&gt; &lt;/p&gt;</description><category>emacs</category><category>en</category><category>evil</category><category>programming</category><guid>http://blog.binchen.org/posts/how-to-refactorrename-a-variable-name-in-a-function-efficiently/</guid><pubDate>Thu, 23 May 2013 21:05:00 GMT</pubDate></item></channel></rss>

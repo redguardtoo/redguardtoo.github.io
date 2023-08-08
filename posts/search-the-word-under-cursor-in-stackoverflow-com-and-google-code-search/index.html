@@ -60,8 +60,7 @@
 
         </div>
         <div class="body">
-            <p></p>
-<p>Two programming sites are most valuable to me: </p>
+            <p>Two programming sites are most valuable to me: </p>
 <dl>
 <dt>stackoverflow.com</dt>
 <dd>solution design and code prototype </dd> <dt>google code search</dt>
@@ -69,20 +68,26 @@
 <p> So I write some elisp code w3mext-hacker-search to automate the workflow. </p> <p> Copy the into ~/.emacs and you can use hotkey "C-c ; s" to open search results in external browser (firefox, for example): </p>   <pre class="src src-elisp"><span style="color: #969896; font-style: italic;">; </span><span style="color: #969896; font-style: italic;">external browser should be firefox</span>
 (setq browse-url-generic-program
       (<span style="color: #b9ca4a;">cond</span>
-       (<em>is-a-mac</em> <span style="color: #70c0b1;">"open"</span>)
-       (<em>linux</em> (executable-find <span style="color: #70c0b1;">"firefox"</span>))
+       (*is-a-mac* <span style="color: #70c0b1;">"open"</span>)
+       (*linux* (executable-find <span style="color: #70c0b1;">"firefox"</span>))
        ))
-<p><span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">use external browser to search</span></p>
-<p>(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">w3mext-hacker-search</span> ()
+
+
+<span style="color: #969896; font-style: italic;">;; </span><span style="color: #969896; font-style: italic;">use external browser to search</span>
+
+(<span style="color: #b9ca4a;">defun</span> <span style="color: #7aa6da;">w3mext-hacker-search</span> ()
   <span style="color: #c397d8;">"search word under cursor in google code search and stackoverflow.com"</span>
   (interactive)
   (<span style="color: #b9ca4a;">require</span> '<span style="color: #e78c45;">w3m</span>)
   (<span style="color: #b9ca4a;">let</span> ((keyword (w3m-url-encode-string (thing-at-point 'symbol))))
     (browse-url-generic (concat <span style="color: #70c0b1;">"http://code.google.com/codesearch?q="</span> keyword))
     (browse-url-generic (concat <span style="color: #70c0b1;">"http://www.google.com.au/search?hl=en&amp;q="</span> keyword <span style="color: #70c0b1;">"+site:stackoverflow.com"</span> )))
-  )</p>
-<p>(add-hook 'prog-mode-hook '( lambda () (local-set-key (kbd <span style="color: #70c0b1;">"C-c ; s"</span>) 'w3mext-hacker-search)) )</p>
-<p></p></pre>
+  )
+
+
+(add-hook 'prog-mode-hook '( lambda () (local-set-key (kbd <span style="color: #70c0b1;">"C-c ; s"</span>) 'w3mext-hacker-search)) )
+
+</pre>
         </div>
         
         <ul class="pager hidden-print">
@@ -119,7 +124,7 @@
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

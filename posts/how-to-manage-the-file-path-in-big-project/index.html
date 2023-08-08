@@ -18,8 +18,7 @@
 Reasons:
 
 
-
-If file B refer to file A with &quot;../A&quot;. Then B's position in the project *CANNOT be changed. Or else its reference to A will b">
+If file B refer to file A with &quot;../A&quot;. Then B's position in the project *CANNOT be changed. Or else its reference to A will be">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2014-05-29T01:31:35Z">
 <meta property="article:tag" content="bash">
@@ -73,7 +72,6 @@ It's not good practice to use relative path in big project.
 <p>
 Reasons:
 </p>
-
 <ul class="org-ul">
 <li>If file B refer to file A with "../A". Then B's position in the project *CANNOT be changed. Or else its reference to A will be wrong.</li>
 <li>Relative path is not intuitive when debugging.</li>
@@ -98,7 +96,6 @@ For example, we can replace absolute path "/home/cb/projects/app1/src/test.c" wi
 <p>
 Insert below code into ~/.bashrc so TTAGROOT value is set when you logged into bash:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">export TTAGROOT="/home/cb/projects/app1"
@@ -113,7 +110,6 @@ In you script to do the real job, you could make TTAGROOT optional and still use
 <p>
 Here is a sample file named test.sh:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#!/bin/bash
@@ -130,7 +126,6 @@ You could use test.sh without $TTAGROOT. Or you can set up default value of $TTA
 <p>
 Or you can override the TTAGROOT value when you executing "test.sh":
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">TTAGROOT="hello" ./test.sh
@@ -177,7 +172,7 @@ BTW, don't abuse this technique. Set <b>one environment variable</b> for the roo
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

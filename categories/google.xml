@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about google)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/google.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 26 Apr 2022 15:03:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use gcalcli for google calendar</title><link>http://blog.binchen.org/posts/use-gcalcli-for-google-calendar/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about google)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/google.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use gcalcli for google calendar</title><link>http://blog.binchen.org/posts/use-gcalcli-for-google-calendar/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I use cli `pip install –user gcalcli parsedatetime` to install &lt;a href="https://github.com/insanum/gcalcli"&gt;gcalcli&lt;/a&gt; into HOME folder.
 &lt;/p&gt;
 
@@ -14,7 +14,6 @@ For &lt;a href="https://github.com/insanum/gcalcli/issues/167"&gt;multiple accou
 &lt;p&gt;
 Use &lt;a href="https://en.wikipedia.org/wiki/Paste_%28Unix%29"&gt;paste (Unix)&lt;/a&gt; to join two calendars in bash,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;paste &amp;lt;(gcalcli --configFolder ~/.config/gcacli-work calw) &amp;lt;(gcalcli calw)
@@ -25,86 +24,204 @@ Use &lt;a href="https://en.wikipedia.org/wiki/Paste_%28Unix%29"&gt;paste (Unix)&
 &lt;p&gt;
 Edit crontab to remind me about the calendar events,
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-crontab"&gt;*/10 * * * * $HOME/.local/bin/gcalcli remind
 */10 * * * * $HOME/.local/bin/gcalcli --configFolder $HOME/.config/gcacli-work remind
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>calendar</category><category>en</category><category>google</category><guid>http://blog.binchen.org/posts/use-gcalcli-for-google-calendar/</guid><pubDate>Tue, 05 Jan 2016 02:37:20 GMT</pubDate></item><item><title>Notes on Google Chrome's dev tool</title><link>http://blog.binchen.org/posts/notes-on-google-chromes-dev-tool/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;C-[ or C-] to switch panel &lt;/li&gt; &lt;li&gt;C-S-J to toggle dev tools and focus &lt;b&gt;Console panel&lt;/b&gt;, see &lt;a href="https://developers.google.com/chrome-developer-tools/docs/commandline-api"&gt;command line reference&lt;/a&gt; &lt;/li&gt; &lt;li&gt;C-S-I to toggle dev tools, then C-o to switch to &lt;b&gt;Sources panel&lt;/b&gt; if needed &lt;/li&gt; &lt;li&gt;C-S-C to &lt;b&gt;open&lt;/b&gt; dev tools and focus on &lt;b&gt;Elements panel&lt;/b&gt; &lt;/li&gt; &lt;li&gt;See &lt;a href="https://developers.google.com/chrome-developer-tools/docs/shortcuts"&gt;https://developers.google.com/chrome-developer-tools/docs/shortcuts&lt;/a&gt; for all hot keys &lt;/li&gt; &lt;li&gt;See &lt;a href="https://developers.google.com/chrome-developer-tools/docs/javascript-debugging"&gt;https://developers.google.com/chrome-developer-tools/docs/javascript-debugging&lt;/a&gt; &lt;/li&gt; &lt;li&gt;Click &lt;a href="http://javascript-library.googlecode.com/svn/trunk/javascript/goog/demos/hovercard.html"&gt;here&lt;/a&gt; for test &lt;/li&gt; &lt;/ul&gt;   &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt; &lt;caption&gt;&lt;/caption&gt; &lt;colgroup&gt;&lt;col class="left"&gt;&lt;col class="left"&gt; &lt;/colgroup&gt; &lt;thead&gt; &lt;tr&gt;&lt;th scope="col" class="left"&gt;command in source panel&lt;/th&gt;&lt;th scope="col" class="left"&gt;hotkey&lt;/th&gt;&lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt;&lt;td class="left"&gt;Continue&lt;/td&gt;&lt;td class="left"&gt;C-\&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Toggle break point&lt;/td&gt;&lt;td class="left"&gt;C-B&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Step over&lt;/td&gt;&lt;td class="left"&gt;C-'&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Step into&lt;/td&gt;&lt;td class="left"&gt;C-;&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Step out&lt;/td&gt;&lt;td class="left"&gt;S-C-;&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Up call stack&lt;/td&gt;&lt;td class="left"&gt;C-,&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Down call stack&lt;/td&gt;&lt;td class="left"&gt;C-.&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Toggle console view&lt;/td&gt;&lt;td class="left"&gt;ESC&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Goto line&lt;/td&gt;&lt;td class="left"&gt;C-G&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Goto file&lt;/td&gt;&lt;td class="left"&gt;C-P&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Jump to method&lt;/td&gt;&lt;td class="left"&gt;S-C-O&lt;/td&gt;&lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt;  &lt;ul&gt; &lt;li&gt;I don't use hotkey F1~F12 because my windows manager is different from most developers &lt;/li&gt; &lt;li&gt;live editing does not work on Chromium 30.0.1599.114 Built on Ubuntu 13.04. Anyway, I don't need this functionality &lt;/li&gt; &lt;li&gt;hotkeys of "Continue" button in &lt;b&gt;Sources panel&lt;/b&gt; does not work on Chromium 30.0.1599.114 Built on Ubuntu 13.04. &lt;/li&gt; &lt;li&gt;"Break on" inspected element is extremely useful &lt;/li&gt; &lt;/ul&gt;</description><category>chrome</category><category>debug</category><category>en</category><category>google</category><category>javascript</category><guid>http://blog.binchen.org/posts/notes-on-google-chromes-dev-tool/</guid><pubDate>Mon, 13 Jan 2014 12:32:00 GMT</pubDate></item><item><title>install google talk plugin (64bit) on gentoo Linux</title><link>http://blog.binchen.org/posts/install-google-talk-plugin-64bit-on-gentoo-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;pre class="src src-sh"&gt;firefox &lt;span style="color: #8abeb7;"&gt;'http://www.google.com/chat/video/thankyou.html'&lt;/span&gt;
+&lt;/div&gt;</description><category>calendar</category><category>en</category><category>google</category><guid>http://blog.binchen.org/posts/use-gcalcli-for-google-calendar/</guid><pubDate>Tue, 05 Jan 2016 02:37:20 GMT</pubDate></item><item><title>Notes on Google Chrome's dev tool</title><link>http://blog.binchen.org/posts/notes-on-google-chromes-dev-tool/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul&gt; &lt;li&gt;C-[ or C-] to switch panel &lt;/li&gt; &lt;li&gt;C-S-J to toggle dev tools and focus &lt;b&gt;Console panel&lt;/b&gt;, see &lt;a href="https://developers.google.com/chrome-developer-tools/docs/commandline-api"&gt;command line reference&lt;/a&gt; &lt;/li&gt; &lt;li&gt;C-S-I to toggle dev tools, then C-o to switch to &lt;b&gt;Sources panel&lt;/b&gt; if needed &lt;/li&gt; &lt;li&gt;C-S-C to &lt;b&gt;open&lt;/b&gt; dev tools and focus on &lt;b&gt;Elements panel&lt;/b&gt; &lt;/li&gt; &lt;li&gt;See &lt;a href="https://developers.google.com/chrome-developer-tools/docs/shortcuts"&gt;https://developers.google.com/chrome-developer-tools/docs/shortcuts&lt;/a&gt; for all hot keys &lt;/li&gt; &lt;li&gt;See &lt;a href="https://developers.google.com/chrome-developer-tools/docs/javascript-debugging"&gt;https://developers.google.com/chrome-developer-tools/docs/javascript-debugging&lt;/a&gt; &lt;/li&gt; &lt;li&gt;Click &lt;a href="http://javascript-library.googlecode.com/svn/trunk/javascript/goog/demos/hovercard.html"&gt;here&lt;/a&gt; for test &lt;/li&gt; &lt;/ul&gt;   &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt; &lt;caption&gt;&lt;/caption&gt; &lt;colgroup&gt;&lt;col class="left"&gt;&lt;col class="left"&gt; &lt;/colgroup&gt; &lt;thead&gt; &lt;tr&gt;&lt;th scope="col" class="left"&gt;command in source panel&lt;/th&gt;&lt;th scope="col" class="left"&gt;hotkey&lt;/th&gt;&lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt;&lt;td class="left"&gt;Continue&lt;/td&gt;&lt;td class="left"&gt;C-\&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Toggle break point&lt;/td&gt;&lt;td class="left"&gt;C-B&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Step over&lt;/td&gt;&lt;td class="left"&gt;C-'&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Step into&lt;/td&gt;&lt;td class="left"&gt;C-;&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Step out&lt;/td&gt;&lt;td class="left"&gt;S-C-;&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Up call stack&lt;/td&gt;&lt;td class="left"&gt;C-,&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Down call stack&lt;/td&gt;&lt;td class="left"&gt;C-.&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Toggle console view&lt;/td&gt;&lt;td class="left"&gt;ESC&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Goto line&lt;/td&gt;&lt;td class="left"&gt;C-G&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Goto file&lt;/td&gt;&lt;td class="left"&gt;C-P&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td class="left"&gt;Jump to method&lt;/td&gt;&lt;td class="left"&gt;S-C-O&lt;/td&gt;&lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt;  &lt;ul&gt; &lt;li&gt;I don't use hotkey F1~F12 because my windows manager is different from most developers &lt;/li&gt; &lt;li&gt;live editing does not work on Chromium 30.0.1599.114 Built on Ubuntu 13.04. Anyway, I don't need this functionality &lt;/li&gt; &lt;li&gt;hotkeys of "Continue" button in &lt;b&gt;Sources panel&lt;/b&gt; does not work on Chromium 30.0.1599.114 Built on Ubuntu 13.04. &lt;/li&gt; &lt;li&gt;"Break on" inspected element is extremely useful &lt;/li&gt; &lt;/ul&gt;</description><category>chrome</category><category>debug</category><category>en</category><category>google</category><category>javascript</category><guid>http://blog.binchen.org/posts/notes-on-google-chromes-dev-tool/</guid><pubDate>Mon, 13 Jan 2014 12:32:00 GMT</pubDate></item><item><title>install google talk plugin (64bit) on gentoo Linux</title><link>http://blog.binchen.org/posts/install-google-talk-plugin-64bit-on-gentoo-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;pre class="src src-sh"&gt;firefox &lt;span style="color: #8abeb7;"&gt;'http://www.google.com/chat/video/thankyou.html'&lt;/span&gt;
 emerge -v deb2targz &amp;amp;&amp;amp;
-&lt;p&gt;deb2targz google-talkplugin_current_amd64.deb &amp;amp;&amp;amp;&lt;/p&gt;
-&lt;p&gt;mkdir googletalk &amp;amp;&amp;amp; &lt;span style="color: #b294bb;"&gt;cd&lt;/span&gt; googletalk&lt;/p&gt;
-&lt;p&gt;tar xvf ../google-talkplugin_current_i386.tar.gz &amp;amp;&amp;amp;&lt;/p&gt;
-&lt;p&gt;sudo cp -Rfv {etc,opt} /&lt;/p&gt;
-&lt;p&gt;sudo cp -Rfv usr/lib/* /usr/lib64/&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;   &lt;p&gt; Here is the content of google talk: &lt;/p&gt;   &lt;pre class="src src-sh"&gt;./etc/cron.daily:
-&lt;p&gt;google-talkplugin&lt;/p&gt;
-&lt;p&gt;./opt/google:&lt;/p&gt;
-&lt;p&gt;chrome&lt;/p&gt;
-&lt;p&gt;talkplugin&lt;/p&gt;
-&lt;p&gt;./opt/google/chrome:&lt;/p&gt;
-&lt;p&gt;pepper&lt;/p&gt;
-&lt;p&gt;./opt/google/chrome/pepper:&lt;/p&gt;
-&lt;p&gt;libppo1d.so&lt;/p&gt;
-&lt;p&gt;./opt/google/talkplugin:&lt;/p&gt;
-&lt;p&gt;./usr/lib:&lt;/p&gt;
-&lt;p&gt;firefox&lt;/p&gt;
-&lt;p&gt;iceape&lt;/p&gt;
-&lt;p&gt;iceweasel&lt;/p&gt;
-&lt;p&gt;midbrowser&lt;/p&gt;
-&lt;p&gt;mozilla&lt;/p&gt;
-&lt;p&gt;xulrunner&lt;/p&gt;
-&lt;p&gt;xulrunner-addons&lt;/p&gt;
-&lt;p&gt;./usr/lib/firefox:&lt;/p&gt;
-&lt;p&gt;plugins&lt;/p&gt;
-&lt;p&gt;./usr/lib/firefox/plugins:&lt;/p&gt;
-&lt;p&gt;libnpgoogletalk.so&lt;/p&gt;
-&lt;p&gt;libnpgtpo3dautoplugin.so&lt;/p&gt;
-&lt;p&gt;libnpo1d.so&lt;/p&gt;
-&lt;p&gt;./usr/lib/iceape:&lt;/p&gt;
-&lt;p&gt;plugins&lt;/p&gt;
-&lt;p&gt;./usr/lib/iceape/plugins:&lt;/p&gt;
-&lt;p&gt;libnpgoogletalk.so&lt;/p&gt;
-&lt;p&gt;libnpgtpo3dautoplugin.so&lt;/p&gt;
-&lt;p&gt;libnpo1d.so&lt;/p&gt;
-&lt;p&gt;./usr/lib/iceweasel:&lt;/p&gt;
-&lt;p&gt;plugins&lt;/p&gt;
-&lt;p&gt;./usr/lib/iceweasel/plugins:&lt;/p&gt;
-&lt;p&gt;libnpgoogletalk.so&lt;/p&gt;
-&lt;p&gt;libnpgtpo3dautoplugin.so&lt;/p&gt;
-&lt;p&gt;libnpo1d.so&lt;/p&gt;
-&lt;p&gt;./usr/lib/midbrowser:&lt;/p&gt;
-&lt;p&gt;plugins&lt;/p&gt;
-&lt;p&gt;./usr/lib/midbrowser/plugins:&lt;/p&gt;
-&lt;p&gt;libnpgoogletalk.so&lt;/p&gt;
-&lt;p&gt;libnpgtpo3dautoplugin.so&lt;/p&gt;
-&lt;p&gt;libnpo1d.so&lt;/p&gt;
-&lt;p&gt;./usr/lib/mozilla:&lt;/p&gt;
-&lt;p&gt;plugins&lt;/p&gt;
-&lt;p&gt;./usr/lib/mozilla/plugins:&lt;/p&gt;
-&lt;p&gt;libnpgoogletalk.so&lt;/p&gt;
-&lt;p&gt;libnpgtpo3dautoplugin.so&lt;/p&gt;
-&lt;p&gt;libnpo1d.so&lt;/p&gt;
-&lt;p&gt;./usr/lib/xulrunner:&lt;/p&gt;
-&lt;p&gt;plugins&lt;/p&gt;
-&lt;p&gt;./usr/lib/xulrunner/plugins:&lt;/p&gt;
-&lt;p&gt;libnpgoogletalk.so&lt;/p&gt;
-&lt;p&gt;libnpgtpo3dautoplugin.so&lt;/p&gt;
-&lt;p&gt;libnpo1d.so&lt;/p&gt;
-&lt;p&gt;./usr/lib/xulrunner-addons:&lt;/p&gt;
-&lt;p&gt;plugins&lt;/p&gt;
-&lt;p&gt;./usr/lib/xulrunner-addons/plugins:&lt;/p&gt;
-&lt;p&gt;libnpgoogletalk.so&lt;/p&gt;
-&lt;p&gt;libnpgtpo3dautoplugin.so&lt;/p&gt;
-&lt;p&gt;libnpo1d.so&lt;/p&gt;
-&lt;p&gt;./usr/share:&lt;/p&gt;
-&lt;p&gt;doc&lt;/p&gt;
-&lt;p&gt;./usr/share/doc:&lt;/p&gt;
-&lt;p&gt;google-talkplugin&lt;/p&gt;
-&lt;p&gt;./usr/share/doc/google-talkplugin:&lt;/p&gt;
-&lt;p&gt;changelog.Debian.gz&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;</description><category>en</category><category>google</category><category>linux</category><category>talk</category><guid>http://blog.binchen.org/posts/install-google-talk-plugin-64bit-on-gentoo-linux/</guid><pubDate>Mon, 24 Jun 2013 20:42:00 GMT</pubDate></item><item><title>Import Gmail contacts into BBDB</title><link>http://blog.binchen.org/posts/import-gmail-contacts-into-bbdb/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;ul&gt; &lt;li&gt;Go to &lt;a href="http://contacts.google.com"&gt;http://contacts.google.com&lt;/a&gt;, click the menu "More&amp;gt;&amp;gt;Export…&amp;gt;&amp;gt;vCard format (blah, blah …)". &lt;/li&gt; &lt;li&gt;Click "Export" button. Download the contacts.vcf. &lt;/li&gt; &lt;li&gt;Make sure &lt;a href="https://github.com/trebb/bbdb-vcard"&gt;bbdb-vcard.el&lt;/a&gt; installed. &lt;/li&gt; &lt;li&gt;In Emacs run "M-x bbdb-vcard-import-file" and input the full path of contacts.vcf &lt;/li&gt; &lt;li&gt;In Emacs run "M-x bbdb-save" &lt;/li&gt; &lt;li&gt;Remove contacts whose names are empty. These are Google Plus people inserted automatically by Gmail: &lt;/li&gt; &lt;/ul&gt;  &lt;p&gt;Run the command in shell: &lt;/p&gt;   &lt;pre class="src src-sh"&gt;&lt;span style="color: #969896; font-style: italic;"&gt;# &lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;the orginal ~/.bbdb will be saved as ~/.bbdb.bak&lt;/span&gt;
-sed -i.bak &lt;span style="color: #70c0b1;"&gt;'/["" ""/d'&lt;/span&gt; ~/.bbdb
-&lt;p&gt;&lt;/p&gt;&lt;/pre&gt;</description><category>bbdb</category><category>emacs</category><category>en</category><category>gmail</category><category>google</category><guid>http://blog.binchen.org/posts/import-gmail-contacts-into-bbdb/</guid><pubDate>Sat, 26 Jan 2013 11:56:00 GMT</pubDate></item></channel></rss>
+
+deb2targz google-talkplugin_current_amd64.deb &amp;amp;&amp;amp;
+
+mkdir googletalk &amp;amp;&amp;amp; &lt;span style="color: #b294bb;"&gt;cd&lt;/span&gt; googletalk
+
+tar xvf ../google-talkplugin_current_i386.tar.gz &amp;amp;&amp;amp;
+
+sudo cp -Rfv {etc,opt} /
+
+sudo cp -Rfv usr/lib/* /usr/lib64/
+
+&lt;/pre&gt;   &lt;p&gt; Here is the content of google talk: &lt;/p&gt;   &lt;pre class="src src-sh"&gt;./etc/cron.daily:
+
+google-talkplugin
+
+
+
+./opt/google:
+
+chrome
+
+talkplugin
+
+
+
+./opt/google/chrome:
+
+pepper
+
+
+
+./opt/google/chrome/pepper:
+
+libppo1d.so
+
+
+
+./opt/google/talkplugin:
+
+
+
+./usr/lib:
+
+firefox
+
+iceape
+
+iceweasel
+
+midbrowser
+
+mozilla
+
+xulrunner
+
+xulrunner-addons
+
+
+
+./usr/lib/firefox:
+
+plugins
+
+
+
+./usr/lib/firefox/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/iceape:
+
+plugins
+
+
+
+./usr/lib/iceape/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/iceweasel:
+
+plugins
+
+
+
+./usr/lib/iceweasel/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/midbrowser:
+
+plugins
+
+
+
+./usr/lib/midbrowser/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/mozilla:
+
+plugins
+
+
+
+./usr/lib/mozilla/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/xulrunner:
+
+plugins
+
+
+
+./usr/lib/xulrunner/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/lib/xulrunner-addons:
+
+plugins
+
+
+
+./usr/lib/xulrunner-addons/plugins:
+
+libnpgoogletalk.so
+
+libnpgtpo3dautoplugin.so
+
+libnpo1d.so
+
+
+
+./usr/share:
+
+doc
+
+
+
+./usr/share/doc:
+
+google-talkplugin
+
+
+
+./usr/share/doc/google-talkplugin:
+
+changelog.Debian.gz
+
+
+
+&lt;/pre&gt;</description><category>en</category><category>google</category><category>linux</category><category>talk</category><guid>http://blog.binchen.org/posts/install-google-talk-plugin-64bit-on-gentoo-linux/</guid><pubDate>Mon, 24 Jun 2013 20:42:00 GMT</pubDate></item><item><title>Import Gmail contacts into BBDB</title><link>http://blog.binchen.org/posts/import-gmail-contacts-into-bbdb/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul&gt; &lt;li&gt;Go to &lt;a href="http://contacts.google.com"&gt;http://contacts.google.com&lt;/a&gt;, click the menu "More&amp;gt;&amp;gt;Export…&amp;gt;&amp;gt;vCard format (blah, blah …)". &lt;/li&gt; &lt;li&gt;Click "Export" button. Download the contacts.vcf. &lt;/li&gt; &lt;li&gt;Make sure &lt;a href="https://github.com/trebb/bbdb-vcard"&gt;bbdb-vcard.el&lt;/a&gt; installed. &lt;/li&gt; &lt;li&gt;In Emacs run "M-x bbdb-vcard-import-file" and input the full path of contacts.vcf &lt;/li&gt; &lt;li&gt;In Emacs run "M-x bbdb-save" &lt;/li&gt; &lt;li&gt;Remove contacts whose names are empty. These are Google Plus people inserted automatically by Gmail: &lt;/li&gt; &lt;/ul&gt;  &lt;p&gt;Run the command in shell: &lt;/p&gt;   &lt;pre class="src src-sh"&gt;&lt;span style="color: #969896; font-style: italic;"&gt;# &lt;/span&gt;&lt;span style="color: #969896; font-style: italic;"&gt;the orginal ~/.bbdb will be saved as ~/.bbdb.bak&lt;/span&gt;
+sed -i.bak &lt;span style="color: #70c0b1;"&gt;'/\["" ""/d'&lt;/span&gt; ~/.bbdb
+
+&lt;/pre&gt;</description><category>bbdb</category><category>emacs</category><category>en</category><category>gmail</category><category>google</category><guid>http://blog.binchen.org/posts/import-gmail-contacts-into-bbdb/</guid><pubDate>Sat, 26 Jan 2013 11:56:00 GMT</pubDate></item></channel></rss>

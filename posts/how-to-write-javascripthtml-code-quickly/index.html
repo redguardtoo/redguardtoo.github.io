@@ -62,8 +62,7 @@
 
         </div>
         <div class="body">
-            <p></p>
-<div id="outline-container-1" class="outline-3"> <h4 id="sec-1">mixing code of javascript and html is a big problem</h4> <div class="outline-text-3" id="text-1">   <p> If we mix the javascript code into html file as below: </p>   <pre class="src src-html">&lt;<span style="color: #81a2be;">ul</span>&gt;
+            <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">mixing code of javascript and html is a big problem</h4> <div class="outline-text-3" id="text-1">   <p> If we mix the javascript code into html file as below: </p>   <pre class="src src-html">&lt;<span style="color: #81a2be;">ul</span>&gt;
   &lt;% for(var key in service.get('Detail')){ %&gt;
     &lt;<span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span> if(key!='creditcard_number){ %&gt;
       &lt;<span style="color: #81a2be;">li</span>&gt;
@@ -72,8 +71,12 @@
         &lt;/<span style="color: #81a2be;">li</span>&gt;
     &lt;% }<span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
 &lt;% } <span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
-<p>&lt;/<span style="color: #81a2be;">ul</span>&gt;</p>
-<p></p></pre>  <p> Then it's hard to write/debug/fix the javascript code because: </p>
+
+&lt;/<span style="color: #81a2be;">ul</span>&gt;
+
+
+
+</pre>  <p> Then it's hard to write/debug/fix the javascript code because: </p>
 <ol>
 <li>html code becomes noise for javascript development. </li> <li>The syntax checker for javascript will not work properly. </li> </ol>
 <p> If  we mix the html code into javascript file as below: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">for</span>(<span style="color: #b5bd68;">var</span> <span style="color: #f0c674;">key</span> <span style="color: #b5bd68;">in</span> service.get(<span style="color: #8abeb7;">'Detail'</span>)){
@@ -81,7 +84,8 @@
     htmlRender(formatString(<span style="color: #8abeb7;">"&lt;li&gt;&lt;label for='%s'&gt;%s&lt;/label&gt;&lt;div id='%s'&gt;%s&lt;/div&gt;"</span>,key,key,service.get(<span style="color: #8abeb7;">'Details'</span>)[key]));
   }
 }
-<p></p></pre>  <p> Now html code becomes hard to write/debug/fix because: </p>
+
+</pre>  <p> Now html code becomes hard to write/debug/fix because: </p>
 <ol>
 <li>javascript code becomes noise for html development. </li> <li>The syntax checker for html will not work properly. </li> </ol>
 <p> In summary, mixing code in different language syntax will: </p>
@@ -96,39 +100,53 @@
      &lt;<span style="color: #81a2be;">div</span> <span style="color: #f0c674;">id</span>='&lt;%=key %&gt;'&gt;&lt;%= formatServiceAttributes(service,key) %&gt;&lt;/<span style="color: #81a2be;">div</span>&gt;
    &lt;/<span style="color: #81a2be;">li</span>&gt;
 &lt;%  }); <span style="color: #000000; background-color: #ff00ff; font-weight: bold; text-decoration: underline;">%</span>&gt;
-<p></p></pre>   <p> Here is the javascript file: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">forEachAttributeInService</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">fn</span>) {
+
+</pre>   <p> Here is the javascript file: </p>   <pre class="src src-javascript"><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">forEachAttributeInService</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">fn</span>) {
   <span style="color: #b5bd68;">for</span>(<span style="color: #b5bd68;">var</span> <span style="color: #f0c674;">key</span> <span style="color: #b5bd68;">in</span> service.get(<span style="color: #8abeb7;">'Detail'</span>)){
     <span style="color: #b5bd68;">if</span>(key!=<span style="color: #8abeb7;">'creditcard_number'</span>){
       fn(service,key)
     }
   }
 }
-<p><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">formatServiceAttributes</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">key</span>) {
+
+
+
+<span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">formatServiceAttributes</span>(<span style="color: #f0c674;">service</span>,<span style="color: #f0c674;">key</span>) {
   <span style="color: #b5bd68;">return</span> service.get(<span style="color: #8abeb7;">'Details'</span>)[key];
-}</p>
-<p></p></pre>   <p> Now let's check what happens. </p> <p> In the html file, the business logic is converted into combination of functional calls. </p> <p> In javascript file, all the code dealing with hard coded html tags are converted to the call of anonymous functions. Those anonymous function is basically dump of html tags which is defined in html file. </p> <p> You can use this technique to convert any existing code into new style. For example, a simple "if else" statement could be re-written in new style: </p>   <pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">code in old style /</span>
-<p><span style="color: #b5bd68;">if</span> (<span style="color: #de935f;">true</span>){
+}
+
+</pre>   <p> Now let's check what happens. </p> <p> In the html file, the business logic is converted into combination of functional calls. </p> <p> In javascript file, all the code dealing with hard coded html tags are converted to the call of anonymous functions. Those anonymous function is basically dump of html tags which is defined in html file. </p> <p> You can use this technique to convert any existing code into new style. For example, a simple "if else" statement could be re-written in new style: </p>   <pre class="src src-javascript"><span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">code in old style */</span>
+
+<span style="color: #b5bd68;">if</span> (<span style="color: #de935f;">true</span>){
   console.log(<span style="color: #8abeb7;">'&lt;li&gt;YES&lt;/li&gt;'</span>);
 } <span style="color: #b5bd68;">else</span> {
   console.log(<span style="color: #8abeb7;">'&lt;li&gt;NO&lt;/li&gt;'</span>);
-}</p>
-<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">code in new style /</span></p>
-<p><span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">func_if_else</span>(<span style="color: #f0c674;">f1</span>,<span style="color: #f0c674;">f2</span>,<span style="color: #f0c674;">f3</span>){
+}
+
+
+
+<span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">code in new style */</span>
+
+<span style="color: #b5bd68;">function</span> <span style="color: #81a2be;">func_if_else</span>(<span style="color: #f0c674;">f1</span>,<span style="color: #f0c674;">f2</span>,<span style="color: #f0c674;">f3</span>){
   <span style="color: #b5bd68;">if</span>(f1()){
     f2();
   } <span style="color: #b5bd68;">else</span> {
     f3();
   }
-}</p>
-<p><span style="color: #969896; font-style: italic;">/<em> </em></span><span style="color: #969896; font-style: italic;">the execution of func_if_else() /</span></p>
-<p>func_if_else(<span style="color: #b5bd68;">function</span>(){ <span style="color: #b5bd68;">return</span> <span style="color: #de935f;">true</span> },
+}
+
+
+
+<span style="color: #969896; font-style: italic;">/* </span><span style="color: #969896; font-style: italic;">the execution of func_if_else() */</span>
+
+func_if_else(<span style="color: #b5bd68;">function</span>(){ <span style="color: #b5bd68;">return</span> <span style="color: #de935f;">true</span> },
            <span style="color: #b5bd68;">function</span>(){
              console.log(<span style="color: #8abeb7;">'&lt;li&gt;YES&lt;/li&gt;'</span>);
            },
            <span style="color: #b5bd68;">function</span>(){
              console.log(<span style="color: #8abeb7;">'&lt;li&gt;NO&lt;/li&gt;'</span>);
            });
-</p></pre>   <p> This is a kind of radical example. I'm only demonstrating the power of new style. I'm not suggesting you should convert any logic statement into function call. New style is not a silver bullet. It's only a useful if used properly in right timing. </p>
+</pre>   <p> This is a kind of radical example. I'm only demonstrating the power of new style. I'm not suggesting you should convert any logic statement into function call. New style is not a silver bullet. It's only a useful if used properly in right timing. </p>
 </div> </div>
         </div>
         
@@ -166,7 +184,7 @@
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about wxwidgets)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/wxwidgets.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 18 Jun 2022 03:12:45 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to embed button in wxDataViewListCtrl</title><link>http://blog.binchen.org/posts/how-to-embed-button-in-wxdataviewlistctrl/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about wxwidgets)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/wxwidgets.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Aug 2023 15:33:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to embed button in wxDataViewListCtrl</title><link>http://blog.binchen.org/posts/how-to-embed-button-in-wxdataviewlistctrl/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Before creating wxDataViewListCtrl, it's better to detect information about text size so that we can set the column width and height intelligently.
 &lt;/p&gt;
 
 &lt;p&gt;
 Here is the code:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-c"&gt;void GuessRowSize(int* w, int* h) {
@@ -87,7 +86,6 @@ To draw the button up effect, I need ask the parent wxDataViewListCtrl to refres
 &lt;p&gt;
 Here is the part of implementation:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-c"&gt;bool
@@ -166,9 +164,9 @@ wxWidgets 3.0.0
 &lt;p&gt;
 WARNING: before building, please make sure remove everything in build directory, &lt;b&gt;including hidden directory&lt;/b&gt;!
 &lt;/p&gt;
-&lt;div id="outline-container-orgbd24ffa" class="outline-2"&gt;
-&lt;h3 id="orgbd24ffa"&gt;Install webkit by using Linux distribution's package manager&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgbd24ffa"&gt;
+&lt;div id="outline-container-orgc6e0e2f" class="outline-2"&gt;
+&lt;h3 id="orgc6e0e2f"&gt;Install webkit by using Linux distribution's package manager&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc6e0e2f"&gt;
 &lt;p&gt;
 I need use wxWebView which dependent on webkit on Linux. The issue here is that webkit on Linux is using GTK.
 &lt;/p&gt;
@@ -178,9 +176,9 @@ Make sure the webkit and wxWidgets are using same version of GTK.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2d78751" class="outline-2"&gt;
-&lt;h3 id="org2d78751"&gt;build the source&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org2d78751"&gt;
+&lt;div id="outline-container-org026f343" class="outline-2"&gt;
+&lt;h3 id="org026f343"&gt;build the source&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org026f343"&gt;
 &lt;p&gt;
 Please note I don't use libtiff. I think libpng and libjpeg is enough.
 &lt;/p&gt;
@@ -200,7 +198,7 @@ On OSX, I need extra &lt;code&gt;--with-osx_cocoa&lt;/code&gt; parameter for con
 On Linux, build will be fine following above steps. But for building application, I need &lt;code&gt;sudo apt-get install libgtk2.0-dev&lt;/code&gt; on Debian/Ubuntu/Mint.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>en</category><category>linux</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/start-wxwidgets-programming-on-linux/</guid><pubDate>Tue, 26 Feb 2013 09:17:00 GMT</pubDate></item><item><title>How to debug GTK warning</title><link>http://blog.binchen.org/posts/how-to-debug-gtk-warning/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;&lt;/p&gt;&lt;p&gt;My code (based on wxWidgets) will produce some annoying gtk warnings when debugged in gdb. The best way to debug it is &lt;code&gt;run –g-fatal-warnings&lt;/code&gt; in gdb. &lt;/p&gt;</description><category>en</category><category>gtk</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/how-to-debug-gtk-warning/</guid><pubDate>Fri, 10 Feb 2012 14:20:34 GMT</pubDate></item><item><title>Start wxWdigets programming on Windows</title><link>http://blog.binchen.org/posts/start-wxwdigets-programming-on-windows/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
+&lt;/div&gt;</description><category>en</category><category>linux</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/start-wxwidgets-programming-on-linux/</guid><pubDate>Tue, 26 Feb 2013 09:17:00 GMT</pubDate></item><item><title>How to debug GTK warning</title><link>http://blog.binchen.org/posts/how-to-debug-gtk-warning/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;My code (based on wxWidgets) will produce some annoying gtk warnings when debugged in gdb. The best way to debug it is `run –g-fatal-warnings` in gdb. &lt;/p&gt;</description><category>en</category><category>gtk</category><category>wxwidgets</category><guid>http://blog.binchen.org/posts/how-to-debug-gtk-warning/</guid><pubDate>Fri, 10 Feb 2012 14:20:34 GMT</pubDate></item><item><title>Start wxWdigets programming on Windows</title><link>http://blog.binchen.org/posts/start-wxwdigets-programming-on-windows/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
 &lt;li&gt;Download &lt;a href="http://wwww.wxwdigets.org"&gt;wxWidgets&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Extracted it somewhere. "c:\wxWidgets-3.0.0", for example.&lt;/li&gt;
 &lt;li&gt;Create environment variable WXWIN with value "c:\wxWidgets-3.3.0"&lt;/li&gt;
@@ -208,7 +206,6 @@ On Linux, build will be fine following above steps. But for building application
 &lt;li&gt;If the source is on network drive, &lt;a href="http://social.msdn.microsoft.com/Forums/vstudio/en-US/07ba35be-d0c7-4989-9bc1-edff61bfb556/fatal-error-c1085-cannot-write-precompiled-header-file?forum=vclanguage"&gt;you need set pch directory&lt;/a&gt;. Maybe the best way is use local folder.&lt;/li&gt;
 &lt;li&gt;Compile wxWidgets library by running the dos batch file:&lt;/li&gt;
 &lt;/ul&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;@echo off
@@ -231,7 +228,6 @@ We use vcvars32.bat to set up the CLI tool chains.
 &lt;p&gt;
 CMakeLists.txt is the project file for CMake:
 &lt;/p&gt;
-
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-cmake"&gt;PROJECT(main)
@@ -326,7 +322,6 @@ cmake path/of/directory/which/contains/CMakeLists.txt/
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
-
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Enjoy!&lt;/li&gt;
 &lt;/ul&gt;

@@ -73,7 +73,6 @@ The first tip is to use global variable <code>tags-table-list</code> instead of 
 <p>
 Here is the value of <code>tags-table-list</code> for one project:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">("/Users/cb/projs/their-project/test/cdn/test/assets/test/js/TAGS" "/Users/cb/projs/their-project/test/app/TAGS")
@@ -92,7 +91,6 @@ The second tip is we can avoid feeding big js files to ctags. Currently one of m
 <p>
 Changing the ctags command line  will solve the problem. Here is the actual liner to create a tag file:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-sh">find proj-dir -type f -not -iwholename '*TAGS' -not -size +16k | ctags -f ~/proj/output/TAGS -e -L -
@@ -107,7 +105,6 @@ The point is the option <code>-not -size +16k</code>. It means only handle files
 <p>
 Here is the Emacs lisp function to wrap above shell command:
 </p>
-
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(defun my-create-tags-if-needed (SRC-DIR CTAGS-OPTS &amp;optional FORCE)
@@ -132,7 +129,6 @@ BTW, here is my <a href="https://gist.github.com/redguardtoo/b12ddae3b8010a276e9
 <p>
 UPDATE:
 </p>
-
 <ol class="org-ol">
 <li>My tags file management strategy is described at <a href="http://blog.binchen.org/posts/how-to-use-ctags-in-emacs-effectively-3.html">How to use ctags in Emacs effectively</a>. It's effective to me. But it may be not generic enough to apply to others' use cases.</li>
 
@@ -174,7 +170,7 @@ UPDATE:
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2022         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2023         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>
