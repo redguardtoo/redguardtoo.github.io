@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 13 Oct 2023 08:53:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Integrate delta into git</title><link>http://blog.binchen.org/posts/integrate-delta-into-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about git)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 13 Oct 2023 09:11:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Integrate delta into git</title><link>http://blog.binchen.org/posts/integrate-delta-into-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 &lt;a href="https://github.com/dandavison/delta"&gt;Delta&lt;/a&gt; is a syntax-highlighting pager for git, diff, and grep output.
 &lt;/p&gt;
 
@@ -70,9 +70,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orge01f599" class="outline-2"&gt;
-&lt;h3 id="orge01f599"&gt;Magit UI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge01f599"&gt;
+&lt;div id="outline-container-org7cecaec" class="outline-2"&gt;
+&lt;h3 id="org7cecaec"&gt;Magit UI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7cecaec"&gt;
 &lt;p&gt;
 One solution is to use &lt;a href="https://magit.vc/"&gt;Magit&lt;/a&gt; to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 &lt;/p&gt;
@@ -131,9 +131,9 @@ BTW, my actual code in my &lt;code&gt;.emacs.d&lt;/code&gt; is &lt;a href="https
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org07cb2c4" class="outline-2"&gt;
-&lt;h3 id="org07cb2c4"&gt;CLI solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org07cb2c4"&gt;
+&lt;div id="outline-container-orge8a8c03" class="outline-2"&gt;
+&lt;h3 id="orge8a8c03"&gt;CLI solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge8a8c03"&gt;
 &lt;p&gt;
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 &lt;/p&gt;
@@ -230,7 +230,7 @@ If USER-SELECT-BRANCH is not nil, rebase on the tag or branch selected by user."
 Screencast:
 &lt;/p&gt;
 
-&lt;div id="org1849d51" class="figure"&gt;
+&lt;div id="orgcd4af00" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"&gt;
 &lt;/p&gt;&lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>magit</category><guid>http://blog.binchen.org/posts/use-magit-api-to-rebase-to-closest-branch/</guid><pubDate>Tue, 14 Apr 2020 13:54:28 GMT</pubDate></item><item><title>Make Emacs faster than Vim in "git mergetool"</title><link>http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git.html"&gt;Emacs is the best merge tool for Git&lt;/a&gt; explains how to combine &lt;a href="https://git-scm.com/docs/git-mergetool/2.20.0"&gt;git mergetool&lt;/a&gt; with &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ediff/"&gt;ediff-mode&lt;/a&gt; in Emacs.
@@ -244,9 +244,9 @@ My article &lt;a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-to
 I did some research and found a perfect solution. It's even faster than Vim.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org731bd24" class="outline-2"&gt;
-&lt;h3 id="org731bd24"&gt;Initial solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org731bd24"&gt;
+&lt;div id="outline-container-org6bf4759" class="outline-2"&gt;
+&lt;h3 id="org6bf4759"&gt;Initial solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6bf4759"&gt;
 &lt;p&gt;
 Please note emacsclient is only use for resolving conflicts.
 &lt;/p&gt;
@@ -280,9 +280,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org35191c3" class="outline-2"&gt;
-&lt;h3 id="org35191c3"&gt;My real world solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org35191c3"&gt;
+&lt;div id="outline-container-org196ffb3" class="outline-2"&gt;
+&lt;h3 id="org196ffb3"&gt;My real world solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org196ffb3"&gt;
 &lt;p&gt;
 It's similar to initial solution. But some scripts are created for automation.
 &lt;/p&gt;
@@ -368,17 +368,17 @@ Select the partial of line 6 and run &lt;code&gt;vc-msg-show&lt;/code&gt;, the c
 Screenshots,
 &lt;/p&gt;
 
-&lt;div id="org21b5386" class="figure"&gt;
+&lt;div id="org2dd3f0c" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="orgdcc2e5a" class="figure"&gt;
+&lt;div id="org4563570" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-good.png" alt="vc-msg-good.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="orgdd5622f" class="figure"&gt;
+&lt;div id="org888d339" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>blame</category><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/effective-git-blame-in-emacs/</guid><pubDate>Wed, 20 Nov 2019 13:42:54 GMT</pubDate></item><item><title>Emacs is the best merge tool for Git</title><link>http://blog.binchen.org/posts/emacs-is-the-best-merge-tool-for-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
@@ -397,7 +397,7 @@ I used to regard vimdiff as the best merge tool for Git because it's simply fast
 Here is the demo how I use vimdiff to resolve conflicts from &lt;a href="https://github.com/redguardtoo/test-git-mergetool"&gt;https://github.com/redguardtoo/test-git-mergetool&lt;/a&gt;.
 &lt;/p&gt;
 
-&lt;div id="org67cdd8f" class="figure"&gt;
+&lt;div id="org879001a" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/vimdiff-as-git-merge-tool.gif" alt="vimdiff-as-git-merge-tool.gif"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -442,7 +442,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org35ab395" class="outline-2"&gt;
+&lt;div id="outline-container-org91b109c" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -498,7 +498,7 @@ Native Emacs API is enough to save/load windows layout.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org99adf0f" class="outline-2"&gt;
+&lt;div id="outline-container-org8385bdf" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;
@@ -628,7 +628,7 @@ Demo on using Emacs to resolve merge conflicts,
 &lt;/p&gt;
 
 
-&lt;div id="org28e516e" class="figure"&gt;
+&lt;div id="orgba8b162" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -703,7 +703,7 @@ But if there are too many hunks in one file, &lt;a href="https://github.com/abo-
 Screenshot:
 &lt;/p&gt;
 
-&lt;div id="org3e4d289" class="figure"&gt;
+&lt;div id="org14a3654" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>gutter</category><category>ivy</category><category>mode</category><guid>http://blog.binchen.org/posts/enhance-emacs-git-gutter-with-ivy-mode/</guid><pubDate>Thu, 14 Jul 2016 13:35:32 GMT</pubDate></item><item><title>New git-timemachine UI based on ivy-mode</title><link>http://blog.binchen.org/posts/new-git-timemachine-ui-based-on-ivy-mode/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
@@ -752,7 +752,7 @@ Here is my code based on &lt;a href="https://github.com/abo-abo/swiper"&gt;ivy-m
 Screenshot after &lt;code&gt;M-x my-git-timemachine&lt;/code&gt;,
 &lt;/p&gt;
 
-&lt;div id="org6bede7d" class="figure"&gt;
+&lt;div id="org53d7a15" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/my-git-timemachine-nq8.png" alt="my-git-timemachine-nq8.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;</description><category>emacs</category><category>en</category><category>git</category><category>ivy</category><category>timemachine</category><guid>http://blog.binchen.org/posts/new-git-timemachine-ui-based-on-ivy-mode/</guid><pubDate>Sun, 05 Jun 2016 14:32:39 GMT</pubDate></item><item><title>Git gutter tip</title><link>http://blog.binchen.org/posts/git-gutter-tip/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;

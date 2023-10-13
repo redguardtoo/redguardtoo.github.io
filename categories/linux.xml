@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 13 Oct 2023 08:53:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 13 Oct 2023 09:11:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 In &lt;a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/"&gt;Better Emacs package development workflow&lt;/a&gt;, I proved that running Emacs compiler in CI can give huge boost to package quality.
 &lt;/p&gt;
 
@@ -15,7 +15,7 @@ For example, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;my .emacs.d&
 There are also many other engineering issues. I struggled for &lt;b&gt;five hours&lt;/b&gt; and finally got satisfying solution. Now anyone can use my solution to &lt;b&gt;set up same CI pipeline in ten minutes&lt;/b&gt;.
 &lt;/p&gt;
 
-&lt;div id="orgc95bc36" class="figure"&gt;
+&lt;div id="orgaced5c8" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -220,7 +220,7 @@ DONE! Now Gitlab/Github could use command line &lt;code&gt;make compile&lt;/code
 Screenshot of &lt;a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d"&gt;a tricky bug of evil-matchit&lt;/a&gt; detected by this new workflow.
 &lt;/p&gt;
 
-&lt;div id="org4a6dced" class="figure"&gt;
+&lt;div id="org0ca6385" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -355,7 +355,7 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org7ce0ed6" class="outline-2"&gt;
+&lt;div id="outline-container-org4876c74" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -407,12 +407,12 @@ WantedBy=default.target
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd3dffc0" class="outline-2"&gt;
+&lt;div id="outline-container-orga4ec072" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc204dc8" class="outline-3"&gt;
-&lt;h4 id="orgc204dc8"&gt;&lt;span class="section-number-3"&gt;2.1.&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
+&lt;div id="outline-container-org2afc9f5" class="outline-3"&gt;
+&lt;h4 id="org2afc9f5"&gt;&lt;span class="section-number-3"&gt;2.1.&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-1"&gt;
 &lt;p&gt;
 I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
@@ -439,8 +439,8 @@ Here is the code,
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgce332a6" class="outline-3"&gt;
-&lt;h4 id="orgce332a6"&gt;&lt;span class="section-number-3"&gt;2.2.&lt;/span&gt; Shell script to install Emacs&lt;/h4&gt;
+&lt;div id="outline-container-org0fb6b95" class="outline-3"&gt;
+&lt;h4 id="org0fb6b95"&gt;&lt;span class="section-number-3"&gt;2.2.&lt;/span&gt; Shell script to install Emacs&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-2"&gt;
 &lt;p&gt;
 You could Use below script "install-emacs.sh" to install Emacs,

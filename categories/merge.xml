@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about merge)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/merge.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 13 Oct 2023 08:53:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>An example to abuse the git merge</title><link>http://blog.binchen.org/posts/an-example-to-abuse-the-git-merge/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;WARNING, this is BAD practice. I'm showing you anti-pattern you'd better avoid. &lt;/p&gt; &lt;p&gt; The work flow is simple at the beginning. There is only one master branch where several developers submit the code. &lt;/p&gt; &lt;p&gt; Then come bad rules:  &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Rule 1, any feature should be done on new branch (this rule is actually good if without next three rules)  &lt;/li&gt; &lt;li&gt;Rule 2, `git rebase` is forbidden and any minor branch created by developers should be publicized immediately.  &lt;/li&gt; &lt;li&gt;Rule 3, keep using your same feature branch forever even it's behind master branch for a very long time.   &lt;/li&gt; &lt;li&gt;Rule 4, `git merge` between feature and master branches frequently &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; After three months developement, this is the result of `git log –graph –oneline`: &lt;img src="http://blog.binchen.org/wp-content/uploads/2013/06/git-merge-mess-nq82.png" alt="image/git-merge-mess-nq8.png"&gt; &lt;/p&gt; &lt;p&gt; Can you see the "M" at the top right corner. It's "M" from "Merge". &lt;/p&gt;</description><category>branch</category><category>en</category><category>git</category><category>merge</category><guid>http://blog.binchen.org/posts/an-example-to-abuse-the-git-merge/</guid><pubDate>Thu, 13 Jun 2013 14:23:00 GMT</pubDate></item><item><title>Use vimdiff to resolve git/subversion/mercurial merge conflicts effectively</title><link>http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-You can jump to &lt;a href="http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#org5f9f930"&gt;No description for this link&lt;/a&gt; section at the end of this article.
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about merge)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/merge.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 13 Oct 2023 09:11:32 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>An example to abuse the git merge</title><link>http://blog.binchen.org/posts/an-example-to-abuse-the-git-merge/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;WARNING, this is BAD practice. I'm showing you anti-pattern you'd better avoid. &lt;/p&gt; &lt;p&gt; The work flow is simple at the beginning. There is only one master branch where several developers submit the code. &lt;/p&gt; &lt;p&gt; Then come bad rules:  &lt;/p&gt;&lt;ul&gt; &lt;li&gt;Rule 1, any feature should be done on new branch (this rule is actually good if without next three rules)  &lt;/li&gt; &lt;li&gt;Rule 2, `git rebase` is forbidden and any minor branch created by developers should be publicized immediately.  &lt;/li&gt; &lt;li&gt;Rule 3, keep using your same feature branch forever even it's behind master branch for a very long time.   &lt;/li&gt; &lt;li&gt;Rule 4, `git merge` between feature and master branches frequently &lt;/li&gt; &lt;/ul&gt;   &lt;p&gt; After three months developement, this is the result of `git log –graph –oneline`: &lt;img src="http://blog.binchen.org/wp-content/uploads/2013/06/git-merge-mess-nq82.png" alt="image/git-merge-mess-nq8.png"&gt; &lt;/p&gt; &lt;p&gt; Can you see the "M" at the top right corner. It's "M" from "Merge". &lt;/p&gt;</description><category>branch</category><category>en</category><category>git</category><category>merge</category><guid>http://blog.binchen.org/posts/an-example-to-abuse-the-git-merge/</guid><pubDate>Thu, 13 Jun 2013 14:23:00 GMT</pubDate></item><item><title>Use vimdiff to resolve git/subversion/mercurial merge conflicts effectively</title><link>http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+You can jump to &lt;a href="http://blog.binchen.org/posts/use-vimdiff-to-resolve-git-merge-conflicts-effectively/#orgee85b6d"&gt;No description for this link&lt;/a&gt; section at the end of this article.
 &lt;/p&gt;
 
 &lt;p&gt;
 I use git as an example of version control software. But you can use any other version control software instead.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgc473eff" class="outline-2"&gt;
-&lt;h3 id="orgc473eff"&gt;The reasons to use vimdiff to do the merge?&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc473eff"&gt;
+&lt;div id="outline-container-orge671b0e" class="outline-2"&gt;
+&lt;h3 id="orge671b0e"&gt;The reasons to use vimdiff to do the merge?&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orge671b0e"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;It's free (vim)&lt;/li&gt;
 &lt;li&gt;It works on any OS&lt;/li&gt;
@@ -18,13 +18,13 @@ I use git as an example of version control software. But you can use any other v
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orge9f0e9c" class="outline-2"&gt;
-&lt;h3 id="orge9f0e9c"&gt;Setup&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orge9f0e9c"&gt;
+&lt;div id="outline-container-org4f83818" class="outline-2"&gt;
+&lt;h3 id="org4f83818"&gt;Setup&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4f83818"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5c35435" class="outline-3"&gt;
-&lt;h4 id="org5c35435"&gt;Setup vimdiff (OPTIONAL)&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org5c35435"&gt;
+&lt;div id="outline-container-orgbc52c24" class="outline-3"&gt;
+&lt;h4 id="orgbc52c24"&gt;Setup vimdiff (OPTIONAL)&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgbc52c24"&gt;
 &lt;p&gt;
 The vimdiff as a merge tool will display several buffers to show YOURS/THEIRS/ORIGINAL code.
 &lt;/p&gt;
@@ -58,9 +58,9 @@ map &amp;lt;silent&amp;gt; &amp;lt;leader&amp;gt;4 :diffget 4&amp;lt;CR&amp;gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org98be93a" class="outline-3"&gt;
-&lt;h4 id="org98be93a"&gt;Setup git&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org98be93a"&gt;
+&lt;div id="outline-container-orgbb22446" class="outline-3"&gt;
+&lt;h4 id="orgbb22446"&gt;Setup git&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgbb22446"&gt;
 &lt;p&gt;
 Run below commands in shell,
 &lt;/p&gt;
@@ -74,13 +74,13 @@ git config --global mergetool.prompt false
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org198fe18" class="outline-2"&gt;
-&lt;h3 id="org198fe18"&gt;Usage&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org198fe18"&gt;
+&lt;div id="outline-container-orgd36b024" class="outline-2"&gt;
+&lt;h3 id="orgd36b024"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd36b024"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfa8e860" class="outline-3"&gt;
-&lt;h4 id="orgfa8e860"&gt;Create a "hello world" project&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgfa8e860"&gt;
+&lt;div id="outline-container-org3982bf5" class="outline-3"&gt;
+&lt;h4 id="org3982bf5"&gt;Create a "hello world" project&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org3982bf5"&gt;
 &lt;p&gt;
 I setup a "hello world" project at &lt;a href="https://github.com/redguardtoo/test-git-mergetool"&gt;https://github.com/redguardtoo/test-git-mergetool&lt;/a&gt; for your practice.
 &lt;/p&gt;
@@ -113,9 +113,9 @@ git merge chen # now some conflicts created because Bob has already edited and m
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfa586a5" class="outline-3"&gt;
-&lt;h4 id="orgfa586a5"&gt;Resolve merge conflict&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgfa586a5"&gt;
+&lt;div id="outline-container-orga0a0352" class="outline-3"&gt;
+&lt;h4 id="orga0a0352"&gt;Resolve merge conflict&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orga0a0352"&gt;
 &lt;p&gt;
 Now start merge tool,
 &lt;/p&gt;
@@ -215,9 +215,9 @@ When you have resolved all the conflicts, follow the hint of git to commit your 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf1f6ad2" class="outline-2"&gt;
-&lt;h3 id="orgf1f6ad2"&gt;Tips&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf1f6ad2"&gt;
+&lt;div id="outline-container-org79a7fea" class="outline-2"&gt;
+&lt;h3 id="org79a7fea"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org79a7fea"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;fugitive.vim (&lt;a href="https://github.com/tpope/vim-fugitive"&gt;https://github.com/tpope/vim-fugitive&lt;/a&gt;) can do this too. Actually it can do much more git stuff than merge. I cannot write this article without reading its code&lt;/li&gt;
 &lt;li&gt;You can use Emacs to do the similar job (&lt;a href="http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool"&gt;http://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool&lt;/a&gt;). For me, Emacs start up time is too much for this task. Some people use &lt;code&gt;emacsclient&lt;/code&gt; which has other overhead I don't like&lt;/li&gt;
@@ -236,9 +236,9 @@ map [[ [n
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb094070" class="outline-2"&gt;
-&lt;h3 id="orgb094070"&gt;&lt;a id="org5f9f930"&gt;&lt;/a&gt;&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb094070"&gt;
+&lt;div id="outline-container-org4380cb7" class="outline-2"&gt;
+&lt;h3 id="org4380cb7"&gt;&lt;a id="orgee85b6d"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4380cb7"&gt;
 &lt;p&gt;
 You can use command line like "git mergetool -t vimdiff" to start vimdiff from git.
 &lt;/p&gt;
@@ -269,16 +269,16 @@ Then you can press hot key ",2" ",3" ",4" in vimdiff to pull change from top thr
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc4caf1c" class="outline-2"&gt;
-&lt;h3 id="orgc4caf1c"&gt;subversion/mercurial&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc4caf1c"&gt;
+&lt;div id="outline-container-org4b61c1a" class="outline-2"&gt;
+&lt;h3 id="org4b61c1a"&gt;subversion/mercurial&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4b61c1a"&gt;
 &lt;p&gt;
 Until now I'm focusing on how to tweak the vimdiff UI because the git has already setup the &lt;a href="https://github.com/git/git/blob/master/mergetools/vimdiff"&gt;basic vimdiff layout for us&lt;/a&gt;. So we just follow the Git layout in other VCS.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf2d560d" class="outline-3"&gt;
-&lt;h4 id="orgf2d560d"&gt;subversion&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgf2d560d"&gt;
+&lt;div id="outline-container-org9ef2d7b" class="outline-3"&gt;
+&lt;h4 id="org9ef2d7b"&gt;subversion&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org9ef2d7b"&gt;
 &lt;p&gt;
 Insert below code into ~/.subversion/config:
 &lt;/p&gt;
@@ -327,9 +327,9 @@ vimdiff -f -d -c 'wincmd J' "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6b27a28" class="outline-2"&gt;
-&lt;h3 id="org6b27a28"&gt;mercurial&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org6b27a28"&gt;
+&lt;div id="outline-container-org85f7c76" class="outline-2"&gt;
+&lt;h3 id="org85f7c76"&gt;mercurial&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org85f7c76"&gt;
 &lt;p&gt;
 Insert below code into &lt;code&gt;~/.hgrc&lt;/code&gt;:
 &lt;/p&gt;
