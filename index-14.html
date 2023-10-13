@@ -143,9 +143,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-10-23 
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 Tue&gt;</span></span>
 </p>
 
-<div id="outline-container-orgc2a6486" class="outline-2">
-<h3 id="orgc2a6486">Tools</h3>
-<div class="outline-text-2" id="text-orgc2a6486">
+<div id="outline-container-orgeb1da7a" class="outline-2">
+<h3 id="orgeb1da7a">Tools</h3>
+<div class="outline-text-2" id="text-orgeb1da7a">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -182,13 +182,13 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 
 </table>
 </div>
 </div>
-<div id="outline-container-org4727814" class="outline-2">
-<h3 id="org4727814">Work flow</h3>
-<div class="outline-text-2" id="text-org4727814">
+<div id="outline-container-org7107478" class="outline-2">
+<h3 id="org7107478">Work flow</h3>
+<div class="outline-text-2" id="text-org7107478">
 </div>
-<div id="outline-container-org76c28b4" class="outline-3">
-<h4 id="org76c28b4">Use scrot to screenshot and put its path into clipboard</h4>
-<div class="outline-text-3" id="text-org76c28b4">
+<div id="outline-container-orga0b721c" class="outline-3">
+<h4 id="orga0b721c">Use scrot to screenshot and put its path into clipboard</h4>
+<div class="outline-text-3" id="text-orga0b721c">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">scrot '%H%M%S-%d_$wx$h.png' -e 'mkdir -p ~/screenshot;mv $f ~/screenshot/;echo ~/screenshot/$f|tr -d \"\\n\"|xsel -ib;'
@@ -198,9 +198,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 
 </div>
 </div>
 
-<div id="outline-container-org931ab81" class="outline-3">
-<h4 id="org931ab81">Create org file and insert path of screen shot</h4>
-<div class="outline-text-3" id="text-org931ab81">
+<div id="outline-container-org18a1fc6" class="outline-3">
+<h4 id="org18a1fc6">Create org file and insert path of screen shot</h4>
+<div class="outline-text-3" id="text-org18a1fc6">
 <p>
 Actually I use below elisp command to do the insertion for me.
 </p>
@@ -233,9 +233,9 @@ The full path into relative path and insert it as a local file link in org-mode"
 </div>
 </div>
 </div>
-<div id="outline-container-orgfca9224" class="outline-3">
-<h4 id="orgfca9224">Convert org file into Microsoft Word format</h4>
-<div class="outline-text-3" id="text-orgfca9224">
+<div id="outline-container-org4ff9cb5" class="outline-3">
+<h4 id="org4ff9cb5">Convert org file into Microsoft Word format</h4>
+<div class="outline-text-3" id="text-org4ff9cb5">
 <p>
 I'm sure this method works even on Windows. But I don't have Windows PC to validate my belief. Libreoffice is required.
 </p>
@@ -277,9 +277,9 @@ Emacs will find the binary "soffice" from libreoffice to do the conversion.
 </div>
 </div>
 
-<div id="outline-container-orgae24a97" class="outline-3">
-<h4 id="orgae24a97">Tips</h4>
-<div class="outline-text-3" id="text-orgae24a97">
+<div id="outline-container-org035729c" class="outline-3">
+<h4 id="org035729c">Tips</h4>
+<div class="outline-text-3" id="text-org035729c">
 <p>
 If you need page break in exported document, insert below snippet into the org file:
 </p>
@@ -389,9 +389,9 @@ To take the full power of git, you need forget GUI and use CLI only. A little kn
 Here is an example how I use git.
 </p>
 
-<div id="outline-container-org4ab7767" class="outline-2">
-<h3 id="org4ab7767">Problem</h3>
-<div class="outline-text-2" id="text-org4ab7767">
+<div id="outline-container-orgd7e0913" class="outline-2">
+<h3 id="orgd7e0913">Problem</h3>
+<div class="outline-text-2" id="text-orgd7e0913">
 <p>
 I'm working for a big enterprise project which uses git as version control software.  My daily routine is find what files I changed. So I often use git commands with "–stat" parameters.
 </p>
@@ -420,9 +420,9 @@ Getting full path into clipboard is useful because in big projects I need do lot
 </div>
 </div>
 
-<div id="outline-container-org3c2b938" class="outline-2">
-<h3 id="org3c2b938">Set up</h3>
-<div class="outline-text-2" id="text-org3c2b938">
+<div id="outline-container-org7a62b35" class="outline-2">
+<h3 id="org7a62b35">Set up</h3>
+<div class="outline-text-2" id="text-org7a62b35">
 <p>
 Now you understand the problem. Here comes the solution.
 </p>
@@ -480,9 +480,9 @@ function ff()
 </div>
 </div>
 
-<div id="outline-container-orgd341d2f" class="outline-2">
-<h3 id="orgd341d2f">Usage</h3>
-<div class="outline-text-2" id="text-orgd341d2f">
+<div id="outline-container-org7c66c3f" class="outline-2">
+<h3 id="org7c66c3f">Usage</h3>
+<div class="outline-text-2" id="text-org7c66c3f">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">glsf

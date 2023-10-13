@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about bash)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/bash.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 25 Aug 2023 10:39:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://blog.binchen.org/posts/use-perforce-inside-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about bash)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/bash.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 13 Oct 2023 08:53:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://blog.binchen.org/posts/use-perforce-inside-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-12-05 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -15,9 +15,9 @@ Perforce is a proprietary VCS. It's less powerful than &lt;a href="https://git-s
 For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like &lt;code&gt;p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}&lt;/code&gt; can't do it. I have to use Emacs Lisp to clean the output of &lt;code&gt;p4&lt;/code&gt;.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org3e8d6f0" class="outline-2"&gt;
-&lt;h3 id="org3e8d6f0"&gt;Perforce workflow&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3e8d6f0"&gt;
+&lt;div id="outline-container-org9c7341d" class="outline-2"&gt;
+&lt;h3 id="org9c7341d"&gt;Perforce workflow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9c7341d"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;p4 set&lt;/code&gt; to &lt;a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html"&gt;set up&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;p4 login&lt;/code&gt; to login&lt;/li&gt;
@@ -31,9 +31,9 @@ For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8f38c59" class="outline-2"&gt;
-&lt;h3 id="org8f38c59"&gt;My solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org8f38c59"&gt;
+&lt;div id="outline-container-org61dd3ce" class="outline-2"&gt;
+&lt;h3 id="org61dd3ce"&gt;My solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org61dd3ce"&gt;
 &lt;p&gt;
 Perforce Cygwin portable is not recommended.
 &lt;/p&gt;
@@ -46,9 +46,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed &lt;code&gt;p4&lt;/code&gt; that URL, the operation is always successful.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org20f3c91" class="outline-3"&gt;
-&lt;h4 id="org20f3c91"&gt;Emacs&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org20f3c91"&gt;
+&lt;div id="outline-container-orgd8d77e6" class="outline-3"&gt;
+&lt;h4 id="orgd8d77e6"&gt;Emacs&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgd8d77e6"&gt;
 &lt;p&gt;
 I developed &lt;a href="https://github.com/redguardtoo/vc-msg"&gt;vc-msg&lt;/a&gt; which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need &lt;code&gt;p4 login&lt;/code&gt; at first.)
 &lt;/p&gt;
@@ -210,9 +210,9 @@ You can also check my &lt;a href="https://github.com/redguardtoo/emacs.d/blob/ma
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb084836" class="outline-3"&gt;
-&lt;h4 id="orgb084836"&gt;Bash Shell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgb084836"&gt;
+&lt;div id="outline-container-orgf3c33c1" class="outline-3"&gt;
+&lt;h4 id="orgf3c33c1"&gt;Bash Shell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgf3c33c1"&gt;
 &lt;p&gt;
 Other operations are finished in Bash Shell,
 &lt;/p&gt;
@@ -471,9 +471,9 @@ To take the full power of git, you need forget GUI and use CLI only. A little kn
 Here is an example how I use git.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org4ab7767" class="outline-2"&gt;
-&lt;h3 id="org4ab7767"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org4ab7767"&gt;
+&lt;div id="outline-container-orgd7e0913" class="outline-2"&gt;
+&lt;h3 id="orgd7e0913"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd7e0913"&gt;
 &lt;p&gt;
 I'm working for a big enterprise project which uses git as version control software.  My daily routine is find what files I changed. So I often use git commands with "–stat" parameters.
 &lt;/p&gt;
@@ -502,9 +502,9 @@ Getting full path into clipboard is useful because in big projects I need do lot
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3c2b938" class="outline-2"&gt;
-&lt;h3 id="org3c2b938"&gt;Set up&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3c2b938"&gt;
+&lt;div id="outline-container-org7a62b35" class="outline-2"&gt;
+&lt;h3 id="org7a62b35"&gt;Set up&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7a62b35"&gt;
 &lt;p&gt;
 Now you understand the problem. Here comes the solution.
 &lt;/p&gt;
@@ -562,9 +562,9 @@ function ff()
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd341d2f" class="outline-2"&gt;
-&lt;h3 id="orgd341d2f"&gt;Usage&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgd341d2f"&gt;
+&lt;div id="outline-container-org7c66c3f" class="outline-2"&gt;
+&lt;h3 id="org7c66c3f"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7c66c3f"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;glsf

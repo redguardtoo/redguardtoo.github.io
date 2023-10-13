@@ -135,9 +135,9 @@ Perforce is a proprietary VCS. It's less powerful than <a href="https://git-scm.
 For example, <code>git log -p file-path</code> displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like <code>p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}</code> can't do it. I have to use Emacs Lisp to clean the output of <code>p4</code>.
 </p>
 
-<div id="outline-container-org3e8d6f0" class="outline-2">
-<h3 id="org3e8d6f0">Perforce workflow</h3>
-<div class="outline-text-2" id="text-org3e8d6f0">
+<div id="outline-container-org9c7341d" class="outline-2">
+<h3 id="org9c7341d">Perforce workflow</h3>
+<div class="outline-text-2" id="text-org9c7341d">
 <ul class="org-ul">
 <li>
 <code>p4 set</code> to <a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html">set up</a>
@@ -158,9 +158,9 @@ For example, <code>git log -p file-path</code> displays the detailed history of 
 </div>
 </div>
 
-<div id="outline-container-org8f38c59" class="outline-2">
-<h3 id="org8f38c59">My solution</h3>
-<div class="outline-text-2" id="text-org8f38c59">
+<div id="outline-container-org61dd3ce" class="outline-2">
+<h3 id="org61dd3ce">My solution</h3>
+<div class="outline-text-2" id="text-org61dd3ce">
 <p>
 Perforce Cygwin portable is not recommended.
 </p>
@@ -173,9 +173,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed <code>p4</code> that URL, the operation is always successful.
 </p>
 </div>
-<div id="outline-container-org20f3c91" class="outline-3">
-<h4 id="org20f3c91">Emacs</h4>
-<div class="outline-text-3" id="text-org20f3c91">
+<div id="outline-container-orgd8d77e6" class="outline-3">
+<h4 id="orgd8d77e6">Emacs</h4>
+<div class="outline-text-3" id="text-orgd8d77e6">
 <p>
 I developed <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a> which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need <code>p4 login</code> at first.)
 </p>
@@ -337,9 +337,9 @@ You can also check my <a href="https://github.com/redguardtoo/emacs.d/blob/maste
 </p>
 </div>
 </div>
-<div id="outline-container-orgb084836" class="outline-3">
-<h4 id="orgb084836">Bash Shell</h4>
-<div class="outline-text-3" id="text-orgb084836">
+<div id="outline-container-orgf3c33c1" class="outline-3">
+<h4 id="orgf3c33c1">Bash Shell</h4>
+<div class="outline-text-3" id="text-orgf3c33c1">
 <p>
 Other operations are finished in Bash Shell,
 </p>
@@ -539,7 +539,7 @@ a.forEach(function (e) {
 Screenshot:
 </p>
 
-<div id="org374ee26" class="figure">
+<div id="orgf763c8a" class="figure">
 <p><img src="wp-content/purify-quora-nq8.png" alt="purify-quora-nq8.png"></p>
 </div>
             </div>
@@ -569,9 +569,9 @@ Screenshot:
 
             </div>
             <div class="body">
-                <div id="outline-container-org5d2139c" class="outline-2">
-<h3 id="org5d2139c">原料</h3>
-<div class="outline-text-2" id="text-org5d2139c">
+                <div id="outline-container-orgdc8a1ab" class="outline-2">
+<h3 id="orgdc8a1ab">原料</h3>
+<div class="outline-text-2" id="text-orgdc8a1ab">
 <ul class="org-ul">
 <li>韭菜一斤(8把)</li>
 <li>虾仁适量</li>
@@ -581,9 +581,9 @@ Screenshot:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb5009d1" class="outline-2">
-<h3 id="orgb5009d1">流程</h3>
-<div class="outline-text-2" id="text-orgb5009d1">
+<div id="outline-container-orgbcdf98a" class="outline-2">
+<h3 id="orgbcdf98a">流程</h3>
+<div class="outline-text-2" id="text-orgbcdf98a">
 <ul class="org-ul">
 <li>韭菜切碎</li>
 <li>虾仁切成小块</li>
@@ -600,7 +600,7 @@ Screenshot:
 </p>
 
 
-<div id="org91a3e46" class="figure">
+<div id="org8e934bd" class="figure">
 <p><img src="wp-content/dumpling-inside.jpg" alt="dumpling-inside.jpg"></p>
 </div>
 
@@ -609,7 +609,7 @@ Screenshot:
 </p>
 
 
-<div id="org1625b6d" class="figure">
+<div id="org9a350a9" class="figure">
 <p><img src="wp-content/dumpling.jpg" alt="dumpling.jpg"></p>
 </div>
 </div>
@@ -667,7 +667,7 @@ Screenshot:
 <ul class="org-ul">
 <li>3分钟可以炒完</li>
 </ul>
-<div id="org7cb6bae" class="figure">
+<div id="org7b22f7f" class="figure">
 <p><img src="wp-content/you-xian-xiang-gan.jpg" alt="you-xian-xiang-gan.jpg"></p>
 </div>
             </div>
@@ -724,9 +724,9 @@ Setup is minimum. Only GNU Global and two Emacs plugins are required:
 <p>
 Here is the step to step guide.
 </p>
-<div id="outline-container-org1f7a4eb" class="outline-2">
-<h3 id="org1f7a4eb">Step 1, create sample projects for experiment</h3>
-<div class="outline-text-2" id="text-org1f7a4eb">
+<div id="outline-container-org1d503bb" class="outline-2">
+<h3 id="org1d503bb">Step 1, create sample projects for experiment</h3>
+<div class="outline-text-2" id="text-org1d503bb">
 <p>
 I have two projects <code>~/proj1</code> and <code>~/proj2</code>.
 </p>
@@ -776,9 +776,9 @@ int main(int argc, char *argv[]) {
 </div>
 </div>
 </div>
-<div id="outline-container-org8dfd385" class="outline-2">
-<h3 id="org8dfd385">Step 2, scan C++ code and setup Emacs</h3>
-<div class="outline-text-2" id="text-org8dfd385">
+<div id="outline-container-orgb5abb1a" class="outline-2">
+<h3 id="orgb5abb1a">Step 2, scan C++ code and setup Emacs</h3>
+<div class="outline-text-2" id="text-orgb5abb1a">
 <p>
 Run below command in shell to scan code,
 </p>
@@ -823,9 +823,9 @@ After installing Emacs plugins and setup (minimum setup from their website is en
 </div>
 </div>
 </div>
-<div id="outline-container-org95b2e1f" class="outline-2">
-<h3 id="org95b2e1f">Usage</h3>
-<div class="outline-text-2" id="text-org95b2e1f">
+<div id="outline-container-orgb439ebc" class="outline-2">
+<h3 id="orgb439ebc">Usage</h3>
+<div class="outline-text-2" id="text-orgb439ebc">
 <p>
 Use the Emacs plugins as usual.
 </p>
@@ -839,15 +839,15 @@ Screenshot,
 </p>
 
 
-<div id="orgb082690" class="figure">
+<div id="orgacb9b1d" class="figure">
 <p><img src="wp-content/cpp-gtags-demo-nq8.png" alt="cpp-gtags-demo-nq8.png"></p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgae6d28c" class="outline-2">
-<h3 id="orgae6d28c">Tip</h3>
-<div class="outline-text-2" id="text-orgae6d28c">
+<div id="outline-container-orgc3169c8" class="outline-2">
+<h3 id="orgc3169c8">Tip</h3>
+<div class="outline-text-2" id="text-orgc3169c8">
 <p>
 GNU Global could use ctags (Either <a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> or <a href="https://ctags.io/">Universal Ctags</a>) as backend to create tags file.
 </p>
@@ -861,9 +861,9 @@ If you prefer ctags, you could use it directly. Then you can use <a href="https:
 </p>
 </div>
 </div>
-<div id="outline-container-org4f6d45c" class="outline-2">
-<h3 id="org4f6d45c">Technical Details (Optional)</h3>
-<div class="outline-text-2" id="text-org4f6d45c">
+<div id="outline-container-org435ed47" class="outline-2">
+<h3 id="org435ed47">Technical Details (Optional)</h3>
+<div class="outline-text-2" id="text-org435ed47">
 <p>
 Check <a href="https://www.gnu.org/software/global/manual/global.html">GNU Global manual</a> to understand environment variables <code>GTAGSLIBPATH</code> and <code>MAKEOBJDIRPREFIX</code>.
 </p>
@@ -972,9 +972,9 @@ In essence, a major mode is just a collection of APIs. We could use its APIs wit
 Here are two examples.
 </p>
 
-<div id="outline-container-orgd6e5965" class="outline-2">
-<h3 id="orgd6e5965">Validate JSON</h3>
-<div class="outline-text-2" id="text-orgd6e5965">
+<div id="outline-container-orged7a286" class="outline-2">
+<h3 id="orged7a286">Validate JSON</h3>
+<div class="outline-text-2" id="text-orged7a286">
 <p>
 <code>M-x my-validate-json-or-js-expression</code> to validate the buffer.
 </p>
@@ -1020,9 +1020,9 @@ If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
 </div>
 </div>
 
-<div id="outline-container-orgbcec548" class="outline-2">
-<h3 id="orgbcec548">Print JSON path</h3>
-<div class="outline-text-2" id="text-orgbcec548">
+<div id="outline-container-org178bb2f" class="outline-2">
+<h3 id="org178bb2f">Print JSON path</h3>
+<div class="outline-text-2" id="text-org178bb2f">
 <p>
 For example, you got JSON string  <code>{"a": {"b": 3}}</code>. If you place cursor over <code>3</code> and <code>M-x my-print-json-path</code>, you got output <code>a.b</code>.
 </p>
@@ -1054,9 +1054,9 @@ If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it.
 </div>
 </div>
 </div>
-<div id="outline-container-orga3370f5" class="outline-2">
-<h3 id="orga3370f5">Summary</h3>
-<div class="outline-text-2" id="text-orga3370f5">
+<div id="outline-container-org0be0641" class="outline-2">
+<h3 id="org0be0641">Summary</h3>
+<div class="outline-text-2" id="text-org0be0641">
 <p>
 As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
 </p>
@@ -1102,7 +1102,7 @@ As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
 <li>放入土豆丝八角(一到两个,不要更多)炒到变软</li>
 <li>放入水,几滴醋,盖上小火焖一下,留点水</li>
 </ul>
-<div id="orgad2ee78" class="figure">
+<div id="org20bc03f" class="figure">
 <p><img src="wp-content/potato.jpg" alt="potato.jpg"></p>
 </div>
             </div>
@@ -1205,7 +1205,7 @@ But if there are too many hunks in one file, <a href="https://github.com/abo-abo
 Screenshot:
 </p>
 
-<div id="org9d44b4e" class="figure">
+<div id="org3e4d289" class="figure">
 <p><img src="wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"></p>
 </div>
             </div>
