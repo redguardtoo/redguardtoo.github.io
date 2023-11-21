@@ -3,30 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>Start wxWidgets programming on Linux/OSX | Chen's blog</title>
+<title>煮青贝 (Drunken Mussels Recipe) | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/start-wxwidgets-programming-on-linux/">
+<link rel="canonical" href="http://blog.binchen.org/posts/zhu-qing-bei-drunken-mussels-recipe/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
-<meta property="og:title" content="Start wxWidgets programming on Linux/OSX">
-<meta property="og:url" content="http://blog.binchen.org/posts/start-wxwidgets-programming-on-linux/">
-<meta property="og:description" content="wxWidgets 3.0.0
+<meta property="og:title" content="煮青贝 (Drunken Mussels Recipe)">
+<meta property="og:url" content="http://blog.binchen.org/posts/zhu-qing-bei-drunken-mussels-recipe/">
+<meta property="og:description" content="半公斤青贝洗净(有胡子扯掉)
+4或5片大蒜切末
+parsley叶切碎
+蒸锅锅内加2厘米大小黄油中火融化(medium heat),加蒜末30秒后加一点辣椒末15秒
+加一点lemon zest (柠檬皮)15秒后快速倒入白葡萄酒(200毫升)大火烧开
+加入青贝盖上盖煮1分钟略晃动锅
+搅拌一下青贝,再煮2分钟
+洒上parsley末1分钟或2分钟就好了(贝壳开口即可)
+取出青贝,浇上锅内汁水即可食用
 
-
-
-WARNING: before building, please make sure remove everything in build directory, including hidden directory!
-
-
-Install webkit by using Linux distribution's package manager
-
-
-I need ">
+">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2013-02-26T09:17:00Z">
-<meta property="article:tag" content="en">
-<meta property="article:tag" content="linux">
-<meta property="article:tag" content="wxwidgets">
+<meta property="article:published_time" content="2023-11-21T12:52:37Z">
+<meta property="article:tag" content="food">
+<meta property="article:tag" content="zh">
 </head>
 <body>
     <section class="social"><ul>
@@ -42,11 +41,11 @@ I need ">
             
     <div class="post">
     
-    <h1 class="p-name entry-title" itemprop="headline name">Start wxWidgets programming on Linux/OSX</h1>
+    <h1 class="p-name entry-title" itemprop="headline name">煮青贝 (Drunken Mussels Recipe)</h1>
 
         <div class="meta">
             <div class="authordate">
-                <time class="timeago" datetime="2013-02-26T09:17:00+00:00">2013-02-26 09:17</time>
+                <time class="timeago" datetime="2023-11-21T12:52:37+00:00">2023-11-21 12:52</time>
             
 
             
@@ -58,72 +57,39 @@ I need ">
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="../../categories/wxwidgets/" rel="tag">wxwidgets</a></li>
+           <li><a class="tag p-category" href="../../categories/food/" rel="tag">food</a></li>
+           <li><a class="tag p-category" href="../../categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
         </div>
         <div class="body">
-            <p>
-wxWidgets 3.0.0
-</p>
-
+            <ul class="org-ul">
+<li>半公斤青贝洗净(有胡子扯掉)</li>
+<li>4或5片大蒜切末</li>
+<li>parsley叶切碎</li>
+<li>蒸锅锅内加2厘米大小黄油中火融化(medium heat),加蒜末30秒后加一点辣椒末15秒</li>
+<li>加一点lemon zest (柠檬皮)15秒后快速倒入白葡萄酒(200毫升)大火烧开</li>
+<li>加入青贝盖上盖煮1分钟略晃动锅</li>
+<li>搅拌一下青贝,再煮2分钟</li>
+<li>洒上parsley末1分钟或2分钟就好了(贝壳开口即可)</li>
+<li>取出青贝,浇上锅内汁水即可食用</li>
+</ul>
 <p>
-WARNING: before building, please make sure remove everything in build directory, <b>including hidden directory</b>!
-</p>
-<div id="outline-container-org6a903c9" class="outline-2">
-<h3 id="org6a903c9">Install webkit by using Linux distribution's package manager</h3>
-<div class="outline-text-2" id="text-org6a903c9">
-<p>
-I need use wxWebView which dependent on webkit on Linux. The issue here is that webkit on Linux is using GTK.
-</p>
-
-<p>
-Make sure the webkit and wxWidgets are using same version of GTK.
-</p>
-</div>
-</div>
-<div id="outline-container-org1161695" class="outline-2">
-<h3 id="org1161695">build the source</h3>
-<div class="outline-text-2" id="text-org1161695">
-<p>
-Please note I don't use libtiff. I think libpng and libjpeg is enough.
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">mkdir -p ${WXWIN}/build-release;cd ${WXWIN}/build-release;../configure --disable-shared --without-libtiff;make
-mkdir -p ${WXWIN}/build-debug;cd ${WXWIN}/build-debug;../configure --disable-shared --enable-debug --without-libtiff;make
-</code></pre>
-
-</div>
-
-<p>
-On OSX, I need extra <code>--with-osx_cocoa</code> parameter for configure.
-</p>
-
-<p>
-On Linux, build will be fine following above steps. But for building application, I need <code>sudo apt-get install libgtk2.0-dev</code> on Debian/Ubuntu/Mint.
-</p>
-</div>
-</div>
+<a href="https://www.youtube.com/watch?v=S4z2gmtUzHE">youtube视频</a></p>
         </div>
         
         <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../notes-to-install-gentoo-linux/" rel="prev" title="Notes to install Gentoo Linux">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="../use-screenrtorrentcronie-to-manage-torrent-client/" rel="next" title="Use screen/rtorrent/cronie to manage torrent client">Next post</a>
+                <a href="../si-zhong-liang-ban-zhi/" rel="prev" title="四种凉拌汁">Previous post</a>
             </li>
         </ul>
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/start-wxwidgets-programming-on-linux/",
-        disqus_title="Start wxWidgets programming on Linux/OSX",
-        disqus_identifier="cache/posts/start-wxwidgets-programming-on-linux.html",
+            disqus_url="http://blog.binchen.org/posts/zhu-qing-bei-drunken-mussels-recipe/",
+        disqus_title="\u716e\u9752\u8d1d (Drunken Mussels Recipe)",
+        disqus_identifier="cache/posts/zhu-qing-bei-drunken-mussels-recipe.html",
         disqus_config = function () {
             this.language = "en";
         };
