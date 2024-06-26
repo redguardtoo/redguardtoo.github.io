@@ -23,6 +23,90 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/use-emacs-to-read-english-classic-books-efficiently/">Use Emacs to read English classic books efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-12-22T09:33:03+00:00">2022-12-22 09:33</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-emacs-to-read-english-classic-books-efficiently/#disqus_thread" data-disqus-identifier="cache/posts/use-emacs-to-read-english-classic-books-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/english/" rel="tag">english</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Classic books is difficult to read because they have many new words.
+</p>
+
+<p>
+Find the word's dictionary definition is tedios and breaks the flow.
+</p>
+
+<p>
+I tried reading those books in iPad and Kindle. The experience is not very smooth because,
+</p>
+<ul class="org-ul">
+<li>It takes too much effort to select the word and send it to the dictionary. Particularly difficulty for me because I've got big fingers</li>
+<li>The dictionary popup overlaps with the book's content. Feels not comfortable</li>
+</ul>
+<p>
+In Emacs,
+</p>
+<ul class="org-ul">
+<li>new words can be automatically highlighted</li>
+<li>The book's content and dictionary are displayed side by side</li>
+</ul>
+<p>
+The Emacs plugin <a href="https://github.com/redguardtoo/mybigword">mybigword 0.2.4</a> provides a new command <code>mybigword-big-words-in-current-windows</code> which automatically highlight the new words in current window with hint. Type the hint, the word's definition is displayed in another window.
+</p>
+
+<p>
+Screenshot before running <code>M-x mybigword-big-words-in-current-windows</code>,
+</p>
+
+<div id="orgf2f88b6" class="figure">
+<p><img src="wp-content/mybigword-before.png" alt="mybigword-before.png"></p>
+</div>
+
+<p>
+After,
+</p>
+
+<div id="orgef70199" class="figure">
+<p><img src="wp-content/mybigword-after.png" alt="mybigword-after.png"></p>
+</div>
+
+<p>
+The hint UI is actually based on <a href="https://github.com/abo-abo/avy">avy</a>.
+</p>
+
+<p>
+Every English word can be measure by word frequency named Zipf Scale (see <a href="http://crr.ugent.be/papers/van_Heuven_et_al_SUBTLEX-UK.pdf">http://crr.ugent.be/papers/van_Heuven_et_al_SUBTLEX-UK.pdf</a> for more details).
+</p>
+
+<p>
+Any word with ZipF less than the value of <code>mybigword-upper-limit</code> is regarded as new word.
+</p>
+
+<p>
+In my setup, <code>mybigword-upper-limit</code> is <code>3.6</code>.
+</p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/code-faster-by-extending-emacs-evil-text-object/">Code faster by extending Emacs EVIL text object</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -699,60 +783,6 @@ Similar solution is also used in <a href="https://github.com/tumashu/pyim">pyim<
 
 </div>
             </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/liang-ban-ku-gua/">凉拌苦瓜</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2022-06-18T03:12:19+00:00">2022-06-18 03:12</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/liang-ban-ku-gua/#disqus_thread" data-disqus-identifier="cache/posts/liang-ban-ku-gua.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/bitter/" rel="tag">bitter</a></li>
-           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
-           <li><a class="tag p-category" href="categories/melon/" rel="tag">melon</a></li>
-           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-做法:
-</p>
-<ul class="org-ul">
-<li>一个大苦瓜洗净后去掉瓜瓤和苦瓜的白色部分，将片好的苦瓜斜刀切成细丝</li>
-<li>一个尖辣椒和大葱斜切丝(辣椒不用去籽)，将蒜末(3或4个蒜瓣)，生抽，糖，盐，醋，香油混合均匀制成碗汁备用</li>
-<li>锅内做水，水开后放入一小勺盐和少许油。下入苦瓜丝焯烫约15秒</li>
-<li>盛出苦瓜丝迅速用水冲凉后控干水分。放上红椒丝和葱丝，淋上调好的汁搅拌均匀即可</li>
-<li>喜欢辣椒的可以放些辣椒油搅拌均匀，不喜欢的可以不放</li>
-</ul>
-<p>
-小结:
-</p>
-<ul class="org-ul">
-<li>开水烫过苦瓜变色了</li>
-<li>尖辣椒和蒜的味道出来了</li>
-</ul>
-<p>
-下次用台湾<a href="https://www.youtube.com/watch?v=N23C7XXIqoc">阿基师的方法</a>改进.
-</p>
-<ul class="org-ul">
-<li>苦瓜(白色比绿色苦味淡一点)去馅,里面薄膜也要刮掉以去苦味</li>
-<li>斜切片,一个技巧是用刮皮的刀可以切更薄的片,用盐抓一下,浸水去苦味(是否这样营养也损失了?).之后浸入冰块变脆</li>
-<li>调汁.鲜味酱油和净水比例1:5,加少许柴鱼粉(可用鸡精代替),滴入两块柠檬的汁(柠檬的香味和酸味可以掩盖苦味)</li>
-<li>将汁浇在苦瓜上,洒一些烤干的白芝麻</li>
-</ul>
-</div>
         </div>
         <div class="post">
             <h1 class="title"><a href="posts/zheng-jia-he/">蒸茄盒</a></h1>
