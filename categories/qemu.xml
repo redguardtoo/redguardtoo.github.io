@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about qemu)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/qemu.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 23 Dec 2024 12:49:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://blog.binchen.org/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Start virtual machine with 8G memory and Debian Linux iso using CLI,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 debin.img 16G
+qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
+qemu-img resize win10.qcow 30G # resize virtual disk 
+sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
+sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
+sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
+sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
+sudo umount /mnt/c &amp;amp;&amp;amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+VM can access physical USB stick on Linux,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Run &lt;code&gt;lsusb&lt;/code&gt;, get below output of USB stick,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="example" id="org0fb4de3"&gt;
+Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
+&lt;/pre&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Then insert below content into "&amp;lt;devices&amp;gt;" node od XML of virt-manager and start VM,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-xml"&gt;&amp;lt;hostdev mode='subsystem' type='usb'&amp;gt;
+  &amp;lt;source startupPolicy='optional'&amp;gt;
+  &amp;lt;vendor id='0x0930'/&amp;gt;
+  &amp;lt;product id='0x6545'/&amp;gt;
+  &amp;lt;/source&amp;gt;
+&amp;lt;/hostdev&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>en</category><category>linux</category><category>qemu</category><guid>http://blog.binchen.org/posts/qemu-essential/</guid><pubDate>Mon, 23 Dec 2024 12:48:42 GMT</pubDate></item></channel></rss>

@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 18 Dec 2024 10:34:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>香菇炒青菜</title><link>http://blog.binchen.org/posts/xiang-gu-chao-qing-cai/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://blog.binchen.org/</link><description>Linux, Programming, Emacs</description><atom:link href="http://blog.binchen.org/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 23 Dec 2024 12:49:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://blog.binchen.org/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Start virtual machine with 8G memory and Debian Linux iso using CLI,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 debin.img 16G
+qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
+qemu-img resize win10.qcow 30G # resize virtual disk 
+sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
+sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
+sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
+sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
+sudo umount /mnt/c &amp;amp;&amp;amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+VM can access physical USB stick on Linux,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Run &lt;code&gt;lsusb&lt;/code&gt;, get below output of USB stick,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="example" id="org0fb4de3"&gt;
+Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
+&lt;/pre&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Then insert below content into "&amp;lt;devices&amp;gt;" node od XML of virt-manager and start VM,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-xml"&gt;&amp;lt;hostdev mode='subsystem' type='usb'&amp;gt;
+  &amp;lt;source startupPolicy='optional'&amp;gt;
+  &amp;lt;vendor id='0x0930'/&amp;gt;
+  &amp;lt;product id='0x6545'/&amp;gt;
+  &amp;lt;/source&amp;gt;
+&amp;lt;/hostdev&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>en</category><category>linux</category><category>qemu</category><guid>http://blog.binchen.org/posts/qemu-essential/</guid><pubDate>Mon, 23 Dec 2024 12:48:42 GMT</pubDate></item><item><title>香菇炒青菜</title><link>http://blog.binchen.org/posts/xiang-gu-chao-qing-cai/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 材料,
 &lt;/p&gt;
 &lt;ul class="org-ul"&gt;
@@ -264,30 +313,4 @@
 &lt;p&gt;
 视频,
 &lt;a href="https://www.youtube.com/watch?v=-ZxJTLhVSsg"&gt;Youtube&lt;/a&gt; &lt;a href="https://www.dropbox.com/scl/fi/x5x9ilta24qtzzloutrih/.mp4?rlkey=evyitouxxyrxnrhf2bcrdn8u2&amp;amp;st=zuslr2zv&amp;amp;dl=0"&gt;Dropbox&lt;/a&gt;
-&lt;/p&gt;</description><category>food</category><category>zh</category><guid>http://blog.binchen.org/posts/zheng-zong-xiong-ya-li-dun-rou-authentic-hungarian-gulys/</guid><pubDate>Tue, 24 Sep 2024 14:06:27 GMT</pubDate></item><item><title>西红柿炖牛腩</title><link>http://blog.binchen.org/posts/xi-hong-shi-dun-niu-nan/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-材料
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;1块牛腩切3.5厘米块洗净&lt;/li&gt;
-&lt;li&gt;姜拍成片, 2片&lt;/li&gt;
-&lt;li&gt;桂皮1块洗净&lt;/li&gt;
-&lt;li&gt;4个西红柿去皮切块&lt;/li&gt;
-&lt;li&gt;紫圆葱1个切条&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-作法,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;姜和桂皮牛肉圆葱加入大火炒3分钟至肉变白葱香味渗入肉&lt;/li&gt;
-&lt;li&gt;加二合一酱油1大勺增香,1大勺黄酒,1小勺盐略翻炒&lt;/li&gt;
-&lt;li&gt;加开水不用太多略盖过肉&lt;/li&gt;
-&lt;li&gt;所有材料加入高压锅,开锅3分钟,定口味,1两糖(偏甜口味和西红柿酸味中和),可选少量盐&lt;/li&gt;
-&lt;li&gt;20分钟高压锅炖肉(可放4片山楂干肉更易烂)&lt;/li&gt;
-&lt;li&gt;加西红柿,可选番茄酱调味,炖3分钟出锅加香菜或葱增色&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-视频,
-&lt;a href="https://www.youtube.com/watch?v=jf-E-hfguqU"&gt;Youtube&lt;/a&gt; &lt;a href="https://www.dropbox.com/scl/fi/ganvaq0o8vu76l8hbf2kn/.mp4?rlkey=8on3xrea1r5vxbt3sirfwvk22&amp;amp;st=nvafoyex&amp;amp;dl=0"&gt;Dropbox&lt;/a&gt;
-&lt;/p&gt;</description><category>food</category><category>zh</category><guid>http://blog.binchen.org/posts/xi-hong-shi-dun-niu-nan/</guid><pubDate>Sun, 22 Sep 2024 02:28:35 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;</description><category>food</category><category>zh</category><guid>http://blog.binchen.org/posts/zheng-zong-xiong-ya-li-dun-rou-authentic-hungarian-gulys/</guid><pubDate>Tue, 24 Sep 2024 14:06:27 GMT</pubDate></item></channel></rss>

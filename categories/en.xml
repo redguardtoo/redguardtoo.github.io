@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 21 Nov 2023 12:56:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>土耳其炖韭葱(Zeytinyağlı Pırasa)</title><link>http://blog.binchen.org/posts/tu-er-qi-dun-jiu-cong-zeytinyal-prasa/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 23 Dec 2024 12:49:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://blog.binchen.org/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Start virtual machine with 8G memory and Debian Linux iso using CLI,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 debin.img 16G
+qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
+qemu-img resize win10.qcow 30G # resize virtual disk 
+sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
+sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
+sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
+sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
+sudo umount /mnt/c &amp;amp;&amp;amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+VM can access physical USB stick on Linux,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Run &lt;code&gt;lsusb&lt;/code&gt;, get below output of USB stick,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="example" id="org0fb4de3"&gt;
+Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
+&lt;/pre&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Then insert below content into "&amp;lt;devices&amp;gt;" node od XML of virt-manager and start VM,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-xml"&gt;&amp;lt;hostdev mode='subsystem' type='usb'&amp;gt;
+  &amp;lt;source startupPolicy='optional'&amp;gt;
+  &amp;lt;vendor id='0x0930'/&amp;gt;
+  &amp;lt;product id='0x6545'/&amp;gt;
+  &amp;lt;/source&amp;gt;
+&amp;lt;/hostdev&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>en</category><category>linux</category><category>qemu</category><guid>http://blog.binchen.org/posts/qemu-essential/</guid><pubDate>Mon, 23 Dec 2024 12:48:42 GMT</pubDate></item><item><title>土耳其炖韭葱(Zeytinyağlı Pırasa)</title><link>http://blog.binchen.org/posts/tu-er-qi-dun-jiu-cong-zeytinyal-prasa/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 用一般的锅就可.只要一开始小火炖就不会焦.
 &lt;/p&gt;
 &lt;ul class="org-ul"&gt;
@@ -792,53 +841,4 @@ I usually run &lt;code&gt;M-x emms-play-directory-tree&lt;/code&gt; to play musi
 &lt;p&gt;
 Screen shot of running &lt;code&gt;~/bin/music-player-client show&lt;/code&gt;,
 &lt;img src="http://blog.binchen.org/wp-content/emms-notification.png" alt="emms-notification.png"&gt;
-&lt;/p&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</guid><pubDate>Mon, 16 May 2022 12:11:33 GMT</pubDate></item><item><title>Integrate delta into git</title><link>http://blog.binchen.org/posts/integrate-delta-into-git/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-&lt;a href="https://github.com/dandavison/delta"&gt;Delta&lt;/a&gt; is a syntax-highlighting pager for git, diff, and grep output.
-&lt;/p&gt;
-
-&lt;p&gt;
-Set up is as simple as &lt;a href="https://github.com/dandavison/delta#get-started"&gt;copying its sample setup&lt;/a&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-I wrote a shell script &lt;code&gt;my-pager&lt;/code&gt; which can use both &lt;code&gt;less&lt;/code&gt; and &lt;code&gt;delta&lt;/code&gt; as pager,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;#!/bin/bash
-# @see https://stackoverflow.com/questions/19408649/pipe-input-into-a-script
-if [ -x "$HOME/.cargo/bin/delta" ]; then
-    cat | $HOME/.cargo/bin/delta "$@"
-else
-    cat | less -F -X
-fi
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Here is my extra delta setup in &lt;code&gt;~/.gitconfig&lt;/code&gt; (Delta reads settings from &lt;code&gt;~/.gitconfig&lt;/code&gt;),
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-ini"&gt;[core]
-pager = ~/bin/my-pager
-[interactive]
-diffFilter = ~/bin/my-pager --color-only
-[merge]
-conflictstyle = diff3
-[diff]
-colorMoved = default
-[delta "default"]
-file-decoration-style= blue box
-hunk-header-decoration-style = purple ol
-[delta]
-features = default
-navigate = true  # use n and N to move between diff sections
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Screenshot,
-&lt;img src="http://blog.binchen.org/wp-content/git-delta.png" alt="git-delta.png"&gt;&lt;/p&gt;</description><category>delta</category><category>diff</category><category>emacs</category><category>en</category><category>git</category><guid>http://blog.binchen.org/posts/integrate-delta-into-git/</guid><pubDate>Wed, 27 Apr 2022 12:03:37 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</guid><pubDate>Mon, 16 May 2022 12:11:33 GMT</pubDate></item></channel></rss>

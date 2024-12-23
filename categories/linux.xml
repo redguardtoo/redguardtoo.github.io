@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 21 Nov 2023 12:56:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 23 Dec 2024 12:49:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://blog.binchen.org/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+Start virtual machine with 8G memory and Debian Linux iso using CLI,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 debin.img 16G
+qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
+&lt;/p&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
+qemu-img resize win10.qcow 30G # resize virtual disk 
+sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
+sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
+sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
+sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
+sudo umount /mnt/c &amp;amp;&amp;amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+VM can access physical USB stick on Linux,
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Run &lt;code&gt;lsusb&lt;/code&gt;, get below output of USB stick,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="example" id="org0fb4de3"&gt;
+Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
+&lt;/pre&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Then insert below content into "&amp;lt;devices&amp;gt;" node od XML of virt-manager and start VM,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-xml"&gt;&amp;lt;hostdev mode='subsystem' type='usb'&amp;gt;
+  &amp;lt;source startupPolicy='optional'&amp;gt;
+  &amp;lt;vendor id='0x0930'/&amp;gt;
+  &amp;lt;product id='0x6545'/&amp;gt;
+  &amp;lt;/source&amp;gt;
+&amp;lt;/hostdev&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;</description><category>en</category><category>linux</category><category>qemu</category><guid>http://blog.binchen.org/posts/qemu-essential/</guid><pubDate>Mon, 23 Dec 2024 12:48:42 GMT</pubDate></item><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 In &lt;a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/"&gt;Better Emacs package development workflow&lt;/a&gt;, I proved that running Emacs compiler in CI can give huge boost to package quality.
 &lt;/p&gt;
 
@@ -675,80 +724,4 @@ Now I use &lt;a href="https://hoytech.com/vmtouch/"&gt;vmtouch&lt;/a&gt; which i
 &lt;/p&gt;
 
 &lt;p&gt;
-Unfortunately, &lt;code&gt;vmtouch&lt;/code&gt; doesn't support Windows. You can convert my bash script to DOS batch script. Basically the script copies the directory into ram disk and create a link to the directory in memory. You can use &lt;a href="https://sourceforge.net/projects/imdisk-toolkit/"&gt;ImDisk Toolkit&lt;/a&gt; to create ram disk.&lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-speed-up-1000/</guid><pubDate>Fri, 08 May 2015 11:58:13 GMT</pubDate></item><item><title>Why people say "Emacs is the best operating system"</title><link>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
- people say "Emacs is the best operating system"                           :en:emacs:font:linux:terminal:terminator:
-It's becasue Emacs has great documentation and enough APIs.
-&lt;/p&gt;
-&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-
-&lt;div class="outline-text-2" id="text-1"&gt;
-&lt;p&gt;
-Emacs manual even helps me even on non-Emacs stuff.
-&lt;/p&gt;
-
-&lt;p&gt;
-When configuring the font for &lt;a href="http://gnometerminator.blogspot.com/p/introduction.html"&gt;Terminator&lt;/a&gt; (a terminal emulator) I find its manual is NOT clear. The manual doesn't explain what is "Pango font name". But Emacs manual provides all I need.
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;code&gt;fc-list&lt;/code&gt; is to list installed fonts. Since terminal use Mono font, I can type below command:
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-
-&lt;pre&gt;&lt;code class="lang-bash"&gt;fc-list | grep Mono
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-The output is like:
-&lt;/p&gt;
-
-&lt;pre class="example"&gt;
-/usr/share/fonts/urw-fonts/n022003l.pfb: Nimbus Mono L:style=Regular
-/usr/share/fonts/urw-fonts/n022024l.pfb: Nimbus Mono L:style=Bold Oblique
-/usr/share/fonts/liberation-fonts/LiberationMono-Regular.ttf: Liberation Mono:style=Regular
-/usr/share/fonts/urw-fonts/n022004l.pfb: Nimbus Mono L:style=Bold
-/usr/share/fonts/liberation-fonts/LiberationMono-BoldItalic.ttf: Liberation Mono:style=Bold Italic
-/usr/share/fonts/liberation-fonts/LiberationMono-Bold.ttf: Liberation Mono:style=Bold
-/usr/share/fonts/wqy-zenhei/wqy-zenhei.ttc: 文泉驿等宽正黑,文泉驛等寬正黑,WenQuanYi Zen Hei Mono:style=Medium,中等
-/usr/share/fonts/liberation-fonts/LiberationMono-Italic.ttf: Liberation Mhttp://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system.htmlono:style=Italic
-/usr/share/fonts/urw-fonts/n022023l.pfb: Nimbus Mono L:style=Regular Oblique
-&lt;/pre&gt;
-
-&lt;p&gt;
-Since Emacs manual explains the meaning of output, I know the font name "WenQuanYi Zen Hei Mono" is the key component of "Pango font name"
-&lt;/p&gt;
-
-&lt;p&gt;
-Because the manual also gives the details of other components of "Pango font name", the final "~/.config/terminator/config" is like:
-&lt;/p&gt;
-
-&lt;div class="org-src-container"&gt;
-
-
-&lt;pre&gt;&lt;code class="lang-conf"&gt;[profiles]
-  [[default]]
-  use_system_font = False
-  # @see emacs manual for tools and explanation of font formats
-  # https://www.gnu.org/software/emacs/manual/html_node/emacs/GTK-Resource-Basics.html
-  # https://www.gnu.org/software/emacs/manual/html_node/emacs/Fonts.html#Fonts
-  font =  WenQuanYi Zen Hei Mono 16
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-sec-2" class="outline-2"&gt;
-&lt;h3 id="sec-2"&gt;API&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-2"&gt;
-&lt;p&gt;
-I create a new Emacs plugin which lists file names containing Chinese characters. At beginning I use Emacs API "find-name-dired". It uses the GNU find as the backend. But there is some integration issue on Linux. Chinese file names are displayed as garbled text in Emacs. I guess there is some decode/encode error between the interaction of Emacs process and GNU find process because Chinese files are fine on OS X.
-&lt;/p&gt;
-
-&lt;p&gt;
-Emacs has enough APIs. Later I found another pure Lisp API "find-lisp-find-dired". Problem solved.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>font</category><category>linux</category><category>terminal</category><category>terminator</category><guid>http://blog.binchen.org/posts/why-people-say-emacs-is-the-best-operating-system/</guid><pubDate>Sun, 01 Feb 2015 09:40:44 GMT</pubDate></item></channel></rss>
+Unfortunately, &lt;code&gt;vmtouch&lt;/code&gt; doesn't support Windows. You can convert my bash script to DOS batch script. Basically the script copies the directory into ram disk and create a link to the directory in memory. You can use &lt;a href="https://sourceforge.net/projects/imdisk-toolkit/"&gt;ImDisk Toolkit&lt;/a&gt; to create ram disk.&lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-speed-up-1000/</guid><pubDate>Fri, 08 May 2015 11:58:13 GMT</pubDate></item></channel></rss>

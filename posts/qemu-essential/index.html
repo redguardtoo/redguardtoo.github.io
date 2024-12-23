@@ -3,38 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>香菇炒青菜 | Chen's blog</title>
+<title>QEMU essential | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/xiang-gu-chao-qing-cai/">
+<link rel="canonical" href="http://blog.binchen.org/posts/qemu-essential/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
-<meta property="og:title" content="香菇炒青菜">
-<meta property="og:url" content="http://blog.binchen.org/posts/xiang-gu-chao-qing-cai/">
-<meta property="og:description" content="材料,
-
-
-干香菇温水泡发切成厚片
-青菜菜帮切1厘米宽小段,菜叶切1刀,分别放开
-大蒜切末
+<meta property="og:title" content="QEMU essential">
+<meta property="og:url" content="http://blog.binchen.org/posts/qemu-essential/">
+<meta property="og:description" content='Start virtual machine with 8G memory and Debian Linux iso using CLI,
 
 
 
-作法,
-
-
-油加一点增香猪油.油热后中火爆香蒜末
-放入香菇慢慢煸炒10+下炒出香味,可加入泡香菇水再翻炒8下
-加入菜帮翻炒8下加入菜叶和适量食盐开大火翻炒均匀至叶面变塌变软
-加入蚝油略翻炒出锅
-
-
-
-Youtube Dropbox">
+qemu-img create -f qcow2 debin.img 16G
+qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8'>
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2024-12-18T10:33:23Z">
-<meta property="article:tag" content="food">
-<meta property="article:tag" content="zh">
+<meta property="article:published_time" content="2024-12-23T12:48:42Z">
+<meta property="article:tag" content="en">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="qemu">
 </head>
 <body>
     <section class="social"><ul>
@@ -50,11 +37,11 @@ Youtube Dropbox">
             
     <div class="post">
     
-    <h1 class="p-name entry-title" itemprop="headline name">香菇炒青菜</h1>
+    <h1 class="p-name entry-title" itemprop="headline name">QEMU essential</h1>
 
         <div class="meta">
             <div class="authordate">
-                <time class="timeago" datetime="2024-12-18T10:33:23+00:00">2024-12-18 10:33</time>
+                <time class="timeago" datetime="2024-12-23T12:48:42+00:00">2024-12-23 12:48</time>
             
 
             
@@ -66,49 +53,77 @@ Youtube Dropbox">
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="../../categories/food/" rel="tag">food</a></li>
-           <li><a class="tag p-category" href="../../categories/zh/" rel="tag">zh</a></li>
+           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="../../categories/qemu/" rel="tag">qemu</a></li>
         </ul>
 </div>
 
         </div>
         <div class="body">
             <p>
-材料,
+Start virtual machine with 8G memory and Debian Linux iso using CLI,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">qemu-img create -f qcow2 debin.img 16G
+qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
+</code></pre>
+
+</div>
+
+<p>
+Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
+qemu-img resize win10.qcow 30G # resize virtual disk 
+sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
+sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
+sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
+sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
+sudo umount /mnt/c &amp;&amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
+</code></pre>
+
+</div>
+
+<p>
+VM can access physical USB stick on Linux,
 </p>
 <ul class="org-ul">
-<li>干香菇温水泡发切成厚片</li>
-<li>青菜菜帮切1厘米宽小段,菜叶切1刀,分别放开</li>
-<li>大蒜切末</li>
+<li>Run <code>lsusb</code>, get below output of USB stick,</li>
 </ul>
-<p>
-作法,
-</p>
+<pre class="example" id="org0fb4de3">
+Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
+</pre>
 <ul class="org-ul">
-<li>油加一点增香猪油.油热后中火爆香蒜末</li>
-<li>放入香菇慢慢煸炒10+下炒出香味,可加入泡香菇水再翻炒8下</li>
-<li>加入菜帮翻炒8下加入菜叶和适量食盐开大火翻炒均匀至叶面变塌变软</li>
-<li>加入蚝油略翻炒出锅</li>
+<li>Then insert below content into "&lt;devices&gt;" node od XML of virt-manager and start VM,</li>
 </ul>
-<p>
-<a href="https://www.youtube.com/watch?v=yATo7F1J5Cg">Youtube</a> <a href="https://www.dropbox.com/scl/fi/ure5mx6i8gvaj9pzhgt85">Dropbox</a>
-</p>
+<div class="org-src-container">
+
+<pre><code class="lang-xml">&lt;hostdev mode='subsystem' type='usb'&gt;
+  &lt;source startupPolicy='optional'&gt;
+  &lt;vendor id='0x0930'/&gt;
+  &lt;product id='0x6545'/&gt;
+  &lt;/source&gt;
+&lt;/hostdev&gt;
+</code></pre>
+
+</div>
         </div>
         
         <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../liang-ban-huang-gua/" rel="prev" title="凉拌黄瓜">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="../qemu-essential/" rel="next" title="QEMU essential">Next post</a>
+                <a href="../xiang-gu-chao-qing-cai/" rel="prev" title="香菇炒青菜">Previous post</a>
             </li>
         </ul>
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/xiang-gu-chao-qing-cai/",
-        disqus_title="\u9999\u83c7\u7092\u9752\u83dc",
-        disqus_identifier="cache/posts/xiang-gu-chao-qing-cai.html",
+            disqus_url="http://blog.binchen.org/posts/qemu-essential/",
+        disqus_title="QEMU essential",
+        disqus_identifier="cache/posts/qemu-essential.html",
         disqus_config = function () {
             this.language = "en";
         };

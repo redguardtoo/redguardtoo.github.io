@@ -23,6 +23,83 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/qemu-essential/">QEMU essential</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2024-12-23T12:48:42+00:00">2024-12-23 12:48</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/qemu-essential/#disqus_thread" data-disqus-identifier="cache/posts/qemu-essential.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/qemu/" rel="tag">qemu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Start virtual machine with 8G memory and Debian Linux iso using CLI,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">qemu-img create -f qcow2 debin.img 16G
+qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
+</code></pre>
+
+</div>
+
+<p>
+Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
+qemu-img resize win10.qcow 30G # resize virtual disk 
+sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
+sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
+sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
+sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
+sudo umount /mnt/c &amp;&amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
+</code></pre>
+
+</div>
+
+<p>
+VM can access physical USB stick on Linux,
+</p>
+<ul class="org-ul">
+<li>Run <code>lsusb</code>, get below output of USB stick,</li>
+</ul>
+<pre class="example" id="org0fb4de3">
+Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
+</pre>
+<ul class="org-ul">
+<li>Then insert below content into "&lt;devices&gt;" node od XML of virt-manager and start VM,</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-xml">&lt;hostdev mode='subsystem' type='usb'&gt;
+  &lt;source startupPolicy='optional'&gt;
+  &lt;vendor id='0x0930'/&gt;
+  &lt;product id='0x6545'/&gt;
+  &lt;/source&gt;
+&lt;/hostdev&gt;
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/xiang-gu-chao-qing-cai/">香菇炒青菜</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -503,57 +580,6 @@
 <p>
 视频,
 <a href="https://www.youtube.com/watch?v=-ZxJTLhVSsg">Youtube</a> <a href="https://www.dropbox.com/scl/fi/x5x9ilta24qtzzloutrih/.mp4?rlkey=evyitouxxyrxnrhf2bcrdn8u2&amp;st=zuslr2zv&amp;dl=0">Dropbox</a>
-</p>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/xi-hong-shi-dun-niu-nan/">西红柿炖牛腩</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2024-09-22T02:28:35+00:00">2024-09-22 02:28</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/xi-hong-shi-dun-niu-nan/#disqus_thread" data-disqus-identifier="cache/posts/xi-hong-shi-dun-niu-nan.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
-           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-材料
-</p>
-<ul class="org-ul">
-<li>1块牛腩切3.5厘米块洗净</li>
-<li>姜拍成片, 2片</li>
-<li>桂皮1块洗净</li>
-<li>4个西红柿去皮切块</li>
-<li>紫圆葱1个切条</li>
-</ul>
-<p>
-作法,
-</p>
-<ul class="org-ul">
-<li>姜和桂皮牛肉圆葱加入大火炒3分钟至肉变白葱香味渗入肉</li>
-<li>加二合一酱油1大勺增香,1大勺黄酒,1小勺盐略翻炒</li>
-<li>加开水不用太多略盖过肉</li>
-<li>所有材料加入高压锅,开锅3分钟,定口味,1两糖(偏甜口味和西红柿酸味中和),可选少量盐</li>
-<li>20分钟高压锅炖肉(可放4片山楂干肉更易烂)</li>
-<li>加西红柿,可选番茄酱调味,炖3分钟出锅加香菜或葱增色</li>
-</ul>
-<p>
-视频,
-<a href="https://www.youtube.com/watch?v=jf-E-hfguqU">Youtube</a> <a href="https://www.dropbox.com/scl/fi/ganvaq0o8vu76l8hbf2kn/.mp4?rlkey=8on3xrea1r5vxbt3sirfwvk22&amp;st=nvafoyex&amp;dl=0">Dropbox</a>
 </p>
             </div>
         </div>
