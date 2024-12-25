@@ -80,7 +80,7 @@ VM can access physical USB stick on Linux,
 <ul class="org-ul">
 <li>Run <code>lsusb</code>, get below output of USB stick,</li>
 </ul>
-<pre class="example" id="org965d6d7">
+<pre class="example" id="org8ec223d">
 Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
 </pre>
 <ul class="org-ul">
@@ -94,6 +94,18 @@ Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / H
   &lt;product id='0x6545'/&gt;
   &lt;/source&gt;
 &lt;/hostdev&gt;
+</code></pre>
+
+</div>
+
+<p>
+If default NAT network is not active,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo virsh net-list --all # display network
+sudo virsh net-start default  # start default network
+sudo virsh net-autostart default # autostart default network
 </code></pre>
 
 </div>
