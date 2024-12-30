@@ -3,25 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>QEMU essential | Chen's blog</title>
+<title>番茄豆腐 | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/qemu-essential/">
+<link rel="canonical" href="http://blog.binchen.org/posts/fan-jia-dou-fu/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
-<meta property="og:title" content="QEMU essential">
-<meta property="og:url" content="http://blog.binchen.org/posts/qemu-essential/">
-<meta property="og:description" content='Start virtual machine with 8G memory and Debian Linux iso using CLI,
+<meta property="og:title" content="番茄豆腐">
+<meta property="og:url" content="http://blog.binchen.org/posts/fan-jia-dou-fu/">
+<meta property="og:description" content="材料,
+
+
+番茄切小块,老姜切丁,大蒜切末,葱切末
+玉米淀粉加水调匀备用
 
 
 
-qemu-img create -f qcow2 debin.img 16G
-qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8'>
+作法,
+
+
+油热下番茄蒜末老姜,一勺盐一起翻炒(加盐番茄更容易炒成番茄酱)
+番茄炒至软烂加生抽和水煮开后加入豆腐,豆腐小火闷一会加入淀粉水,起锅加葱花">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2024-12-23T12:48:42Z">
-<meta property="article:tag" content="en">
-<meta property="article:tag" content="linux">
-<meta property="article:tag" content="qemu">
+<meta property="article:published_time" content="2024-12-30T04:58:00Z">
+<meta property="article:tag" content="food">
+<meta property="article:tag" content="zh">
 </head>
 <body>
     <section class="social"><ul>
@@ -37,11 +43,11 @@ qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.
             
     <div class="post">
     
-    <h1 class="p-name entry-title" itemprop="headline name">QEMU essential</h1>
+    <h1 class="p-name entry-title" itemprop="headline name">番茄豆腐</h1>
 
         <div class="meta">
             <div class="authordate">
-                <time class="timeago" datetime="2024-12-23T12:48:42+00:00">2024-12-23 12:48</time>
+                <time class="timeago" datetime="2024-12-30T04:58:00+00:00">2024-12-30 04:58</time>
             
 
             
@@ -53,92 +59,40 @@ qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.
         <div itemprop="keywords" class="tags">
         <ul>
         Tags : 
-           <li><a class="tag p-category" href="../../categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="../../categories/qemu/" rel="tag">qemu</a></li>
+           <li><a class="tag p-category" href="../../categories/food/" rel="tag">food</a></li>
+           <li><a class="tag p-category" href="../../categories/zh/" rel="tag">zh</a></li>
         </ul>
 </div>
 
         </div>
         <div class="body">
             <p>
-Start virtual machine with 8G memory and Debian Linux iso using CLI,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">qemu-img create -f qcow2 debin.img 16G
-qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
-</code></pre>
-
-</div>
-
-<p>
-Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
-qemu-img resize win10.qcow 30G # resize virtual disk 
-sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
-sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
-sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
-sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
-sudo umount /mnt/c &amp;&amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
-</code></pre>
-
-</div>
-
-<p>
-VM can access physical USB stick on Linux,
+材料,
 </p>
 <ul class="org-ul">
-<li>Run <code>lsusb</code>, get below output of USB stick,</li>
+<li>番茄切小块,老姜切丁,大蒜切末,葱切末</li>
+<li>玉米淀粉加水调匀备用</li>
 </ul>
-<pre class="example" id="orgb1e4874">
-Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
-</pre>
-<ul class="org-ul">
-<li>Then insert below content into "&lt;devices&gt;" node od XML of virt-manager and start VM,</li>
-</ul>
-<div class="org-src-container">
-
-<pre><code class="lang-xml">&lt;hostdev mode='subsystem' type='usb'&gt;
-  &lt;source startupPolicy='optional'&gt;
-  &lt;vendor id='0x0930'/&gt;
-  &lt;product id='0x6545'/&gt;
-  &lt;/source&gt;
-&lt;/hostdev&gt;
-</code></pre>
-
-</div>
-
 <p>
-If default NAT network is not active, fix with below cli,
+作法,
 </p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">sudo virsh net-list --all # display network
-sudo virsh net-start default  # start default network
-sudo virsh net-autostart default # autostart default network
-</code></pre>
-
+<ul class="org-ul">
+<li>油热下番茄蒜末老姜,一勺盐一起翻炒(加盐番茄更容易炒成番茄酱)</li>
+<li>番茄炒至软烂加生抽和水煮开后加入豆腐,豆腐小火闷一会加入淀粉水,起锅加葱花</li>
+</ul>
 </div>
-        </div>
         
         <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../xiang-gu-chao-qing-cai/" rel="prev" title="香菇炒青菜">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="../fan-jia-dou-fu/" rel="next" title="番茄豆腐">Next post</a>
+                <a href="../qemu-essential/" rel="prev" title="QEMU essential">Previous post</a>
             </li>
         </ul>
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/qemu-essential/",
-        disqus_title="QEMU essential",
-        disqus_identifier="cache/posts/qemu-essential.html",
+            disqus_url="http://blog.binchen.org/posts/fan-jia-dou-fu/",
+        disqus_title="\u756a\u8304\u8c46\u8150",
+        disqus_identifier="cache/posts/fan-jia-dou-fu.html",
         disqus_config = function () {
             this.language = "en";
         };
