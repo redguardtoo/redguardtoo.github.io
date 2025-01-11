@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about qemu)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/qemu.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Wed, 25 Dec 2024 08:15:45 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://blog.binchen.org/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about qemu)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/qemu.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 11 Jan 2025 13:00:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://blog.binchen.org/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Start virtual machine with 8G memory and Debian Linux iso using CLI,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
@@ -32,7 +32,7 @@ VM can access physical USB stick on Linux,
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Run &lt;code&gt;lsusb&lt;/code&gt;, get below output of USB stick,&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre class="example" id="orgb1e4874"&gt;
+&lt;pre class="example" id="orgbc5b0a1"&gt;
 Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
 &lt;/pre&gt;
 &lt;ul class="org-ul"&gt;
@@ -60,4 +60,19 @@ sudo virsh net-start default  # start default network
 sudo virsh net-autostart default # autostart default network
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>en</category><category>linux</category><category>qemu</category><guid>http://blog.binchen.org/posts/qemu-essential/</guid><pubDate>Mon, 23 Dec 2024 12:48:42 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;
+
+&lt;p&gt;
+Pleae note,
+&lt;/p&gt;
+&lt;pre class="example" id="orgaa78bb2"&gt;
+Running your own dnsmasq with libvirtd
+
+On linux host servers, libvirtd uses dnsmasq to service the virtual networks, such as the default network. A new instance of dnsmasq is started for each virtual network, only accessible to guests in that specific network.
+
+If you are running your own "global" dnsmasq, then this can cause your own dnsmasq to fail to start (or for libvirtd to fail to start its dnsmasq and the given virtual network). This happens because both instances of dnsmasq might try to bind to the same port number on the same network interfaces.
+
+You have to change the global /etc/dnsmasq.conf as follows:
+interface=eth0 # only handle requests from interface eth0
+bind-interfaces # don't accept request from other interfaces from the beginning
+&lt;/pre&gt;</description><category>en</category><category>linux</category><category>qemu</category><guid>http://blog.binchen.org/posts/qemu-essential/</guid><pubDate>Mon, 23 Dec 2024 12:48:42 GMT</pubDate></item></channel></rss>

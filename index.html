@@ -166,7 +166,7 @@ VM can access physical USB stick on Linux,
 <ul class="org-ul">
 <li>Run <code>lsusb</code>, get below output of USB stick,</li>
 </ul>
-<pre class="example" id="orgb1e4874">
+<pre class="example" id="orgbc5b0a1">
 Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
 </pre>
 <ul class="org-ul">
@@ -195,6 +195,21 @@ sudo virsh net-autostart default # autostart default network
 </code></pre>
 
 </div>
+
+<p>
+Pleae note,
+</p>
+<pre class="example" id="orgaa78bb2">
+Running your own dnsmasq with libvirtd
+
+On linux host servers, libvirtd uses dnsmasq to service the virtual networks, such as the default network. A new instance of dnsmasq is started for each virtual network, only accessible to guests in that specific network.
+
+If you are running your own "global" dnsmasq, then this can cause your own dnsmasq to fail to start (or for libvirtd to fail to start its dnsmasq and the given virtual network). This happens because both instances of dnsmasq might try to bind to the same port number on the same network interfaces.
+
+You have to change the global /etc/dnsmasq.conf as follows:
+interface=eth0 # only handle requests from interface eth0
+bind-interfaces # don't accept request from other interfaces from the beginning
+</pre>
             </div>
         </div>
         <div class="post">
