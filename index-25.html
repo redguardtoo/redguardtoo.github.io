@@ -23,65 +23,6 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/effective-git-blame-in-emacs/">Effective "git blame" in Emacs</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2019-11-20T13:42:54+00:00">2019-11-20 13:42</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/effective-git-blame-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/effective-git-blame-in-emacs.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/blame/" rel="tag">blame</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-I published Emacs package <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a>. It uses <code>git-blame</code> to show commit information of current line.
-</p>
-
-<p>
-In the new version, it can display the correct commit information of current line.
-</p>
-
-<p>
-For example, the line 6 at <a href="https://github.com/redguardtoo/test-git-blame/blob/master/hello.js">https://github.com/redguardtoo/test-git-blame/blob/master/hello.js</a> is changed by three commits.
-</p>
-
-<p>
-Select the partial of line 6 and run <code>vc-msg-show</code>, the correct commit is displayed.
-</p>
-
-<p>
-Screenshots,
-</p>
-
-<div id="org2dd3f0c" class="figure">
-<p><img src="wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"></p>
-</div>
-
-<div id="org4563570" class="figure">
-<p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
-</div>
-
-<div id="org888d339" class="figure">
-<p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
-</div>
-            </div>
-        </div>
-        <div class="post">
             <h1 class="title"><a href="posts/emacs-is-the-best-merge-tool-for-git/">Emacs is the best merge tool for Git</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -1223,6 +1164,63 @@ Please note RUN-TOGETHER will make aspell less capable. So it should only be use
 <p>
 <b>UPDATE:</b>
 Now you can use <a href="https://github.com/redguardtoo/wucuo">wucuo</a>. It's an out of box solution supporting both aspell and hunspell.</p>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/use-imenu-to-list-comments-in-current-buffer/">Use Imenu to list comments in current buffer</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2018-04-08T02:12:04+00:00">2018-04-08 02:12</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-imenu-to-list-comments-in-current-buffer/#disqus_thread" data-disqus-identifier="cache/posts/use-imenu-to-list-comments-in-current-buffer.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/imenu/" rel="tag">imenu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+<a href="https://github.com/redguardtoo/evil-nerd-commenter">evil-nerd-commenter</a> v3.2.0 has a new function <code>evilnc-imenu-create-index-function</code>.
+</p>
+
+<p>
+<a href="http://www.gnu.org/s/emacs/manual/html_node/emacs/Imenu.html">Imenu</a> could use this function to list all comments in current file.
+</p>
+
+<p>
+Usage:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'counsel)
+(defun counsel-imenu-comments ()
+  "Imenu display comments."
+  (interactive)
+  (let* ((imenu-create-index-function 'evilnc-imenu-create-index-function))
+    (counsel-imenu)))
+</code></pre>
+
+</div>
+
+<p>
+Screen cast:
+</p>
+
+<div id="orgecb42ab" class="figure">
+<p><img src="wp-content/counsel-imenu-comments.gif" alt="counsel-imenu-comments.gif"></p>
+</div>
             </div>
         </div>
     

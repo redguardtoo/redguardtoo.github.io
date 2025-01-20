@@ -23,75 +23,6 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/find-the-buffer-named-by-pinyin/">Find the buffer with Chinese name</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2017-02-26T04:27:42+00:00">2017-02-26 04:27</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/find-the-buffer-named-by-pinyin/#disqus_thread" data-disqus-identifier="cache/posts/find-the-buffer-named-by-pinyin.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/chinese/" rel="tag">chinese</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-We can find the buffer with Chinese name efficiently by using the first character of <a href="https://en.wikipedia.org/wiki/Pinyin">pinyin</a>.
-</p>
-
-<p>
-Here is the code (<a href="https://github.com/abo-abo/swiper">ivy</a> and <a href="https://github.com/cute-jumper/pinyinlib.el">pinyinlib</a> is required):
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun ivy-switch-buffer-matcher-pinyin (regexp candidates)
-  (unless (featurep 'pinyinlib) (require 'pinyinlib))
-  (let* ((pys (split-string regexp "[ \t]+"))
-         (regexp (format ".*%s.*"
-                         (mapconcat 'pinyinlib-build-regexp-string pys ".*"))))
-    (ivy--switch-buffer-matcher regexp candidates)))
-
-(defun ivy-switch-buffer-by-pinyin ()
-  "Switch to another buffer."
-  (interactive)
-  (unless (featurep 'ivy) (require 'ivy))
-  (let ((this-command 'ivy-switch-buffer))
-    (ivy-read "Switch to buffer: " 'internal-complete-buffer
-              :matcher #'ivy-switch-buffer-matcher-pinyin
-              :preselect (buffer-name (other-buffer (current-buffer)))
-              :action #'ivy--switch-buffer-action
-              :keymap ivy-switch-buffer-map
-              :caller 'ivy-switch-buffer)))
-</code></pre>
-
-</div>
-
-<p>
-You can <code>M-x ivy-switch-buffer-by-pinyin</code> to switch buffer.
-</p>
-
-<p>
-The algorithm of pinyinlib is simple. We build a big lookup table to convert the a plain English string into a regular expression containing Chinese characters.
-</p>
-
-<p>
-You can apply the <b>same algorithm to other non-English languages</b>.
-</p>
-            </div>
-        </div>
-        <div class="post">
             <h1 class="title"><a href="posts/use-perforce-inside-emacs/">Use Perforce inside Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -1208,6 +1139,70 @@ Screenshot:
 <div id="org14a3654" class="figure">
 <p><img src="wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"></p>
 </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/turn-off-linum-mode-when-file-is-too-big/">Turn off linum-mode when file is too big</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-14T13:21:02+00:00">2016-07-14 13:21</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/turn-off-linum-mode-when-file-is-too-big/#disqus_thread" data-disqus-identifier="cache/posts/turn-off-linum-mode-when-file-is-too-big.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linum/" rel="tag">linum</a></li>
+           <li><a class="tag p-category" href="categories/mode/" rel="tag">mode</a></li>
+           <li><a class="tag p-category" href="categories/wc/" rel="tag">wc</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-07-14 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-08-07 Sun&gt;</span></span>
+</p>
+
+<p>
+It's well known that linum-mode slows Emacs when the file contains thousands of lines.
+</p>
+
+<p>
+Here is the fix,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun buffer-too-big-p ()
+  (or (&gt; (buffer-size) (* 5000 80))
+      (&gt; (line-number-at-pos (point-max)) 5000)))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            ;; turn off `linum-mode' when there are more than 5000 lines
+            (if (buffer-too-big-p) (linum-mode -1))))
+</code></pre>
+
+</div>
+
+<p>
+Though <a href="https://elpa.gnu.org/packages/nlinum.html">nlinum-mode</a> has performance, I still stick to linum-mode because <a href="https://github.com/syohex/emacs-git-gutter">git-gutter</a> only supports linum-mode.
+</p>
+
+<p>
+You can check <a href="https://github.com/syohex/emacs-git-gutter/issues/124">the interesting discussion</a> about git-gutter/linum-mode/nlinum-mode. Syohei Yoshida made git-gutter 95% functional when linum-mode off.
+</p>
             </div>
         </div>
     

@@ -23,65 +23,6 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/org-link-and-pdf-tools/">Org link and pdf-tools</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2021-05-05T11:34:28+00:00">2021-05-05 11:34</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/org-link-and-pdf-tools/#disqus_thread" data-disqus-identifier="cache/posts/org-link-and-pdf-tools.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/pdf/" rel="tag">pdf</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-By default, <a href="https://orgmode.org/manual/External-Links.html">Org pdf link</a> uses <code>doc-view.el</code> to open pdf. So if you move focus over the link <code>docview:papers/last.pdf::NNN</code> in a org file and run <code>M-x org-open-at-point</code>, API <code>doc-view-goto-page</code> is called.
-</p>
-
-<p>
-These days <a href="https://github.com/politza/pdf-tools">pdf-tools</a> is very popular.
-If pdf-tools is installed and enabled, API call of <code>doc-view-goto-page</code> will fail.
-</p>
-
-<p>
-Below code fixes this problem. It will automatically call correct API with or without pdf-tools.
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun my-org-docview-open-hack (orig-func &amp;rest args)
-  (let* ((link (car args)) path page)
-    (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
-    (setq path (match-string 1 link))
-    (setq page (and (match-beginning 2)
-                    (string-to-number (match-string 2 link))))
-    (org-open-file path 1)
-    (when page
-      (cond
-       ((eq major-mode 'pdf-view-mode)
-        (pdf-view-goto-page page))
-       (t
-        (doc-view-goto-page page))))))
-(advice-add 'org-docview-open :around #'my-org-docview-open-hack)
-</code></pre>
-
-</div>
-            </div>
-        </div>
-        <div class="post">
             <h1 class="title"><a href="posts/use-magit-to-commit-efficiently-and-correctly/">Use Magit to commit efficiently and correctly</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -1082,6 +1023,65 @@ I tested in <code>magit-blame-mode</code> and found no issue.
 
 <p>
 I'm sure <code>vc-msg</code> should work in other major modes or minor modes. There are also two callback functions <code>vc-msg-get-current-file-function</code> and <code>vc-msg-get-line-num-function</code> which users can customize.</p>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/effective-git-blame-in-emacs/">Effective "git blame" in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2019-11-20T13:42:54+00:00">2019-11-20 13:42</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/effective-git-blame-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/effective-git-blame-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/blame/" rel="tag">blame</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+I published Emacs package <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a>. It uses <code>git-blame</code> to show commit information of current line.
+</p>
+
+<p>
+In the new version, it can display the correct commit information of current line.
+</p>
+
+<p>
+For example, the line 6 at <a href="https://github.com/redguardtoo/test-git-blame/blob/master/hello.js">https://github.com/redguardtoo/test-git-blame/blob/master/hello.js</a> is changed by three commits.
+</p>
+
+<p>
+Select the partial of line 6 and run <code>vc-msg-show</code>, the correct commit is displayed.
+</p>
+
+<p>
+Screenshots,
+</p>
+
+<div id="org2dd3f0c" class="figure">
+<p><img src="wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"></p>
+</div>
+
+<div id="org4563570" class="figure">
+<p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
+</div>
+
+<div id="org888d339" class="figure">
+<p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
+</div>
             </div>
         </div>
     
