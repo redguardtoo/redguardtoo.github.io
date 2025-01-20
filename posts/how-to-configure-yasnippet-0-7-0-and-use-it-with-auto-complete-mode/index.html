@@ -6,11 +6,11 @@
 <title>How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode">
-<meta property="og:url" content="http://blog.binchen.org/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode/">
 <meta property="og:description" content="I will only talk about how to set up yasnippet 0.7.0 or higher version.
 
 
@@ -71,9 +71,9 @@ Install the yasnippet into somewhere ">
             <p>
 I will only talk about how to set up yasnippet 0.7.0 or higher version.
 </p>
-<div id="outline-container-org5a6a802" class="outline-2">
-<h3 id="org5a6a802">If you follow `normal install` way, setup is simple</h3>
-<div class="outline-text-2" id="text-org5a6a802">
+<div id="outline-container-orge22b363" class="outline-2">
+<h3 id="orge22b363">If you follow `normal install` way, setup is simple</h3>
+<div class="outline-text-2" id="text-orge22b363">
 <p>
 See its <a href="http://capitaomorte.github.com/yasnippet/">official documentation</a>.
 </p>
@@ -94,9 +94,9 @@ Install the yasnippet into somewhere and add following code into your .emacs:
 </div>
 </div>
 
-<div id="outline-container-orgfb93e5a" class="outline-2">
-<h3 id="orgfb93e5a">If you use elpa package system, setup is even simpler</h3>
-<div class="outline-text-2" id="text-orgfb93e5a">
+<div id="outline-container-org58ddf8b" class="outline-2">
+<h3 id="org58ddf8b">If you use elpa package system, setup is even simpler</h3>
+<div class="outline-text-2" id="text-org58ddf8b">
 <p>
 After installation, you only need two lines in .emacs.
 </p>
@@ -118,16 +118,16 @@ So you only put your own snippets in "~/.emacs.d/snippets" and done. No need to 
 </div>
 </div>
 
-<div id="outline-container-orga2110ad" class="outline-2">
-<h3 id="orga2110ad">The real world setup is NOT simple</h3>
-<div class="outline-text-2" id="text-orga2110ad">
+<div id="outline-container-org494ab12" class="outline-2">
+<h3 id="org494ab12">The real world setup is NOT simple</h3>
+<div class="outline-text-2" id="text-org494ab12">
 <p>
 I will explain the reasons at first and give my complete yasnippet configuration code at the end of the this post.
 </p>
 </div>
-<div id="outline-container-org0da4320" class="outline-3">
-<h4 id="org0da4320">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
-<div class="outline-text-3" id="text-org0da4320">
+<div id="outline-container-org82bcfa9" class="outline-3">
+<h4 id="org82bcfa9">Two snippets may share the same key, so I need activate `yas/dropdown-prompt'</h4>
+<div class="outline-text-3" id="text-org82bcfa9">
 <p>
 One issue is I need a user-friendly dropdown window popped up when the key I input has several candidates. For example, when I type "inc" in C code. There are two candidates `#include "…"' and `#include &lt;…&gt;' available. A handy dropdown popup will help me to choose one of them as efficient as possible.
 </p>
@@ -142,18 +142,18 @@ The bad news is for some strange reason yasnippet won't load that dropdown-list 
 </div>
 </div>
 
-<div id="outline-container-org0fe0018" class="outline-3">
-<h4 id="org0fe0018">`yas/dropdown-prompt' is not perfect</h4>
-<div class="outline-text-3" id="text-org0fe0018">
+<div id="outline-container-orgc4c4d77" class="outline-3">
+<h4 id="orgc4c4d77">`yas/dropdown-prompt' is not perfect</h4>
+<div class="outline-text-3" id="text-orgc4c4d77">
 <p>
 I cannot scroll down the dropdown window when there are more candidates it can display. That's especially annoying when calling `yas/insert-snippet'. In this case, we need use `yas/completing-prompt' instead. I will show the fix at the end of this article.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org4d88c33" class="outline-3">
-<h4 id="org4d88c33">Yasnippet conflicts with other plugins</h4>
-<div class="outline-text-3" id="text-org4d88c33">
+<div id="outline-container-org7c9c70f" class="outline-3">
+<h4 id="org7c9c70f">Yasnippet conflicts with other plugins</h4>
+<div class="outline-text-3" id="text-org7c9c70f">
 <p>
 I use <a href="http://cx4a.org/software/auto-complete/">Auto Complete Mode</a> (version 20120327 in elpa).  There are two issues when using it with yasnippet.
 </p>
@@ -176,9 +176,9 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
 </div>
 </div>
 </div>
-<div id="outline-container-org3b45ff6" class="outline-2">
-<h3 id="org3b45ff6">My final yasnippet setup</h3>
-<div class="outline-text-2" id="text-org3b45ff6">
+<div id="outline-container-org40f653f" class="outline-2">
+<h3 id="org40f653f">My final yasnippet setup</h3>
+<div class="outline-text-2" id="text-org40f653f">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'yasnippet)
@@ -213,7 +213,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode/",
+            disqus_url="http://redguardtoo.github.io/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode/",
         disqus_title="How to configure yasnippet 0.7.0 and use it with Auto-Complete-Mode",
         disqus_identifier="cache/posts/how-to-configure-yasnippet-0-7-0-and-use-it-with-auto-complete-mode.html",
         disqus_config = function () {
@@ -236,7 +236,7 @@ curl -L https://raw.github.com/tkf/auto-complete/337caa2ccc254a79f615bb2417f0d2f
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

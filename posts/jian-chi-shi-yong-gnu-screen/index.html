@@ -6,11 +6,11 @@
 <title>坚持使用gnu screen | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/jian-chi-shi-yong-gnu-screen/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/jian-chi-shi-yong-gnu-screen/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="坚持使用gnu screen">
-<meta property="og:url" content="http://blog.binchen.org/posts/jian-chi-shi-yong-gnu-screen/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/jian-chi-shi-yong-gnu-screen/">
 <meta property="og:description" content="虽然tmux很优秀,但是目前很难支持cygwin(Nicholas Marriott在2010年12月说的),而我的工作需要使用windows.
 
 
@@ -83,9 +83,9 @@ packer -S screen-git
 最新版的screen的一个重要特性就是已支持垂直分屏,其快捷键为=C-a |=.
 </p>
 
-<div id="outline-container-org96625ea" class="outline-2">
-<h3 id="org96625ea">要安装最新版的screen,在我的<a href="http://www.archlinux.org">Arch Linux</a>下很简单,</h3>
-<div class="outline-text-2" id="text-org96625ea">
+<div id="outline-container-org41b26aa" class="outline-2">
+<h3 id="org41b26aa">要安装最新版的screen,在我的<a href="http://www.archlinux.org">Arch Linux</a>下很简单,</h3>
+<div class="outline-text-2" id="text-org41b26aa">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">packer -S screen-git
@@ -94,9 +94,9 @@ packer -S screen-git
 </div>
 </div>
 </div>
-<div id="outline-container-org44697fe" class="outline-2">
-<h3 id="org44697fe">在windows的cygwin下安装要多几步.</h3>
-<div class="outline-text-2" id="text-org44697fe">
+<div id="outline-container-org64bc6f1" class="outline-2">
+<h3 id="org64bc6f1">在windows的cygwin下安装要多几步.</h3>
+<div class="outline-text-2" id="text-org64bc6f1">
 <p>
 首先安装软件包libncurse-devel,然后去<a href="http://ftp.gnu.org/gnu/screen/">官方网站</a>下载最新源代码包(目前版本为4.0.3),解压缩,
 </p>
@@ -119,9 +119,9 @@ packer -S screen-git
 </div>
 </div>
 
-<div id="outline-container-org4c1d045" class="outline-2">
-<h3 id="org4c1d045">如用urxvt作为Terminal Simulator(比如我),直接启动screen会报错,</h3>
-<div class="outline-text-2" id="text-org4c1d045">
+<div id="outline-container-org9160a63" class="outline-2">
+<h3 id="org9160a63">如用urxvt作为Terminal Simulator(比如我),直接启动screen会报错,</h3>
+<div class="outline-text-2" id="text-org9160a63">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">$ screen
@@ -134,21 +134,21 @@ $TERM too long - sorry.
 原因为screen的开发者对于环境变量 <code>$TERM</code> 的最大长度做了不合理的假定.这里是<a href="https://bbs.archlinux.org/viewtopic.php?pid=885446">具体讨论</a>,解决办法很简单.
 在 <code>.Xdefaults</code> 中添加一行,
 </p>
-<pre class="example" id="orgc2c1000">
+<pre class="example" id="org44ea57c">
 urxvt*termName: rxvt-256color
 </pre>
 <p>
 在 <code>.screenrc</code> 中添加一行,
 </p>
-<pre class="example" id="org40cced1">
+<pre class="example" id="orga3d01f7">
 term rxvt-256color
 </pre>
 </div>
 </div>
 
-<div id="outline-container-orgbd5d573" class="outline-2">
-<h3 id="orgbd5d573">使用screen前我将screen的Ctrl-a改为Ctrl-t</h3>
-<div class="outline-text-2" id="text-orgbd5d573">
+<div id="outline-container-org6f2699f" class="outline-2">
+<h3 id="org6f2699f">使用screen前我将screen的Ctrl-a改为Ctrl-t</h3>
+<div class="outline-text-2" id="text-org6f2699f">
 <p>
 因为 <code>Ctrl-a</code> 在Bash和Emacs中都是常用快捷键,在 <code>.screenrc</code> 中添加一行,
 </p>
@@ -176,7 +176,7 @@ term rxvt-256color
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/jian-chi-shi-yong-gnu-screen/",
+            disqus_url="http://redguardtoo.github.io/posts/jian-chi-shi-yong-gnu-screen/",
         disqus_title="\u575a\u6301\u4f7f\u7528gnu screen",
         disqus_identifier="cache/posts/jian-chi-shi-yong-gnu-screen.html",
         disqus_config = function () {
@@ -199,7 +199,7 @@ term rxvt-256color
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

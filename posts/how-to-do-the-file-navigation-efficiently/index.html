@@ -6,11 +6,11 @@
 <title>How to do the file navigation efficiently | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/how-to-do-the-file-navigation-efficiently/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/how-to-do-the-file-navigation-efficiently/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="How to do the file navigation efficiently">
-<meta property="og:url" content="http://blog.binchen.org/posts/how-to-do-the-file-navigation-efficiently/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/how-to-do-the-file-navigation-efficiently/">
 <meta property="og:description" content="CREATED: &lt;2014-06-15 Sun&gt;
 
 
@@ -82,9 +82,9 @@ The solutin is based on the ideas of top geeks. I only did the implementation.
 Mendel Cooper provided the original design in <a href="http://www.tldp.org/LDP/abs/html/index.html">Advanced Bash-Scripting Guide</a>. Masafumi Oyamada (AKA mooz) added the missing piece by creating <a href="https://github.com/mooz/percol">percol</a>.
 </p>
 
-<div id="outline-container-org18f4a9f" class="outline-2">
-<h3 id="org18f4a9f">Problem</h3>
-<div class="outline-text-2" id="text-org18f4a9f">
+<div id="outline-container-org1d77532" class="outline-2">
+<h3 id="org1d77532">Problem</h3>
+<div class="outline-text-2" id="text-org1d77532">
 <p>
 How to find full path of a file by fuzz search?
 </p>
@@ -95,22 +95,22 @@ The path should be shared easily to other application like Emacs.
 </div>
 </div>
 
-<div id="outline-container-org0f16c53" class="outline-2">
-<h3 id="org0f16c53">Installation</h3>
-<div class="outline-text-2" id="text-org0f16c53">
+<div id="outline-container-org0d1886b" class="outline-2">
+<h3 id="org0d1886b">Installation</h3>
+<div class="outline-text-2" id="text-org0d1886b">
 </div>
-<div id="outline-container-orgf194360" class="outline-3">
-<h4 id="orgf194360">Step 1, Install percol</h4>
-<div class="outline-text-3" id="text-orgf194360">
+<div id="outline-container-org81eacd5" class="outline-3">
+<h4 id="org81eacd5">Step 1, Install percol</h4>
+<div class="outline-text-3" id="text-org81eacd5">
 <p>
 <a href="https://github.com/mooz/percol/archive/master.zip">Download the package</a> and extract it. Place the sub-directory named "percol/" into the directory "~/bin". Rename the program "percol" in sub-directory "bin" into "percol.py". Put the percol.py also into "~/bin".
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5fc089c" class="outline-3">
-<h4 id="org5fc089c">Step 2, Insert below code into ~/.bashrc:</h4>
-<div class="outline-text-3" id="text-org5fc089c">
+<div id="outline-container-orgb43c07f" class="outline-3">
+<h4 id="orgb43c07f">Step 2, Insert below code into ~/.bashrc:</h4>
+<div class="outline-text-3" id="text-orgb43c07f">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">[ $(uname -s | grep -c CYGWIN) -eq 1 ] &amp;&amp; OS_NAME="CYGWIN" || OS_NAME=`uname -s`
@@ -171,9 +171,9 @@ function cf()
 </div>
 </div>
 </div>
-<div id="outline-container-org10a40c7" class="outline-2">
-<h3 id="org10a40c7">Usage</h3>
-<div class="outline-text-2" id="text-org10a40c7">
+<div id="outline-container-org3720644" class="outline-2">
+<h3 id="org3720644">Usage</h3>
+<div class="outline-text-2" id="text-org3720644">
 <p>
 Type "ff partials-of-file-path" in shell. A filter window popups. You can filter and scroll down/up to select one file. The full path will be copied into system clipboard automatically (under Linux, either xsel or xclip are required for clipboard access).
 </p>
@@ -211,17 +211,17 @@ In Emacs community, people try to embed a file explorer into Emacs (Sr speedbar,
 </p>
 </div>
 </div>
-<div id="outline-container-orgbe2eaae" class="outline-2">
-<h3 id="orgbe2eaae">Advanced usage</h3>
-<div class="outline-text-2" id="text-orgbe2eaae">
+<div id="outline-container-org4f6a20c" class="outline-2">
+<h3 id="org4f6a20c">Advanced usage</h3>
+<div class="outline-text-2" id="text-org4f6a20c">
 <p>
 More examples follow.
 </p>
 </div>
 
-<div id="outline-container-org8a36fb4" class="outline-3">
-<h4 id="org8a36fb4">Search the bash history.</h4>
-<div class="outline-text-3" id="text-org8a36fb4">
+<div id="outline-container-org6a14c22" class="outline-3">
+<h4 id="org6a14c22">Search the bash history.</h4>
+<div class="outline-text-3" id="text-org6a14c22">
 <p>
 Code to insert ~/.bashrc:
 </p>
@@ -249,9 +249,9 @@ Screenshot:
 </div>
 </div>
 
-<div id="outline-container-orgbb09241" class="outline-3">
-<h4 id="orgbb09241">Select a file in git commit</h4>
-<div class="outline-text-3" id="text-orgbb09241">
+<div id="outline-container-org164a8e8" class="outline-3">
+<h4 id="org164a8e8">Select a file in git commit</h4>
+<div class="outline-text-3" id="text-org164a8e8">
 <p>
 Code to insert ~/.bashrc:
 </p>
@@ -275,9 +275,9 @@ Screenshot:
 </div>
 </div>
 
-<div id="outline-container-orgd84bc5f" class="outline-2">
-<h3 id="orgd84bc5f">Summary</h3>
-<div class="outline-text-2" id="text-orgd84bc5f">
+<div id="outline-container-orgef2298c" class="outline-2">
+<h3 id="orgef2298c">Summary</h3>
+<div class="outline-text-2" id="text-orgef2298c">
 <p>
 The key idea is that I have full freedom to get job done in any way. Emacs is nothing more than a tool to help me achieve more power and more freedom. For example, I find mooz's percol because I like his Emacs plugin <a href="https://github.com/mooz/js2-mode">js2-mode</a> and I want to check his other works. 
 </p>
@@ -296,7 +296,7 @@ The key idea is that I have full freedom to get job done in any way. Emacs is no
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/how-to-do-the-file-navigation-efficiently/",
+            disqus_url="http://redguardtoo.github.io/posts/how-to-do-the-file-navigation-efficiently/",
         disqus_title="How to do the file navigation efficiently",
         disqus_identifier="cache/posts/how-to-do-the-file-navigation-efficiently.html",
         disqus_config = function () {
@@ -319,7 +319,7 @@ The key idea is that I have full freedom to get job done in any way. Emacs is no
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -6,11 +6,11 @@
 <title>How to use ctags with Emacs effectively | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="How to use ctags with Emacs effectively">
-<meta property="og:url" content="http://blog.binchen.org/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs/">
 <meta property="og:description" content="UPDATE on &lt;2018-02-24 Sat&gt;:
 I released counsel-etags, a complete solution for Ctags/Emacs.
 
@@ -112,17 +112,17 @@ The purpose to load tags files is to look up API easily. For example, I use C++ 
 <p>
 The reason to do the unload thing is to avoid function name conflict from some tags files. EmacsWiki has a section "Choosing Among Multiple Tags for the Same Name" to solve this problem. But unloading is more convenient. In theory, it would be annoying if I need repeat load and unload the same tags files. In reality, it seldom happens because if I need work on Javascript (so I unload C++ related TAGS), I will usually keep working on Javascript until the end of the day.
 </p>
-<div id="outline-container-org7efc9da" class="outline-2">
-<h3 id="org7efc9da">Produce tags files for all the environments</h3>
-<div class="outline-text-2" id="text-org7efc9da">
+<div id="outline-container-org62aa587" class="outline-2">
+<h3 id="org62aa587">Produce tags files for all the environments</h3>
+<div class="outline-text-2" id="text-org62aa587">
 <p>
 For example, I produce tags files of Library A for Mac and Linux. I put tags file from Mac at directory "/home/cb/tags/Library_A/mac" and file from Linux at <code>/home/cb/tags/Library_A/linux</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf5f0ac7" class="outline-2">
-<h3 id="orgf5f0ac7">Use git and github to manage the tags files</h3>
-<div class="outline-text-2" id="text-orgf5f0ac7">
+<div id="outline-container-orga40b8f7" class="outline-2">
+<h3 id="orga40b8f7">Use git and github to manage the tags files</h3>
+<div class="outline-text-2" id="text-orga40b8f7">
 <p>
 So I can have copies of the tags files at github server and my local computers. That's also a part of my strategy to setup the development environment. My projects on different computers usually use same external library.
 </p>
@@ -132,9 +132,9 @@ EmacsWiki discusses how to update your tags file frequently because your own cod
 </p>
 </div>
 </div>
-<div id="outline-container-org1217ba3" class="outline-2">
-<h3 id="org1217ba3">Write emacs lisp code to load/unload these tags files</h3>
-<div class="outline-text-2" id="text-org1217ba3">
+<div id="outline-container-orgd12c0a5" class="outline-2">
+<h3 id="orgd12c0a5">Write emacs lisp code to load/unload these tags files</h3>
+<div class="outline-text-2" id="text-orgd12c0a5">
 <p>
 Here is the code. In this example, if I need load tags file for <a href="http://www.wxwidgets.org">wxWidgets</a>, I call the function "add-wx-tags". If I need unload the tags file, I press "Ctrl-u" and call the same function "add-wx-tags". Since I use <a href="http://www.emacswiki.org/Smex">Smex</a>, calling function doesn't mean pressing many keys.
 </p>
@@ -188,7 +188,7 @@ See <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Select-Tag
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs/",
+            disqus_url="http://redguardtoo.github.io/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs/",
         disqus_title="How to use ctags with Emacs effectively",
         disqus_identifier="cache/posts/how-to-manage-and-use-tags-file-of-third-party-libraries-in-emacs.html",
         disqus_config = function () {
@@ -211,7 +211,7 @@ See <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Select-Tag
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

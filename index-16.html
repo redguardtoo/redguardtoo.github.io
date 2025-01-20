@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Linux, Programming, Emacs">
+<meta name="description" content="Emacs, Cooking">
 <meta name="viewport" content="width=device-width">
 <title>Chen's blog (old posts, page 16) | Chen's blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/index-16.html">
+<link rel="canonical" href="http://redguardtoo.github.io/index-16.html">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -22,6 +22,172 @@
 
         </ul></section><section class="page-content"><div class="content" rel="main">
             
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-use-ctags-in-emacs-effectively-3/">How to use ctags in Emacs effectively</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-03-11T21:52:00+00:00">2014-03-11 21:52</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/how-to-use-ctags-in-emacs-effectively-3/#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-ctags-in-emacs-effectively-3.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/ctags/" rel="tag">ctags</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-03-11 Tue&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-05-26 Tue&gt;</span></span>
+</p>
+
+<p>
+<a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> is used for code completion and code navigation. It supports many programming languages.
+</p>
+
+<p>
+Please read <a href="http://www.emacswiki.org/emacs/BuildTags">EmacsWiki</a> for basic usage.
+</p>
+
+<p>
+Ctags creates an index file named "TAGS". The path of TAGS is stored in a Emacs variable <code>tags-table-list</code>.
+</p>
+
+<p>
+Example of <code>tags-table-list</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq tags-table-list '("~/wxWidgets-master/TAGS" "~/projs/Loris/src/desktop/TAGS"))
+</code></pre>
+
+</div>
+
+<p>
+When running <code>M-x find-tag</code>, the tag files in <code>tags-table-list</code> is read to find the definition of the symbol under cursor.
+</p>
+
+<p>
+Here is my strategy to manage TAGS <b>automatically</b>:
+</p>
+<ul class="org-ul">
+<li>I hard coded path of TAGS in <code>.emacs</code> because I don't change project path frequently</li>
+<li>In major mode hook like <code>c++-mode-hook</code> or <code>js2-mode-hook</code> I check the path current file. If it matches project name, the file is part of the project</li>
+<li>TAGS for the project is created</li>
+<li>When saving the file, update TAGS by the value of <code>tags-table-list</code>
+</li>
+</ul>
+<p>
+Code:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-project-name-contains-substring (regex)
+  (let ((dir (if (buffer-file-name)
+                 (file-name-directory (buffer-file-name))
+               "")))
+    (string-match-p regex dir)))
+
+(defun my-create-tags-if-needed (SRC-DIR &amp;optional FORCE)
+  "Return the full path of tags file."
+  (let ((dir (file-name-as-directory (file-truename SRC-DIR)) )
+       file)
+    (setq file (concat dir "TAGS"))
+    (when (or FORCE (not (file-exists-p file)))
+      (message "Creating TAGS in %s ..." dir)
+      (shell-command
+       (format "ctags -f %s -e -R %s" file dir)))
+    file))
+
+(defvar my-tags-updated-time nil)
+
+(defun my-update-tags ()
+  "Check the tags in tags-table-list and re-create it."
+  (interactive)
+  (dolist (tag tags-table-list)
+    (my-create-tags-if-needed (file-name-directory tag) t)))
+
+(defun my-auto-update-tags-when-save ()
+  (interactive)
+  (cond
+   ((not my-tags-updated-time)
+    (setq my-tags-updated-time (current-time)))
+   ((&lt; (- (float-time (current-time)) (float-time my-tags-updated-time)) 300)
+    ;; &lt; 300 seconds
+    ;; do nothing
+    )
+   (t
+    (setq my-tags-updated-time (current-time))
+    (my-update-tags)
+    (message "updated tags after %d seconds."
+             (- (float-time (current-time))
+                (float-time my-tags-updated-time))))))
+
+(defun my-setup-develop-environment ()
+    (when (my-project-name-contains-substring "Loris")
+      (cond
+       ((my-project-name-contains-substring "src/desktop")
+        ;; C++ project don't need html tags
+        (setq tags-table-list
+              (list (my-create-tags-if-needed
+                     (concat (file-name-as-directory (getenv "WXWIN")) "include"))
+                    (my-create-tags-if-needed "~/projs/Loris/loris/src/desktop"))))
+       ((my-project-name-contains-substring "src/html")
+        ;; html project donot need C++ tags
+        (setq tags-table-list (list (my-create-tags-if-needed "~/projs/Loris/loris/src/html")))))))
+
+(add-hook 'after-save-hook 'my-auto-update-tags-when-save)
+(add-hook 'js2-mode-hook 'my-setup-develop-environment)
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
+(add-hook 'c++-mode-hook 'my-setup-develop-environment)
+(add-hook 'c-mode-hook 'my-setup-develop-environment)
+</code></pre>
+
+</div>
+
+<p>
+UPDATE:
+Ctags is discussed at <a href="https://plus.google.com/110954683162859211810/posts/NsdzvywuoX3">Google Plus</a>. Kaushal Modi recommended three Emacs plugins:
+</p>
+<ul class="org-ul">
+<li><a href="https://github.com/jixiuf/ctags-update">ctags-update</a></li>
+<li><a href="https://www.emacswiki.org/emacs/etags-table.el">etags-table</a></li>
+<li><a href="https://www.emacswiki.org/emacs/etags-select.el">etags-select</a></li>
+</ul>
+<p>
+I tried them. My code has same features as <code>ctags-update</code> and <code>etags-table</code>. I prefer my own code because it's simpler and controllable.
+</p>
+
+<p>
+But I do like <code>etags-select</code>, it provides better UI for finding tag and I will use it from now on.
+</p>
+
+<p>
+UPDATE:
+I have developed my own ctags solution for Emacs,
+</p>
+<ul class="org-ul">
+<li>
+<a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation and imenu</li>
+<li>
+<a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> for code completion</li>
+</ul>
+</div>
+        </div>
         <div class="post">
             <h1 class="title"><a href="posts/hack-wordpress-php-and-make-cdnjs-com-host-js/">Hack wordpress php and make cdnjs.com host js</a></h1>
             <div class="meta">
@@ -619,9 +785,9 @@ curl http://ftp.gnu.org/gnu/emacs/emacs-`emacs --version|head -n1|sed 's/[^0-9.]
 
             </div>
             <div class="body">
-                <div id="outline-container-orgf6f7bee" class="outline-2">
-<h3 id="orgf6f7bee">Problem</h3>
-<div class="outline-text-2" id="text-orgf6f7bee">
+                <div id="outline-container-orga729a99" class="outline-2">
+<h3 id="orga729a99">Problem</h3>
+<div class="outline-text-2" id="text-orga729a99">
 <p>
 I love the REPL (Read–eval–print loop). Watch live update of web page when typing code is cool.
 </p>
@@ -652,9 +818,9 @@ For me, a practical solution must be:
 </ul>
 </div>
 </div>
-<div id="outline-container-org2a092de" class="outline-2">
-<h3 id="org2a092de">Solution</h3>
-<div class="outline-text-2" id="text-org2a092de">
+<div id="outline-container-orgdbb0b6b" class="outline-2">
+<h3 id="orgdbb0b6b">Solution</h3>
+<div class="outline-text-2" id="text-orgdbb0b6b">
 <p>
 The best solution is firefox addon <a href="https://github.com/bard/mozrepl/wiki">MozRepl</a>. You can install it <a href="https://addons.mozilla.org">https://addons.mozilla.org</a>. Click firefox menu "Tools =&gt; MozRepl =&gt; Start" to run it.
 <img src="wp-content/moz-repl-start-nq8.png" alt="moz-repl-start-nq8.png"></p>
@@ -680,9 +846,9 @@ Section 2 is on how to set up my text editor Emacs to interact with MozRepl. It'
 </p>
 </div>
 
-<div id="outline-container-org7c66bc6" class="outline-3">
-<h4 id="org7c66bc6">Section 1, use MozRepl</h4>
-<div class="outline-text-3" id="text-org7c66bc6">
+<div id="outline-container-org936436d" class="outline-3">
+<h4 id="org936436d">Section 1, use MozRepl</h4>
+<div class="outline-text-3" id="text-org936436d">
 <p>
 Here are key points:
 </p>
@@ -735,9 +901,9 @@ Please note the code is not part of my web application! It will be run only in M
 </div>
 </div>
 
-<div id="outline-container-org3eae6e4" class="outline-3">
-<h4 id="org3eae6e4">Section 2, set up text editor (Emacs)</h4>
-<div class="outline-text-3" id="text-org3eae6e4">
+<div id="outline-container-orgd48730b" class="outline-3">
+<h4 id="orgd48730b">Section 2, set up text editor (Emacs)</h4>
+<div class="outline-text-3" id="text-orgd48730b">
 <p>
 My text editor is Emacs, so I use Emacs as an example.
 </p>
@@ -791,13 +957,13 @@ From now on, you only need "M-x moz-load-js-file-and-send-it" and select the js 
 </div>
 </div>
 </div>
-<div id="outline-container-org5fc7759" class="outline-2">
-<h3 id="org5fc7759">Tips</h3>
-<div class="outline-text-2" id="text-org5fc7759">
+<div id="outline-container-orgef7d115" class="outline-2">
+<h3 id="orgef7d115">Tips</h3>
+<div class="outline-text-2" id="text-orgef7d115">
 </div>
-<div id="outline-container-orgfdb41ff" class="outline-3">
-<h4 id="orgfdb41ff">Tip 1</h4>
-<div class="outline-text-3" id="text-orgfdb41ff">
+<div id="outline-container-org57cbd67" class="outline-3">
+<h4 id="org57cbd67">Tip 1</h4>
+<div class="outline-text-3" id="text-org57cbd67">
 <p>
 Well, this is a simple tip. Maybe you are already aware of this.
 </p>
@@ -827,9 +993,9 @@ Since javascript is good at analyzing URL, you can also tweak the URL parameters
 </div>
 </div>
 
-<div id="outline-container-orge4dac92" class="outline-3">
-<h4 id="orge4dac92">Tip 2</h4>
-<div class="outline-text-3" id="text-orge4dac92">
+<div id="outline-container-orgd124e88" class="outline-3">
+<h4 id="orgd124e88">Tip 2</h4>
+<div class="outline-text-3" id="text-orgd124e88">
 <p>
 Sometimes mozrepl will be unresponsive. You can test it by running "M-x moz-reload-browser" to refresh the page. If page is not refreshed, restart Firefox. Luckily this does not happen too often.
 </p>
@@ -847,9 +1013,9 @@ Sometimes mozrepl will be unresponsive. You can test it by running "M-x moz-relo
 </div>
 </div>
 
-<div id="outline-container-orgaa8b9cf" class="outline-2">
-<h3 id="orgaa8b9cf">Demo</h3>
-<div class="outline-text-2" id="text-orgaa8b9cf">
+<div id="outline-container-org2bb65ed" class="outline-2">
+<h3 id="org2bb65ed">Demo</h3>
+<div class="outline-text-2" id="text-org2bb65ed">
 <p>
 Here is a demo how I use it in a real world web application development.
 </p>
@@ -859,91 +1025,11 @@ The script to drive the firefox is written in simple javascript/jquery code, whi
 </p>
 
 
-<div id="orga9d5139" class="figure">
+<div id="org35ae3ff" class="figure">
 <p><img src="wp-content/mozrepl-in-action.gif" alt="mozrepl-in-action.gif"></p>
 </div>
 </div>
 </div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/notes-on-set-up-nfs-on-archlinux/">Notes on set up nfs on ArchLinux</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-02-07T17:24:09+00:00">2014-02-07 17:24</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/notes-on-set-up-nfs-on-archlinux/#disqus_thread" data-disqus-identifier="cache/posts/notes-on-set-up-nfs-on-archlinux.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/archlinux/" rel="tag">archlinux</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Key points</h4> <div class="outline-text-3" id="text-1">  <ul>
-<li>see <a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html">Redhat documenation</a>, best doc on exportfs </li> <li>
-<a href="http://superuser.com/questions/492989/understanding-subnet-mask">Understanding Subnet mask</a> and <a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask">essential Subnet mask</a> </li> <li>`sudo exportfs -r` to reload /etc/exports </li> <li>`sudo exportfs -v` to see current nfs exports </li> <li>content of /etc/exports: </li> </ul>
-<pre class="prettyprint ">
-
-/srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
-</pre>
-
-
-
-  <ul>
-<li>check <a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html">optimizatioin tips</a> </li> <li>`man 5 exports` for the documentation of /etc/exports </li> <li>
-<a href="https://www.serverstack.com/blog/2012/11/21/debugging-nfs-file-access-on-server-and-client-side/">Debugging NFS File Access on Server and Client Side</a> </li> </ul>
-<pre class="prettyprint ">
-
-# turn on the log
-
-sudo rpcdebug -m nfsd -s proc
-
-# turn off the log
-</pre>
-
-
-
-  <ul>
-<li>then `sudo tail -f /var/log/messages.log` </li> <li>Basically you need `sudo systemctl enable syslog-ng.service` to enable system log before you use rpcdebug </li> </ul>
-</div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Summary</h4> <div class="outline-text-3" id="text-2">  <p>On server side: </p>   
-
-
-<pre class="prettyprint ">
-
-sudo exportfs
-
-# got output like:
-
-# /srv/nfs4/z   192.168.0.0/16
-</pre>
-
-
-
-   <p> Then on client side: </p>   
-
-
-<pre class="prettyprint ">
-
-# 131072 is 128K
-
-sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
-</pre>
-
-
-
-  </div> </div>
             </div>
         </div>
     
@@ -954,7 +1040,7 @@ sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodi
             <li class="next">
                 <a href="index-15.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Linux, Programming, Emacs">
+<meta name="description" content="Emacs, Cooking">
 <meta name="viewport" content="width=device-width">
 <title>Chen's blog (old posts, page 26) | Chen's blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/index-26.html">
+<link rel="canonical" href="http://redguardtoo.github.io/index-26.html">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -22,6 +22,65 @@
 
         </ul></section><section class="page-content"><div class="content" rel="main">
             
+        <div class="post">
+            <h1 class="title"><a href="posts/org-link-and-pdf-tools/">Org link and pdf-tools</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2021-05-05T11:34:28+00:00">2021-05-05 11:34</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/org-link-and-pdf-tools/#disqus_thread" data-disqus-identifier="cache/posts/org-link-and-pdf-tools.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/pdf/" rel="tag">pdf</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+By default, <a href="https://orgmode.org/manual/External-Links.html">Org pdf link</a> uses <code>doc-view.el</code> to open pdf. So if you move focus over the link <code>docview:papers/last.pdf::NNN</code> in a org file and run <code>M-x org-open-at-point</code>, API <code>doc-view-goto-page</code> is called.
+</p>
+
+<p>
+These days <a href="https://github.com/politza/pdf-tools">pdf-tools</a> is very popular.
+If pdf-tools is installed and enabled, API call of <code>doc-view-goto-page</code> will fail.
+</p>
+
+<p>
+Below code fixes this problem. It will automatically call correct API with or without pdf-tools.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-org-docview-open-hack (orig-func &amp;rest args)
+  (let* ((link (car args)) path page)
+    (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
+    (setq path (match-string 1 link))
+    (setq page (and (match-beginning 2)
+                    (string-to-number (match-string 2 link))))
+    (org-open-file path 1)
+    (when page
+      (cond
+       ((eq major-mode 'pdf-view-mode)
+        (pdf-view-goto-page page))
+       (t
+        (doc-view-goto-page page))))))
+(advice-add 'org-docview-open :around #'my-org-docview-open-hack)
+</code></pre>
+
+</div>
+            </div>
+        </div>
         <div class="post">
             <h1 class="title"><a href="posts/use-magit-to-commit-efficiently-and-correctly/">Use Magit to commit efficiently and correctly</a></h1>
             <div class="meta">
@@ -70,9 +129,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 </p>
 
-<div id="outline-container-org7cecaec" class="outline-2">
-<h3 id="org7cecaec">Magit UI solution</h3>
-<div class="outline-text-2" id="text-org7cecaec">
+<div id="outline-container-orgbbceaef" class="outline-2">
+<h3 id="orgbbceaef">Magit UI solution</h3>
+<div class="outline-text-2" id="text-orgbbceaef">
 <p>
 One solution is to use <a href="https://magit.vc/">Magit</a> to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 </p>
@@ -129,9 +188,9 @@ BTW, my actual code in my <code>.emacs.d</code> is <a href="https://github.com/r
 </p>
 </div>
 </div>
-<div id="outline-container-orge8a8c03" class="outline-2">
-<h3 id="orge8a8c03">CLI solution</h3>
-<div class="outline-text-2" id="text-orge8a8c03">
+<div id="outline-container-org7943e3c" class="outline-2">
+<h3 id="org7943e3c">CLI solution</h3>
+<div class="outline-text-2" id="text-org7943e3c">
 <p>
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 </p>
@@ -507,7 +566,7 @@ If USER-SELECT-BRANCH is not nil, rebase on the tag or branch selected by user."
 Screencast:
 </p>
 
-<div id="orgcd4af00" class="figure">
+<div id="org0ecfb61" class="figure">
 <p><img src="wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"></p>
 </div>
             </div>
@@ -550,9 +609,9 @@ My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-
 I did some research and found a perfect solution. It's even faster than Vim.
 </p>
 
-<div id="outline-container-org6bf4759" class="outline-2">
-<h3 id="org6bf4759">Initial solution</h3>
-<div class="outline-text-2" id="text-org6bf4759">
+<div id="outline-container-orgfa17d8e" class="outline-2">
+<h3 id="orgfa17d8e">Initial solution</h3>
+<div class="outline-text-2" id="text-orgfa17d8e">
 <p>
 Please note emacsclient is only use for resolving conflicts.
 </p>
@@ -586,9 +645,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 </div>
 </div>
 </div>
-<div id="outline-container-org196ffb3" class="outline-2">
-<h3 id="org196ffb3">My real world solution</h3>
-<div class="outline-text-2" id="text-org196ffb3">
+<div id="outline-container-org00bf285" class="outline-2">
+<h3 id="org00bf285">My real world solution</h3>
+<div class="outline-text-2" id="text-org00bf285">
 <p>
 It's similar to initial solution. But some scripts are created for automation.
 </p>
@@ -706,7 +765,7 @@ Unfortunately <code>/etc/bash_completion</code> makes <code>complete -p</code> o
 <p>
 Here is output of <code>complete -p</code> at my PC,
 </p>
-<pre class="example" id="orgc221cdf">
+<pre class="example" id="orgbc175c2">
 ...
 complete -F _known_hosts mtr
 complete -o default -o nospace -W 'homepc
@@ -768,11 +827,11 @@ My setup code for the packages Troy Hinckley suggested,
 Screenshot,
 </p>
 
-<div id="orga3b48f1" class="figure">
+<div id="org7be07d4" class="figure">
 <p><img src="wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"></p>
 </div>
 
-<div id="org28b5c30" class="figure">
+<div id="orge8bfbad" class="figure">
 <p><img src="wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"></p>
 </div>
             </div>
@@ -935,7 +994,7 @@ Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679
 I have done <a href="https://github.com/emacs-lsp/lsp-mode/pull/1498">some profiling</a> by insert <code>(profiler-report-cpu)</code> at the end of <code>lsp</code> (the bottlenecks is highlighted).
 </p>
 
-<div id="org2670feb" class="figure">
+<div id="org2d6d14c" class="figure">
 <p><img src="wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"></p>
 </div>
 
@@ -983,11 +1042,11 @@ For example, a few days ago I published <a href="https://www.reddit.com/r/emacs/
 It became one of my most popular reddit post because its unique feature <b>partial line blame</b>,
 </p>
 
-<div id="orgdc621ac" class="figure">
+<div id="org5ff5534" class="figure">
 <p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
 </div>
 
-<div id="org5576f03" class="figure">
+<div id="org09f21ce" class="figure">
 <p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
 </div>
 
@@ -1013,7 +1072,7 @@ It's only one line setup,
 
 </div>
 
-<div id="org65de9a9" class="figure">
+<div id="orga0ebbc2" class="figure">
 <p><img src="wp-content/vc-msg-and-magit.png" alt="vc-msg-and-magit.png"></p>
 </div>
 
@@ -1025,65 +1084,6 @@ I tested in <code>magit-blame-mode</code> and found no issue.
 I'm sure <code>vc-msg</code> should work in other major modes or minor modes. There are also two callback functions <code>vc-msg-get-current-file-function</code> and <code>vc-msg-get-line-num-function</code> which users can customize.</p>
             </div>
         </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/effective-git-blame-in-emacs/">Effective "git blame" in Emacs</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2019-11-20T13:42:54+00:00">2019-11-20 13:42</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/effective-git-blame-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/effective-git-blame-in-emacs.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/blame/" rel="tag">blame</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-I published Emacs package <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a>. It uses <code>git-blame</code> to show commit information of current line.
-</p>
-
-<p>
-In the new version, it can display the correct commit information of current line.
-</p>
-
-<p>
-For example, the line 6 at <a href="https://github.com/redguardtoo/test-git-blame/blob/master/hello.js">https://github.com/redguardtoo/test-git-blame/blob/master/hello.js</a> is changed by three commits.
-</p>
-
-<p>
-Select the partial of line 6 and run <code>vc-msg-show</code>, the correct commit is displayed.
-</p>
-
-<p>
-Screenshots,
-</p>
-
-<div id="org2dd3f0c" class="figure">
-<p><img src="wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"></p>
-</div>
-
-<div id="org4563570" class="figure">
-<p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
-</div>
-
-<div id="org888d339" class="figure">
-<p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
-</div>
-            </div>
-        </div>
     
         <nav class="postindexpager"><ul class="pager">
 <li class="previous">
@@ -1092,7 +1092,7 @@ Screenshots,
             <li class="next">
                 <a href="index-25.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

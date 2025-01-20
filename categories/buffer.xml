@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about buffer)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/buffer.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 13 Oct 2023 09:11:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Make Messages Buffer modifiable in Emacs 24.4</title><link>http://blog.binchen.org/posts/make-messages-buffer-modifiable-in-emacs-24-4/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about buffer)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/buffer.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 20 Jan 2025 05:51:34 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Make Messages Buffer modifiable in Emacs 24.4</title><link>http://redguardtoo.github.io/posts/make-messages-buffer-modifiable-in-emacs-24-4/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defadvice switch-to-buffer (after switch-to-buffer-after-hack activate)
   (if (string= "*Messages*" (buffer-name))
       (read-only-mode -1)))
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>buffer</category><category>emacs</category><category>en</category><category>messages</category><guid>http://blog.binchen.org/posts/make-messages-buffer-modifiable-in-emacs-24-4/</guid><pubDate>Wed, 18 May 2016 00:42:32 GMT</pubDate></item><item><title>Moving focus and buffer between Emacs window</title><link>http://blog.binchen.org/posts/moving-focus-and-buffer-between-emacs-window/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>buffer</category><category>emacs</category><category>en</category><category>messages</category><guid>http://redguardtoo.github.io/posts/make-messages-buffer-modifiable-in-emacs-24-4/</guid><pubDate>Wed, 18 May 2016 00:42:32 GMT</pubDate></item><item><title>Moving focus and buffer between Emacs window</title><link>http://redguardtoo.github.io/posts/moving-focus-and-buffer-between-emacs-window/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Please read the excellent article &lt;a href="http://irreal.org/blog/?p=1562"&gt;Moving between Emacs windows&lt;/a&gt; for basic setup.
 &lt;/p&gt;
 
@@ -21,9 +21,9 @@ Here is my summary of that article:
 &lt;p&gt;
 I also use other packages which is more efficient.
 &lt;/p&gt;
-&lt;div id="outline-container-org853e6ae" class="outline-2"&gt;
-&lt;h3 id="org853e6ae"&gt;window-numbering.el&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org853e6ae"&gt;
+&lt;div id="outline-container-org7ab770b" class="outline-2"&gt;
+&lt;h3 id="org7ab770b"&gt;window-numbering.el&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7ab770b"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/nschum/window-numbering.el"&gt;window-numbering.el&lt;/a&gt; is &lt;b&gt;great&lt;/b&gt;. It uses hot key &lt;code&gt;M-number&lt;/code&gt; to switch window (for example, &lt;code&gt;M-3&lt;/code&gt; to select window with number 3). So I can press only &lt;b&gt;one&lt;/b&gt; key to switch window. Besides, it has some extra features like &lt;code&gt;M-0&lt;/code&gt; to jump to the minibuffer.
 &lt;/p&gt;
@@ -43,17 +43,17 @@ Here is my configuration for &lt;code&gt;window-numbering.el&lt;/code&gt;:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcafd702" class="outline-2"&gt;
-&lt;h3 id="orgcafd702"&gt;Evil&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgcafd702"&gt;
+&lt;div id="outline-container-org0dad2b5" class="outline-2"&gt;
+&lt;h3 id="org0dad2b5"&gt;Evil&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0dad2b5"&gt;
 &lt;p&gt;
 &lt;a href="http://emacswiki.org/emacs/Evil"&gt;Evil&lt;/a&gt; is a vim-emulation. It use vim's keybindings &lt;code&gt;C-w h/j/k/l&lt;/code&gt; to move. Please note &lt;code&gt;C-w h&lt;/code&gt; is more efficient than &lt;code&gt;C-x o&lt;/code&gt;. It's because &lt;code&gt;w&lt;/code&gt; key is more close than &lt;code&gt;x&lt;/code&gt; key and &lt;code&gt;h/j/k/l&lt;/code&gt; is easy to press.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfa946e1" class="outline-2"&gt;
-&lt;h3 id="orgfa946e1"&gt;buffer-move.el&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgfa946e1"&gt;
+&lt;div id="outline-container-org1062e25" class="outline-2"&gt;
+&lt;h3 id="org1062e25"&gt;buffer-move.el&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1062e25"&gt;
 &lt;p&gt;
 &lt;a href="http://www.emacswiki.org/cgi-bin/wiki/buffer-move.el"&gt;buffer-move.el&lt;/a&gt; moves the buffer instead of focus between windows. It can be installed through &lt;a href="http://melpa.milkbox.net/"&gt;MELPA&lt;/a&gt;.
 &lt;/p&gt;
@@ -72,9 +72,9 @@ Here is my configuration:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7f6cd18" class="outline-2"&gt;
-&lt;h3 id="org7f6cd18"&gt;Optimization&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7f6cd18"&gt;
+&lt;div id="outline-container-org7cc9435" class="outline-2"&gt;
+&lt;h3 id="org7cc9435"&gt;Optimization&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org7cc9435"&gt;
 &lt;p&gt;
 I use &lt;a href="https://github.com/dacap/keyfreq"&gt;keyfreq&lt;/a&gt; to record all my key pressing for &lt;b&gt;more than six months&lt;/b&gt;.
 &lt;/p&gt;
@@ -108,4 +108,4 @@ Here is the code:
 Check &lt;a href="https://github.com/redguardtoo/emacs.d/commit/8a51696"&gt;my setup at github&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>buffer</category><category>emacs</category><category>en</category><category>move</category><category>window</category><guid>http://blog.binchen.org/posts/moving-focus-and-buffer-between-emacs-window/</guid><pubDate>Sun, 03 Feb 2013 14:19:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>buffer</category><category>emacs</category><category>en</category><category>move</category><category>window</category><guid>http://redguardtoo.github.io/posts/moving-focus-and-buffer-between-emacs-window/</guid><pubDate>Sun, 03 Feb 2013 14:19:00 GMT</pubDate></item></channel></rss>

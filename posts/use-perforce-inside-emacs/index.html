@@ -6,11 +6,11 @@
 <title>Use Perforce inside Emacs | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/use-perforce-inside-emacs/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/use-perforce-inside-emacs/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="Use Perforce inside Emacs">
-<meta property="og:url" content="http://blog.binchen.org/posts/use-perforce-inside-emacs/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/use-perforce-inside-emacs/">
 <meta property="og:description" content="CREATED: &lt;2016-12-05 Mon&gt;
 
 
@@ -90,9 +90,9 @@ Perforce is a proprietary VCS. It's less powerful than <a href="https://git-scm.
 For example, <code>git log -p file-path</code> displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like <code>p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}</code> can't do it. I have to use Emacs Lisp to clean the output of <code>p4</code>.
 </p>
 
-<div id="outline-container-org7affd02" class="outline-2">
-<h3 id="org7affd02">Perforce workflow</h3>
-<div class="outline-text-2" id="text-org7affd02">
+<div id="outline-container-org90021da" class="outline-2">
+<h3 id="org90021da">Perforce workflow</h3>
+<div class="outline-text-2" id="text-org90021da">
 <ul class="org-ul">
 <li>
 <code>p4 set</code> to <a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html">set up</a>
@@ -113,9 +113,9 @@ For example, <code>git log -p file-path</code> displays the detailed history of 
 </div>
 </div>
 
-<div id="outline-container-org951a60a" class="outline-2">
-<h3 id="org951a60a">My solution</h3>
-<div class="outline-text-2" id="text-org951a60a">
+<div id="outline-container-org8b0bc72" class="outline-2">
+<h3 id="org8b0bc72">My solution</h3>
+<div class="outline-text-2" id="text-org8b0bc72">
 <p>
 Perforce Cygwin portable is not recommended.
 </p>
@@ -128,9 +128,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed <code>p4</code> that URL, the operation is always successful.
 </p>
 </div>
-<div id="outline-container-orgd1b5215" class="outline-3">
-<h4 id="orgd1b5215">Emacs</h4>
-<div class="outline-text-3" id="text-orgd1b5215">
+<div id="outline-container-org9c6c64b" class="outline-3">
+<h4 id="org9c6c64b">Emacs</h4>
+<div class="outline-text-3" id="text-org9c6c64b">
 <p>
 I developed <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a> which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need <code>p4 login</code> at first.)
 </p>
@@ -292,9 +292,9 @@ You can also check my <a href="https://github.com/redguardtoo/emacs.d/blob/maste
 </p>
 </div>
 </div>
-<div id="outline-container-org7af0497" class="outline-3">
-<h4 id="org7af0497">Bash Shell</h4>
-<div class="outline-text-3" id="text-org7af0497">
+<div id="outline-container-org47b3e83" class="outline-3">
+<h4 id="org47b3e83">Bash Shell</h4>
+<div class="outline-text-3" id="text-org47b3e83">
 <p>
 Other operations are finished in Bash Shell,
 </p>
@@ -440,7 +440,7 @@ function p4ml(){
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/use-perforce-inside-emacs/",
+            disqus_url="http://redguardtoo.github.io/posts/use-perforce-inside-emacs/",
         disqus_title="Use Perforce inside Emacs",
         disqus_identifier="cache/posts/use-perforce-inside-emacs.html",
         disqus_config = function () {
@@ -463,7 +463,7 @@ function p4ml(){
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

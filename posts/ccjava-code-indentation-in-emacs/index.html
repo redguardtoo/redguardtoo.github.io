@@ -6,11 +6,11 @@
 <title>C/C++/Java code indentation in Emacs | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/ccjava-code-indentation-in-emacs/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="C/C++/Java code indentation in Emacs">
-<meta property="og:url" content="http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/ccjava-code-indentation-in-emacs/">
 <meta property="og:description" content='Problem
 
 
@@ -90,9 +90,9 @@ Wh'>
 
         </div>
         <div class="body">
-            <div id="outline-container-org0f66791" class="outline-2">
-<h3 id="org0f66791">Problem</h3>
-<div class="outline-text-2" id="text-org0f66791">
+            <div id="outline-container-org5a2bfe4" class="outline-2">
+<h3 id="org5a2bfe4">Problem</h3>
+<div class="outline-text-2" id="text-org5a2bfe4">
 <p>
 There are two styles when insert curly braces in C like languages.
 </p>
@@ -136,9 +136,9 @@ In "Style 2", when I press ENTER key after ")" at first line, I expect the new l
 </div>
 </div>
 
-<div id="outline-container-orgd1227a0" class="outline-2">
-<h3 id="orgd1227a0">Solution</h3>
-<div class="outline-text-2" id="text-orgd1227a0">
+<div id="outline-container-org02d93fe" class="outline-2">
+<h3 id="org02d93fe">Solution</h3>
+<div class="outline-text-2" id="text-org02d93fe">
 <p>
 Insert below code into ~/.emacs:
 </p>
@@ -168,9 +168,9 @@ That's it.
 </div>
 </div>
 
-<div id="outline-container-orgbc4169d" class="outline-2">
-<h3 id="orgbc4169d">Explanation</h3>
-<div class="outline-text-2" id="text-orgbc4169d">
+<div id="outline-container-org9e689d3" class="outline-2">
+<h3 id="org9e689d3">Explanation</h3>
+<div class="outline-text-2" id="text-org9e689d3">
 <p>
 When you press the ENTER key, the function <b>c-indent-line</b> will be called.
 </p>
@@ -205,9 +205,9 @@ And the context <b>func-decl-cont</b> corresponds to:
 </div>
 </div>
 
-<div id="outline-container-org35c6e4a" class="outline-2">
-<h3 id="org35c6e4a">Technical details</h3>
-<div class="outline-text-2" id="text-org35c6e4a">
+<div id="outline-container-org561b127" class="outline-2">
+<h3 id="org561b127">Technical details</h3>
+<div class="outline-text-2" id="text-org561b127">
 <p>
 When you press ENTER key, the new line will be inserted. Then the function <b>indent-according-to-mode</b> will always be called
 </p>
@@ -288,7 +288,7 @@ BTW, <a href="http://www.emacswiki.org/emacs/IndentingC">EmacsWiki has a section
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/ccjava-code-indentation-in-emacs/",
+            disqus_url="http://redguardtoo.github.io/posts/ccjava-code-indentation-in-emacs/",
         disqus_title="C/C++/Java code indentation in Emacs",
         disqus_identifier="cache/posts/ccjava-code-indentation-in-emacs.html",
         disqus_config = function () {
@@ -311,7 +311,7 @@ BTW, <a href="http://www.emacswiki.org/emacs/IndentingC">EmacsWiki has a section
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

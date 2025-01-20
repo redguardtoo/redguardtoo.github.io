@@ -6,11 +6,11 @@
 <title>What's the best spell check setup in emacs | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/what-s-the-best-spell-check-set-up-in-emacs/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="What's the best spell check setup in emacs">
-<meta property="og:url" content="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/what-s-the-best-spell-check-set-up-in-emacs/">
 <meta property="og:description" content="UPDATED: &lt;2021-06-15 Tue&gt;
 
 
@@ -96,9 +96,9 @@ Topics covered in official manual (<code>flyspell-mode-predicate</code>, for exa
 You can check my <b>complete</b> configuration <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelling.el">HERE</a>.
 </p>
 
-<div id="outline-container-orgb8adeeb" class="outline-2">
-<h3 id="orgb8adeeb">Suggestion for non-programmers</h3>
-<div class="outline-text-2" id="text-orgb8adeeb">
+<div id="outline-container-orgdf4bcbb" class="outline-2">
+<h3 id="orgdf4bcbb">Suggestion for non-programmers</h3>
+<div class="outline-text-2" id="text-orgdf4bcbb">
 <p>
 Emacs finds the right dictionary by querying the locale.
 </p>
@@ -158,9 +158,9 @@ Run <code>man aspell</code> or <code>man hunspell</code> in shell if you have mo
 </div>
 </div>
 
-<div id="outline-container-orge201f59" class="outline-2">
-<h3 id="orge201f59">Suggestion for programmers</h3>
-<div class="outline-text-2" id="text-orge201f59">
+<div id="outline-container-org50f27d5" class="outline-2">
+<h3 id="org50f27d5">Suggestion for programmers</h3>
+<div class="outline-text-2" id="text-org50f27d5">
 <p>
 I recommend aspell instead of hunspell (Though hunspell is fine).
 </p>
@@ -261,13 +261,13 @@ See <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelli
 </p>
 </div>
 </div>
-<div id="outline-container-org4414729" class="outline-2">
-<h3 id="org4414729">Why</h3>
-<div class="outline-text-2" id="text-org4414729">
+<div id="outline-container-org1e10734" class="outline-2">
+<h3 id="org1e10734">Why</h3>
+<div class="outline-text-2" id="text-org1e10734">
 </div>
-<div id="outline-container-orgd53e0dc" class="outline-3">
-<h4 id="orgd53e0dc">Aspell</h4>
-<div class="outline-text-3" id="text-orgd53e0dc">
+<div id="outline-container-org665618a" class="outline-3">
+<h4 id="org665618a">Aspell</h4>
+<div class="outline-text-3" id="text-org665618a">
 <p>
 aspell is recommended because its option <code>--run-together</code> (since aspell 0.60.8, option <code>--camel-case</code> replaces <code>=run-together</code>). That option could check the <b>camel case word</b>. Variable name often uses camel case naming convention these days. Read my <a href="http://blog.binchen.org/?p=950">Effective spell check in Emacs</a> for advanced tips.
 </p>
@@ -301,9 +301,9 @@ There is another variable <code>ispell-cmd-args</code>. It is actually some <b>e
 </p>
 </div>
 </div>
-<div id="outline-container-orgb66471c" class="outline-3">
-<h4 id="orgb66471c">Hunspell</h4>
-<div class="outline-text-3" id="text-orgb66471c">
+<div id="outline-container-org9f77556" class="outline-3">
+<h4 id="org9f77556">Hunspell</h4>
+<div class="outline-text-3" id="text-org9f77556">
 <p>
 I cannot find hunspell option to check camel case words.
 </p>
@@ -348,13 +348,13 @@ You can pass the extra arguments to the hunspell by tweaking <code>ispell-local-
 </div>
 </div>
 </div>
-<div id="outline-container-org8e81e5d" class="outline-2">
-<h3 id="org8e81e5d">FAQ</h3>
-<div class="outline-text-2" id="text-org8e81e5d">
+<div id="outline-container-orgf7b5eb3" class="outline-2">
+<h3 id="orgf7b5eb3">FAQ</h3>
+<div class="outline-text-2" id="text-orgf7b5eb3">
 </div>
-<div id="outline-container-org8869b12" class="outline-3">
-<h4 id="org8869b12">How to setup Hunspell</h4>
-<div class="outline-text-3" id="text-org8869b12">
+<div id="outline-container-org8c753c2" class="outline-3">
+<h4 id="org8c753c2">How to setup Hunspell</h4>
+<div class="outline-text-3" id="text-org8c753c2">
 <p>
 The easiest way is to set up environment variable <code>DICPATH</code>.
 </p>
@@ -389,7 +389,7 @@ You can also run <code>hunspell -D</code> in shell to figure out where hunspell 
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/",
+            disqus_url="http://redguardtoo.github.io/posts/what-s-the-best-spell-check-set-up-in-emacs/",
         disqus_title="What's the best spell check setup in emacs",
         disqus_identifier="cache/posts/what-s-the-best-spell-check-set-up-in-emacs.html",
         disqus_config = function () {
@@ -412,7 +412,7 @@ You can also run <code>hunspell -D</code> in shell to figure out where hunspell 
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

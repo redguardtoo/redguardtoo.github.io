@@ -6,11 +6,11 @@
 <title>Debug efficiently in Emacs | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/debug-efficiently-in-emacs/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/debug-efficiently-in-emacs/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="Debug efficiently in Emacs">
-<meta property="og:url" content="http://blog.binchen.org/posts/debug-efficiently-in-emacs/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/debug-efficiently-in-emacs/">
 <meta property="og:description" content="Please note:
 
 
@@ -68,9 +68,9 @@ Please note:
 <li>I'm good at most debuggers. The point of this article is to deal with <b>more difficult issues</b> the debugger can not handle.</li>
 <li>My code quality is fine. It handles all the corner cases I've met. For example, single quote and double quotes will be escaped properly.</li>
 </ul>
-<div id="outline-container-org85721b5" class="outline-2">
-<h3 id="org85721b5">Problem</h3>
-<div class="outline-text-2" id="text-org85721b5">
+<div id="outline-container-org08b6f91" class="outline-2">
+<h3 id="org08b6f91">Problem</h3>
+<div class="outline-text-2" id="text-org08b6f91">
 <p>
 As a freelancer I am often required to debug legacy javascript code from some huge "enterprise"" applications.
 </p>
@@ -85,18 +85,18 @@ So my problem is how to insert logging code as quickly as possible.
 </div>
 </div>
 
-<div id="outline-container-orgf7f4391" class="outline-2">
-<h3 id="orgf7f4391">Solution</h3>
-<div class="outline-text-2" id="text-orgf7f4391">
+<div id="outline-container-org062d2af" class="outline-2">
+<h3 id="org062d2af">Solution</h3>
+<div class="outline-text-2" id="text-org062d2af">
 <p>
 My solution is <a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a>. Yasnippet allow me to insert executable Emacs Lisp code in its snippet. I will Sotake full advantage of that feature. 
 </p>
 </div>
 </div>
 
-<div id="outline-container-org7a0a97c" class="outline-2">
-<h3 id="org7a0a97c">Logging simple JS variable</h3>
-<div class="outline-text-2" id="text-org7a0a97c">
+<div id="outline-container-org761a12c" class="outline-2">
+<h3 id="org761a12c">Logging simple JS variable</h3>
+<div class="outline-text-2" id="text-org761a12c">
 <p>
 Given a variable name like "var1", I need insert javascript code as below:
 </p>
@@ -118,9 +118,9 @@ This snippet need you input variable name once.
 </div>
 </div>
 
-<div id="outline-container-org56e5c8a" class="outline-2">
-<h3 id="org56e5c8a">Logging complex JS variable</h3>
-<div class="outline-text-2" id="text-org56e5c8a">
+<div id="outline-container-orge15c356" class="outline-2">
+<h3 id="orge15c356">Logging complex JS variable</h3>
+<div class="outline-text-2" id="text-orge15c356">
 <p>
 In real world, the JS variable is often a string like "MyController.servicea.find('.class').attr1" which I hate to type.
 </p>
@@ -136,9 +136,9 @@ Snippet:
 </div>
 </div>
 
-<div id="outline-container-org81d8cf1" class="outline-2">
-<h3 id="org81d8cf1">Logging JS function name when it's called</h3>
-<div class="outline-text-2" id="text-org81d8cf1">
+<div id="outline-container-org14bfcb7" class="outline-2">
+<h3 id="org14bfcb7">Logging JS function name when it's called</h3>
+<div class="outline-text-2" id="text-org14bfcb7">
 <p>
 In below example, I need insert  "console.log('hello is called');" in function "hello":
 </p>
@@ -171,9 +171,9 @@ The regular expressions could be used in <b>both</b> js-mode and js2-mode.
 </div>
 </div>
 
-<div id="outline-container-orgd48b4cc" class="outline-2">
-<h3 id="orgd48b4cc">Logging JS function name with its parameters</h3>
-<div class="outline-text-2" id="text-orgd48b4cc">
+<div id="outline-container-org1377666" class="outline-2">
+<h3 id="org1377666">Logging JS function name with its parameters</h3>
+<div class="outline-text-2" id="text-org1377666">
 <p>
 JS example:
 </p>
@@ -202,9 +202,9 @@ BTW, since I use <a href="http://www.emacswiki.org/Evil">Evil</a>, copy the para
 </div>
 </div>
 
-<div id="outline-container-org413f84b" class="outline-2">
-<h3 id="org413f84b">Insert JS debugger statement</h3>
-<div class="outline-text-2" id="text-org413f84b">
+<div id="outline-container-org32a13c7" class="outline-2">
+<h3 id="org32a13c7">Insert JS debugger statement</h3>
+<div class="outline-text-2" id="text-org32a13c7">
 <p>
 @cjk provided this tip. The debugger like Firebug will pause at the debugger statement. It saves me the time to locate JS file, to go to the specific line and set breakpoint after re-deploying the application.
 </p>
@@ -220,9 +220,9 @@ Snippets:
 </div>
 </div>
 
-<div id="outline-container-org029126c" class="outline-2">
-<h3 id="org029126c">Bonus</h3>
-<div class="outline-text-2" id="text-org029126c">
+<div id="outline-container-org39cec41" class="outline-2">
+<h3 id="org39cec41">Bonus</h3>
+<div class="outline-text-2" id="text-org39cec41">
 <p>
 Similar snippets for Emacs Lisp are defined <a href="https://github.com/redguardtoo/emacs.d/tree/master/snippets/emacs-lisp-mode">HERE</a>.
 </p>
@@ -241,7 +241,7 @@ Similar snippets for Emacs Lisp are defined <a href="https://github.com/redguard
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/debug-efficiently-in-emacs/",
+            disqus_url="http://redguardtoo.github.io/posts/debug-efficiently-in-emacs/",
         disqus_title="Debug efficiently in Emacs",
         disqus_identifier="cache/posts/debug-efficiently-in-emacs.html",
         disqus_config = function () {
@@ -264,7 +264,7 @@ Similar snippets for Emacs Lisp are defined <a href="https://github.com/redguard
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

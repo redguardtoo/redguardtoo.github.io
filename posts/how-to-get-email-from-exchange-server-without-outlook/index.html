@@ -6,11 +6,11 @@
 <title>How to get email from exchange server without Outlook | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/how-to-get-email-from-exchange-server-without-outlook/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/how-to-get-email-from-exchange-server-without-outlook/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="How to get email from exchange server without Outlook">
-<meta property="og:url" content="http://blog.binchen.org/posts/how-to-get-email-from-exchange-server-without-outlook/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/how-to-get-email-from-exchange-server-without-outlook/">
 <meta property="og:description" content="This article has three parts. 
 
 
@@ -91,16 +91,16 @@ Second part uses <a href="https://www.mozilla.org/en-US/thunderbird/">thunderbir
 <p>
 Third part uses Emacs and Gnus to replace thunderbird. It's optional.
 </p>
-<div id="outline-container-orgaf15a65" class="outline-2">
-<h3 id="orgaf15a65">DavMail as mail gateway</h3>
-<div class="outline-text-2" id="text-orgaf15a65">
-<pre class="example" id="org4b158df">
+<div id="outline-container-org070e44c" class="outline-2">
+<h3 id="org070e44c">DavMail as mail gateway</h3>
+<div class="outline-text-2" id="text-org070e44c">
+<pre class="example" id="org3b13976">
 Ever wanted to get rid of Outlook ? DavMail is a POP/IMAP/SMTP/Caldav/Carddav/LDAP exchange gateway allowing users to use any mail/calendar client (e.g. Thunderbird with Lightning or Apple iCal) with an Exchange server.
 </pre>
 </div>
-<div id="outline-container-org189e970" class="outline-3">
-<h4 id="org189e970">Install</h4>
-<div class="outline-text-3" id="text-org189e970">
+<div id="outline-container-orge442289" class="outline-3">
+<h4 id="orge442289">Install</h4>
+<div class="outline-text-3" id="text-orge442289">
 <p>
 <a href="http://davmail.sourceforge.net/download.html">Download the installer</a> at Debian/Ubuntu/Mint:
 </p>
@@ -118,9 +118,9 @@ Installation is easy. DavMail by itself is a portable java application. Since it
 </p>
 </div>
 </div>
-<div id="outline-container-org4e0c639" class="outline-3">
-<h4 id="org4e0c639">Configuration</h4>
-<div class="outline-text-3" id="text-org4e0c639">
+<div id="outline-container-orgef1be3b" class="outline-3">
+<h4 id="orgef1be3b">Configuration</h4>
+<div class="outline-text-3" id="text-orgef1be3b">
 <p>
 Now start DavMail. 
 </p>
@@ -155,9 +155,9 @@ BTW, <a href="https://outlook.office365.com/">https://outlook.office365.com/</a>
 </div>
 </div>
 </div>
-<div id="outline-container-org1476195" class="outline-2">
-<h3 id="org1476195">Thunderbird</h3>
-<div class="outline-text-2" id="text-org1476195">
+<div id="outline-container-org7a66e0f" class="outline-2">
+<h3 id="org7a66e0f">Thunderbird</h3>
+<div class="outline-text-2" id="text-org7a66e0f">
 <p>
 Create a new account, and <b>manually</b> configure the server. The server name is "127.0.0.1", the port number is already on your paper. The minimum setup needs IMAP port to  receive mail and SMTP port to send email.
 </p>
@@ -171,9 +171,9 @@ The only issue is the "Username". You can log in Outlook Web UI, click "Options 
 </p>
 </div>
 </div>
-<div id="outline-container-orga46e579" class="outline-2">
-<h3 id="orga46e579">Emacs Gnus</h3>
-<div class="outline-text-2" id="text-orga46e579">
+<div id="outline-container-org401b753" class="outline-2">
+<h3 id="org401b753">Emacs Gnus</h3>
+<div class="outline-text-2" id="text-org401b753">
 <p>
 Gnus cannot access IMAP service of DavMail. There is <a href="http://permalink.gmane.org/gmane.emacs.gnus.general/83301">some bug</a>.
 </p>
@@ -229,7 +229,7 @@ Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> inste
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/how-to-get-email-from-exchange-server-without-outlook/",
+            disqus_url="http://redguardtoo.github.io/posts/how-to-get-email-from-exchange-server-without-outlook/",
         disqus_title="How to get email from exchange server without Outlook",
         disqus_identifier="cache/posts/how-to-get-email-from-exchange-server-without-outlook.html",
         disqus_config = function () {
@@ -252,7 +252,7 @@ Another tip is when opening a folder in Gnus, press <code>C-u ENTER</code> inste
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

@@ -6,11 +6,11 @@
 <title>Use plain Vim to merge conflicts | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/use-plain-vim-to-merge-conflicts/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/use-plain-vim-to-merge-conflicts/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="Use plain Vim to merge conflicts">
-<meta property="og:url" content="http://blog.binchen.org/posts/use-plain-vim-to-merge-conflicts/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/use-plain-vim-to-merge-conflicts/">
 <meta property="og:description" content="I will explain how to resolve code merge conflicts with plain vim. The only third party plugin required is vim-unimpaired.
 
 
@@ -65,9 +65,9 @@ I will explain how to resolve code merge conflicts with plain vim. The only thir
 <p>
 The reason to use vim is that I can't use vimdiff as a merge tool for certain VCS (CVS, Subversion, Perforce, …).
 </p>
-<div id="outline-container-org56abf31" class="outline-2">
-<h3 id="org56abf31">Problem</h3>
-<div class="outline-text-2" id="text-org56abf31">
+<div id="outline-container-org6679e69" class="outline-2">
+<h3 id="org6679e69">Problem</h3>
+<div class="outline-text-2" id="text-org6679e69">
 <p>
 A typical file in conflict is like:
 </p>
@@ -96,9 +96,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </div>
 </div>
 
-<div id="outline-container-org24e9da3" class="outline-2">
-<h3 id="org24e9da3">Basic knowledge of Vim</h3>
-<div class="outline-text-2" id="text-org24e9da3">
+<div id="outline-container-org9675fa6" class="outline-2">
+<h3 id="org9675fa6">Basic knowledge of Vim</h3>
+<div class="outline-text-2" id="text-org9675fa6">
 <ul class="org-ul">
 <li>"]n" move the focus to the next marker and "[n" to the previous marker.</li>
 <li>"dd" delete current line</li>
@@ -107,9 +107,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </div>
 </div>
 
-<div id="outline-container-orgf8fe1c8" class="outline-2">
-<h3 id="orgf8fe1c8">Solution</h3>
-<div class="outline-text-2" id="text-orgf8fe1c8">
+<div id="outline-container-org997094a" class="outline-2">
+<h3 id="org997094a">Solution</h3>
+<div class="outline-text-2" id="text-org997094a">
 <p>
 Our workflow is actually simple:
 </p>
@@ -147,7 +147,7 @@ map &lt;leader&gt;dg2 d]ndd]ndd
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/use-plain-vim-to-merge-conflicts/",
+            disqus_url="http://redguardtoo.github.io/posts/use-plain-vim-to-merge-conflicts/",
         disqus_title="Use plain Vim to merge conflicts",
         disqus_identifier="cache/posts/use-plain-vim-to-merge-conflicts.html",
         disqus_config = function () {
@@ -170,7 +170,7 @@ map &lt;leader&gt;dg2 d]ndd]ndd
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

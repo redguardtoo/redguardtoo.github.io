@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 11 Jan 2025 13:02:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://blog.binchen.org/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about linux)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 20 Jan 2025 05:51:36 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://redguardtoo.github.io/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Start virtual machine with 8G memory and Debian Linux iso using CLI,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
@@ -32,7 +32,7 @@ VM can access physical USB stick on Linux,
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Run &lt;code&gt;lsusb&lt;/code&gt;, get below output of USB stick,&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre class="example" id="org1557518"&gt;
+&lt;pre class="example" id="org2f57532"&gt;
 Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
 &lt;/pre&gt;
 &lt;ul class="org-ul"&gt;
@@ -65,7 +65,7 @@ sudo virsh net-autostart default # autostart default network
 &lt;p&gt;
 Pleae note &lt;a href="https://wiki.libvirt.org/Libvirtd_and_dnsmasq.html"&gt;dnsmasq on Linux host needs extra setup&lt;/a&gt;,
 &lt;/p&gt;
-&lt;pre class="example" id="org5119dd6"&gt;
+&lt;pre class="example" id="org4647c9a"&gt;
 On linux host servers, libvirtd uses dnsmasq to service the virtual networks, such as the default network. A new instance of dnsmasq is started for each virtual network, only accessible to guests in that specific network.
 
 If you are running your own "global" dnsmasq, then this can cause your own dnsmasq to fail to start (or for libvirtd to fail to start its dnsmasq and the given virtual network). This happens because both instances of dnsmasq might try to bind to the same port number on the same network interfaces.
@@ -73,7 +73,7 @@ If you are running your own "global" dnsmasq, then this can cause your own dnsma
 You have to change the global /etc/dnsmasq.conf as follows:
 interface=eth0 # only handle requests from interface eth0
 bind-interfaces # don't accept request from other interfaces from the beginning
-&lt;/pre&gt;</description><category>en</category><category>linux</category><category>qemu</category><guid>http://blog.binchen.org/posts/qemu-essential/</guid><pubDate>Mon, 23 Dec 2024 12:48:42 GMT</pubDate></item><item><title>Use CI to improve the quality of emacs distribution</title><link>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/pre&gt;</description><category>en</category><category>linux</category><category>qemu</category><guid>http://redguardtoo.github.io/posts/qemu-essential/</guid><pubDate>Mon, 23 Dec 2024 12:48:42 GMT</pubDate></item><item><title>Use CI to improve the quality of emacs distribution</title><link>http://redguardtoo.github.io/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 In &lt;a href="http://blog.binchen.org/posts/better-emacs-package-development-workflow/"&gt;Better Emacs package development workflow&lt;/a&gt;, I proved that running Emacs compiler in CI can give huge boost to package quality.
 &lt;/p&gt;
 
@@ -89,8 +89,8 @@ For example, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;my .emacs.d&
 There are also many other engineering issues. I struggled for &lt;b&gt;five hours&lt;/b&gt; and finally got satisfying solution. Now anyone can use my solution to &lt;b&gt;set up same CI pipeline in ten minutes&lt;/b&gt;.
 &lt;/p&gt;
 
-&lt;div id="orgaced5c8" class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"&gt;
+&lt;div id="orgc106761" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://redguardtoo.github.io/wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
@@ -241,7 +241,7 @@ BTW, you can find &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master
 ;; End:
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>lisp</category><guid>http://blog.binchen.org/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</guid><pubDate>Tue, 31 May 2022 05:33:30 GMT</pubDate></item><item><title>Better Emacs package development workflow</title><link>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>lisp</category><guid>http://redguardtoo.github.io/posts/use-ci-to-improve-the-quality-of-emacs-distribution/</guid><pubDate>Tue, 31 May 2022 05:33:30 GMT</pubDate></item><item><title>Better Emacs package development workflow</title><link>http://redguardtoo.github.io/posts/better-emacs-package-development-workflow/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 The Emacs Lisp syntax error should be automatically detected by CI (Continuous Integration).
 &lt;/p&gt;
 
@@ -294,8 +294,8 @@ DONE! Now Gitlab/Github could use command line &lt;code&gt;make compile&lt;/code
 Screenshot of &lt;a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d"&gt;a tricky bug of evil-matchit&lt;/a&gt; detected by this new workflow.
 &lt;/p&gt;
 
-&lt;div id="org0ca6385" class="figure"&gt;
-&lt;p&gt;&lt;img src="http://blog.binchen.org/wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"&gt;
+&lt;div id="orge049c69" class="figure"&gt;
+&lt;p&gt;&lt;img src="http://redguardtoo.github.io/wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
@@ -329,7 +329,7 @@ I use below command lines to compile and test the project locally.
 EMACS=~/myemacs/26.3/bin/emacs make test # compile and run unit test 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>lisp</category><guid>http://blog.binchen.org/posts/better-emacs-package-development-workflow/</guid><pubDate>Tue, 24 May 2022 12:47:12 GMT</pubDate></item><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>lisp</category><guid>http://redguardtoo.github.io/posts/better-emacs-package-development-workflow/</guid><pubDate>Tue, 24 May 2022 12:47:12 GMT</pubDate></item><item><title>Configure EMMS (Emacs Multi-Media System) for Multimedia Keyboard</title><link>http://redguardtoo.github.io/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Emacs server need be started first.
 &lt;/p&gt;
 
@@ -420,8 +420,8 @@ I usually run &lt;code&gt;M-x emms-play-directory-tree&lt;/code&gt; to play musi
 
 &lt;p&gt;
 Screen shot of running &lt;code&gt;~/bin/music-player-client show&lt;/code&gt;,
-&lt;img src="http://blog.binchen.org/wp-content/emms-notification.png" alt="emms-notification.png"&gt;
-&lt;/p&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</guid><pubDate>Mon, 16 May 2022 12:11:33 GMT</pubDate></item><item><title>Emacs 28.1 on Debian Linux</title><link>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;img src="http://redguardtoo.github.io/wp-content/emms-notification.png" alt="emms-notification.png"&gt;
+&lt;/p&gt;</description><category>emacs</category><category>emms</category><category>en</category><category>linux</category><guid>http://redguardtoo.github.io/posts/configure-emms-emacs-multi-media-system-for-multimedia-keyboard/</guid><pubDate>Mon, 16 May 2022 12:11:33 GMT</pubDate></item><item><title>Emacs 28.1 on Debian Linux</title><link>http://redguardtoo.github.io/posts/emacs-28-1-on-debian-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emacs 27 and gradually migrate from Emacs 27 to Emacs 28.
 &lt;/p&gt;
 
@@ -429,7 +429,7 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org4876c74" class="outline-2"&gt;
+&lt;div id="outline-container-org16aebbb" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -481,12 +481,12 @@ WantedBy=default.target
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga4ec072" class="outline-2"&gt;
+&lt;div id="outline-container-org2d04f44" class="outline-2"&gt;
 
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2afc9f5" class="outline-3"&gt;
-&lt;h4 id="org2afc9f5"&gt;&lt;span class="section-number-3"&gt;2.1.&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
+&lt;div id="outline-container-org1b49cc4" class="outline-3"&gt;
+&lt;h4 id="org1b49cc4"&gt;&lt;span class="section-number-3"&gt;2.1.&lt;/span&gt; disable "idle loader" in server mode&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-1"&gt;
 &lt;p&gt;
 I use "idle loader" in my &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;Emacs distribution&lt;/a&gt;. Obviously it need  be disabled in server mode.
@@ -513,8 +513,8 @@ Here is the code,
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0fb6b95" class="outline-3"&gt;
-&lt;h4 id="org0fb6b95"&gt;&lt;span class="section-number-3"&gt;2.2.&lt;/span&gt; Shell script to install Emacs&lt;/h4&gt;
+&lt;div id="outline-container-org1548075" class="outline-3"&gt;
+&lt;h4 id="org1548075"&gt;&lt;span class="section-number-3"&gt;2.2.&lt;/span&gt; Shell script to install Emacs&lt;/h4&gt;
 &lt;div class="outline-text-3" id="text-2-2"&gt;
 &lt;p&gt;
 You could Use below script "install-emacs.sh" to install Emacs,
@@ -551,7 +551,7 @@ fi
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-28-1-on-debian-linux/</guid><pubDate>Sat, 16 Apr 2022 04:07:37 GMT</pubDate></item><item><title>Start teamviewer on i3wm</title><link>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://redguardtoo.github.io/posts/emacs-28-1-on-debian-linux/</guid><pubDate>Sat, 16 Apr 2022 04:07:37 GMT</pubDate></item><item><title>Start teamviewer on i3wm</title><link>http://redguardtoo.github.io/posts/start-teamviewer-on-i3wm/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 See &lt;a href="https://community.teamviewer.com/English/discussion/17737/debian-linux-program-does-not-start"&gt;yveslec's analysis&lt;/a&gt;.
 &lt;/p&gt;
 
@@ -576,7 +576,7 @@ Here is my shell script "~/bin/sshx-teamviewer.sh" with a bit optimization,
 ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>i3</category><category>linux</category><category>teamviewer</category><guid>http://blog.binchen.org/posts/start-teamviewer-on-i3wm/</guid><pubDate>Sun, 27 Mar 2022 02:16:17 GMT</pubDate></item><item><title>Set up vmtouch systemd service</title><link>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>i3</category><category>linux</category><category>teamviewer</category><guid>http://redguardtoo.github.io/posts/start-teamviewer-on-i3wm/</guid><pubDate>Sun, 27 Mar 2022 02:16:17 GMT</pubDate></item><item><title>Set up vmtouch systemd service</title><link>http://redguardtoo.github.io/posts/set-up-vmtouch-systemd-service/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 "/etc/default/vmtouch" on Debian Testing,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
@@ -601,13 +601,13 @@ Run &lt;code&gt;sudo systemctl restart vmtouch&lt;/code&gt; to restart the servi
 
 &lt;p&gt;
 "&lt;i&gt;home/cb&lt;/i&gt;.emacs.d" is not touched because the package &lt;a href="https://github.com/jorgenschaefer/elpy"&gt;elpy&lt;/a&gt; will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
-&lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>systemd</category><category>vmtouch</category><guid>http://blog.binchen.org/posts/set-up-vmtouch-systemd-service/</guid><pubDate>Sat, 26 Jun 2021 04:46:41 GMT</pubDate></item><item><title>Linux audio input configuration</title><link>http://blog.binchen.org/posts/linux-audio-input-configuration/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><category>systemd</category><category>vmtouch</category><guid>http://redguardtoo.github.io/posts/set-up-vmtouch-systemd-service/</guid><pubDate>Sat, 26 Jun 2021 04:46:41 GMT</pubDate></item><item><title>Linux audio input configuration</title><link>http://redguardtoo.github.io/posts/linux-audio-input-configuration/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and press "F4" to choose audio input.
 &lt;/p&gt;
 
 &lt;p&gt;
 Make sure the right "Rear Mic" and "Capture" are enabled,
-&lt;img src="http://blog.binchen.org/wp-content/linux-audio-input.png" alt="linux-audio-input.png"&gt;
+&lt;img src="http://redguardtoo.github.io/wp-content/linux-audio-input.png" alt="linux-audio-input.png"&gt;
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -622,7 +622,7 @@ Then test audio,
 &lt;pre&gt;&lt;code class="lang-sh"&gt;arecord --duration=5 --format=dat test-mic.wav &amp;amp;&amp;amp; aplay test-mic.wav
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>alsa</category><category>linux</category><category>sound</category><guid>http://blog.binchen.org/posts/linux-audio-input-configuration/</guid><pubDate>Sun, 15 Nov 2020 11:07:34 GMT</pubDate></item><item><title>Audio recording on Linux</title><link>http://blog.binchen.org/posts/audio-recording-on-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
+&lt;/div&gt;</description><category>alsa</category><category>linux</category><category>sound</category><guid>http://redguardtoo.github.io/posts/linux-audio-input-configuration/</guid><pubDate>Sun, 15 Nov 2020 11:07:34 GMT</pubDate></item><item><title>Audio recording on Linux</title><link>http://redguardtoo.github.io/posts/audio-recording-on-linux/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
 &lt;li&gt;Run &lt;code&gt;sudo alsamixer&lt;/code&gt; and turn off mic to reduce the noise&lt;/li&gt;
 &lt;li&gt;Run &lt;code&gt;alsamixer&lt;/code&gt; to double check pulse setup&lt;/li&gt;
 &lt;li&gt;Make sure correct device is selected in &lt;a href="https://www.audacityteam.org/"&gt;audacity&lt;/a&gt;&lt;/li&gt;
@@ -631,8 +631,8 @@ Then test audio,
 
 &lt;p&gt;
 My &lt;code&gt;alsamixer&lt;/code&gt; setup,
-&lt;img src="http://blog.binchen.org/wp-content/alsamixer-nq8.png" alt="alsamixer-nq8.png"&gt;
-&lt;/p&gt;</description><category>audio</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/audio-recording-on-linux/</guid><pubDate>Thu, 07 May 2020 12:04:13 GMT</pubDate></item><item><title>Emacs speed up 1000%</title><link>http://blog.binchen.org/posts/emacs-speed-up-1000/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;img src="http://redguardtoo.github.io/wp-content/alsamixer-nq8.png" alt="alsamixer-nq8.png"&gt;
+&lt;/p&gt;</description><category>audio</category><category>en</category><category>linux</category><guid>http://redguardtoo.github.io/posts/audio-recording-on-linux/</guid><pubDate>Thu, 07 May 2020 12:04:13 GMT</pubDate></item><item><title>Emacs speed up 1000%</title><link>http://redguardtoo.github.io/posts/emacs-speed-up-1000/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I'm still &lt;b&gt;NOT&lt;/b&gt; satisfied with my Emacs performance after applying below tricks:
 &lt;/p&gt;
 &lt;ul class="org-ul"&gt;
@@ -749,4 +749,4 @@ Now I use &lt;a href="https://hoytech.com/vmtouch/"&gt;vmtouch&lt;/a&gt; which i
 &lt;/p&gt;
 
 &lt;p&gt;
-Unfortunately, &lt;code&gt;vmtouch&lt;/code&gt; doesn't support Windows. You can convert my bash script to DOS batch script. Basically the script copies the directory into ram disk and create a link to the directory in memory. You can use &lt;a href="https://sourceforge.net/projects/imdisk-toolkit/"&gt;ImDisk Toolkit&lt;/a&gt; to create ram disk.&lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/emacs-speed-up-1000/</guid><pubDate>Fri, 08 May 2015 11:58:13 GMT</pubDate></item></channel></rss>
+Unfortunately, &lt;code&gt;vmtouch&lt;/code&gt; doesn't support Windows. You can convert my bash script to DOS batch script. Basically the script copies the directory into ram disk and create a link to the directory in memory. You can use &lt;a href="https://sourceforge.net/projects/imdisk-toolkit/"&gt;ImDisk Toolkit&lt;/a&gt; to create ram disk.&lt;/p&gt;</description><category>emacs</category><category>en</category><category>linux</category><guid>http://redguardtoo.github.io/posts/emacs-speed-up-1000/</guid><pubDate>Fri, 08 May 2015 11:58:13 GMT</pubDate></item></channel></rss>

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Linux, Programming, Emacs">
+<meta name="description" content="Emacs, Cooking">
 <meta name="viewport" content="width=device-width">
 <title>Chen's blog (old posts, page 24) | Chen's blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/index-24.html">
+<link rel="canonical" href="http://redguardtoo.github.io/index-24.html">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -22,6 +22,63 @@
 
         </ul></section><section class="page-content"><div class="content" rel="main">
             
+        <div class="post">
+            <h1 class="title"><a href="posts/use-imenu-to-list-comments-in-current-buffer/">Use Imenu to list comments in current buffer</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2018-04-08T02:12:04+00:00">2018-04-08 02:12</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-imenu-to-list-comments-in-current-buffer/#disqus_thread" data-disqus-identifier="cache/posts/use-imenu-to-list-comments-in-current-buffer.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/imenu/" rel="tag">imenu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+<a href="https://github.com/redguardtoo/evil-nerd-commenter">evil-nerd-commenter</a> v3.2.0 has a new function <code>evilnc-imenu-create-index-function</code>.
+</p>
+
+<p>
+<a href="http://www.gnu.org/s/emacs/manual/html_node/emacs/Imenu.html">Imenu</a> could use this function to list all comments in current file.
+</p>
+
+<p>
+Usage:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'counsel)
+(defun counsel-imenu-comments ()
+  "Imenu display comments."
+  (interactive)
+  (let* ((imenu-create-index-function 'evilnc-imenu-create-index-function))
+    (counsel-imenu)))
+</code></pre>
+
+</div>
+
+<p>
+Screen cast:
+</p>
+
+<div id="org96a343d" class="figure">
+<p><img src="wp-content/counsel-imenu-comments.gif" alt="counsel-imenu-comments.gif"></p>
+</div>
+            </div>
+        </div>
         <div class="post">
             <h1 class="title"><a href="posts/counsel-etags-v1-3-1-is-released-enemacsctags/">counsel-etags v1.3.1 is released</a></h1>
             <div class="meta">
@@ -173,7 +230,7 @@ All I need to do is to input the first characters of the component and run <code
 Here is a demo to input component <code>ButtonToolbar</code>:
 </p>
 
-<div id="org9504c6d" class="figure">
+<div id="orgd45dc4f" class="figure">
 <p><img src="https://raw.githubusercontent.com/redguardtoo/eacl/master/eacl-demo.gif" alt="eacl-demo.gif"></p>
 </div>
 
@@ -894,75 +951,6 @@ So the solution is as simple as advice <code>js-jsx-indent-line</code>:
 </div>
             </div>
         </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/find-the-buffer-named-by-pinyin/">Find the buffer with Chinese name</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2017-02-26T04:27:42+00:00">2017-02-26 04:27</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/find-the-buffer-named-by-pinyin/#disqus_thread" data-disqus-identifier="cache/posts/find-the-buffer-named-by-pinyin.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/chinese/" rel="tag">chinese</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-We can find the buffer with Chinese name efficiently by using the first character of <a href="https://en.wikipedia.org/wiki/Pinyin">pinyin</a>.
-</p>
-
-<p>
-Here is the code (<a href="https://github.com/abo-abo/swiper">ivy</a> and <a href="https://github.com/cute-jumper/pinyinlib.el">pinyinlib</a> is required):
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun ivy-switch-buffer-matcher-pinyin (regexp candidates)
-  (unless (featurep 'pinyinlib) (require 'pinyinlib))
-  (let* ((pys (split-string regexp "[ \t]+"))
-         (regexp (format ".*%s.*"
-                         (mapconcat 'pinyinlib-build-regexp-string pys ".*"))))
-    (ivy--switch-buffer-matcher regexp candidates)))
-
-(defun ivy-switch-buffer-by-pinyin ()
-  "Switch to another buffer."
-  (interactive)
-  (unless (featurep 'ivy) (require 'ivy))
-  (let ((this-command 'ivy-switch-buffer))
-    (ivy-read "Switch to buffer: " 'internal-complete-buffer
-              :matcher #'ivy-switch-buffer-matcher-pinyin
-              :preselect (buffer-name (other-buffer (current-buffer)))
-              :action #'ivy--switch-buffer-action
-              :keymap ivy-switch-buffer-map
-              :caller 'ivy-switch-buffer)))
-</code></pre>
-
-</div>
-
-<p>
-You can <code>M-x ivy-switch-buffer-by-pinyin</code> to switch buffer.
-</p>
-
-<p>
-The algorithm of pinyinlib is simple. We build a big lookup table to convert the a plain English string into a regular expression containing Chinese characters.
-</p>
-
-<p>
-You can apply the <b>same algorithm to other non-English languages</b>.
-</p>
-            </div>
-        </div>
     
         <nav class="postindexpager"><ul class="pager">
 <li class="previous">
@@ -971,7 +959,7 @@ You can apply the <b>same algorithm to other non-English languages</b>.
             <li class="next">
                 <a href="index-23.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

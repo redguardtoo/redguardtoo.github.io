@@ -6,11 +6,11 @@
 <title>How to take screen shot for business people efficiently in Emacs | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="How to take screen shot for business people efficiently in Emacs">
-<meta property="og:url" content="http://blog.binchen.org/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs/">
 <meta property="og:description" content="CREATED: &lt;2013-10-23 Wed&gt;
 
 
@@ -108,9 +108,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-10-23 
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 Tue&gt;</span></span>
 </p>
 
-<div id="outline-container-org043e948" class="outline-2">
-<h3 id="org043e948">Tools</h3>
-<div class="outline-text-2" id="text-org043e948">
+<div id="outline-container-org9002217" class="outline-2">
+<h3 id="org9002217">Tools</h3>
+<div class="outline-text-2" id="text-org9002217">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -147,13 +147,13 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 
 </table>
 </div>
 </div>
-<div id="outline-container-org33c876d" class="outline-2">
-<h3 id="org33c876d">Work flow</h3>
-<div class="outline-text-2" id="text-org33c876d">
+<div id="outline-container-org8706f49" class="outline-2">
+<h3 id="org8706f49">Work flow</h3>
+<div class="outline-text-2" id="text-org8706f49">
 </div>
-<div id="outline-container-org59f049b" class="outline-3">
-<h4 id="org59f049b">Use scrot to screenshot and put its path into clipboard</h4>
-<div class="outline-text-3" id="text-org59f049b">
+<div id="outline-container-org20ba2db" class="outline-3">
+<h4 id="org20ba2db">Use scrot to screenshot and put its path into clipboard</h4>
+<div class="outline-text-3" id="text-org20ba2db">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">scrot '%H%M%S-%d_$wx$h.png' -e 'mkdir -p ~/screenshot;mv $f ~/screenshot/;echo ~/screenshot/$f|tr -d \"\\n\"|xsel -ib;'
@@ -163,9 +163,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-08-11 
 </div>
 </div>
 
-<div id="outline-container-org19b9473" class="outline-3">
-<h4 id="org19b9473">Create org file and insert path of screen shot</h4>
-<div class="outline-text-3" id="text-org19b9473">
+<div id="outline-container-org868ad25" class="outline-3">
+<h4 id="org868ad25">Create org file and insert path of screen shot</h4>
+<div class="outline-text-3" id="text-org868ad25">
 <p>
 Actually I use below elisp command to do the insertion for me.
 </p>
@@ -198,9 +198,9 @@ The full path into relative path and insert it as a local file link in org-mode"
 </div>
 </div>
 </div>
-<div id="outline-container-orgdf272f4" class="outline-3">
-<h4 id="orgdf272f4">Convert org file into Microsoft Word format</h4>
-<div class="outline-text-3" id="text-orgdf272f4">
+<div id="outline-container-org80232b5" class="outline-3">
+<h4 id="org80232b5">Convert org file into Microsoft Word format</h4>
+<div class="outline-text-3" id="text-org80232b5">
 <p>
 I'm sure this method works even on Windows. But I don't have Windows PC to validate my belief. Libreoffice is required.
 </p>
@@ -242,9 +242,9 @@ Emacs will find the binary "soffice" from libreoffice to do the conversion.
 </div>
 </div>
 
-<div id="outline-container-org00db2ef" class="outline-3">
-<h4 id="org00db2ef">Tips</h4>
-<div class="outline-text-3" id="text-org00db2ef">
+<div id="outline-container-org0ed0535" class="outline-3">
+<h4 id="org0ed0535">Tips</h4>
+<div class="outline-text-3" id="text-org0ed0535">
 <p>
 If you need page break in exported document, insert below snippet into the org file:
 </p>
@@ -270,7 +270,7 @@ If you need page break in exported document, insert below snippet into the org f
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs/",
+            disqus_url="http://redguardtoo.github.io/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs/",
         disqus_title="How to take screen shot for business people efficiently in Emacs",
         disqus_identifier="cache/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs.html",
         disqus_config = function () {
@@ -293,7 +293,7 @@ If you need page break in exported document, insert below snippet into the org f
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

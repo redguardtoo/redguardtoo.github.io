@@ -6,11 +6,11 @@
 <title>QEMU essential | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/qemu-essential/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/qemu-essential/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content="QEMU essential">
-<meta property="og:url" content="http://blog.binchen.org/posts/qemu-essential/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/qemu-essential/">
 <meta property="og:description" content='Start virtual machine with 8G memory and Debian Linux iso using CLI,
 
 
@@ -94,7 +94,7 @@ VM can access physical USB stick on Linux,
 <ul class="org-ul">
 <li>Run <code>lsusb</code>, get below output of USB stick,</li>
 </ul>
-<pre class="example" id="org1557518">
+<pre class="example" id="org2f57532">
 Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
 </pre>
 <ul class="org-ul">
@@ -127,7 +127,7 @@ sudo virsh net-autostart default # autostart default network
 <p>
 Pleae note <a href="https://wiki.libvirt.org/Libvirtd_and_dnsmasq.html">dnsmasq on Linux host needs extra setup</a>,
 </p>
-<pre class="example" id="org5119dd6">
+<pre class="example" id="org4647c9a">
 On linux host servers, libvirtd uses dnsmasq to service the virtual networks, such as the default network. A new instance of dnsmasq is started for each virtual network, only accessible to guests in that specific network.
 
 If you are running your own "global" dnsmasq, then this can cause your own dnsmasq to fail to start (or for libvirtd to fail to start its dnsmasq and the given virtual network). This happens because both instances of dnsmasq might try to bind to the same port number on the same network interfaces.
@@ -149,7 +149,7 @@ bind-interfaces # don't accept request from other interfaces from the beginning
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/qemu-essential/",
+            disqus_url="http://redguardtoo.github.io/posts/qemu-essential/",
         disqus_title="QEMU essential",
         disqus_identifier="cache/posts/qemu-essential.html",
         disqus_config = function () {
@@ -172,7 +172,7 @@ bind-interfaces # don't accept request from other interfaces from the beginning
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

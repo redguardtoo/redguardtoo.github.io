@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about bash)</title><link>http://blog.binchen.org/</link><description></description><atom:link href="http://blog.binchen.org/categories/bash.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 13 Oct 2023 09:11:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://blog.binchen.org/posts/use-perforce-inside-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about bash)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/bash.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 20 Jan 2025 05:51:37 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Perforce inside Emacs</title><link>http://redguardtoo.github.io/posts/use-perforce-inside-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2016-12-05 Mon&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -15,9 +15,9 @@ Perforce is a proprietary VCS. It's less powerful than &lt;a href="https://git-s
 For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like &lt;code&gt;p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}&lt;/code&gt; can't do it. I have to use Emacs Lisp to clean the output of &lt;code&gt;p4&lt;/code&gt;.
 &lt;/p&gt;
 
-&lt;div id="outline-container-org7affd02" class="outline-2"&gt;
-&lt;h3 id="org7affd02"&gt;Perforce workflow&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7affd02"&gt;
+&lt;div id="outline-container-org90021da" class="outline-2"&gt;
+&lt;h3 id="org90021da"&gt;Perforce workflow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org90021da"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;p4 set&lt;/code&gt; to &lt;a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html"&gt;set up&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;p4 login&lt;/code&gt; to login&lt;/li&gt;
@@ -31,9 +31,9 @@ For example, &lt;code&gt;git log -p file-path&lt;/code&gt; displays the detailed
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org951a60a" class="outline-2"&gt;
-&lt;h3 id="org951a60a"&gt;My solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org951a60a"&gt;
+&lt;div id="outline-container-org8b0bc72" class="outline-2"&gt;
+&lt;h3 id="org8b0bc72"&gt;My solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org8b0bc72"&gt;
 &lt;p&gt;
 Perforce Cygwin portable is not recommended.
 &lt;/p&gt;
@@ -46,9 +46,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed &lt;code&gt;p4&lt;/code&gt; that URL, the operation is always successful.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd1b5215" class="outline-3"&gt;
-&lt;h4 id="orgd1b5215"&gt;Emacs&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgd1b5215"&gt;
+&lt;div id="outline-container-org9c6c64b" class="outline-3"&gt;
+&lt;h4 id="org9c6c64b"&gt;Emacs&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org9c6c64b"&gt;
 &lt;p&gt;
 I developed &lt;a href="https://github.com/redguardtoo/vc-msg"&gt;vc-msg&lt;/a&gt; which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need &lt;code&gt;p4 login&lt;/code&gt; at first.)
 &lt;/p&gt;
@@ -210,9 +210,9 @@ You can also check my &lt;a href="https://github.com/redguardtoo/emacs.d/blob/ma
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7af0497" class="outline-3"&gt;
-&lt;h4 id="org7af0497"&gt;Bash Shell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org7af0497"&gt;
+&lt;div id="outline-container-org47b3e83" class="outline-3"&gt;
+&lt;h4 id="org47b3e83"&gt;Bash Shell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org47b3e83"&gt;
 &lt;p&gt;
 Other operations are finished in Bash Shell,
 &lt;/p&gt;
@@ -344,7 +344,7 @@ function p4ml(){
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>p4</category><category>perforce</category><category>vcs</category><guid>http://blog.binchen.org/posts/use-perforce-inside-emacs/</guid><pubDate>Mon, 05 Dec 2016 11:51:47 GMT</pubDate></item><item><title>Use ivy-mode to search bash history</title><link>http://blog.binchen.org/posts/use-ivy-mode-to-search-bash-history/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
+&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>p4</category><category>perforce</category><category>vcs</category><guid>http://redguardtoo.github.io/posts/use-perforce-inside-emacs/</guid><pubDate>Mon, 05 Dec 2016 11:51:47 GMT</pubDate></item><item><title>Use ivy-mode to search bash history</title><link>http://redguardtoo.github.io/posts/use-ivy-mode-to-search-bash-history/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-lisp"&gt;(defun counsel-yank-bash-history ()
   "Yank the bash history"
@@ -364,7 +364,7 @@ function p4ml(){
         (message "%s =&amp;gt; kill-ring" val))))
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>ivy</category><guid>http://blog.binchen.org/posts/use-ivy-mode-to-search-bash-history/</guid><pubDate>Mon, 25 Jan 2016 05:40:41 GMT</pubDate></item><item><title>How to manage the file path in big project</title><link>http://blog.binchen.org/posts/how-to-manage-the-file-path-in-big-project/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>ivy</category><guid>http://redguardtoo.github.io/posts/use-ivy-mode-to-search-bash-history/</guid><pubDate>Mon, 25 Jan 2016 05:40:41 GMT</pubDate></item><item><title>How to manage the file path in big project</title><link>http://redguardtoo.github.io/posts/how-to-manage-the-file-path-in-big-project/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 It's not good practice to use relative path in big project.
 &lt;/p&gt;
 
@@ -435,7 +435,7 @@ Or you can override the TTAGROOT value when you executing "test.sh":
 
 &lt;p&gt;
 BTW, don't abuse this technique. Set &lt;b&gt;one environment variable&lt;/b&gt; for the root directory of project is enough.
-&lt;/p&gt;</description><category>bash</category><category>en</category><category>engineering</category><category>software</category><guid>http://blog.binchen.org/posts/how-to-manage-the-file-path-in-big-project/</guid><pubDate>Thu, 29 May 2014 01:31:35 GMT</pubDate></item><item><title>paste string from clipboard into minibuffer in Emacs</title><link>http://blog.binchen.org/posts/paste-string-from-clipboard-into-minibuffer-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/p&gt;</description><category>bash</category><category>en</category><category>engineering</category><category>software</category><guid>http://redguardtoo.github.io/posts/how-to-manage-the-file-path-in-big-project/</guid><pubDate>Thu, 29 May 2014 01:31:35 GMT</pubDate></item><item><title>paste string from clipboard into minibuffer in Emacs</title><link>http://redguardtoo.github.io/posts/paste-string-from-clipboard-into-minibuffer-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 First, I find &lt;code&gt;M-Y&lt;/code&gt; is easier to press when paste string into minibuffer than old "Shift+Insert". "Ctrl-V" is not supported in some terminals.
 &lt;/p&gt;
 
@@ -463,7 +463,7 @@ Here is the code:
 (add-hook 'minibuffer-setup-hook 'my/paste-in-minibuffer)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><guid>http://blog.binchen.org/posts/paste-string-from-clipboard-into-minibuffer-in-emacs/</guid><pubDate>Tue, 08 Apr 2014 22:17:00 GMT</pubDate></item><item><title>My answer to "How do you use Emacs without a directory tree on the side of the editor?" on quora.com</title><link>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;This is &lt;a href="http://www.quora.com/Emacs/How-do-you-use-Emacs-without-a-directory-tree-on-the-side-of-the-editor"&gt;original link of the question&lt;/a&gt;. Please note I focus on programming for large projects. I need search/grep/modify files scattered in different places without documentation. &lt;/p&gt; &lt;p&gt; If your use case is different, a embedded file explorer may be a better choice &lt;/p&gt;  &lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Tools I use to replace a file explorer&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ol&gt; &lt;li&gt;ido-find-file (emacs), just type any characters, it will fuzz search matched file in parent/sibling/current/or-whatever directory.  &lt;/li&gt; &lt;li&gt;helm-find-file (emacs), this one use regular expression and has bigger window  &lt;/li&gt; &lt;li&gt;recentf and helm (emacs), I use regular expression open recent opened files.  &lt;/li&gt; &lt;li&gt;ctags, gtags or whatever tag tools (CLI tool), as mentioned by other people  &lt;/li&gt; &lt;li&gt;I also use lots of bash functions written by myself, those functions are trivial, but combined with a wonderful tool called percol, they become really powerful.  &lt;/li&gt; &lt;li&gt;I use some CLI clipboard tool so I can easily share the file path between terminal/emacs/firefox.  &lt;/li&gt; &lt;li&gt;there is also a emacs bundled feature called speedbar, which is similar to the file explorer, I used it once, but it does not fit in my ninja style ;) It's fine but the UI is almost same to those average text editors.  &lt;/li&gt; &lt;li&gt;I also write some elisp snippets, for example, convert absolute path to relative path; given one relative path, output one absolute path, etc …  &lt;/li&gt; &lt;li&gt;there is also some git based emacs plugin: you can search file under the project root directory.  &lt;/li&gt; &lt;li&gt;there is a CLI tool called fasd which can let you interactively select the file or folder you recently visited.  &lt;/li&gt; &lt;li&gt;many other tools, plug-ins, code snippets I can use … &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Use case&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;ol&gt; &lt;li&gt;I need search a big project for a certain library (it's a freemarker file I need include) whose full path I don't know, I just search the API's name by type: &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;"gef keyword *". gef is my bash function based on grep. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;matched files are displayed instantly (grep is much more quick than IDEs, BTW) in a interactive console filter (use percol), I type a regular expression to filter file name and press enter &lt;/li&gt; &lt;li&gt;the full path is in clipboard now, then I type ":e Shift-insert" to open that file. &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;This is the most difficult case, I usually strike less keys and not get out of Emacs. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;If i need insert this file's relative path, I press a hot key and another emacs plugin will correctly convert absolute path to relative one (relative to the file I'm editing in Emacs) and insert it into my editor. &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-3" class="outline-3"&gt; &lt;h4 id="sec-3"&gt;Demo&lt;/h4&gt; &lt;div class="outline-text-3" id="text-3"&gt;  &lt;p&gt;Here is screen cast. In this demo I grepped and open a ftl file and then search another js file in the same project. &lt;img src="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif" alt="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif"&gt; &lt;/p&gt;&lt;/div&gt; &lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>linux</category><guid>http://blog.binchen.org/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</guid><pubDate>Wed, 19 Feb 2014 21:40:00 GMT</pubDate></item><item><title>How to use git effectively</title><link>http://blog.binchen.org/posts/how-to-use-git-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><guid>http://redguardtoo.github.io/posts/paste-string-from-clipboard-into-minibuffer-in-emacs/</guid><pubDate>Tue, 08 Apr 2014 22:17:00 GMT</pubDate></item><item><title>My answer to "How do you use Emacs without a directory tree on the side of the editor?" on quora.com</title><link>http://redguardtoo.github.io/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;This is &lt;a href="http://www.quora.com/Emacs/How-do-you-use-Emacs-without-a-directory-tree-on-the-side-of-the-editor"&gt;original link of the question&lt;/a&gt;. Please note I focus on programming for large projects. I need search/grep/modify files scattered in different places without documentation. &lt;/p&gt; &lt;p&gt; If your use case is different, a embedded file explorer may be a better choice &lt;/p&gt;  &lt;div id="outline-container-1" class="outline-3"&gt; &lt;h4 id="sec-1"&gt;Tools I use to replace a file explorer&lt;/h4&gt; &lt;div class="outline-text-3" id="text-1"&gt;  &lt;ol&gt; &lt;li&gt;ido-find-file (emacs), just type any characters, it will fuzz search matched file in parent/sibling/current/or-whatever directory.  &lt;/li&gt; &lt;li&gt;helm-find-file (emacs), this one use regular expression and has bigger window  &lt;/li&gt; &lt;li&gt;recentf and helm (emacs), I use regular expression open recent opened files.  &lt;/li&gt; &lt;li&gt;ctags, gtags or whatever tag tools (CLI tool), as mentioned by other people  &lt;/li&gt; &lt;li&gt;I also use lots of bash functions written by myself, those functions are trivial, but combined with a wonderful tool called percol, they become really powerful.  &lt;/li&gt; &lt;li&gt;I use some CLI clipboard tool so I can easily share the file path between terminal/emacs/firefox.  &lt;/li&gt; &lt;li&gt;there is also a emacs bundled feature called speedbar, which is similar to the file explorer, I used it once, but it does not fit in my ninja style ;) It's fine but the UI is almost same to those average text editors.  &lt;/li&gt; &lt;li&gt;I also write some elisp snippets, for example, convert absolute path to relative path; given one relative path, output one absolute path, etc …  &lt;/li&gt; &lt;li&gt;there is also some git based emacs plugin: you can search file under the project root directory.  &lt;/li&gt; &lt;li&gt;there is a CLI tool called fasd which can let you interactively select the file or folder you recently visited.  &lt;/li&gt; &lt;li&gt;many other tools, plug-ins, code snippets I can use … &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-2" class="outline-3"&gt; &lt;h4 id="sec-2"&gt;Use case&lt;/h4&gt; &lt;div class="outline-text-3" id="text-2"&gt;  &lt;ol&gt; &lt;li&gt;I need search a big project for a certain library (it's a freemarker file I need include) whose full path I don't know, I just search the API's name by type: &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;"gef keyword *". gef is my bash function based on grep. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;matched files are displayed instantly (grep is much more quick than IDEs, BTW) in a interactive console filter (use percol), I type a regular expression to filter file name and press enter &lt;/li&gt; &lt;li&gt;the full path is in clipboard now, then I type ":e Shift-insert" to open that file. &lt;/li&gt; &lt;/ol&gt;  &lt;p&gt;This is the most difficult case, I usually strike less keys and not get out of Emacs. &lt;/p&gt;&lt;ol&gt; &lt;li&gt;If i need insert this file's relative path, I press a hot key and another emacs plugin will correctly convert absolute path to relative one (relative to the file I'm editing in Emacs) and insert it into my editor. &lt;/li&gt; &lt;/ol&gt;   &lt;/div&gt;  &lt;/div&gt;  &lt;div id="outline-container-3" class="outline-3"&gt; &lt;h4 id="sec-3"&gt;Demo&lt;/h4&gt; &lt;div class="outline-text-3" id="text-3"&gt;  &lt;p&gt;Here is screen cast. In this demo I grepped and open a ftl file and then search another js file in the same project. &lt;img src="http://redguardtoo.github.io/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif" alt="http://blog.binchen.org/wp-content/uploads/2014/02/wpid-emacs-grep-search-open-file.gif"&gt; &lt;/p&gt;&lt;/div&gt; &lt;/div&gt;</description><category>bash</category><category>emacs</category><category>en</category><category>linux</category><guid>http://redguardtoo.github.io/posts/my-answer-to-how-do-you-use-emacs-without-a-directory-tree-on-the-side-of-the-editor-on-quora-com/</guid><pubDate>Wed, 19 Feb 2014 21:40:00 GMT</pubDate></item><item><title>How to use git effectively</title><link>http://redguardtoo.github.io/posts/how-to-use-git-effectively/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 To take the full power of git, you need forget GUI and use CLI only. A little knowledge of script language like Bash/Perl/Python may be helpful.
 &lt;/p&gt;
 
@@ -471,9 +471,9 @@ To take the full power of git, you need forget GUI and use CLI only. A little kn
 Here is an example how I use git.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orga1a3959" class="outline-2"&gt;
-&lt;h3 id="orga1a3959"&gt;Problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga1a3959"&gt;
+&lt;div id="outline-container-orga31bdfb" class="outline-2"&gt;
+&lt;h3 id="orga31bdfb"&gt;Problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga31bdfb"&gt;
 &lt;p&gt;
 I'm working for a big enterprise project which uses git as version control software.  My daily routine is find what files I changed. So I often use git commands with "–stat" parameters.
 &lt;/p&gt;
@@ -502,9 +502,9 @@ Getting full path into clipboard is useful because in big projects I need do lot
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga02c9f3" class="outline-2"&gt;
-&lt;h3 id="orga02c9f3"&gt;Set up&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga02c9f3"&gt;
+&lt;div id="outline-container-org4a74876" class="outline-2"&gt;
+&lt;h3 id="org4a74876"&gt;Set up&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4a74876"&gt;
 &lt;p&gt;
 Now you understand the problem. Here comes the solution.
 &lt;/p&gt;
@@ -562,9 +562,9 @@ function ff()
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbdbaca5" class="outline-2"&gt;
-&lt;h3 id="orgbdbaca5"&gt;Usage&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgbdbaca5"&gt;
+&lt;div id="outline-container-orgc890f1e" class="outline-2"&gt;
+&lt;h3 id="orgc890f1e"&gt;Usage&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc890f1e"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;glsf
@@ -579,7 +579,7 @@ Here is the screen cast:
 &lt;img src="https://dl.dropboxusercontent.com/u/858862/screencast/git-find-full-path.gif" alt="git-find-full-path.gif"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>bash</category><category>en</category><category>git</category><category>linux</category><guid>http://blog.binchen.org/posts/how-to-use-git-effectively/</guid><pubDate>Fri, 11 Oct 2013 12:38:00 GMT</pubDate></item><item><title>The power of git command line interface</title><link>http://blog.binchen.org/posts/the-power-of-git-command-line-interface-4/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>bash</category><category>en</category><category>git</category><category>linux</category><guid>http://redguardtoo.github.io/posts/how-to-use-git-effectively/</guid><pubDate>Fri, 11 Oct 2013 12:38:00 GMT</pubDate></item><item><title>The power of git command line interface</title><link>http://redguardtoo.github.io/posts/the-power-of-git-command-line-interface-4/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Examples about how to use git CLI.
 &lt;/p&gt;
 
@@ -645,7 +645,7 @@ BTW, I use CLI clipboard tool like xsel. For example, "echo hello|xsel -ib" whic
 
 &lt;p&gt;
 so I can &lt;code&gt;git show `gcid`|xsel -ib&lt;/code&gt; to copy/paste the code of specific commit between terminal and firefox.
-&lt;/p&gt;</description><category>bash</category><category>en</category><category>git</category><category>linux</category><category>percol</category><guid>http://blog.binchen.org/posts/the-power-of-git-command-line-interface-4/</guid><pubDate>Thu, 01 Aug 2013 15:17:00 GMT</pubDate></item><item><title>My git alias in .bashrc</title><link>http://blog.binchen.org/posts/my-git-alias-in-bashrc/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+&lt;/p&gt;</description><category>bash</category><category>en</category><category>git</category><category>linux</category><category>percol</category><guid>http://redguardtoo.github.io/posts/the-power-of-git-command-line-interface-4/</guid><pubDate>Thu, 01 Aug 2013 15:17:00 GMT</pubDate></item><item><title>My git alias in .bashrc</title><link>http://redguardtoo.github.io/posts/my-git-alias-in-bashrc/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2012-12-26 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
@@ -884,4 +884,4 @@ function gp() {
 # }}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;/div&gt;</description><category>bash</category><category>control</category><category>en</category><category>git</category><category>version</category><guid>http://blog.binchen.org/posts/my-git-alias-in-bashrc/</guid><pubDate>Fri, 20 Jul 2012 17:22:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>bash</category><category>control</category><category>en</category><category>git</category><category>version</category><guid>http://redguardtoo.github.io/posts/my-git-alias-in-bashrc/</guid><pubDate>Fri, 20 Jul 2012 17:22:00 GMT</pubDate></item></channel></rss>

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Linux, Programming, Emacs">
+<meta name="description" content="Emacs, Cooking">
 <meta name="viewport" content="width=device-width">
 <title>Chen's blog (old posts, page 22) | Chen's blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/index-22.html">
+<link rel="canonical" href="http://redguardtoo.github.io/index-22.html">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -22,6 +22,70 @@
 
         </ul></section><section class="page-content"><div class="content" rel="main">
             
+        <div class="post">
+            <h1 class="title"><a href="posts/turn-off-linum-mode-when-file-is-too-big/">Turn off linum-mode when file is too big</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-14T13:21:02+00:00">2016-07-14 13:21</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/turn-off-linum-mode-when-file-is-too-big/#disqus_thread" data-disqus-identifier="cache/posts/turn-off-linum-mode-when-file-is-too-big.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linum/" rel="tag">linum</a></li>
+           <li><a class="tag p-category" href="categories/mode/" rel="tag">mode</a></li>
+           <li><a class="tag p-category" href="categories/wc/" rel="tag">wc</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-07-14 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-08-07 Sun&gt;</span></span>
+</p>
+
+<p>
+It's well known that linum-mode slows Emacs when the file contains thousands of lines.
+</p>
+
+<p>
+Here is the fix,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun buffer-too-big-p ()
+  (or (&gt; (buffer-size) (* 5000 80))
+      (&gt; (line-number-at-pos (point-max)) 5000)))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            ;; turn off `linum-mode' when there are more than 5000 lines
+            (if (buffer-too-big-p) (linum-mode -1))))
+</code></pre>
+
+</div>
+
+<p>
+Though <a href="https://elpa.gnu.org/packages/nlinum.html">nlinum-mode</a> has performance, I still stick to linum-mode because <a href="https://github.com/syohex/emacs-git-gutter">git-gutter</a> only supports linum-mode.
+</p>
+
+<p>
+You can check <a href="https://github.com/syohex/emacs-git-gutter/issues/124">the interesting discussion</a> about git-gutter/linum-mode/nlinum-mode. Syohei Yoshida made git-gutter 95% functional when linum-mode off.
+</p>
+            </div>
+        </div>
         <div class="post">
             <h1 class="title"><a href="posts/how-to-manage-emacs-packages-effectively/">How to manage Emacs packages effectively</a></h1>
             <div class="meta">
@@ -58,9 +122,9 @@ The techniques are compatible with <a href="https://github.com/jwiegley/use-pack
 <p>
 Mid-level Lisp knowledge is required to read this article.
 </p>
-<div id="outline-container-org0f9b1c4" class="outline-2">
-<h3 id="org0f9b1c4">Do NOT use package.el for certain packages</h3>
-<div class="outline-text-2" id="text-org0f9b1c4">
+<div id="outline-container-org204643e" class="outline-2">
+<h3 id="org204643e">Do NOT use package.el for certain packages</h3>
+<div class="outline-text-2" id="text-org204643e">
 <p>
 Create the directory <code>~/.emacs.d/site-lisp</code>. Then insert below code into <code>~/.emacs</code>,
 </p>
@@ -84,9 +148,9 @@ You can place a package's source code at sub-directory of <code>~/.emacs.d/site-
 </p>
 </div>
 </div>
-<div id="outline-container-orgd81cd69" class="outline-2">
-<h3 id="orgd81cd69">Create your own package repository</h3>
-<div class="outline-text-2" id="text-orgd81cd69">
+<div id="outline-container-orgb25e8b7" class="outline-2">
+<h3 id="orgb25e8b7">Create your own package repository</h3>
+<div class="outline-text-2" id="text-orgb25e8b7">
 <p>
 Step 1, Place two files "archive-contents" and "hello-1.0.0.el" in any directory. Say <code>~/.emacs.d/localelpa</code>. 
 </p>
@@ -146,10 +210,10 @@ Orphan package issue is also resolved by <code>elpa-mirror</code>. You can delet
 </div>
 </div>
 
-<div id="outline-container-org8a79cd9" class="outline-2">
-<h3 id="org8a79cd9">
+<div id="outline-container-org2a50725" class="outline-2">
+<h3 id="org2a50725">
 <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">Advice</a> <code>package--add-to-archive-contents</code> to filter packages</h3>
-<div class="outline-text-2" id="text-org8a79cd9">
+<div class="outline-text-2" id="text-org2a50725">
 <p>
 Insert below code into ~/.emacs,
 </p>
@@ -212,9 +276,9 @@ This solution is copied from Steve Purcell's setup with a little modification.
 </p>
 </div>
 </div>
-<div id="outline-container-org36d66fc" class="outline-2">
-<h3 id="org36d66fc">Summary</h3>
-<div class="outline-text-2" id="text-org36d66fc">
+<div id="outline-container-orgc5384af" class="outline-2">
+<h3 id="orgc5384af">Summary</h3>
+<div class="outline-text-2" id="text-orgc5384af">
 <p>
 You can combine above techniques to <b>solve any package issue</b>.
 </p>
@@ -313,7 +377,7 @@ Here is my code based on <a href="https://github.com/abo-abo/swiper">ivy-mode</a
 Screenshot after <code>M-x my-git-timemachine</code>,
 </p>
 
-<div id="org53d7a15" class="figure">
+<div id="orgf463abe" class="figure">
 <p><img src="wp-content/my-git-timemachine-nq8.png" alt="my-git-timemachine-nq8.png"></p>
 </div>
             </div>
@@ -689,7 +753,7 @@ Here is my setup,
 Screenshot:
 </p>
 
-<div id="org756f5f8" class="figure">
+<div id="orgf349361" class="figure">
 <p><img src="wp-content/ivy-recent-directory-nq8.png" alt="ivy-recent-directory-nq8.png"></p>
 </div>
             </div>
@@ -732,9 +796,9 @@ Salesforce provides <a href="https://developer.salesforce.com/docs/atlas.en-us.d
 Luckily, there is <a href="https://force-cli.heroku.com/">Force.com CLI</a> which can upload single file in a few seconds. Both Sublime Text and Emacs use this tool.
 </p>
 
-<div id="outline-container-org94fe9b1" class="outline-2">
-<h3 id="org94fe9b1">Sublime Text</h3>
-<div class="outline-text-2" id="text-org94fe9b1">
+<div id="outline-container-org2457056" class="outline-2">
+<h3 id="org2457056">Sublime Text</h3>
+<div class="outline-text-2" id="text-org2457056">
 <p>
 You need install sublime text plugin <a href="http://mavensmate.com/Getting_Started/Users">mavensmate</a>. After installation, you need click <code>Login</code> menu at least once. Then when you save the code file, it's automatically deployed to the server.
 </p>
@@ -753,9 +817,9 @@ Mavensmate is actually just GUI wrapper of Force.com CLI,
 </ul>
 </div>
 </div>
-<div id="outline-container-org211df9e" class="outline-2">
-<h3 id="org211df9e">Emacs</h3>
-<div class="outline-text-2" id="text-org211df9e">
+<div id="outline-container-org0738b45" class="outline-2">
+<h3 id="org0738b45">Emacs</h3>
+<div class="outline-text-2" id="text-org0738b45">
 <p>
 In Sublime Text I have to re-login and fetch from time to time. That get me distracted. I prefer executing only one commmand to upload the file in editing. That command should be always successful.
 </p>
@@ -813,1272 +877,6 @@ Here is my setup,
 </div>
             </div>
         </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/how-to-be-extremely-efficient-in-emacs/">How to be extremely efficient in Emacs</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2016-02-26T13:51:27+00:00">2016-02-26 13:51</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/how-to-be-extremely-efficient-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/how-to-be-extremely-efficient-in-emacs.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-You only need <a href="https://github.com/dacap/keyfreq">keyfreq</a> to <b>find</b> frequently used commands.
-</p>
-
-<p>
-The frequently used commands should be assigned efficient key bindings.
-</p>
-
-<p>
-But you need <b>exclude already optimized commands or commands which cannot be optimized</b> before starting keyfreq.
-</p>
-
-<p>
-For example, commands like <code>next-line/previous-line/forward-char/backward-char</code> could be excluded by tweaking variable <code>keyfreq-excluded-commands</code>.
-</p>
-
-<p>
-The minimum keyfreq setup,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(require 'keyfreq)
-(setq keyfreq-excluded-commands
-      '(self-insert-command
-        abort-recursive-edit
-        forward-char
-        backward-char
-        previous-line
-        next-line))
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
-</code></pre>
-
-</div>
-
-<p>
-My <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-keyfreq.el">actual keyfreq setup</a> is more complicated.
-</p>
-
-<p>
-Below is the eight month keyfreq data of my office computer,
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-right">
-<col class="org-right">
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<thead><tr>
-<th scope="col" class="org-right">Times</th>
-<th scope="col" class="org-right">Percentage</th>
-<th scope="col" class="org-left">Command</th>
-<th scope="col" class="org-left">Key</th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="org-right">4967</td>
-<td class="org-right">12.00%</td>
-<td class="org-left">evilmi-jump-items</td>
-<td class="org-left">%</td>
-</tr>
-<tr>
-<td class="org-right">2892</td>
-<td class="org-right">6.99%</td>
-<td class="org-left">compile</td>
-<td class="org-left">, o o</td>
-</tr>
-<tr>
-<td class="org-right">2178</td>
-<td class="org-right">5.26%</td>
-<td class="org-left">find-file-in-project-by-selected</td>
-<td class="org-left">, k k</td>
-</tr>
-<tr>
-<td class="org-right">1953</td>
-<td class="org-right">4.72%</td>
-<td class="org-left">copy-to-x-clipboard</td>
-<td class="org-left">, a a</td>
-</tr>
-<tr>
-<td class="org-right">1566</td>
-<td class="org-right">3.78%</td>
-<td class="org-left">paste-from-x-clipboard</td>
-<td class="org-left">, z z</td>
-</tr>
-<tr>
-<td class="org-right">1227</td>
-<td class="org-right">2.96%</td>
-<td class="org-left">er/expand-region</td>
-<td class="org-left">, x x</td>
-</tr>
-<tr>
-<td class="org-right">897</td>
-<td class="org-right">2.17%</td>
-<td class="org-left">evil-repeat</td>
-<td class="org-left">.</td>
-</tr>
-<tr>
-<td class="org-right">866</td>
-<td class="org-right">2.09%</td>
-<td class="org-left">ido-find-file</td>
-<td class="org-left">, x f, C-x C-f</td>
-</tr>
-<tr>
-<td class="org-right">819</td>
-<td class="org-right">1.98%</td>
-<td class="org-left">toggle-full-window</td>
-<td class="org-left">, f f</td>
-</tr>
-<tr>
-<td class="org-right">815</td>
-<td class="org-right">1.97%</td>
-<td class="org-left">etags-select-find-tag-at-point</td>
-<td class="org-left">C-], , h t</td>
-</tr>
-<tr>
-<td class="org-right">721</td>
-<td class="org-right">1.74%</td>
-<td class="org-left">back-to-previous-buffer</td>
-<td class="org-left">, b b</td>
-</tr>
-<tr>
-<td class="org-right">682</td>
-<td class="org-right">1.65%</td>
-<td class="org-left">split-window-vertically</td>
-<td class="org-left">, x 2</td>
-</tr>
-<tr>
-<td class="org-right">539</td>
-<td class="org-right">1.30%</td>
-<td class="org-left">find-function</td>
-<td class="org-left">, h f, C-h C-f</td>
-</tr>
-<tr>
-<td class="org-right">494</td>
-<td class="org-right">1.19%</td>
-<td class="org-left">counsel-recentf-goto</td>
-<td class="org-left">, r r</td>
-</tr>
-<tr>
-<td class="org-right">397</td>
-<td class="org-right">0.96%</td>
-<td class="org-left">counsel-git-grep</td>
-<td class="org-left">, g g</td>
-</tr>
-<tr>
-<td class="org-right">376</td>
-<td class="org-right">0.91%</td>
-<td class="org-left">delete-other-windows</td>
-<td class="org-left">, x 1, C-x 1</td>
-</tr>
-<tr>
-<td class="org-right">372</td>
-<td class="org-right">0.90%</td>
-<td class="org-left">evilnc-comment-or-uncomment-lines</td>
-<td class="org-left">, c i</td>
-</tr>
-<tr>
-<td class="org-right">351</td>
-<td class="org-right">0.85%</td>
-<td class="org-left">eval-expression</td>
-<td class="org-left">, e e, M-:</td>
-</tr>
-<tr>
-<td class="org-right">326</td>
-<td class="org-right">0.79%</td>
-<td class="org-left">evilmi-select-items</td>
-<td class="org-left">, s i</td>
-</tr>
-<tr>
-<td class="org-right">320</td>
-<td class="org-right">0.77%</td>
-<td class="org-left">paredit-doublequote</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">307</td>
-<td class="org-right">0.74%</td>
-<td class="org-left">evil-filepath-outer-text-object</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">300</td>
-<td class="org-right">0.72%</td>
-<td class="org-left">steve-ido-choose-from-recentf</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">295</td>
-<td class="org-right">0.71%</td>
-<td class="org-left">split-window-horizontally</td>
-<td class="org-left">, x 3</td>
-</tr>
-<tr>
-<td class="org-right">283</td>
-<td class="org-right">0.68%</td>
-<td class="org-left">git-add-current-file</td>
-<td class="org-left">, x v a</td>
-</tr>
-<tr>
-<td class="org-right">279</td>
-<td class="org-right">0.67%</td>
-<td class="org-left">winner-undo</td>
-<td class="org-left">, x u, , s u, C-x 4 u</td>
-</tr>
-<tr>
-<td class="org-right">278</td>
-<td class="org-right">0.67%</td>
-<td class="org-left">describe-function</td>
-<td class="org-left">, h d, C-h f</td>
-</tr>
-<tr>
-<td class="org-right">278</td>
-<td class="org-right">0.67%</td>
-<td class="org-left">evil-goto-mark-line</td>
-<td class="org-left">'</td>
-</tr>
-<tr>
-<td class="org-right">269</td>
-<td class="org-right">0.65%</td>
-<td class="org-left">ido-kill-buffer</td>
-<td class="org-left">, x k, C-x k</td>
-</tr>
-<tr>
-<td class="org-right">254</td>
-<td class="org-right">0.61%</td>
-<td class="org-left">evil-goto-definition</td>
-<td class="org-left">g d</td>
-</tr>
-<tr>
-<td class="org-right">253</td>
-<td class="org-right">0.61%</td>
-<td class="org-left">pop-tag-mark</td>
-<td class="org-left">M-*</td>
-</tr>
-<tr>
-<td class="org-right">251</td>
-<td class="org-right">0.61%</td>
-<td class="org-left">git-messenger:popup-message</td>
-<td class="org-left">, x v b, C-x v p</td>
-</tr>
-<tr>
-<td class="org-right">246</td>
-<td class="org-right">0.59%</td>
-<td class="org-left">my-goto-next-hunk</td>
-<td class="org-left">, n n</td>
-</tr>
-<tr>
-<td class="org-right">237</td>
-<td class="org-right">0.57%</td>
-<td class="org-left">evilnc-comment-operator</td>
-<td class="org-left">, ,</td>
-</tr>
-<tr>
-<td class="org-right">235</td>
-<td class="org-right">0.57%</td>
-<td class="org-left">flyspell-goto-next-error</td>
-<td class="org-left">, f e, C-,</td>
-</tr>
-<tr>
-<td class="org-right">214</td>
-<td class="org-right">0.52%</td>
-<td class="org-left">evil-exit-emacs-state</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">212</td>
-<td class="org-right">0.51%</td>
-<td class="org-left">browse-kill-ring-forward</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">210</td>
-<td class="org-right">0.51%</td>
-<td class="org-left">flyspell-buffer</td>
-<td class="org-left">, f b</td>
-</tr>
-<tr>
-<td class="org-right">203</td>
-<td class="org-right">0.49%</td>
-<td class="org-left">evil-ex-completion</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">195</td>
-<td class="org-right">0.47%</td>
-<td class="org-left">narrow-or-widen-dwim</td>
-<td class="org-left">, x n n</td>
-</tr>
-<tr>
-<td class="org-right">173</td>
-<td class="org-right">0.42%</td>
-<td class="org-left">comint-send-input</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">173</td>
-<td class="org-right">0.42%</td>
-<td class="org-left">beginning-of-defun</td>
-<td class="org-left">, b f</td>
-</tr>
-<tr>
-<td class="org-right">170</td>
-<td class="org-right">0.41%</td>
-<td class="org-left">evil-surround-region</td>
-<td class="org-left">&lt;visual-state&gt; S</td>
-</tr>
-<tr>
-<td class="org-right">161</td>
-<td class="org-right">0.39%</td>
-<td class="org-left">hippie-expand</td>
-<td class="org-left">M-/</td>
-</tr>
-<tr>
-<td class="org-right">151</td>
-<td class="org-right">0.36%</td>
-<td class="org-left">describe-key</td>
-<td class="org-left">, h k, C-h k</td>
-</tr>
-<tr>
-<td class="org-right">149</td>
-<td class="org-right">0.36%</td>
-<td class="org-left">evil-space–evil-next-visual-line</td>
-<td class="org-left">SPC</td>
-</tr>
-<tr>
-<td class="org-right">139</td>
-<td class="org-right">0.34%</td>
-<td class="org-left">gnus-topic-select-group</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">138</td>
-<td class="org-right">0.33%</td>
-<td class="org-left">js2-print-json-path</td>
-<td class="org-left">, j p p</td>
-</tr>
-<tr>
-<td class="org-right">132</td>
-<td class="org-right">0.32%</td>
-<td class="org-left">goto-line</td>
-<td class="org-left">M-g g, M-g M-g</td>
-</tr>
-<tr>
-<td class="org-right">132</td>
-<td class="org-right">0.32%</td>
-<td class="org-left">evil-avy-goto-subword-1</td>
-<td class="org-left">;</td>
-</tr>
-<tr>
-<td class="org-right">127</td>
-<td class="org-right">0.31%</td>
-<td class="org-left">ibuffer-mark-for-delete</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">127</td>
-<td class="org-right">0.31%</td>
-<td class="org-left">evil-inner-single-quote</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">126</td>
-<td class="org-right">0.30%</td>
-<td class="org-left">isearch-other-meta-char</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">124</td>
-<td class="org-right">0.30%</td>
-<td class="org-left">term-send-up</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">118</td>
-<td class="org-right">0.29%</td>
-<td class="org-left">isearch-other-control-char</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">116</td>
-<td class="org-right">0.28%</td>
-<td class="org-left">evil-set-marker</td>
-<td class="org-left">m</td>
-</tr>
-<tr>
-<td class="org-right">115</td>
-<td class="org-right">0.28%</td>
-<td class="org-left">browse-kill-ring</td>
-<td class="org-left">M-y, , y y</td>
-</tr>
-<tr>
-<td class="org-right">114</td>
-<td class="org-right">0.28%</td>
-<td class="org-left">counsel-git-grep-yank-line</td>
-<td class="org-left">, g l</td>
-</tr>
-<tr>
-<td class="org-right">114</td>
-<td class="org-right">0.28%</td>
-<td class="org-left">evil-window-down</td>
-<td class="org-left">C-w j</td>
-</tr>
-<tr>
-<td class="org-right">112</td>
-<td class="org-right">0.27%</td>
-<td class="org-left">evil-jump-backward</td>
-<td class="org-left">C-o</td>
-</tr>
-<tr>
-<td class="org-right">108</td>
-<td class="org-right">0.26%</td>
-<td class="org-left">evil-visual-block</td>
-<td class="org-left">C-v</td>
-</tr>
-<tr>
-<td class="org-right">108</td>
-<td class="org-right">0.26%</td>
-<td class="org-left">evil-space–evil-previous-visual-line</td>
-<td class="org-left">S-SPC</td>
-</tr>
-<tr>
-<td class="org-right">107</td>
-<td class="org-right">0.26%</td>
-<td class="org-left">comint-previous-input</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">98</td>
-<td class="org-right">0.24%</td>
-<td class="org-left">gnus-summary-exit</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">98</td>
-<td class="org-right">0.24%</td>
-<td class="org-left">evil-search-word-backward</td>
-<td class="org-left">#</td>
-</tr>
-<tr>
-<td class="org-right">98</td>
-<td class="org-right">0.24%</td>
-<td class="org-left">forward-button</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">96</td>
-<td class="org-right">0.23%</td>
-<td class="org-left">evil-paste-pop-next</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">95</td>
-<td class="org-right">0.23%</td>
-<td class="org-left">ediff-next-difference</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">95</td>
-<td class="org-right">0.23%</td>
-<td class="org-left">ido-imenu</td>
-<td class="org-left">, i i</td>
-</tr>
-<tr>
-<td class="org-right">92</td>
-<td class="org-right">0.22%</td>
-<td class="org-left">my-wg-switch-workgroup</td>
-<td class="org-left">, w g g</td>
-</tr>
-<tr>
-<td class="org-right">90</td>
-<td class="org-right">0.22%</td>
-<td class="org-left">counsel-git-find-file</td>
-<td class="org-left">, g f</td>
-</tr>
-<tr>
-<td class="org-right">90</td>
-<td class="org-right">0.22%</td>
-<td class="org-left">evilmi-delete-items</td>
-<td class="org-left">, d i</td>
-</tr>
-<tr>
-<td class="org-right">87</td>
-<td class="org-right">0.21%</td>
-<td class="org-left">gnus-summary-extract-mail-address</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">87</td>
-<td class="org-right">0.21%</td>
-<td class="org-left">cliphist-paste-item</td>
-<td class="org-left">, h h</td>
-</tr>
-<tr>
-<td class="org-right">84</td>
-<td class="org-right">0.20%</td>
-<td class="org-left">subword-backward-kill</td>
-<td class="org-left">&lt;C-backspace&gt;</td>
-</tr>
-<tr>
-<td class="org-right">84</td>
-<td class="org-right">0.20%</td>
-<td class="org-left">paredit-backslash</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">83</td>
-<td class="org-right">0.20%</td>
-<td class="org-left">my-yas-reload-all</td>
-<td class="org-left">, y c r</td>
-</tr>
-<tr>
-<td class="org-right">81</td>
-<td class="org-right">0.20%</td>
-<td class="org-left">pwd</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">80</td>
-<td class="org-right">0.19%</td>
-<td class="org-left">previous-complete-history-element</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">80</td>
-<td class="org-right">0.19%</td>
-<td class="org-left">wg-create-workgroup</td>
-<td class="org-left">, w g t</td>
-</tr>
-<tr>
-<td class="org-right">78</td>
-<td class="org-right">0.19%</td>
-<td class="org-left">evil-forward-WORD-end</td>
-<td class="org-left">E</td>
-</tr>
-<tr>
-<td class="org-right">77</td>
-<td class="org-right">0.19%</td>
-<td class="org-left">gnus-summary-scroll-up</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">76</td>
-<td class="org-right">0.18%</td>
-<td class="org-left">gnus-summary-extract-cc-and-to</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">75</td>
-<td class="org-right">0.18%</td>
-<td class="org-left">compile-goto-error</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">73</td>
-<td class="org-right">0.18%</td>
-<td class="org-left">evil-find-char-to</td>
-<td class="org-left">t</td>
-</tr>
-<tr>
-<td class="org-right">72</td>
-<td class="org-right">0.17%</td>
-<td class="org-left">evil-repeat-find-char</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">69</td>
-<td class="org-right">0.17%</td>
-<td class="org-left">evil-window-up</td>
-<td class="org-left">C-w k</td>
-</tr>
-<tr>
-<td class="org-right">67</td>
-<td class="org-right">0.16%</td>
-<td class="org-left">eval-last-sexp</td>
-<td class="org-left">, x e, C-x C-e</td>
-</tr>
-<tr>
-<td class="org-right">66</td>
-<td class="org-right">0.16%</td>
-<td class="org-left">evil-complete-next-line</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">66</td>
-<td class="org-right">0.16%</td>
-<td class="org-left">exchange-point-and-mark</td>
-<td class="org-left">C-x C-x</td>
-</tr>
-<tr>
-<td class="org-right">63</td>
-<td class="org-right">0.15%</td>
-<td class="org-left">direx:previous-item</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">61</td>
-<td class="org-right">0.15%</td>
-<td class="org-left">ediff-jump-to-difference</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">60</td>
-<td class="org-right">0.14%</td>
-<td class="org-left">diredp-next-line</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">58</td>
-<td class="org-right">0.14%</td>
-<td class="org-left">evilmr-replace-in-buffer</td>
-<td class="org-left">, r b</td>
-</tr>
-<tr>
-<td class="org-right">58</td>
-<td class="org-right">0.14%</td>
-<td class="org-left">counsel-imenu-goto</td>
-<td class="org-left">, i m</td>
-</tr>
-<tr>
-<td class="org-right">56</td>
-<td class="org-right">0.14%</td>
-<td class="org-left">evil-goto-mark</td>
-<td class="org-left">`</td>
-</tr>
-<tr>
-<td class="org-right">55</td>
-<td class="org-right">0.13%</td>
-<td class="org-left">gnus-group-unsubscribe-current-group</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">55</td>
-<td class="org-right">0.13%</td>
-<td class="org-left">ivy-bookmark-goto</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">55</td>
-<td class="org-right">0.13%</td>
-<td class="org-left">evil-filepath-inner-text-object</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">54</td>
-<td class="org-right">0.13%</td>
-<td class="org-left">describe-mode</td>
-<td class="org-left">C-h m</td>
-</tr>
-<tr>
-<td class="org-right">54</td>
-<td class="org-right">0.13%</td>
-<td class="org-left">recenter-top-bottom</td>
-<td class="org-left">C-l</td>
-</tr>
-<tr>
-<td class="org-right">54</td>
-<td class="org-right">0.13%</td>
-<td class="org-left">list-packages</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">52</td>
-<td class="org-right">0.13%</td>
-<td class="org-left">gnus-topic-mark-topic</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">52</td>
-<td class="org-right">0.13%</td>
-<td class="org-left">kill-line</td>
-<td class="org-left">C-k, &lt;deleteline&gt;</td>
-</tr>
-<tr>
-<td class="org-right">51</td>
-<td class="org-right">0.12%</td>
-<td class="org-left">find-and-ctags-update-all-tags-force</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">50</td>
-<td class="org-right">0.12%</td>
-<td class="org-left">evil-paste-before</td>
-<td class="org-left">P</td>
-</tr>
-<tr>
-<td class="org-right">49</td>
-<td class="org-right">0.12%</td>
-<td class="org-left">execute-extended-command</td>
-<td class="org-left">&lt;execute&gt;, C-x RET</td>
-</tr>
-<tr>
-<td class="org-right">49</td>
-<td class="org-right">0.12%</td>
-<td class="org-left">etags-select-quit</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">49</td>
-<td class="org-right">0.12%</td>
-<td class="org-left">evil-inner-WORD</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">48</td>
-<td class="org-right">0.12%</td>
-<td class="org-left">find-tag</td>
-<td class="org-left">g C-]</td>
-</tr>
-<tr>
-<td class="org-right">47</td>
-<td class="org-right">0.11%</td>
-<td class="org-left">diredp-previous-line</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">46</td>
-<td class="org-right">0.11%</td>
-<td class="org-left">paredit-close-square</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">44</td>
-<td class="org-right">0.11%</td>
-<td class="org-left">paredit-open-square</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">44</td>
-<td class="org-right">0.11%</td>
-<td class="org-left">evil-paste-last-insertion</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">42</td>
-<td class="org-right">0.10%</td>
-<td class="org-left">evil-inner-double-quote</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">42</td>
-<td class="org-right">0.10%</td>
-<td class="org-left">ivy-imenu-goto</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">40</td>
-<td class="org-right">0.10%</td>
-<td class="org-left">counsel-git-find-my-file</td>
-<td class="org-left">, g m</td>
-</tr>
-<tr>
-<td class="org-right">39</td>
-<td class="org-right">0.09%</td>
-<td class="org-left">cp-filename-of-current-buffer</td>
-<td class="org-left">, f n</td>
-</tr>
-<tr>
-<td class="org-right">39</td>
-<td class="org-right">0.09%</td>
-<td class="org-left">gnus-article-read-summary-keys</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">39</td>
-<td class="org-right">0.09%</td>
-<td class="org-left">isearch-nonincremental-exit-minibuffer</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">38</td>
-<td class="org-right">0.09%</td>
-<td class="org-left">sh-assignment</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">38</td>
-<td class="org-right">0.09%</td>
-<td class="org-left">mark-whole-buffer</td>
-<td class="org-left">, x h, C-x h</td>
-</tr>
-<tr>
-<td class="org-right">38</td>
-<td class="org-right">0.09%</td>
-<td class="org-left">evilmi-inner-text-object</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">36</td>
-<td class="org-right">0.09%</td>
-<td class="org-left">evilnc-comment-or-uncomment-paragraphs</td>
-<td class="org-left">, c p, C-c p</td>
-</tr>
-<tr>
-<td class="org-right">36</td>
-<td class="org-right">0.09%</td>
-<td class="org-left">evil-toggle-input-method</td>
-<td class="org-left">C-\</td>
-</tr>
-<tr>
-<td class="org-right">35</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">org2nikola-export-subtree</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">35</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">subword-forward</td>
-<td class="org-left">M-f, ESC &lt;right&gt;</td>
-</tr>
-<tr>
-<td class="org-right">34</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">evil-open-above</td>
-<td class="org-left">O</td>
-</tr>
-<tr>
-<td class="org-right">34</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">compose-mail</td>
-<td class="org-left">C-x m</td>
-</tr>
-<tr>
-<td class="org-right">33</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">evil-inner-paren</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">33</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">term-send-raw-meta</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">33</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">evil-invert-char</td>
-<td class="org-left">~</td>
-</tr>
-<tr>
-<td class="org-right">32</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">evil-space–evil-repeat-find-char</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">32</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">httpd-restart-at-default-directory</td>
-<td class="org-left">, w r d</td>
-</tr>
-<tr>
-<td class="org-right">32</td>
-<td class="org-right">0.08%</td>
-<td class="org-left">cp-fullpath-of-current-buffer</td>
-<td class="org-left">, f p</td>
-</tr>
-<tr>
-<td class="org-right">31</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">evil-forward-WORD-begin</td>
-<td class="org-left">W</td>
-</tr>
-<tr>
-<td class="org-right">30</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">sort-lines</td>
-<td class="org-left">, s l</td>
-</tr>
-<tr>
-<td class="org-right">30</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">bmkp-w3m-jump</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">30</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">evilnc-copy-and-comment-lines</td>
-<td class="org-left">, c c, C-c c</td>
-</tr>
-<tr>
-<td class="org-right">29</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">toggle-company-ispell</td>
-<td class="org-left">, t c i</td>
-</tr>
-<tr>
-<td class="org-right">29</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">top-level</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">28</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">package-menu-mark-upgrades</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">27</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">evil-numbers/dec-at-pt</td>
-<td class="org-left">-</td>
-</tr>
-<tr>
-<td class="org-right">27</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">end-of-defun</td>
-<td class="org-left">, e f, C-M-e</td>
-</tr>
-<tr>
-<td class="org-right">27</td>
-<td class="org-right">0.07%</td>
-<td class="org-left">my-setup-develop-environment</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">26</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">evil-paste-pop</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">25</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">ediff-previous-difference</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">25</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">evil-backward-WORD-begin</td>
-<td class="org-left">B</td>
-</tr>
-<tr>
-<td class="org-right">25</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">goto-char</td>
-<td class="org-left">g o, M-g c</td>
-</tr>
-<tr>
-<td class="org-right">25</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">w3m-close-window</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">25</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">org-mime-htmlize</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">25</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">gnus-group-exit</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">24</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">git-gutter:toggle</td>
-<td class="org-left">C-x C-g</td>
-</tr>
-<tr>
-<td class="org-right">23</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">my-gnus-group-list-subscribed-groups</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">23</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">find-directory-in-project-by-selected</td>
-<td class="org-left">, f d</td>
-</tr>
-<tr>
-<td class="org-right">23</td>
-<td class="org-right">0.06%</td>
-<td class="org-left">evil-inner-curly</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">22</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">org-edit-src-exit</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">22</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">string-edit-at-point</td>
-<td class="org-left">, s e</td>
-</tr>
-<tr>
-<td class="org-right">22</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">package-menu-mark-delete</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">22</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">ido-magic-forward-char</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">22</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">run-js</td>
-<td class="org-left">, r j s</td>
-</tr>
-<tr>
-<td class="org-right">22</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">git-gutter-reset-to-head-parent</td>
-<td class="org-left">, g s h</td>
-</tr>
-<tr>
-<td class="org-right">21</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">counsel-read-history</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">21</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">rcirc-send-input</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">21</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">gnus-undo</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">21</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">subword-backward</td>
-<td class="org-left">M-b</td>
-</tr>
-<tr>
-<td class="org-right">20</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">company-select-next</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">20</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">what-cursor-position</td>
-<td class="org-left">g a, g 8, C-x =</td>
-</tr>
-<tr>
-<td class="org-right">20</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">my-grep</td>
-<td class="org-left">, q q</td>
-</tr>
-<tr>
-<td class="org-right">20</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">hydra-gnus-summary/body</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">19</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">ansi-term</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">19</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">evil-window-right</td>
-<td class="org-left">C-w l</td>
-</tr>
-<tr>
-<td class="org-right">19</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">debugger-jump</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">19</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">wg-switch-to-workgroup</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">19</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">yas-abort-snippet</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">19</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">tags-loop-continue</td>
-<td class="org-left">M-,</td>
-</tr>
-<tr>
-<td class="org-right">19</td>
-<td class="org-right">0.05%</td>
-<td class="org-left">swiper-the-thing</td>
-<td class="org-left">, s s</td>
-</tr>
-<tr>
-<td class="org-right">18</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">my-wg-swich-to-workgroup</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">18</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">org-edit-special</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">17</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">lisp-complete-symbol</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">17</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">my-wg-switch-to-workgroup-at-index</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">17</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">test</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">17</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">ediff-scroll-vertically</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">16</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">w3m-view-previous-page</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">16</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">evil-window-left</td>
-<td class="org-left">C-w h</td>
-</tr>
-<tr>
-<td class="org-right">16</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">isearch-yank-kill</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">16</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">my-goto-previous-hunk</td>
-<td class="org-left">, p p</td>
-</tr>
-<tr>
-<td class="org-right">16</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">js-beautify</td>
-<td class="org-left">, j b</td>
-</tr>
-<tr>
-<td class="org-right">16</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">hydra-launcher/body</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">16</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">read-only-mode</td>
-<td class="org-left">C-x C-q</td>
-</tr>
-<tr>
-<td class="org-right">16</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">message-send-and-exit</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">16</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">etags-select-goto-tag</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">15</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">evil-next-match</td>
-<td class="org-left">g n</td>
-</tr>
-<tr>
-<td class="org-right">15</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">js2r-kill</td>
-<td class="org-left">, j j k</td>
-</tr>
-<tr>
-<td class="org-right">15</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">string-edit-conclude</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">15</td>
-<td class="org-right">0.04%</td>
-<td class="org-left">delete-char</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">14</td>
-<td class="org-right">0.03%</td>
-<td class="org-left">gnus-summary-limit-to-author</td>
-<td class="org-left"> </td>
-</tr>
-<tr>
-<td class="org-right">14</td>
-<td class="org-right">0.03%</td>
-<td class="org-left">ediff-swap-buffers</td>
-<td class="org-left"> </td>
-</tr>
-</tbody>
-</table>
-</div>
-        </div>
     
         <nav class="postindexpager"><ul class="pager">
 <li class="previous">
@@ -2087,7 +885,7 @@ Below is the eight month keyfreq data of my office computer,
             <li class="next">
                 <a href="index-21.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

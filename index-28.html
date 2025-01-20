@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Linux, Programming, Emacs">
+<meta name="description" content="Emacs, Cooking">
 <meta name="viewport" content="width=device-width">
 <title>Chen's blog (old posts, page 28) | Chen's blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/index-28.html">
+<link rel="canonical" href="http://redguardtoo.github.io/index-28.html">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -22,6 +22,90 @@
 
         </ul></section><section class="page-content"><div class="content" rel="main">
             
+        <div class="post">
+            <h1 class="title"><a href="posts/use-emacs-to-read-english-classic-books-efficiently/">Use Emacs to read English classic books efficiently</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-12-22T09:33:03+00:00">2022-12-22 09:33</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-emacs-to-read-english-classic-books-efficiently/#disqus_thread" data-disqus-identifier="cache/posts/use-emacs-to-read-english-classic-books-efficiently.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/english/" rel="tag">english</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Classic books is difficult to read because they have many new words.
+</p>
+
+<p>
+Find the word's dictionary definition is tedios and breaks the flow.
+</p>
+
+<p>
+I tried reading those books in iPad and Kindle. The experience is not very smooth because,
+</p>
+<ul class="org-ul">
+<li>It takes too much effort to select the word and send it to the dictionary. Particularly difficulty for me because I've got big fingers</li>
+<li>The dictionary popup overlaps with the book's content. Feels not comfortable</li>
+</ul>
+<p>
+In Emacs,
+</p>
+<ul class="org-ul">
+<li>new words can be automatically highlighted</li>
+<li>The book's content and dictionary are displayed side by side</li>
+</ul>
+<p>
+The Emacs plugin <a href="https://github.com/redguardtoo/mybigword">mybigword 0.2.4</a> provides a new command <code>mybigword-big-words-in-current-windows</code> which automatically highlight the new words in current window with hint. Type the hint, the word's definition is displayed in another window.
+</p>
+
+<p>
+Screenshot before running <code>M-x mybigword-big-words-in-current-windows</code>,
+</p>
+
+<div id="orgd2237ed" class="figure">
+<p><img src="wp-content/mybigword-before.png" alt="mybigword-before.png"></p>
+</div>
+
+<p>
+After,
+</p>
+
+<div id="orgb2aff4b" class="figure">
+<p><img src="wp-content/mybigword-after.png" alt="mybigword-after.png"></p>
+</div>
+
+<p>
+The hint UI is actually based on <a href="https://github.com/abo-abo/avy">avy</a>.
+</p>
+
+<p>
+Every English word can be measure by word frequency named Zipf Scale (see <a href="http://crr.ugent.be/papers/van_Heuven_et_al_SUBTLEX-UK.pdf">http://crr.ugent.be/papers/van_Heuven_et_al_SUBTLEX-UK.pdf</a> for more details).
+</p>
+
+<p>
+Any word with ZipF less than the value of <code>mybigword-upper-limit</code> is regarded as new word.
+</p>
+
+<p>
+In my setup, <code>mybigword-upper-limit</code> is <code>3.6</code>.
+</p>
+            </div>
+        </div>
         <div class="post">
             <h1 class="title"><a href="posts/code-faster-by-extending-emacs-evil-text-object/">Code faster by extending Emacs EVIL text object</a></h1>
             <div class="meta">
@@ -736,51 +820,6 @@ Similar solution is also used in <a href="https://github.com/tumashu/pyim">pyim<
 </p>
             </div>
         </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/fan-jia-yu-pian-tang/">番茄鱼片汤</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2022-06-06T12:58:45+00:00">2022-06-06 12:58</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/fan-jia-yu-pian-tang/#disqus_thread" data-disqus-identifier="cache/posts/fan-jia-yu-pian-tang.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/fish/" rel="tag">fish</a></li>
-           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
-           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <ul class="org-ul">
-<li>1~2大片巴沙鱼略挤水分,切7~10毫米厚片.</li>
-<li>鱼片加盐鸡精料酒抓一下,加蛋清少量土豆粉搅拌(上浆后鱼片受热表面糊化,锁住鱼片水分)</li>
-<li>4~6个番茄底部十字刀,开水烫一分钟,去皮,切块,块不要太小有口感</li>
-<li>葱姜下锅炸出香味,很快(10秒)小火,以免葱变焦难看.</li>
-<li>番茄出汁后加水,水滚后加适量盐,味精,胡椒粉(可略多点,有辣味),12克(三勺)白醋,和西红柿综合变成果香醋</li>
-<li>加鱼片盖锅焖一分钟,洒香菜和葱丝出锅</li>
-</ul>
-<p>
-视频: <a href="https://www.bilibili.com/video/BV12M4y1V7CX/">龙利鱼腌制诀窍是什么？需要注意什么？老师傅详细讲解番茄鱼片</a> <a href="https://www.dropbox.com/s/0d1721nevq1m5ui/%E7%95%AA%E8%8C%84%E9%B1%BC%E7%89%87-tomato-fish.mp4?dl=0">视频备份</a>
-</p>
-
-<p>
-附录,
-</p>
-<ul class="org-ul">
-<li>我加入了豆腐,和少量冷冻绿色蔬菜,调个色,增加营养.</li>
-</ul>
-</div>
-        </div>
     
         <nav class="postindexpager"><ul class="pager">
 <li class="previous">
@@ -789,7 +828,7 @@ Similar solution is also used in <a href="https://github.com/tumashu/pyim">pyim<
             <li class="next">
                 <a href="index-27.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

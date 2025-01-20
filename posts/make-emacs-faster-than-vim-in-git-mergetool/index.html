@@ -6,11 +6,11 @@
 <title>Make Emacs faster than Vim in "git mergetool" | Chen's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/">
+<link rel="canonical" href="http://redguardtoo.github.io/posts/make-emacs-faster-than-vim-in-git-mergetool/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="Chen Bin">
 <meta property="og:site_name" content="Chen's blog">
 <meta property="og:title" content='Make Emacs faster than Vim in "git mergetool"'>
-<meta property="og:url" content="http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/">
+<meta property="og:url" content="http://redguardtoo.github.io/posts/make-emacs-faster-than-vim-in-git-mergetool/">
 <meta property="og:description" content="My article Emacs is the best merge tool for Git explains how to combine git mergetool with ediff-mode in Emacs.
 
 
@@ -74,9 +74,9 @@ My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-
 I did some research and found a perfect solution. It's even faster than Vim.
 </p>
 
-<div id="outline-container-org6bf4759" class="outline-2">
-<h3 id="org6bf4759">Initial solution</h3>
-<div class="outline-text-2" id="text-org6bf4759">
+<div id="outline-container-orgfa17d8e" class="outline-2">
+<h3 id="orgfa17d8e">Initial solution</h3>
+<div class="outline-text-2" id="text-orgfa17d8e">
 <p>
 Please note emacsclient is only use for resolving conflicts.
 </p>
@@ -110,9 +110,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 </div>
 </div>
 </div>
-<div id="outline-container-org196ffb3" class="outline-2">
-<h3 id="org196ffb3">My real world solution</h3>
-<div class="outline-text-2" id="text-org196ffb3">
+<div id="outline-container-org00bf285" class="outline-2">
+<h3 id="org00bf285">My real world solution</h3>
+<div class="outline-text-2" id="text-org00bf285">
 <p>
 It's similar to initial solution. But some scripts are created for automation.
 </p>
@@ -192,7 +192,7 @@ My <a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d">init-ediff.e
 <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="chenbin0",
-            disqus_url="http://blog.binchen.org/posts/make-emacs-faster-than-vim-in-git-mergetool/",
+            disqus_url="http://redguardtoo.github.io/posts/make-emacs-faster-than-vim-in-git-mergetool/",
         disqus_title="Make Emacs faster than Vim in \"git mergetool\"",
         disqus_identifier="cache/posts/make-emacs-faster-than-vim-in-git-mergetool.html",
         disqus_config = function () {
@@ -215,7 +215,7 @@ My <a href="https://github.com/redguardtoo/emacs.d/commit/f35e749d">init-ediff.e
     </div>
 
     
-       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+       <script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

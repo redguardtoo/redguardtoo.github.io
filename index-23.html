@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Linux, Programming, Emacs">
+<meta name="description" content="Emacs, Cooking">
 <meta name="viewport" content="width=device-width">
 <title>Chen's blog (old posts, page 23) | Chen's blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/index-23.html">
+<link rel="canonical" href="http://redguardtoo.github.io/index-23.html">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -22,6 +22,75 @@
 
         </ul></section><section class="page-content"><div class="content" rel="main">
             
+        <div class="post">
+            <h1 class="title"><a href="posts/find-the-buffer-named-by-pinyin/">Find the buffer with Chinese name</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2017-02-26T04:27:42+00:00">2017-02-26 04:27</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/find-the-buffer-named-by-pinyin/#disqus_thread" data-disqus-identifier="cache/posts/find-the-buffer-named-by-pinyin.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/chinese/" rel="tag">chinese</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+We can find the buffer with Chinese name efficiently by using the first character of <a href="https://en.wikipedia.org/wiki/Pinyin">pinyin</a>.
+</p>
+
+<p>
+Here is the code (<a href="https://github.com/abo-abo/swiper">ivy</a> and <a href="https://github.com/cute-jumper/pinyinlib.el">pinyinlib</a> is required):
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun ivy-switch-buffer-matcher-pinyin (regexp candidates)
+  (unless (featurep 'pinyinlib) (require 'pinyinlib))
+  (let* ((pys (split-string regexp "[ \t]+"))
+         (regexp (format ".*%s.*"
+                         (mapconcat 'pinyinlib-build-regexp-string pys ".*"))))
+    (ivy--switch-buffer-matcher regexp candidates)))
+
+(defun ivy-switch-buffer-by-pinyin ()
+  "Switch to another buffer."
+  (interactive)
+  (unless (featurep 'ivy) (require 'ivy))
+  (let ((this-command 'ivy-switch-buffer))
+    (ivy-read "Switch to buffer: " 'internal-complete-buffer
+              :matcher #'ivy-switch-buffer-matcher-pinyin
+              :preselect (buffer-name (other-buffer (current-buffer)))
+              :action #'ivy--switch-buffer-action
+              :keymap ivy-switch-buffer-map
+              :caller 'ivy-switch-buffer)))
+</code></pre>
+
+</div>
+
+<p>
+You can <code>M-x ivy-switch-buffer-by-pinyin</code> to switch buffer.
+</p>
+
+<p>
+The algorithm of pinyinlib is simple. We build a big lookup table to convert the a plain English string into a regular expression containing Chinese characters.
+</p>
+
+<p>
+You can apply the <b>same algorithm to other non-English languages</b>.
+</p>
+            </div>
+        </div>
         <div class="post">
             <h1 class="title"><a href="posts/use-perforce-inside-emacs/">Use Perforce inside Emacs</a></h1>
             <div class="meta">
@@ -66,9 +135,9 @@ Perforce is a proprietary VCS. It's less powerful than <a href="https://git-scm.
 For example, <code>git log -p file-path</code> displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like <code>p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}</code> can't do it. I have to use Emacs Lisp to clean the output of <code>p4</code>.
 </p>
 
-<div id="outline-container-org7affd02" class="outline-2">
-<h3 id="org7affd02">Perforce workflow</h3>
-<div class="outline-text-2" id="text-org7affd02">
+<div id="outline-container-org90021da" class="outline-2">
+<h3 id="org90021da">Perforce workflow</h3>
+<div class="outline-text-2" id="text-org90021da">
 <ul class="org-ul">
 <li>
 <code>p4 set</code> to <a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html">set up</a>
@@ -89,9 +158,9 @@ For example, <code>git log -p file-path</code> displays the detailed history of 
 </div>
 </div>
 
-<div id="outline-container-org951a60a" class="outline-2">
-<h3 id="org951a60a">My solution</h3>
-<div class="outline-text-2" id="text-org951a60a">
+<div id="outline-container-org8b0bc72" class="outline-2">
+<h3 id="org8b0bc72">My solution</h3>
+<div class="outline-text-2" id="text-org8b0bc72">
 <p>
 Perforce Cygwin portable is not recommended.
 </p>
@@ -104,9 +173,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed <code>p4</code> that URL, the operation is always successful.
 </p>
 </div>
-<div id="outline-container-orgd1b5215" class="outline-3">
-<h4 id="orgd1b5215">Emacs</h4>
-<div class="outline-text-3" id="text-orgd1b5215">
+<div id="outline-container-org9c6c64b" class="outline-3">
+<h4 id="org9c6c64b">Emacs</h4>
+<div class="outline-text-3" id="text-org9c6c64b">
 <p>
 I developed <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a> which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need <code>p4 login</code> at first.)
 </p>
@@ -268,9 +337,9 @@ You can also check my <a href="https://github.com/redguardtoo/emacs.d/blob/maste
 </p>
 </div>
 </div>
-<div id="outline-container-org7af0497" class="outline-3">
-<h4 id="org7af0497">Bash Shell</h4>
-<div class="outline-text-3" id="text-org7af0497">
+<div id="outline-container-org47b3e83" class="outline-3">
+<h4 id="org47b3e83">Bash Shell</h4>
+<div class="outline-text-3" id="text-org47b3e83">
 <p>
 Other operations are finished in Bash Shell,
 </p>
@@ -470,7 +539,7 @@ a.forEach(function (e) {
 Screenshot:
 </p>
 
-<div id="org6b18f0c" class="figure">
+<div id="orgb1439fa" class="figure">
 <p><img src="wp-content/purify-quora-nq8.png" alt="purify-quora-nq8.png"></p>
 </div>
             </div>
@@ -500,9 +569,9 @@ Screenshot:
 
             </div>
             <div class="body">
-                <div id="outline-container-org9f2447a" class="outline-2">
-<h3 id="org9f2447a">原料</h3>
-<div class="outline-text-2" id="text-org9f2447a">
+                <div id="outline-container-orgcfc43e6" class="outline-2">
+<h3 id="orgcfc43e6">原料</h3>
+<div class="outline-text-2" id="text-orgcfc43e6">
 <ul class="org-ul">
 <li>韭菜一斤(8把)</li>
 <li>虾仁适量</li>
@@ -512,9 +581,9 @@ Screenshot:
 </ul>
 </div>
 </div>
-<div id="outline-container-org157fca7" class="outline-2">
-<h3 id="org157fca7">流程</h3>
-<div class="outline-text-2" id="text-org157fca7">
+<div id="outline-container-org5c30ee4" class="outline-2">
+<h3 id="org5c30ee4">流程</h3>
+<div class="outline-text-2" id="text-org5c30ee4">
 <ul class="org-ul">
 <li>韭菜切碎</li>
 <li>虾仁切成小块</li>
@@ -531,7 +600,7 @@ Screenshot:
 </p>
 
 
-<div id="orgee4e2ae" class="figure">
+<div id="org0439544" class="figure">
 <p><img src="wp-content/dumpling-inside.jpg" alt="dumpling-inside.jpg"></p>
 </div>
 
@@ -540,7 +609,7 @@ Screenshot:
 </p>
 
 
-<div id="org6a76df0" class="figure">
+<div id="org8cbd96b" class="figure">
 <p><img src="wp-content/dumpling.jpg" alt="dumpling.jpg"></p>
 </div>
 </div>
@@ -598,7 +667,7 @@ Screenshot:
 <ul class="org-ul">
 <li>3分钟可以炒完</li>
 </ul>
-<div id="orgc790d6b" class="figure">
+<div id="orge2f1921" class="figure">
 <p><img src="wp-content/you-xian-xiang-gan.jpg" alt="you-xian-xiang-gan.jpg"></p>
 </div>
             </div>
@@ -655,9 +724,9 @@ Setup is minimum. Only GNU Global and two Emacs plugins are required:
 <p>
 Here is the step to step guide.
 </p>
-<div id="outline-container-orgfab34c8" class="outline-2">
-<h3 id="orgfab34c8">Step 1, create sample projects for experiment</h3>
-<div class="outline-text-2" id="text-orgfab34c8">
+<div id="outline-container-org02a8a5b" class="outline-2">
+<h3 id="org02a8a5b">Step 1, create sample projects for experiment</h3>
+<div class="outline-text-2" id="text-org02a8a5b">
 <p>
 I have two projects <code>~/proj1</code> and <code>~/proj2</code>.
 </p>
@@ -707,9 +776,9 @@ int main(int argc, char *argv[]) {
 </div>
 </div>
 </div>
-<div id="outline-container-org576427e" class="outline-2">
-<h3 id="org576427e">Step 2, scan C++ code and setup Emacs</h3>
-<div class="outline-text-2" id="text-org576427e">
+<div id="outline-container-org78bf55c" class="outline-2">
+<h3 id="org78bf55c">Step 2, scan C++ code and setup Emacs</h3>
+<div class="outline-text-2" id="text-org78bf55c">
 <p>
 Run below command in shell to scan code,
 </p>
@@ -754,9 +823,9 @@ After installing Emacs plugins and setup (minimum setup from their website is en
 </div>
 </div>
 </div>
-<div id="outline-container-orgc253ac4" class="outline-2">
-<h3 id="orgc253ac4">Usage</h3>
-<div class="outline-text-2" id="text-orgc253ac4">
+<div id="outline-container-org76e75f7" class="outline-2">
+<h3 id="org76e75f7">Usage</h3>
+<div class="outline-text-2" id="text-org76e75f7">
 <p>
 Use the Emacs plugins as usual.
 </p>
@@ -770,15 +839,15 @@ Screenshot,
 </p>
 
 
-<div id="org32284c2" class="figure">
+<div id="org2ceba01" class="figure">
 <p><img src="wp-content/cpp-gtags-demo-nq8.png" alt="cpp-gtags-demo-nq8.png"></p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org19210e1" class="outline-2">
-<h3 id="org19210e1">Tip</h3>
-<div class="outline-text-2" id="text-org19210e1">
+<div id="outline-container-orge7937c5" class="outline-2">
+<h3 id="orge7937c5">Tip</h3>
+<div class="outline-text-2" id="text-orge7937c5">
 <p>
 GNU Global could use ctags (Either <a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> or <a href="https://ctags.io/">Universal Ctags</a>) as backend to create tags file.
 </p>
@@ -792,9 +861,9 @@ If you prefer ctags, you could use it directly. Then you can use <a href="https:
 </p>
 </div>
 </div>
-<div id="outline-container-orgefaacd8" class="outline-2">
-<h3 id="orgefaacd8">Technical Details (Optional)</h3>
-<div class="outline-text-2" id="text-orgefaacd8">
+<div id="outline-container-orga89f6f0" class="outline-2">
+<h3 id="orga89f6f0">Technical Details (Optional)</h3>
+<div class="outline-text-2" id="text-orga89f6f0">
 <p>
 Check <a href="https://www.gnu.org/software/global/manual/global.html">GNU Global manual</a> to understand environment variables <code>GTAGSLIBPATH</code> and <code>MAKEOBJDIRPREFIX</code>.
 </p>
@@ -903,9 +972,9 @@ In essence, a major mode is just a collection of APIs. We could use its APIs wit
 Here are two examples.
 </p>
 
-<div id="outline-container-orgccc45e4" class="outline-2">
-<h3 id="orgccc45e4">Validate JSON</h3>
-<div class="outline-text-2" id="text-orgccc45e4">
+<div id="outline-container-org39a1b34" class="outline-2">
+<h3 id="org39a1b34">Validate JSON</h3>
+<div class="outline-text-2" id="text-org39a1b34">
 <p>
 <code>M-x my-validate-json-or-js-expression</code> to validate the buffer.
 </p>
@@ -951,9 +1020,9 @@ If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
 </div>
 </div>
 
-<div id="outline-container-orgfc686da" class="outline-2">
-<h3 id="orgfc686da">Print JSON path</h3>
-<div class="outline-text-2" id="text-orgfc686da">
+<div id="outline-container-org114244a" class="outline-2">
+<h3 id="org114244a">Print JSON path</h3>
+<div class="outline-text-2" id="text-org114244a">
 <p>
 For example, you got JSON string  <code>{"a": {"b": 3}}</code>. If you place cursor over <code>3</code> and <code>M-x my-print-json-path</code>, you got output <code>a.b</code>.
 </p>
@@ -985,9 +1054,9 @@ If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it.
 </div>
 </div>
 </div>
-<div id="outline-container-org891ddde" class="outline-2">
-<h3 id="org891ddde">Summary</h3>
-<div class="outline-text-2" id="text-org891ddde">
+<div id="outline-container-org9a0a529" class="outline-2">
+<h3 id="org9a0a529">Summary</h3>
+<div class="outline-text-2" id="text-org9a0a529">
 <p>
 As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
 </p>
@@ -1033,7 +1102,7 @@ As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
 <li>放入土豆丝八角(一到两个,不要更多)炒到变软</li>
 <li>放入水,几滴醋,盖上小火焖一下,留点水</li>
 </ul>
-<div id="org703e84f" class="figure">
+<div id="org6116f57" class="figure">
 <p><img src="wp-content/potato.jpg" alt="potato.jpg"></p>
 </div>
             </div>
@@ -1136,73 +1205,9 @@ But if there are too many hunks in one file, <a href="https://github.com/abo-abo
 Screenshot:
 </p>
 
-<div id="org14a3654" class="figure">
+<div id="org8af6b08" class="figure">
 <p><img src="wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"></p>
 </div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/turn-off-linum-mode-when-file-is-too-big/">Turn off linum-mode when file is too big</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2016-07-14T13:21:02+00:00">2016-07-14 13:21</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/turn-off-linum-mode-when-file-is-too-big/#disqus_thread" data-disqus-identifier="cache/posts/turn-off-linum-mode-when-file-is-too-big.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linum/" rel="tag">linum</a></li>
-           <li><a class="tag p-category" href="categories/mode/" rel="tag">mode</a></li>
-           <li><a class="tag p-category" href="categories/wc/" rel="tag">wc</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-07-14 Thu&gt;</span></span>
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-08-07 Sun&gt;</span></span>
-</p>
-
-<p>
-It's well known that linum-mode slows Emacs when the file contains thousands of lines.
-</p>
-
-<p>
-Here is the fix,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun buffer-too-big-p ()
-  (or (&gt; (buffer-size) (* 5000 80))
-      (&gt; (line-number-at-pos (point-max)) 5000)))
-(add-hook 'prog-mode-hook
-          (lambda ()
-            ;; turn off `linum-mode' when there are more than 5000 lines
-            (if (buffer-too-big-p) (linum-mode -1))))
-</code></pre>
-
-</div>
-
-<p>
-Though <a href="https://elpa.gnu.org/packages/nlinum.html">nlinum-mode</a> has performance, I still stick to linum-mode because <a href="https://github.com/syohex/emacs-git-gutter">git-gutter</a> only supports linum-mode.
-</p>
-
-<p>
-You can check <a href="https://github.com/syohex/emacs-git-gutter/issues/124">the interesting discussion</a> about git-gutter/linum-mode/nlinum-mode. Syohei Yoshida made git-gutter 95% functional when linum-mode off.
-</p>
             </div>
         </div>
     
@@ -1213,7 +1218,7 @@ You can check <a href="https://github.com/syohex/emacs-git-gutter/issues/124">th
             <li class="next">
                 <a href="index-22.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

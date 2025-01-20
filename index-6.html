@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Linux, Programming, Emacs">
+<meta name="description" content="Emacs, Cooking">
 <meta name="viewport" content="width=device-width">
 <title>Chen's blog (old posts, page 6) | Chen's blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/index-6.html">
+<link rel="canonical" href="http://redguardtoo.github.io/index-6.html">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -187,17 +187,17 @@ The purpose to load tags files is to look up API easily. For example, I use C++ 
 <p>
 The reason to do the unload thing is to avoid function name conflict from some tags files. EmacsWiki has a section "Choosing Among Multiple Tags for the Same Name" to solve this problem. But unloading is more convenient. In theory, it would be annoying if I need repeat load and unload the same tags files. In reality, it seldom happens because if I need work on Javascript (so I unload C++ related TAGS), I will usually keep working on Javascript until the end of the day.
 </p>
-<div id="outline-container-org7efc9da" class="outline-2">
-<h3 id="org7efc9da">Produce tags files for all the environments</h3>
-<div class="outline-text-2" id="text-org7efc9da">
+<div id="outline-container-org62aa587" class="outline-2">
+<h3 id="org62aa587">Produce tags files for all the environments</h3>
+<div class="outline-text-2" id="text-org62aa587">
 <p>
 For example, I produce tags files of Library A for Mac and Linux. I put tags file from Mac at directory "/home/cb/tags/Library_A/mac" and file from Linux at <code>/home/cb/tags/Library_A/linux</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf5f0ac7" class="outline-2">
-<h3 id="orgf5f0ac7">Use git and github to manage the tags files</h3>
-<div class="outline-text-2" id="text-orgf5f0ac7">
+<div id="outline-container-orga40b8f7" class="outline-2">
+<h3 id="orga40b8f7">Use git and github to manage the tags files</h3>
+<div class="outline-text-2" id="text-orga40b8f7">
 <p>
 So I can have copies of the tags files at github server and my local computers. That's also a part of my strategy to setup the development environment. My projects on different computers usually use same external library.
 </p>
@@ -207,9 +207,9 @@ EmacsWiki discusses how to update your tags file frequently because your own cod
 </p>
 </div>
 </div>
-<div id="outline-container-org1217ba3" class="outline-2">
-<h3 id="org1217ba3">Write emacs lisp code to load/unload these tags files</h3>
-<div class="outline-text-2" id="text-org1217ba3">
+<div id="outline-container-orgd12c0a5" class="outline-2">
+<h3 id="orgd12c0a5">Write emacs lisp code to load/unload these tags files</h3>
+<div class="outline-text-2" id="text-orgd12c0a5">
 <p>
 Here is the code. In this example, if I need load tags file for <a href="http://www.wxwidgets.org">wxWidgets</a>, I call the function "add-wx-tags". If I need unload the tags file, I press "Ctrl-u" and call the same function "add-wx-tags". Since I use <a href="http://www.emacswiki.org/Smex">Smex</a>, calling function doesn't mean pressing many keys.
 </p>
@@ -1017,9 +1017,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 <li>说明哪些框架流行</li>
 <li>如何使用框架</li>
 </ul>
-<div id="outline-container-org5d6ec5a" class="outline-2">
-<h3 id="org5d6ec5a">概述</h3>
-<div class="outline-text-2" id="text-org5d6ec5a">
+<div id="outline-container-orgfd55f99" class="outline-2">
+<h3 id="orgfd55f99">概述</h3>
+<div class="outline-text-2" id="text-orgfd55f99">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -1061,9 +1061,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 </table>
 </div>
 </div>
-<div id="outline-container-org85a8950" class="outline-2">
-<h3 id="org85a8950">auto-complete结合clang</h3>
-<div class="outline-text-2" id="text-org85a8950">
+<div id="outline-container-org960e035" class="outline-2">
+<h3 id="org960e035">auto-complete结合clang</h3>
+<div class="outline-text-2" id="text-org960e035">
 <p>
 <a href="http://emacswiki.org/emacs/AutoComplete">auto-complete</a>是第三方开发的插件,提供了自动完成需要的支持(例如在命令行环境下对下拉菜单的模拟).
 </p>
@@ -1089,17 +1089,17 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 </p>
 </div>
 </div>
-<div id="outline-container-orgf9bc64e" class="outline-2">
-<h3 id="orgf9bc64e">company-mode</h3>
-<div class="outline-text-2" id="text-orgf9bc64e">
+<div id="outline-container-org2a127bd" class="outline-2">
+<h3 id="org2a127bd">company-mode</h3>
+<div class="outline-text-2" id="text-org2a127bd">
 <p>
 <a href="https://github.com/company-mode/company-mode">company-mode</a>和auto-complete功能类似，唯一的区别是clang以及其他语言支持已内置，所以不需要安装其他elisp插件或者额外配置.目前我已用company-mode代替了auto-complete.
 </p>
 </div>
 </div>
-<div id="outline-container-org1b9a870" class="outline-2">
-<h3 id="org1b9a870">hippie-expand</h3>
-<div class="outline-text-2" id="text-org1b9a870">
+<div id="outline-container-orga018b15" class="outline-2">
+<h3 id="orga018b15">hippie-expand</h3>
+<div class="outline-text-2" id="text-orga018b15">
 <p>
 <a href="http://emacswiki.org/emacs/HippieExpand">hippie-expand</a>是Emacs自带的自动完成框架.
 </p>
@@ -1109,9 +1109,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 </p>
 </div>
 </div>
-<div id="outline-container-org5ef1dc7" class="outline-2">
-<h3 id="org5ef1dc7">complete-symbol</h3>
-<div class="outline-text-2" id="text-org5ef1dc7">
+<div id="outline-container-org9947166" class="outline-2">
+<h3 id="org9947166">complete-symbol</h3>
+<div class="outline-text-2" id="text-org9947166">
 <p>
 Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,它默认仅仅调用了后台的ctags而已.
 </p>
@@ -1145,9 +1145,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 </p>
 </div>
 </div>
-<div id="outline-container-org7777961" class="outline-2">
-<h3 id="org7777961">evil-mode</h3>
-<div class="outline-text-2" id="text-org7777961">
+<div id="outline-container-org2a392e9" class="outline-2">
+<h3 id="org2a392e9">evil-mode</h3>
+<div class="outline-text-2" id="text-org2a392e9">
 <p>
 <a href="http://emacswiki.org/emacs/Evil">Evil-mode</a>把Emacs模拟成了Vim,是我最喜欢的第三方插件,其自动完成很简单,就是根据当前文件内容自动完成词或行.
 </p>
@@ -1161,9 +1161,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 </p>
 </div>
 </div>
-<div id="outline-container-org1e2553e" class="outline-2">
-<h3 id="org1e2553e">其他</h3>
-<div class="outline-text-2" id="text-org1e2553e">
+<div id="outline-container-org823d1e8" class="outline-2">
+<h3 id="org823d1e8">其他</h3>
+<div class="outline-text-2" id="text-org823d1e8">
 <p>
 我的一个想法. 类似于Evil的完成行.但是可以扫瞄指定目录中所有的文件,列出相似的行.
 </p>
@@ -1184,9 +1184,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 </p>
 </div>
 </div>
-<div id="outline-container-org2dd24dc" class="outline-2">
-<h3 id="org2dd24dc">小结</h3>
-<div class="outline-text-2" id="text-org2dd24dc">
+<div id="outline-container-org208969e" class="outline-2">
+<h3 id="org208969e">小结</h3>
+<div class="outline-text-2" id="text-org208969e">
 <p>
 自动完成包括前端用户界面和后端语法解析引擎两个部分.
 </p>
@@ -1229,7 +1229,7 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
             <li class="next">
                 <a href="index-5.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

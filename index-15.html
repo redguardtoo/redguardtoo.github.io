@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Linux, Programming, Emacs">
+<meta name="description" content="Emacs, Cooking">
 <meta name="viewport" content="width=device-width">
 <title>Chen's blog (old posts, page 15) | Chen's blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/index-15.html">
+<link rel="canonical" href="http://redguardtoo.github.io/index-15.html">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -22,6 +22,86 @@
 
         </ul></section><section class="page-content"><div class="content" rel="main">
             
+        <div class="post">
+            <h1 class="title"><a href="posts/notes-on-set-up-nfs-on-archlinux/">Notes on set up nfs on ArchLinux</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-02-07T17:24:09+00:00">2014-02-07 17:24</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/notes-on-set-up-nfs-on-archlinux/#disqus_thread" data-disqus-identifier="cache/posts/notes-on-set-up-nfs-on-archlinux.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/archlinux/" rel="tag">archlinux</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div id="outline-container-1" class="outline-3"> <h4 id="sec-1">Key points</h4> <div class="outline-text-3" id="text-1">  <ul>
+<li>see <a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-nfs-server-config-exports.html">Redhat documenation</a>, best doc on exportfs </li> <li>
+<a href="http://superuser.com/questions/492989/understanding-subnet-mask">Understanding Subnet mask</a> and <a href="http://superuser.com/questions/186850/what-are-the-essentials-of-a-subnet-mask">essential Subnet mask</a> </li> <li>`sudo exportfs -r` to reload /etc/exports </li> <li>`sudo exportfs -v` to see current nfs exports </li> <li>content of /etc/exports: </li> </ul>
+<pre class="prettyprint ">
+
+/srv/nfs4/z 192.168.0.0/16(ro,insecure,no_subtree_check)
+</pre>
+
+
+
+  <ul>
+<li>check <a href="http://alephnull.com/benchmarks/sata2012/nfsv4.html">optimizatioin tips</a> </li> <li>`man 5 exports` for the documentation of /etc/exports </li> <li>
+<a href="https://www.serverstack.com/blog/2012/11/21/debugging-nfs-file-access-on-server-and-client-side/">Debugging NFS File Access on Server and Client Side</a> </li> </ul>
+<pre class="prettyprint ">
+
+# turn on the log
+
+sudo rpcdebug -m nfsd -s proc
+
+# turn off the log
+</pre>
+
+
+
+  <ul>
+<li>then `sudo tail -f /var/log/messages.log` </li> <li>Basically you need `sudo systemctl enable syslog-ng.service` to enable system log before you use rpcdebug </li> </ul>
+</div>  </div>  <div id="outline-container-2" class="outline-3"> <h4 id="sec-2">Summary</h4> <div class="outline-text-3" id="text-2">  <p>On server side: </p>   
+
+
+<pre class="prettyprint ">
+
+sudo exportfs
+
+# got output like:
+
+# /srv/nfs4/z   192.168.0.0/16
+</pre>
+
+
+
+   <p> Then on client side: </p>   
+
+
+<pre class="prettyprint ">
+
+# 131072 is 128K
+
+sudo mount 192.168.1.9:/srv/nfs4/z ~/z -o rsize=131072,wsize=131072,noatime,nodiratime,intr
+</pre>
+
+
+
+  </div> </div>
+            </div>
+        </div>
         <div class="post">
             <h1 class="title"><a href="posts/git-merge-in-command-line/">Git merge in command line</a></h1>
             <div class="meta">
@@ -185,9 +265,9 @@ There is also a <a href="http://blog.binchen.org/posts/what-s-the-best-spell-che
 <li>Difference between hunspell and aspell</li>
 <li>How to setup hunspell</li>
 </ul>
-<div id="outline-container-orgf24a1bb" class="outline-2">
-<h3 id="orgf24a1bb">Spell check in HTML</h3>
-<div class="outline-text-2" id="text-orgf24a1bb">
+<div id="outline-container-org8b1f199" class="outline-2">
+<h3 id="org8b1f199">Spell check in HTML</h3>
+<div class="outline-text-2" id="text-org8b1f199">
 <p>
 I will spell check,
 </p>
@@ -247,9 +327,9 @@ I use <a href="http://web-mode.org/">web-mode</a> for HTML files. The technique 
 </div>
 </div>
 
-<div id="outline-container-org9d77d80" class="outline-2">
-<h3 id="org9d77d80">Don't display doublon (double word) as error</h3>
-<div class="outline-text-2" id="text-org9d77d80">
+<div id="outline-container-org681d4e6" class="outline-2">
+<h3 id="org681d4e6">Don't display doublon (double word) as error</h3>
+<div class="outline-text-2" id="text-org681d4e6">
 <p>
 Modern CSS frameworks like <a href="http://getbootstrap.com/">Bootstrap</a> make doublon unavoidable. For example, CSS class name <code>btn btn-default</code> contains double word <code>btn</code>.
 </p>
@@ -278,9 +358,9 @@ So we need stop displaying doublon as error in HTML,
 </div>
 </div>
 
-<div id="outline-container-org0bdc55c" class="outline-2">
-<h3 id="org0bdc55c">Spell check camel case strings</h3>
-<div class="outline-text-2" id="text-org0bdc55c">
+<div id="outline-container-orgb8d23d0" class="outline-2">
+<h3 id="orgb8d23d0">Spell check camel case strings</h3>
+<div class="outline-text-2" id="text-orgb8d23d0">
 <p>
 We can check camel cased string/variable/function if and only if <a href="http://aspell.net/">aspell</a> is used.
 </p>
@@ -306,9 +386,9 @@ Insert below code into <code>.emacs</code>,
 </div>
 </div>
 
-<div id="outline-container-orgad17650" class="outline-2">
-<h3 id="orgad17650">Summary</h3>
-<div class="outline-text-2" id="text-orgad17650">
+<div id="outline-container-org4f037c5" class="outline-2">
+<h3 id="org4f037c5">Summary</h3>
+<div class="outline-text-2" id="text-org4f037c5">
 <p>
 <a href="http://www.emacswiki.org/emacs/FlySpell">EmacsWiki</a> suggests <code>(flyspell-prog-mode)</code> which only checks typo in comments.
 </p>
@@ -322,15 +402,15 @@ Screen shot (typos are underscored):
 </p>
 
 
-<div id="orge6ec833" class="figure">
+<div id="org7444f4f" class="figure">
 <p><img src="wp-content/spell-check-html-in-emacs.png" alt="spell-check-html-in-emacs.png"></p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org45e01fd" class="outline-2">
-<h3 id="org45e01fd">Javascript and ReactJS setup (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-org45e01fd">
+<div id="outline-container-org4a9e133" class="outline-2">
+<h3 id="org4a9e133">Javascript and ReactJS setup (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-org4a9e133">
 <p>
 If you fully understand my previous sections, you don't need read this section.
 </p>
@@ -622,9 +702,9 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-01-15 
 <p>
 Let's see an example in real life development.
 </p>
-<div id="outline-container-orgc297bb1" class="outline-2">
-<h3 id="orgc297bb1">Note</h3>
-<div class="outline-text-2" id="text-orgc297bb1">
+<div id="outline-container-org5eda59e" class="outline-2">
+<h3 id="org5eda59e">Note</h3>
+<div class="outline-text-2" id="text-org5eda59e">
 <p>
 For people who does not get the key points of this article, here are the points:
 </p>
@@ -636,9 +716,9 @@ For people who does not get the key points of this article, here are the points:
 </div>
 </div>
 
-<div id="outline-container-orgc3050a3" class="outline-2">
-<h3 id="orgc3050a3">Problem</h3>
-<div class="outline-text-2" id="text-orgc3050a3">
+<div id="outline-container-orgc7f509e" class="outline-2">
+<h3 id="orgc7f509e">Problem</h3>
+<div class="outline-text-2" id="text-orgc7f509e">
 <p>
 I'm maintaining a big javascript file with thousands of lines of legacy code.
 </p>
@@ -692,9 +772,9 @@ Most editors like Sublime Text 3 cannot display the javascript functions with me
 </div>
 </div>
 
-<div id="outline-container-org0034901" class="outline-2">
-<h3 id="org0034901">Solution</h3>
-<div class="outline-text-2" id="text-org0034901">
+<div id="outline-container-org49a5682" class="outline-2">
+<h3 id="org49a5682">Solution</h3>
+<div class="outline-text-2" id="text-org49a5682">
 <p>
 Emacs has a <a href="http://www.emacswiki.org/emacs/Js2Mode">js2-mode</a> which is basically a javascript interpreter written in lisp. It's created by <a href="http://www.emacswiki.org/emacs/SteveYegge">Steve Yegge</a> and now maintained by <a href="https://github.com/mooz/js2-mode">mooz</a>.
 </p>
@@ -797,9 +877,9 @@ The screen shot after we applying the above patch:
 </div>
 </div>
 
-<div id="outline-container-orgb6c7581" class="outline-2">
-<h3 id="orgb6c7581">Summary</h3>
-<div class="outline-text-2" id="text-orgb6c7581">
+<div id="outline-container-orgfca2080" class="outline-2">
+<h3 id="orgfca2080">Summary</h3>
+<div class="outline-text-2" id="text-orgfca2080">
 <p>
 That's an example of beauty of Emacs.
 </p>
@@ -809,9 +889,9 @@ It gives you freedom and power. You can base your work on the top geeks like Ste
 </p>
 </div>
 </div>
-<div id="outline-container-org7c73f81" class="outline-2">
-<h3 id="org7c73f81">Update</h3>
-<div class="outline-text-2" id="text-org7c73f81">
+<div id="outline-container-org531bb33" class="outline-2">
+<h3 id="org531bb33">Update</h3>
+<div class="outline-text-2" id="text-org531bb33">
 <p>
 My patch is incorporated into <code>js2-mode</code> since version <code>20140114</code>.
 </p>
@@ -839,7 +919,7 @@ After installing <code>Helm</code>, you can use command <code>M-x helm-imenu</co
 </p>
 
 
-<div id="org7f809b2" class="figure">
+<div id="org624e8ae" class="figure">
 <p><img src="wp-content/helm-imenu-and-js2-mode-nq8.png" alt="helm-imenu-and-js2-mode-nq8.png"></p>
 </div>
 
@@ -875,9 +955,9 @@ UPDATE: I suggest using <code>counsel-imenu</code> from <a href="https://github.
 
             </div>
             <div class="body">
-                <div id="outline-container-org9a2b1ab" class="outline-2">
-<h3 id="org9a2b1ab">List failed services</h3>
-<div class="outline-text-2" id="text-org9a2b1ab">
+                <div id="outline-container-org35ed704" class="outline-2">
+<h3 id="org35ed704">List failed services</h3>
+<div class="outline-text-2" id="text-org35ed704">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">sudo systemctl --failed
@@ -890,9 +970,9 @@ I can also use `sudo journalctl -b` to get the log message when booting all the 
 </p>
 </div>
 </div>
-<div id="outline-container-org0c8a4b2" class="outline-2">
-<h3 id="org0c8a4b2">Find the root cause of failed service</h3>
-<div class="outline-text-2" id="text-org0c8a4b2">
+<div id="outline-container-orgbbd4d22" class="outline-2">
+<h3 id="orgbbd4d22">Find the root cause of failed service</h3>
+<div class="outline-text-2" id="text-orgbbd4d22">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">sudo systemctl status service-name
@@ -901,9 +981,9 @@ I can also use `sudo journalctl -b` to get the log message when booting all the 
 </div>
 </div>
 </div>
-<div id="outline-container-org60e8136" class="outline-2">
-<h3 id="org60e8136">Why my /usr/lib/systemd/system/network-wifi.service does not work</h3>
-<div class="outline-text-2" id="text-org60e8136">
+<div id="outline-container-org7e3a8f8" class="outline-2">
+<h3 id="org7e3a8f8">Why my /usr/lib/systemd/system/network-wifi.service does not work</h3>
+<div class="outline-text-2" id="text-org7e3a8f8">
 <p>
 Here is the content of my wifi service
 </p>
@@ -948,9 +1028,9 @@ Solutin is simple:
 </div>
 </div>
 </div>
-<div id="outline-container-orgd80c254" class="outline-2">
-<h3 id="orgd80c254">How to start a service as specific user (mpd, for example)</h3>
-<div class="outline-text-2" id="text-orgd80c254">
+<div id="outline-container-orgf1a781e" class="outline-2">
+<h3 id="orgf1a781e">How to start a service as specific user (mpd, for example)</h3>
+<div class="outline-text-2" id="text-orgf1a781e">
 <p>
 This is the content of /usr/lib/systemd/system/mpd.service: 
 </p>
@@ -974,7 +1054,7 @@ WantedBy=multi-user.target
             </div>
         </div>
         <div class="post">
-            <h1 class="title"><a href="posts/hao-you-sheng-cai-zuo-fa/">蚝油生菜做法</a></h1>
+            <h1 class="title"><a href="posts/hao-you-shen-cai-zuo-fa/">蚝油生菜做法</a></h1>
             <div class="meta">
                 <div class="authordate">
                     <time class="timeago" datetime="2013-11-17T22:43:00+00:00">2013-11-17 22:43</time>
@@ -982,7 +1062,7 @@ WantedBy=multi-user.target
                 <div class="stats">
                     
     
-    <a href="posts/hao-you-sheng-cai-zuo-fa/#disqus_thread" data-disqus-identifier="cache/posts/hao-you-sheng-cai-zuo-fa.html">Comments</a>
+    <a href="posts/hao-you-shen-cai-zuo-fa/#disqus_thread" data-disqus-identifier="cache/posts/hao-you-shen-cai-zuo-fa.html">Comments</a>
 
 
                 </div>
@@ -1016,85 +1096,6 @@ WantedBy=multi-user.target
 <a href="https://www.youtube.com/watch?v=IUhoeM56zP8">Youtube</a> <a href="https://www.dropbox.com/scl/fi/7ag6bu9e23ooxnu0aeqsz">Dropbox</a></p>
             </div>
         </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/hao-you-shen-cai-zuo-fa/">蚝油生菜做法</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-11-17T19:43:00+00:00">2013-11-17 19:43</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/hao-you-shen-cai-zuo-fa/#disqus_thread" data-disqus-identifier="cache/posts/hao-you-shen-cai-zuo-fa.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/beef/" rel="tag">beef</a></li>
-           <li><a class="tag p-category" href="categories/cuisine/" rel="tag">cuisine</a></li>
-           <li><a class="tag p-category" href="categories/garlic/" rel="tag">garlic</a></li>
-           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <ul>
-<li>
-<a href="http://www.xinshipu.com/%E7%AE%80%E6%98%93%E7%89%88%E8%9A%9D%E6%B2%B9%E7%94%9F%E8%8F%9C-15533.htm">菜谱</a> </li> <li>油炸蒜末,倒入蚝油(至少4大勺)搅拌,最后放入生菜(半颗),搅拌一下即可,可以最后放盐如果嫌不咸的话 </li> <li>生菜用开水烫过沥干,因为其容易出水 </li> <li>不要放糖,蚝油本身有甜味了 </li> </ul>
-<p>阿基师的做法 </p>   <pre class="example">小叮嚀:
-
-
-1.西生菜要集中加熱（顏色才可以保持鮮綠跟脆口）
-
-
-
-2.可以利用香菇去蠔油腥味
-
-
-
-2.1. 利用香菇去做燴的動作，讓一些物料巴在上頭
-
-
-
-2.2. 不要加雞精粉跟糖，蠔油已經有甜度了。
-
-
-
-2.3. 蠔油跟豬油一起拌會更香
-
-
-
-
-
-做法:
-
-
-
-1.去除香菇蒂頭，斜刀將香菇切片。
-
-
-
-2.起鍋下1茶匙油，爆香香菇片，下蠔油拌炒〈炒過的蠔油有焦糖味在裡面， 味道會更香〉，加入自來高湯〈自來高湯的量，只要抓蠔油鹹度即可〉，小滾一會兒， 讓香菇的甜味煮出來。
-
-
-
-3.調太白粉水〈粉1：水3〉，加入適量的太白粉水，加入少許香油，不需攪拌，熄火 〈澱粉會吃油，攪拌的話會膨脹變成一團糊〉。
-
-
-
-4.在滾水鍋中加鹽，汆燙西生菜〈菜要最後汆燙〉，加入少許薑末〈薑汁也行，薑可提味，巴在葉片上會更好吃〉汆燙，撈起西生菜瀝乾水份〈因為西生菜很會出水， 一定要徹底瀝乾水份，否則會水水的〉。
-
-
-
-5.將蠔油醬汁淋在西生菜上即可。
-
-</pre>  <p> -<a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=X5fY_CtpUGo#t=1731">阿基师视频</a> </p> <p> Screen shot: <img src="wp-content/uploads/2013/11/wpid-fried-cabbage.jpg" alt="http://blog.binchen.org/wp-content/uploads/2013/11/wpid-fried-cabbage.jpg"></p>
-            </div>
-        </div>
     
         <nav class="postindexpager"><ul class="pager">
 <li class="previous">
@@ -1103,7 +1104,7 @@ WantedBy=multi-user.target
             <li class="next">
                 <a href="index-14.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>

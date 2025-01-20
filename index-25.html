@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Linux, Programming, Emacs">
+<meta name="description" content="Emacs, Cooking">
 <meta name="viewport" content="width=device-width">
 <title>Chen's blog (old posts, page 25) | Chen's blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
-<link rel="canonical" href="http://blog.binchen.org/index-25.html">
+<link rel="canonical" href="http://redguardtoo.github.io/index-25.html">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -22,6 +22,65 @@
 
         </ul></section><section class="page-content"><div class="content" rel="main">
             
+        <div class="post">
+            <h1 class="title"><a href="posts/effective-git-blame-in-emacs/">Effective "git blame" in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2019-11-20T13:42:54+00:00">2019-11-20 13:42</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/effective-git-blame-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/effective-git-blame-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/blame/" rel="tag">blame</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+I published Emacs package <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a>. It uses <code>git-blame</code> to show commit information of current line.
+</p>
+
+<p>
+In the new version, it can display the correct commit information of current line.
+</p>
+
+<p>
+For example, the line 6 at <a href="https://github.com/redguardtoo/test-git-blame/blob/master/hello.js">https://github.com/redguardtoo/test-git-blame/blob/master/hello.js</a> is changed by three commits.
+</p>
+
+<p>
+Select the partial of line 6 and run <code>vc-msg-show</code>, the correct commit is displayed.
+</p>
+
+<p>
+Screenshots,
+</p>
+
+<div id="org8c1c37c" class="figure">
+<p><img src="wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"></p>
+</div>
+
+<div id="orga584d46" class="figure">
+<p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
+</div>
+
+<div id="org191f262" class="figure">
+<p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
+</div>
+            </div>
+        </div>
         <div class="post">
             <h1 class="title"><a href="posts/emacs-is-the-best-merge-tool-for-git/">Emacs is the best merge tool for Git</a></h1>
             <div class="meta">
@@ -64,7 +123,7 @@ I used to regard vimdiff as the best merge tool for Git because it's simply fast
 Here is the demo how I use vimdiff to resolve conflicts from <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a>.
 </p>
 
-<div id="org879001a" class="figure">
+<div id="orgc363b36" class="figure">
 <p><img src="wp-content/vimdiff-as-git-merge-tool.gif" alt="vimdiff-as-git-merge-tool.gif"></p>
 </div>
 
@@ -107,7 +166,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 Here is the complete solution.
 </p>
 
-<div id="outline-container-org91b109c" class="outline-2">
+<div id="outline-container-orga1536fb" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -163,7 +222,7 @@ Native Emacs API is enough to save/load windows layout.
 </p>
 </div>
 </div>
-<div id="outline-container-org8385bdf" class="outline-2">
+<div id="outline-container-org31d0bcc" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 <p>
@@ -292,7 +351,7 @@ Demo on using Emacs to resolve merge conflicts,
 </p>
 
 
-<div id="orgba8b162" class="figure">
+<div id="org48819ba" class="figure">
 <p><img src="wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"></p>
 </div>
 </div>
@@ -342,7 +401,7 @@ Or set up imenu before <code>M-x imenu</code> or <code>M-x helm-imenu</code> or 
 screenshot:
 </p>
 
-<div id="org119ed55" class="figure">
+<div id="org06952e0" class="figure">
 <p><img src="wp-content/counsel-etags-imenu.png" alt="counsel-etags-imenu.png"></p>
 </div>
             </div>
@@ -495,18 +554,18 @@ My current project uses a technology called <a href="https://www.styled-componen
 <p>
 It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
 </p>
-<div id="outline-container-org52b8539" class="outline-2">
-<h3 id="org52b8539">Screencast</h3>
-<div class="outline-text-2" id="text-org52b8539">
+<div id="outline-container-org6fe6be9" class="outline-2">
+<h3 id="org6fe6be9">Screencast</h3>
+<div class="outline-text-2" id="text-org6fe6be9">
 
-<div id="orgb879a17" class="figure">
+<div id="org2901250" class="figure">
 <p><img src="wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-org7a01d0d" class="outline-2">
-<h3 id="org7a01d0d">Code</h3>
-<div class="outline-text-2" id="text-org7a01d0d">
+<div id="outline-container-org9a8c7bd" class="outline-2">
+<h3 id="org9a8c7bd">Code</h3>
+<div class="outline-text-2" id="text-org9a8c7bd">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'counsel-etags)
@@ -582,9 +641,9 @@ It could dynamically change web application's appearance and is a critical techn
                 <p>
 I created <a href="https://github.com/redguardtoo/dianyou">dianyou</a> (电邮) to solve improve my Gnus work flow.
 </p>
-<div id="outline-container-orged57717" class="outline-2">
-<h3 id="orged57717">Search mails</h3>
-<div class="outline-text-2" id="text-orged57717">
+<div id="outline-container-orgb654016" class="outline-2">
+<h3 id="orgb654016">Search mails</h3>
+<div class="outline-text-2" id="text-orgb654016">
 <p>
 Most Gnus users use <code>gnus-group-make-nnir-group</code> to search mails. But it's not usable in "Summary Buffer". Its <a href="https://tools.ietf.org/html/rfc3501#section-6.4.4">IMAP SEARCH Command</a> is hard to use.
 </p>
@@ -594,27 +653,27 @@ It could be replaced by <code>dianyou-group-make-nnir-group</code> which support
 </p>
 </div>
 </div>
-<div id="outline-container-org737a708" class="outline-2">
-<h3 id="org737a708">Auto complete email address</h3>
-<div class="outline-text-2" id="text-org737a708">
+<div id="outline-container-org8e21726" class="outline-2">
+<h3 id="org8e21726">Auto complete email address</h3>
+<div class="outline-text-2" id="text-org8e21726">
 <p>
 I'm too lazy to set up my contacts. It would be better that Gnus could <b>automatically</b> collect email addresses from all received mails. So I created the command <code>dianyou-insert-email-address-from-received-mails</code>. The inserted email address is also inserted into the global variable <code>dianyou-email-address-history</code> which could be persisted by <a href="https://github.com/jwiegley/session">session</a>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgfcca0a9" class="outline-2">
-<h3 id="orgfcca0a9">Switch Gnus buffer</h3>
-<div class="outline-text-2" id="text-orgfcca0a9">
+<div id="outline-container-orgf59ebb5" class="outline-2">
+<h3 id="orgf59ebb5">Switch Gnus buffer</h3>
+<div class="outline-text-2" id="text-orgf59ebb5">
 <p>
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use <code>dianyou-switch-gnus-buffer</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5d1c7d5" class="outline-2">
-<h3 id="org5d1c7d5">Paste image from clipboard</h3>
-<div class="outline-text-2" id="text-org5d1c7d5">
+<div id="outline-container-orga80192b" class="outline-2">
+<h3 id="orga80192b">Paste image from clipboard</h3>
+<div class="outline-text-2" id="text-orga80192b">
 <p>
 Use <code>dianyou-paste-image-from-clipboard</code>. CLI program <a href="https://github.com/astrand/xclip">xclip</a> should be installed at first.</p>
 </div>
@@ -1166,63 +1225,6 @@ Please note RUN-TOGETHER will make aspell less capable. So it should only be use
 Now you can use <a href="https://github.com/redguardtoo/wucuo">wucuo</a>. It's an out of box solution supporting both aspell and hunspell.</p>
             </div>
         </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-imenu-to-list-comments-in-current-buffer/">Use Imenu to list comments in current buffer</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2018-04-08T02:12:04+00:00">2018-04-08 02:12</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/use-imenu-to-list-comments-in-current-buffer/#disqus_thread" data-disqus-identifier="cache/posts/use-imenu-to-list-comments-in-current-buffer.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/imenu/" rel="tag">imenu</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-<a href="https://github.com/redguardtoo/evil-nerd-commenter">evil-nerd-commenter</a> v3.2.0 has a new function <code>evilnc-imenu-create-index-function</code>.
-</p>
-
-<p>
-<a href="http://www.gnu.org/s/emacs/manual/html_node/emacs/Imenu.html">Imenu</a> could use this function to list all comments in current file.
-</p>
-
-<p>
-Usage:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(require 'counsel)
-(defun counsel-imenu-comments ()
-  "Imenu display comments."
-  (interactive)
-  (let* ((imenu-create-index-function 'evilnc-imenu-create-index-function))
-    (counsel-imenu)))
-</code></pre>
-
-</div>
-
-<p>
-Screen cast:
-</p>
-
-<div id="orgecb42ab" class="figure">
-<p><img src="wp-content/counsel-imenu-comments.gif" alt="counsel-imenu-comments.gif"></p>
-</div>
-            </div>
-        </div>
     
         <nav class="postindexpager"><ul class="pager">
 <li class="previous">
@@ -1231,7 +1233,7 @@ Screen cast:
             <li class="next">
                 <a href="index-24.html" rel="next">Older posts</a>
             </li>
-        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
+        </ul></nav><script>var disqus_shortname="chenbin0";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><footer id="footer"><p>Contents © 2025         <a href="mailto:chb_sh@hotmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         </p>
             
         </footer>
 </div>
