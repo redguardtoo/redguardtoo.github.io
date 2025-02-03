@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about package)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/package.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 20 Jan 2025 05:51:40 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>No worries when elpa is down</title><link>http://redguardtoo.github.io/posts/no-worries-when-elpa-is-down/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about package)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/package.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 03 Feb 2025 08:46:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>No worries when elpa is down</title><link>http://redguardtoo.github.io/posts/no-worries-when-elpa-is-down/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I use one liner shell command to clone Emacs Lisp Package Archive (ELPA):
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
@@ -40,9 +40,9 @@ The techniques are compatible with &lt;a href="https://github.com/jwiegley/use-p
 &lt;p&gt;
 Mid-level Lisp knowledge is required to read this article.
 &lt;/p&gt;
-&lt;div id="outline-container-org204643e" class="outline-2"&gt;
-&lt;h3 id="org204643e"&gt;Do NOT use package.el for certain packages&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org204643e"&gt;
+&lt;div id="outline-container-org9557743" class="outline-2"&gt;
+&lt;h3 id="org9557743"&gt;Do NOT use package.el for certain packages&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9557743"&gt;
 &lt;p&gt;
 Create the directory &lt;code&gt;~/.emacs.d/site-lisp&lt;/code&gt;. Then insert below code into &lt;code&gt;~/.emacs&lt;/code&gt;,
 &lt;/p&gt;
@@ -66,9 +66,9 @@ You can place a package's source code at sub-directory of &lt;code&gt;~/.emacs.d
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb25e8b7" class="outline-2"&gt;
-&lt;h3 id="orgb25e8b7"&gt;Create your own package repository&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb25e8b7"&gt;
+&lt;div id="outline-container-org2b2be96" class="outline-2"&gt;
+&lt;h3 id="org2b2be96"&gt;Create your own package repository&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2b2be96"&gt;
 &lt;p&gt;
 Step 1, Place two files "archive-contents" and "hello-1.0.0.el" in any directory. Say &lt;code&gt;~/.emacs.d/localelpa&lt;/code&gt;. 
 &lt;/p&gt;
@@ -128,9 +128,9 @@ Orphan package issue is also resolved by &lt;code&gt;elpa-mirror&lt;/code&gt;. Y
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2a50725" class="outline-2"&gt;
-&lt;h3 id="org2a50725"&gt;&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html"&gt;Advice&lt;/a&gt; &lt;code&gt;package--add-to-archive-contents&lt;/code&gt; to filter packages&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org2a50725"&gt;
+&lt;div id="outline-container-orgde9f381" class="outline-2"&gt;
+&lt;h3 id="orgde9f381"&gt;&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html"&gt;Advice&lt;/a&gt; &lt;code&gt;package--add-to-archive-contents&lt;/code&gt; to filter packages&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgde9f381"&gt;
 &lt;p&gt;
 Insert below code into ~/.emacs,
 &lt;/p&gt;
@@ -193,9 +193,9 @@ This solution is copied from Steve Purcell's setup with a little modification.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc5384af" class="outline-2"&gt;
-&lt;h3 id="orgc5384af"&gt;Summary&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc5384af"&gt;
+&lt;div id="outline-container-org99728a3" class="outline-2"&gt;
+&lt;h3 id="org99728a3"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org99728a3"&gt;
 &lt;p&gt;
 You can combine above techniques to &lt;b&gt;solve any package issue&lt;/b&gt;.
 &lt;/p&gt;

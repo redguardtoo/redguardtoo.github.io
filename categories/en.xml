@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 20 Jan 2025 05:51:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://redguardtoo.github.io/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about en)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/en.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 03 Feb 2025 08:46:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QEMU essential</title><link>http://redguardtoo.github.io/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 Start virtual machine with 8G memory and Debian Linux iso using CLI,
 &lt;/p&gt;
 &lt;div class="org-src-container"&gt;
@@ -32,7 +32,7 @@ VM can access physical USB stick on Linux,
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Run &lt;code&gt;lsusb&lt;/code&gt;, get below output of USB stick,&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre class="example" id="org2f57532"&gt;
+&lt;pre class="example" id="org28a4ec1"&gt;
 Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
 &lt;/pre&gt;
 &lt;ul class="org-ul"&gt;
@@ -65,7 +65,7 @@ sudo virsh net-autostart default # autostart default network
 &lt;p&gt;
 Pleae note &lt;a href="https://wiki.libvirt.org/Libvirtd_and_dnsmasq.html"&gt;dnsmasq on Linux host needs extra setup&lt;/a&gt;,
 &lt;/p&gt;
-&lt;pre class="example" id="org4647c9a"&gt;
+&lt;pre class="example" id="org41195e6"&gt;
 On linux host servers, libvirtd uses dnsmasq to service the virtual networks, such as the default network. A new instance of dnsmasq is started for each virtual network, only accessible to guests in that specific network.
 
 If you are running your own "global" dnsmasq, then this can cause your own dnsmasq to fail to start (or for libvirtd to fail to start its dnsmasq and the given virtual network). This happens because both instances of dnsmasq might try to bind to the same port number on the same network interfaces.
@@ -127,7 +127,7 @@ The Emacs plugin &lt;a href="https://github.com/redguardtoo/mybigword"&gt;mybigw
 Screenshot before running &lt;code&gt;M-x mybigword-big-words-in-current-windows&lt;/code&gt;,
 &lt;/p&gt;
 
-&lt;div id="orgd2237ed" class="figure"&gt;
+&lt;div id="org4a3f15b" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://redguardtoo.github.io/wp-content/mybigword-before.png" alt="mybigword-before.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -136,7 +136,7 @@ Screenshot before running &lt;code&gt;M-x mybigword-big-words-in-current-windows
 After,
 &lt;/p&gt;
 
-&lt;div id="orgb2aff4b" class="figure"&gt;
+&lt;div id="orga2b95a6" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://redguardtoo.github.io/wp-content/mybigword-after.png" alt="mybigword-after.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -534,7 +534,7 @@ For example, &lt;a href="https://github.com/redguardtoo/emacs.d"&gt;my .emacs.d&
 There are also many other engineering issues. I struggled for &lt;b&gt;five hours&lt;/b&gt; and finally got satisfying solution. Now anyone can use my solution to &lt;b&gt;set up same CI pipeline in ten minutes&lt;/b&gt;.
 &lt;/p&gt;
 
-&lt;div id="orgc106761" class="figure"&gt;
+&lt;div id="org11ee790" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://redguardtoo.github.io/wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -739,7 +739,7 @@ DONE! Now Gitlab/Github could use command line &lt;code&gt;make compile&lt;/code
 Screenshot of &lt;a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d"&gt;a tricky bug of evil-matchit&lt;/a&gt; detected by this new workflow.
 &lt;/p&gt;
 
-&lt;div id="orge049c69" class="figure"&gt;
+&lt;div id="org75414a6" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://redguardtoo.github.io/wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;

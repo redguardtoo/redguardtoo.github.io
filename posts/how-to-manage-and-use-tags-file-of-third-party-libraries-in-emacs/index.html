@@ -112,17 +112,17 @@ The purpose to load tags files is to look up API easily. For example, I use C++ 
 <p>
 The reason to do the unload thing is to avoid function name conflict from some tags files. EmacsWiki has a section "Choosing Among Multiple Tags for the Same Name" to solve this problem. But unloading is more convenient. In theory, it would be annoying if I need repeat load and unload the same tags files. In reality, it seldom happens because if I need work on Javascript (so I unload C++ related TAGS), I will usually keep working on Javascript until the end of the day.
 </p>
-<div id="outline-container-org62aa587" class="outline-2">
-<h3 id="org62aa587">Produce tags files for all the environments</h3>
-<div class="outline-text-2" id="text-org62aa587">
+<div id="outline-container-org16affa0" class="outline-2">
+<h3 id="org16affa0">Produce tags files for all the environments</h3>
+<div class="outline-text-2" id="text-org16affa0">
 <p>
 For example, I produce tags files of Library A for Mac and Linux. I put tags file from Mac at directory "/home/cb/tags/Library_A/mac" and file from Linux at <code>/home/cb/tags/Library_A/linux</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orga40b8f7" class="outline-2">
-<h3 id="orga40b8f7">Use git and github to manage the tags files</h3>
-<div class="outline-text-2" id="text-orga40b8f7">
+<div id="outline-container-org9f844c0" class="outline-2">
+<h3 id="org9f844c0">Use git and github to manage the tags files</h3>
+<div class="outline-text-2" id="text-org9f844c0">
 <p>
 So I can have copies of the tags files at github server and my local computers. That's also a part of my strategy to setup the development environment. My projects on different computers usually use same external library.
 </p>
@@ -132,9 +132,9 @@ EmacsWiki discusses how to update your tags file frequently because your own cod
 </p>
 </div>
 </div>
-<div id="outline-container-orgd12c0a5" class="outline-2">
-<h3 id="orgd12c0a5">Write emacs lisp code to load/unload these tags files</h3>
-<div class="outline-text-2" id="text-orgd12c0a5">
+<div id="outline-container-org2fef63e" class="outline-2">
+<h3 id="org2fef63e">Write emacs lisp code to load/unload these tags files</h3>
+<div class="outline-text-2" id="text-org2fef63e">
 <p>
 Here is the code. In this example, if I need load tags file for <a href="http://www.wxwidgets.org">wxWidgets</a>, I call the function "add-wx-tags". If I need unload the tags file, I press "Ctrl-u" and call the same function "add-wx-tags". Since I use <a href="http://www.emacswiki.org/Smex">Smex</a>, calling function doesn't mean pressing many keys.
 </p>

@@ -129,9 +129,9 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 I often forget to add new code file into git. So my final commit might miss files.
 </p>
 
-<div id="outline-container-orgbbceaef" class="outline-2">
-<h3 id="orgbbceaef">Magit UI solution</h3>
-<div class="outline-text-2" id="text-orgbbceaef">
+<div id="outline-container-org5aec05f" class="outline-2">
+<h3 id="org5aec05f">Magit UI solution</h3>
+<div class="outline-text-2" id="text-org5aec05f">
 <p>
 One solution is to use <a href="https://magit.vc/">Magit</a> to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 </p>
@@ -188,9 +188,9 @@ BTW, my actual code in my <code>.emacs.d</code> is <a href="https://github.com/r
 </p>
 </div>
 </div>
-<div id="outline-container-org7943e3c" class="outline-2">
-<h3 id="org7943e3c">CLI solution</h3>
-<div class="outline-text-2" id="text-org7943e3c">
+<div id="outline-container-orgb8b7f6b" class="outline-2">
+<h3 id="orgb8b7f6b">CLI solution</h3>
+<div class="outline-text-2" id="text-orgb8b7f6b">
 <p>
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 </p>
@@ -566,7 +566,7 @@ If USER-SELECT-BRANCH is not nil, rebase on the tag or branch selected by user."
 Screencast:
 </p>
 
-<div id="org0ecfb61" class="figure">
+<div id="org48d4cb8" class="figure">
 <p><img src="wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"></p>
 </div>
             </div>
@@ -609,9 +609,9 @@ My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-
 I did some research and found a perfect solution. It's even faster than Vim.
 </p>
 
-<div id="outline-container-orgfa17d8e" class="outline-2">
-<h3 id="orgfa17d8e">Initial solution</h3>
-<div class="outline-text-2" id="text-orgfa17d8e">
+<div id="outline-container-org32e8833" class="outline-2">
+<h3 id="org32e8833">Initial solution</h3>
+<div class="outline-text-2" id="text-org32e8833">
 <p>
 Please note emacsclient is only use for resolving conflicts.
 </p>
@@ -645,9 +645,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 </div>
 </div>
 </div>
-<div id="outline-container-org00bf285" class="outline-2">
-<h3 id="org00bf285">My real world solution</h3>
-<div class="outline-text-2" id="text-org00bf285">
+<div id="outline-container-org899d6db" class="outline-2">
+<h3 id="org899d6db">My real world solution</h3>
+<div class="outline-text-2" id="text-org899d6db">
 <p>
 It's similar to initial solution. But some scripts are created for automation.
 </p>
@@ -765,7 +765,7 @@ Unfortunately <code>/etc/bash_completion</code> makes <code>complete -p</code> o
 <p>
 Here is output of <code>complete -p</code> at my PC,
 </p>
-<pre class="example" id="orgbc175c2">
+<pre class="example" id="org1433ff0">
 ...
 complete -F _known_hosts mtr
 complete -o default -o nospace -W 'homepc
@@ -827,11 +827,11 @@ My setup code for the packages Troy Hinckley suggested,
 Screenshot,
 </p>
 
-<div id="org7be07d4" class="figure">
+<div id="org785836a" class="figure">
 <p><img src="wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"></p>
 </div>
 
-<div id="orge8bfbad" class="figure">
+<div id="orgfc5b0f7" class="figure">
 <p><img src="wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"></p>
 </div>
             </div>
@@ -994,7 +994,7 @@ Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679
 I have done <a href="https://github.com/emacs-lsp/lsp-mode/pull/1498">some profiling</a> by insert <code>(profiler-report-cpu)</code> at the end of <code>lsp</code> (the bottlenecks is highlighted).
 </p>
 
-<div id="org2d6d14c" class="figure">
+<div id="org623a0d5" class="figure">
 <p><img src="wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"></p>
 </div>
 
@@ -1042,11 +1042,11 @@ For example, a few days ago I published <a href="https://www.reddit.com/r/emacs/
 It became one of my most popular reddit post because its unique feature <b>partial line blame</b>,
 </p>
 
-<div id="org5ff5534" class="figure">
+<div id="orgd0ac76b" class="figure">
 <p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
 </div>
 
-<div id="org09f21ce" class="figure">
+<div id="org9401752" class="figure">
 <p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
 </div>
 
@@ -1072,7 +1072,7 @@ It's only one line setup,
 
 </div>
 
-<div id="orga0ebbc2" class="figure">
+<div id="org961935e" class="figure">
 <p><img src="wp-content/vc-msg-and-magit.png" alt="vc-msg-and-magit.png"></p>
 </div>
 
