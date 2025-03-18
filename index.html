@@ -23,6 +23,42 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/suan-xiang-yi-mian/">蒜香意面</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2025-03-18T03:52:06+00:00">2025-03-18 03:52</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/suan-xiang-yi-mian/#disqus_thread" data-disqus-identifier="cache/posts/suan-xiang-yi-mian.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <ul class="org-ul">
+<li>1升沸水加1把盐(面有咸味)煮3人份意面到全熟时间减1分钟</li>
+<li>5-6瓣蒜切末,1大把欧芹(parsley)去根切末</li>
+<li>Extra Virgin橄榄油加蒜末一些红辣椒片欧青根,开中小火慢慢煸香,约1分钟左右蒜不能焦黑(可在油里加点盐)</li>
+<li>去掉欧芹根,加欧芹末搅拌10秒关火</li>
+<li>将意面加入锅中,半杯意面水拌匀,一分钟后出锅</li>
+</ul>
+<p>
+视频,
+<a href="https://www.youtube.com/shorts/Cl5L2Ss29_4">Youtube</a> <a href="https://www.dropbox.com/scl/fi/gn10lmwcy6pwr3fvae0ev">Dropbox</a></p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/guo-yan-da-shi-kao-yang-pai/">国宴大师烤羊排</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -429,108 +465,6 @@
 <li>番茄炒至软烂加生抽和*少量水*煮开后加入豆腐,豆腐小火闷一会加入淀粉水,起锅加葱花</li>
 </ul>
 </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/qemu-essential/">QEMU essential</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2024-12-23T12:48:42+00:00">2024-12-23 12:48</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/qemu-essential/#disqus_thread" data-disqus-identifier="cache/posts/qemu-essential.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/qemu/" rel="tag">qemu</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-Start virtual machine with 8G memory and Debian Linux iso using CLI,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">qemu-img create -f qcow2 debin.img 16G
-qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
-</code></pre>
-
-</div>
-
-<p>
-Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
-qemu-img resize win10.qcow 30G # resize virtual disk 
-sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
-sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
-sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
-sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
-sudo umount /mnt/c &amp;&amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
-</code></pre>
-
-</div>
-
-<p>
-VM can access physical USB stick on Linux,
-</p>
-<ul class="org-ul">
-<li>Run <code>lsusb</code>, get below output of USB stick,</li>
-</ul>
-<pre class="example" id="org28a4ec1">
-Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
-</pre>
-<ul class="org-ul">
-<li>Then insert below content into "&lt;devices&gt;" node od XML of virt-manager and start VM,</li>
-</ul>
-<div class="org-src-container">
-
-<pre><code class="lang-xml">&lt;hostdev mode='subsystem' type='usb'&gt;
-  &lt;source startupPolicy='optional'&gt;
-  &lt;vendor id='0x0930'/&gt;
-  &lt;product id='0x6545'/&gt;
-  &lt;/source&gt;
-&lt;/hostdev&gt;
-</code></pre>
-
-</div>
-
-<p>
-If default NAT network is not active, fix with below cli,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">sudo virsh net-list --all # display network
-sudo virsh net-start default  # start default network
-sudo virsh net-autostart default # autostart default network
-</code></pre>
-
-</div>
-
-<p>
-Pleae note <a href="https://wiki.libvirt.org/Libvirtd_and_dnsmasq.html">dnsmasq on Linux host needs extra setup</a>,
-</p>
-<pre class="example" id="org41195e6">
-On linux host servers, libvirtd uses dnsmasq to service the virtual networks, such as the default network. A new instance of dnsmasq is started for each virtual network, only accessible to guests in that specific network.
-
-If you are running your own "global" dnsmasq, then this can cause your own dnsmasq to fail to start (or for libvirtd to fail to start its dnsmasq and the given virtual network). This happens because both instances of dnsmasq might try to bind to the same port number on the same network interfaces.
-
-You have to change the global /etc/dnsmasq.conf as follows:
-interface=eth0 # only handle requests from interface eth0
-bind-interfaces # don't accept request from other interfaces from the beginning
-</pre>
-            </div>
         </div>
     
         <nav class="postindexpager"><ul class="pager">

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://redguardtoo.github.io/</link><description>Emacs, Cooking</description><atom:link href="http://redguardtoo.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 18 Mar 2025 03:51:29 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>国宴大师烤羊排</title><link>http://redguardtoo.github.io/posts/guo-yan-da-shi-kao-yang-pai/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://redguardtoo.github.io/</link><description>Emacs, Cooking</description><atom:link href="http://redguardtoo.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 18 Mar 2025 03:57:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>蒜香意面</title><link>http://redguardtoo.github.io/posts/suan-xiang-yi-mian/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
+&lt;li&gt;1升沸水加1把盐(面有咸味)煮3人份意面到全熟时间减1分钟&lt;/li&gt;
+&lt;li&gt;5-6瓣蒜切末,1大把欧芹(parsley)去根切末&lt;/li&gt;
+&lt;li&gt;Extra Virgin橄榄油加蒜末一些红辣椒片欧青根,开中小火慢慢煸香,约1分钟左右蒜不能焦黑(可在油里加点盐)&lt;/li&gt;
+&lt;li&gt;去掉欧芹根,加欧芹末搅拌10秒关火&lt;/li&gt;
+&lt;li&gt;将意面加入锅中,半杯意面水拌匀,一分钟后出锅&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+视频,
+&lt;a href="https://www.youtube.com/shorts/Cl5L2Ss29_4"&gt;Youtube&lt;/a&gt; &lt;a href="https://www.dropbox.com/scl/fi/gn10lmwcy6pwr3fvae0ev"&gt;Dropbox&lt;/a&gt;&lt;/p&gt;</description><category>food</category><category>zh</category><guid>http://redguardtoo.github.io/posts/suan-xiang-yi-mian/</guid><pubDate>Tue, 18 Mar 2025 03:52:06 GMT</pubDate></item><item><title>国宴大师烤羊排</title><link>http://redguardtoo.github.io/posts/guo-yan-da-shi-kao-yang-pai/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 作法,
 &lt;/p&gt;
 &lt;ul class="org-ul"&gt;
@@ -179,78 +189,4 @@
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;油热下番茄蒜末老姜,一勺盐一起翻炒(加盐番茄更容易炒成番茄酱)&lt;/li&gt;
 &lt;li&gt;番茄炒至软烂加生抽和*少量水*煮开后加入豆腐,豆腐小火闷一会加入淀粉水,起锅加葱花&lt;/li&gt;
-&lt;/ul&gt;</description><category>food</category><category>zh</category><guid>http://redguardtoo.github.io/posts/fan-jia-dou-fu/</guid><pubDate>Mon, 30 Dec 2024 04:58:00 GMT</pubDate></item><item><title>QEMU essential</title><link>http://redguardtoo.github.io/posts/qemu-essential/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-Start virtual machine with 8G memory and Debian Linux iso using CLI,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 debin.img 16G
-qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
-qemu-img resize win10.qcow 30G # resize virtual disk 
-sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
-sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
-sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
-sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
-sudo umount /mnt/c &amp;amp;&amp;amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-VM can access physical USB stick on Linux,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Run &lt;code&gt;lsusb&lt;/code&gt;, get below output of USB stick,&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre class="example" id="org28a4ec1"&gt;
-Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
-&lt;/pre&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Then insert below content into "&amp;lt;devices&amp;gt;" node od XML of virt-manager and start VM,&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-xml"&gt;&amp;lt;hostdev mode='subsystem' type='usb'&amp;gt;
-  &amp;lt;source startupPolicy='optional'&amp;gt;
-  &amp;lt;vendor id='0x0930'/&amp;gt;
-  &amp;lt;product id='0x6545'/&amp;gt;
-  &amp;lt;/source&amp;gt;
-&amp;lt;/hostdev&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-If default NAT network is not active, fix with below cli,
-&lt;/p&gt;
-&lt;div class="org-src-container"&gt;
-
-&lt;pre&gt;&lt;code class="lang-sh"&gt;sudo virsh net-list --all # display network
-sudo virsh net-start default  # start default network
-sudo virsh net-autostart default # autostart default network
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-&lt;p&gt;
-Pleae note &lt;a href="https://wiki.libvirt.org/Libvirtd_and_dnsmasq.html"&gt;dnsmasq on Linux host needs extra setup&lt;/a&gt;,
-&lt;/p&gt;
-&lt;pre class="example" id="org41195e6"&gt;
-On linux host servers, libvirtd uses dnsmasq to service the virtual networks, such as the default network. A new instance of dnsmasq is started for each virtual network, only accessible to guests in that specific network.
-
-If you are running your own "global" dnsmasq, then this can cause your own dnsmasq to fail to start (or for libvirtd to fail to start its dnsmasq and the given virtual network). This happens because both instances of dnsmasq might try to bind to the same port number on the same network interfaces.
-
-You have to change the global /etc/dnsmasq.conf as follows:
-interface=eth0 # only handle requests from interface eth0
-bind-interfaces # don't accept request from other interfaces from the beginning
-&lt;/pre&gt;</description><category>en</category><category>linux</category><category>qemu</category><guid>http://redguardtoo.github.io/posts/qemu-essential/</guid><pubDate>Mon, 23 Dec 2024 12:48:42 GMT</pubDate></item></channel></rss>
+&lt;/ul&gt;</description><category>food</category><category>zh</category><guid>http://redguardtoo.github.io/posts/fan-jia-dou-fu/</guid><pubDate>Mon, 30 Dec 2024 04:58:00 GMT</pubDate></item></channel></rss>

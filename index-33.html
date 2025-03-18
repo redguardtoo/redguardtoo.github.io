@@ -23,6 +23,108 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/qemu-essential/">QEMU essential</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2024-12-23T12:48:42+00:00">2024-12-23 12:48</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/qemu-essential/#disqus_thread" data-disqus-identifier="cache/posts/qemu-essential.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="categories/qemu/" rel="tag">qemu</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Start virtual machine with 8G memory and Debian Linux iso using CLI,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">qemu-img create -f qcow2 debin.img 16G
+qemu-system-x86_64 -hda debian.img -boot d -cdrom "debian-testing-amd64-netinst.iso" -m 8192
+</code></pre>
+
+</div>
+
+<p>
+Windows 10, create virtual disk "win10.qcow" and use "virt-manager" to create VM,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">qemu-img create -f qcow2 win10.qcow 30G # create a new virtual disk, windows 10 need 30G, 
+qemu-img resize win10.qcow 30G # resize virtual disk 
+sudo qemu-nbd -c /dev/nbd0 win10.qcow # bind virtual disk to linux device
+sudo gparted /dev/nbd0 # use gparted to resize partition of virtual disk
+sudo fdisk -l /dev/nbd0 # print partition info of virtual disk
+sudo mount /dev/nbd0p2 /mnt/c # mount second partition of virtual disk "npd0p2" into "/mnt/c"
+sudo umount /mnt/c &amp;&amp; sudo qemu-nbd -d /dev/nbd0 # umount and disconnect virtual disk
+</code></pre>
+
+</div>
+
+<p>
+VM can access physical USB stick on Linux,
+</p>
+<ul class="org-ul">
+<li>Run <code>lsusb</code>, get below output of USB stick,</li>
+</ul>
+<pre class="example" id="org28a4ec1">
+Bus 005 Device 003: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102/2.0 / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick
+</pre>
+<ul class="org-ul">
+<li>Then insert below content into "&lt;devices&gt;" node od XML of virt-manager and start VM,</li>
+</ul>
+<div class="org-src-container">
+
+<pre><code class="lang-xml">&lt;hostdev mode='subsystem' type='usb'&gt;
+  &lt;source startupPolicy='optional'&gt;
+  &lt;vendor id='0x0930'/&gt;
+  &lt;product id='0x6545'/&gt;
+  &lt;/source&gt;
+&lt;/hostdev&gt;
+</code></pre>
+
+</div>
+
+<p>
+If default NAT network is not active, fix with below cli,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo virsh net-list --all # display network
+sudo virsh net-start default  # start default network
+sudo virsh net-autostart default # autostart default network
+</code></pre>
+
+</div>
+
+<p>
+Pleae note <a href="https://wiki.libvirt.org/Libvirtd_and_dnsmasq.html">dnsmasq on Linux host needs extra setup</a>,
+</p>
+<pre class="example" id="org41195e6">
+On linux host servers, libvirtd uses dnsmasq to service the virtual networks, such as the default network. A new instance of dnsmasq is started for each virtual network, only accessible to guests in that specific network.
+
+If you are running your own "global" dnsmasq, then this can cause your own dnsmasq to fail to start (or for libvirtd to fail to start its dnsmasq and the given virtual network). This happens because both instances of dnsmasq might try to bind to the same port number on the same network interfaces.
+
+You have to change the global /etc/dnsmasq.conf as follows:
+interface=eth0 # only handle requests from interface eth0
+bind-interfaces # don't accept request from other interfaces from the beginning
+</pre>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/xiang-gu-chao-qing-cai/">香菇炒青菜</a></h1>
             <div class="meta">
                 <div class="authordate">
