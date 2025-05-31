@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about spell)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/spell.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 03 Feb 2025 08:46:49 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://redguardtoo.github.io/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about spell)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/spell.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 31 May 2025 02:21:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Hardcore spell checking in Emacs</title><link>http://redguardtoo.github.io/posts/hardcore-spell-checking-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 This article is not introduction of Emacs spell checking basics. It requires deep knowledge of Emacs Lisp and Fly Spell.
 &lt;/p&gt;
 
@@ -155,10 +155,9 @@ Topics covered in official manual (&lt;code&gt;flyspell-mode-predicate&lt;/code&
 &lt;p&gt;
 You can check my &lt;b&gt;complete&lt;/b&gt; configuration &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spelling.el"&gt;HERE&lt;/a&gt;.
 &lt;/p&gt;
-
-&lt;div id="outline-container-org0784a06" class="outline-2"&gt;
-&lt;h3 id="org0784a06"&gt;Suggestion for non-programmers&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0784a06"&gt;
+&lt;div id="outline-container-org1754eca" class="outline-2"&gt;
+&lt;h3 id="org1754eca"&gt;Suggestion for non-programmers&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1754eca"&gt;
 &lt;p&gt;
 Emacs finds the right dictionary by querying the locale.
 &lt;/p&gt;
@@ -217,10 +216,9 @@ Run &lt;code&gt;man aspell&lt;/code&gt; or &lt;code&gt;man hunspell&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org1848c71" class="outline-2"&gt;
-&lt;h3 id="org1848c71"&gt;Suggestion for programmers&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org1848c71"&gt;
+&lt;div id="outline-container-org0ec84e6" class="outline-2"&gt;
+&lt;h3 id="org0ec84e6"&gt;Suggestion for programmers&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0ec84e6"&gt;
 &lt;p&gt;
 I recommend aspell instead of hunspell (Though hunspell is fine).
 &lt;/p&gt;
@@ -321,13 +319,13 @@ See &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-spe
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org1e1e616" class="outline-2"&gt;
-&lt;h3 id="org1e1e616"&gt;Why&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org1e1e616"&gt;
+&lt;div id="outline-container-orga56e671" class="outline-2"&gt;
+&lt;h3 id="orga56e671"&gt;Why&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga56e671"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org13ae133" class="outline-3"&gt;
-&lt;h4 id="org13ae133"&gt;Aspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org13ae133"&gt;
+&lt;div id="outline-container-org6ab8777" class="outline-3"&gt;
+&lt;h4 id="org6ab8777"&gt;Aspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6ab8777"&gt;
 &lt;p&gt;
 aspell is recommended because its option &lt;code&gt;--run-together&lt;/code&gt; (since aspell 0.60.8, option &lt;code&gt;--camel-case&lt;/code&gt; replaces &lt;code&gt;=run-together&lt;/code&gt;). That option could check the &lt;b&gt;camel case word&lt;/b&gt;. Variable name often uses camel case naming convention these days. Read my &lt;a href="http://blog.binchen.org/?p=950"&gt;Effective spell check in Emacs&lt;/a&gt; for advanced tips.
 &lt;/p&gt;
@@ -363,9 +361,9 @@ There is another variable &lt;code&gt;ispell-cmd-args&lt;/code&gt;. It is actual
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org14af458" class="outline-3"&gt;
-&lt;h4 id="org14af458"&gt;Hunspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org14af458"&gt;
+&lt;div id="outline-container-org51cdfb4" class="outline-3"&gt;
+&lt;h4 id="org51cdfb4"&gt;Hunspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org51cdfb4"&gt;
 &lt;p&gt;
 I cannot find hunspell option to check camel case words.
 &lt;/p&gt;
@@ -410,13 +408,13 @@ You can pass the extra arguments to the hunspell by tweaking &lt;code&gt;ispell-
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5a998e8" class="outline-2"&gt;
-&lt;h3 id="org5a998e8"&gt;FAQ&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5a998e8"&gt;
+&lt;div id="outline-container-orgf0b316f" class="outline-2"&gt;
+&lt;h3 id="orgf0b316f"&gt;FAQ&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf0b316f"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd4b22e8" class="outline-3"&gt;
-&lt;h4 id="orgd4b22e8"&gt;How to setup Hunspell&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgd4b22e8"&gt;
+&lt;div id="outline-container-org8f3dd27" class="outline-3"&gt;
+&lt;h4 id="org8f3dd27"&gt;How to setup Hunspell&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org8f3dd27"&gt;
 &lt;p&gt;
 The easiest way is to set up environment variable &lt;code&gt;DICPATH&lt;/code&gt;.
 &lt;/p&gt;
@@ -467,9 +465,9 @@ There is also a &lt;a href="http://blog.binchen.org/posts/what-s-the-best-spell-
 &lt;li&gt;Difference between hunspell and aspell&lt;/li&gt;
 &lt;li&gt;How to setup hunspell&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div id="outline-container-orgdd4eb7a" class="outline-2"&gt;
-&lt;h3 id="orgdd4eb7a"&gt;Spell check in HTML&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgdd4eb7a"&gt;
+&lt;div id="outline-container-org46ef11b" class="outline-2"&gt;
+&lt;h3 id="org46ef11b"&gt;Spell check in HTML&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org46ef11b"&gt;
 &lt;p&gt;
 I will spell check,
 &lt;/p&gt;
@@ -528,10 +526,9 @@ I use &lt;a href="http://web-mode.org/"&gt;web-mode&lt;/a&gt; for HTML files. Th
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgde0651f" class="outline-2"&gt;
-&lt;h3 id="orgde0651f"&gt;Don't display doublon (double word) as error&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgde0651f"&gt;
+&lt;div id="outline-container-org2b11058" class="outline-2"&gt;
+&lt;h3 id="org2b11058"&gt;Don't display doublon (double word) as error&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2b11058"&gt;
 &lt;p&gt;
 Modern CSS frameworks like &lt;a href="http://getbootstrap.com/"&gt;Bootstrap&lt;/a&gt; make doublon unavoidable. For example, CSS class name &lt;code&gt;btn btn-default&lt;/code&gt; contains double word &lt;code&gt;btn&lt;/code&gt;.
 &lt;/p&gt;
@@ -559,10 +556,9 @@ So we need stop displaying doublon as error in HTML,
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org865cbc1" class="outline-2"&gt;
-&lt;h3 id="org865cbc1"&gt;Spell check camel case strings&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org865cbc1"&gt;
+&lt;div id="outline-container-org3f22cf9" class="outline-2"&gt;
+&lt;h3 id="org3f22cf9"&gt;Spell check camel case strings&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org3f22cf9"&gt;
 &lt;p&gt;
 We can check camel cased string/variable/function if and only if &lt;a href="http://aspell.net/"&gt;aspell&lt;/a&gt; is used.
 &lt;/p&gt;
@@ -587,10 +583,9 @@ Insert below code into &lt;code&gt;.emacs&lt;/code&gt;,
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org6b0987d" class="outline-2"&gt;
-&lt;h3 id="org6b0987d"&gt;Summary&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org6b0987d"&gt;
+&lt;div id="outline-container-org0d7a824" class="outline-2"&gt;
+&lt;h3 id="org0d7a824"&gt;Summary&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0d7a824"&gt;
 &lt;p&gt;
 &lt;a href="http://www.emacswiki.org/emacs/FlySpell"&gt;EmacsWiki&lt;/a&gt; suggests &lt;code&gt;(flyspell-prog-mode)&lt;/code&gt; which only checks typo in comments.
 &lt;/p&gt;
@@ -604,16 +599,15 @@ Screen shot (typos are underscored):
 &lt;/p&gt;
 
 
-&lt;div id="org6e4ad35" class="figure"&gt;
+&lt;div id="orgbb5404c" class="figure"&gt;
 &lt;p&gt;&lt;img src="http://redguardtoo.github.io/wp-content/spell-check-html-in-emacs.png" alt="spell-check-html-in-emacs.png"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgc07fdc8" class="outline-2"&gt;
-&lt;h3 id="orgc07fdc8"&gt;Javascript and ReactJS setup (OPTIONAL)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc07fdc8"&gt;
+&lt;div id="outline-container-orgee0038c" class="outline-2"&gt;
+&lt;h3 id="orgee0038c"&gt;Javascript and ReactJS setup (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgee0038c"&gt;
 &lt;p&gt;
 If you fully understand my previous sections, you don't need read this section.
 &lt;/p&gt;

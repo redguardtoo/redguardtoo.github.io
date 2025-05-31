@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about gnus)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/gnus.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 03 Feb 2025 08:46:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>dianyou 0.0.3 is out</title><link>http://redguardtoo.github.io/posts/dianyou-0-0-3-is-out/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about gnus)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/gnus.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 31 May 2025 02:21:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>dianyou 0.0.3 is out</title><link>http://redguardtoo.github.io/posts/dianyou-0-0-3-is-out/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 I created &lt;a href="https://github.com/redguardtoo/dianyou"&gt;dianyou&lt;/a&gt; (电邮) to solve improve my Gnus work flow.
 &lt;/p&gt;
-&lt;div id="outline-container-orgc273f58" class="outline-2"&gt;
-&lt;h3 id="orgc273f58"&gt;Search mails&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgc273f58"&gt;
+&lt;div id="outline-container-org6c6276e" class="outline-2"&gt;
+&lt;h3 id="org6c6276e"&gt;Search mails&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org6c6276e"&gt;
 &lt;p&gt;
 Most Gnus users use &lt;code&gt;gnus-group-make-nnir-group&lt;/code&gt; to search mails. But it's not usable in "Summary Buffer". Its &lt;a href="https://tools.ietf.org/html/rfc3501#section-6.4.4"&gt;IMAP SEARCH Command&lt;/a&gt; is hard to use.
 &lt;/p&gt;
@@ -14,27 +14,25 @@ It could be replaced by &lt;code&gt;dianyou-group-make-nnir-group&lt;/code&gt; w
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org0045078" class="outline-2"&gt;
-&lt;h3 id="org0045078"&gt;Auto complete email address&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org0045078"&gt;
+&lt;div id="outline-container-org179d348" class="outline-2"&gt;
+&lt;h3 id="org179d348"&gt;Auto complete email address&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org179d348"&gt;
 &lt;p&gt;
 I'm too lazy to set up my contacts. It would be better that Gnus could &lt;b&gt;automatically&lt;/b&gt; collect email addresses from all received mails. So I created the command &lt;code&gt;dianyou-insert-email-address-from-received-mails&lt;/code&gt;. The inserted email address is also inserted into the global variable &lt;code&gt;dianyou-email-address-history&lt;/code&gt; which could be persisted by &lt;a href="https://github.com/jwiegley/session"&gt;session&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgac6e3de" class="outline-2"&gt;
-&lt;h3 id="orgac6e3de"&gt;Switch Gnus buffer&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgac6e3de"&gt;
+&lt;div id="outline-container-orgb2fd51e" class="outline-2"&gt;
+&lt;h3 id="orgb2fd51e"&gt;Switch Gnus buffer&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgb2fd51e"&gt;
 &lt;p&gt;
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use &lt;code&gt;dianyou-switch-gnus-buffer&lt;/code&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org2a8cd00" class="outline-2"&gt;
-&lt;h3 id="org2a8cd00"&gt;Paste image from clipboard&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org2a8cd00"&gt;
+&lt;div id="outline-container-org861d04f" class="outline-2"&gt;
+&lt;h3 id="org861d04f"&gt;Paste image from clipboard&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org861d04f"&gt;
 &lt;p&gt;
 Use &lt;code&gt;dianyou-paste-image-from-clipboard&lt;/code&gt;. CLI program &lt;a href="https://github.com/astrand/xclip"&gt;xclip&lt;/a&gt; should be installed at first.&lt;/p&gt;
 &lt;/div&gt;
@@ -196,9 +194,9 @@ All you need is "M-x message-copy-select-forwarded-email-tags" to copy the tags 
 &lt;p&gt;
 UPDATE:
 This is only a case study. My complete guide on Gnus is at &lt;a href="http://blog.binchen.org/posts/notes-on-using-gnus.html"&gt;http://blog.binchen.org/posts/notes-on-using-gnus.html&lt;/a&gt;.
-&lt;/p&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://redguardtoo.github.io/posts/why-gnus-is-better-than-gmail/</guid><pubDate>Wed, 30 Apr 2014 12:46:31 GMT</pubDate></item><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://redguardtoo.github.io/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-orgf2eeca8" class="outline-2"&gt;
-&lt;h3 id="orgf2eeca8"&gt;Setup git-send-email&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgf2eeca8"&gt;
+&lt;/p&gt;</description><category>emacs</category><category>email</category><category>en</category><category>gnus</category><guid>http://redguardtoo.github.io/posts/why-gnus-is-better-than-gmail/</guid><pubDate>Wed, 30 Apr 2014 12:46:31 GMT</pubDate></item><item><title>Use Gnus to apply patch sent by `git send-email`</title><link>http://redguardtoo.github.io/posts/use-gnus-to-apply-patch-sent-by-git-send-email/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-orgc943b5e" class="outline-2"&gt;
+&lt;h3 id="orgc943b5e"&gt;Setup git-send-email&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc943b5e"&gt;
 &lt;p&gt;
 On Debian run &lt;code&gt;sudo apt-get install git-email&lt;/code&gt; to install git command line tools.
 &lt;/p&gt;
@@ -222,9 +220,9 @@ Modify &lt;code&gt;~/.gitconfig&lt;/code&gt; to use Gmail SMTP:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org64a6b66" class="outline-2"&gt;
-&lt;h3 id="org64a6b66"&gt;Send the latest commit&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org64a6b66"&gt;
+&lt;div id="outline-container-orgfedf398" class="outline-2"&gt;
+&lt;h3 id="orgfedf398"&gt;Send the latest commit&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgfedf398"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;# send one commit
@@ -234,10 +232,9 @@ git send-email -1 --annotate
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org77e61df" class="outline-2"&gt;
-&lt;h3 id="org77e61df"&gt;Apply patch&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org77e61df"&gt;
+&lt;div id="outline-container-org275565c" class="outline-2"&gt;
+&lt;h3 id="org275565c"&gt;Apply patch&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org275565c"&gt;
 &lt;p&gt;
 Select one mail. Run command "M-x gnus-summary-save-article-email" whose short key is "O m" in summary buffer.
 &lt;/p&gt;
@@ -253,9 +250,9 @@ Emacs will ask for directory to save that patch. Say I save it as &lt;code&gt;~/
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org733d4b9" class="outline-2"&gt;
-&lt;h3 id="org733d4b9"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org733d4b9"&gt;
+&lt;div id="outline-container-org450cd09" class="outline-2"&gt;
+&lt;h3 id="org450cd09"&gt;Syntax highlight patch embedded in mail (OPTIONAL)&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org450cd09"&gt;
 &lt;p&gt;
 Use &lt;a href="https://github.com/redguardtoo/emacs.d/blob/master/site-lisp/gnus-article-treat-patch/gnus-article-treat-patch.el"&gt;gnus-article-treat-patch.el&lt;/a&gt;.
 &lt;/p&gt;
@@ -287,16 +284,16 @@ Second part uses &lt;a href="https://www.mozilla.org/en-US/thunderbird/"&gt;thun
 &lt;p&gt;
 Third part uses Emacs and Gnus to replace thunderbird. It's optional.
 &lt;/p&gt;
-&lt;div id="outline-container-org36cea3f" class="outline-2"&gt;
-&lt;h3 id="org36cea3f"&gt;DavMail as mail gateway&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org36cea3f"&gt;
-&lt;pre class="example" id="org47bc7eb"&gt;
+&lt;div id="outline-container-org0446d90" class="outline-2"&gt;
+&lt;h3 id="org0446d90"&gt;DavMail as mail gateway&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org0446d90"&gt;
+&lt;pre class="example" id="org66a1f39"&gt;
 Ever wanted to get rid of Outlook ? DavMail is a POP/IMAP/SMTP/Caldav/Carddav/LDAP exchange gateway allowing users to use any mail/calendar client (e.g. Thunderbird with Lightning or Apple iCal) with an Exchange server.
 &lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf0553ee" class="outline-3"&gt;
-&lt;h4 id="orgf0553ee"&gt;Install&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgf0553ee"&gt;
+&lt;div id="outline-container-org6dbb888" class="outline-3"&gt;
+&lt;h4 id="org6dbb888"&gt;Install&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org6dbb888"&gt;
 &lt;p&gt;
 &lt;a href="http://davmail.sourceforge.net/download.html"&gt;Download the installer&lt;/a&gt; at Debian/Ubuntu/Mint:
 &lt;/p&gt;
@@ -314,9 +311,9 @@ Installation is easy. DavMail by itself is a portable java application. Since it
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd89f4d6" class="outline-3"&gt;
-&lt;h4 id="orgd89f4d6"&gt;Configuration&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgd89f4d6"&gt;
+&lt;div id="outline-container-org758430f" class="outline-3"&gt;
+&lt;h4 id="org758430f"&gt;Configuration&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org758430f"&gt;
 &lt;p&gt;
 Now start DavMail. 
 &lt;/p&gt;
@@ -351,9 +348,9 @@ BTW, &lt;a href="https://outlook.office365.com/"&gt;https://outlook.office365.co
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org354999e" class="outline-2"&gt;
-&lt;h3 id="org354999e"&gt;Thunderbird&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org354999e"&gt;
+&lt;div id="outline-container-org4cdd155" class="outline-2"&gt;
+&lt;h3 id="org4cdd155"&gt;Thunderbird&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4cdd155"&gt;
 &lt;p&gt;
 Create a new account, and &lt;b&gt;manually&lt;/b&gt; configure the server. The server name is "127.0.0.1", the port number is already on your paper. The minimum setup needs IMAP port to  receive mail and SMTP port to send email.
 &lt;/p&gt;
@@ -367,9 +364,9 @@ The only issue is the "Username". You can log in Outlook Web UI, click "Options 
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org346e5e7" class="outline-2"&gt;
-&lt;h3 id="org346e5e7"&gt;Emacs Gnus&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org346e5e7"&gt;
+&lt;div id="outline-container-org2a76a6f" class="outline-2"&gt;
+&lt;h3 id="org2a76a6f"&gt;Emacs Gnus&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2a76a6f"&gt;
 &lt;p&gt;
 Gnus cannot access IMAP service of DavMail. There is &lt;a href="http://permalink.gmane.org/gmane.emacs.gnus.general/83301"&gt;some bug&lt;/a&gt;.
 &lt;/p&gt;

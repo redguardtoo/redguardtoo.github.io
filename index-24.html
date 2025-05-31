@@ -23,6 +23,397 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/wucuo-a-emacs-spell-checker-that-works-with-camel-case-code/">Steps to install Emacs 27 for testing</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2018-09-07T12:39:54+00:00">2018-09-07 12:39</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/wucuo-a-emacs-spell-checker-that-works-with-camel-case-code/#disqus_thread" data-disqus-identifier="cache/posts/wucuo-a-emacs-spell-checker-that-works-with-camel-case-code.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+The Emacs is not for daily usage. Only for testing.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo apt install built-essential automake autoconf texinfo # optional if they are already installed
+git clone https://git.savannah.gnu.org/git/emacs.git
+cd emacs &amp;&amp; ./configure CFLAGS=-no-pie --without-x --without-dbus --without-sound --with-gnutls=no &amp;&amp; make
+src/emacs # start emacs
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-spell-check-functionvariable-in-emacs/">How to spell check function/variable in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2018-06-17T03:16:41+00:00">2018-06-17 03:16</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/how-to-spell-check-functionvariable-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/how-to-spell-check-functionvariable-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/flyspell/" rel="tag">flyspell</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2018-06-17 Sun&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-04-04 Thu&gt;</span></span>
+</p>
+
+<p>
+<a href="http://blog.binchen.org/posts/effective-spell-check-in-emacs.html">This article</a> explains how to spell check camel cased names of functions and variables in Emacs. It uses options <code>--run-together</code> from <a href="http://aspell.net/">GNU Aspell</a>.
+</p>
+
+<p>
+But this solution is not perfect. It wrongly identifies two character sub-word as typo. For example, "onChange" is regarded as typo because the sub-word "on" is identified as typo. Another issue is namespace of function name. For example, "MS" from "MSToggleButton" is alias of "Microsoft". If "MS" is identified as typo, every word containing "MS" is regarded as typo.
+</p>
+
+<p>
+In this article,
+</p>
+<ul class="org-ul">
+<li>I will explain <b>how Emacs spell checker works</b>
+</li>
+<li>Then we study the <b>algorithm of aspell</b>
+</li>
+<li>Finally, <b>a complete solution</b> which works with <b>both aspell and hunspell</b> is provided</li>
+</ul>
+<p>
+Emacs built in plugin <a href="https://www.emacswiki.org/emacs/FlySpell">Fly Spell</a> does spell checking. It passes the options and plain text to command line tool aspell. Aspell sends back the typos into <code>Fly Spell</code>. <code>Fly Spell</code> then picks up typos to display. For example, <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Spelling.html">flyspell-prog-mode</a> only displays typos in comments and strings.
+</p>
+
+<p>
+Aspell doesn't understand syntax of any programming language. It simply reports typos in plain text.
+</p>
+
+<p>
+Aspell has two options:
+</p>
+<ul class="org-ul">
+<li>
+<code>--run-together-limit</code> is "Maximum number of words can be strung together"</li>
+<li>
+<code>--run-together-min</code> is "Minimal length of sub-words"</li>
+</ul>
+<p>
+Aspell C++ code has to be studied in order to understand above two options. Let's start from <code>Working::check_word</code> in <code>modules/speller/default/suggest.cpp</code>.
+</p>
+
+<p>
+Here is code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">class Working : public Score {
+  unsigned check_word(char * word, char * word_end, CheckInfo * ci, unsigned pos = 1);
+};
+unsigned Working::check_word(char * word, char * word_end,  CheckInfo * ci,
+                             /* it WILL modify word */
+                             unsigned pos)
+{
+  // check the whole word before go into run-together mode
+  unsigned res = check_word_s(word, ci);
+  // if `res` is true, it's a valid word, don't bother run-together
+  if (res) return pos + 1;
+  // it's typo because number of sub-words is greater than "--run-together-limit"
+  if (pos + 1 &gt;= sp-&gt;run_together_limit_) return 0;
+
+  // `i` is the `end` of sub-word, the poition AFTER last character of sub-word
+  for (char * i = word + sp-&gt;run_together_min_; 
+       // already checked the whole word; besides, any sub-word whose size is less 
+       // than "--run-together-min" is regarded as invalid
+       i &lt;= word_end - sp-&gt;run_together_min_;
+       ++i)
+  {
+    char t = *i;
+
+    // read the sub-word by set the character at `end` position to '\0'
+    *i = '\0';
+    res = check_word_s(word, ci);
+    // restore original character at `end` position
+    *i = t;
+
+    // Current sub-word is invalid, we need append the character at current
+    //  `end` position to creata new sub-word.
+    //  Inncrement `i` because `i` always points to the `end` of sub-word
+    if (!res) continue;
+
+    // Current sub-word is valid, strip it from the whole word to create a totally
+    // new word for `check_word`, `check_word` is a recursive function
+    res = check_word(i, word_end, ci + 1, pos + 1);
+    if (res) return res;
+  }
+  memset(ci, 0, sizeof(CheckInfo));
+  return 0;
+}
+</code></pre>
+
+</div>
+
+<p>
+Say first parameter of <code>check_word</code> is "hisHelle",
+</p>
+<ul class="org-ul">
+<li>
+<code>word</code> points to string "hisHelle" (in C/C++, string is character array. The last character of array is character <code>'\0'</code>)</li>
+<li>
+<code>sp-&gt;run_together_min_</code> is 3, so <code>i</code> initially points to the character "H", at the end of sub-word "his"</li>
+<li>
+<code>check_word_s</code> return <code>true</code> for sub-word "his"</li>
+<li>So we strip "his" from "hisHelle" and recursively call <code>check_word</code> to check new word "Helle"</li>
+<li>In the new context of <code>check_word</code>, we extract "Hel" from "Helle" initially</li>
+<li>"Hel" is invalid. So "Hell" is extracted from "Helle". The remaining charcter "e" is a treated as as new word with <code>check_word</code> recursively applying on it</li>
+<li>"e" is not valid It's the last word could be extracted. So recursion is over. It's concluded that "hisHelle" is a typo</li>
+</ul>
+<p>
+Key points:
+</p>
+<ul class="org-ul">
+<li>
+<code>--run-together-limit</code> could be bigger with enough memory. It's default value is 8. I prefer 16.</li>
+<li>
+<code>--run-together-min</code> can't be 2 because too many typos are combination of "correct" two character sub-words ("hehe", "isme", …)</li>
+<li>
+<code>--run-together-min</code> can't be greater than 3, or else, too many "correct" three character sub-words are regarded as invalid ("his", "her", "one", "two")</li>
+<li>So <code>--run-together-min</code> <b>should always be 3</b>
+</li>
+</ul>
+<p>
+If <code>--run-together-min</code> is 3, the word "onChange" is typo because the first two characters "on" is typo by aspell. This is obviously wrong.
+</p>
+
+<p>
+The solution is a Emacs Lisp predicate which supports <b>both aspell and hunspell</b>.
+</p>
+
+<p>
+A predicate could be attached to specific major-mode. The predicate file all the typos reported by CLI program. If predicate returns  <code>t</code>, the feed in typo is finally approved to be typo,
+</p>
+
+<p>
+A example of predicate for <code>js2-mode</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun js-flyspell-verify ()
+  (let* ((font-face (get-text-property (- (point) 1) 'face))
+         (word (thing-at-point 'word)))
+    (message "font-face=%s word=%s" font-face word)
+    t))
+(put 'js2-mode 'flyspell-mode-predicate 'js-flyspell-verify)
+</code></pre>
+
+</div>
+
+<p>
+Typo candidates are filtered by <code>js-flyspell-verify</code>. So predicate is where to fix typos wrongly reported by CLI program.
+</p>
+
+<p>
+Here is complete setup you can paste into <code>.emacs</code> (I setup for <code>js2-mode</code> and <code>rjsx-mode</code> but code is generic enough).
+</p>
+
+<p>
+Please note function <code>split-camel-case</code> splits a camel case word into a list of sub-words. Sub-word with less one or two characters is not typo.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun split-camel-case (word)
+  "Split camel case WORD into a list of strings.
+Ported from 'https://github.com/fatih/camelcase/blob/master/camelcase.go'."
+  (let* ((case-fold-search nil)
+         (len (length word))
+         ;; ten sub-words is enough
+         (runes [nil nil nil nil nil nil nil nil nil nil])
+         (runes-length 0)
+         (i 0)
+         ch
+         (last-class 0)
+         (class 0)
+         rlt)
+
+    ;; split into fields based on class of character
+    (while (&lt; i len)
+      (setq ch (elt word i))
+      (cond
+       ;; lower case
+       ((and (&gt;= ch ?a) (&lt;= ch ?z))
+        (setq class 1))
+       ;; upper case
+       ((and (&gt;= ch ?A) (&lt;= ch ?Z))
+        (setq class 2))
+       ((and (&gt;= ch ?0) (&lt;= ch ?9))
+        (setq class 3))
+       (t
+        (setq class 4)))
+
+      (cond
+       ((= class last-class)
+        (aset runes
+              (1- runes-length)
+              (concat (aref runes (1- runes-length)) (char-to-string ch))))
+       (t
+        (aset runes runes-length (char-to-string ch))
+        (setq runes-length (1+ runes-length))))
+      (setq last-class class)
+      ;; end of while
+      (setq i (1+ i)))
+
+    ;; handle upper case -&gt; lower case sequences, e.g.
+    ;;     "PDFL", "oader" -&gt; "PDF", "Loader"
+    (setq i 0)
+    (while (&lt; i (1- runes-length))
+      (let* ((ch-first (aref (aref runes i) 0))
+             (ch-second (aref (aref runes (1+ i)) 0)))
+        (when (and (and (&gt;= ch-first ?A) (&lt;= ch-first ?Z))
+                   (and (&gt;= ch-second ?a) (&lt;= ch-second ?z)))
+          (aset runes (1+ i) (concat (substring (aref runes i) -1) (aref runes (1+ i))))
+          (aset runes i (substring (aref runes i) 0 -1))))
+      (setq i (1+ i)))
+
+    ;; construct final result
+    (setq i 0)
+    (while (&lt; i runes-length)
+      (when (&gt; (length (aref runes i)) 0)
+        (setq rlt (add-to-list 'rlt (aref runes i) t)))
+      (setq i (1+ i)))
+     rlt))
+
+(defun flyspell-detect-ispell-args (&amp;optional run-together)
+  "If RUN-TOGETHER is true, spell check the CamelCase words.
+Please note RUN-TOGETHER will make aspell less capable. So it should only be used in prog-mode-hook."
+  ;; force the English dictionary, support Camel Case spelling check (tested with aspell 0.6)
+  (let* ((args (list "--sug-mode=ultra" "--lang=en_US"))args)
+    (if run-together
+        (setq args (append args '("--run-together" "--run-together-limit=16"))))
+    args))
+
+;; {{ for aspell only, hunspell does not need setup `ispell-extra-args'
+(setq ispell-program-name "aspell")
+(setq-default ispell-extra-args (flyspell-detect-ispell-args t))
+;; }}
+
+;; ;; {{ hunspell setup, please note we use dictionary "en_US" here
+;; (setq ispell-program-name "hunspell")
+;; (setq ispell-local-dictionary "en_US")
+;; (setq ispell-local-dictionary-alist
+;;       '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+;; ;; }}
+
+(defvar extra-flyspell-predicate '(lambda (word) t)
+  "A callback to check WORD.  Return t if WORD is typo.")
+
+(defun my-flyspell-predicate (word)
+  "Use aspell to check WORD.  If it's typo return t."
+  (let* ((cmd (cond
+               ;; aspell: `echo "helle world" | aspell pipe`
+               ((string-match-p "aspell$" ispell-program-name)
+                (format "echo \"%s\" | %s pipe"
+                        word
+                        ispell-program-name))
+               ;; hunspell: `echo "helle world" | hunspell -a -d en_US`
+               (t
+                (format "echo \"%s\" | %s -a -d en_US"
+                        word
+                        ispell-program-name))))
+         (cmd-output (shell-command-to-string cmd))
+         rlt)
+    ;; (message "word=%s cmd=%s" word cmd)
+    ;; (message "cmd-output=%s" cmd-output)
+    (cond
+     ((string-match-p "^&amp;" cmd-output)
+      ;; it's a typo because at least one sub-word is typo
+      (setq rlt t))
+     (t
+      ;; not a typo
+      (setq rlt nil)))
+    rlt))
+
+(defun js-flyspell-verify ()
+  (let* ((case-fold-search nil)
+         (font-matched (memq (get-text-property (- (point) 1) 'face)
+                             '(js2-function-call
+                               js2-function-param
+                               js2-object-property
+                               js2-object-property-access
+                               font-lock-variable-name-face
+                               font-lock-string-face
+                               font-lock-function-name-face
+                               font-lock-builtin-face
+                               rjsx-text
+                               rjsx-tag
+                               rjsx-attr)))
+         subwords
+         word
+         (rlt t))
+    (cond
+     ((not font-matched)
+      (setq rlt nil))
+     ;; ignore two character word
+     ((&lt; (length (setq word (thing-at-point 'word))) 2)
+      (setq rlt nil))
+     ;; handle camel case word
+     ((and (setq subwords (split-camel-case word)) (&gt; (length subwords) 1))
+      (let* ((s (mapconcat (lambda (w)
+                             (cond
+                              ;; sub-word wholse length is less than three
+                              ((&lt; (length w) 3)
+                               "")
+                               ;; special characters
+                              ((not (string-match-p "^[a-zA-Z]*$" w))
+                               "")
+                              (t
+                               w))) subwords " ")))
+        (setq rlt (my-flyspell-predicate s))))
+     (t
+      (setq rlt (funcall extra-flyspell-predicate word))))
+    rlt))
+
+(put 'js2-mode 'flyspell-mode-predicate 'js-flyspell-verify)
+(put 'rjsx-mode 'flyspell-mode-predicate 'js-flyspell-verify)
+</code></pre>
+
+</div>
+
+<p>
+<b>UPDATE:</b>
+Now you can use <a href="https://github.com/redguardtoo/wucuo">wucuo</a>. It's an out of box solution supporting both aspell and hunspell.</p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/use-imenu-to-list-comments-in-current-buffer/">Use Imenu to list comments in current buffer</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -74,7 +465,7 @@ Usage:
 Screen cast:
 </p>
 
-<div id="org450e819" class="figure">
+<div id="org7df5d66" class="figure">
 <p><img src="wp-content/counsel-imenu-comments.gif" alt="counsel-imenu-comments.gif"></p>
 </div>
             </div>
@@ -230,7 +621,7 @@ All I need to do is to input the first characters of the component and run <code
 Here is a demo to input component <code>ButtonToolbar</code>:
 </p>
 
-<div id="org02202ff" class="figure">
+<div id="org56c7cd2" class="figure">
 <p><img src="https://raw.githubusercontent.com/redguardtoo/eacl/master/eacl-demo.gif" alt="eacl-demo.gif"></p>
 </div>
 
@@ -836,116 +1227,6 @@ Turn off `read-only-mode' of opened files."
                       ;; turn off read-only since we've already `p4 edit'
                       (read-only-mode -1))))))
         (forward-line 1)))))
-</code></pre>
-
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil/">Auto-complete word in Emacs mini-buffer when using Evil</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2017-03-28T12:16:06+00:00">2017-03-28 12:16</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil/#disqus_thread" data-disqus-identifier="cache/posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/evil/" rel="tag">evil</a></li>
-           <li><a class="tag p-category" href="categories/vim/" rel="tag">vim</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-When using <a href="https://www.emacswiki.org/emacs/Evil">Evil</a> I often input <code>%s/old-keyword/new-keyword/g</code> in <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Minibuffer.html">Minibuffer</a>.
-</p>
-
-<p>
-The problem is auto completions of <code>new-keyword</code> using <a href="http://www.gnu.org/s/emacs/manual/html_node/autotype/Hippie-Expand.html">hippie-expand</a> always fail.
-</p>
-
-<p>
-It turns out that the character "/" is treated as <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Class-Table.html">Word constituent</a> in minibuffer.
-</p>
-
-<p>
-The solution is to re-define "/" as <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Syntax-Class-Table.html">Punctuation characters</a>:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun minibuffer-inactive-mode-hook-setup ()
-  ;; make `try-expand-dabbrev' from `hippie-expand' work in mini-buffer
-  ;; @see `he-dabbrev-beg', so we need re-define syntax for '/'
-  (set-syntax-table (let* ((table (make-syntax-table)))
-                      (modify-syntax-entry ?/ "." table)
-                      table)))
-(add-hook 'minibuffer-inactive-mode-hook 'minibuffer-inactive-mode-hook-setup)
-</code></pre>
-
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/indent-jsx-in-emacs/">Indent JSX in Emacs</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2017-03-28T11:54:58+00:00">2017-03-28 11:54</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/indent-jsx-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/indent-jsx-in-emacs.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/jsx/" rel="tag">jsx</a></li>
-           <li><a class="tag p-category" href="categories/react/" rel="tag">react</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-I find <a href="https://github.com/felipeochoa/rjsx-mode">rjsx-mode</a> annoying when it indents closed html tag with extra spaces.
-</p>
-
-<p>
-It's based on js2-mode which is actually just calling Emacs v25 API <code>js-jsx-indent-line</code>.
-</p>
-
-<p>
-So the solution is as simple as advice <code>js-jsx-indent-line</code>:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defadvice js-jsx-indent-line (after js-jsx-indent-line-after-hack activate)
-  "Workaround sgml-mode and follow airbnb component style."
-  (let* ((cur-line (buffer-substring-no-properties
-                    (line-beginning-position)
-                    (line-end-position))))
-    (if (string-match "^\\( +\\)\/?&gt; *$" cur-line)
-      (let* ((empty-spaces (match-string 1 cur-line)))
-        (replace-regexp empty-spaces
-                        (make-string (- (length empty-spaces) sgml-basic-offset) 32)
-                        nil
-                        (line-beginning-position) (line-end-position))))))
 </code></pre>
 
 </div>

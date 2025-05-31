@@ -18,7 +18,6 @@
 最新版的screen的一个重要特性就是已支持垂直分屏,其快捷键为=C-a |=.
 
 
-
 要安装最新版的screen,在我的Arch Linux下很简单,
 
 
@@ -30,7 +29,7 @@ packer -S screen-git
 
 
 
-在windows的cygwin下安">
+在windows的cygwin下安装">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2011-04-23T20:37:00Z">
 <meta property="article:tag" content="linux">
@@ -82,10 +81,9 @@ packer -S screen-git
 <p>
 最新版的screen的一个重要特性就是已支持垂直分屏,其快捷键为=C-a |=.
 </p>
-
-<div id="outline-container-org1f63473" class="outline-2">
-<h3 id="org1f63473">要安装最新版的screen,在我的<a href="http://www.archlinux.org">Arch Linux</a>下很简单,</h3>
-<div class="outline-text-2" id="text-org1f63473">
+<div id="outline-container-org4ecac4d" class="outline-2">
+<h3 id="org4ecac4d">要安装最新版的screen,在我的<a href="http://www.archlinux.org">Arch Linux</a>下很简单,</h3>
+<div class="outline-text-2" id="text-org4ecac4d">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">packer -S screen-git
@@ -94,9 +92,9 @@ packer -S screen-git
 </div>
 </div>
 </div>
-<div id="outline-container-org179cc74" class="outline-2">
-<h3 id="org179cc74">在windows的cygwin下安装要多几步.</h3>
-<div class="outline-text-2" id="text-org179cc74">
+<div id="outline-container-org3d2bb35" class="outline-2">
+<h3 id="org3d2bb35">在windows的cygwin下安装要多几步.</h3>
+<div class="outline-text-2" id="text-org3d2bb35">
 <p>
 首先安装软件包libncurse-devel,然后去<a href="http://ftp.gnu.org/gnu/screen/">官方网站</a>下载最新源代码包(目前版本为4.0.3),解压缩,
 </p>
@@ -118,10 +116,9 @@ packer -S screen-git
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgb71814d" class="outline-2">
-<h3 id="orgb71814d">如用urxvt作为Terminal Simulator(比如我),直接启动screen会报错,</h3>
-<div class="outline-text-2" id="text-orgb71814d">
+<div id="outline-container-org3d50d3a" class="outline-2">
+<h3 id="org3d50d3a">如用urxvt作为Terminal Simulator(比如我),直接启动screen会报错,</h3>
+<div class="outline-text-2" id="text-org3d50d3a">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">$ screen
@@ -134,21 +131,20 @@ $TERM too long - sorry.
 原因为screen的开发者对于环境变量 <code>$TERM</code> 的最大长度做了不合理的假定.这里是<a href="https://bbs.archlinux.org/viewtopic.php?pid=885446">具体讨论</a>,解决办法很简单.
 在 <code>.Xdefaults</code> 中添加一行,
 </p>
-<pre class="example" id="orgc17602b">
+<pre class="example" id="orgeaeccbc">
 urxvt*termName: rxvt-256color
 </pre>
 <p>
 在 <code>.screenrc</code> 中添加一行,
 </p>
-<pre class="example" id="orgfcaffcd">
+<pre class="example" id="orgb669aa8">
 term rxvt-256color
 </pre>
 </div>
 </div>
-
-<div id="outline-container-orgec750ff" class="outline-2">
-<h3 id="orgec750ff">使用screen前我将screen的Ctrl-a改为Ctrl-t</h3>
-<div class="outline-text-2" id="text-orgec750ff">
+<div id="outline-container-org8ec2cf2" class="outline-2">
+<h3 id="org8ec2cf2">使用screen前我将screen的Ctrl-a改为Ctrl-t</h3>
+<div class="outline-text-2" id="text-org8ec2cf2">
 <p>
 因为 <code>Ctrl-a</code> 在Bash和Emacs中都是常用快捷键,在 <code>.screenrc</code> 中添加一行,
 </p>

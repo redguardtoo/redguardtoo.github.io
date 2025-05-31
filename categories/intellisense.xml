@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about intellisense)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/intellisense.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 03 Feb 2025 08:46:49 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs中的自动完成(Auto Completion)完全指南</title><link>http://redguardtoo.github.io/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about intellisense)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/intellisense.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 31 May 2025 02:21:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs中的自动完成(Auto Completion)完全指南</title><link>http://redguardtoo.github.io/posts/emacs-zhong-de-zi-dong-wan-chen-wan-quan-zhi-nan/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 作者: 陈斌(redguardtoo)
 &lt;/p&gt;
 
@@ -26,10 +26,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 &lt;li&gt;说明哪些框架流行&lt;/li&gt;
 &lt;li&gt;如何使用框架&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;div id="outline-container-orgbf25e38" class="outline-2"&gt;
-&lt;h3 id="orgbf25e38"&gt;概述&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgbf25e38"&gt;
+&lt;div id="outline-container-orgd9e07f6" class="outline-2"&gt;
+&lt;h3 id="orgd9e07f6"&gt;概述&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgd9e07f6"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -81,9 +80,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6ee2d02" class="outline-2"&gt;
-&lt;h3 id="org6ee2d02"&gt;auto-complete结合clang&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org6ee2d02"&gt;
+&lt;div id="outline-container-org270c81a" class="outline-2"&gt;
+&lt;h3 id="org270c81a"&gt;auto-complete结合clang&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org270c81a"&gt;
 &lt;p&gt;
 &lt;a href="http://emacswiki.org/emacs/AutoComplete"&gt;auto-complete&lt;/a&gt;是第三方开发的插件,提供了自动完成需要的支持(例如在命令行环境下对下拉菜单的模拟).
 &lt;/p&gt;
@@ -109,17 +108,17 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org58797d3" class="outline-2"&gt;
-&lt;h3 id="org58797d3"&gt;company-mode&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org58797d3"&gt;
+&lt;div id="outline-container-orgc382b34" class="outline-2"&gt;
+&lt;h3 id="orgc382b34"&gt;company-mode&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgc382b34"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/company-mode/company-mode"&gt;company-mode&lt;/a&gt;和auto-complete功能类似，唯一的区别是clang以及其他语言支持已内置，所以不需要安装其他elisp插件或者额外配置.目前我已用company-mode代替了auto-complete.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org97e7dfc" class="outline-2"&gt;
-&lt;h3 id="org97e7dfc"&gt;hippie-expand&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org97e7dfc"&gt;
+&lt;div id="outline-container-org2726417" class="outline-2"&gt;
+&lt;h3 id="org2726417"&gt;hippie-expand&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2726417"&gt;
 &lt;p&gt;
 &lt;a href="http://emacswiki.org/emacs/HippieExpand"&gt;hippie-expand&lt;/a&gt;是Emacs自带的自动完成框架.
 &lt;/p&gt;
@@ -129,9 +128,9 @@ Emacs比普通IDE的Intellisense强大,例如可输入当前文件名(带或者�
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3cc34d2" class="outline-2"&gt;
-&lt;h3 id="org3cc34d2"&gt;complete-symbol&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3cc34d2"&gt;
+&lt;div id="outline-container-org8aa2c9d" class="outline-2"&gt;
+&lt;h3 id="org8aa2c9d"&gt;complete-symbol&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org8aa2c9d"&gt;
 &lt;p&gt;
 Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,它默认仅仅调用了后台的ctags而已.
 &lt;/p&gt;
@@ -165,9 +164,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org488ad8c" class="outline-2"&gt;
-&lt;h3 id="org488ad8c"&gt;evil-mode&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org488ad8c"&gt;
+&lt;div id="outline-container-org602444d" class="outline-2"&gt;
+&lt;h3 id="org602444d"&gt;evil-mode&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org602444d"&gt;
 &lt;p&gt;
 &lt;a href="http://emacswiki.org/emacs/Evil"&gt;Evil-mode&lt;/a&gt;把Emacs模拟成了Vim,是我最喜欢的第三方插件,其自动完成很简单,就是根据当前文件内容自动完成词或行.
 &lt;/p&gt;
@@ -181,9 +180,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7b9cbd9" class="outline-2"&gt;
-&lt;h3 id="org7b9cbd9"&gt;其他&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7b9cbd9"&gt;
+&lt;div id="outline-container-org4fd38cc" class="outline-2"&gt;
+&lt;h3 id="org4fd38cc"&gt;其他&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org4fd38cc"&gt;
 &lt;p&gt;
 我的一个想法. 类似于Evil的完成行.但是可以扫瞄指定目录中所有的文件,列出相似的行.
 &lt;/p&gt;
@@ -205,9 +204,9 @@ Emacs自带的一个函数,我对这个方案感觉一般,因为在Emacs23中,�
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5c401b4" class="outline-2"&gt;
-&lt;h3 id="org5c401b4"&gt;小结&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5c401b4"&gt;
+&lt;div id="outline-container-org9814ab3" class="outline-2"&gt;
+&lt;h3 id="org9814ab3"&gt;小结&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org9814ab3"&gt;
 &lt;p&gt;
 自动完成包括前端用户界面和后端语法解析引擎两个部分.
 &lt;/p&gt;

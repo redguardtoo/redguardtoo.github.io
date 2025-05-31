@@ -23,6 +23,145 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/yan-tai-dun-tu-dou-si/">烟台炖土豆丝</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-31T03:16:35+00:00">2016-07-31 03:16</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/yan-tai-dun-tu-dou-si/#disqus_thread" data-disqus-identifier="cache/posts/yan-tai-dun-tu-dou-si.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
+           <li><a class="tag p-category" href="categories/potato/" rel="tag">potato</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <ul class="org-ul">
+<li>切丝浸入冷水中</li>
+<li>干辣椒蒜头切碎小火至略焦黄 (两三个蒜瓣对应四个土豆)</li>
+<li>放入土豆丝八角(一到两个,不要更多)炒到变软</li>
+<li>放入水,几滴醋,盖上小火焖一下,留点水</li>
+</ul>
+<div id="org5727a51" class="figure">
+<p><img src="wp-content/potato.jpg" alt="potato.jpg"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/enhance-emacs-git-gutter-with-ivy-mode/">Enhance emacs-git-gutter with ivy-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-14T13:35:32+00:00">2016-07-14 13:35</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/enhance-emacs-git-gutter-with-ivy-mode/#disqus_thread" data-disqus-identifier="cache/posts/enhance-emacs-git-gutter-with-ivy-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/git/" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="categories/gutter/" rel="tag">gutter</a></li>
+           <li><a class="tag p-category" href="categories/ivy/" rel="tag">ivy</a></li>
+           <li><a class="tag p-category" href="categories/mode/" rel="tag">mode</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-07-14 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-23 Fri&gt;</span></span>
+</p>
+
+<p>
+<a href="https://github.com/syohex/emacs-git-gutter">emacs-git-gutter</a> shows an icon in the gutter area. The icon indicating whether a line has been inserted, modified or deleted in Emacs.
+</p>
+
+<p>
+I usually use <code>M-x git-gutter:previous-hunk</code> or <code>M-x git-gutter:next-hunk</code> to navigate between the hunks.
+</p>
+
+<p>
+But if there are too many hunks in one file, <a href="https://github.com/abo-abo/swiper">ivy-mode</a> is more efficient:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'ivy)
+(require 'git-gutter)
+
+(defun my-reshape-git-gutter (gutter)
+  "Re-shape gutter for `ivy-read'."
+  (let* ((linenum-start (aref gutter 3))
+         (linenum-end (aref gutter 4))
+         (target-line "")
+         (target-linenum 1)
+         (tmp-line "")
+         (max-line-length 0))
+    (save-excursion
+      (while (&lt;= linenum-start linenum-end)
+        (goto-line linenum-start)
+        (setq tmp-line (replace-regexp-in-string "^[ \t]*" ""
+                                                 (buffer-substring (line-beginning-position)
+                                                                   (line-end-position))))
+        (when (&gt; (length tmp-line) max-line-length)
+          (setq target-linenum linenum-start)
+          (setq target-line tmp-line)
+          (setq max-line-length (length tmp-line)))
+
+        (setq linenum-start (1+ linenum-start))))
+    ;; build (key . linenum-start)
+    (cons (format "%s %d: %s"
+                  (if (eq 'deleted (aref gutter 1)) "-" "+")
+                  target-linenum target-line)
+          target-linenum)))
+
+(defun my-goto-git-gutter ()
+  (interactive)
+  (if git-gutter:diffinfos
+      (ivy-read "git-gutters:"
+                (mapcar 'my-reshape-git-gutter git-gutter:diffinfos)
+                :action (lambda (e)
+                          ;; ivy9+ keep `(car e)'
+                          ;; ivy8- strip the `(car e)'
+                          ;; we handle both data structure
+                          (unless (numberp e) (setq e (cdr e)))
+                          (goto-line e)))
+    (message "NO git-gutters!")))
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+</p>
+
+<div id="orgc4540a0" class="figure">
+<p><img src="wp-content/git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/turn-off-linum-mode-when-file-is-too-big/">Turn off linum-mode when file is too big</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -122,9 +261,9 @@ The techniques are compatible with <a href="https://github.com/jwiegley/use-pack
 <p>
 Mid-level Lisp knowledge is required to read this article.
 </p>
-<div id="outline-container-org9557743" class="outline-2">
-<h3 id="org9557743">Do NOT use package.el for certain packages</h3>
-<div class="outline-text-2" id="text-org9557743">
+<div id="outline-container-org3c5b226" class="outline-2">
+<h3 id="org3c5b226">Do NOT use package.el for certain packages</h3>
+<div class="outline-text-2" id="text-org3c5b226">
 <p>
 Create the directory <code>~/.emacs.d/site-lisp</code>. Then insert below code into <code>~/.emacs</code>,
 </p>
@@ -148,9 +287,9 @@ You can place a package's source code at sub-directory of <code>~/.emacs.d/site-
 </p>
 </div>
 </div>
-<div id="outline-container-org2b2be96" class="outline-2">
-<h3 id="org2b2be96">Create your own package repository</h3>
-<div class="outline-text-2" id="text-org2b2be96">
+<div id="outline-container-org625ae8f" class="outline-2">
+<h3 id="org625ae8f">Create your own package repository</h3>
+<div class="outline-text-2" id="text-org625ae8f">
 <p>
 Step 1, Place two files "archive-contents" and "hello-1.0.0.el" in any directory. Say <code>~/.emacs.d/localelpa</code>. 
 </p>
@@ -209,11 +348,10 @@ Orphan package issue is also resolved by <code>elpa-mirror</code>. You can delet
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgde9f381" class="outline-2">
-<h3 id="orgde9f381">
+<div id="outline-container-org5d7a5c7" class="outline-2">
+<h3 id="org5d7a5c7">
 <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">Advice</a> <code>package--add-to-archive-contents</code> to filter packages</h3>
-<div class="outline-text-2" id="text-orgde9f381">
+<div class="outline-text-2" id="text-org5d7a5c7">
 <p>
 Insert below code into ~/.emacs,
 </p>
@@ -276,9 +414,9 @@ This solution is copied from Steve Purcell's setup with a little modification.
 </p>
 </div>
 </div>
-<div id="outline-container-org99728a3" class="outline-2">
-<h3 id="org99728a3">Summary</h3>
-<div class="outline-text-2" id="text-org99728a3">
+<div id="outline-container-org8fd3531" class="outline-2">
+<h3 id="org8fd3531">Summary</h3>
+<div class="outline-text-2" id="text-org8fd3531">
 <p>
 You can combine above techniques to <b>solve any package issue</b>.
 </p>
@@ -377,7 +515,7 @@ Here is my code based on <a href="https://github.com/abo-abo/swiper">ivy-mode</a
 Screenshot after <code>M-x my-git-timemachine</code>,
 </p>
 
-<div id="org42bfaf3" class="figure">
+<div id="orga3333cb" class="figure">
 <p><img src="wp-content/my-git-timemachine-nq8.png" alt="my-git-timemachine-nq8.png"></p>
 </div>
             </div>
@@ -692,189 +830,6 @@ Minimum setup is simple,
 <p>
 My <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-evil.el">real world setup</a> is more complicated.
 </p>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-ivy-to-open-recent-directories/">Use ivy to open recent directories</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2016-03-30T11:13:23+00:00">2016-03-30 11:13</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/use-ivy-to-open-recent-directories/#disqus_thread" data-disqus-identifier="cache/posts/use-ivy-to-open-recent-directories.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/ivy/" rel="tag">ivy</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-The recent directories include parent directories of opened files in Emacs and the directories accessed in Bash shell. 
-</p>
-
-<p>
-I used <a href="https://github.com/clvv/fasd">fasd</a> to get the list of directories in shell. Fasd "offers quick access to files and directories for POSIX shells".
-</p>
-
-<p>
-Here is my setup,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(require 'ivy) ; swiper 7.0+ should be installed
-
-(defun counsel-goto-recent-directory ()
-  "Open recent directory with dired"
-  (interactive)
-  (unless recentf-mode (recentf-mode 1))
-  (let ((collection
-         (delete-dups
-          (append (mapcar 'file-name-directory recentf-list)
-                  ;; fasd history
-                  (if (executable-find "fasd")
-                      (split-string (shell-command-to-string "fasd -ld") "\n" t))))))
-    (ivy-read "directories:" collection :action 'dired)))
-</code></pre>
-
-</div>
-
-<p>
-Screenshot:
-</p>
-
-<div id="orge3d1ffb" class="figure">
-<p><img src="wp-content/ivy-recent-directory-nq8.png" alt="ivy-recent-directory-nq8.png"></p>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/emacs-vs-sublime-text-on-salesforce-development/">Emacs vs Sublime Text on Salesforce development</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2016-03-14T10:42:31+00:00">2016-03-14 10:42</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/emacs-vs-sublime-text-on-salesforce-development/#disqus_thread" data-disqus-identifier="cache/posts/emacs-vs-sublime-text-on-salesforce-development.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/salesforce/" rel="tag">salesforce</a></li>
-           <li><a class="tag p-category" href="categories/sublime/" rel="tag">sublime</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-Our client decided to move their legacy system to a cloud platform called salesforce.com. So I got a chance to investigate how to <b>deploy code</b> to the salesforce server inside Emacs and Sublime Text.
-</p>
-
-<p>
-Salesforce provides <a href="https://developer.salesforce.com/docs/atlas.en-us.daas.meta/daas/forcemigrationtool_install.htm">a migration tool</a> to deploy everything from the scratch which takes about 2 minutes. Basically makes it impossbile to be integrated with text editors.
-</p>
-
-<p>
-Luckily, there is <a href="https://force-cli.heroku.com/">Force.com CLI</a> which can upload single file in a few seconds. Both Sublime Text and Emacs use this tool.
-</p>
-
-<div id="outline-container-org0730d41" class="outline-2">
-<h3 id="org0730d41">Sublime Text</h3>
-<div class="outline-text-2" id="text-org0730d41">
-<p>
-You need install sublime text plugin <a href="http://mavensmate.com/Getting_Started/Users">mavensmate</a>. After installation, you need click <code>Login</code> menu at least once. Then when you save the code file, it's automatically deployed to the server.
-</p>
-
-<p>
-For some reason, the logged in session will timeout after a couple minutes. So you need re-login. Sometimes deployment will fail, you could click the <code>Fetch</code> menu and fill in the component name into the popup window to confirm the fetch. Fetching will re-activate upload ability.
-</p>
-
-<p>
-Mavensmate is actually just GUI wrapper of Force.com CLI,
-</p>
-<ul class="org-ul">
-<li>When you click login, the command <code>force login</code> is executed</li>
-<li>When saving file, <code>force aura push</code> or <code>force push</code> is executed</li>
-<li>When fetching, <code>force fetch</code> is executed</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org09ac9d7" class="outline-2">
-<h3 id="org09ac9d7">Emacs</h3>
-<div class="outline-text-2" id="text-org09ac9d7">
-<p>
-In Sublime Text I have to re-login and fetch from time to time. That get me distracted. I prefer executing only one commmand to upload the file in editing. That command should be always successful.
-</p>
-
-<p>
-My solution is to combine "login/fetch/push" commnands into one liner which is stored in a file local variable <code>compile-command</code>. So when I execute <code>M-x compile</code>, the commands "login/fetch/push" in <code>compile-command</code> will all be executed sequentially. So I don't need care about login and fetch things any more.
-</p>
-
-<p>
-Here is my setup,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun my-setup-develop-environment ()
-  (interactive)
-  (let (ffip-project-root)
-    (setq ffip-project-root "~/projects/my-salesforce-project1")
-
-    (when (memq major-mode '(web-mode js-mode js2-mode))
-      (setq-local compile-command
-                  (cond
-                   ;; lightning controller javascript file
-                   ((string-match "Controller\.js$" (buffer-file-name))
-                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; cp %s %s &amp;&amp; force fetch -t Aura -n %s -d %s &amp;&amp; mv %s %s &amp;&amp; force aura push -f %s"
-                            ffip-project-root
-                            (buffer-file-name) (concat (buffer-file-name) ".bak")
-                            (replace-regexp-in-string "Controller" "" (file-name-base (buffer-file-name)))
-                            ffip-project-root
-                            (concat (buffer-file-name) ".bak") (buffer-file-name)
-                            (buffer-file-name)))
-                   ;; ant build
-                   ((string-match "build\.xml$" (buffer-file-name))
-                    (format "cd %s &amp;&amp; ant deployCode" ffip-project-root))
-                   ;; lightning html view
-                   ((string-match "\.cmp$" (buffer-file-name))
-                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force aura push -f %s"
-                            ffip-project-root
-                            (buffer-file-name)))
-                   ;; other salesforce pages
-                   (t
-                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force push -f %s"
-                            ffip-project-root
-                            (buffer-file-name)))
-                   )))
-    ))
-
-;; I use web-mode for html/xml
-(add-hook 'web-mode-hook 'my-setup-develop-environment)
-;; I use js2-mode for javascript
-(add-hook 'js2-mode-hook 'my-setup-develop-environment)
-</code></pre>
-
-</div>
-</div>
-</div>
             </div>
         </div>
     

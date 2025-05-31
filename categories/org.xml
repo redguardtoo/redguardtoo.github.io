@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about org)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/org.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 03 Feb 2025 08:46:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Export org file embedded with code snippets</title><link>http://redguardtoo.github.io/posts/export-org-file-embedded-with-code-snippets/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about org)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/org.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 31 May 2025 02:21:16 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Export org file embedded with code snippets</title><link>http://redguardtoo.github.io/posts/export-org-file-embedded-with-code-snippets/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2014-11-20 Thu&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
 &lt;p&gt;
 UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-06-06 Sat&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
-
-&lt;div id="outline-container-org50cc7cb" class="outline-2"&gt;
-&lt;h3 id="org50cc7cb"&gt;problem&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org50cc7cb"&gt;
+&lt;div id="outline-container-orgf2faad9" class="outline-2"&gt;
+&lt;h3 id="orgf2faad9"&gt;problem&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf2faad9"&gt;
 &lt;p&gt;
 I use &lt;a href="http://orgmode.org/"&gt;Org-mode&lt;/a&gt; to record all my notes.
 &lt;/p&gt;
@@ -31,13 +30,13 @@ My hooks are also dependent on third party tools. So if anyone else uses my setu
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3fc316a" class="outline-2"&gt;
-&lt;h3 id="org3fc316a"&gt;Solution&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org3fc316a"&gt;
+&lt;div id="outline-container-orgf3f575d" class="outline-2"&gt;
+&lt;h3 id="orgf3f575d"&gt;Solution&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf3f575d"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8e8f4f8" class="outline-3"&gt;
-&lt;h4 id="org8e8f4f8"&gt;Setup&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org8e8f4f8"&gt;
+&lt;div id="outline-container-org8b8ed15" class="outline-3"&gt;
+&lt;h4 id="org8b8ed15"&gt;Setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org8b8ed15"&gt;
 &lt;p&gt;
 In order to solve the issue, I write a small function which will be called at the beginning of each major mode hook.
 &lt;/p&gt;
@@ -80,9 +79,9 @@ The function basically check whether the `(buffer-file-name)` is the temporary f
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org064b673" class="outline-3"&gt;
-&lt;h4 id="org064b673"&gt;Usage&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org064b673"&gt;
+&lt;div id="outline-container-org3fe041e" class="outline-3"&gt;
+&lt;h4 id="org3fe041e"&gt;Usage&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org3fe041e"&gt;
 &lt;p&gt;
 I use python-mode-hook setup as an example:
 &lt;/p&gt;
@@ -103,29 +102,29 @@ I use python-mode-hook setup as an example:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org59fd371" class="outline-2"&gt;
-&lt;h3 id="org59fd371"&gt;Tips&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org59fd371"&gt;
+&lt;div id="outline-container-orgf7a6a17" class="outline-2"&gt;
+&lt;h3 id="orgf7a6a17"&gt;Tips&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgf7a6a17"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org38fed4e" class="outline-3"&gt;
-&lt;h4 id="org38fed4e"&gt;Export shell code&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org38fed4e"&gt;
+&lt;div id="outline-container-org4d1609c" class="outline-3"&gt;
+&lt;h4 id="org4d1609c"&gt;Export shell code&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org4d1609c"&gt;
 &lt;p&gt;
 Exporting shell code will fail if `sh-mode` is loaded. So I use "bash" instead. Since there is no "bash-mode", exporting will be fine.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org61537a1" class="outline-3"&gt;
-&lt;h4 id="org61537a1"&gt;Yasnippet setup&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org61537a1"&gt;
+&lt;div id="outline-container-org7e2d1ee" class="outline-3"&gt;
+&lt;h4 id="org7e2d1ee"&gt;Yasnippet setup&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org7e2d1ee"&gt;
 &lt;p&gt;
 To avoid loading yasnippets when exporting, I have to &lt;a href="https://github.com/capitaomorte/yasnippet#use-yas-minor-mode-on-a-per-buffer-basis"&gt;"use yas-minor-mode on a per-buffer basis"&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orge6abaac" class="outline-3"&gt;
-&lt;h4 id="orge6abaac"&gt;Manually turn off the major-mode hook&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orge6abaac"&gt;
+&lt;div id="outline-container-orgeca0e57" class="outline-3"&gt;
+&lt;h4 id="orgeca0e57"&gt;Manually turn off the major-mode hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgeca0e57"&gt;
 &lt;p&gt;
 It's controlled by global flag `load-user-customized-major-mode-hook`, as you can see from the "Setup" section.
 &lt;/p&gt;
@@ -146,9 +145,9 @@ Say I want to turn off the major mode hooks when `M-x org-publish`, here is the 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org962d37e" class="outline-3"&gt;
-&lt;h4 id="org962d37e"&gt;after-save-hook&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org962d37e"&gt;
+&lt;div id="outline-container-org48a8da6" class="outline-3"&gt;
+&lt;h4 id="org48a8da6"&gt;after-save-hook&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org48a8da6"&gt;
 &lt;p&gt;
 `after-save-hook` is the "Normal hook that is run after a buffer is saved to its file". You may also need tweak it up because it will be called when exporting org files
 &lt;/p&gt;
@@ -237,10 +236,9 @@ CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;p&gt;
 UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-08-11 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
-
-&lt;div id="outline-container-org5d46f46" class="outline-2"&gt;
-&lt;h3 id="org5d46f46"&gt;Tools&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5d46f46"&gt;
+&lt;div id="outline-container-orga380041" class="outline-2"&gt;
+&lt;h3 id="orga380041"&gt;Tools&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orga380041"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -286,13 +284,13 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org614227d" class="outline-2"&gt;
-&lt;h3 id="org614227d"&gt;Work flow&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org614227d"&gt;
+&lt;div id="outline-container-org44f675b" class="outline-2"&gt;
+&lt;h3 id="org44f675b"&gt;Work flow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org44f675b"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org834cb24" class="outline-3"&gt;
-&lt;h4 id="org834cb24"&gt;Use scrot to screenshot and put its path into clipboard&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org834cb24"&gt;
+&lt;div id="outline-container-orgfb8b9d1" class="outline-3"&gt;
+&lt;h4 id="orgfb8b9d1"&gt;Use scrot to screenshot and put its path into clipboard&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgfb8b9d1"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;scrot '%H%M%S-%d_$wx$h.png' -e 'mkdir -p ~/screenshot;mv $f ~/screenshot/;echo ~/screenshot/$f|tr -d \"\\n\"|xsel -ib;'
@@ -301,10 +299,9 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgdc4ca24" class="outline-3"&gt;
-&lt;h4 id="orgdc4ca24"&gt;Create org file and insert path of screen shot&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgdc4ca24"&gt;
+&lt;div id="outline-container-org3b21e41" class="outline-3"&gt;
+&lt;h4 id="org3b21e41"&gt;Create org file and insert path of screen shot&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org3b21e41"&gt;
 &lt;p&gt;
 Actually I use below elisp command to do the insertion for me.
 &lt;/p&gt;
@@ -337,9 +334,9 @@ The full path into relative path and insert it as a local file link in org-mode"
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc134a7a" class="outline-3"&gt;
-&lt;h4 id="orgc134a7a"&gt;Convert org file into Microsoft Word format&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgc134a7a"&gt;
+&lt;div id="outline-container-orgb45e621" class="outline-3"&gt;
+&lt;h4 id="orgb45e621"&gt;Convert org file into Microsoft Word format&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgb45e621"&gt;
 &lt;p&gt;
 I'm sure this method works even on Windows. But I don't have Windows PC to validate my belief. Libreoffice is required.
 &lt;/p&gt;
@@ -380,10 +377,9 @@ Emacs will find the binary "soffice" from libreoffice to do the conversion.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org29513a0" class="outline-3"&gt;
-&lt;h4 id="org29513a0"&gt;Tips&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org29513a0"&gt;
+&lt;div id="outline-container-org17eaada" class="outline-3"&gt;
+&lt;h4 id="org17eaada"&gt;Tips&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org17eaada"&gt;
 &lt;p&gt;
 If you need page break in exported document, insert below snippet into the org file:
 &lt;/p&gt;

@@ -23,6 +23,188 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/use-ivy-to-open-recent-directories/">Use ivy to open recent directories</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-03-30T11:13:23+00:00">2016-03-30 11:13</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-ivy-to-open-recent-directories/#disqus_thread" data-disqus-identifier="cache/posts/use-ivy-to-open-recent-directories.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/ivy/" rel="tag">ivy</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+The recent directories include parent directories of opened files in Emacs and the directories accessed in Bash shell. 
+</p>
+
+<p>
+I used <a href="https://github.com/clvv/fasd">fasd</a> to get the list of directories in shell. Fasd "offers quick access to files and directories for POSIX shells".
+</p>
+
+<p>
+Here is my setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'ivy) ; swiper 7.0+ should be installed
+
+(defun counsel-goto-recent-directory ()
+  "Open recent directory with dired"
+  (interactive)
+  (unless recentf-mode (recentf-mode 1))
+  (let ((collection
+         (delete-dups
+          (append (mapcar 'file-name-directory recentf-list)
+                  ;; fasd history
+                  (if (executable-find "fasd")
+                      (split-string (shell-command-to-string "fasd -ld") "\n" t))))))
+    (ivy-read "directories:" collection :action 'dired)))
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+</p>
+
+<div id="orgc004936" class="figure">
+<p><img src="wp-content/ivy-recent-directory-nq8.png" alt="ivy-recent-directory-nq8.png"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/emacs-vs-sublime-text-on-salesforce-development/">Emacs vs Sublime Text on Salesforce development</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-03-14T10:42:31+00:00">2016-03-14 10:42</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/emacs-vs-sublime-text-on-salesforce-development/#disqus_thread" data-disqus-identifier="cache/posts/emacs-vs-sublime-text-on-salesforce-development.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/salesforce/" rel="tag">salesforce</a></li>
+           <li><a class="tag p-category" href="categories/sublime/" rel="tag">sublime</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Our client decided to move their legacy system to a cloud platform called salesforce.com. So I got a chance to investigate how to <b>deploy code</b> to the salesforce server inside Emacs and Sublime Text.
+</p>
+
+<p>
+Salesforce provides <a href="https://developer.salesforce.com/docs/atlas.en-us.daas.meta/daas/forcemigrationtool_install.htm">a migration tool</a> to deploy everything from the scratch which takes about 2 minutes. Basically makes it impossbile to be integrated with text editors.
+</p>
+
+<p>
+Luckily, there is <a href="https://force-cli.heroku.com/">Force.com CLI</a> which can upload single file in a few seconds. Both Sublime Text and Emacs use this tool.
+</p>
+<div id="outline-container-org3350127" class="outline-2">
+<h3 id="org3350127">Sublime Text</h3>
+<div class="outline-text-2" id="text-org3350127">
+<p>
+You need install sublime text plugin <a href="http://mavensmate.com/Getting_Started/Users">mavensmate</a>. After installation, you need click <code>Login</code> menu at least once. Then when you save the code file, it's automatically deployed to the server.
+</p>
+
+<p>
+For some reason, the logged in session will timeout after a couple minutes. So you need re-login. Sometimes deployment will fail, you could click the <code>Fetch</code> menu and fill in the component name into the popup window to confirm the fetch. Fetching will re-activate upload ability.
+</p>
+
+<p>
+Mavensmate is actually just GUI wrapper of Force.com CLI,
+</p>
+<ul class="org-ul">
+<li>When you click login, the command <code>force login</code> is executed</li>
+<li>When saving file, <code>force aura push</code> or <code>force push</code> is executed</li>
+<li>When fetching, <code>force fetch</code> is executed</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org682b2ab" class="outline-2">
+<h3 id="org682b2ab">Emacs</h3>
+<div class="outline-text-2" id="text-org682b2ab">
+<p>
+In Sublime Text I have to re-login and fetch from time to time. That get me distracted. I prefer executing only one commmand to upload the file in editing. That command should be always successful.
+</p>
+
+<p>
+My solution is to combine "login/fetch/push" commnands into one liner which is stored in a file local variable <code>compile-command</code>. So when I execute <code>M-x compile</code>, the commands "login/fetch/push" in <code>compile-command</code> will all be executed sequentially. So I don't need care about login and fetch things any more.
+</p>
+
+<p>
+Here is my setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-setup-develop-environment ()
+  (interactive)
+  (let (ffip-project-root)
+    (setq ffip-project-root "~/projects/my-salesforce-project1")
+
+    (when (memq major-mode '(web-mode js-mode js2-mode))
+      (setq-local compile-command
+                  (cond
+                   ;; lightning controller javascript file
+                   ((string-match "Controller\.js$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; cp %s %s &amp;&amp; force fetch -t Aura -n %s -d %s &amp;&amp; mv %s %s &amp;&amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name) (concat (buffer-file-name) ".bak")
+                            (replace-regexp-in-string "Controller" "" (file-name-base (buffer-file-name)))
+                            ffip-project-root
+                            (concat (buffer-file-name) ".bak") (buffer-file-name)
+                            (buffer-file-name)))
+                   ;; ant build
+                   ((string-match "build\.xml$" (buffer-file-name))
+                    (format "cd %s &amp;&amp; ant deployCode" ffip-project-root))
+                   ;; lightning html view
+                   ((string-match "\.cmp$" (buffer-file-name))
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force aura push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   ;; other salesforce pages
+                   (t
+                    (format "force login -i=test -u=username@salesforce.com -p=password1; cd %s &amp;&amp; force push -f %s"
+                            ffip-project-root
+                            (buffer-file-name)))
+                   )))
+    ))
+
+;; I use web-mode for html/xml
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
+;; I use js2-mode for javascript
+(add-hook 'js2-mode-hook 'my-setup-develop-environment)
+</code></pre>
+
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/how-to-be-extremely-efficient-in-emacs/">How to be extremely efficient in Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -1860,66 +2042,66 @@ I will show you how I use ivy-mode.
 <p>
 <b>Only one API</b> `ivy-read` from ivy-mode is used.
 </p>
-<div id="outline-container-orgb197e0b" class="outline-2">
-<h3 id="orgb197e0b">Demo</h3>
-<div class="outline-text-2" id="text-orgb197e0b">
+<div id="outline-container-org40b415d" class="outline-2">
+<h3 id="org40b415d">Demo</h3>
+<div class="outline-text-2" id="text-org40b415d">
 </div>
-<div id="outline-container-org1253a2b" class="outline-3">
-<h4 id="org1253a2b">M-x counsel-git-grep-yank-line</h4>
-<div class="outline-text-3" id="text-org1253a2b">
+<div id="outline-container-orga92bc89" class="outline-3">
+<h4 id="orga92bc89">M-x counsel-git-grep-yank-line</h4>
+<div class="outline-text-3" id="text-orga92bc89">
 <p>
 Use <a href="https://git-scm.com/docs/git-grep">git-grep</a> to grep lines. Then copy the selected line into kill ring.
 </p>
 
 
-<div id="orgffe697b" class="figure">
+<div id="org688fd9f" class="figure">
 <p><img src="wp-content/ivy-git-grep-yank-line-nq8.png" alt="ivy-git-grep-yank-line-nq8.png"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-org53258a8" class="outline-3">
-<h4 id="org53258a8">M-x counsel-git-find-my-file</h4>
-<div class="outline-text-3" id="text-org53258a8">
+<div id="outline-container-orge4dde6d" class="outline-3">
+<h4 id="orge4dde6d">M-x counsel-git-find-my-file</h4>
+<div class="outline-text-3" id="text-orge4dde6d">
 <p>
 Find my file under git version control in recent N weeks.
 </p>
 
 
-<div id="orgcb16bff" class="figure">
+<div id="orgaa25e29" class="figure">
 <p><img src="wp-content/ivy-git-find-my-file-nq8.png" alt="ivy-git-find-my-file-nq8.png"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-org310effa" class="outline-3">
-<h4 id="org310effa">M-x ivy-imenu-goto</h4>
-<div class="outline-text-3" id="text-org310effa">
+<div id="outline-container-org6e414a0" class="outline-3">
+<h4 id="org6e414a0">M-x ivy-imenu-goto</h4>
+<div class="outline-text-3" id="text-org6e414a0">
 <p>
 Imenu. It's quick.
 </p>
 
 
-<div id="org43a271f" class="figure">
+<div id="org724b335" class="figure">
 <p><img src="wp-content/ivy-imenu-goto-nq8.png" alt="ivy-imenu-goto-nq8.png"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-org31b3eef" class="outline-3">
-<h4 id="org31b3eef">M-x ivy-bookmark-goto</h4>
-<div class="outline-text-3" id="text-org31b3eef">
+<div id="outline-container-org64f6e6c" class="outline-3">
+<h4 id="org64f6e6c">M-x ivy-bookmark-goto</h4>
+<div class="outline-text-3" id="text-org64f6e6c">
 <p>
 Quick and customizable.
 </p>
 
 
-<div id="org3af962f" class="figure">
+<div id="orgfb3f5e2" class="figure">
 <p><img src="wp-content/ivy-bookmarks-goto-nq8.png" alt="ivy-bookmarks-goto-nq8.png"></p>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdf33507" class="outline-2">
-<h3 id="orgdf33507">Code</h3>
-<div class="outline-text-2" id="text-orgdf33507">
+<div id="outline-container-org33e3aee" class="outline-2">
+<h3 id="org33e3aee">Code</h3>
+<div class="outline-text-2" id="text-org33e3aee">
 <p>
 Swiper 7.0+ required.
 </p>
@@ -2076,207 +2258,6 @@ Or else, find files since 24 weeks (6 months) ago."
 
 </div>
 </div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/emacs-auto-completion-for-non-programmers/">Emacs auto-completion for non-programmers</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-12-01T11:41:34+00:00">2015-12-01 11:41</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/emacs-auto-completion-for-non-programmers/#disqus_thread" data-disqus-identifier="cache/posts/emacs-auto-completion-for-non-programmers.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/completion/" rel="tag">completion</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/word/" rel="tag">word</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-12-01 Tue&gt;</span></span>
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-12-03 Thu&gt;</span></span>
-</p>
-
-<p>
-That's easy if you use <a href="https://github.com/company-mode/company-mode">company-mode</a>.
-</p>
-
-<p>
-Say if you want to complete words ONLY in org-mode,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(require 'company)
-
-(add-hook 'after-init-hook 'global-company-mode)
-
-;; Don't enable company-mode in below major modes, OPTIONAL
-(setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
-
-;; "text-mode" is a major mode for editing files of text in a human language"
-;; most major modes for non-programmers inherit from text-mode
-(defun text-mode-hook-setup ()
-  ;; make `company-backends' local is critcal
-  ;; or else, you will have completion in every major mode, that's very annoying!
-  (make-local-variable 'company-backends)
-
-  ;; company-ispell is the plugin to complete words
-  (add-to-list 'company-backends 'company-ispell)
-
-  ;; OPTIONAL, if `company-ispell-dictionary' is nil, `ispell-complete-word-dict' is used
-  ;;  but I prefer hard code the dictionary path. That's more portable.
-  (setq company-ispell-dictionary (file-truename "~/.emacs.d/misc/english-words.txt")))
-
-(add-hook 'text-mode-hook 'text-mode-hook-setup)
-
-(defun toggle-company-ispell ()
-  (interactive)
-  (cond
-   ((memq 'company-ispell company-backends)
-    (setq company-backends (delete 'company-ispell company-backends))
-    (message "company-ispell disabled"))
-   (t
-    (add-to-list 'company-backends 'company-ispell)
-    (message "company-ispell enabled!"))))
-</code></pre>
-
-</div>
-
-<p>
-`M-x toggle-company-ispell` to toggle company-ispell in <b>any major mode</b>.
-</p>
-
-<p>
-"english-words.txt" is just a plain text file where lines sorted alphabetically. Every line is a word.
-</p>
-
-<p>
-You can download my <a href="https://github.com/redguardtoo/emacs.d/raw/master/misc/english-words.txt">english-words.txt</a>.
-</p>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/code-completion-for-htmljscss-in-emacs/">Code completion for HTML/JS/CSS in Emacs</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-11-27T11:43:59+00:00">2015-11-27 11:43</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/code-completion-for-htmljscss-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/code-completion-for-htmljscss-in-emacs.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/css/" rel="tag">css</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/html/" rel="tag">html</a></li>
-           <li><a class="tag p-category" href="categories/javascript/" rel="tag">javascript</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-27 Fri&gt;</span></span>
-</p>
-
-<p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 Fri&gt;</span></span>
-</p>
-
-<p>
-You need install <a href="https://en.wikipedia.org/wiki/Ctags">Ctags</a> or <a href="https://github.com/universal-ctags/ctags">universal-ctags</a> at first.
-</p>
-
-<p>
-People using macOS will find there already exists a built in program named "ctags". <b>This program should be deleted!</b>
-</p>
-
-<p>
-If you want a <b>quick start</b>, jump to the end of this article.
-</p>
-
-<p>
-You can use <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> plus <a href="https://github.com/company-mode/company-mode">company-mode</a> to complete HTML/JS/CSS code.
-</p>
-
-<p>
-Setup is easy.
-</p>
-
-<p>
-Step 1, create TAGS:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-sh">cd ~/myproj/ &amp;&amp; ctags -e -R .
-</code></pre>
-
-</div>
-
-<p>
-Step 2, done.
-</p>
-
-<p>
-That's OK for most programming languages.
-</p>
-
-<p>
-But <b>not enough</b> for web developers who use <a href="https://github.com/fxbois/web-mode">web-mode</a>.
-</p>
-
-<p>
-You need upgrade web-mode to <a href="https://github.com/fxbois/web-mode/pull/640">latest version</a> so that when inputting "btn-" or "data-" code completion still works.
-</p>
-
-<p>
-One issue is <code>company-mode</code> disables code completion in string and comment by default. We need <b>disable this feature in web-mode temporarily</b>,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(with-eval-after-load 'company
-  ;; @see https://github.com/redguardtoo/emacs.d/commit/2ff305c1ddd7faff6dc9fa0869e39f1e9ed1182d
-  (defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
-    (if (memq major-mode '(php-mode html-mode web-mode nxml-mode))
-        (setq ad-return-value nil)
-      ad-do-it)))
-</code></pre>
-
-</div>
-
-<p>
-Tested on Emacs24, 25, 26.
-</p>
-
-<p>
-Screenshot:
-</p>
-
-<div id="org7fb6771" class="figure">
-<p><img src="wp-content/company-etags-code-completion-nq8.png" alt="company-etags-code-completion-nq8.png"></p>
 </div>
             </div>
         </div>
