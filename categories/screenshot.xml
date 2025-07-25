@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about screenshot)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/screenshot.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 31 May 2025 02:21:02 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to take screen shot for business people efficiently in Emacs</title><link>http://redguardtoo.github.io/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about screenshot)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/screenshot.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 25 Jul 2025 14:45:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to take screen shot for business people efficiently in Emacs</title><link>http://redguardtoo.github.io/posts/how-to-take-screen-shot-for-business-people-efficiently-in-emacs/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 CREATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2013-10-23 Wed&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
 
 &lt;p&gt;
 UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&amp;lt;2015-08-11 Tue&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;/p&gt;
-&lt;div id="outline-container-orga380041" class="outline-2"&gt;
-&lt;h3 id="orga380041"&gt;Tools&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orga380041"&gt;
+
+&lt;div id="outline-container-org1a7ea5f" class="outline-2"&gt;
+&lt;h3 id="org1a7ea5f"&gt;Tools&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1a7ea5f"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -54,13 +55,13 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org44f675b" class="outline-2"&gt;
-&lt;h3 id="org44f675b"&gt;Work flow&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org44f675b"&gt;
+&lt;div id="outline-container-org79004a9" class="outline-2"&gt;
+&lt;h3 id="org79004a9"&gt;Work flow&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org79004a9"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfb8b9d1" class="outline-3"&gt;
-&lt;h4 id="orgfb8b9d1"&gt;Use scrot to screenshot and put its path into clipboard&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgfb8b9d1"&gt;
+&lt;div id="outline-container-org63dd8d8" class="outline-3"&gt;
+&lt;h4 id="org63dd8d8"&gt;Use scrot to screenshot and put its path into clipboard&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org63dd8d8"&gt;
 &lt;div class="org-src-container"&gt;
 
 &lt;pre&gt;&lt;code class="lang-sh"&gt;scrot '%H%M%S-%d_$wx$h.png' -e 'mkdir -p ~/screenshot;mv $f ~/screenshot/;echo ~/screenshot/$f|tr -d \"\\n\"|xsel -ib;'
@@ -69,9 +70,10 @@ UPDATED: &lt;span class="timestamp-wrapper"&gt;&lt;span class="timestamp"&gt;&am
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3b21e41" class="outline-3"&gt;
-&lt;h4 id="org3b21e41"&gt;Create org file and insert path of screen shot&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org3b21e41"&gt;
+
+&lt;div id="outline-container-org19188d9" class="outline-3"&gt;
+&lt;h4 id="org19188d9"&gt;Create org file and insert path of screen shot&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org19188d9"&gt;
 &lt;p&gt;
 Actually I use below elisp command to do the insertion for me.
 &lt;/p&gt;
@@ -104,9 +106,9 @@ The full path into relative path and insert it as a local file link in org-mode"
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb45e621" class="outline-3"&gt;
-&lt;h4 id="orgb45e621"&gt;Convert org file into Microsoft Word format&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-orgb45e621"&gt;
+&lt;div id="outline-container-orgd5e24ba" class="outline-3"&gt;
+&lt;h4 id="orgd5e24ba"&gt;Convert org file into Microsoft Word format&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-orgd5e24ba"&gt;
 &lt;p&gt;
 I'm sure this method works even on Windows. But I don't have Windows PC to validate my belief. Libreoffice is required.
 &lt;/p&gt;
@@ -147,9 +149,10 @@ Emacs will find the binary "soffice" from libreoffice to do the conversion.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org17eaada" class="outline-3"&gt;
-&lt;h4 id="org17eaada"&gt;Tips&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org17eaada"&gt;
+
+&lt;div id="outline-container-org58c1c01" class="outline-3"&gt;
+&lt;h4 id="org58c1c01"&gt;Tips&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org58c1c01"&gt;
 &lt;p&gt;
 If you need page break in exported document, insert below snippet into the org file:
 &lt;/p&gt;

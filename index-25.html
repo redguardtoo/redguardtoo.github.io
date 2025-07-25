@@ -23,254 +23,6 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/how-to-speed-up-lsp-mode/">How to speed up lsp-mode</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2020-03-09T12:10:32+00:00">2020-03-09 12:10</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/how-to-speed-up-lsp-mode/#disqus_thread" data-disqus-identifier="cache/posts/how-to-speed-up-lsp-mode.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-Here is my setup,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(with-eval-after-load 'lsp-mode
-  ;; enable log only for debug
-  (setq lsp-log-io nil)
-
-  ;; use `evil-matchit' instead
-  (setq lsp-enable-folding nil)
-
-  ;; no real time syntax check
-  (setq lsp-diagnostic-package :none)
-
-  ;; handle yasnippet by myself
-  (setq lsp-enable-snippet nil)
-
-  ;; use `company-ctags' only.
-  ;; Please note `company-lsp' is automatically enabled if installed
-  (setq lsp-enable-completion-at-point nil)
-
-  ;; turn off for better performance
-  (setq lsp-enable-symbol-highlighting nil)
-
-  ;; use ffip instead
-  (setq lsp-enable-links nil)
-
-  ;; auto restart lsp
-  (setq lsp-restart 'auto-restart)
-
-  ;; @see https://github.com/emacs-lsp/lsp-mode/pull/1498 and code related to auto configure.
-  ;; Require clients could be slow.
-  ;; I only load `lsp-clients' because it includes the js client which I'm interested
-  (setq lsp-client-packages '(lsp-clients))
-
-  ;; don't scan 3rd party javascript libraries
-  (push "[/\\\\][^/\\\\]*\\.\\(json\\|html\\|jade\\)$" lsp-file-watch-ignored) ; json
-
-  ;; don't ping LSP lanaguage server too frequently
-  (defvar lsp-on-touch-time 0)
-  (defadvice lsp-on-change (around lsp-on-change-hack activate)
-    ;; don't run `lsp-on-change' too frequently
-    (when (&gt; (- (float-time (current-time))
-                lsp-on-touch-time) 30) ;; 30 seconds
-      (setq lsp-on-touch-time (float-time (current-time)))
-      ad-do-it)))
-
-(defun my-connect-lsp (&amp;optional no-reconnect)
-  "Connect lsp server.  If NO-RECONNECT is t, don't shutdown existing lsp connection."
-  (interactive "P")
-  (when (and (not no-reconnect)
-             (fboundp 'lsp-disconnect))
-    (lsp-disconnect))
-  (when (and buffer-file-name
-             (not (member (file-name-extension buffer-file-name)
-                          '("json"))))
-    (unless (and (boundp 'lsp-mode) lsp-mode)
-      (if (derived-mode-p 'js2-mode) (setq-local lsp-enable-imenu nil))
-      (lsp-deferred))))
-</code></pre>
-
-</div>
-
-<p>
-To enable <code>lsp</code> for the major mode <code>XXX-mode</code> needs only one line,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(add-hook 'XXX-mode-hook #'my-connect-lsp)
-</code></pre>
-
-</div>
-
-<p>
-You also need install three packages,
-</p>
-<ul class="org-ul">
-<li>
-<a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation</li>
-<li>
-<a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> for code completion</li>
-<li>
-<a href="https://github.com/technomancy/find-file-in-project">find-file-in-project</a> (ffip) for searching file in project</li>
-</ul>
-<p>
-Explanation,
-</p>
-
-<p>
-Ctags is used to generate tags file for <code>company-ctags</code> and <code>counsel-etags</code>. GNU Find is required for <code>find-file-in-project</code>.
-</p>
-
-<p>
-These three packages are faster and can replace the corresponding functionalities in <code>lsp-mode</code>.
-</p>
-
-<p>
-I don't need any lint tools from <code>lsp-mode</code> because the lint tool is already included in our build script. I can see the syntax error from terminal.
-</p>
-
-<p>
-I <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">advice</a> the <code>lsp-on-change</code> in order to notify the language server less frequently.
-</p>
-
-<p>
-<code>js2-mode</code>  has its own javascript parser extract imenu items. So I don't need javascript language server's parser to send back imenu items.
-</p>
-
-<p>
-By default <code>lsp-client-packages</code> contains many clients, but I only code in javascript which is included in <code>lsp-clients</code>.
-</p>
-
-<p>
-Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679631b8361b9b26fd3d663bb6ba/lsp-mode.el#L7156">quoted from lsp-mode</a>,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">;;;###autoload
-(defun lsp (&amp;optional arg)
-  ;; ...
-  (when (and lsp-auto-configure)
-    (seq-do (lambda (package) (require package nil t))
-            lsp-client-packages))
-  ;; ...
-)
-</code></pre>
-
-</div>
-
-<p>
-I have done <a href="https://github.com/emacs-lsp/lsp-mode/pull/1498">some profiling</a> by insert <code>(profiler-report-cpu)</code> at the end of <code>lsp</code> (the bottlenecks is highlighted).
-</p>
-
-<div id="org535d319" class="figure">
-<p><img src="wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"></p>
-</div>
-
-<p>
-The language server I used <a href="https://github.com/sourcegraph/javascript-typescript-langserver/issues/394">can read jsconfig.json</a> in project root. I can specify the directories to exclude in it.</p>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/yin-and-yang-in-emacs/">Yin and Yang in Emacs</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2019-11-25T08:09:33+00:00">2019-11-25 08:09</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/yin-and-yang-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/yin-and-yang-in-emacs.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-As a Chinese, I studied <a href="https://en.wikipedia.org/wiki/Tao_Te_Ching">Tao Te Ching</a> since childhood. So I believe Tao (the way) exist in Emacs. Tao is basically Yin and Yang who lives in harmony in Emacs.
-</p>
-
-<p>
-I can't say Yin is good and Yang is evil, or vice versa. All I can do is to find the way to make Yin and Yang co-exist. 
-</p>
-
-<p>
-For example, a few days ago I published <a href="https://www.reddit.com/r/emacs/comments/dz2a80/effective_git_blame_in_emacs/">Effective "git blame" in Emacs</a> which introduced my package <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a>.
-</p>
-
-<p>
-It became one of my most popular reddit post because its unique feature <b>partial line blame</b>,
-</p>
-
-<div id="org652a910" class="figure">
-<p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
-</div>
-
-<div id="org774261b" class="figure">
-<p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
-</div>
-
-<p>
-I noticed some comments compared my package with <a href="https://magit.vc/">Magit</a>. Those comments were very educational and I did learn a few useful tricks.
-</p>
-
-<p>
-My point is, <code>vc-msg</code> and <code>Magit</code> could collaborate without any problem, like Yin and Yang lives harmony. If you find any conflict between <code>vc-msg</code> and <code>Magit</code>, just let me know. I will fix it.
-</p>
-
-<p>
-I totally understand there are many Magit lovers in Emacs community. So I make <code>vs-msg v1.0.2</code> to support Magit. You can use <code>partial line blame</code> in <code>vc-msg</code> but calling Magit command to open the commit.  
-</p>
-
-<p>
-It's only one line setup,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(setq vc-msg-git-show-commit-function 'magit-show-commit)
-</code></pre>
-
-</div>
-
-<div id="org66defff" class="figure">
-<p><img src="wp-content/vc-msg-and-magit.png" alt="vc-msg-and-magit.png"></p>
-</div>
-
-<p>
-I tested in <code>magit-blame-mode</code> and found no issue.
-</p>
-
-<p>
-I'm sure <code>vc-msg</code> should work in other major modes or minor modes. There are also two callback functions <code>vc-msg-get-current-file-function</code> and <code>vc-msg-get-line-num-function</code> which users can customize.</p>
-            </div>
-        </div>
-        <div class="post">
             <h1 class="title"><a href="posts/effective-git-blame-in-emacs/">Effective "git blame" in Emacs</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -316,15 +68,15 @@ Select the partial of line 6 and run <code>vc-msg-show</code>, the correct commi
 Screenshots,
 </p>
 
-<div id="orgdc98225" class="figure">
+<div id="org7ad6018" class="figure">
 <p><img src="wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"></p>
 </div>
 
-<div id="org0d250fe" class="figure">
+<div id="org4771d00" class="figure">
 <p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
 </div>
 
-<div id="org024636d" class="figure">
+<div id="orge4f9a33" class="figure">
 <p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
 </div>
             </div>
@@ -371,7 +123,7 @@ I used to regard vimdiff as the best merge tool for Git because it's simply fast
 Here is the demo how I use vimdiff to resolve conflicts from <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a>.
 </p>
 
-<div id="org91823ce" class="figure">
+<div id="org1321496" class="figure">
 <p><img src="wp-content/vimdiff-as-git-merge-tool.gif" alt="vimdiff-as-git-merge-tool.gif"></p>
 </div>
 
@@ -413,7 +165,8 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 <p>
 Here is the complete solution.
 </p>
-<div id="outline-container-org6b90585" class="outline-2">
+
+<div id="outline-container-orgc0c165e" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -469,7 +222,7 @@ Native Emacs API is enough to save/load windows layout.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfaa4b5c" class="outline-2">
+<div id="outline-container-org809583e" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 <p>
@@ -598,7 +351,7 @@ Demo on using Emacs to resolve merge conflicts,
 </p>
 
 
-<div id="org2bb9e91" class="figure">
+<div id="org49ecf20" class="figure">
 <p><img src="wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"></p>
 </div>
 </div>
@@ -648,7 +401,7 @@ Or set up imenu before <code>M-x imenu</code> or <code>M-x helm-imenu</code> or 
 screenshot:
 </p>
 
-<div id="org2484199" class="figure">
+<div id="org0342347" class="figure">
 <p><img src="wp-content/counsel-etags-imenu.png" alt="counsel-etags-imenu.png"></p>
 </div>
             </div>
@@ -801,18 +554,18 @@ My current project uses a technology called <a href="https://www.styled-componen
 <p>
 It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
 </p>
-<div id="outline-container-org832e946" class="outline-2">
-<h3 id="org832e946">Screencast</h3>
-<div class="outline-text-2" id="text-org832e946">
+<div id="outline-container-org2066be2" class="outline-2">
+<h3 id="org2066be2">Screencast</h3>
+<div class="outline-text-2" id="text-org2066be2">
 
-<div id="orgb864bde" class="figure">
+<div id="orgdf98eac" class="figure">
 <p><img src="wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-orga67e7da" class="outline-2">
-<h3 id="orga67e7da">Code</h3>
-<div class="outline-text-2" id="text-orga67e7da">
+<div id="outline-container-org56e3e57" class="outline-2">
+<h3 id="org56e3e57">Code</h3>
+<div class="outline-text-2" id="text-org56e3e57">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'counsel-etags)
@@ -888,9 +641,9 @@ It could dynamically change web application's appearance and is a critical techn
                 <p>
 I created <a href="https://github.com/redguardtoo/dianyou">dianyou</a> (电邮) to solve improve my Gnus work flow.
 </p>
-<div id="outline-container-org6c6276e" class="outline-2">
-<h3 id="org6c6276e">Search mails</h3>
-<div class="outline-text-2" id="text-org6c6276e">
+<div id="outline-container-org1ff906c" class="outline-2">
+<h3 id="org1ff906c">Search mails</h3>
+<div class="outline-text-2" id="text-org1ff906c">
 <p>
 Most Gnus users use <code>gnus-group-make-nnir-group</code> to search mails. But it's not usable in "Summary Buffer". Its <a href="https://tools.ietf.org/html/rfc3501#section-6.4.4">IMAP SEARCH Command</a> is hard to use.
 </p>
@@ -900,25 +653,27 @@ It could be replaced by <code>dianyou-group-make-nnir-group</code> which support
 </p>
 </div>
 </div>
-<div id="outline-container-org179d348" class="outline-2">
-<h3 id="org179d348">Auto complete email address</h3>
-<div class="outline-text-2" id="text-org179d348">
+<div id="outline-container-org3ef275b" class="outline-2">
+<h3 id="org3ef275b">Auto complete email address</h3>
+<div class="outline-text-2" id="text-org3ef275b">
 <p>
 I'm too lazy to set up my contacts. It would be better that Gnus could <b>automatically</b> collect email addresses from all received mails. So I created the command <code>dianyou-insert-email-address-from-received-mails</code>. The inserted email address is also inserted into the global variable <code>dianyou-email-address-history</code> which could be persisted by <a href="https://github.com/jwiegley/session">session</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb2fd51e" class="outline-2">
-<h3 id="orgb2fd51e">Switch Gnus buffer</h3>
-<div class="outline-text-2" id="text-orgb2fd51e">
+
+<div id="outline-container-orgb2ac6f9" class="outline-2">
+<h3 id="orgb2ac6f9">Switch Gnus buffer</h3>
+<div class="outline-text-2" id="text-orgb2ac6f9">
 <p>
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use <code>dianyou-switch-gnus-buffer</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org861d04f" class="outline-2">
-<h3 id="org861d04f">Paste image from clipboard</h3>
-<div class="outline-text-2" id="text-org861d04f">
+
+<div id="outline-container-orgc53be08" class="outline-2">
+<h3 id="orgc53be08">Paste image from clipboard</h3>
+<div class="outline-text-2" id="text-orgc53be08">
 <p>
 Use <code>dianyou-paste-image-from-clipboard</code>. CLI program <a href="https://github.com/astrand/xclip">xclip</a> should be installed at first.</p>
 </div>
@@ -1077,6 +832,397 @@ Insert below code int <code>~/.emacs</code>,
 
 <p>
 <code>evil-goto-mark-line</code> will access marker in <code>evil-global-markers-history</code>.</p>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/wucuo-a-emacs-spell-checker-that-works-with-camel-case-code/">Steps to install Emacs 27 for testing</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2018-09-07T12:39:54+00:00">2018-09-07 12:39</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/wucuo-a-emacs-spell-checker-that-works-with-camel-case-code/#disqus_thread" data-disqus-identifier="cache/posts/wucuo-a-emacs-spell-checker-that-works-with-camel-case-code.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+The Emacs is not for daily usage. Only for testing.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">sudo apt install built-essential automake autoconf texinfo # optional if they are already installed
+git clone https://git.savannah.gnu.org/git/emacs.git
+cd emacs &amp;&amp; ./configure CFLAGS=-no-pie --without-x --without-dbus --without-sound --with-gnutls=no &amp;&amp; make
+src/emacs # start emacs
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-spell-check-functionvariable-in-emacs/">How to spell check function/variable in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2018-06-17T03:16:41+00:00">2018-06-17 03:16</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/how-to-spell-check-functionvariable-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/how-to-spell-check-functionvariable-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/flyspell/" rel="tag">flyspell</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2018-06-17 Sun&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-04-04 Thu&gt;</span></span>
+</p>
+
+<p>
+<a href="http://blog.binchen.org/posts/effective-spell-check-in-emacs.html">This article</a> explains how to spell check camel cased names of functions and variables in Emacs. It uses options <code>--run-together</code> from <a href="http://aspell.net/">GNU Aspell</a>.
+</p>
+
+<p>
+But this solution is not perfect. It wrongly identifies two character sub-word as typo. For example, "onChange" is regarded as typo because the sub-word "on" is identified as typo. Another issue is namespace of function name. For example, "MS" from "MSToggleButton" is alias of "Microsoft". If "MS" is identified as typo, every word containing "MS" is regarded as typo.
+</p>
+
+<p>
+In this article,
+</p>
+<ul class="org-ul">
+<li>I will explain <b>how Emacs spell checker works</b>
+</li>
+<li>Then we study the <b>algorithm of aspell</b>
+</li>
+<li>Finally, <b>a complete solution</b> which works with <b>both aspell and hunspell</b> is provided</li>
+</ul>
+<p>
+Emacs built in plugin <a href="https://www.emacswiki.org/emacs/FlySpell">Fly Spell</a> does spell checking. It passes the options and plain text to command line tool aspell. Aspell sends back the typos into <code>Fly Spell</code>. <code>Fly Spell</code> then picks up typos to display. For example, <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Spelling.html">flyspell-prog-mode</a> only displays typos in comments and strings.
+</p>
+
+<p>
+Aspell doesn't understand syntax of any programming language. It simply reports typos in plain text.
+</p>
+
+<p>
+Aspell has two options:
+</p>
+<ul class="org-ul">
+<li>
+<code>--run-together-limit</code> is "Maximum number of words can be strung together"</li>
+<li>
+<code>--run-together-min</code> is "Minimal length of sub-words"</li>
+</ul>
+<p>
+Aspell C++ code has to be studied in order to understand above two options. Let's start from <code>Working::check_word</code> in <code>modules/speller/default/suggest.cpp</code>.
+</p>
+
+<p>
+Here is code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">class Working : public Score {
+  unsigned check_word(char * word, char * word_end, CheckInfo * ci, unsigned pos = 1);
+};
+unsigned Working::check_word(char * word, char * word_end,  CheckInfo * ci,
+                             /* it WILL modify word */
+                             unsigned pos)
+{
+  // check the whole word before go into run-together mode
+  unsigned res = check_word_s(word, ci);
+  // if `res` is true, it's a valid word, don't bother run-together
+  if (res) return pos + 1;
+  // it's typo because number of sub-words is greater than "--run-together-limit"
+  if (pos + 1 &gt;= sp-&gt;run_together_limit_) return 0;
+
+  // `i` is the `end` of sub-word, the poition AFTER last character of sub-word
+  for (char * i = word + sp-&gt;run_together_min_; 
+       // already checked the whole word; besides, any sub-word whose size is less 
+       // than "--run-together-min" is regarded as invalid
+       i &lt;= word_end - sp-&gt;run_together_min_;
+       ++i)
+  {
+    char t = *i;
+
+    // read the sub-word by set the character at `end` position to '\0'
+    *i = '\0';
+    res = check_word_s(word, ci);
+    // restore original character at `end` position
+    *i = t;
+
+    // Current sub-word is invalid, we need append the character at current
+    //  `end` position to creata new sub-word.
+    //  Inncrement `i` because `i` always points to the `end` of sub-word
+    if (!res) continue;
+
+    // Current sub-word is valid, strip it from the whole word to create a totally
+    // new word for `check_word`, `check_word` is a recursive function
+    res = check_word(i, word_end, ci + 1, pos + 1);
+    if (res) return res;
+  }
+  memset(ci, 0, sizeof(CheckInfo));
+  return 0;
+}
+</code></pre>
+
+</div>
+
+<p>
+Say first parameter of <code>check_word</code> is "hisHelle",
+</p>
+<ul class="org-ul">
+<li>
+<code>word</code> points to string "hisHelle" (in C/C++, string is character array. The last character of array is character <code>'\0'</code>)</li>
+<li>
+<code>sp-&gt;run_together_min_</code> is 3, so <code>i</code> initially points to the character "H", at the end of sub-word "his"</li>
+<li>
+<code>check_word_s</code> return <code>true</code> for sub-word "his"</li>
+<li>So we strip "his" from "hisHelle" and recursively call <code>check_word</code> to check new word "Helle"</li>
+<li>In the new context of <code>check_word</code>, we extract "Hel" from "Helle" initially</li>
+<li>"Hel" is invalid. So "Hell" is extracted from "Helle". The remaining charcter "e" is a treated as as new word with <code>check_word</code> recursively applying on it</li>
+<li>"e" is not valid It's the last word could be extracted. So recursion is over. It's concluded that "hisHelle" is a typo</li>
+</ul>
+<p>
+Key points:
+</p>
+<ul class="org-ul">
+<li>
+<code>--run-together-limit</code> could be bigger with enough memory. It's default value is 8. I prefer 16.</li>
+<li>
+<code>--run-together-min</code> can't be 2 because too many typos are combination of "correct" two character sub-words ("hehe", "isme", …)</li>
+<li>
+<code>--run-together-min</code> can't be greater than 3, or else, too many "correct" three character sub-words are regarded as invalid ("his", "her", "one", "two")</li>
+<li>So <code>--run-together-min</code> <b>should always be 3</b>
+</li>
+</ul>
+<p>
+If <code>--run-together-min</code> is 3, the word "onChange" is typo because the first two characters "on" is typo by aspell. This is obviously wrong.
+</p>
+
+<p>
+The solution is a Emacs Lisp predicate which supports <b>both aspell and hunspell</b>.
+</p>
+
+<p>
+A predicate could be attached to specific major-mode. The predicate file all the typos reported by CLI program. If predicate returns  <code>t</code>, the feed in typo is finally approved to be typo,
+</p>
+
+<p>
+A example of predicate for <code>js2-mode</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun js-flyspell-verify ()
+  (let* ((font-face (get-text-property (- (point) 1) 'face))
+         (word (thing-at-point 'word)))
+    (message "font-face=%s word=%s" font-face word)
+    t))
+(put 'js2-mode 'flyspell-mode-predicate 'js-flyspell-verify)
+</code></pre>
+
+</div>
+
+<p>
+Typo candidates are filtered by <code>js-flyspell-verify</code>. So predicate is where to fix typos wrongly reported by CLI program.
+</p>
+
+<p>
+Here is complete setup you can paste into <code>.emacs</code> (I setup for <code>js2-mode</code> and <code>rjsx-mode</code> but code is generic enough).
+</p>
+
+<p>
+Please note function <code>split-camel-case</code> splits a camel case word into a list of sub-words. Sub-word with less one or two characters is not typo.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun split-camel-case (word)
+  "Split camel case WORD into a list of strings.
+Ported from 'https://github.com/fatih/camelcase/blob/master/camelcase.go'."
+  (let* ((case-fold-search nil)
+         (len (length word))
+         ;; ten sub-words is enough
+         (runes [nil nil nil nil nil nil nil nil nil nil])
+         (runes-length 0)
+         (i 0)
+         ch
+         (last-class 0)
+         (class 0)
+         rlt)
+
+    ;; split into fields based on class of character
+    (while (&lt; i len)
+      (setq ch (elt word i))
+      (cond
+       ;; lower case
+       ((and (&gt;= ch ?a) (&lt;= ch ?z))
+        (setq class 1))
+       ;; upper case
+       ((and (&gt;= ch ?A) (&lt;= ch ?Z))
+        (setq class 2))
+       ((and (&gt;= ch ?0) (&lt;= ch ?9))
+        (setq class 3))
+       (t
+        (setq class 4)))
+
+      (cond
+       ((= class last-class)
+        (aset runes
+              (1- runes-length)
+              (concat (aref runes (1- runes-length)) (char-to-string ch))))
+       (t
+        (aset runes runes-length (char-to-string ch))
+        (setq runes-length (1+ runes-length))))
+      (setq last-class class)
+      ;; end of while
+      (setq i (1+ i)))
+
+    ;; handle upper case -&gt; lower case sequences, e.g.
+    ;;     "PDFL", "oader" -&gt; "PDF", "Loader"
+    (setq i 0)
+    (while (&lt; i (1- runes-length))
+      (let* ((ch-first (aref (aref runes i) 0))
+             (ch-second (aref (aref runes (1+ i)) 0)))
+        (when (and (and (&gt;= ch-first ?A) (&lt;= ch-first ?Z))
+                   (and (&gt;= ch-second ?a) (&lt;= ch-second ?z)))
+          (aset runes (1+ i) (concat (substring (aref runes i) -1) (aref runes (1+ i))))
+          (aset runes i (substring (aref runes i) 0 -1))))
+      (setq i (1+ i)))
+
+    ;; construct final result
+    (setq i 0)
+    (while (&lt; i runes-length)
+      (when (&gt; (length (aref runes i)) 0)
+        (setq rlt (add-to-list 'rlt (aref runes i) t)))
+      (setq i (1+ i)))
+     rlt))
+
+(defun flyspell-detect-ispell-args (&amp;optional run-together)
+  "If RUN-TOGETHER is true, spell check the CamelCase words.
+Please note RUN-TOGETHER will make aspell less capable. So it should only be used in prog-mode-hook."
+  ;; force the English dictionary, support Camel Case spelling check (tested with aspell 0.6)
+  (let* ((args (list "--sug-mode=ultra" "--lang=en_US"))args)
+    (if run-together
+        (setq args (append args '("--run-together" "--run-together-limit=16"))))
+    args))
+
+;; {{ for aspell only, hunspell does not need setup `ispell-extra-args'
+(setq ispell-program-name "aspell")
+(setq-default ispell-extra-args (flyspell-detect-ispell-args t))
+;; }}
+
+;; ;; {{ hunspell setup, please note we use dictionary "en_US" here
+;; (setq ispell-program-name "hunspell")
+;; (setq ispell-local-dictionary "en_US")
+;; (setq ispell-local-dictionary-alist
+;;       '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+;; ;; }}
+
+(defvar extra-flyspell-predicate '(lambda (word) t)
+  "A callback to check WORD.  Return t if WORD is typo.")
+
+(defun my-flyspell-predicate (word)
+  "Use aspell to check WORD.  If it's typo return t."
+  (let* ((cmd (cond
+               ;; aspell: `echo "helle world" | aspell pipe`
+               ((string-match-p "aspell$" ispell-program-name)
+                (format "echo \"%s\" | %s pipe"
+                        word
+                        ispell-program-name))
+               ;; hunspell: `echo "helle world" | hunspell -a -d en_US`
+               (t
+                (format "echo \"%s\" | %s -a -d en_US"
+                        word
+                        ispell-program-name))))
+         (cmd-output (shell-command-to-string cmd))
+         rlt)
+    ;; (message "word=%s cmd=%s" word cmd)
+    ;; (message "cmd-output=%s" cmd-output)
+    (cond
+     ((string-match-p "^&amp;" cmd-output)
+      ;; it's a typo because at least one sub-word is typo
+      (setq rlt t))
+     (t
+      ;; not a typo
+      (setq rlt nil)))
+    rlt))
+
+(defun js-flyspell-verify ()
+  (let* ((case-fold-search nil)
+         (font-matched (memq (get-text-property (- (point) 1) 'face)
+                             '(js2-function-call
+                               js2-function-param
+                               js2-object-property
+                               js2-object-property-access
+                               font-lock-variable-name-face
+                               font-lock-string-face
+                               font-lock-function-name-face
+                               font-lock-builtin-face
+                               rjsx-text
+                               rjsx-tag
+                               rjsx-attr)))
+         subwords
+         word
+         (rlt t))
+    (cond
+     ((not font-matched)
+      (setq rlt nil))
+     ;; ignore two character word
+     ((&lt; (length (setq word (thing-at-point 'word))) 2)
+      (setq rlt nil))
+     ;; handle camel case word
+     ((and (setq subwords (split-camel-case word)) (&gt; (length subwords) 1))
+      (let* ((s (mapconcat (lambda (w)
+                             (cond
+                              ;; sub-word wholse length is less than three
+                              ((&lt; (length w) 3)
+                               "")
+                               ;; special characters
+                              ((not (string-match-p "^[a-zA-Z]*$" w))
+                               "")
+                              (t
+                               w))) subwords " ")))
+        (setq rlt (my-flyspell-predicate s))))
+     (t
+      (setq rlt (funcall extra-flyspell-predicate word))))
+    rlt))
+
+(put 'js2-mode 'flyspell-mode-predicate 'js-flyspell-verify)
+(put 'rjsx-mode 'flyspell-mode-predicate 'js-flyspell-verify)
+</code></pre>
+
+</div>
+
+<p>
+<b>UPDATE:</b>
+Now you can use <a href="https://github.com/redguardtoo/wucuo">wucuo</a>. It's an out of box solution supporting both aspell and hunspell.</p>
             </div>
         </div>
     

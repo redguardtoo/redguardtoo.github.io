@@ -1,10 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://redguardtoo.github.io/</link><description>Emacs, Cooking</description><atom:link href="http://redguardtoo.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 31 May 2025 02:21:16 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>老东北花椒水</title><link>http://redguardtoo.github.io/posts/lao-dong-bei-hua-jiao-shui/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog</title><link>http://redguardtoo.github.io/</link><description>Emacs, Cooking</description><atom:link href="http://redguardtoo.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 25 Jul 2025 14:45:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>使用imdisk在Windows10上创建ramdisk</title><link>http://redguardtoo.github.io/posts/shi-yong-imdisk-zai-windows10-shang-chuang-jian-ramdisk/</link><dc:creator>Chen Bin</dc:creator><description>&lt;ul class="org-ul"&gt;
+&lt;li&gt;步骤 1：创建批处理脚本(CreateRamDisk.bat),&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="org-src-container"&gt;
+
+&lt;pre&gt;&lt;code class="lang-bat"&gt;@echo off
+REM 检查 R: 是否已存在（防止重复挂载）
+if exist R:\ (
+    echo R: already exists.
+) else (
+    REM 使用 ImDisk 创建 1GB 的 RAM 磁盘（动态分配内存）
+    imdisk -a -t vm -s 512M -m R: -p "/fs:ntfs /q /y"
+
+    REM 等待磁盘初始化（避免目录创建失败）
+    timeout /t 2 &amp;gt;nul
+
+    REM 创建 R:\temp 目录
+    mkdir R:\temp 2&amp;gt;nul
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;
+关键参数说明：
+&lt;/p&gt;
+
+&lt;p&gt;
+-s 512M：分配 512M 物理内存（根据你的需求调整大小）。
+&lt;/p&gt;
+
+&lt;p&gt;
+timeout /t 2：等待 2 秒，确保磁盘初始化完成再创建目录。
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;步骤 2：创建任务计划（taskschd.msc）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+打开任务计划程序（Win + R -&amp;gt; taskschd.msc）。
+&lt;/p&gt;
+
+&lt;p&gt;
+创建基本任务：
+&lt;/p&gt;
+
+&lt;p&gt;
+名称：Mount ImDisk RAMDisk (Physical Memory)
+&lt;/p&gt;
+
+&lt;p&gt;
+触发器：当用户登录时 或 系统启动时（推荐 登录时，避免权限问题）。
+&lt;/p&gt;
+
+&lt;p&gt;
+操作：启动程序 -&amp;gt; 选择你的 CreateRamDisk.bat (C:/Windows/system32/CreateRamDisk.bat):
+&lt;/p&gt;
+
+&lt;p&gt;
+高级设置：
+&lt;/p&gt;
+
+&lt;p&gt;
+勾选 使用最高权限运行（ImDisk 需要管理员权限）。
+&lt;/p&gt;
+
+&lt;p&gt;
+条件：取消勾选 只有在计算机使用交流电源时才启动此任务（适用于笔记本）。
+&lt;/p&gt;
+
+&lt;p&gt;
+设置：可选 如果任务失败，重新启动每隔 1 分钟（确保成功挂载）。
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;步骤 3：测试 RAMDisk&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+手动运行任务（右键任务 -&amp;gt; 运行）。
+&lt;/p&gt;
+
+&lt;p&gt;
+检查是否生效：
+&lt;/p&gt;
+
+&lt;p&gt;
+打开 文件资源管理器，确认 R: 盘存在。
+&lt;/p&gt;
+
+&lt;p&gt;
+检查 R:\temp 目录是否已创建。
+&lt;/p&gt;
+
+&lt;p&gt;
+打开 任务管理器 -&amp;gt; 性能 -&amp;gt; 内存，查看是否有相应内存占用（如 4GB）
+&lt;/p&gt;</description><category>ramdisk</category><category>zh</category><guid>http://redguardtoo.github.io/posts/shi-yong-imdisk-zai-windows10-shang-chuang-jian-ramdisk/</guid><pubDate>Fri, 25 Jul 2025 14:35:47 GMT</pubDate></item><item><title>老东北花椒水</title><link>http://redguardtoo.github.io/posts/lao-dong-bei-hua-jiao-shui/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 作法,
 &lt;/p&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;50克花椒粒洗净加500毫升水烧开至水刚变色即可&lt;/li&gt;
-&lt;li&gt;花椒可重复烧4次&lt;/li&gt;
+&lt;li&gt;花椒粒可重复烧4次&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;
@@ -270,34 +366,4 @@
 &lt;p&gt;
 视频,
 &lt;a href="https://www.youtube.com/watch?v=FIIU31RSp9Y"&gt;Youtube&lt;/a&gt; &lt;a href="https://www.dropbox.com/scl/fi/s4o2uz9bio5awcixt2ybc"&gt;Dropbox&lt;/a&gt;
-&lt;/p&gt;</description><category>food</category><category>zh</category><guid>http://redguardtoo.github.io/posts/qiang-guo-mian/</guid><pubDate>Fri, 04 Apr 2025 00:53:33 GMT</pubDate></item><item><title>东北肉末茄子</title><link>http://redguardtoo.github.io/posts/dong-bei-rou-mo-jia-zi/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
-特点是软烂入味.
-&lt;/p&gt;
-
-&lt;p&gt;
-材料,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;100克肥瘦肉末&lt;/li&gt;
-&lt;li&gt;两根葱白斜切马蹄葱, 大拇指大姜切末&lt;/li&gt;
-&lt;li&gt;蒜6瓣切末&lt;/li&gt;
-&lt;li&gt;两根绿线椒切大颗粒(两根可能太辣了,1根或不放都可以)&lt;/li&gt;
-&lt;li&gt;半个红椒切长条,再切为1.5公分长丁&lt;/li&gt;
-&lt;li&gt;5根长茄子每根切6长条再长条切为10公分段&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-作法,
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;豆油烧热冒烟下一半茄子摊开每一条茄子都能接触锅底,煎至金黄色,1分钟翻面再煎1.5分钟(可茄子蒸10-15分钟代替,蒸的茄子易碎). 另一半茄子同样处理.&lt;/li&gt;
-&lt;li&gt;另起锅,油热下肉末炒至变白肥油出来,下花椒面(或十三香)炒香后,下葱姜(蒜后放)炒至肉末出泡沫&lt;/li&gt;
-&lt;li&gt;下20克酱(黄豆酱)炒4下烹入黄酒加入100克清水,少量老抽酱变红,10克蚝油增鲜,3~4分钟烧至入味&lt;/li&gt;
-&lt;li&gt;然后把线椒和红椒丁放在上面不盖锅盖2分钟,盖上锅盖1分钟&lt;/li&gt;
-&lt;li&gt;1小碗水淀粉(汤水可略多一点)分3次勾芡&lt;/li&gt;
-&lt;li&gt;放蒜末,略加一点锅边醋,搅拌6下结束&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-&lt;a href="https://www.youtube.com/watch?v=d06KFGEsEjc"&gt;Youtube&lt;/a&gt; &lt;a href="https://www.dropbox.com/scl/fi/vbai0zflu7bkboh060ofy"&gt;Dropbox&lt;/a&gt;
-&lt;/p&gt;</description><category>food</category><category>zh</category><guid>http://redguardtoo.github.io/posts/dong-bei-rou-mo-jia-zi/</guid><pubDate>Sun, 30 Mar 2025 04:41:45 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;</description><category>food</category><category>zh</category><guid>http://redguardtoo.github.io/posts/qiang-guo-mian/</guid><pubDate>Fri, 04 Apr 2025 00:53:33 GMT</pubDate></item></channel></rss>

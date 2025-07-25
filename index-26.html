@@ -23,109 +23,6 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
-            <h1 class="title"><a href="posts/ma-po-dou-fu/">麻婆豆腐</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2021-10-13T08:10:31+00:00">2021-10-13 08:10</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/ma-po-dou-fu/#disqus_thread" data-disqus-identifier="cache/posts/ma-po-dou-fu.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
-           <li><a class="tag p-category" href="categories/toufu/" rel="tag">toufu</a></li>
-           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-要点,
-</p>
-<ul class="org-ul">
-<li>嫩豆腐焯水去豆腥味, 加盐提味,一点酱油提色</li>
-<li>牛肉末炒酥取出</li>
-<li>加豆瓣酱,豆豉,辣椒面等.不能加姜,会压住其他味.炒到发香.加肉末,加高汤</li>
-<li>汤最多到豆腐的50%</li>
-<li>用炒勺的背面推豆腐保持豆腐完整</li>
-<li>三次勾芡(第一次让味进入豆腐,第二次起到拉力作用,第三次彻底粘合,不要吐水出来)</li>
-<li>最后用小火甚至微火,多烧一下才入味(要不断推豆腐,否则豆腐沾锅底)</li>
-<li>起锅前加入蒜苗, 少许花椒粒烤热后磨成粉撒入</li>
-</ul>
-<div id="orge99c510" class="figure">
-<p><img src="wp-content/mapotofu.jpg" alt="mapotofu.jpg"></p>
-</div>
-
-<p>
-视频,
-<a href="https://www.youtube.com/watch?v=vm3jVXajBi8">Youtube</a> <a href="https://www.dropbox.com/scl/fi/l2cuz03ou8b8lrmc8k0d5">Dropbox</a>
-</p>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/set-up-vmtouch-systemd-service/">Set up vmtouch systemd service</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2021-06-26T04:46:41+00:00">2021-06-26 04:46</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/set-up-vmtouch-systemd-service/#disqus_thread" data-disqus-identifier="cache/posts/set-up-vmtouch-systemd-service.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/systemd/" rel="tag">systemd</a></li>
-           <li><a class="tag p-category" href="categories/vmtouch/" rel="tag">vmtouch</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-"/etc/default/vmtouch" on Debian Testing,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-ini"># Change to yes to enable running vmtouch as a daemon
-ENABLE_VMTOUCH=yes
-
-# User and group to run as
-VMTOUCH_USER_GROUP=cb:cb
-
-# Whitespace separated list of files and directories for vmtouch to operate on
-VMTOUCH_FILES="/home/cb/.emacs.d/lisp /home/cb/.emacs.d/elpa /home/cb/.emacs.d/site-lisp /home/cb/.mozilla/firefox/linux.default/*.sqlite /home/cb/.mozilla/firefox/linux.default/*.json"
-
-# Options to pass to vmtouch itself. See vmtouch(8).
-VMTOUCH_OPTIONS="-q -t"
-</code></pre>
-
-</div>
-<p>
-Run <code>sudo systemctl restart vmtouch</code> to restart the service.
-</p>
-
-<p>
-"<i>home/cb</i>.emacs.d" is not touched because the package <a href="https://github.com/jorgenschaefer/elpy">elpy</a> will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
-</p>
-            </div>
-        </div>
-        <div class="post">
             <h1 class="title"><a href="posts/org-link-and-pdf-tools/">Org link and pdf-tools</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -231,9 +128,10 @@ The problem of my "cli-only" workflow is it can't detect my mistakes automatical
 <p>
 I often forget to add new code file into git. So my final commit might miss files.
 </p>
-<div id="outline-container-orgc1d9c6b" class="outline-2">
-<h3 id="orgc1d9c6b">Magit UI solution</h3>
-<div class="outline-text-2" id="text-orgc1d9c6b">
+
+<div id="outline-container-orgf52164a" class="outline-2">
+<h3 id="orgf52164a">Magit UI solution</h3>
+<div class="outline-text-2" id="text-orgf52164a">
 <p>
 One solution is to use <a href="https://magit.vc/">Magit</a> to commit inside Emacs. After commit, I could double check the files inside the hooks provided by Magit.
 </p>
@@ -290,9 +188,9 @@ BTW, my actual code in my <code>.emacs.d</code> is <a href="https://github.com/r
 </p>
 </div>
 </div>
-<div id="outline-container-org3700fe0" class="outline-2">
-<h3 id="org3700fe0">CLI solution</h3>
-<div class="outline-text-2" id="text-org3700fe0">
+<div id="outline-container-orgeed9705" class="outline-2">
+<h3 id="orgeed9705">CLI solution</h3>
+<div class="outline-text-2" id="text-orgeed9705">
 <p>
 Another solution is doing the git thing in shell plus Emacs "-batch" option.
 </p>
@@ -668,7 +566,7 @@ If USER-SELECT-BRANCH is not nil, rebase on the tag or branch selected by user."
 Screencast:
 </p>
 
-<div id="org9e78d3f" class="figure">
+<div id="orgf451842" class="figure">
 <p><img src="wp-content/magit-rebase-api.gif" alt="magit-rebase-api.gif"></p>
 </div>
             </div>
@@ -710,9 +608,10 @@ My article <a href="https://blog.binchen.org/posts/emacs-is-the-best-merge-tool-
 <p>
 I did some research and found a perfect solution. It's even faster than Vim.
 </p>
-<div id="outline-container-org8dd0caf" class="outline-2">
-<h3 id="org8dd0caf">Initial solution</h3>
-<div class="outline-text-2" id="text-org8dd0caf">
+
+<div id="outline-container-orgecfff51" class="outline-2">
+<h3 id="orgecfff51">Initial solution</h3>
+<div class="outline-text-2" id="text-orgecfff51">
 <p>
 Please note emacsclient is only use for resolving conflicts.
 </p>
@@ -746,9 +645,9 @@ cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (fi
 </div>
 </div>
 </div>
-<div id="outline-container-orga739892" class="outline-2">
-<h3 id="orga739892">My real world solution</h3>
-<div class="outline-text-2" id="text-orga739892">
+<div id="outline-container-org1461676" class="outline-2">
+<h3 id="org1461676">My real world solution</h3>
+<div class="outline-text-2" id="text-org1461676">
 <p>
 It's similar to initial solution. But some scripts are created for automation.
 </p>
@@ -866,7 +765,7 @@ Unfortunately <code>/etc/bash_completion</code> makes <code>complete -p</code> o
 <p>
 Here is output of <code>complete -p</code> at my PC,
 </p>
-<pre class="example" id="org89a07e4">
+<pre class="example" id="orgd117a03">
 ...
 complete -F _known_hosts mtr
 complete -o default -o nospace -W 'homepc
@@ -928,13 +827,261 @@ My setup code for the packages Troy Hinckley suggested,
 Screenshot,
 </p>
 
-<div id="orge3f7d5a" class="figure">
+<div id="org3691cce" class="figure">
 <p><img src="wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"></p>
 </div>
 
-<div id="org2613bf9" class="figure">
+<div id="org64a7608" class="figure">
 <p><img src="wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"></p>
 </div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/how-to-speed-up-lsp-mode/">How to speed up lsp-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2020-03-09T12:10:32+00:00">2020-03-09 12:10</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/how-to-speed-up-lsp-mode/#disqus_thread" data-disqus-identifier="cache/posts/how-to-speed-up-lsp-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Here is my setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(with-eval-after-load 'lsp-mode
+  ;; enable log only for debug
+  (setq lsp-log-io nil)
+
+  ;; use `evil-matchit' instead
+  (setq lsp-enable-folding nil)
+
+  ;; no real time syntax check
+  (setq lsp-diagnostic-package :none)
+
+  ;; handle yasnippet by myself
+  (setq lsp-enable-snippet nil)
+
+  ;; use `company-ctags' only.
+  ;; Please note `company-lsp' is automatically enabled if installed
+  (setq lsp-enable-completion-at-point nil)
+
+  ;; turn off for better performance
+  (setq lsp-enable-symbol-highlighting nil)
+
+  ;; use ffip instead
+  (setq lsp-enable-links nil)
+
+  ;; auto restart lsp
+  (setq lsp-restart 'auto-restart)
+
+  ;; @see https://github.com/emacs-lsp/lsp-mode/pull/1498 and code related to auto configure.
+  ;; Require clients could be slow.
+  ;; I only load `lsp-clients' because it includes the js client which I'm interested
+  (setq lsp-client-packages '(lsp-clients))
+
+  ;; don't scan 3rd party javascript libraries
+  (push "[/\\\\][^/\\\\]*\\.\\(json\\|html\\|jade\\)$" lsp-file-watch-ignored) ; json
+
+  ;; don't ping LSP lanaguage server too frequently
+  (defvar lsp-on-touch-time 0)
+  (defadvice lsp-on-change (around lsp-on-change-hack activate)
+    ;; don't run `lsp-on-change' too frequently
+    (when (&gt; (- (float-time (current-time))
+                lsp-on-touch-time) 30) ;; 30 seconds
+      (setq lsp-on-touch-time (float-time (current-time)))
+      ad-do-it)))
+
+(defun my-connect-lsp (&amp;optional no-reconnect)
+  "Connect lsp server.  If NO-RECONNECT is t, don't shutdown existing lsp connection."
+  (interactive "P")
+  (when (and (not no-reconnect)
+             (fboundp 'lsp-disconnect))
+    (lsp-disconnect))
+  (when (and buffer-file-name
+             (not (member (file-name-extension buffer-file-name)
+                          '("json"))))
+    (unless (and (boundp 'lsp-mode) lsp-mode)
+      (if (derived-mode-p 'js2-mode) (setq-local lsp-enable-imenu nil))
+      (lsp-deferred))))
+</code></pre>
+
+</div>
+
+<p>
+To enable <code>lsp</code> for the major mode <code>XXX-mode</code> needs only one line,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(add-hook 'XXX-mode-hook #'my-connect-lsp)
+</code></pre>
+
+</div>
+
+<p>
+You also need install three packages,
+</p>
+<ul class="org-ul">
+<li>
+<a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation</li>
+<li>
+<a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> for code completion</li>
+<li>
+<a href="https://github.com/technomancy/find-file-in-project">find-file-in-project</a> (ffip) for searching file in project</li>
+</ul>
+<p>
+Explanation,
+</p>
+
+<p>
+Ctags is used to generate tags file for <code>company-ctags</code> and <code>counsel-etags</code>. GNU Find is required for <code>find-file-in-project</code>.
+</p>
+
+<p>
+These three packages are faster and can replace the corresponding functionalities in <code>lsp-mode</code>.
+</p>
+
+<p>
+I don't need any lint tools from <code>lsp-mode</code> because the lint tool is already included in our build script. I can see the syntax error from terminal.
+</p>
+
+<p>
+I <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html">advice</a> the <code>lsp-on-change</code> in order to notify the language server less frequently.
+</p>
+
+<p>
+<code>js2-mode</code>  has its own javascript parser extract imenu items. So I don't need javascript language server's parser to send back imenu items.
+</p>
+
+<p>
+By default <code>lsp-client-packages</code> contains many clients, but I only code in javascript which is included in <code>lsp-clients</code>.
+</p>
+
+<p>
+Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679631b8361b9b26fd3d663bb6ba/lsp-mode.el#L7156">quoted from lsp-mode</a>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;;;###autoload
+(defun lsp (&amp;optional arg)
+  ;; ...
+  (when (and lsp-auto-configure)
+    (seq-do (lambda (package) (require package nil t))
+            lsp-client-packages))
+  ;; ...
+)
+</code></pre>
+
+</div>
+
+<p>
+I have done <a href="https://github.com/emacs-lsp/lsp-mode/pull/1498">some profiling</a> by insert <code>(profiler-report-cpu)</code> at the end of <code>lsp</code> (the bottlenecks is highlighted).
+</p>
+
+<div id="org41c38cf" class="figure">
+<p><img src="wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"></p>
+</div>
+
+<p>
+The language server I used <a href="https://github.com/sourcegraph/javascript-typescript-langserver/issues/394">can read jsconfig.json</a> in project root. I can specify the directories to exclude in it.</p>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/yin-and-yang-in-emacs/">Yin and Yang in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2019-11-25T08:09:33+00:00">2019-11-25 08:09</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/yin-and-yang-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/yin-and-yang-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+As a Chinese, I studied <a href="https://en.wikipedia.org/wiki/Tao_Te_Ching">Tao Te Ching</a> since childhood. So I believe Tao (the way) exist in Emacs. Tao is basically Yin and Yang who lives in harmony in Emacs.
+</p>
+
+<p>
+I can't say Yin is good and Yang is evil, or vice versa. All I can do is to find the way to make Yin and Yang co-exist. 
+</p>
+
+<p>
+For example, a few days ago I published <a href="https://www.reddit.com/r/emacs/comments/dz2a80/effective_git_blame_in_emacs/">Effective "git blame" in Emacs</a> which introduced my package <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a>.
+</p>
+
+<p>
+It became one of my most popular reddit post because its unique feature <b>partial line blame</b>,
+</p>
+
+<div id="orgd3176ad" class="figure">
+<p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
+</div>
+
+<div id="org366147c" class="figure">
+<p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
+</div>
+
+<p>
+I noticed some comments compared my package with <a href="https://magit.vc/">Magit</a>. Those comments were very educational and I did learn a few useful tricks.
+</p>
+
+<p>
+My point is, <code>vc-msg</code> and <code>Magit</code> could collaborate without any problem, like Yin and Yang lives harmony. If you find any conflict between <code>vc-msg</code> and <code>Magit</code>, just let me know. I will fix it.
+</p>
+
+<p>
+I totally understand there are many Magit lovers in Emacs community. So I make <code>vs-msg v1.0.2</code> to support Magit. You can use <code>partial line blame</code> in <code>vc-msg</code> but calling Magit command to open the commit.  
+</p>
+
+<p>
+It's only one line setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq vc-msg-git-show-commit-function 'magit-show-commit)
+</code></pre>
+
+</div>
+
+<div id="org55008df" class="figure">
+<p><img src="wp-content/vc-msg-and-magit.png" alt="vc-msg-and-magit.png"></p>
+</div>
+
+<p>
+I tested in <code>magit-blame-mode</code> and found no issue.
+</p>
+
+<p>
+I'm sure <code>vc-msg</code> should work in other major modes or minor modes. There are also two callback functions <code>vc-msg-get-current-file-function</code> and <code>vc-msg-get-line-num-function</code> which users can customize.</p>
             </div>
         </div>
     
