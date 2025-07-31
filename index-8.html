@@ -203,10 +203,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2013-05-01 
 <p>
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-13 Fri&gt;</span></span>
 </p>
-
-<div id="outline-container-orga2bf623" class="outline-2">
-<h3 id="orga2bf623">Problem</h3>
-<div class="outline-text-2" id="text-orga2bf623">
+<div id="outline-container-org12268e4" class="outline-2">
+<h3 id="org12268e4">Problem</h3>
+<div class="outline-text-2" id="text-org12268e4">
 <p>
 As a freelancer, I need reply agent's email frequently.
 </p>
@@ -221,17 +220,16 @@ So I have several issues to resolve:
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgab57eb1" class="outline-2">
-<h3 id="orgab57eb1">Solution</h3>
-<div class="outline-text-2" id="text-orgab57eb1">
+<div id="outline-container-orgf9c2736" class="outline-2">
+<h3 id="orgf9c2736">Solution</h3>
+<div class="outline-text-2" id="text-orgf9c2736">
 <p>
 <a href="https://github.com/capitaomorte/yasnippet">Yasnippet</a> is the best solution for email templates because you can embed Lisp code in the template.
 </p>
 </div>
-<div id="outline-container-orgf71b42d" class="outline-3">
-<h4 id="orgf71b42d">Templates</h4>
-<div class="outline-text-3" id="text-orgf71b42d">
+<div id="outline-container-orga63755d" class="outline-3">
+<h4 id="orga63755d">Templates</h4>
+<div class="outline-text-3" id="text-orga63755d">
 <p>
 I publicize my .emacs.d at <a href="https://github.com/redguardtoo/emacs.d">github</a>. But email templates are my private stuff. So I place them in different location.
 </p>
@@ -243,7 +241,7 @@ That's why I place templates at ~/my-yasnippets/message-mode/.
 <p>
 Here is a sample template to reply my agents (jobok.yasnippet):
 </p>
-<pre class="example" id="org36f7a76">
+<pre class="example" id="org19df607">
 # -*- mode: snippet -*-
 # name: email for OK job
 # key: jobok
@@ -290,9 +288,9 @@ It will automatically fetch the first name of agent,
 </div>
 </div>
 </div>
-<div id="outline-container-org08eab8d" class="outline-3">
-<h4 id="org08eab8d">Emacs setup</h4>
-<div class="outline-text-3" id="text-org08eab8d">
+<div id="outline-container-org6c545a8" class="outline-3">
+<h4 id="org6c545a8">Emacs setup</h4>
+<div class="outline-text-3" id="text-org6c545a8">
 <p>
 Add following code into .emacs to make yasnippet load the emacs templates:
 </p>
@@ -527,9 +525,9 @@ Current position is preserved."
 <p>
 For <a href="http://www.archlinux.org">ArchLinux</a> only:
 </p>
-<div id="outline-container-org1dd3e2e" class="outline-2">
-<h3 id="org1dd3e2e">Prepare directory</h3>
-<div class="outline-text-2" id="text-org1dd3e2e">
+<div id="outline-container-org4e54786" class="outline-2">
+<h3 id="org4e54786">Prepare directory</h3>
+<div class="outline-text-2" id="text-org4e54786">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">mkdir -p ~/bt/{session,finished,torrent}
@@ -538,10 +536,9 @@ For <a href="http://www.archlinux.org">ArchLinux</a> only:
 </div>
 </div>
 </div>
-
-<div id="outline-container-org8fabcc3" class="outline-2">
-<h3 id="org8fabcc3">Install</h3>
-<div class="outline-text-2" id="text-org8fabcc3">
+<div id="outline-container-org4555a82" class="outline-2">
+<h3 id="org4555a82">Install</h3>
+<div class="outline-text-2" id="text-org4555a82">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">sudo pacman -S cronie
@@ -552,10 +549,9 @@ sudo systemctl start cronie
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgde1ecbd" class="outline-2">
-<h3 id="orgde1ecbd">Add cron task to start and stop rtorrent service</h3>
-<div class="outline-text-2" id="text-orgde1ecbd">
+<div id="outline-container-orga2d921b" class="outline-2">
+<h3 id="orga2d921b">Add cron task to start and stop rtorrent service</h3>
+<div class="outline-text-2" id="text-orga2d921b">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">crontab -e #add cron task as current user
@@ -615,9 +611,9 @@ wxWidgets 3.0.0
 <p>
 WARNING: before building, please make sure remove everything in build directory, <b>including hidden directory</b>!
 </p>
-<div id="outline-container-org5f71f5b" class="outline-2">
-<h3 id="org5f71f5b">Install webkit by using Linux distribution's package manager</h3>
-<div class="outline-text-2" id="text-org5f71f5b">
+<div id="outline-container-org96046e1" class="outline-2">
+<h3 id="org96046e1">Install webkit by using Linux distribution's package manager</h3>
+<div class="outline-text-2" id="text-org96046e1">
 <p>
 I need use wxWebView which dependent on webkit on Linux. The issue here is that webkit on Linux is using GTK.
 </p>
@@ -627,9 +623,9 @@ Make sure the webkit and wxWidgets are using same version of GTK.
 </p>
 </div>
 </div>
-<div id="outline-container-org588412d" class="outline-2">
-<h3 id="org588412d">build the source</h3>
-<div class="outline-text-2" id="text-org588412d">
+<div id="outline-container-org0b4b53c" class="outline-2">
+<h3 id="org0b4b53c">build the source</h3>
+<div class="outline-text-2" id="text-org0b4b53c">
 <p>
 Please note I don't use libtiff. I think libpng and libjpeg is enough.
 </p>
@@ -678,9 +674,9 @@ On Linux, build will be fine following above steps. But for building application
 
             </div>
             <div class="body">
-                <div id="outline-container-org8978fed" class="outline-2">
-<h3 id="org8978fed">Intel integrated video card</h3>
-<div class="outline-text-2" id="text-org8978fed">
+                <div id="outline-container-org170271a" class="outline-2">
+<h3 id="org170271a">Intel integrated video card</h3>
+<div class="outline-text-2" id="text-org170271a">
 <p>
 Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; Intel) is critical:
 </p>
@@ -692,9 +688,9 @@ Enable KMS (Kernel Mode Setting) for Intel (Device Drivers =&gt; Graphic =&gt; I
 </div>
 </div>
 </div>
-<div id="outline-container-org433f2db" class="outline-2">
-<h3 id="org433f2db">Grub2</h3>
-<div class="outline-text-2" id="text-org433f2db">
+<div id="outline-container-org389d99a" class="outline-2">
+<h3 id="org389d99a">Grub2</h3>
+<div class="outline-text-2" id="text-org389d99a">
 <p>
 Let grub2 create the cfg for me automatically,
 </p>
@@ -706,13 +702,13 @@ Let grub2 create the cfg for me automatically,
 </div>
 </div>
 </div>
-<div id="outline-container-org8895449" class="outline-2">
-<h3 id="org8895449">Network</h3>
-<div class="outline-text-2" id="text-org8895449">
+<div id="outline-container-orgfbac442" class="outline-2">
+<h3 id="orgfbac442">Network</h3>
+<div class="outline-text-2" id="text-orgfbac442">
 </div>
-<div id="outline-container-orgb2278d3" class="outline-3">
-<h4 id="orgb2278d3">Ethernet</h4>
-<div class="outline-text-3" id="text-orgb2278d3">
+<div id="outline-container-org43545fd" class="outline-3">
+<h4 id="org43545fd">Ethernet</h4>
+<div class="outline-text-3" id="text-org43545fd">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -726,10 +722,9 @@ rc-update add net.eth0 default
 </div>
 </div>
 </div>
-
-<div id="outline-container-org9da04f3" class="outline-3">
-<h4 id="org9da04f3">Wireless (wifi)</h4>
-<div class="outline-text-3" id="text-org9da04f3">
+<div id="outline-container-org221c196" class="outline-3">
+<h4 id="org221c196">Wireless (wifi)</h4>
+<div class="outline-text-3" id="text-org221c196">
 <div class="org-src-container">
 
 <pre><code class="lang-sh">#net.lo should exist! if NOT, `emerge --ask --oneshot net-misc/netifrc`
@@ -801,17 +796,17 @@ Modify /lib/netifrc/net/wpa_supplicant.sh to for it use wext,
 </div>
 </div>
 </div>
-<div id="outline-container-orge8ff38b" class="outline-2">
-<h3 id="orge8ff38b">Clock Synchronization</h3>
-<div class="outline-text-2" id="text-orge8ff38b">
+<div id="outline-container-org120ab71" class="outline-2">
+<h3 id="org120ab71">Clock Synchronization</h3>
+<div class="outline-text-2" id="text-org120ab71">
 <p>
 <a href="http://en.gentoo-wiki.com/wiki/Time_Synchronization#htpdate">htpdate</a> is great because it only use HTTP protocol, don't forget add server in its config file.
 </p>
 </div>
 </div>
-<div id="outline-container-orge6094fb" class="outline-2">
-<h3 id="orge6094fb">Sound</h3>
-<div class="outline-text-2" id="text-orge6094fb">
+<div id="outline-container-orgf0f5732" class="outline-2">
+<h3 id="orgf0f5732">Sound</h3>
+<div class="outline-text-2" id="text-orgf0f5732">
 <p>
 Nothing to tell. There may be some issue, but I forgot.</p>
 </div>

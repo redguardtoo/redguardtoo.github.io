@@ -14,11 +14,10 @@
 <meta property="og:description" content="As a programmer, I use `M-x imenu` to jump to the callee when editing a code file. After a little code tweaking in the callee, I need jump back to caller as quickly as possible.
 
 
-
 Solution
 
 
-Insert b">
+Insert be">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2014-11-15T02:15:32Z">
 <meta property="article:tag" content="emacs">
@@ -64,10 +63,9 @@ Insert b">
             <p>
 As a programmer, I use `M-x imenu` to jump to the callee when editing a code file. After a little code tweaking in the callee, I need jump back to caller as quickly as possible.
 </p>
-
-<div id="outline-container-org1dd9fee" class="outline-2">
-<h3 id="org1dd9fee">Solution</h3>
-<div class="outline-text-2" id="text-org1dd9fee">
+<div id="outline-container-orgf692193" class="outline-2">
+<h3 id="orgf692193">Solution</h3>
+<div class="outline-text-2" id="text-orgf692193">
 <p>
 Insert below code to ~/.emacs:
 </p>
@@ -102,9 +100,9 @@ Now you can use `M-x rimenu-jump` to jump.
 </p>
 </div>
 </div>
-<div id="outline-container-org5da5a74" class="outline-2">
-<h3 id="org5da5a74">Technical details</h3>
-<div class="outline-text-2" id="text-org5da5a74">
+<div id="outline-container-org7f24090" class="outline-2">
+<h3 id="org7f24090">Technical details</h3>
+<div class="outline-text-2" id="text-org7f24090">
 <p>
 Imenu will push the start point into mark-ring. After reaching the destination, it will call the imenu-after-jump-hook where I can store the end point. 
 </p>

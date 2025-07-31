@@ -23,6 +23,207 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/emacs-auto-completion-for-non-programmers/">Emacs auto-completion for non-programmers</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-12-01T11:41:34+00:00">2015-12-01 11:41</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/emacs-auto-completion-for-non-programmers/#disqus_thread" data-disqus-identifier="cache/posts/emacs-auto-completion-for-non-programmers.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/completion/" rel="tag">completion</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/word/" rel="tag">word</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-12-01 Tue&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-12-03 Thu&gt;</span></span>
+</p>
+
+<p>
+That's easy if you use <a href="https://github.com/company-mode/company-mode">company-mode</a>.
+</p>
+
+<p>
+Say if you want to complete words ONLY in org-mode,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(require 'company)
+
+(add-hook 'after-init-hook 'global-company-mode)
+
+;; Don't enable company-mode in below major modes, OPTIONAL
+(setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
+
+;; "text-mode" is a major mode for editing files of text in a human language"
+;; most major modes for non-programmers inherit from text-mode
+(defun text-mode-hook-setup ()
+  ;; make `company-backends' local is critcal
+  ;; or else, you will have completion in every major mode, that's very annoying!
+  (make-local-variable 'company-backends)
+
+  ;; company-ispell is the plugin to complete words
+  (add-to-list 'company-backends 'company-ispell)
+
+  ;; OPTIONAL, if `company-ispell-dictionary' is nil, `ispell-complete-word-dict' is used
+  ;;  but I prefer hard code the dictionary path. That's more portable.
+  (setq company-ispell-dictionary (file-truename "~/.emacs.d/misc/english-words.txt")))
+
+(add-hook 'text-mode-hook 'text-mode-hook-setup)
+
+(defun toggle-company-ispell ()
+  (interactive)
+  (cond
+   ((memq 'company-ispell company-backends)
+    (setq company-backends (delete 'company-ispell company-backends))
+    (message "company-ispell disabled"))
+   (t
+    (add-to-list 'company-backends 'company-ispell)
+    (message "company-ispell enabled!"))))
+</code></pre>
+
+</div>
+
+<p>
+`M-x toggle-company-ispell` to toggle company-ispell in <b>any major mode</b>.
+</p>
+
+<p>
+"english-words.txt" is just a plain text file where lines sorted alphabetically. Every line is a word.
+</p>
+
+<p>
+You can download my <a href="https://github.com/redguardtoo/emacs.d/raw/master/misc/english-words.txt">english-words.txt</a>.
+</p>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/code-completion-for-htmljscss-in-emacs/">Code completion for HTML/JS/CSS in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-11-27T11:43:59+00:00">2015-11-27 11:43</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/code-completion-for-htmljscss-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/code-completion-for-htmljscss-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/css/" rel="tag">css</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/html/" rel="tag">html</a></li>
+           <li><a class="tag p-category" href="categories/javascript/" rel="tag">javascript</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-11-27 Fri&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 Fri&gt;</span></span>
+</p>
+
+<p>
+You need install <a href="https://en.wikipedia.org/wiki/Ctags">Ctags</a> or <a href="https://github.com/universal-ctags/ctags">universal-ctags</a> at first.
+</p>
+
+<p>
+People using macOS will find there already exists a built in program named "ctags". <b>This program should be deleted!</b>
+</p>
+
+<p>
+If you want a <b>quick start</b>, jump to the end of this article.
+</p>
+
+<p>
+You can use <a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> plus <a href="https://github.com/company-mode/company-mode">company-mode</a> to complete HTML/JS/CSS code.
+</p>
+
+<p>
+Setup is easy.
+</p>
+
+<p>
+Step 1, create TAGS:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">cd ~/myproj/ &amp;&amp; ctags -e -R .
+</code></pre>
+
+</div>
+
+<p>
+Step 2, done.
+</p>
+
+<p>
+That's OK for most programming languages.
+</p>
+
+<p>
+But <b>not enough</b> for web developers who use <a href="https://github.com/fxbois/web-mode">web-mode</a>.
+</p>
+
+<p>
+You need upgrade web-mode to <a href="https://github.com/fxbois/web-mode/pull/640">latest version</a> so that when inputting "btn-" or "data-" code completion still works.
+</p>
+
+<p>
+One issue is <code>company-mode</code> disables code completion in string and comment by default. We need <b>disable this feature in web-mode temporarily</b>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(with-eval-after-load 'company
+  ;; @see https://github.com/redguardtoo/emacs.d/commit/2ff305c1ddd7faff6dc9fa0869e39f1e9ed1182d
+  (defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
+    (if (memq major-mode '(php-mode html-mode web-mode nxml-mode))
+        (setq ad-return-value nil)
+      ad-do-it)))
+</code></pre>
+
+</div>
+
+<p>
+Tested on Emacs24, 25, 26.
+</p>
+
+<p>
+Screenshot:
+</p>
+
+<div id="org5ad8a89" class="figure">
+<p><img src="wp-content/company-etags-code-completion-nq8.png" alt="company-etags-code-completion-nq8.png"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/use-js2-mode-to-print-json-path/">Use js2-mode to print json path</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -372,10 +573,9 @@ Insert below code into ~/.emacs:
 视频教程:
 <a href="https://www.youtube.com/watch?v=Aclyh2c_BEs">https://www.youtube.com/watch?v=Aclyh2c_BEs</a>
 </p>
-
-<div id="outline-container-orgbbef707" class="outline-2">
-<h3 id="orgbbef707">备料</h3>
-<div class="outline-text-2" id="text-orgbbef707">
+<div id="outline-container-orgbe37c4e" class="outline-2">
+<h3 id="orgbe37c4e">备料</h3>
+<div class="outline-text-2" id="text-orgbe37c4e">
 <ul class="org-ul">
 <li>两人份冷水</li>
 <li>米少许(半茶勺)</li>
@@ -388,15 +588,14 @@ Insert below code into ~/.emacs:
 <li>九层塔(薄荷)一把</li>
 <li>鲜红辣椒两到三根</li>
 </ul>
-<div id="org140433a" class="figure">
+<div id="orgceaaefb" class="figure">
 <p><img src="wp-content/Sgow-Chrouk-Soup-prepare.jpg" alt="Sgow-Chrouk-Soup-prepare.jpg"></p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgd0c823d" class="outline-2">
-<h3 id="orgd0c823d">步骤</h3>
-<div class="outline-text-2" id="text-orgd0c823d">
+<div id="outline-container-org666040f" class="outline-2">
+<h3 id="org666040f">步骤</h3>
+<div class="outline-text-2" id="text-org666040f">
 <ul class="org-ul">
 <li>鸡胸脯肉切成小块,盐过一下三四分钟,洗净刀和板</li>
 <li>烧开水</li>
@@ -410,16 +609,15 @@ Insert below code into ~/.emacs:
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org04fb41d" class="outline-2">
-<h3 id="org04fb41d">上菜</h3>
-<div class="outline-text-2" id="text-org04fb41d">
+<div id="outline-container-orgd175df1" class="outline-2">
+<h3 id="orgd175df1">上菜</h3>
+<div class="outline-text-2" id="text-orgd175df1">
 <ul class="org-ul">
 <li>准备大碗,放入薄荷,葱,适量柠檬汁,倒汤</li>
 <li>柬埔寨神秘香菜(可选)</li>
 <li>可加少量鱼露调咸味</li>
 </ul>
-<div id="org609dca9" class="figure">
+<div id="orgefbddf4" class="figure">
 <p><img src="wp-content/Sgow-Chrouk-Soup-done.jpg" alt="Sgow-Chrouk-Soup-done.jpg"></p>
 </div>
 </div>
@@ -870,9 +1068,9 @@ I will explain how to resolve code merge conflicts with plain vim. The only thir
 <p>
 The reason to use vim is that I can't use vimdiff as a merge tool for certain VCS (CVS, Subversion, Perforce, …).
 </p>
-<div id="outline-container-org33edabe" class="outline-2">
-<h3 id="org33edabe">Problem</h3>
-<div class="outline-text-2" id="text-org33edabe">
+<div id="outline-container-org1a867df" class="outline-2">
+<h3 id="org1a867df">Problem</h3>
+<div class="outline-text-2" id="text-org1a867df">
 <p>
 A typical file in conflict is like:
 </p>
@@ -900,10 +1098,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgf73fdaf" class="outline-2">
-<h3 id="orgf73fdaf">Basic knowledge of Vim</h3>
-<div class="outline-text-2" id="text-orgf73fdaf">
+<div id="outline-container-orgdc95396" class="outline-2">
+<h3 id="orgdc95396">Basic knowledge of Vim</h3>
+<div class="outline-text-2" id="text-orgdc95396">
 <ul class="org-ul">
 <li>"]n" move the focus to the next marker and "[n" to the previous marker.</li>
 <li>"dd" delete current line</li>
@@ -911,10 +1108,9 @@ Resolving conflicts is the operation of picking up <b>either or both</b> of the 
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org74664cb" class="outline-2">
-<h3 id="org74664cb">Solution</h3>
-<div class="outline-text-2" id="text-org74664cb">
+<div id="outline-container-org58b4484" class="outline-2">
+<h3 id="org58b4484">Solution</h3>
+<div class="outline-text-2" id="text-org58b4484">
 <p>
 Our workflow is actually simple:
 </p>
@@ -936,318 +1132,6 @@ This workflow is compatible with any version control software.
 map &lt;leader&gt;dg2 d]ndd]ndd
 </code></pre>
 
-</div>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/easy-indentation-setup-in-emacs-for-web-development/">Easy indentation setup in Emacs for web development</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-04-02T13:57:48+00:00">2015-04-02 13:57</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/easy-indentation-setup-in-emacs-for-web-development/#disqus_thread" data-disqus-identifier="cache/posts/easy-indentation-setup-in-emacs-for-web-development.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/indent/" rel="tag">indent</a></li>
-           <li><a class="tag p-category" href="categories/web/" rel="tag">web</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-04-02 Thu&gt;</span></span>
-</p>
-
-<p>
-UPDATE: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-06-22 Wed&gt;</span></span>
-</p>
-
-<p>
-This question has been asked so many times, so I answered it here once for all.
-</p>
-
-<div id="outline-container-org2dbd409" class="outline-2">
-<h3 id="org2dbd409">Solution</h3>
-<div class="outline-text-2" id="text-org2dbd409">
-<p>
-Insert below code into ~/.emacs:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun my-setup-indent (n)
-  ;; java/c/c++
-  (setq-local c-basic-offset n)
-  ;; web development
-  (setq-local coffee-tab-width n) ; coffeescript
-  (setq-local javascript-indent-level n) ; javascript-mode
-  (setq-local js-indent-level n) ; js-mode
-  (setq-local js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
-  (setq-local web-mode-markup-indent-offset n) ; web-mode, html tag in html file
-  (setq-local web-mode-css-indent-offset n) ; web-mode, css in html file
-  (setq-local web-mode-code-indent-offset n) ; web-mode, js code in html file
-  (setq-local css-indent-offset n) ; css-mode
-  )
-
-(defun my-office-code-style ()
-  (interactive)
-  (message "Office code style!")
-  ;; use tab instead of space
-  (setq-local indent-tabs-mode t)
-  ;; indent 4 spaces width
-  (my-setup-indent 4))
-
-(defun my-personal-code-style ()
-  (interactive)
-  (message "My personal code style!")
-  ;; use space instead of tab
-  (setq indent-tabs-mode nil)
-  ;; indent 2 spaces width
-  (my-setup-indent 2))
-
-(defun my-setup-develop-environment ()
-  (interactive)
-  (let ((proj-dir (file-name-directory (buffer-file-name))))
-    ;; if hobby project path contains string "hobby-proj1"
-    (if (string-match-p "hobby-proj1" proj-dir)
-        (my-personal-code-style))
-
-    ;; if commericial project path contains string "commerical-proj"
-    (if (string-match-p "commerical-proj" proj-dir)
-        (my-office-code-style))))
-
-;; prog-mode-hook requires emacs24+
-(add-hook 'prog-mode-hook 'my-setup-develop-environment)
-;; a few major-modes does NOT inherited from prog-mode
-(add-hook 'lua-mode-hook 'my-setup-develop-environment)
-(add-hook 'web-mode-hook 'my-setup-develop-environment)
-</code></pre>
-
-</div>
-
-<p>
-You can use `prog-mode-hook` and `buffer-file-name` to do the per project setup easily.
-</p>
-
-<p>
-For <b>any new programming language</b> not covered in this post, there are two steps:
-</p>
-
-<ul class="org-ul">
-<li>Know your major-mode by pressing `ALT-X major-mode ENTER`. Say you got "org-mode".</li>
-
-<li>Google "Emacs org-mode indent offset"</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-org70ef983" class="outline-2">
-<h3 id="org70ef983">Tips (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-org70ef983">
-<ul class="org-ul">
-<li>Please note the first paramter of `string-match-p` is actually <b>regular expression</b>. So you can write regular expression like "\\(/proj1\\|work.org\\)"</li>
-
-<li>Emacs gives you full freedom to setup project. If you prefer per computer setup instead of per project setup, you only need re-write `my-setup-develop-environment',</li>
-</ul>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun my-setup-develop-environment ()
-  (interactive)
-  (let ((hostname (with-temp-buffer
-                    (shell-command "hostname" t)
-                    (goto-char (point-max))
-                    (delete-char -1)
-                    (buffer-string))))
-
-  (if (string-match-p "home-pc" hostname)
-      (my-personal-code-style))
-
-  (if (string-match-p "office-pc" hostname)
-      (my-office-code-style))))
-</code></pre>
-
-</div>
-
-<ul class="org-ul">
-<li>Instead of press TAB manually to indent code line by line, you can select a region and press `Alt-x indent-region ENTER`</li>
-
-<li>Because I use <a href="http://www.emacswiki.org/emacs/Evil">Evil</a>, indenting the whole file is as simple as pressing `gg=G`</li>
-</ul>
-</div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/effective-code-navigation-for-web-development/">Effective code navigation for web development</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-04-02T12:51:21+00:00">2015-04-02 12:51</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/effective-code-navigation-for-web-development/#disqus_thread" data-disqus-identifier="cache/posts/effective-code-navigation-for-web-development.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/ctags/" rel="tag">ctags</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/javascript/" rel="tag">javascript</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2020-03-27 Fri&gt;</span></span>
-</p>
-
-<p>
-I use <a href="https://angularjs.org/">AngularJS</a> as an example. The technique is actually generic and not limited to Angular Only.
-</p>
-
-<div id="outline-container-org28f2195" class="outline-2">
-<h3 id="org28f2195">Problem</h3>
-<div class="outline-text-2" id="text-org28f2195">
-<p>
-In Angular application, a function is defined in a javascript file and called in a html file.
-</p>
-
-<p>
-Javascript file:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-html">&lt;div ng-controller="MyController" ng-init="init()"&gt;
-  &lt;button ng-click="onClick()"&gt;&lt;/button&gt;
-&lt;/div&gt;
-</code></pre>
-
-</div>
-
-<p>
-html file:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-javascript">angular.module['myapp'].controller('MyController', function ($scope, $http) {
-
-  $scope.init = function () {
-  };
-
-  $scope.onClick= function() {
-  };
-});
-</code></pre>
-
-</div>
-
-<p>
-As you can see, the keyword we are interested is just a string, like "MyController". The only way to extract it is <b>regular expression</b>.
-</p>
-
-<p>
-In this article, I focus on how I combine Emacs and Ctags. If you use other text edit like Visual Studio Code, you <a href="https://marketplace.visualstudio.com/search?term=ctags&amp;target=VSCode&amp;category=All%20categories&amp;sortBy=Relevance">still can use Ctags</a>.
-</p>
-</div>
-</div>
-<div id="outline-container-orga72ca76" class="outline-2">
-<h3 id="orga72ca76">Solution</h3>
-<div class="outline-text-2" id="text-orga72ca76">
-<p>
-Ctags is good at parsing files with <b>regular expression</b>.
-</p>
-
-<p>
-I use Ctags because:
-</p>
-<ul class="org-ul">
-<li>New web frameworks keep popping up. I don't want to waste time&amp;money on upgrading IDE from time to time</li>
-<li>As a freelancer, I have to deal with in-house frameworks which IDE developers NEVER heard of</li>
-<li>Setup of ctags and text editors is easy. Once the first project is set up, others are just five minutes of copy&amp;paste jobs.</li>
-</ul>
-</div>
-
-<div id="outline-container-org6444bb4" class="outline-3">
-<h4 id="org6444bb4">Old solution</h4>
-<div class="outline-text-3" id="text-org6444bb4">
-<p>
-Here is my <a href="https://gist.github.com/redguardtoo/b12ddae3b8010a276e9b#file-ctags">~/.ctags</a>.
-</p>
-
-<p>
-Please note on Windows, you can place ".ctags" anywhere. Then <a href="http://support.microsoft.com/en-us/kb/310519">create an environment variable</a> named "HOME" whose value is the parent directory of ".ctags".
-</p>
-
-<p>
-Run <code>ctags -e -R -f /app/path/TAGS</code> at least once to generate tags file named "TAGS".
-</p>
-
-<p>
-You can use builtin Emacs command <code>find-tag</code> to find tag.
-</p>
-
-<p>
-If you prefer <a href="https://github.com/emacs-helm/helm">Helm</a> UI, install it and <code>M-x helm-etags-select</code> instead.
-</p>
-
-<p>
-Please install the latest helm because I <a href="https://github.com/emacs-helm/helm/pull/965">enhanced helm-etags-select</a>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org540c1c5" class="outline-3">
-<h4 id="org540c1c5">Latest solution (recommended)</h4>
-<div class="outline-text-3" id="text-org540c1c5">
-<p>
-I have developed some ctags packages on code completion and code navigation. No manual setup is needed. Everything just works out of box. My packages are very popular in the Emacs community right now,
-</p>
-<ul class="org-ul">
-<li>
-<a href="https://github.com/dan-t/rusty-tags#emacs-configuration">rust programming language</a> or any other programming language could be easily supported</li>
-<li>Difference between <a href="http://ctags.sourceforge.net/">Exuberant Ctags</a> and <a href="https://github.com/universal-ctags/ctags">Universal Ctags</a> are handled automatically</li>
-<li>Extremely fast in big projects (Linux kernel code, for example)</li>
-</ul>
-<p>
-Here are my packages,
-</p>
-<ul class="org-ul">
-<li>
-<a href="https://github.com/redguardtoo/counsel-etags">counsel-etags</a> for code navigation</li>
-<li>
-<a href="https://github.com/redguardtoo/company-ctags">company-ctags</a> for code completion</li>
-<li><a href="https://gist.github.com/redguardtoo/b12ddae3b8010a276e9b#file-ctags">~/.ctags</a></li>
-</ul>
-<p>
-Usage is simple, 
-</p>
-<ul class="org-ul">
-<li>Install Ctags and configure it with <code>~/.ctags</code>
-</li>
-<li>Install <code>company-ctags</code> which dependent on <a href="https://github.com/company-mode/company-mode">company-mode</a>
-</li>
-<li>Install <code>counsel-etags</code> and start use it immediately like <code>M-x counsel-etags-find-tag-at-point</code>
-</li>
-<li>Done. The tags file is automatically created and updated from time time</li>
-</ul>
 </div>
 </div>
 </div>

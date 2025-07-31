@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about scm)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/scm.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 25 Jul 2025 14:45:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Perforce Tip: how to apply my default change to the release branch</title><link>http://redguardtoo.github.io/posts/perforce-tip-how-to-apply-my-default-change-to-the-release-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-orgffea099" class="outline-2"&gt;
-&lt;h3 id="orgffea099"&gt;Reasons I need this hack&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgffea099"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about scm)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/scm.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Thu, 31 Jul 2025 13:38:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Perforce Tip: how to apply my default change to the release branch</title><link>http://redguardtoo.github.io/posts/perforce-tip-how-to-apply-my-default-change-to-the-release-branch/</link><dc:creator>Chen Bin</dc:creator><description>&lt;div id="outline-container-orgedd47fa" class="outline-2"&gt;
+&lt;h3 id="orgedd47fa"&gt;Reasons I need this hack&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-orgedd47fa"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Our current project uses mix platforms (WIN64/Linux64), so the file path contains backward slash &lt;code&gt;\&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;My p4 CLI program is from Windows installer because Cygwin version has the slash issue.&lt;/li&gt;
@@ -9,9 +9,9 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb6ccded" class="outline-2"&gt;
-&lt;h3 id="orgb6ccded"&gt;How to?&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-orgb6ccded"&gt;
+&lt;div id="outline-container-org1ce5c51" class="outline-2"&gt;
+&lt;h3 id="org1ce5c51"&gt;How to?&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org1ce5c51"&gt;
 &lt;p&gt;
 Create the patch,
 &lt;/p&gt;

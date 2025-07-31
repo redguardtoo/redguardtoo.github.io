@@ -23,6 +23,161 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/add-live-demo-to-emacs-package/">Add live demo to emacs package</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-07-02T13:37:26+00:00">2022-07-02 13:37</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/add-live-demo-to-emacs-package/#disqus_thread" data-disqus-identifier="cache/posts/add-live-demo-to-emacs-package.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/lisp/" rel="tag">lisp</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Emacs package developers sometimes need add live demo to her/his project.
+</p>
+
+<p>
+The requirement came from <a href="https://github.com/tumashu/pyim/pull/446#issuecomment-1163886411">my discussion with pyim's developer</a>.
+</p>
+
+<p>
+With all the linting and unit tests running for ages, he still need a quick way to test if the package actually works on Emacs 25 (and other Emacs versions). I totally agree with him because my own projects have similar problems.
+</p>
+
+<p>
+A live demo built into the project is very useful for developers and testers.
+</p>
+
+<p>
+Besides, a live demo could help users. They try the new package with no hassle. They don't modify their own emacs configuration to try the new package.
+</p>
+
+<p>
+So I figured out a simple solution. The best part is that any packages could use this solution with minimum change if their CI script is already set up.
+</p>
+
+<p>
+In a package's CI script, Emacs is running in batch mode (with "–batch" option). What I suggest is add another Makefile task <code>runemacs</code> which is very similar to the original CI task. But in this task, the "–batch" options is removed.
+</p>
+
+<p>
+See <a href="https://github.com/redguardtoo/find-file-in-project/commit/b258f96d9663d9bf6ff7de1ff6bbfb921b30ea77">the solution I added for find-file-in-project</a>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-diff">diff --git a/Makefile b/Makefile
+index 9005ca4..8f7a8ae 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,8 @@
+ SHELL = /bin/sh
+ EMACS ?= emacs
+ PROFILER =
+-EMACS_BATCH_OPTS=--batch -Q -l find-file-in-project.el
++EMACS_GENERIC_OPTS=-Q -L . -L deps/ivy-0.13.4
++EMACS_BATCH_OPTS:=--batch $(EMACS_GENERIC_OPTS)
+ RM = @rm -rf
+
+ .PHONY: test clean test compile
+@@ -18,3 +19,8 @@ compile: clean
+ # Run tests.
+ test: compile
+    @$(EMACS) $(EMACS_BATCH_OPTS) -l tests/ffip-tests.el
++
++runemacs:
++   @mkdir -p deps;
++   @if [ ! -f deps/ivy-0.13.4/ivy.el ]; then curl -L https://stable.melpa.org/packages/ivy-0.13.4.tar | tar x -C deps/; fi;
++   @$(EMACS) $(EMACS_GENERIC_OPTS) --load ./tests/emacs-init.el
+diff --git a/tests/emacs-init.el b/tests/emacs-init.el
+new file mode 100644
+index 0000000..a4df068
+--- /dev/null
++++ b/tests/emacs-init.el
+@@ -0,0 +1,17 @@
++(require 'find-file-in-project)
++(require 'ivy)
++(ivy-mode 1)
++(setq ffip-match-path-instead-of-filename t)
++(run-with-idle-timer
++ 1
++ nil
++ (lambda ()
++   (erase-buffer)
++   (goto-char (point-min))
++   (insert
++    ";; Setup of this demo,\n"
++    "(setq ffip-match-path-instead-of-filename t)\n\n\n"
++    ";; Run \"M-x find-file-in-project-by-selected\" and input search keyword \"el\" or \"tests\".\n\n\n"
++    ";; Move cursor above below paths and run \"M-x find-file-in-project-at-point\",\n\n"
++    ";;   tests/ffip-tests.el ; open file directly \n"
++    ";;   find-file-in-project.el:50 ; open file and jump to line 50\n")))
+</code></pre>
+
+</div>
+
+<p>
+Similar solution is also used in <a href="https://github.com/tumashu/pyim">pyim</a>, it's one liner in shell to test it in Emacs 25,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">EMACS=/home/cb/what-ever-path/25.1/bin/emacs make runemacs
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="posts/zheng-jia-he/">蒸茄盒</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-06-06T13:51:38+00:00">2022-06-06 13:51</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/zheng-jia-he/#disqus_thread" data-disqus-identifier="cache/posts/zheng-jia-he.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/eggplant/" rel="tag">eggplant</a></li>
+           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
+           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <ul class="org-ul">
+<li>两个茄子选软且颜色深,去皮.抹盐再冲掉(为了避免表面变黑),切茄盒</li>
+<li>葱姜末,料酒,肉米,全蛋,少许盐鸡精,花椒水三勺,二合一酱油20克,加淀粉适量(不用太多,2~3勺)锁住水分.搅拌制作成馅(口感类似午餐肉)</li>
+<li>茄盒加入馅,摆盘后洒三分口盐(盐引出茄子的汁),大火蒸15分钟,洒红绿尖椒末,蒸一分钟</li>
+<li>浇上酱油,加葱丝香菜,呲热油(速度要快)</li>
+</ul>
+<p>
+视频: <a href="https://www.bilibili.com/video/BV19L411s7Gr">在家炸茄盒太麻烦？试试茄盒这么做，从里到外软嫩咸香，鲜味十足</a> <a href="https://www.dropbox.com/s/10ac8jgh9qqkwqa/%E8%92%B8%E8%8C%84%E7%9B%92.mp4?dl=0">视频备份</a>
+</p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/fan-jia-yu-pian-tang/">番茄鱼片汤</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -109,7 +264,7 @@ For example, <a href="https://github.com/redguardtoo/emacs.d">my .emacs.d</a> us
 There are also many other engineering issues. I struggled for <b>five hours</b> and finally got satisfying solution. Now anyone can use my solution to <b>set up same CI pipeline in ten minutes</b>.
 </p>
 
-<div id="org3d5b570" class="figure">
+<div id="orgeaaad7b" class="figure">
 <p><img src="wp-content/ci-in-emacs.d.png" alt="ci-in-emacs.d.png"></p>
 </div>
 
@@ -341,7 +496,7 @@ DONE! Now Gitlab/Github could use command line <code>make compile</code> in thei
 Screenshot of <a href="https://github.com/redguardtoo/evil-matchit/commit/ce93c5bcdbb049506c199dfc4324bf60f6fb4f2d">a tricky bug of evil-matchit</a> detected by this new workflow.
 </p>
 
-<div id="orge19bcc9" class="figure">
+<div id="org319806e" class="figure">
 <p><img src="wp-content/byte-compile-ci.png" alt="byte-compile-ci.png"></p>
 </div>
 
@@ -609,8 +764,7 @@ As a happy Emacs 27 user on Debian Linux, I plan to use both Emacs 28.1 and Emac
 <p>
 So I installed Emacs 28.1 without X Window System Support (emacs-nox) and it only runs in daemon mode.
 </p>
-
-<div id="outline-container-org968f818" class="outline-2">
+<div id="outline-container-org22e019b" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -661,13 +815,12 @@ WantedBy=default.target
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org58c2293" class="outline-2">
+<div id="outline-container-org50c7f29" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org24dad42" class="outline-3">
-<h4 id="org24dad42">
+<div id="outline-container-org2755934" class="outline-3">
+<h4 id="org2755934">
 <span class="section-number-3">2.1.</span> disable "idle loader" in server mode</h4>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -694,9 +847,8 @@ Here is the code,
 </div>
 </div>
 </div>
-
-<div id="outline-container-org5a5c6ce" class="outline-3">
-<h4 id="org5a5c6ce">
+<div id="outline-container-org67054c1" class="outline-3">
+<h4 id="org67054c1">
 <span class="section-number-3">2.2.</span> Shell script to install Emacs</h4>
 <div class="outline-text-3" id="text-2-2">
 <p>
@@ -834,112 +986,9 @@ ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
 没有花椒油,所以我在油温较高时和葱段一起加入少许花椒粒,利用油温爆出花椒香味.
 </p>
 
-<div id="org6a23f94" class="figure">
+<div id="org8c030f8" class="figure">
 <p><img src="wp-content/suantai-egg.jpg" alt="suantai-egg.jpg"></p>
 </div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/ma-po-dou-fu/">麻婆豆腐</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2021-10-13T08:10:31+00:00">2021-10-13 08:10</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/ma-po-dou-fu/#disqus_thread" data-disqus-identifier="cache/posts/ma-po-dou-fu.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
-           <li><a class="tag p-category" href="categories/toufu/" rel="tag">toufu</a></li>
-           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-要点,
-</p>
-<ul class="org-ul">
-<li>嫩豆腐焯水去豆腥味, 加盐提味,一点酱油提色</li>
-<li>牛肉末炒酥取出</li>
-<li>加豆瓣酱,豆豉,辣椒面等.不能加姜,会压住其他味.炒到发香.加肉末,加高汤</li>
-<li>汤最多到豆腐的50%</li>
-<li>用炒勺的背面推豆腐保持豆腐完整</li>
-<li>三次勾芡(第一次让味进入豆腐,第二次起到拉力作用,第三次彻底粘合,不要吐水出来)</li>
-<li>最后用小火甚至微火,多烧一下才入味(要不断推豆腐,否则豆腐沾锅底)</li>
-<li>起锅前加入蒜苗, 少许花椒粒烤热后磨成粉撒入</li>
-</ul>
-<div id="orga6775da" class="figure">
-<p><img src="wp-content/mapotofu.jpg" alt="mapotofu.jpg"></p>
-</div>
-
-<p>
-视频,
-<a href="https://www.youtube.com/watch?v=vm3jVXajBi8">Youtube</a> <a href="https://www.dropbox.com/scl/fi/l2cuz03ou8b8lrmc8k0d5">Dropbox</a>
-</p>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/set-up-vmtouch-systemd-service/">Set up vmtouch systemd service</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2021-06-26T04:46:41+00:00">2021-06-26 04:46</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/set-up-vmtouch-systemd-service/#disqus_thread" data-disqus-identifier="cache/posts/set-up-vmtouch-systemd-service.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/linux/" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="categories/systemd/" rel="tag">systemd</a></li>
-           <li><a class="tag p-category" href="categories/vmtouch/" rel="tag">vmtouch</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-"/etc/default/vmtouch" on Debian Testing,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-ini"># Change to yes to enable running vmtouch as a daemon
-ENABLE_VMTOUCH=yes
-
-# User and group to run as
-VMTOUCH_USER_GROUP=cb:cb
-
-# Whitespace separated list of files and directories for vmtouch to operate on
-VMTOUCH_FILES="/home/cb/.emacs.d/lisp /home/cb/.emacs.d/elpa /home/cb/.emacs.d/site-lisp /home/cb/.mozilla/firefox/linux.default/*.sqlite /home/cb/.mozilla/firefox/linux.default/*.json"
-
-# Options to pass to vmtouch itself. See vmtouch(8).
-VMTOUCH_OPTIONS="-q -t"
-</code></pre>
-
-</div>
-<p>
-Run <code>sudo systemctl restart vmtouch</code> to restart the service.
-</p>
-
-<p>
-"<i>home/cb</i>.emacs.d" is not touched because the package <a href="https://github.com/jorgenschaefer/elpy">elpy</a> will create a sub-directory "elpy" there. This sub-directory is huge. It contains many python libraries.
-</p>
             </div>
         </div>
     

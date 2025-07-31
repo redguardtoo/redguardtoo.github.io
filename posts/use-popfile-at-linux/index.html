@@ -22,7 +22,6 @@ UPDATED: &lt;2017-03-12 Sun&gt;
 POPFile automatically sorts emails.
 
 
-
 Install POPFile
 
 
@@ -31,7 +30,7 @@ Download and extract cross-platform version to ~/bin/popfile/.
 
 
 
-Install third part">
+Install third party">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2012-12-28T09:18:54Z">
 <meta property="article:tag" content="email">
@@ -93,18 +92,17 @@ UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-03-12 
 <p>
 <a href="http://getpopfile.org">POPFile</a> automatically sorts emails.
 </p>
-
-<div id="outline-container-orgb39f2b5" class="outline-2">
-<h3 id="orgb39f2b5">Install POPFile</h3>
-<div class="outline-text-2" id="text-orgb39f2b5">
+<div id="outline-container-org959b659" class="outline-2">
+<h3 id="org959b659">Install POPFile</h3>
+<div class="outline-text-2" id="text-org959b659">
 <p>
 <a href="http://getpopfile.org/docs/download">Download and extract cross-platform version</a> to <code>~/bin/popfile/</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org6f29287" class="outline-2">
-<h3 id="org6f29287">Install third party packages</h3>
-<div class="outline-text-2" id="text-org6f29287">
+<div id="outline-container-org4510efe" class="outline-2">
+<h3 id="org4510efe">Install third party packages</h3>
+<div class="outline-text-2" id="text-org4510efe">
 <p>
 Run:
 </p>
@@ -231,10 +229,9 @@ cpan DBD::SQLite DBI Date::Format Date::Parse HTML::Tagset HTML::Template IO::So
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgfe7409c" class="outline-2">
-<h3 id="orgfe7409c">Setup</h3>
-<div class="outline-text-2" id="text-orgfe7409c">
+<div id="outline-container-org637cdf9" class="outline-2">
+<h3 id="org637cdf9">Setup</h3>
+<div class="outline-text-2" id="text-org637cdf9">
 <p>
 I only use IMAP. The purpose of tweak POP3 port is only to make the program executable without root permission.
 </p>
@@ -376,9 +373,9 @@ The only remaining issue is user name. If it contains "\", you should replace it
 </p>
 </div>
 </div>
-<div id="outline-container-orgd87072a" class="outline-2">
-<h3 id="orgd87072a">Run the program</h3>
-<div class="outline-text-2" id="text-orgd87072a">
+<div id="outline-container-org68ccae5" class="outline-2">
+<h3 id="org68ccae5">Run the program</h3>
+<div class="outline-text-2" id="text-org68ccae5">
 <p>
 See <a href="http://getpopfile.org/docs/howtos:runlocation">http://getpopfile.org/docs/howtos:runlocation</a> for details.
 </p>
@@ -390,9 +387,9 @@ See <a href="http://getpopfile.org/docs/howtos:runlocation">http://getpopfile.or
 </div>
 </div>
 </div>
-<div id="outline-container-orga314126" class="outline-2">
-<h3 id="orga314126">Start the POPFile automatically when bash login</h3>
-<div class="outline-text-2" id="text-orga314126">
+<div id="outline-container-org9f8ebd9" class="outline-2">
+<h3 id="org9f8ebd9">Start the POPFile automatically when bash login</h3>
+<div class="outline-text-2" id="text-org9f8ebd9">
 <p>
 Insert below code in ~/.bashrc:
 </p>
@@ -416,9 +413,9 @@ fi
 </div>
 </div>
 </div>
-<div id="outline-container-org9c8e96c" class="outline-2">
-<h3 id="org9c8e96c">Start the POPFile systemd service as a user (OPTIONAL)</h3>
-<div class="outline-text-2" id="text-org9c8e96c">
+<div id="outline-container-org99017eb" class="outline-2">
+<h3 id="org99017eb">Start the POPFile systemd service as a user (OPTIONAL)</h3>
+<div class="outline-text-2" id="text-org99017eb">
 <p>
 My user name is cb. Put popfile.service in <i>usr/lib/systemd/system</i>. Then run `systemctl enable popfile` to install service. Run `systemctl start popfile` to start the service. My Linux distribution is ArchLinux.
 </p>
@@ -443,10 +440,9 @@ WantedBy=multi-user.target
 </div>
 </div>
 </div>
-
-<div id="outline-container-orge3f89f9" class="outline-2">
-<h3 id="orge3f89f9">Backup</h3>
-<div class="outline-text-2" id="text-orge3f89f9">
+<div id="outline-container-org4ad9692" class="outline-2">
+<h3 id="org4ad9692">Backup</h3>
+<div class="outline-text-2" id="text-org4ad9692">
 <p>
 Please backup popfile.cfg and popfile.db.
 </p>
@@ -456,9 +452,9 @@ See <a href="http://getpopfile.org/docs/howtos:backup">http://getpopfile.org/doc
 </p>
 </div>
 </div>
-<div id="outline-container-orgb06a433" class="outline-2">
-<h3 id="orgb06a433">Summary</h3>
-<div class="outline-text-2" id="text-orgb06a433">
+<div id="outline-container-orgb9695c2" class="outline-2">
+<h3 id="orgb9695c2">Summary</h3>
+<div class="outline-text-2" id="text-orgb9695c2">
 <ul class="org-ul">
 <li>Portable</li>
 <li>No root privilege needed</li>

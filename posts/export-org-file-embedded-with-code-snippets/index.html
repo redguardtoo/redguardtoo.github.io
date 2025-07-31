@@ -18,7 +18,6 @@
 UPDATED: &lt;2015-06-06 Sat&gt;
 
 
-
 problem
 
 
@@ -27,6 +26,7 @@ I use Org-mode to record all my notes.
 
 
 As a developer, I place code snippets from many programming languages into one org file.
+
 
 ">
 <meta property="og:type" content="article">
@@ -84,10 +84,9 @@ CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-11-20 
 <p>
 UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-06-06 Sat&gt;</span></span>
 </p>
-
-<div id="outline-container-orgda70365" class="outline-2">
-<h3 id="orgda70365">problem</h3>
-<div class="outline-text-2" id="text-orgda70365">
+<div id="outline-container-orgacae4f3" class="outline-2">
+<h3 id="orgacae4f3">problem</h3>
+<div class="outline-text-2" id="text-orgacae4f3">
 <p>
 I use <a href="http://orgmode.org/">Org-mode</a> to record all my notes.
 </p>
@@ -109,13 +108,13 @@ My hooks are also dependent on third party tools. So if anyone else uses my setu
 </p>
 </div>
 </div>
-<div id="outline-container-org111df76" class="outline-2">
-<h3 id="org111df76">Solution</h3>
-<div class="outline-text-2" id="text-org111df76">
+<div id="outline-container-org7d0f0ba" class="outline-2">
+<h3 id="org7d0f0ba">Solution</h3>
+<div class="outline-text-2" id="text-org7d0f0ba">
 </div>
-<div id="outline-container-orge6c05bb" class="outline-3">
-<h4 id="orge6c05bb">Setup</h4>
-<div class="outline-text-3" id="text-orge6c05bb">
+<div id="outline-container-org0a7519c" class="outline-3">
+<h4 id="org0a7519c">Setup</h4>
+<div class="outline-text-3" id="text-org0a7519c">
 <p>
 In order to solve the issue, I write a small function which will be called at the beginning of each major mode hook.
 </p>
@@ -158,9 +157,9 @@ The function basically check whether the `(buffer-file-name)` is the temporary f
 </div>
 </div>
 </div>
-<div id="outline-container-orgc54b66b" class="outline-3">
-<h4 id="orgc54b66b">Usage</h4>
-<div class="outline-text-3" id="text-orgc54b66b">
+<div id="outline-container-orgbd2de64" class="outline-3">
+<h4 id="orgbd2de64">Usage</h4>
+<div class="outline-text-3" id="text-orgbd2de64">
 <p>
 I use python-mode-hook setup as an example:
 </p>
@@ -181,29 +180,29 @@ I use python-mode-hook setup as an example:
 </div>
 </div>
 </div>
-<div id="outline-container-orgf6f3e45" class="outline-2">
-<h3 id="orgf6f3e45">Tips</h3>
-<div class="outline-text-2" id="text-orgf6f3e45">
+<div id="outline-container-org3eee843" class="outline-2">
+<h3 id="org3eee843">Tips</h3>
+<div class="outline-text-2" id="text-org3eee843">
 </div>
-<div id="outline-container-org6f59a8f" class="outline-3">
-<h4 id="org6f59a8f">Export shell code</h4>
-<div class="outline-text-3" id="text-org6f59a8f">
+<div id="outline-container-org2dfd60b" class="outline-3">
+<h4 id="org2dfd60b">Export shell code</h4>
+<div class="outline-text-3" id="text-org2dfd60b">
 <p>
 Exporting shell code will fail if `sh-mode` is loaded. So I use "bash" instead. Since there is no "bash-mode", exporting will be fine.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd4e065f" class="outline-3">
-<h4 id="orgd4e065f">Yasnippet setup</h4>
-<div class="outline-text-3" id="text-orgd4e065f">
+<div id="outline-container-org5097e5d" class="outline-3">
+<h4 id="org5097e5d">Yasnippet setup</h4>
+<div class="outline-text-3" id="text-org5097e5d">
 <p>
 To avoid loading yasnippets when exporting, I have to <a href="https://github.com/capitaomorte/yasnippet#use-yas-minor-mode-on-a-per-buffer-basis">"use yas-minor-mode on a per-buffer basis"</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgab4c427" class="outline-3">
-<h4 id="orgab4c427">Manually turn off the major-mode hook</h4>
-<div class="outline-text-3" id="text-orgab4c427">
+<div id="outline-container-org7473c09" class="outline-3">
+<h4 id="org7473c09">Manually turn off the major-mode hook</h4>
+<div class="outline-text-3" id="text-org7473c09">
 <p>
 It's controlled by global flag `load-user-customized-major-mode-hook`, as you can see from the "Setup" section.
 </p>
@@ -224,9 +223,9 @@ Say I want to turn off the major mode hooks when `M-x org-publish`, here is the 
 </div>
 </div>
 </div>
-<div id="outline-container-orga37e8d2" class="outline-3">
-<h4 id="orga37e8d2">after-save-hook</h4>
-<div class="outline-text-3" id="text-orga37e8d2">
+<div id="outline-container-org9109db7" class="outline-3">
+<h4 id="org9109db7">after-save-hook</h4>
+<div class="outline-text-3" id="text-org9109db7">
 <p>
 `after-save-hook` is the "Normal hook that is run after a buffer is saved to its file". You may also need tweak it up because it will be called when exporting org files
 </p>
