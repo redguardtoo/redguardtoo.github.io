@@ -180,7 +180,7 @@ Here is code <a href="https://github.com/emacs-lsp/lsp-mode/blob/00766ad62dbe679
 I have done <a href="https://github.com/emacs-lsp/lsp-mode/pull/1498">some profiling</a> by insert <code>(profiler-report-cpu)</code> at the end of <code>lsp</code> (the bottlenecks is highlighted).
 </p>
 
-<div id="org20922f9" class="figure">
+<div id="orga259701" class="figure">
 <p><img src="wp-content/lsp-mode-bottleneck-nq8.png" alt="lsp-mode-bottleneck-nq8.png"></p>
 </div>
 
@@ -228,11 +228,11 @@ For example, a few days ago I published <a href="https://www.reddit.com/r/emacs/
 It became one of my most popular reddit post because its unique feature <b>partial line blame</b>,
 </p>
 
-<div id="org2020c0f" class="figure">
+<div id="orgc6ed56b" class="figure">
 <p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
 </div>
 
-<div id="org0f01efa" class="figure">
+<div id="org3903b25" class="figure">
 <p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
 </div>
 
@@ -258,7 +258,7 @@ It's only one line setup,
 
 </div>
 
-<div id="orgae44da6" class="figure">
+<div id="org62bcaa3" class="figure">
 <p><img src="wp-content/vc-msg-and-magit.png" alt="vc-msg-and-magit.png"></p>
 </div>
 
@@ -316,15 +316,15 @@ Select the partial of line 6 and run <code>vc-msg-show</code>, the correct commi
 Screenshots,
 </p>
 
-<div id="org96458b5" class="figure">
+<div id="orgd17fc21" class="figure">
 <p><img src="wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"></p>
 </div>
 
-<div id="orgb5507eb" class="figure">
+<div id="org805d4f2" class="figure">
 <p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
 </div>
 
-<div id="orgfed90ce" class="figure">
+<div id="org701707c" class="figure">
 <p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
 </div>
             </div>
@@ -371,7 +371,7 @@ I used to regard vimdiff as the best merge tool for Git because it's simply fast
 Here is the demo how I use vimdiff to resolve conflicts from <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a>.
 </p>
 
-<div id="org426af1c" class="figure">
+<div id="orgbbfb4ca" class="figure">
 <p><img src="wp-content/vimdiff-as-git-merge-tool.gif" alt="vimdiff-as-git-merge-tool.gif"></p>
 </div>
 
@@ -413,7 +413,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 <p>
 Here is the complete solution.
 </p>
-<div id="outline-container-org6d0674e" class="outline-2">
+<div id="outline-container-orgbbb3e21" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -469,7 +469,7 @@ Native Emacs API is enough to save/load windows layout.
 </p>
 </div>
 </div>
-<div id="outline-container-orga0b64ff" class="outline-2">
+<div id="outline-container-orgb5aaf36" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 <p>
@@ -598,7 +598,7 @@ Demo on using Emacs to resolve merge conflicts,
 </p>
 
 
-<div id="org3c4ed96" class="figure">
+<div id="org2bd75b2" class="figure">
 <p><img src="wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"></p>
 </div>
 </div>
@@ -648,7 +648,7 @@ Or set up imenu before <code>M-x imenu</code> or <code>M-x helm-imenu</code> or 
 screenshot:
 </p>
 
-<div id="orgcb63632" class="figure">
+<div id="orga8ee1d0" class="figure">
 <p><img src="wp-content/counsel-etags-imenu.png" alt="counsel-etags-imenu.png"></p>
 </div>
             </div>
@@ -801,18 +801,18 @@ My current project uses a technology called <a href="https://www.styled-componen
 <p>
 It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
 </p>
-<div id="outline-container-org863e187" class="outline-2">
-<h3 id="org863e187">Screencast</h3>
-<div class="outline-text-2" id="text-org863e187">
+<div id="outline-container-org72333bc" class="outline-2">
+<h3 id="org72333bc">Screencast</h3>
+<div class="outline-text-2" id="text-org72333bc">
 
-<div id="org8709fb0" class="figure">
+<div id="orgd497f97" class="figure">
 <p><img src="wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd42db7d" class="outline-2">
-<h3 id="orgd42db7d">Code</h3>
-<div class="outline-text-2" id="text-orgd42db7d">
+<div id="outline-container-orgacc320e" class="outline-2">
+<h3 id="orgacc320e">Code</h3>
+<div class="outline-text-2" id="text-orgacc320e">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'counsel-etags)
@@ -888,9 +888,9 @@ It could dynamically change web application's appearance and is a critical techn
                 <p>
 I created <a href="https://github.com/redguardtoo/dianyou">dianyou</a> (电邮) to solve improve my Gnus work flow.
 </p>
-<div id="outline-container-org4877ec0" class="outline-2">
-<h3 id="org4877ec0">Search mails</h3>
-<div class="outline-text-2" id="text-org4877ec0">
+<div id="outline-container-org9d51bf8" class="outline-2">
+<h3 id="org9d51bf8">Search mails</h3>
+<div class="outline-text-2" id="text-org9d51bf8">
 <p>
 Most Gnus users use <code>gnus-group-make-nnir-group</code> to search mails. But it's not usable in "Summary Buffer". Its <a href="https://tools.ietf.org/html/rfc3501#section-6.4.4">IMAP SEARCH Command</a> is hard to use.
 </p>
@@ -900,25 +900,25 @@ It could be replaced by <code>dianyou-group-make-nnir-group</code> which support
 </p>
 </div>
 </div>
-<div id="outline-container-org22024ec" class="outline-2">
-<h3 id="org22024ec">Auto complete email address</h3>
-<div class="outline-text-2" id="text-org22024ec">
+<div id="outline-container-org410a911" class="outline-2">
+<h3 id="org410a911">Auto complete email address</h3>
+<div class="outline-text-2" id="text-org410a911">
 <p>
 I'm too lazy to set up my contacts. It would be better that Gnus could <b>automatically</b> collect email addresses from all received mails. So I created the command <code>dianyou-insert-email-address-from-received-mails</code>. The inserted email address is also inserted into the global variable <code>dianyou-email-address-history</code> which could be persisted by <a href="https://github.com/jwiegley/session">session</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org249acd2" class="outline-2">
-<h3 id="org249acd2">Switch Gnus buffer</h3>
-<div class="outline-text-2" id="text-org249acd2">
+<div id="outline-container-org5526a8f" class="outline-2">
+<h3 id="org5526a8f">Switch Gnus buffer</h3>
+<div class="outline-text-2" id="text-org5526a8f">
 <p>
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use <code>dianyou-switch-gnus-buffer</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org4815f03" class="outline-2">
-<h3 id="org4815f03">Paste image from clipboard</h3>
-<div class="outline-text-2" id="text-org4815f03">
+<div id="outline-container-orgd2bc4d5" class="outline-2">
+<h3 id="orgd2bc4d5">Paste image from clipboard</h3>
+<div class="outline-text-2" id="text-orgd2bc4d5">
 <p>
 Use <code>dianyou-paste-image-from-clipboard</code>. CLI program <a href="https://github.com/astrand/xclip">xclip</a> should be installed at first.</p>
 </div>

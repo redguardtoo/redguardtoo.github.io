@@ -89,9 +89,9 @@ Perforce is a proprietary VCS. It's less powerful than <a href="https://git-scm.
 <p>
 For example, <code>git log -p file-path</code> displays the detailed history of a single file. There is no way you can do this in perforce. Even ClI like <code>p4 changes file-path | awk '{print $2}' | xargs -i p4 describe -du {}</code> can't do it. I have to use Emacs Lisp to clean the output of <code>p4</code>.
 </p>
-<div id="outline-container-orgf4ecb17" class="outline-2">
-<h3 id="orgf4ecb17">Perforce workflow</h3>
-<div class="outline-text-2" id="text-orgf4ecb17">
+<div id="outline-container-org9d4c905" class="outline-2">
+<h3 id="org9d4c905">Perforce workflow</h3>
+<div class="outline-text-2" id="text-org9d4c905">
 <ul class="org-ul">
 <li>
 <code>p4 set</code> to <a href="https://www.perforce.com/perforce/r14.2/manuals/cmdref/p4_set.html">set up</a>
@@ -111,9 +111,9 @@ For example, <code>git log -p file-path</code> displays the detailed history of 
 </ul>
 </div>
 </div>
-<div id="outline-container-org02599c4" class="outline-2">
-<h3 id="org02599c4">My solution</h3>
-<div class="outline-text-2" id="text-org02599c4">
+<div id="outline-container-org689cb9d" class="outline-2">
+<h3 id="org689cb9d">My solution</h3>
+<div class="outline-text-2" id="text-org689cb9d">
 <p>
 Perforce Cygwin portable is not recommended.
 </p>
@@ -126,9 +126,9 @@ I suggest using executable from Perforce Windows native version which works on b
 Perforce server assigns unique URL for each physical file. If I only feed <code>p4</code> that URL, the operation is always successful.
 </p>
 </div>
-<div id="outline-container-orgcd82009" class="outline-3">
-<h4 id="orgcd82009">Emacs</h4>
-<div class="outline-text-3" id="text-orgcd82009">
+<div id="outline-container-org9629e4f" class="outline-3">
+<h4 id="org9629e4f">Emacs</h4>
+<div class="outline-text-3" id="text-org9629e4f">
 <p>
 I developed <a href="https://github.com/redguardtoo/vc-msg">vc-msg</a> which shows "commit message of current line in Emacs". It supports Perforce out of box (you still need <code>p4 login</code> at first.)
 </p>
@@ -290,9 +290,9 @@ You can also check my <a href="https://github.com/redguardtoo/emacs.d/blob/maste
 </p>
 </div>
 </div>
-<div id="outline-container-org2520174" class="outline-3">
-<h4 id="org2520174">Bash Shell</h4>
-<div class="outline-text-3" id="text-org2520174">
+<div id="outline-container-org146f35a" class="outline-3">
+<h4 id="org146f35a">Bash Shell</h4>
+<div class="outline-text-3" id="text-org146f35a">
 <p>
 Other operations are finished in Bash Shell,
 </p>
