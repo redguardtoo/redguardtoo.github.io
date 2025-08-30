@@ -23,6 +23,205 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/how-to-use-emms-effectively/">How to use EMMS effectively</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2022-07-12T13:30:43+00:00">2022-07-12 13:30</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/how-to-use-emms-effectively/#disqus_thread" data-disqus-identifier="cache/posts/how-to-use-emms-effectively.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/emms/" rel="tag">emms</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/lisp/" rel="tag">lisp</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+First thing is to set up emms.
+</p>
+
+<p>
+I could simply enable all the emms features in one line,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(with-eval-after-load 'emms (emms-all))
+</code></pre>
+
+</div>
+
+<p>
+But above setup makes filtering tracks very slow because it's too heavy weight. 
+</p>
+
+<p>
+So I use below setup,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(with-eval-after-load 'emms
+  ;; minimum setup is more robust
+  (emms-minimalistic)
+
+  ;; `emms-info-native' supports mp3,flac and requires NO cli tools
+  (unless (memq 'emms-info-native emms-info-functions)
+    (require 'emms-info-native)
+    (push 'emms-info-native emms-info-functions))
+
+  ;; extract track info when loading the playlist
+  (push 'emms-info-initialize-track emms-track-initialize-functions)
+
+  ;; I also use emms to manage tv shows, so I use mplayer only
+  (setq emms-player-list '(emms-player-mplayer)))
+</code></pre>
+
+</div>
+
+<p>
+Play mp3&amp;flac in "~/Dropbox/music",
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-music ()
+  "My music."
+  (interactive)
+  (emms-stop)
+  (when (bufferp emms-playlist-buffer-name)
+    (kill-buffer emms-playlist-buffer-name))
+  (emms-play-directory-tree "~/Dropbox/music")
+  (emms-shuffle)
+  (emms-next))
+</code></pre>
+
+</div>
+
+<p>
+Sometimes I need focus on challenge programming tasks and emms should play only Mozart&amp;Bach. 
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defvar my-emms-playlist-filter-keyword "mozart|bach"
+  "Keyword to filter tracks in emms playlist.
+Space in the keyword matches any characters.
+ \"|\" means OR operator in regexp.")
+
+(defun my-strip-path (path strip-count)
+  "Strip PATH with STRIP-COUNT."
+  (let* ((i (1- (length path)))
+         str)
+    (while (and (&gt; strip-count 0)
+                (&gt; i 0))
+      (when (= (aref path i) ?/)
+        (setq strip-count (1- strip-count)))
+      (setq i (1- i)))
+    (setq str (if (= 0 strip-count) (substring path (1+ i)) path))
+    (replace-regexp-in-string "^/" "" str)))
+
+(defun my-emms-track-description (track)
+  "Description of TRACK."
+  (let ((desc (emms-track-simple-description track))
+        (type (emms-track-type track)))
+    (when (eq 'file type)
+      (setq desc (my-strip-path desc 2)))
+    desc))
+
+(defvar my-emms-track-regexp-function #'my-emms-track-regexp-internal
+  "Get regexp to search track.")
+
+(defun my-emms-track-regexp-internal (keyword)
+  "Convert KEYWORD into regexp for matching tracks."
+  (let* ((re (replace-regexp-in-string "|" "\\\\|" keyword)))
+    (setq re (replace-regexp-in-string " +" ".*" re))))
+
+(defun my-emms-track-match-p (track keyword)
+  "Test if TRACK's information match KEYWORD."
+  (let* ((case-fold-search t)
+         (regexp (funcall my-emms-track-regexp-function keyword))
+         s)
+    (or (string-match regexp (emms-track-force-description track))
+        (and (setq s (emms-track-get track 'info-genre)) (string-match regexp s))
+        (and (setq s (emms-track-get track 'info-title)) (string-match regexp s))
+        (and (setq s (emms-track-get track 'info-album)) (string-match regexp s))
+        (and (setq s (emms-track-get track 'info-composer)) (string-match regexp s))
+        (and (setq s (emms-track-get track 'info-artist)) (string-match regexp s)))))
+
+(defun my-emms-show ()
+  "Show information of current track."
+  (interactive)
+  (let* ((emms-track-description-function (lambda (track)
+                                            (let ((composer (emms-track-get track 'info-composer))
+                                                  (artist (emms-track-get track 'info-artist)))
+                                              (concat (if composer (format "%s(C) =&gt; " composer))
+                                                      (if artist (format "%s(A) =&gt; " artist))
+                                                      (my-emms-track-description track))))))
+    (emms-show)))
+
+(defun my-emms-playlist-filter (&amp;optional input-p)
+  "Filter tracks in emms playlist.
+If INPUT-P is t, `my-emms-playlist-random-track-keyword' is input by user."
+  (interactive "P")
+  ;; shuffle the playlist
+  (when input-p
+    (setq my-emms-playlist-filter-keyword
+          (read-string "Keyword to filter tracks in playlist: ")))
+  (with-current-buffer emms-playlist-buffer-name
+    (goto-char (point-min))
+    (let* ((case-fold-search t)
+           track)
+      (while (setq track (emms-playlist-track-at))
+        (cond
+         ((my-emms-track-match-p track my-emms-playlist-filter-keyword)
+          (forward-line 1))
+         (t
+          (emms-playlist-mode-kill-track))))))
+
+  (emms-random)
+  ;; show current track info
+  (my-emms-show))
+</code></pre>
+
+</div>
+
+<p>
+As you can see, <b>a little EMMS api knowledge could go a long way</b>.
+</p>
+
+<p>
+If you want to study EMMS API by practice, run <code>M-x emms-playlist-mode-go</code>, then <code>M-x eval-expression RETURN (emms-playlist-track-at)</code> to get the information of the track at point.
+</p>
+
+<p>
+Here is <a href="https://github.com/redguardtoo/emacs.d/blob/95de4c2895be7e01e2438189af0d3f69b8e2bb7e/lisp/init-emms.el">my real world emms setup</a> where you can see below code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defvar my-emms-track-regexp-function
+  (lambda (str)
+    ;; can search track with Chinese information
+    (my-emms-track-regexp-internal (my-extended-regexp str)))
+  "Get regexp to search track.")
+</code></pre>
+
+</div>
+
+<p>
+So I can use <a href="https://en.wikipedia.org/wiki/Pinyin">Pinyin</a> to search track's Chinese information. I don't know any other multimedia manager can do the same thing.
+</p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/add-live-demo-to-emacs-package/">Add live demo to emacs package</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -939,55 +1138,6 @@ Here is my shell script "~/bin/sshx-teamviewer.sh" with a bit optimization,
 ssh -X -C 127.0.0.1 "DISPLAY=:0.0 teamviewer"
 </code></pre>
 
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/suan-tai-chao-dan/">蒜苔炒蛋</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2021-10-15T12:24:19+00:00">2021-10-15 12:24</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/suan-tai-chao-dan/#disqus_thread" data-disqus-identifier="cache/posts/suan-tai-chao-dan.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/egg/" rel="tag">egg</a></li>
-           <li><a class="tag p-category" href="categories/food/" rel="tag">food</a></li>
-           <li><a class="tag p-category" href="categories/zh/" rel="tag">zh</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-视频教程见<a href="https://www.youtube.com/watch?v=9N8A1AvrxJ0">老東北美食: 只要多做一步，蒜苔又嫩又入味</a>
-</p>
-
-<p>
-要点,
-</p>
-<ul class="org-ul">
-<li>蒜苔老的头掐掉, 开水焯一下后放入冷水,从中间撕成两半,切成四公分的段.</li>
-<li>滚刀切葱段备用</li>
-<li>炒蛋核桃块大小, 三分盐</li>
-<li>油热后加葱和少许海鲜酱油.炒几下后加入蒜苔加盐花椒油翻炒</li>
-<li>加蛋翻炒几下,略勾芡</li>
-</ul>
-<p>
-注:
-没有花椒油,所以我在油温较高时和葱段一起加入少许花椒粒,利用油温爆出花椒香味.
-</p>
-
-<div id="orgf4e1881" class="figure">
-<p><img src="wp-content/suantai-egg.jpg" alt="suantai-egg.jpg"></p>
 </div>
             </div>
         </div>

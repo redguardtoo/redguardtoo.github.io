@@ -23,6 +23,106 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/use-plain-vim-to-merge-conflicts/">Use plain Vim to merge conflicts</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2015-04-07T07:19:37+00:00">2015-04-07 07:19</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-plain-vim-to-merge-conflicts/#disqus_thread" data-disqus-identifier="cache/posts/use-plain-vim-to-merge-conflicts.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/vim/" rel="tag">vim</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+I will explain how to resolve code merge conflicts with plain vim. The only third party plugin required is <a href="https://github.com/tpope/vim-unimpaired">vim-unimpaired</a>.
+</p>
+
+<p>
+The reason to use vim is that I can't use vimdiff as a merge tool for certain VCS (CVS, Subversion, Perforce, …).
+</p>
+<div id="outline-container-orgc377cca" class="outline-2">
+<h3 id="orgc377cca">Problem</h3>
+<div class="outline-text-2" id="text-orgc377cca">
+<p>
+A typical file in conflict is like:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-diff">hello world
+hello world
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine
+This is fun stuff!
+=======
+This is a documentation file
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r6
+bye world
+bye world
+</code></pre>
+
+</div>
+
+<p>
+Let's call lines like "&gt;&gt;&gt;&gt;&gt;&gt;&gt;", "&lt;&lt;&lt;&lt;&lt;&lt;&lt;" and "<code>=====</code>" conflict markers.
+</p>
+
+<p>
+Resolving conflicts is the operation of picking up <b>either or both</b> of the sections between markers.
+</p>
+</div>
+</div>
+<div id="outline-container-orga452446" class="outline-2">
+<h3 id="orga452446">Basic knowledge of Vim</h3>
+<div class="outline-text-2" id="text-orga452446">
+<ul class="org-ul">
+<li>"]n" move the focus to the next marker and "[n" to the previous marker.</li>
+<li>"dd" delete current line</li>
+<li>"d]n" delete from current line to the next marker (next marker exclusive)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org993f46f" class="outline-2">
+<h3 id="org993f46f">Solution</h3>
+<div class="outline-text-2" id="text-org993f46f">
+<p>
+Our workflow is actually simple:
+</p>
+<ul class="org-ul">
+<li>Step 1, find the next marker by pressing "]n"</li>
+<li>Step 2, "]nd]n[ndd[ndd" to pick up the section 1</li>
+<li>Step 3, "d]ndd]ndd" to pick up  the section 2, go to step 1</li>
+</ul>
+<p>
+This workflow is compatible with any version control software.
+</p>
+
+<p>
+<b>Optionally</b> you can set the shortcut for step 2 and step 3:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-vimrc">map &lt;leader&gt;dg1 ]nd]n[ndd[ndd
+map &lt;leader&gt;dg2 d]ndd]ndd
+</code></pre>
+
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/easy-indentation-setup-in-emacs-for-web-development/">Easy indentation setup in Emacs for web development</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -1059,50 +1159,6 @@ I only use the grid layout from bootstrap and minimum API from jQuery.
 
 </div>
 </div>
-</div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/make-web-mode-support-html-with-angularjs-data-binding/">Make web-mode support HTML with AngularJS data-binding</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-11-21T11:45:24+00:00">2014-11-21 11:45</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/make-web-mode-support-html-with-angularjs-data-binding/#disqus_thread" data-disqus-identifier="cache/posts/make-web-mode-support-html-with-angularjs-data-binding.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/angular/" rel="tag">angular</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/html/" rel="tag">html</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-I find it very useful to use `M-x imenu` to jump to the  <a href="http://angularjs.org">AngularJS</a> binding point of one HTML file.
-</p>
-
-<p>
-Insert below code into ~/.emacs:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(with-eval-after-load 'web-mode
-  ;; angular imenu
-  (add-to-list 'web-mode-imenu-regexp-list
-               '(" \\(ng-[a-z]*\\)=\"\\([a-zA-Z0-9]*\\)" 1 2 "=")))
-</code></pre>
-
 </div>
             </div>
         </div>

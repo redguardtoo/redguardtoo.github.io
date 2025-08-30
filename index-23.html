@@ -23,6 +23,170 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/emacs-is-easy-if-you-read-code/">Emacs is easy if you read code</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2017-05-09T13:38:06+00:00">2017-05-09 13:38</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/emacs-is-easy-if-you-read-code/#disqus_thread" data-disqus-identifier="cache/posts/emacs-is-easy-if-you-read-code.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/counsel/" rel="tag">counsel</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/ivy/" rel="tag">ivy</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+If you regard a package as a collection of APIs and read its code, Emacs is easy to master. 
+</p>
+
+<p>
+For example, after reading <a href="https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/">using counsel-ag and wgrep to edit multiple files</a>, I dig the code of <code>counsel-ag-occur</code> from <code>counsel.el</code> (v0.9.1),
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun counsel-ag-occur ()
+  "Generate a custom occur buffer for `counsel-ag'."
+  (unless (eq major-mode 'ivy-occur-grep-mode)
+    (ivy-occur-grep-mode))
+  (setq default-directory counsel--git-grep-dir)
+  (let* ((regex (counsel-unquote-regex-parens
+                 (setq ivy--old-re
+                       (ivy--regex
+                        (progn (string-match "\"\\(.*\\)\"" (buffer-name))
+                               (match-string 1 (buffer-name)))))))
+         (cands (split-string
+                 (shell-command-to-string
+                  (format counsel-ag-base-command (shell-quote-argument regex)))
+                 "\n"
+                 t)))
+    ;; Need precise number of header lines for `wgrep' to work.
+    (insert (format "-*- mode:grep; default-directory: %S -*-\n\n\n"
+                    default-directory))
+    (insert (format "%d candidates:\n" (length cands)))
+    (ivy--occur-insert-lines
+     (mapcar
+      (lambda (cand) (concat "./" cand))
+      cands))))
+(ivy-set-occur 'counsel-ag 'counsel-ag-occur)
+(ivy-set-display-transformer 'counsel-ag 'counsel-git-grep-transformer)
+</code></pre>
+
+</div>
+
+<p>
+Inside <code>counsel-ag-occur</code>:
+</p>
+<ul class="org-ul">
+<li>The variable <code>regex</code> is the regular expression built from the filter string you input. Please note that <code>regex</code> is unquoted by <code>counsel-unquote-regex-parens</code> so it can be used in shell. If you use <code>regex</code> in Emacs Lisp, you don't need unquote it</li>
+<li>The variable <code>cands</code> is the candidate lines created by running <code>ag</code> with <code>regex</code> as parameters in shell</li>
+<li>Then a wgrep-friendly buffer is created</li>
+</ul>
+<p>
+So five minutes code reading is enough to implement similar features.
+</p>
+
+<p>
+My project uses Perforce as VCS. So <b>I need check out files and make them writable before using wgrep</b>.
+</p>
+
+<p>
+Code of <code>wgrep.el</code> (v2.1.10),
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun wgrep-prepare-context ()
+  (save-restriction
+    (let ((start (wgrep-goto-first-found))
+          (end (wgrep-goto-end-of-found)))
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (funcall wgrep-results-parser))))
+</code></pre>
+
+</div>
+<p>
+<code>wgrep-results-parser</code> is actually alias of <code>wgrep-parse-command-results</code> whose code is too much to paste here. Please run <code>M-x find-function wgrep-parse-command-results</code> to read its code.
+</p>
+
+<p>
+By combining <code>wgrep-prepare-context</code> and <code>wgrep-parse-command-results</code> I got my own <code>access-files-in-wgrep-buffer</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun access-files-in-wgrep-buffer()
+  (interactive)
+  (save-restriction
+    (let* ((start (wgrep-goto-first-found))
+           (end (wgrep-goto-end-of-found))
+           fn-accessed)
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (unless (featurep 'wgrep) (require 'featurep))
+      (while (not (eobp))
+        (if (looking-at wgrep-line-file-regexp)
+            (let* ((fn (match-string-no-properties 1)))
+              (unless (string= fn fn-accessed)
+                (setq fn-accessed fn)
+                (message "File relative path=%s" fn))))
+        (forward-line 1)))))
+</code></pre>
+
+</div>
+
+<p>
+You can replace the line <code>(message "File relative path=%s" fn)</code> with <code>(shell-command (format "any-shell-cli %s" fn))</code> to <b>do anything on the files</b>.
+</p>
+
+<p>
+Please insert <code>access-files-in-wgrep-buffer</code> into <code>~/.emacs.d/init.el</code> and run <code>M-x access-files-in-wgrep-buffer</code> in wgrep buffer to have a test.
+</p>
+
+<p>
+For example, I modified <code>access-files-in-wgrep-buffer</code> to <code>p4edit-in-grep-buffer</code> to checkout files under <a href="https://www.perforce.com/">Perforce</a> control,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun p4edit-in-wgrep-buffer()
+  "'p4 edit' files in wgrep buffer.
+Turn off `read-only-mode' of opened files."
+  (interactive)
+  (save-restriction
+    (let* ((start (wgrep-goto-first-found))
+           (end (wgrep-goto-end-of-found))
+           fn-accessed)
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (unless (featurep 'wgrep) (require 'featurep))
+      (while (not (eobp))
+        (if (looking-at wgrep-line-file-regexp)
+            (let* ((filename (match-string-no-properties 1)) buf)
+              (unless (string= filename fn-accessed)
+                (setq fn-accessed filename)
+                (shell-command (format "p4 edit %s" filename))
+                (if (setq buf (get-file-buffer filename))
+                    (with-current-buffer buf
+                      ;; turn off read-only since we've already `p4 edit'
+                      (read-only-mode -1))))))
+        (forward-line 1)))))
+</code></pre>
+
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/auto-complete-word-in-emacs-mini-buffer-when-using-evil/">Auto-complete word in Emacs mini-buffer when using Evil</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -1035,145 +1199,6 @@ Insert below line at the beginning of ~/.emacs when <b>elpa.gnu.org is down</b>:
 <p>
 This solution also works for <a href="https://melpa.org/">MELPA</a>.
 </p>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-js2-mode-as-minor-mode-to-process-json/">Use js2-mode as minor mode to process JSON</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2016-07-31T05:24:04+00:00">2016-07-31 05:24</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/use-js2-mode-as-minor-mode-to-process-json/#disqus_thread" data-disqus-identifier="cache/posts/use-js2-mode-as-minor-mode-to-process-json.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/js2/" rel="tag">js2</a></li>
-           <li><a class="tag p-category" href="categories/json/" rel="tag">json</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-Most people use <a href="https://github.com/mooz/js2-mode">js2-mode</a> as a major mode for javascript. For JSON file, they prefer <a href="https://github.com/joshwnj/json-mode">json-mode</a>.
-</p>
-
-<p>
-But if you <b>truly</b> understand the meaning of <a href="https://www.gnu.org/philosophy/free-sw.en.html">Software Freedom</a>, you will realize "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Major-Modes.html">major-mode</a>" and "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Minor-Modes.html">minor-mode</a>" are man-made concepts which actually have no difference.
-</p>
-
-<p>
-In essence, a major mode is just a collection of APIs. We could use its APIs without enabling it, perfectly complying with "The freedom to run the program as you wish, for any purpose (freedom 0).".
-</p>
-
-<p>
-Here are two examples.
-</p>
-<div id="outline-container-org0740deb" class="outline-2">
-<h3 id="org0740deb">Validate JSON</h3>
-<div class="outline-text-2" id="text-org0740deb">
-<p>
-<code>M-x my-validate-json-or-js-expression</code> to validate the buffer.
-</p>
-
-<p>
-<code>C-u my-validate-json-or-js-expression</code> to validate selected region.
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun my-validate-json-or-js-expression (&amp;optional not-json-p)
-  "Validate buffer or select region as JSON.
-If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
-  (interactive "P")
-  (let* ((json-exp (if (region-active-p) (buffer-substring-no-properties (region-beginning) (region-end))
-                     (buffer-substring-no-properties (point-min) (point-max))))
-         (jsbuf-offet (if not-json-p 0 (length "var a=")))
-         errs
-         first-err
-         (first-err-pos (if (region-active-p) (region-beginning) 0)))
-    (unless not-json-p
-      (setq json-exp (format "var a=%s;"  json-exp)))
-    (with-temp-buffer
-      (insert json-exp)
-      (unless (featurep 'js2-mode)
-        (require 'js2-mode))
-      (js2-parse)
-      (setq errs (js2-errors))
-      (cond
-       ((not errs)
-        (message "NO error found. Good job!"))
-       (t
-        ;; yes, first error in buffer is the last element in errs
-        (setq first-err (car (last errs)))
-        (setq first-err-pos (+ first-err-pos (- (cadr first-err) jsbuf-offet)))
-        (message "%d error(s), first at buffer position %d: %s"
-                 (length errs)
-                 first-err-pos
-                 (js2-get-msg (caar first-err))))))
-    (if first-err (goto-char first-err-pos))))
-</code></pre>
-
-</div>
-</div>
-</div>
-<div id="outline-container-orgc5e1119" class="outline-2">
-<h3 id="orgc5e1119">Print JSON path</h3>
-<div class="outline-text-2" id="text-orgc5e1119">
-<p>
-For example, you got JSON string  <code>{"a": {"b": 3}}</code>. If you place cursor over <code>3</code> and <code>M-x my-print-json-path</code>, you got output <code>a.b</code>.
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defun my-print-json-path (&amp;optional hardcoded-array-index)
-  "Print the path to the JSON value under point, and save it in the kill ring.
-If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
-  (interactive "P")
-  (cond
-   ((memq major-mode '(js2-mode))
-    (js2-print-json-path hardcoded-array-index))
-   (t
-    (let* ((cur-pos (point))
-           (str (buffer-substring-no-properties (point-min) (point-max))))
-      (when (string= "json" (file-name-extension buffer-file-name))
-        (setq str (format "var a=%s;" str))
-        (setq cur-pos (+ cur-pos (length "var a="))))
-      (unless (featurep 'js2-mode)
-        (require 'js2-mode))
-      (with-temp-buffer
-        (insert str)
-        (js2-init-scanner)
-        (js2-do-parse)
-        (goto-char cur-pos)
-        (js2-print-json-path))))))
-</code></pre>
-
-</div>
-</div>
-</div>
-<div id="outline-container-org72f150b" class="outline-2">
-<h3 id="org72f150b">Summary</h3>
-<div class="outline-text-2" id="text-org72f150b">
-<p>
-As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
-</p>
-<ul class="org-ul">
-<li>js2-errors</li>
-<li>js2-get-msg</li>
-<li>js2-print-json-path</li>
-<li>js2-init-scanner</li>
-<li>js2-do-parse</li>
-</ul>
-</div>
-</div>
             </div>
         </div>
     

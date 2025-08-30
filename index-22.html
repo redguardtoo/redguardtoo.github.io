@@ -23,6 +23,145 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/use-js2-mode-as-minor-mode-to-process-json/">Use js2-mode as minor mode to process JSON</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-31T05:24:04+00:00">2016-07-31 05:24</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/use-js2-mode-as-minor-mode-to-process-json/#disqus_thread" data-disqus-identifier="cache/posts/use-js2-mode-as-minor-mode-to-process-json.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/js2/" rel="tag">js2</a></li>
+           <li><a class="tag p-category" href="categories/json/" rel="tag">json</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+Most people use <a href="https://github.com/mooz/js2-mode">js2-mode</a> as a major mode for javascript. For JSON file, they prefer <a href="https://github.com/joshwnj/json-mode">json-mode</a>.
+</p>
+
+<p>
+But if you <b>truly</b> understand the meaning of <a href="https://www.gnu.org/philosophy/free-sw.en.html">Software Freedom</a>, you will realize "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Major-Modes.html">major-mode</a>" and "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Minor-Modes.html">minor-mode</a>" are man-made concepts which actually have no difference.
+</p>
+
+<p>
+In essence, a major mode is just a collection of APIs. We could use its APIs without enabling it, perfectly complying with "The freedom to run the program as you wish, for any purpose (freedom 0).".
+</p>
+
+<p>
+Here are two examples.
+</p>
+<div id="outline-container-org0740deb" class="outline-2">
+<h3 id="org0740deb">Validate JSON</h3>
+<div class="outline-text-2" id="text-org0740deb">
+<p>
+<code>M-x my-validate-json-or-js-expression</code> to validate the buffer.
+</p>
+
+<p>
+<code>C-u my-validate-json-or-js-expression</code> to validate selected region.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-validate-json-or-js-expression (&amp;optional not-json-p)
+  "Validate buffer or select region as JSON.
+If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."
+  (interactive "P")
+  (let* ((json-exp (if (region-active-p) (buffer-substring-no-properties (region-beginning) (region-end))
+                     (buffer-substring-no-properties (point-min) (point-max))))
+         (jsbuf-offet (if not-json-p 0 (length "var a=")))
+         errs
+         first-err
+         (first-err-pos (if (region-active-p) (region-beginning) 0)))
+    (unless not-json-p
+      (setq json-exp (format "var a=%s;"  json-exp)))
+    (with-temp-buffer
+      (insert json-exp)
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (js2-parse)
+      (setq errs (js2-errors))
+      (cond
+       ((not errs)
+        (message "NO error found. Good job!"))
+       (t
+        ;; yes, first error in buffer is the last element in errs
+        (setq first-err (car (last errs)))
+        (setq first-err-pos (+ first-err-pos (- (cadr first-err) jsbuf-offet)))
+        (message "%d error(s), first at buffer position %d: %s"
+                 (length errs)
+                 first-err-pos
+                 (js2-get-msg (caar first-err))))))
+    (if first-err (goto-char first-err-pos))))
+</code></pre>
+
+</div>
+</div>
+</div>
+<div id="outline-container-orgc5e1119" class="outline-2">
+<h3 id="orgc5e1119">Print JSON path</h3>
+<div class="outline-text-2" id="text-orgc5e1119">
+<p>
+For example, you got JSON string  <code>{"a": {"b": 3}}</code>. If you place cursor over <code>3</code> and <code>M-x my-print-json-path</code>, you got output <code>a.b</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun my-print-json-path (&amp;optional hardcoded-array-index)
+  "Print the path to the JSON value under point, and save it in the kill ring.
+If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."
+  (interactive "P")
+  (cond
+   ((memq major-mode '(js2-mode))
+    (js2-print-json-path hardcoded-array-index))
+   (t
+    (let* ((cur-pos (point))
+           (str (buffer-substring-no-properties (point-min) (point-max))))
+      (when (string= "json" (file-name-extension buffer-file-name))
+        (setq str (format "var a=%s;" str))
+        (setq cur-pos (+ cur-pos (length "var a="))))
+      (unless (featurep 'js2-mode)
+        (require 'js2-mode))
+      (with-temp-buffer
+        (insert str)
+        (js2-init-scanner)
+        (js2-do-parse)
+        (goto-char cur-pos)
+        (js2-print-json-path))))))
+</code></pre>
+
+</div>
+</div>
+</div>
+<div id="outline-container-org72f150b" class="outline-2">
+<h3 id="org72f150b">Summary</h3>
+<div class="outline-text-2" id="text-org72f150b">
+<p>
+As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
+</p>
+<ul class="org-ul">
+<li>js2-errors</li>
+<li>js2-get-msg</li>
+<li>js2-print-json-path</li>
+<li>js2-init-scanner</li>
+<li>js2-do-parse</li>
+</ul>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/yan-tai-dun-tu-dou-si/">烟台炖土豆丝</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -768,67 +907,6 @@ When <a href="https://github.com/abo-abo/swiper">Swiper/Ivy</a> candidate window
 
 <p>
 <code>fd</code> is the default key binding from evil-escape. I changed it to <code>kj</code> instead.
-</p>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode/">Use general.el to provide multiple leader key in evil-mode</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2016-04-09T04:35:54+00:00">2016-04-09 04:35</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode/#disqus_thread" data-disqus-identifier="cache/posts/use-general-el-to-provide-multiple-leader-key-in-evil-mode.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/evil/" rel="tag">evil</a></li>
-           <li><a class="tag p-category" href="categories/vim/" rel="tag">vim</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-<a href="https://github.com/noctuid/general.el">General.el</a> "provides a more convenient way to bind keys in emacs for both evil and non-evil users".
-</p>
-
-<p>
-I have been using it for more than one month without any issue. I prefer general.el to <a href="https://github.com/cofi/evil-leader">evil-leader</a> because I need both comma and space key as <a href="http://vimdoc.sourceforge.net/htmldoc/map.html#%3CLeader%3E">leader key</a>.
-</p>
-
-<p>
-Minimum setup is simple,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(require 'general)
-(general-evil-setup t)
-(nvmap :prefix ","
-       "bb" 'back-to-previous-buffer
-       "ww" 'save-buffer
-       "oo" 'compile)
-
-;; all keywords arguments are still supported
-(nvmap :prefix "SPC"
-       ; save windows layout
-       "ss" 'wg-create-workgroup
-       ;; load windows layout
-       "ll" 'my-wg-switch-workgroup)
-</code></pre>
-
-</div>
-
-<p>
-My <a href="https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-evil.el">real world setup</a> is more complicated.
 </p>
             </div>
         </div>

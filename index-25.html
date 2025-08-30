@@ -23,6 +23,126 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/">Thoughts on "Native shell completion in Emacs"</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2020-04-09T10:40:23+00:00">2020-04-09 10:40</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell/#disqus_thread" data-disqus-identifier="cache/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/autocomplete/" rel="tag">autocomplete</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/shell/" rel="tag">shell</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>
+<a href="https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/">Native shell completion in Emacs</a> by Troy Hinckley is must read for completion in <code>shell-mode</code>.
+</p>
+
+<p>
+One problem is my <code>~/.bashrc</code> executes <code>/etc/bash_completion</code>,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-sh">if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+</code></pre>
+
+</div>
+
+<p>
+Unfortunately <code>/etc/bash_completion</code> makes <code>complete -p</code> output some lines the Emacs function <code>bash-completion-tokenize</code> can't analyze.
+</p>
+
+<p>
+Here is output of <code>complete -p</code> at my PC,
+</p>
+<pre class="example" id="orgc8147c3">
+...
+complete -F _known_hosts mtr
+complete -o default -o nospace -W 'homepc
+192.168.1.104
+github.com
+gitlab.com' scp
+complete -o default -f -X '!*.dvi' dvipdf
+...
+</pre>
+
+<p>
+The line <code>gitlab.com' scp</code> will crash <code>bash-completion-tokenize</code>. Obviously, one line 
+<code>complete -o default -o nospace -W 'homepc 192.168.1.104 github.com gitlab.com' scp</code>  is wrongly split into multiple lines by <code>complete -p</code>.
+</p>
+
+<p>
+In <code>shell-mode</code>, completion functions might call <code>bash-completion-tokenize</code>. If <code>bash-completion-tokenize</code> crashes, the completion in <code>shell-mode</code> won't work.
+</p>
+
+<p>
+Besides, if <code>company-mode</code> provides auto-completion UI, it's better to place the backend <code>company-files</code> before <code>company-native-complete</code>. It's because the backend <code>company-files</code> displays the full file path in candidates. So users can complete the whole path in one shot.
+</p>
+
+<p>
+My setup code for the packages Troy Hinckley suggested,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">;; Enable auto-completion in `shell'.
+(with-eval-after-load 'shell
+  (native-complete-setup-bash))
+
+;; `bash-completion-tokenize' can handle garbage output of "complete -p"
+(defadvice bash-completion-tokenize (around bash-completion-tokenize-hack activate)
+  (let* ((args (ad-get-args 0))
+         (beg (nth 0 args))
+         (end (nth 1 args)))
+    ;; original code extracts tokens from output of "complete -p" line by line
+    (cond
+     ((not (string-match-p "^complete " (buffer-substring beg end)))
+      ;; filter out some wierd lines
+      (setq ad-return-value nil))
+     (t
+      ad-do-it))))
+
+(defun shell-mode-hook-setup ()
+  "Set up `shell-mode'."
+  ;; hook `completion-at-point', optional
+  (add-hook 'completion-at-point-functions #'native-complete-at-point nil t)
+  (setq-local company-backends '((company-files company-native-complete)))
+  ;; `company-native-complete' is better than `completion-at-point'
+  (local-set-key (kbd "TAB") 'company-complete))
+(add-hook 'shell-mode-hook 'shell-mode-hook-setup)
+</code></pre>
+
+</div>
+
+<p>
+Screenshot,
+</p>
+
+<div id="orgb5a7797" class="figure">
+<p><img src="wp-content/shell-complete-path-nq8.png" alt="shell-complete-path-nq8.png"></p>
+</div>
+
+<div id="org97a663f" class="figure">
+<p><img src="wp-content/shell-complete-param-nq8.png" alt="shell-complete-param-nq8.png"></p>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/how-to-speed-up-lsp-mode/">How to speed up lsp-mode</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -969,115 +1089,6 @@ But good interviewers still exist. Here are top 3 interviews I recommend:
 <a href="https://www.youtube.com/watch?v=JQbrQTc3jxM">Dr Diane Hamilton Interviews Richard Stallman</a>. Diane Hamilton is good listener and just let Richard Stallman talk. Stallman quoted text from Chinese ancient novel San Guo (Three Kingdom) in the interview.</li>
 </ul>
 </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/enhance-emacs-evil-global-markers/">Enhance Emacs Evil global markers</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2019-04-08T13:00:53+00:00">2019-04-08 13:00</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/enhance-emacs-evil-global-markers/#disqus_thread" data-disqus-identifier="cache/posts/enhance-emacs-evil-global-markers.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/evil/" rel="tag">evil</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-Global evil marker is saved in <code>evil-global-markers-history</code> by <a href="https://github.com/jwiegley/session">session.el</a>.
-</p>
-
-<p>
-Insert below code int <code>~/.emacs</code>,
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(defvar evil-global-markers-history nil)
-(defun my-forward-line (lnum)
-  "Forward LNUM lines."
-  (setq lnum (string-to-number lnum))
-  (when (and lnum (&gt; lnum 0))
-    (goto-char (point-min))
-    (forward-line (1- lnum))))
-
-(defadvice evil-set-marker (before evil-set-marker-before-hack activate)
-  (let* ((args (ad-get-args 0))
-         (c (nth 0 args))
-         (pos (or (nth 1 args) (point))))
-    ;; only rememeber global markers
-    (when (and (&gt;= c ?A) (&lt;= c ?Z) buffer-file-name)
-      (setq evil-global-markers-history
-            (delq nil
-                  (mapcar `(lambda (e)
-                             (unless (string-match (format "^%s@" (char-to-string ,c)) e)
-                               e))
-                          evil-global-markers-history)))
-      (setq evil-global-markers-history
-            (add-to-list 'evil-global-markers-history
-                         (format "%s@%s:%d:%s"
-                                 (char-to-string c)
-                                 (file-truename buffer-file-name)
-                                 (line-number-at-pos pos)
-                                 (string-trim (buffer-substring-no-properties (line-beginning-position)
-                                                                              (line-end-position)))))))))
-
-(defadvice evil-goto-mark-line (around evil-goto-mark-line-hack activate)
-  (let* ((args (ad-get-args 0))
-         (c (nth 0 args))
-         (orig-pos (point)))
-
-    (condition-case nil
-        ad-do-it
-      (error (progn
-               (when (and (eq orig-pos (point)) evil-global-markers-history)
-                 (let* ((markers evil-global-markers-history)
-                        (i 0)
-                        m
-                        file
-                        found)
-                   (while (and (not found) (&lt; i (length markers)))
-                     (setq m (nth i markers))
-                     (when (string-match (format "\\`%s@\\(.*?\\):\\([0-9]+\\):\\(.*\\)\\'"
-                                                 (char-to-string c))
-                                         m)
-                       (setq file (match-string-no-properties 1 m))
-                       (setq found (match-string-no-properties 2 m)))
-                     (setq i (1+ i)))
-                   (when file
-                     (find-file file)
-                     (my-forward-line found)))))))))
-
-(defun counsel-evil-goto-global-marker ()
-  "Goto global evil marker."
-  (interactive)
-  (unless (featurep 'ivy) (require 'ivy))
-  (ivy-read "Goto global evil marker"
-            evil-global-markers-history
-            :action (lambda (m)
-                      (when (string-match "\\`[A-Z]@\\(.*?\\):\\([0-9]+\\):\\(.*\\)\\'" m)
-                        (let* ((file (match-string-no-properties 1 m))
-                               (linenum (match-string-no-properties 2 m)))
-                          (find-file file)
-                          (my-forward-line linenum))))))
-</code></pre>
-
-</div>
-
-<p>
-<code>evil-goto-mark-line</code> will access marker in <code>evil-global-markers-history</code>.</p>
-            </div>
         </div>
     
         <nav class="postindexpager"><ul class="pager">

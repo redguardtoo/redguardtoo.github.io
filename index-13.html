@@ -23,6 +23,34 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/matthew-keeler-video-tutorial-on-org-mode-in-emacs/">Matthew Keeler video tutorial on org-mode in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2013-09-23T20:21:25+00:00">2013-09-23 20:21</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/matthew-keeler-video-tutorial-on-org-mode-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/matthew-keeler-video-tutorial-on-org-mode-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/org/" rel="tag">org</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <p>At <a href="https://www.youtube.com/watch?feature=player_detailpage&amp;v=lsYdK0C2RvQ#t=308">4:57</a> it becomes interesting. </p>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/one-liner-to-load-m3u-into-mpd/">One liner to load m3u into mpd</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -492,179 +520,6 @@ Here is the setup:
 </code></pre>
 
 </div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/navigateselect-html-tags-in-emacs/">Navigate/Select html tags in Emacs</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2013-08-22T00:05:00+00:00">2013-08-22 00:05</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/navigateselect-html-tags-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/navigateselect-html-tags-in-emacs.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-           <li><a class="tag p-category" href="categories/html/" rel="tag">html</a></li>
-           <li><a class="tag p-category" href="categories/matchit/" rel="tag">matchit</a></li>
-           <li><a class="tag p-category" href="categories/selection/" rel="tag">selection</a></li>
-           <li><a class="tag p-category" href="categories/tag/" rel="tag">tag</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>
-UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-11-03 Fri&gt;</span></span>
-</p>
-
-<p>
-Navigate/select html tags is kind of difficult. I've not found any plugin which could match Vim's <a href="http://www.vim.org/scripts/script.php?script_id=39">matchit</a>.
-</p>
-
-<p>
-The most close one in Emacs is <a href="https://github.com/Fuco1/smartparens">smartparens</a>. You can check this <a href="https://plus.google.com/110954683162859211810/posts/4Hb2FUkaPsp">discussion on Google Plus</a> to get general impression.
-</p>
-
-<p>
-I use  <code>sp-select-next-thing</code> from <code>smarparens</code> to select html tags. But I'm not satisfied with this command because it's picky on the location of my cursor and selection of multiple html tags is buggy.
-</p>
-
-<p>
-So here is my fix, the new command <code>my-sp-select-next-thing</code> which fix all these issues.
-</p>
-
-<p>
-Screen cast:
-<img src="https://dl.dropboxusercontent.com/u/858862/my-sp-select-next-thing.gif" alt="my-sp-select-next-thing.gif"></p>
-
-<p>
-Here is the code to insert it into your <code>~/.emacs</code>:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">;; make sp-select-next-thing works even the cusor is in the open/close tag
-;; like matchit in vim
-;; @return t =&gt; start from open tag; nil start from close tag
-(defun my-sp-select-next-thing (&amp;optional NUM)
-  (interactive "p")
-  (let* ((b (line-beginning-position))
-         (e (line-end-position))
-         (char (following-char))
-         (p (point))
-         rbeg
-         rend
-         (rlt t))
-    ;; "&lt;" char code is 60
-    ;; search backward
-    (if (not (= char 60))
-        (save-excursion
-          (while (and (&lt;= b (point)) (not (= char 60)))
-            (setq char (following-char))
-            (setq p (point))
-            (backward-char))))
-    ;; search forward
-    (if (not (= char 60))
-        (save-excursion
-          (while (and (&gt;= e (point)) (not (= char 60)))
-            (setq char (following-char))
-            (setq p (point))
-            (forward-char))))
-    ;; do the real thing
-    (when (and (= char 60) (&lt; p e))
-      (goto-char p)
-      (forward-char)
-      (if (= (following-char) 47)
-          (progn
-            ;; &lt;/
-            (backward-char)
-            (setq rlt nil))
-        (progn
-          ;; &lt; , looks fine
-          (backward-char)
-          (setq rlt t)))
-      (sp-select-next-thing)
-      (setq rbeg (region-beginning))
-      (setq rend (region-end))
-
-      (while (&gt; NUM 1)
-        ;; well, sp-select-next-thing is kind of wierd
-        (re-search-forward "&lt;[^!]")
-        (backward-char 2)
-        (sp-select-next-thing)
-        (setq rend (region-end))
-        (setq NUM (1- NUM)))
-      (push-mark rbeg t t)
-      (goto-char (1-rend)))
-    rlt))
-</code></pre>
-
-</div>
-
-<p>
-Navigation is easy. After selecting the tags, press <code>C-x C-x</code> to move the focus. That's it.
-</p>
-
-<p>
-For evil-mode, I write some code which simulate the famous <b>matchit</b> in vi:
-</p>
-<div class="org-src-container">
-
-<pre><code class="lang-lisp">(require 'evil)
-
-;; {{ evil-matchit
-(defun my-evil-jump-item-enhanced-for-html ()
-  (interactive)
-  (if (or (eq major-mode 'html-mode)
-          (eq major-mode 'xml-mode)
-          (eq major-mode 'nxml-mode))
-      (progn
-        (if (not (my-sp-select-next-thing 1)) (exchange-point-and-mark))
-        (deactivate-mark))
-    (progn
-      (evil-jump-item))))
-(define-key evil-normal-state-map "%" 'my-evil-jump-item-enhanced-for-html)
-;; }}
-</code></pre>
-
-</div>
-
-<p>
-Now you can press <code>%</code> in evil to jump between tags!
-</p>
-
-<p>
-Requirement:
-</p>
-<ul class="org-ul">
-<li>smartparens-1.5</li>
-<li>evil-1.0.7</li>
-<li>emacs-24.2.1</li>
-</ul>
-<p>
-BTW, I also tried the web-mode-tag-match in <a href="https://github.com/fxbois/web-mode">web-mode</a> which provided similar tag match feature.
-</p>
-
-<p>
-At least now (2nd October,2013) web-mode does not support <a href="http://freemarker.org/">freemarker</a> syntax. But smartparens is more tolerant to these template syntax.
-</p>
-
-<p>
-UPDATE (6th Nov, 2013):
-I started a new project <a href="https://github.com/redguardtoo/evil-matchit">evil-matchit</a> which is not dependent on smartparens. Please check it out. But you can still use my old code because it support more languages.
-</p>
-
-<p>
-UPDATED (13rd Jan, 2014):
-<a href="https://github.com/redguardtoo/evil-matchit">evil-matchit</a> is now powerful enough to replace my old tricks.
-</p>
             </div>
         </div>
     

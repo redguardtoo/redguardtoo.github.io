@@ -23,6 +23,216 @@
         </ul></section><section class="page-content"><div class="content" rel="main">
             
         <div class="post">
+            <h1 class="title"><a href="posts/ccjava-code-indentation-in-emacs/">C/C++/Java code indentation in Emacs</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2014-05-09T09:19:18+00:00">2014-05-09 09:19</time>
+</div>
+                <div class="stats">
+                    
+    
+    <a href="posts/ccjava-code-indentation-in-emacs/#disqus_thread" data-disqus-identifier="cache/posts/ccjava-code-indentation-in-emacs.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags : 
+           <li><a class="tag p-category" href="categories/c/" rel="tag">c</a></li>
+           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="categories/java/" rel="tag">java</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div id="outline-container-org47a9ca0" class="outline-2">
+<h3 id="org47a9ca0">Problem</h3>
+<div class="outline-text-2" id="text-org47a9ca0">
+<p>
+There are two styles when insert curly braces in C like languages.
+</p>
+
+<p>
+Style 1:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">if(true) {
+    printf("hello world\n");
+}
+</code></pre>
+
+</div>
+
+<p>
+Style 2:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">if(true)
+{
+    printf("hello world\n");
+}
+</code></pre>
+
+</div>
+
+<p>
+Whatever style I use, I expect Emacs will properly handle the indentation for me.
+</p>
+
+<p>
+In "Style 1", when I press ENTER key after "{" at first line, I expect the new line will indent four spaces.
+</p>
+
+<p>
+In "Style 2", when I press ENTER key after ")" at first line, I expect the new line will NOT indent.
+</p>
+</div>
+</div>
+<div id="outline-container-org8b6279d" class="outline-2">
+<h3 id="org8b6279d">Solution</h3>
+<div class="outline-text-2" id="text-org8b6279d">
+<p>
+Insert below code into ~/.emacs:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(defun fix-c-indent-offset-according-to-syntax-context (key val)
+  ;; remove the old element
+  (setq c-offsets-alist (delq (assoc key c-offsets-alist) c-offsets-alist))
+  ;; new value
+  (add-to-list 'c-offsets-alist '(key . val)))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+              ;; indent
+              (fix-c-indent-offset-according-to-syntax-context 'substatement 0)
+              (fix-c-indent-offset-according-to-syntax-context 'func-decl-cont 0))
+            ))
+
+</code></pre>
+
+</div>
+
+<p>
+That's it.
+</p>
+</div>
+</div>
+<div id="outline-container-orge45cb6d" class="outline-2">
+<h3 id="orge45cb6d">Explanation</h3>
+<div class="outline-text-2" id="text-orge45cb6d">
+<p>
+When you press the ENTER key, the function <b>c-indent-line</b> will be called.
+</p>
+
+<p>
+That function will do some simple syntax analysis and decide current syntactic context..
+</p>
+
+<p>
+It will use that syntactic context to look up a global variable c-offsets-alist and decide how many spaces the new line will indent.
+</p>
+
+<p>
+For example, the context <b>substatement</b> corresponds to the code like below:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">if(true) // press ENTER here
+</code></pre>
+
+</div>
+
+<p>
+And the context <b>func-decl-cont</b> corresponds to:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">void fn () //press ENTER here
+</code></pre>
+
+</div>
+</div>
+</div>
+<div id="outline-container-org85ab108" class="outline-2">
+<h3 id="org85ab108">Technical details</h3>
+<div class="outline-text-2" id="text-org85ab108">
+<p>
+When you press ENTER key, the new line will be inserted. Then the function <b>indent-according-to-mode</b> will always be called
+</p>
+
+<p>
+<b>indent-according-to-mode</b> will call function object <b>indent-line-function</b> if it's not nil.
+</p>
+
+<p>
+In C/C++/Java, that object is actually <b>c-indent-line</b>.
+</p>
+
+<p>
+<b>c-indent-line</b> is defined in /usr/share/emacs/24.3/lisp/progmodes/cc-cmds.el (I use Emacs 24.3 on Gentoo Linux).
+</p>
+
+<p>
+In that function, just below the code line:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(setq c-syntactic-context (c-guess-basic-syntax))
+</code></pre>
+
+</div>
+
+<p>
+You can insert log code as below:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp">(message "c-syntactic-context=%s" c-syntactic-context)
+</code></pre>
+
+</div>
+
+<p>
+You will know the current syntactic context when you press ENTER key through the output of log code.
+</p>
+
+<p>
+<a href="http://www.emacswiki.org/emacs/IndentingC">EmacsWiki</a> says you can run command "c-set-offset", whose hot key is "C-x C-o", in order to "see the syntax at point". As I tested, it does not work as expected. My way may seem a little bit intrusive but is reliable.
+</p>
+
+<p>
+For example, the context <b>statement-cont</b> corresponds to the use case like this:
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-c">int a=3, // press ENTER here
+</code></pre>
+
+</div>
+
+<p>
+Please note syntax analysis in c-indent-line is turned on if and <b>only if</b> the global flag <b>c-syntactic-indentation</b> is true.
+</p>
+
+<p>
+Thanks for <a href="https://github.com/chengyi">chengyi</a> for <a href="https://github.com/redguardtoo/emacs.d/issues/98">reporting the issue and suggesting the fix</a>.
+</p>
+
+<p>
+BTW, <a href="http://www.emacswiki.org/emacs/IndentingC">EmacsWiki has a section</a> to discuss the indenting in C. You may not need it if you have read this article and can read the Emacs lisp code.
+</p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
             <h1 class="title"><a href="posts/what-s-aop-in-java/">What's AOP in Java</a></h1>
             <div class="meta">
                 <div class="authordate">
@@ -1272,49 +1482,6 @@ You can download my ~/.keysnail.js from <a href="https://gist.githubusercontent.
 #+image/keysnail-tanything-nq8.png <img src="http://blog.binchen.org/wp-content/uploads/2014/03/keysnail-tanything-nq8.png" alt="keysnail-tanything-nq8.png"></p>
 </div>
 </div>
-            </div>
-        </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/debug-emacs-lisp-code-the-hard-way/">Debug Emacs Lisp code the hard way</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2014-03-19T19:45:00+00:00">2014-03-19 19:45</time>
-</div>
-                <div class="stats">
-                    
-    
-    <a href="posts/debug-emacs-lisp-code-the-hard-way/#disqus_thread" data-disqus-identifier="cache/posts/debug-emacs-lisp-code-the-hard-way.html">Comments</a>
-
-
-                </div>
-            
-        <div itemprop="keywords" class="tags">
-        <ul>
-        Tags : 
-           <li><a class="tag p-category" href="categories/debug/" rel="tag">debug</a></li>
-           <li><a class="tag p-category" href="categories/elisp/" rel="tag">elisp</a></li>
-           <li><a class="tag p-category" href="categories/emacs/" rel="tag">emacs</a></li>
-           <li><a class="tag p-category" href="categories/en/" rel="tag">en</a></li>
-        </ul>
-</div>
-
-            </div>
-            <div class="body">
-                <p>I <a href="https://github.com/emacs-helm/helm/issues/448">met some issue</a> when using helm several days ago. </p> <p> With the help from Michael Heerdegen, I can locate the line error message is dumped. </p> <p> But the problem is I cannot get the backtrace at all. </p> <p> So I insert some <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Internals-of-Debugger.html">backtrace printing code</a> above that line and "M-x eval-buffer": </p>   
-
-
-<pre class="prettyprint ">
-
-(with-output-to-temp-buffer "backtrace-output"
-  (let ((var 1))
-    (save-excursion
-      (setq var (eval '(progn
-                         (1+ var)
-                         (list 'testing (backtrace))))))))
-</pre>
-
-
-   <p> It turns out that some third party package I installed changes the emacs variable "display-buffer-function". I guess that's why the backtrace is blocked. Because backtrace is usually dumped into a backtrace buffer. And backtrace buffer's is actually influenced by the variable. </p>
             </div>
         </div>
     
