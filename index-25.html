@@ -69,15 +69,15 @@ Select the partial of line 6 and run <code>vc-msg-show</code>, the correct commi
 Screenshots,
 </p>
 
-<div id="orgc9d79fd" class="figure">
+<div id="orgc1ee48c" class="figure">
 <p><img src="wp-content/vc-msg-neutral.png" alt="vc-msg-neutral.png"></p>
 </div>
 
-<div id="orgccb785a" class="figure">
+<div id="orge48b98b" class="figure">
 <p><img src="wp-content/vc-msg-good.png" alt="vc-msg-good.png"></p>
 </div>
 
-<div id="org53c481b" class="figure">
+<div id="orga8fbbc4" class="figure">
 <p><img src="wp-content/vc-msg-bad.png" alt="vc-msg-bad.png"></p>
 </div>
             </div>
@@ -124,7 +124,7 @@ I used to regard vimdiff as the best merge tool for Git because it's simply fast
 Here is the demo how I use vimdiff to resolve conflicts from <a href="https://github.com/redguardtoo/test-git-mergetool">https://github.com/redguardtoo/test-git-mergetool</a>.
 </p>
 
-<div id="org5c1b92d" class="figure">
+<div id="orge675e0c" class="figure">
 <p><img src="wp-content/vimdiff-as-git-merge-tool.gif" alt="vimdiff-as-git-merge-tool.gif"></p>
 </div>
 
@@ -166,7 +166,7 @@ Luckily, Emacs gives me the full freedom to solve the problem. The final result 
 <p>
 Here is the complete solution.
 </p>
-<div id="outline-container-orgad11422" class="outline-2">
+<div id="outline-container-org2807eb5" class="outline-2">
 
 <div class="outline-text-2" id="text-1">
 <p>
@@ -222,7 +222,7 @@ Native Emacs API is enough to save/load windows layout.
 </p>
 </div>
 </div>
-<div id="outline-container-orga15cee9" class="outline-2">
+<div id="outline-container-orge35dcd0" class="outline-2">
 
 <div class="outline-text-2" id="text-2">
 <p>
@@ -351,7 +351,7 @@ Demo on using Emacs to resolve merge conflicts,
 </p>
 
 
-<div id="org083c9b4" class="figure">
+<div id="orga6fa888" class="figure">
 <p><img src="wp-content/emacs-as-git-merge-tool.gif" alt="emacs-as-git-merge-tool.gif"></p>
 </div>
 </div>
@@ -401,7 +401,7 @@ Or set up imenu before <code>M-x imenu</code> or <code>M-x helm-imenu</code> or 
 screenshot:
 </p>
 
-<div id="org95ee4bd" class="figure">
+<div id="org2de021c" class="figure">
 <p><img src="wp-content/counsel-etags-imenu.png" alt="counsel-etags-imenu.png"></p>
 </div>
             </div>
@@ -554,18 +554,18 @@ My current project uses a technology called <a href="https://www.styled-componen
 <p>
 It could dynamically change web application's appearance and is a critical technology for our application to support multiple customer. Application's theme is basically a file containing a huge json object. So it's important that developers can jump to the corresponding json object's field by json path.
 </p>
-<div id="outline-container-org8f70b65" class="outline-2">
-<h3 id="org8f70b65">Screencast</h3>
-<div class="outline-text-2" id="text-org8f70b65">
+<div id="outline-container-org4303b1c" class="outline-2">
+<h3 id="org4303b1c">Screencast</h3>
+<div class="outline-text-2" id="text-org4303b1c">
 
-<div id="orga9ceaa1" class="figure">
+<div id="org00b8729" class="figure">
 <p><img src="wp-content/counsel-etags-plus-json-path.gif" alt="counsel-etags-plus-json-path.gif"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-org88cc726" class="outline-2">
-<h3 id="org88cc726">Code</h3>
-<div class="outline-text-2" id="text-org88cc726">
+<div id="outline-container-org0241472" class="outline-2">
+<h3 id="org0241472">Code</h3>
+<div class="outline-text-2" id="text-org0241472">
 <div class="org-src-container">
 
 <pre><code class="lang-lisp">(require 'counsel-etags)
@@ -641,9 +641,9 @@ It could dynamically change web application's appearance and is a critical techn
                 <p>
 I created <a href="https://github.com/redguardtoo/dianyou">dianyou</a> (电邮) to solve improve my Gnus work flow.
 </p>
-<div id="outline-container-orgcc427e8" class="outline-2">
-<h3 id="orgcc427e8">Search mails</h3>
-<div class="outline-text-2" id="text-orgcc427e8">
+<div id="outline-container-orgd9b4782" class="outline-2">
+<h3 id="orgd9b4782">Search mails</h3>
+<div class="outline-text-2" id="text-orgd9b4782">
 <p>
 Most Gnus users use <code>gnus-group-make-nnir-group</code> to search mails. But it's not usable in "Summary Buffer". Its <a href="https://tools.ietf.org/html/rfc3501#section-6.4.4">IMAP SEARCH Command</a> is hard to use.
 </p>
@@ -653,25 +653,25 @@ It could be replaced by <code>dianyou-group-make-nnir-group</code> which support
 </p>
 </div>
 </div>
-<div id="outline-container-orga31823b" class="outline-2">
-<h3 id="orga31823b">Auto complete email address</h3>
-<div class="outline-text-2" id="text-orga31823b">
+<div id="outline-container-org2307719" class="outline-2">
+<h3 id="org2307719">Auto complete email address</h3>
+<div class="outline-text-2" id="text-org2307719">
 <p>
 I'm too lazy to set up my contacts. It would be better that Gnus could <b>automatically</b> collect email addresses from all received mails. So I created the command <code>dianyou-insert-email-address-from-received-mails</code>. The inserted email address is also inserted into the global variable <code>dianyou-email-address-history</code> which could be persisted by <a href="https://github.com/jwiegley/session">session</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org472566b" class="outline-2">
-<h3 id="org472566b">Switch Gnus buffer</h3>
-<div class="outline-text-2" id="text-org472566b">
+<div id="outline-container-org9e4c18a" class="outline-2">
+<h3 id="org9e4c18a">Switch Gnus buffer</h3>
+<div class="outline-text-2" id="text-org9e4c18a">
 <p>
 One annoying thing in Gnus is pressing "q" will close opened folder. I often pressed "q" when I only intended to switch to another Gnus buffer. Now I can use <code>dianyou-switch-gnus-buffer</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd35d84c" class="outline-2">
-<h3 id="orgd35d84c">Paste image from clipboard</h3>
-<div class="outline-text-2" id="text-orgd35d84c">
+<div id="outline-container-org7cf94f9" class="outline-2">
+<h3 id="org7cf94f9">Paste image from clipboard</h3>
+<div class="outline-text-2" id="text-org7cf94f9">
 <p>
 Use <code>dianyou-paste-image-from-clipboard</code>. CLI program <a href="https://github.com/astrand/xclip">xclip</a> should be installed at first.</p>
 </div>
