@@ -63,9 +63,9 @@ Insert be">
             <p>
 As a programmer, I use `M-x imenu` to jump to the callee when editing a code file. After a little code tweaking in the callee, I need jump back to caller as quickly as possible.
 </p>
-<div id="outline-container-orgcba237e" class="outline-2">
-<h3 id="orgcba237e">Solution</h3>
-<div class="outline-text-2" id="text-orgcba237e">
+<div id="outline-container-orga089775" class="outline-2">
+<h3 id="orga089775">Solution</h3>
+<div class="outline-text-2" id="text-orga089775">
 <p>
 Insert below code to ~/.emacs:
 </p>
@@ -100,9 +100,9 @@ Now you can use `M-x rimenu-jump` to jump.
 </p>
 </div>
 </div>
-<div id="outline-container-org1d61df4" class="outline-2">
-<h3 id="org1d61df4">Technical details</h3>
-<div class="outline-text-2" id="text-org1d61df4">
+<div id="outline-container-orga5b7b8c" class="outline-2">
+<h3 id="orga5b7b8c">Technical details</h3>
+<div class="outline-text-2" id="text-orga5b7b8c">
 <p>
 Imenu will push the start point into mark-ring. After reaching the destination, it will call the imenu-after-jump-hook where I can store the end point. 
 </p>
