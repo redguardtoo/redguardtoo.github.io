@@ -244,6 +244,10 @@ function fswpCreateSearchInterface(parentElement = document.body) {
   // Add event listener
   input.addEventListener('input', fswpJumpToMatchedTextNode);
 
+  setTimeout(function() {
+    input.focus();
+  }, 300);
+
   console.log('搜索界面已创建（固定在右上角，仅限英文字母）');
 }
 
