@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about imap)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/imap.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 10 Jul 2026 03:01:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to get email from exchange server without Outlook</title><link>http://redguardtoo.github.io/posts/how-to-get-email-from-exchange-server-without-outlook/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chen's blog (Posts about imap)</title><link>http://redguardtoo.github.io/</link><description></description><atom:link href="http://redguardtoo.github.io/categories/imap.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 21 Jul 2026 03:51:42 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to get email from exchange server without Outlook</title><link>http://redguardtoo.github.io/posts/how-to-get-email-from-exchange-server-without-outlook/</link><dc:creator>Chen Bin</dc:creator><description>&lt;p&gt;
 This article has three parts. 
 &lt;/p&gt;
 
@@ -14,16 +14,16 @@ Second part uses &lt;a href="https://www.mozilla.org/en-US/thunderbird/"&gt;thun
 &lt;p&gt;
 Third part uses Emacs and Gnus to replace thunderbird. It's optional.
 &lt;/p&gt;
-&lt;div id="outline-container-org4fbe218" class="outline-2"&gt;
-&lt;h3 id="org4fbe218"&gt;DavMail as mail gateway&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org4fbe218"&gt;
-&lt;pre class="example" id="orgc66fcf3"&gt;
+&lt;div id="outline-container-org06fc35b" class="outline-2"&gt;
+&lt;h3 id="org06fc35b"&gt;DavMail as mail gateway&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org06fc35b"&gt;
+&lt;pre class="example" id="org7051a18"&gt;
 Ever wanted to get rid of Outlook ? DavMail is a POP/IMAP/SMTP/Caldav/Carddav/LDAP exchange gateway allowing users to use any mail/calendar client (e.g. Thunderbird with Lightning or Apple iCal) with an Exchange server.
 &lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3fe374f" class="outline-3"&gt;
-&lt;h4 id="org3fe374f"&gt;Install&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org3fe374f"&gt;
+&lt;div id="outline-container-org749d5a4" class="outline-3"&gt;
+&lt;h4 id="org749d5a4"&gt;Install&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org749d5a4"&gt;
 &lt;p&gt;
 &lt;a href="http://davmail.sourceforge.net/download.html"&gt;Download the installer&lt;/a&gt; at Debian/Ubuntu/Mint:
 &lt;/p&gt;
@@ -41,9 +41,9 @@ Installation is easy. DavMail by itself is a portable java application. Since it
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3449b2e" class="outline-3"&gt;
-&lt;h4 id="org3449b2e"&gt;Configuration&lt;/h4&gt;
-&lt;div class="outline-text-3" id="text-org3449b2e"&gt;
+&lt;div id="outline-container-org51126a2" class="outline-3"&gt;
+&lt;h4 id="org51126a2"&gt;Configuration&lt;/h4&gt;
+&lt;div class="outline-text-3" id="text-org51126a2"&gt;
 &lt;p&gt;
 Now start DavMail. 
 &lt;/p&gt;
@@ -78,9 +78,9 @@ BTW, &lt;a href="https://outlook.office365.com/"&gt;https://outlook.office365.co
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5b9cf7b" class="outline-2"&gt;
-&lt;h3 id="org5b9cf7b"&gt;Thunderbird&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org5b9cf7b"&gt;
+&lt;div id="outline-container-org2d84380" class="outline-2"&gt;
+&lt;h3 id="org2d84380"&gt;Thunderbird&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org2d84380"&gt;
 &lt;p&gt;
 Create a new account, and &lt;b&gt;manually&lt;/b&gt; configure the server. The server name is "127.0.0.1", the port number is already on your paper. The minimum setup needs IMAP port to  receive mail and SMTP port to send email.
 &lt;/p&gt;
@@ -94,9 +94,9 @@ The only issue is the "Username". You can log in Outlook Web UI, click "Options 
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7953f1f" class="outline-2"&gt;
-&lt;h3 id="org7953f1f"&gt;Emacs Gnus&lt;/h3&gt;
-&lt;div class="outline-text-2" id="text-org7953f1f"&gt;
+&lt;div id="outline-container-org631d160" class="outline-2"&gt;
+&lt;h3 id="org631d160"&gt;Emacs Gnus&lt;/h3&gt;
+&lt;div class="outline-text-2" id="text-org631d160"&gt;
 &lt;p&gt;
 Gnus cannot access IMAP service of DavMail. There is &lt;a href="http://permalink.gmane.org/gmane.emacs.gnus.general/83301"&gt;some bug&lt;/a&gt;.
 &lt;/p&gt;
