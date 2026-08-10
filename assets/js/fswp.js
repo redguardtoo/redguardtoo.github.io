@@ -1,6 +1,3 @@
-// 防抖定时器
-let fswpDebounceTimeout = null;
-
 // 转义正则表达式特殊字符
 function fswpEscapeForCharClass(s) {
   return s.replace(/[-\\\]^]/g, m => "\\" + m);
@@ -20,20 +17,31 @@ function fswpExpandPatternToRegex(pattern) {
   return new RegExp(regex, 'i');
 }
 
-// 模糊匹配
-function fswpFuzzyMatch(text, pattern) {
-  const re = fswpExpandPatternToRegex(pattern);
-  return re.test(text);
-}
-
 // 获取所有可见文本节点
 function fswpGetTextNodes(root) {
   let walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
       if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
       if (!node.parentElement) return NodeFilter.FILTER_REJECT;
+
+      // reject hidden nodes
       let style = window.getComputedStyle(node.parentElement);
-      if (style.display === "none" || style.visibility === "hidden") return NodeFilter.FILTER_REJECT;
+      if (style.display === "none" || style.visibility === "hidden"){
+        return NodeFilter.FILTER_REJECT;
+      }
+
+      // reject search input itself
+      if (node.parentElement.closest('#fswpSearchContainer')) {
+        return NodeFilter.FILTER_REJECT;
+      }
+
+      // reject css/js notes
+      const parent = node.parentElement;
+      const tag = parent.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') {
+        return NodeFilter.FILTER_REJECT;
+      }
+
       return NodeFilter.FILTER_ACCEPT;
     }
   });
@@ -42,43 +50,276 @@ function fswpGetTextNodes(root) {
   return nodes;
 }
 
+// ============ 搜索历史功能 ============
+const FSWP_HISTORY_KEY = 'fswpSearchHistory';
+const FSWP_MAX_HISTORY = 8;
+
+// 获取搜索历史
+function fswpGetSearchHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(FSWP_HISTORY_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+// 保存搜索历史
+function fswpSaveSearchHistory(keyword) {
+  if (!keyword || keyword.length < 2) return;
+
+  let history = fswpGetSearchHistory();
+  history = history.filter(item => item !== keyword);
+  history.unshift(keyword);
+  if (history.length > FSWP_MAX_HISTORY) history.pop();
+
+  try {
+    localStorage.setItem(FSWP_HISTORY_KEY, JSON.stringify(history));
+  } catch(e) {
+    // 忽略 localStorage 错误
+  }
+}
+
+// 清除搜索历史
+function fswpClearSearchHistory() {
+  try {
+    localStorage.removeItem(FSWP_HISTORY_KEY);
+  } catch(e) {
+    // 忽略
+  }
+}
+
+// 渲染搜索历史
+function fswpRenderSearchHistory(resultsDiv, input, parentElement) {
+  const history = fswpGetSearchHistory();
+
+  // 移除旧的历史容器
+  const oldContainer = document.getElementById('fswpHistoryContainer');
+  if (oldContainer) oldContainer.remove();
+
+  if (history.length === 0) return;
+
+  const isMobile = fswpIsMobile();
+
+  // 创建历史容器
+  const historyContainer = document.createElement('div');
+  historyContainer.id = 'fswpHistoryContainer';
+  historyContainer.style.cssText = `
+    margin-bottom: 10px;
+    padding: 8px 4px;
+    border-bottom: 1px solid #eee;
+  `;
+
+  // 标题行
+  const headerRow = document.createElement('div');
+  headerRow.style.cssText = `
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  `;
+
+  const title = document.createElement('span');
+  title.textContent = '🕐 最近搜索';
+  title.style.cssText = `
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+  `;
+
+  const clearBtn = document.createElement('button');
+  clearBtn.textContent = '清除';
+  clearBtn.style.cssText = `
+    border: none;
+    background: none;
+    color: #999;
+    font-size: 11px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 3px;
+    transition: all 0.2s;
+  `;
+  clearBtn.addEventListener('mouseenter', function() {
+    this.style.color = '#d32f2f';
+    this.style.background = '#fff5f5';
+  });
+  clearBtn.addEventListener('mouseleave', function() {
+    this.style.color = '#999';
+    this.style.background = 'none';
+  });
+  clearBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    fswpClearSearchHistory();
+    fswpRenderSearchHistory(resultsDiv, input, parentElement);
+    // 重新执行搜索刷新结果
+    if (input.value.trim().length >= 2) {
+      fswpJumpToMatchedTextNode.call(input, parentElement);
+    }
+  });
+
+  headerRow.appendChild(title);
+  headerRow.appendChild(clearBtn);
+  historyContainer.appendChild(headerRow);
+
+  // 历史标签容器
+  const tagsContainer = document.createElement('div');
+  tagsContainer.style.cssText = `
+    display: flex;
+    flex-wrap: wrap;
+    gap: ${isMobile ? '8px' : '6px'};
+    padding: ${isMobile ? '2px 0' : '0'};
+  `;
+
+  history.forEach(keyword => {
+    const tag = document.createElement('span');
+    tag.textContent = keyword;
+    tag.style.cssText = `
+      padding: 2px 10px;
+      background: #f0f4f8;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    `;
+
+    tag.addEventListener('mouseenter', function() {
+      this.style.background = '#e3ecf5';
+      this.style.borderColor = '#4CAF50';
+    });
+
+    tag.addEventListener('mouseleave', function() {
+      this.style.background = '#f0f4f8';
+      this.style.borderColor = 'transparent';
+    });
+
+    tag.addEventListener('click', function() {
+      input.value = keyword;
+      // 触发搜索
+      fswpJumpToMatchedTextNode.call(input, parentElement);
+      // 聚焦输入框
+      input.focus();
+      // 将光标移到末尾
+      input.setSelectionRange(keyword.length, keyword.length);
+    });
+
+    tagsContainer.appendChild(tag);
+  });
+
+  historyContainer.appendChild(tagsContainer);
+
+  // 插入到结果显示区域之前
+  const resultsParent = resultsDiv.parentNode;
+  resultsParent.insertBefore(historyContainer, resultsDiv);
+}
+
 // 执行实际搜索
 function fswpPerformSearch(keyword, resultsDiv, parentElement) {
   const textNodes = fswpGetTextNodes(parentElement);
   let matches = [];
 
+  const re = fswpExpandPatternToRegex(keyword);
   textNodes.forEach(node => {
     const text = node.nodeValue.trim();
-    if (fswpFuzzyMatch(text, keyword)) {
+    if (re.test(text)) {
       matches.push({ node, text });
     }
   });
 
+  // 清空结果容器
+  resultsDiv.innerHTML = "";
+
   if (matches.length === 0) {
-    resultsDiv.innerHTML = "<p>没有找到匹配项</p>";
+    resultsDiv.innerHTML = "<p style='color:#999;text-align:center;padding:20px;'>😕 没有找到匹配项<br><small>试试其他关键词</small></p>";
     return;
   }
 
-  // 清空结果容器
-  resultsDiv.innerHTML = "";
+  // 保存搜索历史（有结果时才保存）
+  fswpSaveSearchHistory(keyword);
 
   // 使用 DocumentFragment 优化性能
   const fragment = document.createDocumentFragment();
 
-  matches.forEach((m) => {
+  // 显示匹配数量
+  const resultCount = document.createElement('div');
+  resultCount.textContent = `找到 ${matches.length} 个结果`;
+  resultCount.style.cssText = `
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+    padding: 4px 0;
+  `;
+  fragment.appendChild(resultCount);
+
+  matches.forEach((m, index) => {
     const link = document.createElement("a");
-    link.href = "javascript:void(0)";
+    link.href = "#";
+    link.style.cssText = `
+      display: block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background 0.2s;
+      text-decoration: none;
+      color: #333;
+      font-size: 13px;
+    `;
+
+    // 悬停效果
+    link.addEventListener('mouseenter', function() {
+      this.style.backgroundColor = '#f0f4f8';
+    });
+    link.addEventListener('mouseleave', function() {
+      this.style.backgroundColor = 'transparent';
+    });
+
+    // 显示序号
+    const prefix = document.createElement('span');
+    prefix.textContent = `${index + 1}. `;
+    prefix.style.cssText = `
+      color: #999;
+      font-size: 12px;
+      margin-right: 4px;
+    `;
+    link.appendChild(prefix);
 
     // 截断过长的文本
     const displayText = m.text.length > 100 ? m.text.substring(0, 100) + "..." : m.text;
-    link.textContent = displayText;
+    const textNode = document.createTextNode(displayText);
+    link.appendChild(textNode);
 
-    link.onclick = () => {
+    link.onclick = (event) => {
+      event.preventDefault();
       const el = m.node.parentElement;
-      el.style.transition = "background 0.4s";
-      el.style.background = "yellow";
-      setTimeout(() => el.style.background = "", 800);
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      // 清除之前的高亮
+      document.querySelectorAll('.fswp-highlight').forEach(el => {
+        el.classList.remove('fswp-highlight');
+        el.style.background = '';
+        el.style.boxShadow = '';
+      });
+
+      // 高亮当前条目，持续5秒
+      el.classList.add('fswp-highlight');
+      el.style.transition = 'background 0.3s';
+      el.style.background = '#ffeb3b';
+      el.style.boxShadow = '0 0 15px rgba(255, 235, 59, 0.6)';
+
+      // 滚动到元素位置
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // 滚动结果列表中的当前项到可视区域
+      link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // 移除高亮
+      setTimeout(() => {
+        el.classList.remove('fswp-highlight');
+        el.style.background = '';
+        el.style.boxShadow = '';
+      }, 8000);
+
+      // 隐藏搜索对话框
+      fswpRemoveSearchInterface();
     };
 
     fragment.appendChild(link);
@@ -87,16 +328,15 @@ function fswpPerformSearch(keyword, resultsDiv, parentElement) {
   });
 
   resultsDiv.appendChild(fragment);
-}
-// 搜索入口函数（带防抖）
-function fswpJumpToMatchedTextNode(parentElement) {
-  // 清除之前的防抖定时器
-  if (fswpDebounceTimeout) {
-    clearTimeout(fswpDebounceTimeout);
-  }
 
+  // 重新渲染历史（更新保存的历史）
+  fswpRenderSearchHistory(resultsDiv, document.getElementById('fswpInput'), parentElement);
+}
+
+// 搜索入口函数
+function fswpJumpToMatchedTextNode(parentElement) {
   // 直接获取原始值
-  const keyword = this.value.replace(/[^A-Za-z ]/g, '');
+  const keyword = this.value.replace(/[^A-Za-z ]/g, '').trim();
   const resultsDiv = document.getElementById("fswpResults");
   if (!resultsDiv) {
     return;
@@ -105,21 +345,20 @@ function fswpJumpToMatchedTextNode(parentElement) {
   // 立即清空结果显示
   if (!keyword) {
     resultsDiv.innerHTML = "";
+    fswpRenderSearchHistory(resultsDiv, this, parentElement);
     return;
   }
 
   if (keyword.length < 2) {
-    resultsDiv.innerHTML = "<p>输入至少两个字符</p>";
+    resultsDiv.innerHTML = "<p style='color:#999;text-align:center;padding:10px;'>输入至少两个字符</p>";
+    fswpRenderSearchHistory(resultsDiv, this, parentElement);
     return;
   }
 
   // 显示加载提示
-  resultsDiv.innerHTML = "<p>搜索中...</p>";
+  resultsDiv.innerHTML = "<p style='color:#999;text-align:center;padding:10px;'>搜索中...</p>";
 
-  // 设置防抖，延迟执行搜索
-  fswpDebounceTimeout = setTimeout(() => {
-    fswpPerformSearch(keyword, resultsDiv, parentElement);
-  }, 300);
+  fswpPerformSearch(keyword, resultsDiv, parentElement);
 }
 
 // 防抖函数
@@ -134,6 +373,11 @@ function fswpDebounce(func, delay) {
   };
 }
 
+// 检查是否为移动设备
+function fswpIsMobile() {
+  return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent);
+}
+
 // 创建搜索界面
 function fswpCreateSearchInterface(parentElement = document.body) {
   // 避免重复创建
@@ -142,25 +386,119 @@ function fswpCreateSearchInterface(parentElement = document.body) {
     return;
   }
 
+  const isMobile = fswpIsMobile();
+
   // 创建容器 div
   const container = document.createElement('div');
   container.id = 'fswpSearchContainer';
   container.style.position = 'fixed';
-  container.style.top = '16px';
-  container.style.right = '16px';
   container.style.zIndex = '9999';
   container.style.backgroundColor = 'white';
   container.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
   container.style.padding = '10px';
-  container.style.minWidth = '320px';
+  container.style.boxSizing = 'border-box';
+
+  // 根据设备类型设置位置和宽度
+  if (isMobile) {
+    // 移动端：贴顶，全屏宽度
+    container.style.top = '0';
+    container.style.left = '0';
+    container.style.right = '0';
+    container.style.width = '100%';
+    container.style.maxWidth = '100%';
+    container.style.borderRadius = '0';
+    container.style.padding = '12px 16px';
+    container.style.maxHeight = '100vh';
+  } else {
+    // 桌面端：居中，固定宽度
+    container.style.top = '50%';
+    container.style.left = '50%';
+    container.style.transform = 'translate(-50%, -50%)';
+    container.style.width = '500px';
+    container.style.maxWidth = '90%';
+    container.style.borderRadius = '8px';
+    container.style.maxHeight = '80vh';
+  }
+
+  // 创建标题容器（增加高度以确保关闭按钮不重叠）
+  const headerContainer = document.createElement('div');
+  headerContainer.style.cssText = `
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    min-height: ${isMobile ? '44px' : '36px'};
+    padding-right: ${isMobile ? '40px' : '36px'};
+    position: relative;
+  `;
+
+  // 标题
+  const title = document.createElement('div');
+  title.textContent = '🔍 页面英文模糊搜索和拼音首字母搜索';
+  title.style.cssText = `
+    font-size: ${isMobile ? '15px' : '14px'};
+    font-weight: bold;
+    color: #333;
+    line-height: 1.4;
+    flex: 1;
+  `;
+  headerContainer.appendChild(title);
+
+  // 关闭按钮
+  const closeButton = document.createElement('button');
+  closeButton.textContent = '✕';
+  closeButton.style.cssText = `
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    border: none;
+    background: #f44336;
+    font-size: ${isMobile ? '20px' : '18px'};
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    padding: 0;
+    width: ${isMobile ? '32px' : '28px'};
+    height: ${isMobile ? '32px' : '28px'};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+  `;
+  closeButton.setAttribute('aria-label', '关闭搜索');
+
+  closeButton.addEventListener('mouseenter', function() {
+    this.style.backgroundColor = '#d32f2f';
+  });
+
+  closeButton.addEventListener('mouseleave', function() {
+    this.style.backgroundColor = '#f44336';
+  });
+
+  closeButton.addEventListener('click', function() {
+    fswpRemoveSearchInterface();
+  });
+
+  headerContainer.appendChild(closeButton);
 
   // 创建输入框
   const input = document.createElement('input');
+  input.addEventListener('input', function() {
+    this.value = this.value.replace(/[^A-Za-z ]/g, '');
+  });
   input.id = 'fswpInput';
-  input.placeholder = '输入搜索内容 (支持英文和拼音首字母)...';
-  input.style.width = '300px';
+  input.type = 'search';
+  input.autocomplete = 'off';
+  input.spellcheck = false;
+  input.placeholder = '输入英文或拼音首字母...';
+  input.setAttribute('aria-label', '搜索页面内容');
+
+  input.style.width = '100%';
   input.style.padding = '8px 12px';
-  input.style.fontSize = '14px';
+  input.style.fontSize = isMobile ? '16px' : '14px';
   input.style.border = '1px solid #ddd';
   input.style.borderRadius = '4px';
   input.style.outline = 'none';
@@ -185,64 +523,122 @@ function fswpCreateSearchInterface(parentElement = document.body) {
     this.style.boxShadow = 'none';
   });
 
-  // 创建结果显示区域
+  // ========== 数字快捷键功能 ==========
+  // 存储当前搜索结果中的链接元素
+  let currentResultLinks = [];
+
+  // 更新当前结果链接列表
+  function fswpUpdateResultLinks() {
+    const resultsDiv = document.getElementById('fswpResults');
+    if (!resultsDiv) {
+      currentResultLinks = [];
+      return;
+    }
+    // 获取所有直接子元素中的 a 标签（排除了 resultCount 等）
+    const links = resultsDiv.querySelectorAll('a');
+    currentResultLinks = Array.from(links);
+  }
+
+  // 根据数字索引点击对应的链接
+  function fswpClickResultByNumber(num) {
+    if (num < 1 || num > 9) return;
+
+    const index = num - 1;
+    if (index < currentResultLinks.length) {
+      const link = currentResultLinks[index];
+      // 模拟点击
+      const clickEvent = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      });
+      link.dispatchEvent(clickEvent);
+    } else {
+      // 提示用户该序号不存在
+      const resultsDiv = document.getElementById('fswpResults');
+      if (resultsDiv) {
+        // 显示临时提示
+        const tip = document.createElement('div');
+        tip.textContent = `⚠️ 只有 ${currentResultLinks.length} 个结果`;
+        tip.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: rgba(0,0,0,0.8);
+          color: white;
+          padding: 12px 24px;
+          border-radius: 8px;
+          font-size: 14px;
+          z-index: 10000;
+          animation: fswpFadeOut 1.5s forwards;
+        `;
+        // 添加淡出动画
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes fswpFadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; transform: translate(-50%, -60%); }
+          }
+        `;
+        document.head.appendChild(style);
+        document.body.appendChild(tip);
+        setTimeout(() => {
+          tip.remove();
+          style.remove();
+        }, 1500);
+      }
+    }
+  }
+
+  // 键盘事件监听 - 数字键 1-9
+  input.addEventListener('keydown', function(e) {
+    // 只处理数字键 1-9
+    if (e.key >= '1' && e.key <= '9') {
+      // 如果没有按 Ctrl/Cmd/Alt 等修饰键
+      if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+        const num = parseInt(e.key);
+        // 更新链接列表
+        fswpUpdateResultLinks();
+        // 尝试点击对应的链接
+        fswpClickResultByNumber(num);
+        // 阻止默认行为（防止数字输入到输入框中）
+        e.preventDefault();
+      }
+    }
+  });
+
+  // 当搜索结果更新时，自动更新链接列表
+  // 通过 MutationObserver 监听结果变化
   const results = document.createElement('div');
   results.id = 'fswpResults';
   results.style.marginTop = '10px';
   results.style.fontSize = '13px';
-  results.style.maxHeight = '300px';
+  results.style.maxHeight = isMobile ? '60vh' : '300px';
   results.style.padding = '4px';
   results.style.overflowY = 'auto';
+  results.setAttribute('role', 'list');
 
-  // 关闭按钮 - 增大尺寸，更醒目
-  const closeButton = document.createElement('button');
-  closeButton.textContent = '✕';
-  closeButton.style.position = 'absolute';
-  closeButton.style.top = '8px';
-  closeButton.style.right = '16px';
-  closeButton.style.border = 'none';
-  closeButton.style.background = '#f44336';  // 红色背景
-  closeButton.style.fontSize = '18px';       // 字体更大
-  closeButton.style.fontWeight = 'bold';     // 加粗
-  closeButton.style.cursor = 'pointer';
-  closeButton.style.color = 'white';         // 白色文字
-  closeButton.style.padding = '0';
-  closeButton.style.width = '28px';          // 宽度增大
-  closeButton.style.height = '28px';         // 高度增大
-  closeButton.style.borderRadius = '50%';
-  closeButton.style.display = 'flex';
-  closeButton.style.alignItems = 'center';
-  closeButton.style.justifyContent = 'center';
-
-  closeButton.addEventListener('mouseenter', function() {
-    this.style.backgroundColor = '#d32f2f';  // 悬停时更深的红色
+  // 监听 results 的内容变化
+  const observer = new MutationObserver(function() {
+    fswpUpdateResultLinks();
   });
-
-  closeButton.addEventListener('mouseleave', function() {
-    this.style.backgroundColor = '#f44336';
+  observer.observe(results, {
+    childList: true,
+    subtree: true
   });
-
-  closeButton.addEventListener('click', function() {
-    fswpRemoveSearchInterface();
-  });
-
-  // 标题
-  const title = document.createElement('div');
-  title.textContent = '🔍 页面英文模糊搜索和拼音首字母搜索';
-  title.style.fontSize = '14px';
-  title.style.fontWeight = 'bold';
-  title.style.marginBottom = '8px';
-  title.style.paddingRight = '20px';
-  title.style.color = '#333';
 
   // 组装容器
-  container.appendChild(closeButton);
-  container.appendChild(title);
+  container.appendChild(headerContainer);
   container.appendChild(input);
   container.appendChild(results);
 
   // 添加到父元素
   parentElement.appendChild(container);
+
+  // 渲染搜索历史
+  fswpRenderSearchHistory(results, input, parentElement);
 
   // 创建防抖版本的搜索函数
   const debouncedSearch = fswpDebounce(function() {
@@ -255,30 +651,63 @@ function fswpCreateSearchInterface(parentElement = document.body) {
   // 添加事件监听
   input.addEventListener('input', debouncedSearch);
 
-  // 设置焦点
+  // ========== 自动获取焦点的增强处理 ==========
+  function attemptFocus(retries = 5) {
+    if (retries <= 0) {
+      console.log('自动聚焦失败');
+      return;
+    }
+
+    try {
+      input.focus();
+
+      if (document.activeElement === input) {
+        console.log('自动聚焦成功');
+        if (isMobile) {
+          setTimeout(() => {
+            input.click();
+          }, 100);
+        }
+        return;
+      }
+    } catch(e) {
+      // 忽略错误
+    }
+
+    setTimeout(() => {
+      attemptFocus(retries - 1);
+    }, 200);
+  }
+
+  // 初始聚焦尝试
   setTimeout(function() {
-    input.focus();
-  }, 50);
+    attemptFocus(5);
+  }, 300);
+
+  // 点击容器内部时保持输入框焦点
+  document.addEventListener('click', function onDocumentClick(e) {
+    const container = document.getElementById('fswpSearchContainer');
+    if (!container) {
+      document.removeEventListener('click', onDocumentClick);
+      return;
+    }
+
+    if (container.contains(e.target) && e.target !== input) {
+      setTimeout(() => {
+        input.focus();
+      }, 10);
+    }
+  });
 
   console.log('搜索界面已创建');
 }
 
 // 移除搜索界面
 function fswpRemoveSearchInterface() {
-  // 清理防抖定时器
-  if (fswpDebounceTimeout) {
-    clearTimeout(fswpDebounceTimeout);
-    fswpDebounceTimeout = null;
-  }
-
-  // 获取元素
   const container = document.getElementById('fswpSearchContainer');
-
-  // 移除容器（内部元素和监听器会被垃圾回收）
   if (container) {
     container.remove();
   }
-
   console.log('搜索界面已移除');
 }
 
@@ -291,6 +720,17 @@ function fswpToggleSearchInterface(parentElement = document.body) {
     fswpCreateSearchInterface(parentElement);
   }
 }
+
+// 键盘快捷键
+document.addEventListener('keydown', function(e) {
+  // ESC 键关闭
+  if (e.key === 'Escape') {
+    const container = document.getElementById('fswpSearchContainer');
+    if (container) {
+      fswpRemoveSearchInterface();
+    }
+  }
+});
 
 const fswpPinyinInitialMap = {
   a: "阿啊呵腌嗄锕吖爱哀挨碍埃癌艾唉矮哎皑蔼隘暧霭捱嗳瑷嫒锿嗌砹安案按暗岸俺谙黯鞍氨庵桉鹌胺铵揞犴埯昂肮盎奥澳傲熬敖凹袄懊坳嗷拗鏖骜鳌翱岙廒遨獒聱媪螯鏊",
