@@ -50,170 +50,6 @@ function fswpGetTextNodes(root) {
   return nodes;
 }
 
-// ============ 搜索历史功能 ============
-const FSWP_HISTORY_KEY = 'fswpSearchHistory';
-const FSWP_MAX_HISTORY = 8;
-
-// 获取搜索历史
-function fswpGetSearchHistory() {
-  try {
-    return JSON.parse(localStorage.getItem(FSWP_HISTORY_KEY) || '[]');
-  } catch {
-    return [];
-  }
-}
-
-// 保存搜索历史
-function fswpSaveSearchHistory(keyword) {
-  if (!keyword || keyword.length < 2) return;
-
-  let history = fswpGetSearchHistory();
-  history = history.filter(item => item !== keyword);
-  history.unshift(keyword);
-  if (history.length > FSWP_MAX_HISTORY) history.pop();
-
-  try {
-    localStorage.setItem(FSWP_HISTORY_KEY, JSON.stringify(history));
-  } catch(e) {
-    // 忽略 localStorage 错误
-  }
-}
-
-// 清除搜索历史
-function fswpClearSearchHistory() {
-  try {
-    localStorage.removeItem(FSWP_HISTORY_KEY);
-  } catch(e) {
-    // 忽略
-  }
-}
-
-// 渲染搜索历史
-function fswpRenderSearchHistory(resultsDiv, input, parentElement) {
-  const history = fswpGetSearchHistory();
-
-  // 移除旧的历史容器
-  const oldContainer = document.getElementById('fswpHistoryContainer');
-  if (oldContainer) oldContainer.remove();
-
-  if (history.length === 0) return;
-
-  const isMobile = fswpIsMobile();
-
-  // 创建历史容器
-  const historyContainer = document.createElement('div');
-  historyContainer.id = 'fswpHistoryContainer';
-  historyContainer.style.cssText = `
-    margin-bottom: 10px;
-    padding: 8px 4px;
-    border-bottom: 1px solid #eee;
-  `;
-
-  // 标题行
-  const headerRow = document.createElement('div');
-  headerRow.style.cssText = `
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-  `;
-
-  const title = document.createElement('span');
-  title.textContent = '🕐 最近搜索';
-  title.style.cssText = `
-    font-size: 12px;
-    color: #666;
-    font-weight: 500;
-  `;
-
-  const clearBtn = document.createElement('button');
-  clearBtn.textContent = '清除';
-  clearBtn.style.cssText = `
-    border: none;
-    background: none;
-    color: #999;
-    font-size: 11px;
-    cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 3px;
-    transition: all 0.2s;
-  `;
-  clearBtn.addEventListener('mouseenter', function() {
-    this.style.color = '#d32f2f';
-    this.style.background = '#fff5f5';
-  });
-  clearBtn.addEventListener('mouseleave', function() {
-    this.style.color = '#999';
-    this.style.background = 'none';
-  });
-  clearBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    fswpClearSearchHistory();
-    fswpRenderSearchHistory(resultsDiv, input, parentElement);
-    // 重新执行搜索刷新结果
-    if (input.value.trim().length >= 2) {
-      fswpJumpToMatchedTextNode.call(input, parentElement);
-    }
-  });
-
-  headerRow.appendChild(title);
-  headerRow.appendChild(clearBtn);
-  historyContainer.appendChild(headerRow);
-
-  // 历史标签容器
-  const tagsContainer = document.createElement('div');
-  tagsContainer.style.cssText = `
-    display: flex;
-    flex-wrap: wrap;
-    gap: ${isMobile ? '8px' : '6px'};
-    padding: ${isMobile ? '2px 0' : '0'};
-  `;
-
-  history.forEach(keyword => {
-    const tag = document.createElement('span');
-    tag.textContent = keyword;
-    tag.style.cssText = `
-      padding: 2px 10px;
-      background: #f0f4f8;
-      border-radius: 12px;
-      font-size: 12px;
-      color: #333;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-      border: 1px solid transparent;
-    `;
-
-    tag.addEventListener('mouseenter', function() {
-      this.style.background = '#e3ecf5';
-      this.style.borderColor = '#4CAF50';
-    });
-
-    tag.addEventListener('mouseleave', function() {
-      this.style.background = '#f0f4f8';
-      this.style.borderColor = 'transparent';
-    });
-
-    tag.addEventListener('click', function() {
-      input.value = keyword;
-      // 触发搜索
-      fswpJumpToMatchedTextNode.call(input, parentElement);
-      // 聚焦输入框
-      input.focus();
-      // 将光标移到末尾
-      input.setSelectionRange(keyword.length, keyword.length);
-    });
-
-    tagsContainer.appendChild(tag);
-  });
-
-  historyContainer.appendChild(tagsContainer);
-
-  // 插入到结果显示区域之前
-  const resultsParent = resultsDiv.parentNode;
-  resultsParent.insertBefore(historyContainer, resultsDiv);
-}
-
 // 执行实际搜索
 function fswpPerformSearch(keyword, resultsDiv, parentElement) {
   const textNodes = fswpGetTextNodes(parentElement);
@@ -235,34 +71,21 @@ function fswpPerformSearch(keyword, resultsDiv, parentElement) {
     return;
   }
 
-  // 保存搜索历史（有结果时才保存）
-  fswpSaveSearchHistory(keyword);
-
   // 使用 DocumentFragment 优化性能
   const fragment = document.createDocumentFragment();
-
-  // 显示匹配数量
-  const resultCount = document.createElement('div');
-  resultCount.textContent = `找到 ${matches.length} 个结果`;
-  resultCount.style.cssText = `
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 8px;
-    padding: 4px 0;
-  `;
-  fragment.appendChild(resultCount);
 
   matches.forEach((m, index) => {
     const link = document.createElement("a");
     link.href = "#";
     link.style.cssText = `
       display: block;
-      padding: 4px 8px;
-      border-radius: 4px;
-      transition: background 0.2s;
+      padding: 2px 6px;
+      border-radius: 3px;
+      transition: background 0.15s;
       text-decoration: none;
       color: #333;
       font-size: 13px;
+      line-height: 1.5;
     `;
 
     // 悬停效果
@@ -279,7 +102,7 @@ function fswpPerformSearch(keyword, resultsDiv, parentElement) {
     prefix.style.cssText = `
       color: #999;
       font-size: 12px;
-      margin-right: 4px;
+      margin-right: 2px;
     `;
     link.appendChild(prefix);
 
@@ -323,14 +146,9 @@ function fswpPerformSearch(keyword, resultsDiv, parentElement) {
     };
 
     fragment.appendChild(link);
-    // 添加换行
-    fragment.appendChild(document.createElement("br"));
   });
 
   resultsDiv.appendChild(fragment);
-
-  // 重新渲染历史（更新保存的历史）
-  fswpRenderSearchHistory(resultsDiv, document.getElementById('fswpInput'), parentElement);
 }
 
 // 搜索入口函数
@@ -345,13 +163,11 @@ function fswpJumpToMatchedTextNode(parentElement) {
   // 立即清空结果显示
   if (!keyword) {
     resultsDiv.innerHTML = "";
-    fswpRenderSearchHistory(resultsDiv, this, parentElement);
     return;
   }
 
   if (keyword.length < 2) {
     resultsDiv.innerHTML = "<p style='color:#999;text-align:center;padding:10px;'>输入至少两个字符</p>";
-    fswpRenderSearchHistory(resultsDiv, this, parentElement);
     return;
   }
 
@@ -426,7 +242,7 @@ function fswpCreateSearchInterface(parentElement = document.body) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     min-height: ${isMobile ? '44px' : '36px'};
     padding-right: ${isMobile ? '40px' : '36px'};
     position: relative;
@@ -534,7 +350,7 @@ function fswpCreateSearchInterface(parentElement = document.body) {
       currentResultLinks = [];
       return;
     }
-    // 获取所有直接子元素中的 a 标签（排除了 resultCount 等）
+    // 获取所有直接子元素中的 a 标签
     const links = resultsDiv.querySelectorAll('a');
     currentResultLinks = Array.from(links);
   }
@@ -613,10 +429,10 @@ function fswpCreateSearchInterface(parentElement = document.body) {
   // 通过 MutationObserver 监听结果变化
   const results = document.createElement('div');
   results.id = 'fswpResults';
-  results.style.marginTop = '10px';
+  results.style.marginTop = '6px';
   results.style.fontSize = '13px';
-  results.style.maxHeight = isMobile ? '60vh' : '300px';
-  results.style.padding = '4px';
+  results.style.maxHeight = isMobile ? '65vh' : '300px';
+  results.style.padding = '2px 0';
   results.style.overflowY = 'auto';
   results.setAttribute('role', 'list');
 
@@ -636,9 +452,6 @@ function fswpCreateSearchInterface(parentElement = document.body) {
 
   // 添加到父元素
   parentElement.appendChild(container);
-
-  // 渲染搜索历史
-  fswpRenderSearchHistory(results, input, parentElement);
 
   // 创建防抖版本的搜索函数
   const debouncedSearch = fswpDebounce(function() {
